@@ -1,16 +1,13 @@
 export const indexCopy = {
   index_2_headline:
-    "TypeScript is <bold>JavaScript with syntax for types.</bold>",
-  index_2_byline: "TypeScript extends JavaScript by adding types.",
+    "Lingua Franca is a <bold>polyglot coordination language for concurrent and time-sensitive applications.</bold>",
+  index_2_byline: "Lingua Franca",
   index_2_summary:
-    "TypeScript is a strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.",
+    "LF Summary Blurb Here",
 
   // Above the fold
-  index_2_cta_install: "Try TypeScript Now",
+  index_2_cta_install: "Try Lingua Franca Now",
   index_2_cta_install_subtitle: "Online or via npm",
-
-  index_2_cta_play: "In your browser",
-  index_2_cta_play_subtitle: "via the Playground",
 
   index_2_cta_download: "On your computer",
   index_2_cta_download_subtitle: "via npm",
@@ -23,26 +20,22 @@ export const indexCopy = {
   index_2_tab_5: "ESNext",
 
   // Quick pitch
-  index_2_what_is: "What is TypeScript?",
-  index_2_what_is_js: "JavaScript and More",
-
-  index_2_what_is_js_copy: `TypeScript adds additional syntax to JavaScript to support a <strong>tighter integration with your editor</strong>. Catch errors early in your editor.`,
-  index_2_trust: "A Result You Can Trust",
-  index_2_trust_copy: `TypeScript code converts to JavaScript, which <strong>runs anywhere JavaScript runs</strong>: In a browser, on Node.js or Deno and in your apps.`,
-  index_2_scale: "Safety at Scale",
-  index_2_scale_copy: `TypeScript understands JavaScript and uses <strong>type inference to give you great tooling</strong> without additional code.`,
+  index_2_what_is: "What is Lingua Franca?",
+  
+  index_2_what_is_lf: "Reactors",
+  index_2_what_is_lf_copy: `Reactor Description here`,
+  
+  index_2_trust: "Concurrency",
+  index_2_trust_copy: `Concurrency description here`,
+  
+  index_2_scale: "Determinism",
+  index_2_scale_copy: `determinism description here`,
 
   // Links for getting started (this shows up twice)
   index_2_started_title: "Get Started",
   index_2_started_handbook: "Handbook",
   index_2_started_handbook_blurb: "Learn the language",
-  index_2_install: "Install TypeScript",
-  index_2_playground_blurb: "Try in your browser",
-
-  index_2_migrate_1: "JavaScript file",
-  index_2_migrate_2: "JavaScript with TS Check",
-  index_2_migrate_3: "JavaScript with JSDoc",
-  index_2_migrate_4: "TypeScript file",
+  index_2_install: "Install Lingua Franca",
 
   // Stories + OSS users`
   index_2_migration_title: "TypeScript Testimonials",

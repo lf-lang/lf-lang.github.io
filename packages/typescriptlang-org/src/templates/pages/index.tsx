@@ -78,7 +78,7 @@ const Index: React.FC<Props> = (props) => {
 
 
   return (
-    <Layout title="JavaScript With Syntax For Types." description="TypeScript extends JavaScript by adding types to the language. TypeScript speeds up your development experience by catching errors and providing fixes before you even run your code." lang={props.pageContext.lang} suppressCustomization suppressDocRecommendations>
+    <Layout title="Lingua Franca" description="TypeScript extends JavaScript by adding types to the language. TypeScript speeds up your development experience by catching errors and providing fixes before you even run your code." lang={props.pageContext.lang} suppressCustomization suppressDocRecommendations>
 
       <div id="index-2">
         <Section color="blue" className="headline">
@@ -90,10 +90,10 @@ const Index: React.FC<Props> = (props) => {
           <h2>{i("index_2_what_is")}</h2>
           <Row>
             <Col key='what is js'>
-              <h3>{i("index_2_what_is_js")}</h3>
-              <P ikey="index_2_what_is_js_copy" />
+              <h3>{i("index_2_what_is_lf")}</h3>
+              <P ikey="index_2_what_is_lf_copy" />
             </Col>
-            <Col key='you can trust typescript'>
+            <Col key='you can trust lingua franca'>
               <h3>{i("index_2_trust")}</h3>
               <P ikey="index_2_trust_copy" />
             </Col>
@@ -109,9 +109,6 @@ const Index: React.FC<Props> = (props) => {
             <Row>
                 <Col key='handbook'>
                     <GetStarted href="/docs/handbook/intro.html" classes="tall handbook" title="index_2_started_handbook" subtitle="index_2_started_handbook_blurb" />
-                </Col>
-                <Col key='playground'>
-                    <GetStarted href="/play" classes="tall playground" title="nav_playground" subtitle="index_2_playground_blurb" />
                 </Col>
                 <Col key='download'>
                     <GetStarted href="/download" classes="tall download" title="nav_download" subtitle="index_2_install" />
@@ -129,9 +126,6 @@ const Index: React.FC<Props> = (props) => {
                     <Row>
                         <Col key='handbook'>
                             <P ikey="index_2_adopt_blurb_1" />
-                        </Col>
-                        <Col key='playground'>
-                            <P ikey="index_2_adopt_blurb_2" />
                         </Col>
                     </Row>
                     <Row>
@@ -233,9 +227,6 @@ const Index: React.FC<Props> = (props) => {
                 <Col key='handbook'>
                     <GetStarted href="/docs/handbook/intro.html" classes="short handbook" title="index_2_started_handbook" subtitle="index_2_started_handbook_blurb" />
                 </Col>
-                <Col key='playground'>
-                    <GetStarted href="/play" classes="short playground" title="nav_playground" subtitle="index_2_playground_blurb" />
-                </Col>
                 <Col key='download'>
                     <GetStarted href="/download" classes="short download" title="nav_download" subtitle="index_2_install" />
                 </Col>
@@ -293,7 +284,4 @@ const updateOnScroll = (i: any) => () => {
   stepper.children.item(2)!.classList.toggle("active", index === 2)
   stepper.children.item(3)!.classList.toggle("active", index === 3)
 
-  const msg = ["index_2_migrate_1", "index_2_migrate_2", "index_2_migrate_3", "index_2_migrate_4"]
-  const blurb = document.getElementById("adopt-step-blurb")!
-  blurb.innerText = i(msg[index]) 
 }

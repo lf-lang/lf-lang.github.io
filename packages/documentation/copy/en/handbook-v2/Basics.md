@@ -1,440 +1,68 @@
 ---
-title: The Basics
+title: Overview
 layout: docs
 permalink: /docs/handbook/2/basic-types.html
-oneline: "Step one in learning TypeScript: The basic types."
+oneline: "Overview of Lingua Franca."
 preamble: >
-  <p>Welcome to the first page of the handbook. If this is your first experience with TypeScript - you may want to start at one of the '<a href='https://www.typescriptlang.org/docs/handbook/intro.html#get-started'>Getting Started</a>' guides</a>
 ---
+Lingua Franca (LF) is a polyglot coordination language for concurrent and possibly time-sensitive applications ranging from low-level embedded code to distributed cloud and edge applications. An LF program specifies the interactions between components called reactors. The emphasis of the framework is on ensuring deterministic interaction with explicit management of timing. The logic of each reactor is written in one of a suite of target languages (currently C, C++, Python, and TypeScript) and can integrate legacy code in those languages. A code generator synthesizes one or more programs in the target language, which are then compiled using standard toolchains. If the application has exploitable parallelism, then it executes transparently on multiple cores without compromising determinacy. A distributed application translates into multiple programs and scripts to launch those programs on distributed machines. The communication fabric connecting components is synthesized as part of the programs.
 
-Each and every value in JavaScript has a set of behaviors you can observe from running different operations.
-That sounds abstract, but as a quick example, consider some operations we might run on a variable named `message`.
+Lingua Franca programs are compositions of [reactors](#reactors), whose functionality is decomposed into [reactions](language-specification#reaction-declaration), which are written in the target languages. Reactors are similar to actors, software components that send each other messages, but unlike classical actors, messages are timestamped, and concurrent composition of reactors is deterministic by default. When nondeterminstic interactions are tolerable or desired, they must be explicitly coded. LF itself is a polyglot composition language, not a complete programming language. LF describes the interfaces and composition of reactors. See our [publications and presentations](publications-and-presentations) on reactors and Lingua Franca.
 
-```js
-// Accessing the property 'toLowerCase'
-// on 'message' and then calling it
-message.toLowerCase();
+The language and compiler infrastructure is very much under development. An IDE based on Eclipse and Xtext is under development, and command-line tools are also provided. LF is, by design, extensible. To support a new target language, a code generator and a [[runtime]] system capable of coordinating the execution of a composition of reactors must be developed.
 
-// Calling 'message'
-message();
-```
+The C runtime consists of a few thousand lines of extensively commented code, occupies tens of kilobytes for a minimal application, and is extremely fast, making it suitable even for deeply embedded microcontroller platforms. It has been tested on Linux, Windows, and Mac platforms, as well as some bare-iron platforms. On POSIX-compliant platforms, it supports multithreaded execution, automatically exploiting multiple cores while preserving determinism. It includes features for real-time execution and is particularly well suited to take advantage of platforms with predictable execution times, such as [PRET machines](https://ptolemy.berkeley.edu/projects/chess/pret/). A distributed execution mechanism is under development that takes advantage of clock synchronization when that is available to achieve truly distributed coordination while maintaining determinism.
 
-If we break this down, the first runnable line of code accesses a property called `toLowerCase` and then calls it.
-The second one tries to call `message` directly.
+## Reactors
+Reactors are informally described via the following principles:
 
-But assuming we don't know the value of `message` - and that's pretty common - we can't reliably say what results we'll get from trying to run any of this code.
-The behavior of each operation depends entirely on what value we had in the first place.
+1. *Components* — Reactors can have input ports, actions, and timers, all of which are triggers. They can also have output ports, local state, parameters, and an ordered list of reactions.
+2. *Composition* — A reactor may contain other reactors and manage their connections. The connections define the flow of messages, and two reactors can be connected if they are contained by the same reactor or one is directly contained in the other (i.e., connections span at most one level of hierarchy). An output port may be connected to multiple input ports, but an input port can only be connected to a single output port.
+3. *Events* — Messages sent from one reactor to another, and timer and action events each have a timestamp, a value on a logical time line. These are timestamped events that can trigger reactions. Each port, timer, and action can have at most one such event at any logical time. An event may carry a value that will be passed as an argument to triggered reactions.
+4. *Reactions* — A reaction is a procedure in a target language that is invoked in response to a trigger event, and only in response to a trigger event. A reaction can read input ports, even those that do not trigger it, and can produce outputs, but it must declare all inputs that it may read and output ports to which it may write. All inputs that it reads and outputs that it produces bear the same timestamp as its triggering event. I.e., the reaction itself is logically instantaneous, so any output events it produces are logically simultaneous with the triggering event (the two events bear the same timestamp).
+5. *Flow of Time* — Successive invocations of any single reaction occur at strictly increasing logical times. Any messages that are not read by a reaction triggered at the timestamp of the message are lost.
+6. *Mutual Exclusion* — The execution of any two reactions of the same reactor are mutually exclusive (atomic with respect to one another). Moreover, any two reactions that are invoked at the same logical time are invoked in the order specified by the reactor definition. This avoids race conditions between reactions accessing the reactor state variables.
+7. *Determinism* — A Lingua Franca program is deterministic unless the programmer explicit uses nondeterministic constructs. Given the same input data, a composition of reactors has exactly one correct behavior. This makes Lingua Franca programs *testable*.
+8. *Concurrency* — Dependencies between reactions are explicitly declared in a Lingua Franca program, and reactions that are not dependent on one another can be executed in parallel on a multicore machine. If the target provides a distributed runtime, using [Ptides](https://ptolemy.berkeley.edu/projects/chess/ptides/) for example, then execution can also be distributed across networks.
 
-- Is `message` callable?
-- Does it have a property called `toLowerCase` on it?
-- If it does, is `toLowerCase` even callable?
-- If both of these values are callable, what do they return?
+## Time
+Lingua Franca has a notion of logical time, where every message occurs at a logical instant and reactions to messages are logically instantaneous. At a logical time instant, each reactor [input](#input-declaration) will either have a message (the input is **present**) or will not (the input is **absent**). [Reactions](#reaction-declaration) belonging to the reactor may be **triggered** by a present input. Reactions may also be triggered by [timers](#timer-declaration) or [actions](#action-declaration). A reaction may produce [outputs](#output-declaration), in which case, inputs to which the output is **connected** will become present at the same logical time instant. Outputs, therefore, are **logically simultaneous** with the inputs that cause them. A reaction may also **schedule** [actions](#action-declaration) which will trigger reactions of the same reactor at a *later* logical time.
 
-The answers to these questions are usually things we keep in our heads when we write JavaScript, and we have to hope we got all the details right.
+In the C target,
+a timestamp is an unsigned 64-bit integer which, on most platforms,
+specifies the number of nanoseconds since January 1, 1970.
+Since a 64-bit number has a limited range,
+this measure of time instants will overflow in approximately the year 2554.
+When an LF program starts executing, logical time is (normally) set to the current physical time provided by the operating system.
+(On some embedded platforms without real-time clocks, it will be set instead to zero.)
 
-Let's say `message` was defined in the following way.
+At the starting logical time, reactions that specify a **startup** trigger will execute. Also, any reactions that are triggered by a timer with a zero offset will execute. Any outputs produced by these reactions will have the same logical time and will trigger execution of any downstream reactions. Those downstream reactions will be invoked at the same logical time unless some connection to the downstream reactor uses the **after** keyword to specify a time delay. After all reactions at the starting logical time have completed, then time will advance to the logical time of the earliest next event. The earliest next event may be specified by a timer, by an **after** keyword on a connection, or by a [logical or physical action](Language-Specification#action-declaration). Once logical time advances, any reactions that are triggered by events at that logical will be invoked, as will any reactions triggered by outputs produced by those reactions.
 
-```js
-const message = "Hello World!";
-```
+Time in Lingua Franca is actually [superdense time](https://ptolemy.berkeley.edu/publications/papers/05/OperationalSemantics/), meaning that a logical time may have the same numerical value but also be *strictly later* than another logical time. When an [action](#action-declaration) is scheduled with a delay of zero, it occurs at such a strictly later time, one **microstep** later. See the [actions description](Language-Specification#action-declaration). The **after** keyword with a time delay of 0 (zero) will also cause the downstream reactions to execute in the next microstep.
 
-As you can probably guess, if we try to run `message.toLowerCase()`, we'll get the same string only in lower-case.
+At any logical time, if any two reactions belonging to the same reactor are triggered, they will be executed
+atomically in the order in which they are defined in the reactor. Dependencies across reactors (connections with no **after**) will also result in sequential execution. Specifically, if any reaction of reactor *A* produces an output that triggers a reaction of reactor *B*, then *B*'s reaction will execute only after *A*'s reaction has completed execution. Modulo these two ordering constraints, reactions may execute in parallel on multiple cores or even across networks.
 
-What about that second line of code?
-If you're familiar with JavaScript, you'll know this fails with an exception:
+Reactions are given in a **target language**, whereas inputs, outputs, actions, and the dependencies among them are defined in Lingua Franca.  LF is, therefore, a kind of **coordination language** rather than a programming language.
 
-```txt
-TypeError: message is not a function
-```
+## Real-Time Systems
+Reactions may have delays and deadlines associated with them. This information can be used to perform earliest deadline first (EDF) scheduling. Also, in combination with execution-time analysis of reactions, it should be possible to determine at compile time whether the imposed deadlines can be met, although these analysis tools have not yet been developed. Of particular interest is to deploy reactors on platforms such as [FlexPRET](https://github.com/pretis/flexpret) and [Patmos](http://patmos.compute.dtu.dk/), which are designed for predictable timing; execution-time estimates for these architectures will be much tighter than currently possible with ordinary microprocessors.
 
-It'd be great if we could avoid mistakes like this.
+### Schedulability Analysis of LF Programs
 
-When we run our code, the way that our JavaScript runtime chooses what to do is by figuring out the _type_ of the value - what sorts of behaviors and capabilities it has.
-That's part of what that `TypeError` is alluding to - it's saying that the string `"Hello World!"` cannot be called as a function.
+* Start with classic schedulability test: critical instant (Liu and Layland)
+    * Possible not the worst-case?
+    * Question: can not producing an output lead to a timing anomaly?
+* Classic schedulability analysis becomes messy when deadline with locks for communication (priority inversion, locking protocols to avoid it, recursive schedulability analysis)
+    * We do not use shared data protected by locks +1
+* First (pessimistic) approach: all input events and timers fire at the same time, check all execution chains (reactions in actors) need to finish before the actuator deadlines.
+* Delays (timer, after, scheduled actions) break the dependency chain
+    * Schedulability analysis can be broken up into sub-chains +1
+* For now assume no preemptions, this also enables WCET analysis of reactions
+* We could also use a big hammer: model the LF program as timed automata and do model checking (e.g., UupAal)
 
-For some values, such as the primitives `string` and `number`, we can identify their type at runtime using the `typeof` operator.
-But for other things like functions, there's no corresponding runtime mechanism to identify their types.
-For example, consider this function:
 
-```js
-function fn(x) {
-  return x.flip();
-}
-```
 
-We can _observe_ by reading the code that this function will only work if given an object with a callable `flip` property, but JavaScript doesn't surface this information in a way that we can check while the code is running.
-The only way in pure JavaScript to tell what `fn` does with a particular value is to call it and see what happens.
-This kind of behavior makes it hard to predict what code will do before it runs, which means it's harder to know what your code is going to do while you're writing it.
+## To Do List
 
-Seen in this way, a _type_ is the concept of describing which values can be passed to `fn` and which will crash.
-JavaScript only truly provides _dynamic_ typing - running the code to see what happens.
-
-The alternative is to use a _static_ type system to make predictions about what code is expected _before_ it runs.
-
-## Static type-checking
-
-Think back to that `TypeError` we got earlier from trying to call a `string` as a function.
-_Most people_ don't like to get any sorts of errors when running their code - those are considered bugs!
-And when we write new code, we try our best to avoid introducing new bugs.
-
-If we add just a bit of code, save our file, re-run the code, and immediately see the error, we might be able to isolate the problem quickly; but that's not always the case.
-We might not have tested the feature thoroughly enough, so we might never actually run into a potential error that would be thrown!
-Or if we were lucky enough to witness the error, we might have ended up doing large refactorings and adding a lot of different code that we're forced to dig through.
-
-Ideally, we could have a tool that helps us find these bugs _before_ our code runs.
-That's what a static type-checker like TypeScript does.
-_Static types systems_ describe the shapes and behaviors of what our values will be when we run our programs.
-A type-checker like TypeScript uses that information and tells us when things might be going off the rails.
-
-```ts twoslash
-// @errors: 2349
-const message = "hello!";
-
-message();
-```
-
-Running that last sample with TypeScript will give us an error message before we run the code in the first place.
-
-## Non-exception Failures
-
-So far we've been discussing certain things like runtime errors - cases where the JavaScript runtime tells us that it thinks something is nonsensical.
-Those cases come up because [the ECMAScript specification](https://tc39.github.io/ecma262/) has explicit instructions on how the language should behave when it runs into something unexpected.
-
-For example, the specification says that trying to call something that isn't callable should throw an error.
-Maybe that sounds like "obvious behavior", but you could imagine that accessing a property that doesn't exist on an object should throw an error too.
-Instead, JavaScript gives us different behavior and returns the value `undefined`:
-
-```js
-const user = {
-  name: "Daniel",
-  age: 26,
-};
-
-user.location; // returns undefined
-```
-
-Ultimately, a static type system has to make the call over what code should be flagged as an error in its system, even if it's "valid" JavaScript that won't immediately throw an error.
-In TypeScript, the following code produces an error about `location` not being defined:
-
-```ts twoslash
-// @errors: 2339
-const user = {
-  name: "Daniel",
-  age: 26,
-};
-
-user.location;
-```
-
-While sometimes that implies a trade-off in what you can express, the intent is to catch legitimate bugs in our programs.
-And TypeScript catches _a lot_ of legitimate bugs.
-
-For example: typos,
-
-```ts twoslash
-// @noErrors
-const announcement = "Hello World!";
-
-// How quickly can you spot the typos?
-announcement.toLocaleLowercase();
-announcement.toLocalLowerCase();
-
-// We probably meant to write this...
-announcement.toLocaleLowerCase();
-```
-
-uncalled functions,
-
-```ts twoslash
-// @noUnusedLocals
-// @errors: 2365
-function flipCoin() {
-  // Meant to be Math.random()
-  return Math.random < 0.5;
-}
-```
-
-or basic logic errors.
-
-```ts twoslash
-// @errors: 2367
-const value = Math.random() < 0.5 ? "a" : "b";
-if (value !== "a") {
-  // ...
-} else if (value === "b") {
-  // Oops, unreachable
-}
-```
-
-## Types for Tooling
-
-TypeScript can catch bugs when we make mistakes in our code.
-That's great, but TypeScript can _also_ prevent us from making those mistakes in the first place.
-
-The type-checker has information to check things like whether we're accessing the right properties on variables and other properties.
-Once it has that information, it can also start _suggesting_ which properties you might want to use.
-
-That means TypeScript can be leveraged for editing code too, and the core type-checker can provide error messages and code completion as you type in the editor.
-That's part of what people often refer to when they talk about tooling in TypeScript.
-
-<!-- prettier-ignore -->
-```ts twoslash
-// @noErrors
-// @esModuleInterop
-import express from "express";
-const app = express();
-
-app.get("/", function (req, res) {
-  res.sen
-//       ^|
-});
-
-app.listen(3000);
-```
-
-TypeScript takes tooling seriously, and that goes beyond completions and errors as you type.
-An editor that supports TypeScript can deliver "quick fixes" to automatically fix errors, refactorings to easily re-organize code, and useful navigation features for jumping to definitions of a variable, or finding all references to a given variable.
-All of this is built on top of the type-checker and is fully cross-platform, so it's likely that [your favorite editor has TypeScript support available](https://github.com/Microsoft/TypeScript/wiki/TypeScript-Editor-Support).
-
-## `tsc`, the TypeScript compiler
-
-We've been talking about type-checking, but we haven't yet used our type-_checker_.
-Let's get acquainted with our new friend `tsc`, the TypeScript compiler.
-First we'll need to grab it via npm.
-
-```sh
-npm install -g typescript
-```
-
-> This installs the TypeScript Compiler `tsc` globally.
-> You can use `npx` or similar tools if you'd prefer to run `tsc` from a local `node_modules` package instead.
-
-Now let's move to an empty folder and try writing our first TypeScript program: `hello.ts`:
-
-```ts twoslash
-// Greets the world.
-console.log("Hello world!");
-```
-
-Notice there are no frills here; this "hello world" program looks identical to what you'd write for a "hello world" program in JavaScript.
-And now let's type-check it by running the command `tsc` which was installed for us by the `typescript` package.
-
-```sh
-tsc hello.ts
-```
-
-Tada!
-
-Wait, "tada" _what_ exactly?
-We ran `tsc` and nothing happened!
-Well, there were no type errors, so we didn't get any output in our console since there was nothing to report.
-
-But check again - we got some _file_ output instead.
-If we look in our current directory, we'll see a `hello.js` file next to `hello.ts`.
-That's the output from our `hello.ts` file after `tsc` _compiles_ or _transforms_ it into a plain JavaScript file.
-And if we check the contents, we'll see what TypeScript spits out after it processes a `.ts` file:
-
-```js
-// Greets the world.
-console.log("Hello world!");
-```
-
-In this case, there was very little for TypeScript to transform, so it looks identical to what we wrote.
-The compiler tries to emit clean readable code that looks like something a person would write.
-While that's not always so easy, TypeScript indents consistently, is mindful of when our code spans across different lines of code, and tries to keep comments around.
-
-What about if we _did_ introduce a type-checking error?
-Let's rewrite `hello.ts`:
-
-```ts twoslash
-// @noErrors
-// This is an industrial-grade general-purpose greeter function:
-function greet(person, date) {
-  console.log(`Hello ${person}, today is ${date}!`);
-}
-
-greet("Brendan");
-```
-
-If we run `tsc hello.ts` again, notice that we get an error on the command line!
-
-```txt
-Expected 2 arguments, but got 1.
-```
-
-TypeScript is telling us we forgot to pass an argument to the `greet` function, and rightfully so.
-So far we've only written standard JavaScript, and yet type-checking was still able to find problems with our code.
-Thanks TypeScript!
-
-## Emitting with Errors
-
-One thing you might not have noticed from the last example was that our `hello.js` file changed again.
-If we open that file up then we'll see that the contents still basically look the same as our input file.
-That might be a bit surprising given the fact that `tsc` reported an error about our code, but this is based on one of TypeScript's core values: much of the time, _you_ will know better than TypeScript.
-
-To reiterate from earlier, type-checking code limits the sorts of programs you can run, and so there's a tradeoff on what sorts of things a type-checker finds acceptable.
-Most of the time that's okay, but there are scenarios where those checks get in the way.
-For example, imagine yourself migrating JavaScript code over to TypeScript and introducing type-checking errors.
-Eventually you'll get around to cleaning things up for the type-checker, but that original JavaScript code was already working!
-Why should converting it over to TypeScript stop you from running it?
-
-So TypeScript doesn't get in your way.
-Of course, over time, you may want to be a bit more defensive against mistakes, and make TypeScript act a bit more strictly.
-In that case, you can use the [`noEmitOnError`](/tsconfig#noEmitOnError) compiler option.
-Try changing your `hello.ts` file and running `tsc` with that flag:
-
-```sh
-tsc --noEmitOnError hello.ts
-```
-
-You'll notice that `hello.js` never gets updated.
-
-## Explicit Types
-
-Up until now, we haven't told TypeScript what `person` or `date` are.
-Let's edit the code to tell TypeScript that `person` is a `string`, and that `date` should be a `Date` object.
-We'll also use the `toDateString()` method on `date`.
-
-```ts twoslash
-function greet(person: string, date: Date) {
-  console.log(`Hello ${person}, today is ${date.toDateString()}!`);
-}
-```
-
-What we did was add _type annotations_ on `person` and `date` to describe what types of values `greet` can be called with.
-You can read that signature as "`greet` takes a `person` of type `string`, and a `date` of type `Date`".
-
-With this, TypeScript can tell us about other cases where `greet` might have been called incorrectly.
-For example...
-
-```ts twoslash
-// @errors: 2345
-function greet(person: string, date: Date) {
-  console.log(`Hello ${person}, today is ${date.toDateString()}!`);
-}
-
-greet("Maddison", Date());
-```
-
-Huh?
-TypeScript reported an error on our second argument, but why?
-
-Perhaps surprisingly, calling `Date()` in JavaScript returns a `string`.
-On the other hand, constructing a `Date` with `new Date()` actually gives us what we were expecting.
-
-Anyway, we can quickly fix up the error:
-
-```ts twoslash {4}
-function greet(person: string, date: Date) {
-  console.log(`Hello ${person}, today is ${date.toDateString()}!`);
-}
-
-greet("Maddison", new Date());
-```
-
-Keep in mind, we don't always have to write explicit type annotations.
-In many cases, TypeScript can even just _infer_ (or "figure out") the types for us even if we omit them.
-
-```ts twoslash
-let msg = "hello there!";
-//  ^?
-```
-
-Even though we didn't tell TypeScript that `msg` had the type `string` it was able to figure that out.
-That's a feature, and it's best not to add annotations when the type system would end up inferring the same type anyway.
-
-> Note: the message bubble inside the code sample above. That is what your editor would show if you had hovered over the word.
-
-## Erased Types
-
-Let's take a look at what happens when we compile the above function `greet` with `tsc` to output JavaScript:
-
-```ts twoslash
-// @showEmit
-// @target: es5
-function greet(person: string, date: Date) {
-  console.log(`Hello ${person}, today is ${date.toDateString()}!`);
-}
-
-greet("Maddison", new Date());
-```
-
-Notice two things here:
-
-1. Our `person` and `date` parameters no longer have type annotations.
-2. Our "template string" - that string that used backticks (the `` ` `` character) - was converted to plain strings with concatenations (`+`).
-
-More on that second point later, but let's now focus on that first point.
-Type annotations aren't part of JavaScript (or ECMAScript to be pedantic), so there really aren't any browsers or other runtimes that can just run TypeScript unmodified.
-That's why TypeScript needs a compiler in the first place - it needs some way to strip out or transform any TypeScript-specific code so that you can run it.
-Most TypeScript-specific code gets erased away, and likewise, here our type annotations were completely erased.
-
-> **Remember**: Type annotations never change the runtime behavior of your program.
-
-## Downleveling
-
-One other difference from the above was that our template string was rewritten from
-
-```js
-`Hello ${person}, today is ${date.toDateString()}!`;
-```
-
-to
-
-```js
-"Hello " + person + ", today is " + date.toDateString() + "!";
-```
-
-Why did this happen?
-
-Template strings are a feature from a version of ECMAScript called ECMAScript 2015 (a.k.a. ECMAScript 6, ES2015, ES6, etc. - _don't ask_).
-TypeScript has the ability to rewrite code from newer versions of ECMAScript to older ones such as ECMAScript 3 or ECMAScript 5 (a.k.a. ES3 and ES5).
-This process of moving from a newer or "higher" version of ECMAScript down to an older or "lower" one is sometimes called _downleveling_.
-
-By default TypeScript targets ES3, an extremely old version of ECMAScript.
-We could have chosen something a little bit more recent by using the [`target`](/tsconfig#target) option.
-Running with `--target es2015` changes TypeScript to target ECMAScript 2015, meaning code should be able to run wherever ECMAScript 2015 is supported.
-So running `tsc --target es2015 hello.ts` gives us the following output:
-
-```js
-function greet(person, date) {
-  console.log(`Hello ${person}, today is ${date.toDateString()}!`);
-}
-greet("Maddison", new Date());
-```
-
-> While the default target is ES3, the great majority of current browsers support ES2015.
-> Most developers can therefore safely specify ES2015 or above as a target, unless compatibility with certain ancient browsers is important.
-
-## Strictness
-
-Different users come to TypeScript looking for different things in a type-checker.
-Some people are looking for a more loose opt-in experience which can help validate only some parts of their program, and still have decent tooling.
-This is the default experience with TypeScript, where types are optional, inference takes the most lenient types, and there's no checking for potentially `null`/`undefined` values.
-Much like how `tsc` emits in the face of errors, these defaults are put in place to stay out of your way.
-If you're migrating existing JavaScript, that might be a desirable first step.
-
-In contrast, a lot of users prefer to have TypeScript validate as much as it can straight away, and that's why the language provides strictness settings as well.
-These strictness settings turn static type-checking from a switch (either your code is checked or not) into something closer to a dial.
-The further you turn this dial up, the more TypeScript will check for you.
-This can require a little extra work, but generally speaking it pays for itself in the long run, and enables more thorough checks and more accurate tooling.
-When possible, a new codebase should always turn these strictness checks on.
-
-TypeScript has several type-checking strictness flags that can be turned on or off, and all of our examples will be written with all of them enabled unless otherwise stated.
-The [`strict`](/tsconfig#strict) flag in the CLI, or `"strict": true` in a [`tsconfig.json`](https://www.typescriptlang.org/docs/handbook/tsconfig-json.html) toggles them all on simultaneously, but we can opt out of them individually.
-The two biggest ones you should know about are [`noImplicitAny`](/tsconfig#noImplicitAny) and [`strictNullChecks`](/tsconfig#strictNullChecks).
-
-## `noImplicitAny`
-
-Recall that in some places, TypeScript doesn't try to infer types for us and instead falls back to the most lenient type: `any`.
-This isn't the worst thing that can happen - after all, falling back to `any` is just the plain JavaScript experience anyway.
-
-However, using `any` often defeats the purpose of using TypeScript in the first place.
-The more typed your program is, the more validation and tooling you'll get, meaning you'll run into fewer bugs as you code.
-Turning on the [`noImplicitAny`](/tsconfig#noImplicitAny) flag will issue an error on any variables whose type is implicitly inferred as `any`.
-
-## `strictNullChecks`
-
-By default, values like `null` and `undefined` are assignable to any other type.
-This can make writing some code easier, but forgetting to handle `null` and `undefined` is the cause of countless bugs in the world - some consider it a [billion dollar mistake](https://www.youtube.com/watch?v=ybrQvs4x0Ps)!
-The [`strictNullChecks`](/tsconfig#strictNullChecks) flag makes handling `null` and `undefined` more explicit, and _spares_ us from worrying about whether we _forgot_ to handle `null` and `undefined`.
+Lingua Franca is a work in progress. See our [project page](https://github.com/lf-lang/lingua-franca/projects) for an overview of ongoing and future work.

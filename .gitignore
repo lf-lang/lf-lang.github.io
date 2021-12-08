@@ -75,3 +75,8 @@ packages/documentation/output/attribution.json
 .yarn/build-state.yml
 .yarn/install-state.gz
 
+.idea/vcs.xml
+.idea/modules.xml
+.idea/lf-website.iml
+.idea/codeStyles/Project.xml
+.idea/codeStyles/codeStyleConfig.xml
