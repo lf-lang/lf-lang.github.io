@@ -98,29 +98,8 @@ module.exports = {
     {
       resolve: `gatsby-source-filesystem`,
       options: {
-        path: `${__dirname}/../playground-examples/generated`,
-        name: `playground-examples`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/../playground-examples/copy`,
-        name: `all-playground-examples`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
         path: `${__dirname}/../tsconfig-reference/copy/en/options`,
         name: `tsconfig-en`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/../playground-handbook/copy`,
-        name: `playground-handbook`,
       },
     },
     {

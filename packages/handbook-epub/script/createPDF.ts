@@ -116,12 +116,10 @@ const generateHTML = async () => {
   html += `
   <div id="pdf-intro">
   <center style="page-break-after: always">
-    <img src="./ts.png" width=200>
-    <p style='width: 340px;'>This copy of the TypeScript handbook was created on ${date} against
+    <img src="./Lingua_Franca.png" width=200>
+    <p style='width: 340px;'>This copy of the Lingua Franca handbook was created on ${date} against
     commit
-    <a href="https://github.com/microsoft/TypeScript-Website/tree/${sha}"><code>${sha}</code></a>
-    with
-    <a href="https://www.typescriptlang.org/${releaseInfo.releaseNotesURL}">TypeScript ${releaseInfo.tags.stableMajMin}</a>.
+    <a href="https://github.com/microsoft/TypeScript-Website/tree/${sha}"><code>${sha}</code></a>.
     </p>
   </center>
   `;

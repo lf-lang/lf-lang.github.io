@@ -54,7 +54,7 @@ const startEpub = async () => {
 
   // Add the cover
   epub.write(Streampub.newCoverImage(createReadStream("./assets/cover.jpg")));
-  epub.write(Streampub.newFile("ts.png", createReadStream("./assets/ts.png")));
+  epub.write(Streampub.newFile("Lingua_Franca.png", createReadStream("./assets/Lingua_Franca.png")));
 
   // Import CSS
   epub.write(

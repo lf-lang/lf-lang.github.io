@@ -5,7 +5,7 @@ import { createInternational } from "../../lib/createInternational"
 import { useIntl } from "react-intl"
 import { Intl } from "../../components/Intl"
 
-import meetups from "../../../../community-meta/generated/meetups.json"
+//import meetups from "../../../../community-meta/generated/meetups.json"
 
 import "./css/community.scss"
 import { comCopy } from "../../copy/en/community"
@@ -68,26 +68,26 @@ export const Comm: React.FC<Props> = props => {
                 {i("com_online_discord_desc")}</div>
             </div>
             <div className="callout">
-              <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/microsoft/TypeScript/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo" target="_blank" />
+              <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/lf-lang/lf-website/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo" target="_blank" />
               <div className="text">
-                <a href="https://github.com/microsoft/TypeScript/issues/new/choose" id="github-header" title="Create a new GitHub Issue on the TypeScript repo">
+                <a href="https://github.com/lf-lang/lf-website/issues/new/choose" id="github-header" title="Create a new GitHub Issue on the TypeScript repo">
                   <h3 className="community-callout-headline">GitHub</h3>
                 </a>
                 {i("com_online_github_desc")}{" "}
-                <a href="https://github.com/microsoft/TypeScript/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo">{i("com_online_github_href")}</a>
+                <a href="https://github.com/lf-lang/lf-website/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo">{i("com_online_github_href")}</a>
               </div>
             </div>
             <div className="callout">
-              <a aria-labelledby="twitter-header" className="icon twitter img-circle" href="https://twitter.com/typescript" target="_blank" title="The TypeScript team on Twitter" />
+              <a aria-labelledby="twitter-header" className="icon twitter img-circle" href="https://twitter.com/thelflang" target="_blank" title="The TypeScript team on Twitter" />
               <div className="text">
-                <a href="https://twitter.com/typescript" id="twitter-header" target="_blank" title="The TypeScript team on Twitter">
+                <a href="https://twitter.com/thelflang" id="twitter-header" target="_blank" title="Follow Lingua Franca on Twitter">
                   <h3 className="community-callout-headline">Twitter</h3>
                 </a>
                 {i("com_online_twitter_desc") + " "}
-                <a href="https://twitter.com/typescript" title="The TypeScript team on Twitter" target="_blank">@typescript</a>!
+                <a href="https://twitter.com/thelflang" title="The TypeScript team on Twitter" target="_blank">@typescript</a>!
               </div>
             </div>
-            <div className="callout">
+            {/* <div className="callout">
               <a aria-labelledby="blog-header" className="icon blog img-circle" href="https://devblogs.microsoft.com/typescript/" target="_blank" title="The official TypeScript blog" />
               <div className="text">
                 <a href="https://devblogs.microsoft.com/typescript/" id="blog-header" target="_blank" title="The official TypeScript blog">
@@ -107,12 +107,12 @@ export const Comm: React.FC<Props> = props => {
                 <a href="https://github.com/definitelytyped/definitelytyped/#definitelytyped" target="_blank" title="Definitely Typed, a central location for third party type definitions">{i("com_online_typed_href")}</a>{" "}
                 {i("com_online_typed_available_for")}
               </div>
-            </div>
+            </div> */}
           </Col2>
         </Row>
       </div>
 
-      <div className="container community centered">
+      {/* <div className="container community centered">
         <h2>{i("com_person")}</h2>
 
         <div className="sub-nav" style={{ display: "none" }}>
@@ -120,9 +120,9 @@ export const Comm: React.FC<Props> = props => {
           <button>Upcoming Events</button>
           <button>Meetups</button>
         </div>
-      </div>
+      </div> */}
 
-      <div className="raised main-content-block container community" style={{ display: "none" }}>
+      {/* <div className="raised main-content-block container community" style={{ display: "none" }}>
         <Row>
           <Col2>
             <h3>{i("com_conferences")}</h3>
@@ -150,7 +150,7 @@ export const Comm: React.FC<Props> = props => {
             <p className="banner-text">Hello</p>
           </Col>
         </Row>
-      </div>
+      </div> */}
 
 
       {/* <div className="raised main-content-block container community" style={{ display: "none" }}>
@@ -176,7 +176,7 @@ export const Comm: React.FC<Props> = props => {
         </div>
         </div> */}
 
-      <div className="raised main-content-block container community">
+      {/* <div className="raised main-content-block container community">
         <h3 className="centered-highlight">Meetups</h3>
         <div className="events">
 
@@ -195,7 +195,7 @@ export const Comm: React.FC<Props> = props => {
             ))}
           </div>
         </div>
-      </div>
+      </div> */}
     </Layout >
   )
 }

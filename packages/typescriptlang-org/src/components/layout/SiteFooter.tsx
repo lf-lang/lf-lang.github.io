@@ -67,7 +67,7 @@ const communityLinks = [
   },
   {
     title: "@TypeScript",
-    url: "https://twitter.com/TypeScript",
+    url: "https://twitter.com/thelflang",
   },
   {
     title: "Stack Overflow",
@@ -103,7 +103,7 @@ const faviconForURL = (url: string) => {
           />
         </svg>
       )
-    case "https://twitter.com/TypeScript":
+    case "https://twitter.com/thelflang":
       return (
         <svg
           fill="none"
