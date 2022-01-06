@@ -22,7 +22,7 @@ export const Contributors = (props: ContributorsProps) => {
 
   // https://github.com/microsoft/TypeScript-Website/blob/v2/packages/documentation/en/Advanced%20Types.md
   const reposRootURL =
-    "https://github.com/microsoft/TypeScript-Website/blob/v2";
+    "https://github.com/lf-lang/lf-website";
   const repoPageURL = reposRootURL + props.path;
 
   const d = new Date(props.lastEdited);
@@ -61,7 +61,7 @@ export const Contributors = (props: ContributorsProps) => {
       <Row className="justify-between small-columns">
         <Section sKey="pr">
           <p>
-            The TypeScript docs are an open source project. Help us improve
+            Lingua Franca is an open source project. Help us improve
             these pages <a href={repoPageURL}>by sending a Pull Request</a> ❤
           </p>
         </Section>

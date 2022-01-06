@@ -42,23 +42,23 @@ const Index: React.FC<Props> = (props) => {
   const Link = createIntlLink(props.pageContext.lang)
 
 
-  useEffect(() => {
-    // NOOP on tiny devices where we need to re-orient the arrows.
-    if (window.innerWidth < 900) return
+  // useEffect(() => {
+  //   // NOOP on tiny devices where we need to re-orient the arrows.
+  //   if (window.innerWidth < 900) return
 
-    const adopt = document.getElementById("adopt-gradually-content")!
-    adopt.classList.remove("no-js")
-    adopt.classList.add("fancy-scroll")   
+  //   const adopt = document.getElementById("adopt-gradually-content")!
+  //   adopt.classList.remove("no-js")
+  //   adopt.classList.add("fancy-scroll")   
 
-    updateOnScroll(i)()
-    // Handles setting the scroll 
-    window.addEventListener("scroll", updateOnScroll(i), { passive: true, capture: true });
+  //   updateOnScroll(i)()
+  //   // Handles setting the scroll 
+  //   window.addEventListener("scroll", updateOnScroll(i), { passive: true, capture: true });
  
 
-    return () => {
-      window.removeEventListener("scroll", updateOnScroll(i))
-    }
-  });
+  //   return () => {
+  //     window.removeEventListener("scroll", updateOnScroll(i))
+  //   }
+  // });
 
   /** Basically a <p> with bold set up */
   const P = (props: { ikey: keyof typeof indexCopy }) =>  <p key={props.ikey}>{i(props.ikey, { strong: (...chunk) => <strong>{chunk}</strong> })}</p>
@@ -84,7 +84,7 @@ const Index: React.FC<Props> = (props) => {
         <Section color="blue" className="headline">
           <AboveTheFold />
         </Section>
-        <VersionBar />
+        {/* <VersionBar /> */}
 
         <Section color="white">
           <h2>{i("index_2_what_is")}</h2>
@@ -108,7 +108,7 @@ const Index: React.FC<Props> = (props) => {
             <h2 id='get_started'>{i("index_2_started_title")}</h2>
             <Row>
                 <Col key='handbook'>
-                    <GetStarted href="/docs/handbook/intro.html" classes="tall handbook" title="index_2_started_handbook" subtitle="index_2_started_handbook_blurb" />
+                    <GetStarted href="docs/handbook/overview" classes="tall handbook" title="index_2_started_handbook" subtitle="index_2_started_handbook_blurb" />
                 </Col>
                 <Col key='download'>
                     <GetStarted href="/download" classes="tall download" title="nav_download" subtitle="index_2_install" />
@@ -116,7 +116,7 @@ const Index: React.FC<Props> = (props) => {
             </Row>
         </Section>
         
-        <div id="get-started" className="animate">
+        {/* {<div id="get-started" className="animate">
           <Section color="white">
               <Half>
                <div id='adopt-gradually-content' className='no-js'>
@@ -124,9 +124,9 @@ const Index: React.FC<Props> = (props) => {
                     <div id='adopt-step-slider'>
                     <p id='adopt-step-blurb'></p>
                     <Row>
-                        <Col key='handbook'>
+                        {<Col key='handbook'>
                             <P ikey="index_2_adopt_blurb_1" />
-                        </Col>
+                        </Col> }
                     </Row>
                     <Row>
                       <Col key='main'>
@@ -141,9 +141,9 @@ const Index: React.FC<Props> = (props) => {
               </div>
             </Half>
           </Section>
-        </div>
+        </div>} */}
 
-        <Section color="light-grey">
+        {/* <Section color="light-grey">
             <Row>
                 <Col key='title'>
                     <h3 id='describe-your-data'>{i("index_2_describe")}</h3>
@@ -157,10 +157,10 @@ const Index: React.FC<Props> = (props) => {
                   <Grad2 />
                 </Col>
             </Row>
-        </Section>
+        </Section>  */}
 
 
-        <Section color="white" className="via-delete">
+        {/* <Section color="white" className="via-delete">
             <h2 id='via-delete-key'>{i("index_2_transform")}</h2>
             <Row>
                 <Col key='title'>
@@ -178,9 +178,9 @@ const Index: React.FC<Props> = (props) => {
                   <P ikey="index_2_transform_3"/>
                 </Col>
             </Row>
-        </Section>
+        </Section> */}
 
-        <Section color="light-grey" className="migrations">
+        {/* <Section color="light-grey" className="migrations">
           <h2 id='migration_title'>{i("index_2_migration_title")}</h2>
           <div className="github-bar left">
             <GitHubBar left />
@@ -189,14 +189,14 @@ const Index: React.FC<Props> = (props) => {
             <GitHubBar left={false} />
           </div>
           <MigrationStories />
-        </Section>
+        </Section> */}
 
-        <Section color="dark-green" className="show-only-small">
+        {/* <Section color="dark-green" className="show-only-small">
           <h3>{i("index_2_migration_oss")}</h3>
           <OSS />
-        </Section>
+        </Section> */}
 
-        <Section color="white">
+        {/* <Section color="white">
           <h2>{i("index_2_loved_by")} </h2>
           <Row>
             <Col key='TS improves JS'>
@@ -218,20 +218,7 @@ const Index: React.FC<Props> = (props) => {
               </Row>
             </Col>
           </Row>
-        </Section>
-
-
-        <Section color="blue" className="get-started-section"> 
-          <h2 id='get_started_blue'>{i("index_2_started_title")}</h2>
-            <Row>
-                <Col key='handbook'>
-                    <GetStarted href="/docs/handbook/intro.html" classes="short handbook" title="index_2_started_handbook" subtitle="index_2_started_handbook_blurb" />
-                </Col>
-                <Col key='download'>
-                    <GetStarted href="/download" classes="short download" title="nav_download" subtitle="index_2_install" />
-                </Col>
-            </Row>
-        </Section>
+        </Section> */}
 
       </div>
 

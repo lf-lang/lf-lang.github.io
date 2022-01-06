@@ -13,54 +13,6 @@ export type Props = {
   suppressDocRecommendations?: true
 }
 
-const popularPages = [
-  {
-    title: "Everyday Types",
-    url: "/docs/handbook/2/everyday-types.html",
-    description: "All of the common types in TypeScript",
-  },
-  {
-    title: "Creating Types from Types",
-    url: "/docs/handbook/2/types-from-types.html",
-    description: "Techniques to make more elegant types",
-  },
-  {
-    title: "More on Functions",
-    url: "/docs/handbook/2/functions.html",
-    description: "How to provide types to functions in JavaScript",
-  },
-  {
-    title: "More on Objects",
-    url: "/docs/handbook/2/objects.html",
-    description: "How to provide a type shape to JavaScript objects",
-  },
-  {
-    title: "Narrowing",
-    url: "/docs/handbook/2/narrowing.html",
-    description: "How TypeScript infers types based on runtime behavior",
-  },
-  {
-    title: "Variable Declarations",
-    url: "/docs/handbook/variable-declarations.html",
-    description: "How to create and type JavaScript variables",
-  },
-  {
-    title: "TypeScript in 5 minutes",
-    url: "/docs/handbook/typescript-in-5-minutes.html",
-    description: "An overview of building a TypeScript web app",
-  },
-  {
-    title: "TSConfig Options",
-    url: "/tsconfig",
-    description: "All the configuration options for a project",
-  },
-  {
-    title: "Classes",
-    url: "/docs/handbook/2/classes.html",
-    description: "How to provide types to JavaScript ES6 classes",
-  },
-]
-
 const useTypeScriptLinks = [
   {
     title: "Get Started",
@@ -221,23 +173,19 @@ export const SiteFooter = (props: Props) => {
     <footer id="site-footer" role="contentinfo">
       {props.suppressCustomization ? null : <Customize />}
 
-      {hideDocs ? null  :
-        <section id="popular">
-          <h3>Popular Documentation Pages</h3>
-          <ul>
-            {popularPages.map(page => (
-              <li key={page.url}>
-                <Link to={page.url}>{page.title}</Link>
-                <p>{page.description}</p>
-              </li>
-            ))}
-          </ul>
-        </section>
-      }
-
       <section id="community">
         <article id="logos">
-          <svg
+          
+        <a href="">
+            <img
+              id="lf-logo"
+              width={40}
+              height={40}
+              src={require("../../../../../img/Lingua_Franca.png").default}
+              alt="Lingua Franca Logo"
+            />
+          </a>
+          {/* <svg
             fill="none"
             height="26"
             viewBox="0 0 26 26"
@@ -250,8 +198,8 @@ export const SiteFooter = (props: Props) => {
               fill="#fff"
               fillRule="evenodd"
             />
-          </svg>
-          <svg
+          </svg> */}
+          {/* <svg
             className="typescript-long"
             fill="none"
             height="25"
@@ -265,32 +213,22 @@ export const SiteFooter = (props: Props) => {
               fill="#fff"
               fillRule="evenodd"
             />
-          </svg>
-          <p>Made with &#9829; in Redmond, Boston, SF &amp; Dublin</p>
-
-          <a href="">
-            <img
-              id="microsoft-logo"
-              width={92}
-              height={19}
-              src={require("../../assets/microsoft-logo.png").default}
-              alt="Microsoft Logo"
-            />
-          </a>
+          </svg> */}
+          <p>Made with &#9829; in Berkeley, CA | Dallas, TX</p>
           <p>
-            © 2012-{new Date().getFullYear()} Microsoft
+            © 2016-{new Date().getFullYear()} Lingua Franca
             <br />
             <a
               href="https://go.microsoft.com/fwlink/?LinkId=521839"
-              title="Microsoft Privacy Policy"
+              title="LF Privacy Policy"
             >
               Privacy
             </a>
           </p>
         </article>
 
-        <article id="using-typescript">
-          <h3>Using TypeScript</h3>
+        <article id="using-lf">
+          <h3>Using Lingua Franca</h3>
           <ul>
             {normalLinks.map(page => (
               <li key={page.url}>
