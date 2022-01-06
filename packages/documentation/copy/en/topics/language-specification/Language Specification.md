@@ -674,7 +674,7 @@ Some "expression" forms are only acceptable as the initializer of a state variab
 * Tuple syntax, eg `(1, 2, 3)`. This syntax is used:
   * in the Python target, to create a tuple value. Tuples are different from lists in that they are immutable.
   * in C++, to pass arguments to a constructor:
-    ```
+    ```cpp
     state x: int[](1,2);
     ```
     In that example, the initializer expression is translated to `new std::vector(1,2)`. See also [C++ target documentation](https://github.com/lf-lang/lingua-franca/wiki/Writing-Reactors-in-Cpp#using-state-variables).
