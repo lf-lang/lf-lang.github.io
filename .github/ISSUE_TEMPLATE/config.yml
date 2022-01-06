@@ -1,7 +1,7 @@
 contact_links:
   - name: TypeScript Compiler issues
     url: https://github.community/
-    about: https://github.com/microsoft/TypeScript/issues/new/choose
+    about: https://github.com/lf-lang/lf-website/issues/new/choose
 
   - name: Chat
     url: "https://discord.gg/typescript"

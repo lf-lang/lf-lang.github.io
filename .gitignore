@@ -80,3 +80,4 @@ packages/documentation/output/attribution.json
 .idea/lf-website.iml
 .idea/codeStyles/Project.xml
 .idea/codeStyles/codeStyleConfig.xml
+package-lock.json

@@ -54,8 +54,8 @@
     "serve-handler": "^6.1.2",
     "xmldom": "^0.5.0"
   },
-  "repository": "microsoft/TypeScript-Website",
-  "author": "Deploy Bot <ortam@microsoft.com>",
+  "repository": "lf-lang/lf-website",
+  "author": "Franca Bot <francabot>",
   "auto": {
     "plugins": [
       "npm"
