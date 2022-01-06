@@ -23,7 +23,7 @@ export const generateV2Markdowns = () => {
   // Grab all the md + yml info from the handbook files on disk
   // and add them to ^
   // prettier-ignore
-  const handbookPath = join( __dirname, "..", "..", "documentation", "copy", "en", "handbook-v2");
+  const handbookPath = join( __dirname, "..", "..", "documentation", "copy", "en", "topics");
 
   recursiveReadDirSync(handbookPath).forEach((path) => {
     const filePath = join(__dirname, "..", "..", path);

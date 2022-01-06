@@ -18,13 +18,13 @@ const markdowns = generateV2Markdowns();
 // Grab the handbook nav, and use that to pull out the order
 
 const bookMetadata = {
-  title: "TypeScript Handbook",
-  author: "TypeScript Team and Open Source Contributors",
-  authorUrl: "https://www.typescriptlang.org/",
+  title: "Lingua Franca Handbook",
+  author: "Lingua Franca Open Source Contributors",
+  authorUrl: "https://www.lf-lang.github.io/",
   modified: new Date(),
-  source: "https://www.typescriptlang.org",
-  description: "An offline guide to learning TypeScript.",
-  publisher: "Microsoft",
+  source: "https://www.lf-lang.github.io/",
+  description: "An offline guide to learning Lingua Franca.",
+  publisher: "UC Berkeley",
   subject: "Non-fiction",
   includeTOC: true,
   ibooksSpecifiedFonts: true,
@@ -93,7 +93,7 @@ pre .error-behind {
 
 const generateHTML = async () => {
   const handbookNavigation = getDocumentationNavForLanguage("en");
-  const handbook = handbookNavigation.find((i) => i.title === "Handbook");
+  const handbook = handbookNavigation.find((i) => i.title === "Topics");
   let html = "<html>";
 
   const css = generateCSS();
@@ -203,7 +203,7 @@ const go = async () => {
   copyFileSync(
     join(__dirname, "..", "dist", "handbook.pdf"),
     // prettier-ignore
-    join( __dirname, "..", "..", "typescriptlang-org", "static", "assets", "typescript-handbook.pdf")
+    join( __dirname, "..", "..", "typescriptlang-org", "static", "assets", "lingua-franca-handbook.pdf")
   );
 };
 

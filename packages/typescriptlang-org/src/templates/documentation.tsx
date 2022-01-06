@@ -210,13 +210,8 @@ export const pageQuery = graphql`
       frontmatter {
         permalink
         title
-        disable_toc
-        handbook
         oneline
         preamble
-        deprecated_by
-        deprecation_redirects
-        experimental
       }
     }
 

@@ -7,10 +7,10 @@ export const indexCopy = {
 
   // Above the fold
   index_2_cta_install: "Try Lingua Franca Now",
-  index_2_cta_install_subtitle: "Online or via npm",
+  index_2_cta_install_subtitle: "Via Alpha or Nightly Build",
 
   index_2_cta_download: "On your computer",
-  index_2_cta_download_subtitle: "via npm",
+  index_2_cta_download_subtitle: "via Github",
 
   // Editor titles
   index_2_tab_1: "Editor Checks",

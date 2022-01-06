@@ -37,8 +37,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `TypeScript Documentation`,
-        short_name: `TS Docs`,
+        name: `Lingua Franca Documentation`,
+        short_name: `LF Docs`,
         start_url: `/`,
         background_color: `white`,
         theme_color: `#3178C6`,

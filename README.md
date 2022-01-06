@@ -11,8 +11,6 @@ This repo uses [yarn workspaces][y-wrk] with node 13+, and [watchman](https://fa
 With those set up, clone this repo and run `yarn install`.
 
 ```sh
-git clone https://github.com/microsoft/TypeScript-website
-cd TypeScript-website
 yarn install
 code .
 

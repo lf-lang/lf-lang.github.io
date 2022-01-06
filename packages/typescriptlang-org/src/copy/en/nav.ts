@@ -9,7 +9,7 @@ export const navCopy = {
   nav_handbook: "Handbook",
   nav_tools: "Tools",
   nav_search_placeholder: "Search Docs",
-  nav_search_aria: "Search the TypeScript site",
+  nav_search_aria: "Search the Lingua Franca site",
   // let me know if you can't make this work in your lang:
   // TypeScript X.Y [stable][between?]Z.Y[beta/rc]
   nav_version_stable_prefix: "is now available",

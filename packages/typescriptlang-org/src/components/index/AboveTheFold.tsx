@@ -60,17 +60,17 @@ export const AboveTheFold = () => {
             } />
         </div>
       </Col>
-      <Col>
+      {/* <Col>
         <EditorExamples />
-      </Col>
+      </Col> */}
     </Row>)
   }
 
   const CTAHeadlines = () => (
     <div className="cta-redirects">
-      <h2>Get Started With TypeScript</h2>
+      <h2>Get Started With Lingua Franca</h2>
       <Row>
-        <Col className="call-to-action">
+        {/* <Col className="call-to-action">
           <img src={require("../../assets/index/play-light.png").default} width="100%"  />
           <FluidButton
             title={i("index_2_cta_play")}
@@ -92,7 +92,7 @@ export const AboveTheFold = () => {
                 </defs>
               </svg>
             } />
-        </Col>
+        </Col> */}
 
         <Col className="call-to-action hide-small">
           <img src={require("../../assets/index/code-light.png").default} width="100%"  />
