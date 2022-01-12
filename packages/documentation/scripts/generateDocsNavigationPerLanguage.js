@@ -83,7 +83,7 @@ const handbookPages = [
       { file: "less-developed/Timing Analysis.md" },
       { file: "less-developed/Related Work.md" },
       { file: "less-developed/Future Proof Package and Import System.md" },
-      { file: "less-developed/RFC: Modal Models (first draft).md" },
+      { file: "less-developed/RFC Modal Models (first draft).md" },
     ],
   },
 ]

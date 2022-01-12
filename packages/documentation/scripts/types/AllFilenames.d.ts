@@ -1,6 +1,6 @@
 export type AllDocsPages =
   | "less-developed/Future Proof Package and Import System.md"
-  | "less-developed/RFC: Modal Models (first draft).md"
+  | "less-developed/RFC Modal Models (first draft).md"
   | "less-developed/Related Work.md"
   | "less-developed/Running Benchmarks.md"
   | "less-developed/Timing Analysis.md"
