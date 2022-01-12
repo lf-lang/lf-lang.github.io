@@ -1,7 +1,5 @@
 import React, { useEffect } from "react"
 
-import { RenderExamples } from "../ShowExamples"
-
 interface Props {
   lang: string
 }
@@ -51,7 +49,7 @@ export const PlaygroundSamples = (props: Props) => {
 
   return (
     <div id="playground-samples-popover" aria-hidden="true" aria-label="Code Samples Submenu">
-      <RenderExamples defaultSection="TypeScript" sections={["JavaScript", "TypeScript"]} />
+      {/* <RenderExamples defaultSection="TypeScript" sections={["JavaScript", "TypeScript"]} /> */}
       <div className="arrow-down" />
     </div>)
 }

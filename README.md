@@ -6,7 +6,7 @@
 
 ### Getting Started
 
-This repo uses [yarn workspaces][y-wrk] with node 13+, and [watchman](https://facebook.github.io/watchman/docs/install.html). (Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman))
+This repo uses [yarn workspaces][y-wrk] with node 13+, and [watchman](https://facebook.github.io/watchman/docs/install.html). (Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman)) For switching to Node Version 13, consult this [repo](https://github.com/nvm-sh/nvm)
 
 With those set up, clone this repo and run `yarn install`.
 
