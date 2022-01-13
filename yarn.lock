@@ -14491,6 +14491,60 @@ __metadata:
   languageName: node
   linkType: hard
 
+"lingua-franca@workspace:packages/lingua-franca":
+  version: 0.0.0-use.local
+  resolution: "lingua-franca@workspace:packages/lingua-franca"
+  dependencies:
+    "@babel/core": ^7.8.4
+    "@babel/plugin-syntax-optional-chaining": ^7.8.3
+    "@formatjs/intl-relativetimeformat": ^4.5.15
+    "@types/node-fetch": ^2.5.3
+    "@types/react": ^16.9.20
+    "@types/react-dom": ^16.9.5
+    "@types/react-helmet": ^5.0.15
+    "@typescript/twoslash": 3.1.0
+    canvas: ^2.6.1
+    concurrently: ^5.1.0
+    gatsby: ^3.8.1
+    gatsby-link: 3.10.0
+    gatsby-plugin-catch-links: ^3.10.0
+    gatsby-plugin-client-side-redirect: "orta/gatsby-plugin-client-side-redirect#index"
+    gatsby-plugin-i18n: ^1.0.1
+    gatsby-plugin-manifest: ^3.10.0
+    gatsby-plugin-offline: ^4.10.0
+    gatsby-plugin-react-helmet: ^4.10.0
+    gatsby-plugin-sass: ^4.10.0
+    gatsby-plugin-sharp: ^3.10.2
+    gatsby-plugin-sitemap: ^4.6.0
+    gatsby-plugin-typegen: ^2.2.4
+    gatsby-plugin-typescript: ^3.10.0
+    gatsby-react-router-scroll: 4.10.0
+    gatsby-remark-autolink-headers: ^4.7.0
+    gatsby-remark-copy-linked-files: ^4.7.0
+    gatsby-remark-emojis: ^0.4.3
+    gatsby-remark-images: ^5.7.0
+    gatsby-remark-responsive-iframe: ^4.7.0
+    gatsby-remark-shiki-twoslash: ^3.0.17
+    gatsby-remark-smartypants: ^4.7.0
+    gatsby-source-filesystem: ^3.8.0
+    gatsby-transformer-remark: ^4.7.0
+    jest: "*"
+    jsdom: ^16.2.0
+    preact: ^10.5.13
+    react: ^16.14.0
+    react-dom: ^16.14.0
+    react-helmet: ^6.1.0
+    react-intl: ^3.12.1
+    sass: ^1.26.10
+    ts-debounce: ^2.2.0
+    ts-jest: ^26.4.4
+    ts-node: ^8.6.2
+    twoslash-cli: ^1.3.10
+    typescript: "*"
+    xml-js: ^1.6.11
+  languageName: unknown
+  linkType: soft
+
 "load-bmfont@npm:^1.3.1, load-bmfont@npm:^1.4.0":
   version: 1.4.1
   resolution: "load-bmfont@npm:1.4.1"
@@ -22022,60 +22076,6 @@ __metadata:
   checksum: 5502be3a852abeaafb085b7a31cda07957554291eb73f86ed85d2f033670c86d3603ccea197a83d2609f71cc22b206b9027317cd3c8f20eee233fb4a5c25a7e9
   languageName: node
   linkType: hard
-
-"typescriptlang-org@workspace:packages/typescriptlang-org":
-  version: 0.0.0-use.local
-  resolution: "typescriptlang-org@workspace:packages/typescriptlang-org"
-  dependencies:
-    "@babel/core": ^7.8.4
-    "@babel/plugin-syntax-optional-chaining": ^7.8.3
-    "@formatjs/intl-relativetimeformat": ^4.5.15
-    "@types/node-fetch": ^2.5.3
-    "@types/react": ^16.9.20
-    "@types/react-dom": ^16.9.5
-    "@types/react-helmet": ^5.0.15
-    "@typescript/twoslash": 3.1.0
-    canvas: ^2.6.1
-    concurrently: ^5.1.0
-    gatsby: ^3.8.1
-    gatsby-link: 3.10.0
-    gatsby-plugin-catch-links: ^3.10.0
-    gatsby-plugin-client-side-redirect: "orta/gatsby-plugin-client-side-redirect#index"
-    gatsby-plugin-i18n: ^1.0.1
-    gatsby-plugin-manifest: ^3.10.0
-    gatsby-plugin-offline: ^4.10.0
-    gatsby-plugin-react-helmet: ^4.10.0
-    gatsby-plugin-sass: ^4.10.0
-    gatsby-plugin-sharp: ^3.10.2
-    gatsby-plugin-sitemap: ^4.6.0
-    gatsby-plugin-typegen: ^2.2.4
-    gatsby-plugin-typescript: ^3.10.0
-    gatsby-react-router-scroll: 4.10.0
-    gatsby-remark-autolink-headers: ^4.7.0
-    gatsby-remark-copy-linked-files: ^4.7.0
-    gatsby-remark-emojis: ^0.4.3
-    gatsby-remark-images: ^5.7.0
-    gatsby-remark-responsive-iframe: ^4.7.0
-    gatsby-remark-shiki-twoslash: ^3.0.17
-    gatsby-remark-smartypants: ^4.7.0
-    gatsby-source-filesystem: ^3.8.0
-    gatsby-transformer-remark: ^4.7.0
-    jest: "*"
-    jsdom: ^16.2.0
-    preact: ^10.5.13
-    react: ^16.14.0
-    react-dom: ^16.14.0
-    react-helmet: ^6.1.0
-    react-intl: ^3.12.1
-    sass: ^1.26.10
-    ts-debounce: ^2.2.0
-    ts-jest: ^26.4.4
-    ts-node: ^8.6.2
-    twoslash-cli: ^1.3.10
-    typescript: "*"
-    xml-js: ^1.6.11
-  languageName: unknown
-  linkType: soft
 
 "ua-parser-js@npm:^0.7.30":
   version: 0.7.31

@@ -30,8 +30,8 @@ jobs:
           yarn install
           yarn docs-sync pull microsoft/TypeScript-Website-localizations#main 1
           yarn bootstrap
-          yarn workspace typescriptlang-org setup-playground-cache-bust
-          yarn workspace typescriptlang-org setup-staging
+          yarn workspace lingua-franca setup-playground-cache-bust
+          yarn workspace lingua-franca setup-staging
           yarn build
         env:
           YARN_CHECKSUM_BEHAVIOR: ignore
@@ -39,11 +39,11 @@ jobs:
       - name: Build website v2
         run: |
           yarn build-site
-          cp -r packages/typescriptlang-org/public site
+          cp -r packages/lingua-franca/public site
 
       - name: Deploy + Publish to CDN
         # You can find these keys here:
-        # https://ms.portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/57bfeeed-c34a-4ffd-a06b-ccff27ac91b8/resourcegroups/typescriptlang-org/providers/Microsoft.Storage/storageAccounts/typescriptorgstaging/keys
+        # https://ms.portal.azure.com/#@microsoft.onmicrosoft.com/resource/subscriptions/57bfeeed-c34a-4ffd-a06b-ccff27ac91b8/resourcegroups/lingua-franca/providers/Microsoft.Storage/storageAccounts/typescriptorgstaging/keys
         env:
           AZURE_STORAGE_ACCOUNT: "typescriptorgstaging"
           AZURE_STORAGE_CONNECTION_STRING: ${{ secrets.AZURE_CDN_STAGING_CONNECTION_STRING }}

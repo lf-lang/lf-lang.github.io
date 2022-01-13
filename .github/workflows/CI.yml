@@ -28,7 +28,7 @@ jobs:
 
       # Build the packages
       - run: yarn bootstrap
-      - run: yarn workspace typescriptlang-org build
+      - run: yarn workspace lingua-franca build
 
       # Verify it compiles
       - run: yarn compile

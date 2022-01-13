@@ -36,12 +36,12 @@
   },
   "scripts": {
     "bootstrap": "yarn workspaces foreach -v -t --exclude root run bootstrap && BOOTSTRAPPING=true yarn workspaces foreach -v -t --exclude root run build",
-    "start": "concurrently -p \"[{name}]\" -n \"BUILD,SITE\" -c \"bgBlue.bold,bgMagenta.bold\" \"node watcher.js\" \"yarn workspace typescriptlang-org start\"",
-    "build": "yarn workspaces foreach -v -t --exclude root --exclude typescriptlang-org run build",
-    "build-site": "yarn workspace typescriptlang-org build",
-    "compile": "yarn workspace typescriptlang-org tsc",
-    "update-snapshots": "yarn workspace typescriptlang-org update-snapshots",
-    "clean": "yarn workspace typescriptlang-org gatsby clean",
+    "start": "concurrently -p \"[{name}]\" -n \"BUILD,SITE\" -c \"bgBlue.bold,bgMagenta.bold\" \"node watcher.js\" \"yarn workspace lingua-franca start\"",
+    "build": "yarn workspaces foreach -v -t --exclude root --exclude lingua-franca run build",
+    "build-site": "yarn workspace lingua-franca build",
+    "compile": "yarn workspace lingua-franca tsc",
+    "update-snapshots": "yarn workspace lingua-franca update-snapshots",
+    "clean": "yarn workspace lingua-franca gatsby clean",
     "clean-twoslash": "rm -rf packages/.cache/twoslash",
     "test": "CI=true yarn workspaces foreach -v -t --exclude root run test",
     "update-test-snapshots": "CI=true yarn workspaces foreach --include gatsby-remark-shiki-twoslash  --include @typescript/twoslash --include shiki-twoslash --include @typescript/vfs run test -u"

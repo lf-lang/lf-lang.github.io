@@ -16,7 +16,7 @@ const { read: readMarkdownFile } = require("gray-matter");
 // to leave titles, hrefs etc to be done on the document itself
 
 // The results are a generated TS function in put into the file:
-// packages/typescriptlang-org/src/lib/documentationNavigation.ts
+// packages/lingua-franca/src/lib/documentationNavigation.ts
 // where it's used in the website / epub / etc
 //
 
@@ -208,7 +208,7 @@ codeForTheHandbook.push(`
 }`);
 
 // prettier-ignore
-const pathToFileWeEdit = join(__dirname, "..", "..", "typescriptlang-org", "src", "lib", "documentationNavigation.ts");
+const pathToFileWeEdit = join(__dirname, "..", "..", "lingua-franca", "src", "lib", "documentationNavigation.ts");
 const startMarker = "/** ---INSERT--- */";
 const endMarker = "/** ---INSERT-END--- */";
 const oldCode = readFileSync(pathToFileWeEdit, "utf8");

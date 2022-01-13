@@ -7,7 +7,7 @@ const toHAST = require(`mdast-util-to-hast`);
 const hastToHTML = require(`hast-util-to-html`);
 const {
   recursiveReadDirSync,
-} = require("../../typescriptlang-org/lib/utils/recursiveReadDirSync");
+} = require("../../lingua-franca/lib/utils/recursiveReadDirSync");
 
 import { readFileSync, lstatSync } from "fs";
 import remarkShikiTwoslash from "remark-shiki-twoslash";
@@ -48,7 +48,7 @@ export const generateV2Markdowns = () => {
 export const getHTML = async (code: string, settings?: any) => {
   const markdownAST: Node = remark().parse(code);
   const runShiki = remarkShikiTwoslash({
-    theme: require("../../typescriptlang-org/lib/themes/typescript-beta-light.json"),
+    theme: require("../../lingua-franca/lib/themes/typescript-beta-light.json"),
   });
 
   await runShiki(markdownAST);
@@ -78,7 +78,7 @@ export const getGitSHA = () => {
 
 export const getReleaseInfo = () => {
   // prettier-ignore
-  const releaseInfo = join(__dirname, "..", "..", "typescriptlang-org", "src", "lib", "release-info.json");
+  const releaseInfo = join(__dirname, "..", "..", "lingua-franca", "src", "lib", "release-info.json");
   const info = JSON.parse(readFileSync(releaseInfo, "utf8"));
   return info;
 };

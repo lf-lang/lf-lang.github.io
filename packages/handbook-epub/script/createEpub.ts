@@ -18,7 +18,7 @@ import {
   getReleaseInfo,
   replaceAllInString,
 } from "./setupPages";
-import { getDocumentationNavForLanguage } from "../../typescriptlang-org/src/lib/documentationNavigation";
+import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation";
 
 // Reference: https://github.com/AABoyles/LessWrong-Portable/blob/master/build.js
 
@@ -119,6 +119,6 @@ process.once("exit", () => {
   copyFileSync(
     epubPath,
     // prettier-ignore
-    join(__dirname, "../../typescriptlang-org/static/assets/typescript-handbook.epub")
+    join(__dirname, "../../lingua-franca/static/assets/typescript-handbook.epub")
   );
 });

@@ -1,2 +1,2 @@
-packages/typescriptlang-org/src/**/*.tsx
-packages/typescriptlang-org/src/components/index/twoslash/*
+packages/lingua-franca/src/**/*.tsx
+packages/lingua-franca/src/components/index/twoslash/*

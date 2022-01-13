@@ -25,7 +25,7 @@ jobs:
           YARN_CHECKSUM_BEHAVIOR: ignore
 
       # Update the site stats
-      - run: node packages/typescriptlang-org/scripts/pingTeamsWithAppInsightData.js
+      - run: node packages/lingua-franca/scripts/pingTeamsWithAppInsightData.js
         env:
           APP_INSIGHTS_API_KEY: ${{ secrets.APP_INSIGHTS_API_KEY }}
           APP_INSIGHTS_ID: ${{ secrets.APP_INSIGHTS_ID }}

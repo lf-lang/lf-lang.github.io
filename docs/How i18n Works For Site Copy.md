@@ -1,6 +1,6 @@
 ## How Does The i18n Work in The Site?
 
-Let's take some example code from inside the [top navigation bar](../packages/typescriptlang-org/src/components/layout/TopNav.tsx) on the site:
+Let's take some example code from inside the [top navigation bar](../packages/lingua-franca/src/components/layout/TopNav.tsx) on the site:
 
 ```ts
 // prettier-ignore
@@ -33,9 +33,9 @@ This is [React Intl](https://www.npmjs.com/package/react-intl).
 
 There are a few parts which lead up to having an `i("x")`. Let's go in order:
 
-- A site page which can be internationalized must be wrapped in an [`Intl` component](https://github.com/microsoft/TypeScript-website/blob/v2/packages/typescriptlang-org/src/components/Intl.tsx#L7)
+- A site page which can be internationalized must be wrapped in an [`Intl` component](https://github.com/microsoft/TypeScript-website/blob/v2/packages/lingua-franca/src/components/Intl.tsx#L7)
 
-  This sets up the language copy based in the locale, it uses a dynamic require to [the `copy/`](https://github.com/microsoft/TypeScript-website/blob/v2/packages/typescriptlang-org/src/copy/) folder + the locale + `.ts`. This sets up the outer context.
+  This sets up the language copy based in the locale, it uses a dynamic require to [the `copy/`](https://github.com/microsoft/TypeScript-website/blob/v2/packages/lingua-franca/src/copy/) folder + the locale + `.ts`. This sets up the outer context.
 
   In the site, we have this as the `default export` for i18n'd pages
 

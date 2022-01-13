@@ -9,7 +9,7 @@ import {
   getReleaseInfo,
   replaceAllInString,
 } from "./setupPages";
-import { getDocumentationNavForLanguage } from "../../typescriptlang-org/src/lib/documentationNavigation";
+import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation";
 const { chromium } = require("playwright");
 const sass = require("sass");
 
@@ -36,10 +36,10 @@ const generateCSS = () => {
   console.log("Generating CSS from SCSS files");
 
   const scssFiles = [
-    "../../typescriptlang-org/src/components/layout/main.scss",
-    "../../typescriptlang-org/src/templates/documentation.scss",
-    "../../typescriptlang-org/src/templates/markdown.scss",
-    "../../typescriptlang-org/src/templates/markdown-twoslash.scss",
+    "../../lingua-franca/src/components/layout/main.scss",
+    "../../lingua-franca/src/templates/documentation.scss",
+    "../../lingua-franca/src/templates/markdown.scss",
+    "../../lingua-franca/src/templates/markdown-twoslash.scss",
   ];
 
   const css = scssFiles
@@ -201,7 +201,7 @@ const go = async () => {
   copyFileSync(
     join(__dirname, "..", "dist", "handbook.pdf"),
     // prettier-ignore
-    join( __dirname, "..", "..", "typescriptlang-org", "static", "assets", "lingua-franca-handbook.pdf")
+    join( __dirname, "..", "..", "lingua-franca", "static", "assets", "lingua-franca-handbook.pdf")
   );
 };
 

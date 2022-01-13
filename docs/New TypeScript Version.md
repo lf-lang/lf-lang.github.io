@@ -95,7 +95,7 @@ When you're happy with that, then edit [`packages/documentation/copy/en/release-
 
 ##### Index
 
-The homepage keeps track of upcoming dates via this file: [`packages/typescriptlang-org/src/lib/release-plan.json`](https://github.com/microsoft/TypeScript-website/blob/v2/packages/typescriptlang-org/src/lib/release-plan.json)
+The homepage keeps track of upcoming dates via this file: [`packages/lingua-franca/src/lib/release-plan.json`](https://github.com/microsoft/TypeScript-website/blob/v2/packages/lingua-franca/src/lib/release-plan.json)
 
 ```json
 {

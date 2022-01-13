@@ -28,13 +28,13 @@ jobs:
           yarn install
           yarn docs-sync pull microsoft/TypeScript-Website-localizations#main 1
           yarn bootstrap
-          yarn workspace typescriptlang-org setup-playground-cache-bust
+          yarn workspace lingua-franca setup-playground-cache-bust
           yarn build
         env:
           YARN_CHECKSUM_BEHAVIOR: ignore
 
       # Update the site plan, scoped out on its own because it gets access to secrets
-      - run: node packages/typescriptlang-org/scripts/getTypeScriptReleasePlan.js
+      - run: node packages/lingua-franca/scripts/getTypeScriptReleasePlan.js
         env:
           GITHUB_BOT_TOKEN: ${{ secrets.GITHUB_BOT_TOKEN }}
           TEAMS_WEB_BOT_INCOMING_URL: ${{ secrets.TEAMS_WEB_BOT_INCOMING_URL }}
@@ -43,7 +43,7 @@ jobs:
       - name: Makes the site
         run: |
           yarn build-site
-          cp -r packages/typescriptlang-org/public site
+          cp -r packages/lingua-franca/public site
         env:
           YARN_CHECKSUM_BEHAVIOR: ignore
 
@@ -66,7 +66,7 @@ jobs:
           skip_app_build: true
 
       # Update the site stats
-      - run: node packages/typescriptlang-org/scripts/updateAppInsightsGitHubIssue.js
+      - run: node packages/lingua-franca/scripts/updateAppInsightsGitHubIssue.js
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_BOT_TOKEN }}
           APP_INSIGHTS_API_KEY: ${{ secrets.APP_INSIGHTS_API_KEY }}

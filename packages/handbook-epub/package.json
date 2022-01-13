@@ -4,7 +4,7 @@
   "license": "MIT",
   "version": "1.0.0",
   "scripts": {
-    "bootstrap": "yarn workspace typescriptlang-org update-versions",
+    "bootstrap": "yarn workspace lingua-franca update-versions",
     "build": "ts-node script/createEpub.ts && ts-node script/createPDF.ts",
     "test": "echo 'NOOP'"
   },

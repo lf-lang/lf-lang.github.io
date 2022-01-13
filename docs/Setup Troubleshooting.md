@@ -8,6 +8,6 @@ Sometimes, and it's not been tracked down exactly, some dependencies of the site
 
 The Windows support for watchman is a bit meh. It's not likely to get better, given how well WSL works now. So, you _could_ use WSL to work around that.
 
-Though, for _a lot_ of changes to the site: Watchman is optional. All the watchman script does is run `yarn workspace [xxyy] build` when you save in a package which is not `typescriptlang-org` (the gatsby website).
+Though, for _a lot_ of changes to the site: Watchman is optional. All the watchman script does is run `yarn workspace [xxyy] build` when you save in a package which is not `lingua-franca` (the gatsby website).
 
-To run the site without watchman, use `yarn workspace typescriptlang-org start`.
+To run the site without watchman, use `yarn workspace lingua-franca start`.
