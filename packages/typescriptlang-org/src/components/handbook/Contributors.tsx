@@ -20,9 +20,8 @@ export const Contributors = (props: ContributorsProps) => {
   const attrPath = props.path.replace("/packages/documentation/", "");
   const page = attribution[attrPath];
 
-  // https://github.com/microsoft/TypeScript-Website/blob/v2/packages/documentation/en/Advanced%20Types.md
   const reposRootURL =
-    "https://github.com/lf-lang/lf-website";
+    "https://github.com/lf-lang/lf-lang.github.io";
   const repoPageURL = reposRootURL + props.path;
 
   const d = new Date(props.lastEdited);

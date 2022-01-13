@@ -12,7 +12,7 @@ if (process.env.BOOTSTRAPPING) {
   process.exit(0)
 }
 
-require("./scripts/ensureDepsAreBuilt")
+// require("./scripts/ensureDepsAreBuilt")
 
 // https://github.com/gatsbyjs/gatsby/issues/1457
 require("ts-node").register({ files: true })
@@ -66,7 +66,7 @@ module.exports = {
       resolve: `gatsby-plugin-sitemap`,
       options: {
         // Skip handbook v2 from appearing in search
-        excludes: [`*/glossary`, `*/vo/*`],
+        excludes: [`*/vo/*`],
       },
     },
     // Lets you edit the head from inside a react tree
@@ -77,29 +77,6 @@ module.exports = {
       options: {
         path: `${__dirname}/../documentation/copy`,
         name: `documentation`,
-      },
-    },
-    // Grabs file from the tsconfig reference
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/../tsconfig-reference/output`,
-        name: `tsconfig-reference`,
-      },
-    },
-    // Grabs file from the tsconfig reference
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/../glossary/output`,
-        name: `glossary`,
-      },
-    },
-    {
-      resolve: `gatsby-source-filesystem`,
-      options: {
-        path: `${__dirname}/../tsconfig-reference/copy/en/options`,
-        name: `tsconfig-en`,
       },
     },
     {

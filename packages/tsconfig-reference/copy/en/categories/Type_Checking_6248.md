@@ -1,3 +1,0 @@
----
-display: "Type Checking"
----

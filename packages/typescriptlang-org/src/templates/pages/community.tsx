@@ -68,13 +68,13 @@ export const Comm: React.FC<Props> = props => {
                 {i("com_online_discord_desc")}</div>
             </div>
             <div className="callout">
-              <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/lf-lang/lf-website/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo" target="_blank" />
+              <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo" target="_blank" />
               <div className="text">
-                <a href="https://github.com/lf-lang/lf-website/issues/new/choose" id="github-header" title="Create a new GitHub Issue on the TypeScript repo">
+                <a href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" id="github-header" title="Create a new GitHub Issue on the TypeScript repo">
                   <h3 className="community-callout-headline">GitHub</h3>
                 </a>
                 {i("com_online_github_desc")}{" "}
-                <a href="https://github.com/lf-lang/lf-website/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo">{i("com_online_github_href")}</a>
+                <a href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo">{i("com_online_github_href")}</a>
               </div>
             </div>
             <div className="callout">

@@ -1,3 +1,0 @@
----
-display: "Compiler Diagnostics"
----

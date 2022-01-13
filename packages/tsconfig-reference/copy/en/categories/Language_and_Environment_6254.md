@@ -1,3 +1,0 @@
----
-display: "Language and Environment"
----

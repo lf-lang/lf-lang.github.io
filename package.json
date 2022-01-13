@@ -54,7 +54,7 @@
     "serve-handler": "^6.1.2",
     "xmldom": "^0.5.0"
   },
-  "repository": "lf-lang/lf-website",
+  "repository": "lf-lang/lf-lang.github.io",
   "author": "Franca Bot <francabot>",
   "auto": {
     "plugins": [
