@@ -16,8 +16,6 @@ code .
 
 # Then:
 yarn bootstrap
-# Optional, grab the translations:
-yarn docs-sync pull microsoft/TypeScript-Website-localizations#main 1
 
 # Now you can start up the website
 yarn start
@@ -46,12 +44,7 @@ You can find the build logs in [GitHub Actions](https://github.com/microsoft/Typ
 
 ## Docs
 
-If you want to know _in-depth_ how this website works, there is an [hour long video covering the codebase, deployment and tooling on YouTube.](https://www.youtube.com/watch?v=HOvivt6B7hE). Otherwise there are some short guides:
-
-- [Converting Twoslash Code Samples](./docs/Converting%20Twoslash%20Code%20Samples.md)
-- [How i18n Works For Site Copy](./docs/How%20i18n%20Works%20For%20Site%20Copy.md)
-- [Updating the TypeScript Version](./docs/New%20TypeScript%20Version.md)
-- [Something Went Wrong](./docs/Something%20Went%20Wrong.md)
+If you want to know _in-depth_ how this website works, there is an [hour long video covering the codebase, deployment and tooling on YouTube.]
 
 # Website Packages
 
@@ -64,40 +57,6 @@ yarn start
 ```
 
 To optimize even more, the env var `NO_TRANSLATIONS` as truthy will make the website only load pages for English.
-
-## Sandbox
-
-The editor aspect of the TypeScript Playground REPL, useable for all sites which want to show a monaco editor
-with TypeScript or JavaScript code.
-
-## Playground
-
-The JS code has an AMD module for the playground which is loaded at runtime in the Playground website.
-
-# Doc Packages
-
-## TSConfig Reference
-
-A set of tools and scripts for generating a comprehensive API reference for the TSConfig JSON file.
-
-```sh
-# Generate JSON from the typescript cli
-yarn workspace tsconfig-reference run generate-json
-# Jams them all into a single file
-yarn workspace tsconfig-reference run generate-markdown
-```
-
-Validate the docs:
-
-```sh
-yarn workspace tsconfig-reference run test
-
-# or to just run the linter without a build
-yarn workspace tsconfig-reference run lint
-
-# or to just one one linter for a single doc
-yarn workspace tsconfig-reference run lint resolveJson
-```
 
 ## Documentation
 
@@ -112,14 +71,6 @@ yarn workspace tsconfig-reference build
 ```
 
 Then you can find it at: [`packages/tsconfig-reference/scripts/schema/result/schema.json`](packages/tsconfig-reference/scripts/schema/result/schema.json).
-
-## Playground Handbook
-
-The user-facing documentation for the Playground.
-
-## Playground Examples
-
-The code samples used in the Playground split across many languages.
 
 # Infra Packages
 
@@ -144,10 +95,6 @@ Generates an epub file from the handbook files. You can try downloading it at ht
 ## Community Meta
 
 Generates contribution JSON metadata on who edited handbook pages.
-
-## Playground Worker
-
-A web worker which sits between the Playground and Monaco-TypeScript
 
 # Contributing
 

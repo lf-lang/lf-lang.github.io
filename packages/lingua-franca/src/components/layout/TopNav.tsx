@@ -81,8 +81,7 @@ export const SiteNav = (props: Props) => {
 
           <IntlLink id="home-page-logo" to="/" aria-label="TypeScript Home Page">
             
-          <img id="lf-logo" width={30} height={30} src={require("../../../../../img/Lingua_Franca.png").default} alt="Lingua Franca Logo"/>
-          <span className="hide-small"> Lingua Franca</span>
+          <img id="lf-logo" width={130} height={50} src={require("../../../../../img/header_logo.png").default} alt="Lingua Franca Logo"/>
           </IntlLink>
 
           <nav role="navigation">
@@ -91,7 +90,6 @@ export const SiteNav = (props: Props) => {
               <li className="nav-item"><IntlLink to="/docs/"><span>{i("nav_documentation_short")}</span></IntlLink></li>
               <li className="nav-item show-only-large"><IntlLink to="/docs/handbook/overview">{i("nav_handbook")}</IntlLink></li>
               <li className="nav-item"><IntlLink to="/community">{i("nav_community")}</IntlLink></li>
-              <li className="nav-item"><IntlLink to="/tools">{i("nav_tools")}</IntlLink></li>
             </ul>
           </nav>
 

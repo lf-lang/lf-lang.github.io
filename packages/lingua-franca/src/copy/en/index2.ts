@@ -3,7 +3,7 @@ export const indexCopy = {
     "Lingua Franca is a <bold>polyglot coordination language for concurrent and time-sensitive applications.</bold>",
   index_2_byline: "Lingua Franca",
   index_2_summary:
-    "LF Summary Blurb Here",
+    "Lingua Franca (LF) is a polyglot coordination language for concurrent and possibly time-sensitive applications ranging from low-level embedded code to distributed cloud and edge applications. An LF program specifies the interactions between components called reactors. The emphasis of the framework is on ensuring deterministic interaction with explicit management of timing. The logic of each reactor is written in one of a suite of target languages (currently C, C++, Python, and TypeScript) and can integrate legacy code in those languages. A code generator synthesizes one or more programs in the target language, which are then compiled using standard toolchains. If the application has exploitable parallelism, then it executes transparently on multiple cores without compromising determinacy. A distributed application translates into multiple programs and scripts to launch those programs on distributed machines. The communication fabric connecting components is synthesized as part of the programs.",
 
   // Above the fold
   index_2_cta_install: "Try Lingua Franca Now",

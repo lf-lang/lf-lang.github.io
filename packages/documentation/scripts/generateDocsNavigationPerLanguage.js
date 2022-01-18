@@ -34,7 +34,6 @@ const handbookPages = [
     chronological: true,
     items: [
       { file: "topics/Overview.md" },
-      { file: "topics/Publications and Presentations.md" },
       { file: "topics/Tutorial.md" },
       {
         title: "Language Specification",
@@ -86,6 +85,7 @@ const handbookPages = [
       { file: "less-developed/RFC Modal Models (first draft).md" },
     ],
   },
+  
 ]
 //fillReleaseInfo();
 

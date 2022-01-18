@@ -39,12 +39,6 @@ export function getDocumentationNavForLanguage(
           oneline: "Overview of Lingua Franca.",
         },
         {
-          title: "Publications and Presentations",
-          id: "0-publications-and-presentations",
-          permalink: "/docs/handbook/publications-and-presentations",
-          oneline: "Publications and Presentations.",
-        },
-        {
           title: "Tutorial",
           id: "0-tutorial",
           permalink: "/docs/handbook/tutorial",

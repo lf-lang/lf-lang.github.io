@@ -1,14 +1,14 @@
 export const comCopy = {
-  com_layout_title: "How to set up TypeScript", // FIXME: Is this the right title for the community page?
+  com_layout_title: "How to set up Lingua Franca", // FIXME: Is this the right title for the community page?
   com_layout_description:
-    "Connect with other TypeScripters online and offline.",
+    "Connect with other LF Programmers online and offline.",
   com_headline: "Connect with us", // FIXME: I think this is not used anywhere
   com_connect_online: "Online",
   com_connect_online_description:
     " Tell us what’s working well, what you want to see added or improved, and find out about new updates.",
-  com_online_stack_overflow_desc:
-    "Engage with your peers and ask questions about TypeScript using the tag 'typescript'",
-  com_online_stack_overflow_tag: "",
+  com_online_publications_desc:
+    "View our publications and presentations",
+  com_online_publications_tag: "",
   com_online_discord_header: "Chat",
   com_online_discord_desc:
     "Chat with other TypeScript users in the TypeScript Community Chat.",

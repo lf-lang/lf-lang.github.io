@@ -12,7 +12,7 @@
   clear: both;
   display: flex;
   justify-content: space-between;
-  height: 3rem;
+  height: 4rem;
   z-index: 101;
 
   > {
@@ -35,15 +35,17 @@
   }
 
   ul {
-    padding: 0;
+    padding:0;
     margin: 0;
   }
 
   #home-page-logo {
-    width: 200px;
+    width: 150px;
     font-weight: 600;
     font-size: 1.5rem;
-    padding-top: 0.7rem;
+    padding-top: 0.5rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
 
     @media screen and (-ms-high-contrast: active) {
       svg path {
@@ -73,7 +75,7 @@
 
     a {
       display: block;
-      padding: 0.95rem 0.5em 0.7em;
+      padding: 1.25rem 0.5em 0.5em;
       &:hover {
         opacity: 0.8;
       }
@@ -107,7 +109,7 @@
 /* This juts out of the left a bit */
 
 form.search {
-  height: 3rem;
+  height: 4rem;
   background-color: $ts-main-blue-darker-color;
   border-radius: 3px 0px 0px 3px;
 
@@ -116,7 +118,7 @@ form.search {
 
   svg {
     position: relative;
-    top: 0.1rem;
+    top: 0.3rem;
     margin-right: 0.3rem;
   }
 
@@ -151,7 +153,7 @@ form.search {
     color: white;
     font-size: 1rem;
     font-weight: 600;
-    height: 3rem;
+    height: 4rem;
 
     /*  Algolia sets this to "top" at runtime which breaks the layout */
     vertical-align: initial !important;

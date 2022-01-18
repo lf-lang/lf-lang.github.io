@@ -11,9 +11,6 @@ type Props = {
   b: NewableFunction
 }
 
-const changeExample = (code: string) => document.getElementById("code-example")!.textContent = code
-const changeExample2 = (code: string) => document.getElementById("code-run")!.textContent = code
-
 const Index: React.FC<Props> = (props) => {
   const Link = createIntlLink(props.pageContext.lang)
 
@@ -67,7 +64,6 @@ const Index: React.FC<Props> = (props) => {
       </section>
     </div >
 
-    <QuickJump title="Next Steps" lang={props.pageContext.lang} />
   </Layout>
 }
 

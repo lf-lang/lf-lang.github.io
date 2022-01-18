@@ -1,1 +1,1 @@
-export const isMultiLingual = !process.env.NO_TRANSLATIONS
+export const isMultiLingual = false

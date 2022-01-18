@@ -23,23 +23,7 @@ const useTypeScriptLinks = [
     url: "/download",
   },
   {
-    title: "Community",
-    url: "/community",
-  },
-  {
-    title: "Playground",
-    url: "/play/",
-  },
-  {
-    title: "TSConfig Ref",
-    url: "/tsconfig",
-  },
-  {
-    title: "Code Samples",
-    url: "/play/#show-examples",
-  },
-  {
-    title: "Why TypeScript",
+    title: "Why Lingua Franca",
     url: "/why-create-typescript",
   },
   {
@@ -54,32 +38,16 @@ const communityLinks = [
     url: "/community",
   },
   {
-    title: "Blog",
-    url: "https://devblogs.microsoft.com/typescript/",
-  },
-  {
     title: "GitHub Repo",
-    url: "https://github.com/microsoft/TypeScript/#readme",
+    url: "https://github.com/lf-lang/lingua-franca",
   },
   {
-    title: "Community Chat",
-    url: "https://discord.gg/typescript",
-  },
-  {
-    title: "@TypeScript",
+    title: "@LinguaFranca",
     url: "https://twitter.com/thelflang",
   },
   {
-    title: "Stack Overflow",
-    url: "https://stackoverflow.com/questions/tagged/typescript",
-  },
-  {
-    title: "Web Updates",
-    url: "https://github.com/microsoft/TypeScript-Website/issues/130",
-  },
-  {
     title: "Web Repo",
-    url: "https://github.com/microsoft/TypeScript-Website",
+    url: "https://github.com/lf-lang/lf-lang.github.io",
   },
 ]
 
@@ -179,9 +147,9 @@ export const SiteFooter = (props: Props) => {
         <a href="">
             <img
               id="lf-logo"
-              width={40}
+              width={80}
               height={40}
-              src={require("../../../../../img/Lingua_Franca.png").default}
+              src={require("../../../../../img/Lingua_Franca_NameLogo.png").default}
               alt="Lingua Franca Logo"
             />
           </a>
@@ -235,20 +203,6 @@ export const SiteFooter = (props: Props) => {
                 <Link to={page.url}>{page.title}</Link>
               </li>
             ))}
-            <li key="last" id="popover-trigger" className="popover-container">
-              <a
-                href={playgroundExamples.url}
-                aria-haspopup="true"
-                id="popover-trigger-anchor"
-              >
-                <span
-                  style={{ display: "none" }}
-                  className="link-prefix footer-icon"
-                ></span>
-                {playgroundExamples.title}
-              </a>
-              <PlaygroundSamples lang="en" />
-            </li>
           </ul>
         </article>
 

@@ -51,10 +51,10 @@ export const Comm: React.FC<Props> = props => {
             <div className="callout">
               <a aria-labelledby="stack-header" className="icon stackoverflow img-circle" href="https://stackoverflow.com/questions/tagged/typescript" title="TypeScript tag on Stack Overflow" target="_blank"></a>
               <div className="text">
-                <a href="https://stackoverflow.com/questions/tagged/typescript" id="stack-header" title="TypeScript tag on Stack Overflow" target="_blank">
-                  <h3 className="community-callout-headline">Stack Overflow</h3>
+                <a href="/publications-and-presentations" id="stack-header" title="TypeScript tag on Stack Overflow" target="_blank">
+                  <h3 className="community-callout-headline">Publications</h3>
                 </a>
-                {i("com_online_stack_overflow_desc")}
+                {i("com_online_publications_desc")}
               </div>
             </div>
 

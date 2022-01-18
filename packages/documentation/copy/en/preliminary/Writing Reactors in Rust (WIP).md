@@ -61,7 +61,7 @@ If you're not, here's a primer:
 ### Target properties summary
 
 Target properties may be mentioned like so:
-```
+```rust
 target Rust {
     // enables single-file project layout
     single-file-project: false,

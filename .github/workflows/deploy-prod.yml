@@ -26,7 +26,6 @@ jobs:
       - name: Build website
         run: |
           yarn install
-          yarn docs-sync pull microsoft/TypeScript-Website-localizations#main 1
           yarn bootstrap
           yarn workspace lingua-franca setup-playground-cache-bust
           yarn build
