@@ -119,6 +119,6 @@ process.once("exit", () => {
   copyFileSync(
     epubPath,
     // prettier-ignore
-    join(__dirname, "../../lingua-franca/static/assets/typescript-handbook.epub")
+    join(__dirname, "../../lingua-franca/static/assets/lingua-franca-handbook.epub")
   );
 });

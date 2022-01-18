@@ -60,7 +60,7 @@ To optimize even more, the env var `NO_TRANSLATIONS` as truthy will make the web
 
 ## Documentation
 
-The docs for TypeScript. Originally ported over from [microsoft/TypeScript-Handbook](https://github.com/microsoft/TypeScript-Handbook/) then intermingled with [microsoft/TypeScript-New-Handbook](https://github.com/microsoft/TypeScript-New-Handbook), and finally updated for [Twoslash](http://www.staging-typescript.org/dev/twoslash/) and with new content.
+The docs for Lingua Franca
 
 ## JSON Schema
 

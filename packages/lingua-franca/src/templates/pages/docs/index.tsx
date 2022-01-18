@@ -53,7 +53,7 @@ const Index: React.FC<Props> = (props) => {
         <div className="columns wide">
           {nav.map(navRoot => {
             if (navRoot.id === "what's-new") return null
-            const showIntro = navRoot.id === "handbook"
+            const showIntro = navRoot.id === "topics"
 
             return (
               <div className="item raised" key={navRoot.id}>
@@ -65,7 +65,7 @@ const Index: React.FC<Props> = (props) => {
                   <RenderItems items={navRoot} />
                 </ul>
 
-                {showIntro && <p>We also have an <a href='/assets/typescript-handbook.epub'>epub</a> and <a href='/assets/typescript-handbook.pdf'>pdf</a> version of the Handbook.</p>}
+                {showIntro && <p>We also have an <a href='/assets/lingua-franca-handbook.epub'>epub</a> and <a href='/assets/lingua-franca-handbook.pdf'>pdf</a> version of the Handbook.</p>}
               </div>
             )
           })}

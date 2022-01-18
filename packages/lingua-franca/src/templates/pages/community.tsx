@@ -58,7 +58,7 @@ export const Comm: React.FC<Props> = props => {
               </div>
             </div>
 
-            <div className="callout">
+            {/* <div className="callout">
               <a aria-labelledby="discord-header" className="icon discord img-circle" href="https://discord.gg/typescript" title="TypeScript Community on Stack Overflow" />
 
               <div className="text">
@@ -66,7 +66,7 @@ export const Comm: React.FC<Props> = props => {
                   <h3 className="community-callout-headline">{i("com_online_discord_header")}</h3>
                 </a>
                 {i("com_online_discord_desc")}</div>
-            </div>
+            </div> */}
             <div className="callout">
               <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo" target="_blank" />
               <div className="text">
@@ -84,7 +84,7 @@ export const Comm: React.FC<Props> = props => {
                   <h3 className="community-callout-headline">Twitter</h3>
                 </a>
                 {i("com_online_twitter_desc") + " "}
-                <a href="https://twitter.com/thelflang" title="The TypeScript team on Twitter" target="_blank">@typescript</a>!
+                <a href="https://twitter.com/thelflang" title="Lingua Franca on Twitter" target="_blank">@thelflang</a>!
               </div>
             </div>
             {/* <div className="callout">

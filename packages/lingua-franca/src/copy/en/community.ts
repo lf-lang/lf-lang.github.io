@@ -11,14 +11,14 @@ export const comCopy = {
   com_online_publications_tag: "",
   com_online_discord_header: "Chat",
   com_online_discord_desc:
-    "Chat with other TypeScript users in the TypeScript Community Chat.",
+    "Chat with other Lingua Franca users in the Lingua Franca Community Chat.",
   com_online_github_desc:
     "Found a bug, or want to give us constructive feedback?",
   com_online_github_href: "Tell us on GitHub",
   com_online_twitter_desc: "Stay up to date. Follow us on Twitter",
   com_online_blog_desc:
-    "Learn about the latest TypeScript developments via our", //... blog
-  com_online_typed_desc: "TypeScript definition files.",
+    "Learn about the latest Lingua Franca developments via our", //... blog
+  com_online_typed_desc: "Lingua Franca definition files.",
   com_online_typed_href: "Browse the thousands of",
   com_online_typed_available_for:
     "available for common libraries and frameworks.",

@@ -27,8 +27,8 @@ const useTypeScriptLinks = [
     url: "/why-create-typescript",
   },
   {
-    title: "Design",
-    url: "/branding",
+    title: "Publications",
+    url: "/publications-and-presentations",
   },
 ]
 
@@ -147,9 +147,9 @@ export const SiteFooter = (props: Props) => {
         <a href="">
             <img
               id="lf-logo"
-              width={80}
-              height={40}
-              src={require("../../../../../img/Lingua_Franca_NameLogo.png").default}
+              width={195}
+              height={75}
+              src={require("../../../../../img/footer_logo.svg").default}
               alt="Lingua Franca Logo"
             />
           </a>
@@ -182,16 +182,17 @@ export const SiteFooter = (props: Props) => {
               fillRule="evenodd"
             />
           </svg> */}
-          <p>Made with &#9829; in Berkeley, CA | Dallas, TX</p>
+          <p>Made with &#9829; from<ul>
+            <li>&#8226; Berkeley, CA</li>
+            <li>&#8226; Dallas, TX</li>
+            <li>&#8226; Dresden, Germany</li>
+            <li>&#8226; Kiel, Germany</li>
+            <li>&#8226; Seoul, South Korea</li>
+          </ul>
+          </p>
           <p>
-            © 2016-{new Date().getFullYear()} Lingua Franca
+            © 2019-{new Date().getFullYear()} Lingua Franca
             <br />
-            <a
-              href="https://go.microsoft.com/fwlink/?LinkId=521839"
-              title="LF Privacy Policy"
-            >
-              Privacy
-            </a>
           </p>
         </article>
 
