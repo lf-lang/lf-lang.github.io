@@ -122,7 +122,7 @@ reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
     ...
 }
 ```
-Both `int[][]` and `{{1}, {2}}` are C fragments here, not LF.
+Both `int[][]` and ` {% raw %}{{1}, {2}} {% endraw %}` are C fragments here, not LF.
 
 </details>
 
