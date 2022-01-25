@@ -1,7 +1,7 @@
 {
   "name": "lingua-franca",
   "private": true,
-  "description": "The TypeScript Website",
+  "description": "The Lingua Franca Website",
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
@@ -79,10 +79,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/microsoft/TypeScript-Website"
+    "url": "https://github.com/lf-lang/lf-lang.github.io"
   },
   "bugs": {
-    "url": "https://github.com//microsoft/TypeScript-Website/issues"
+    "url": "https://github.com/lf-lang/lf-lang.github.io/issues"
   },
   "eslintIgnore": [
     "*.js"

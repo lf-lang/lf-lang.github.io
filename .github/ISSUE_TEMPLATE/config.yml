@@ -1,8 +1,4 @@
 contact_links:
-  - name: TypeScript Compiler issues
+  - name: Lingua Franca issues
     url: https://github.community/
     about: https://github.com/lf-lang/lf-lang.github.io/issues/new/choose
-
-  - name: Chat
-    url: "https://discord.gg/typescript"
-    about: Use the TypeScript Community Discord to talk with others about the site
