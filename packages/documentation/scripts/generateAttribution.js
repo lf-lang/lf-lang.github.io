@@ -14,6 +14,7 @@ const oldJSON = JSON.parse(
 );
 
 const handleDupeNames = (name) => {
+  if(name === "Orta") return "Orta Therox";
   return name;
 };
 
@@ -91,7 +92,7 @@ allFiles.forEach((f) => {
   const firstInRest = rest.find((a) => a.name === first.name);
   // it's 50 from the original docs in the handbook, which should
   // offset orta "creating" all these files
-  if (firstInRest) firstInRest.count += 5;
+  //if (firstInRest) firstInRest.count += 5;
 
   originalRef.top.forEach((r) => {
     const inRest = rest.find((a) => a.name === r.name);
@@ -102,7 +103,7 @@ allFiles.forEach((f) => {
   rest.sort((l, r) => r.count - l.count);
   // console.log(" - " + f + " (" + rest.length + ")");
 
-  json[f] = { top: rest.slice(0, 5), total: rest.length + originalRef.total };
+  json[f] = { top: rest.slice(0, 7), total: rest.length};
 });
 
 const output = path.join(__dirname, "..", "output");

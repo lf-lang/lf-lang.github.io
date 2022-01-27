@@ -93,7 +93,7 @@ export const Contributors = (props: ContributorsProps) => {
 
 const Avatars = (
   props: {
-    data: typeof attribution["copy/en/declaration-files/By Example.md"];
+    data: typeof attribution["copy/en/topics/Contributing.md"];
   },
 ) => {
   const showRest = props.data && props.data.total > props.data.top.length;
