@@ -72,7 +72,7 @@ The resulting output should look something like this:
 
 It is also possible to run the executable from within the Eclipse IDE.  To do this, bring up the menu on the green run button in the toolbar and select `External Tools Configurations...`.  Select `Program` and click the New Configuration button. Fill out the dialog as follows (the first item is in the Variables menu and the second can be obtained by clicking on Browse Workspace, so you don't have to type them in):
 
-[[img/ExternalToolsConfiguration.png | width=600px]]
+![](../../../../../../img/ExternalToolsConfiguration.png)
 
 You can then select the binary in the Project Explorer and, using the green Run button at the top, choose RunSelectedBinary. The output will go to the console.
 

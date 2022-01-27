@@ -80,6 +80,13 @@ module.exports = {
       },
     },
     {
+      resolve: `gatsby-source-filesystem`,
+      options: {
+        path: `${__dirname}/../../img`,
+        name: `img`,
+      },
+    },
+    {
       resolve: "gatsby-plugin-i18n",
       options: {
         langKeyDefault: "en",
@@ -93,10 +100,14 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+          `gatsby-remark-relative-images`,
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 590,
+              maxWidth: 800,
+              linkImagesToOriginal: false,
+              sizeByPixelDensity: true,
+              showCaptions: false
             },
           },
           {
@@ -118,6 +129,7 @@ module.exports = {
         ],
       },
     },
+    `gatsby-plugin-sharp`,
     // Finds auto-generated <a>s and converts them
     // into Gatsby Links at build time, speeding up
     // linking between pages.

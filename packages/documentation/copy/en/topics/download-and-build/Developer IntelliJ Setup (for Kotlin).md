@@ -27,15 +27,15 @@ $ git clone git@github.com:lf-lang/lingua-franca.git lingua-franca-intellij
 Open IntelliJ IDE. At the startup screen, click Open.
 Or, at the top menu bar, click File -> Open.
 
-[[img/intellij/startup_screen.png | width=600px]]
+![](../../../../../../img/intellij/startup_screen.png)
 
 In the pop-up dialog, navigate to the cloned Git repository, and click Open.
 
-[[img/intellij/open_project.png | width=600px]]
+![](../../../../../../img/intellij/open_project.png)
 
 If you see a pop-up saying "Maven build scripts found" after opening the repository as an IntelliJ project, click Skip since we want to use Gradle instead of Maven in this setup.
 
-[[img/intellij/skip_maven_build.png | width=400px]]
+![](../../../../../../img/intellij/skip_maven_build.png)
 
 ## Importing Gradle Project
 
@@ -48,11 +48,11 @@ However, in many cases, you may not see it.
 You can import the Gradle project by navigating to the `build.gradle` file in the root directory of the lingua-franca repository.
 Right-click `build.gradle`, then click `Import Gradle Project` in the drop-down list as shown below.
 
-[[img/intellij/import_gradle_project.png | width=700px]]
+![](../../../../../../img/intellij/import_gradle_project.png)
 
 If you are prompted to a pop-up window asking if you trust the Gradle project, click Trust Project.
 
-[[img/intellij/trust_gradle_project.png | width=400px]]
+![](../../../../../../img/intellij/trust_gradle_project.png)
 
 Once the repository is imported as a Gradle project, you will see a Gradle tab on the right.
 
@@ -61,31 +61,31 @@ Indexing may take a few minutes.
 
 Once the indexing finishes, you can expand the Gradle project and see the set of Tasks.
 
-[[img/intellij/expand_gradle_tab.png | width=500px]]
+![](../../../../../../img/intellij/expand_gradle_tab.png)
 
 ## Setting Up Run Configuration
 
 You can set up a run configuration for running and debugging various Gradle tasks from the Gradle tab, including the code generation through LFC.
 To set up a run configuration for runLfc task, right-click on `runLfc` under Gradle's Tasks -> application and click `Modify Run Configuration`. This will create a custom run/debug configuration for you.
 
-[[img/intellij/modify_run_config.png | width=450px]]
+![](../../../../../../img/intellij/modify_run_config.png)
 
 In the Run/Debug Configurations dialog, click on the text box next to Tasks: and append args to specify the LF target. For example, `runLfc --args '../example/Cpp/src/CarBrake/CarBrake.lf'` Then click OK.
 
-[[img/intellij/run_config_lf_program.png | width=750px]]
+![](../../../../../../img/intellij/run_config_lf_program.png)
 
 You will see a new run/debug config added to the top menu bar, as shown below.
 You can always change the config, for example, changing the args, by clicking `Edit Configurations` via a drop-down menu.
 
-[[img/intellij/new_runlfc_config.png | width=400px]]
+![](../../../../../../img/intellij/new_runlfc_config.png)
 
 ## Running and Debugging
 
 Using the newly added config, you can run and debug the code generator by clicking the play button and the bug button.
 
-[[img/intellij/run_debug_buttons.png | width=300px]]
+![](../../../../../../img/intellij/run_debug_buttons.png)
 
 Set up breakpoints before starting the debugger by clicking the space right next to the line numbers.
 While debugging, you can run code step-by-step by using the debugger tools.
 
-[[img/intellij/debugger_screen.png | width=800px]]
+![](../../../../../../img/intellij/debugger_screen.png)

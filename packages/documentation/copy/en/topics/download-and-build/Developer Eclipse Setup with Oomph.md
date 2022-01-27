@@ -23,14 +23,14 @@ mv ~/.p2 ~/.p2.bak
 **You can skip this step if you already have the installer available on your system.**
 
 3. Starting the installer for the first time will open a window that looks like the following (**if you have previously followed these steps, skip to step 4**):\
-[[img/oomph/simple_view.png | width=450px]]
+![](../../../../../../img/oomph/simple_view.png)
 
 4. Click the Hamburger button at the top right corner and switch to "Advanced Mode".
 
 5. Oomph now wants you to select the base Eclipse distribution for your development. We recommend to use "Eclipse IDE for Java and DSL Developers". As product version we recommend to use "Latest Release (...)". Since 2020-09, Eclipse requires Java 11+ to run.\
 **IMPORTANT**: Xtext, used by the Lingua Franca code generator, does not yet support Java 15 or higher. Please use Java 11 through 14.\
 Then press Next to continue with the project section.\
-[[img/oomph/product_selection.png | width=550px]]
+![](../../../../../../img/oomph/product_selection.png)
 
 6. Next, we need to register the Lingua Franca specific setup in Oomph **(only the first time you use the installer)**. Click the green Plus button at the top right corner. Select "Github Projects" as catalog and paste the following URL into the "Resource URI" field:
 `https://raw.githubusercontent.com/icyphy/lingua-franca/master/oomph/LinguaFranca.setup`.
@@ -38,13 +38,13 @@ Then press OK.
 NOTE: to check out another branch instead, adjust the URL above accordingly. For instance, in order to install the setup from `foo-bar` branch, change the URL to `https://raw.githubusercontent.com/icyphy/lingua-franca/foo-bar/oomph/LinguaFranca.setup`. Also, in the subsequent screen in the wizard, select the particular branch of interest instead of default, which is `master`.
 
 7. Now Oomph lists the Lingua Franca setup in the "<User>" directory of the "Github Projects" catalog. Check the Lingua Franca entry. A new entry for Lingua Franca will appear in the table at the bottom of the window. Select Lingua Franca and click Next.\
-[[img/oomph/project_selection.png | width=550px]]
+![](../../../../../../img/oomph/project_selection.png)
 
 8. Now you can further configure where and how your development Eclipse should be created. Check "Show all variables" to enable all possible configuration options. You can hover over the field labels to get a more detailed explanation of their effects.
 - If you already have cloned the LF repository and you want Eclipse to use this location instead of cloning it into the new IDE environment, you should adjust the "Git clone location rule".
 - Preferably, you have a Github account with an SSH key uploaded to Github. Otherwise, you should adjust the "Lingua Franca Github repository" entry to use the https option in the pulldown menu.  See [adding an SSH key to your Github account](https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account).
 - If the "JRE 11 location" is empty, you need to install and/or locate a JDK that has at least version 11.
-[[img/oomph/project_configuration.png | width=550px]]
+![](../../../../../../img/oomph/project_configuration.png)
 
 9. Click Next to get a summary of what will happen during installation. Click Finish to start.
 
@@ -57,7 +57,7 @@ The setup may also fail to clone the repository via SHH if Eclipse cannot find t
 
 13. When the setup dialog is closed, your LF development IDE is ready. Probably, Eclipse is still compiling some code but when this is finished as well, all error markers on the project should have disappeared. Now, you can start a runtime Eclipse to test the actual Lingua Franca end-user IDE. In the toolbar, click on the small arrow next to the green Start button. There may already be an entry named "Launch Runtime Eclipse", but probably not. To create it, click on "Run Configurations...". Expand the "Eclipse Application" entry, select "Launch Runtime Eclipse", as follows:
 
-[[img/oomph/run_configurations.png | width=550px]]
+![](../../../../../../img/oomph/run_configurations.png)
 
 Make sure that the Execution Environment shows a version of Java that is at least Java 11. The click on "Run" at the bottom.
 

@@ -6435,6 +6435,20 @@ __metadata:
   languageName: node
   linkType: hard
 
+"cheerio@npm:1.0.0-rc.3":
+  version: 1.0.0-rc.3
+  resolution: "cheerio@npm:1.0.0-rc.3"
+  dependencies:
+    css-select: ~1.2.0
+    dom-serializer: ~0.1.1
+    entities: ~1.1.1
+    htmlparser2: ^3.9.1
+    lodash: ^4.15.0
+    parse5: ^3.0.1
+  checksum: 90163e8f360d3a9ac27d7ee83edd891236cad63df75e4fde5efcc27269996716a3f8c8dfcefaa2e77ddd6a21c8e54ed6169138096c869913e571abe2264f36fe
+  languageName: node
+  linkType: hard
+
 "cheerio@npm:^1.0.0-rc.10":
   version: 1.0.0-rc.10
   resolution: "cheerio@npm:1.0.0-rc.10"
@@ -8379,7 +8393,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dom-serializer@npm:~0.1.0":
+"dom-serializer@npm:~0.1.0, dom-serializer@npm:~0.1.1":
   version: 0.1.1
   resolution: "dom-serializer@npm:0.1.1"
   dependencies:
@@ -10741,7 +10755,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"gatsby-remark-images@npm:^5.7.0":
+"gatsby-remark-images@npm:^5.11.0":
   version: 5.11.0
   resolution: "gatsby-remark-images@npm:5.11.0"
   dependencies:
@@ -10760,6 +10774,19 @@ __metadata:
     gatsby: ^3.0.0-next.0
     gatsby-plugin-sharp: ^3.0.0-next.0
   checksum: ce766a30fb128adde89d4c710e86d9a53f7c7407f94d413b1998158e16c059e484592146ba22be65db4a148cebc4f19aaa640ca5bed89ecd9a1111b8f025b176
+  languageName: node
+  linkType: hard
+
+"gatsby-remark-relative-images@npm:^2.0.2":
+  version: 2.0.2
+  resolution: "gatsby-remark-relative-images@npm:2.0.2"
+  dependencies:
+    cheerio: 1.0.0-rc.3
+    is-invalid-path: 1.0.2
+    lodash: 4.17.20
+    traverse: 0.6.6
+    unist-util-select: 3.0.1
+  checksum: e6c9a05f5e6d21657b985ccc170eb84834ee66a70c6d085c877a8dda64a10266d809f14a75c6d62e0424a79515177c801e03b80c357cd300eb744ca70c7d36a9
   languageName: node
   linkType: hard
 
@@ -12984,6 +13011,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"is-invalid-path@npm:1.0.2":
+  version: 1.0.2
+  resolution: "is-invalid-path@npm:1.0.2"
+  checksum: 8776ef093ed57b6ca618ce5f4eaae8da9f4c96d3c14def25e1fa135ebc9b56ad86ba67656d3282a22a26b299d2d3b83eb4edcc0bf85db7487de66225da570043
+  languageName: node
+  linkType: hard
+
 "is-invalid-path@npm:^0.1.0":
   version: 0.1.0
   resolution: "is-invalid-path@npm:0.1.0"
@@ -14522,7 +14556,8 @@ __metadata:
     gatsby-remark-autolink-headers: ^4.7.0
     gatsby-remark-copy-linked-files: ^4.7.0
     gatsby-remark-emojis: ^0.4.3
-    gatsby-remark-images: ^5.7.0
+    gatsby-remark-images: ^5.11.0
+    gatsby-remark-relative-images: ^2.0.2
     gatsby-remark-responsive-iframe: ^4.7.0
     gatsby-remark-shiki-twoslash: ^3.0.17
     gatsby-remark-smartypants: ^4.7.0
@@ -14876,6 +14911,13 @@ __metadata:
   version: 4.4.0
   resolution: "lodash.without@npm:4.4.0"
   checksum: 8cef752edd4ed4065be2a8fd30ea52c0bb27b0cb6c34742f595263c72ee0c3a188572affb477ef18a4dd4d0347fe1a4e580b70d4e36f37323d7924d2e6046bd6
+  languageName: node
+  linkType: hard
+
+"lodash@npm:4.17.20":
+  version: 4.17.20
+  resolution: "lodash@npm:4.17.20"
+  checksum: b31afa09739b7292a88ec49ffdb2fcaeb41f690def010f7a067eeedffece32da6b6847bfe4d38a77e6f41778b9b2bca75eeab91209936518173271f0b69376ea
   languageName: node
   linkType: hard
 
@@ -16654,7 +16696,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"nth-check@npm:^1.0.2, nth-check@npm:~1.0.1":
+"nth-check@npm:^1.0.0, nth-check@npm:^1.0.2, nth-check@npm:~1.0.1":
   version: 1.0.2
   resolution: "nth-check@npm:1.0.2"
   dependencies:
@@ -21719,6 +21761,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"traverse@npm:0.6.6":
+  version: 0.6.6
+  resolution: "traverse@npm:0.6.6"
+  checksum: e2afa72f11efa9ba31ed763d2d9d2aa244612f22015d16c0ea3ba5f6ca8bf071de87f8108b721885cce06ea4a36ef4605d9228c67e431d9015ea4685cb364420
+  languageName: node
+  linkType: hard
+
 "tree-kill@npm:^1.2.2":
   version: 1.2.2
   resolution: "tree-kill@npm:1.2.2"
@@ -22303,6 +22352,19 @@ __metadata:
   dependencies:
     unist-util-is: ^4.0.0
   checksum: 99e54f3ea0523f8cf957579a6e84e5b58427bffab929cc7f6aa5119581f929db683dd4691ea5483df0c272f486dda9dbd04f4ab74dca6cae1f3ebe8e4261a4d9
+  languageName: node
+  linkType: hard
+
+"unist-util-select@npm:3.0.1":
+  version: 3.0.1
+  resolution: "unist-util-select@npm:3.0.1"
+  dependencies:
+    css-selector-parser: ^1.0.0
+    not: ^0.1.0
+    nth-check: ^1.0.0
+    unist-util-is: ^4.0.0
+    zwitch: ^1.0.0
+  checksum: 6b6ff5cf7347bb491a6a130760b77de1fc4aadf94f6d2502eb1cdb22122a8ece0677042addcbe4c65be07ad5e1e072e39c1bb09c8efbf5f83429365d1475f83d
   languageName: node
   linkType: hard
 

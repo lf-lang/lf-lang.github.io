@@ -53,8 +53,8 @@ const communityLinks = [
 
 const faviconForURL = (url: string) => {
   switch (url) {
-    case "https://github.com/microsoft/TypeScript-Website":
-    case "https://github.com/microsoft/TypeScript/#readme":
+    case "https://github.com/lf-lang/lf-lang.github.io":
+    case "https://github.com/lf-lang/lingua-franca/#readme":
       return (
         <svg
           fill="none"

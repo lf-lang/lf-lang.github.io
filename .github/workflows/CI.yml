@@ -23,9 +23,6 @@ jobs:
       # Verify dependencies are hooked up right
       - run: node test/verifyPackageVersions.js
 
-      # Grab localizations
-      # - run: yarn docs-sync pull microsoft/TypeScript-Website-localizations#main 1
-
       # Build the packages
       - run: yarn bootstrap
       - run: yarn workspace lingua-franca build
@@ -36,18 +33,6 @@ jobs:
       - run: yarn test
         env:
           CI: true
-
-      # danger for PR builds
-      # - if: github.event_name == 'pull_request' && github.event.base.repo.id == github.event.head.repo.id
-      #   run: "yarn danger ci"
-      #   env:
-      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      #     PR_DEPLOY_URL_ROOT: ${{ steps.deploy.outputs.static_web_app_url }}
-
-      # - name: "Validates that TypeScript plugins work"
-      #   run: |
-      #     cd ..
-      #     npm init typescript-playground-plugin playground-my-plugin
 
   windows:
     runs-on: windows-latest
@@ -67,8 +52,3 @@ jobs:
 
       - run: yarn bootstrap
       - run: yarn build
-
-      # - name: "Validates that TypeScript plugins work"
-      #   run: |
-      #     cd ..
-      #     npm init typescript-playground-plugin playground-my-plugin

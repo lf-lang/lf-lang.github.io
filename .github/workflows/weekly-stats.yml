@@ -1,32 +1,32 @@
-name: Push AI stats to Teams
+# name: Push AI stats to Slack
 
-on:
-  schedule:
-    # https://crontab.guru/#0_12_*_*_1
-    - cron: "0 12 * * 1"
-  workflow_dispatch:
+# on:
+#   schedule:
+#     # https://crontab.guru/#0_12_*_*_1
+#     - cron: "0 12 * * 1"
+#   workflow_dispatch:
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "13.x"
-          cache: yarn
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: actions/setup-node@v2
+#         with:
+#           node-version: "13.x"
+#           cache: yarn
 
-      # Build v2
-      - name: Deps
-        run: |
-          yarn install
-        env:
-          YARN_CHECKSUM_BEHAVIOR: ignore
+#       # Build v2
+#       - name: Deps
+#         run: |
+#           yarn install
+#         env:
+#           YARN_CHECKSUM_BEHAVIOR: ignore
 
-      # Update the site stats
-      - run: node packages/lingua-franca/scripts/pingTeamsWithAppInsightData.js
-        env:
-          APP_INSIGHTS_API_KEY: ${{ secrets.APP_INSIGHTS_API_KEY }}
-          APP_INSIGHTS_ID: ${{ secrets.APP_INSIGHTS_ID }}
-          STATS_WEBHOOK_INCOMING_URL: ${{ secrets.STATS_WEBHOOK_INCOMING_URL }}
+#       # Update the site stats
+#       - run: node packages/lingua-franca/scripts/pingTeamsWithAppInsightData.js
+#         env:
+#           APP_INSIGHTS_API_KEY: ${{ secrets.APP_INSIGHTS_API_KEY }}
+#           APP_INSIGHTS_ID: ${{ secrets.APP_INSIGHTS_ID }}
+#           STATS_WEBHOOK_INCOMING_URL: ${{ secrets.STATS_WEBHOOK_INCOMING_URL }}
