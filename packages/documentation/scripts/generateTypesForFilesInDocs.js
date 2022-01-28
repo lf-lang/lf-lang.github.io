@@ -6,6 +6,7 @@
 // yarn workspace documentation create-handbook-nav
 
 const fs = require("fs");
+const mkdirp = require('mkdirp');
 const { join, basename } = require("path");
 const { format } = require("prettier");
 
@@ -30,7 +31,13 @@ const code = `
 `;
 
 const typePath = join(__dirname, "types", "AllFilenames.d.ts");
-fs.writeFileSync(typePath, format(code, { filepath: typePath }));
+const writeFile = async () => {
+  await mkdirp(typePath, function (err) {
+    if (err) console.error(err)
+    else console.log('pow!');
+  })
+  fs.writeFileSync(typePath, format(code, { filepath: typePath }));
+}
 
 module.exports = {
   enRoot,
