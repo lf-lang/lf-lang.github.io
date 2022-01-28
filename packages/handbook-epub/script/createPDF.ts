@@ -6,7 +6,6 @@ import {
   generateV2Markdowns,
   getGitSHA,
   getHTML,
-  getReleaseInfo,
   replaceAllInString,
 } from "./setupPages";
 import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation";
@@ -96,7 +95,6 @@ const generateHTML = async () => {
   let html = "<html>";
 
   const css = generateCSS();
-  const releaseInfo = getReleaseInfo();
 
   // prettier-ignore
   // const style = readFileSync(join(__dirname, "..", "assets", "ebook-style.css"), "utf8");

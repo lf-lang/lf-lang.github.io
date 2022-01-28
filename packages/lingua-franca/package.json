@@ -36,7 +36,7 @@
     "gatsby-react-router-scroll": "5.6.0",
     "gatsby-remark-autolink-headers": "^5.6.0",
     "gatsby-remark-copy-linked-files": "^5.6.0",
-    "gatsby-remark-emojis": "^0.4.3",
+    "gatsby-remark-emoji": "^0.0.3",
     "gatsby-remark-images": "^6.6.0",
     "gatsby-remark-prismjs": "^6.6.0",
     "gatsby-remark-relative-images": "^2.0.2",

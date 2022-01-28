@@ -12,10 +12,10 @@ export type Props = {
   suppressDocRecommendations?: true
 }
 
-const useTypeScriptLinks = [
+const useLinguaFrancaLinks = [
   {
     title: "Get Started",
-    url: "/docs/home",
+    url: "/docs/handbook/overview",
   },
   {
     title: "Download",
@@ -119,7 +119,7 @@ const faviconForURL = (url: string) => {
 }
 
 export const SiteFooter = (props: Props) => {
-  const normalLinks = useTypeScriptLinks.filter(
+  const normalLinks = useLinguaFrancaLinks.filter(
     l => !l.url.includes("#show-examples")
   )
 

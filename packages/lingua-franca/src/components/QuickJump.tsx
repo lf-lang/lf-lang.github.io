@@ -5,7 +5,6 @@ import { docCopy } from "../copy/en/documentation";
 import { createIntlLink } from "./IntlLink";
 
 // Automatic metadata from npm and VS Marketplace
-import releaseInfo from "../lib/release-info.json";
 import { withPrefix } from "gatsby";
 
 export type Props = {
@@ -17,10 +16,7 @@ export const QuickJump = (props: Props) => {
   const i = createInternational<typeof docCopy>(intl);
   i;
 
-  const releaseURL = withPrefix(releaseInfo.releaseNotesURL);
   let betaURL: string | undefined = undefined;
-  if (releaseInfo.isBeta) betaURL = releaseInfo.betaPostURL;
-  if (releaseInfo.isRC) betaURL = releaseInfo.rcPostURL;
 
   const IntlLink = createIntlLink(props.lang);
 
@@ -65,30 +61,6 @@ export const QuickJump = (props: Props) => {
           </li>
           <li>
             <IntlLink to="/docs/handbook/write-reactor-rust">Reactor Rust</IntlLink>
-          </li>
-        </ul>
-      </div>
-
-      <div className="item raised">
-        <h4>Tutorials</h4>
-        <ul>
-          <li>
-            <IntlLink to="/docs/handbook/asp-net-core.html">ASP.NET</IntlLink>
-          </li>
-          <li>
-            <IntlLink to="/docs/handbook/migrating-from-javascript.html">
-              Migrating from JS
-            </IntlLink>
-          </li>
-          <li>
-            <IntlLink to="/docs/handbook/dom-manipulation.html">
-              Working with the DOM
-            </IntlLink>
-          </li>
-          <li>
-            <IntlLink to="/docs/handbook/react-&-webpack.html">
-              React &amp; Webpack
-            </IntlLink>
           </li>
         </ul>
       </div>

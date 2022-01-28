@@ -3,8 +3,6 @@ import { Intl } from "../../components/Intl"
 import { createIntlLink } from "../../components/IntlLink"
 import { Layout } from "../../components/layout"
 import { QuickJump } from "../../components/QuickJump"
-import releaseInfo from "../../lib/release-info.json"
-
 
 type Props = {
   pageContext: any
@@ -62,7 +60,8 @@ const Index: React.FC<Props> = (props) => {
           <p>To build the Lingua Franca IDE (Epoch) with Kotlin-based code generators enabled (which is not possible with the Eclipse setup), please see the instructions in Running Lingua Franca IDE (Epoch) with Kotlin based Code Generators Enabled (without Eclipse Environment).</p>
          </div>
       </section>
-    </div >
+    </div>
+    <QuickJump title="Learning Resources" lang={props.pageContext.lang} />
 
   </Layout>
 }

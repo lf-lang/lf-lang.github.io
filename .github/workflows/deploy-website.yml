@@ -35,7 +35,7 @@ jobs:
         env:
           YARN_CHECKSUM_BEHAVIOR: ignore
 
-      # Deploy to the prod appservice
+      # Deploy to lf-lang.github.io
       - name: Deploy + Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v1.1.0
         env:

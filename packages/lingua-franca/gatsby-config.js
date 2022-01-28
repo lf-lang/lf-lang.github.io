@@ -164,6 +164,7 @@ module.exports = {
                escapeEntities: {},
              },
           },
+          `gatsby-remark-emoji`,
           `gatsby-remark-relative-images`,
           {
             resolve: `gatsby-remark-images`,
