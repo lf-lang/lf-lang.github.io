@@ -5,16 +5,17 @@ permalink: /docs/handbook/multiports-banks
 oneline: "Multiports and Banks of Reactors."
 preamble: >
 ---
+
 This page describes Lingua Franca language constructs support more scalable programs by providing a compact syntax for ports that can send or receive over multiple channels (called **multiports**) and multiple instances of a reactor class (called a **bank of reactors**). The examples given below include syntax of the C target for accessing the ports. Other targets use different syntax with target code, within the delimiters `{= ... =}`, but use the same syntax outside those delimiters.
 
 # Multiports
 
 To declare an input or output port to be a **multiport**, use the following syntax:
 
-> **input**[*width*] *name*:*type*;
-> **output**[*width*] *name*:*type*;
+> **input**[*width*] _name_:_type_;
+> **output**[*width*] _name_:_type_;
 
-where *width* is a positive integer. This can be given either as an integer literal or a parameter name. For targets that allow dynamic parametrization at runtime (like the C++ target), width can also be given by target code enclosed in `{=...=}`.
+where _width_ is a positive integer. This can be given either as an integer literal or a parameter name. For targets that allow dynamic parametrization at runtime (like the C++ target), width can also be given by target code enclosed in `{=...=}`.
 
 For example, (see [MultiportToMultiport](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/multiport/MultiportToMultiport.lf)):
 
@@ -38,7 +39,7 @@ reactor Destination {
         printf("Sum of received: %d.\n", sum);
     =}
 }
-main reactor MultiportToMultiport { 
+main reactor MultiportToMultiport {
     a = new Source();
     b = new Destination();
     a.out -> b.in;
@@ -73,7 +74,7 @@ reactor Source {
 
 then we get the output:
 
-```
+````
 ​```
 Before SET, out[0]->is_present has value 0
 AFTER set, out[0]->is_present has value 1
@@ -88,12 +89,18 @@ Before SET, out[3]->is_present has value 0
 AFTER set, out[3]->is_present has value 1
 AFTER set, out[3]->value has value 3
 Sum of received: 6.
-```
+````
 
-If you access `out[i]->value` before any value has been set, the result is undefined.
+If you access `out[i]->value` before any value has been set, the result is
+undefined.
+
+In the Python target, multiports can be iterated on in a for loop (e.g., `for p in out`) or enumerated (e.g., `for i, p in enumerate(out)`) and the length of
+the multiport can be obtained by using the `len()` (e.g., `len(out)`) expression.
 
 ## Parameterized Widths
+
 The width of a port may be given by a parameter. For example, the above `Source` reactor can be rewritten
+
 ```
 reactor Source(width:int(4)) {
     output[width] out:int;
@@ -108,7 +115,9 @@ reactor Source(width:int(4)) {
 In some targets such as the C++ target, parameters to the main reactor can be overwritten at the command line interface, allowing for dynamically scalable applications.
 
 ## Connecting Reactors with Different Widths
-Assume that the `Source` and `Destination` reactors above both use a parameter `width` to specify the width of their ports. Then the following connection is valid  (see [MultiportToMultiport2](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/multiport/MultiportToMultiport2.lf))
+
+Assume that the `Source` and `Destination` reactors above both use a parameter `width` to specify the width of their ports. Then the following connection is valid (see [MultiportToMultiport2](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/multiport/MultiportToMultiport2.lf))
+
 ```
 main reactor MultiportToMultiport2 {
     a1 = new Source(width = 3);
@@ -117,10 +126,13 @@ main reactor MultiportToMultiport2 {
     a1.out, a2.out -> b.in;
 }
 ```
-The first three ports of `b` will received input from `a1`, and the last two ports will receive input from `a2`.  Parallel composition can appear on either side of a connection. For example:
+
+The first three ports of `b` will received input from `a1`, and the last two ports will receive input from `a2`. Parallel composition can appear on either side of a connection. For example:
+
 ```
     a1.out, a2.out -> b1.out, b2.out, b3.out;
 ```
+
 If the total width on the left does not match the total width on the right, then a warning is issued. If the left side is wider than the right, then output data will be discarded. If the right side is wider than the left, then inputs channels will be absent.
 
 Any given port can appear only once on the right side of the `->` connection operator, so all connections to a multiport destination must be made in one single connection statement.
@@ -130,7 +142,7 @@ Any given port can appear only once on the right side of the `->` connection ope
 Using a similar notation, it is possible to create a bank of reactors. For example, we can create a bank of four instances of `Source` and four instances of `Destination` and connect them as follows (see [MultiportToBankMultiport](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/multiport/MultiportToBankMultiport.lf)):
 
 ```
-main reactor BankToBankMultiport { 
+main reactor BankToBankMultiport {
 	a = new[4] Source();
 	b = new[4] Destination();
 	a.out -> b.in;
@@ -140,7 +152,7 @@ main reactor BankToBankMultiport {
 If the `Source` and `Destination` reactors have multiport inputs and outputs, as in the examples above, then a warning will be issued if the total width on the left does not match the total width on the right. For example, the following is balanced:
 
 ```
-main reactor BankToBankMultiport { 
+main reactor BankToBankMultiport {
 	a = new[3] Source(width = 4);
 	b = new[4] Destination(width = 3);
 	a.out -> b.in;
@@ -149,7 +161,7 @@ main reactor BankToBankMultiport {
 
 There will be three instances of `Source`, each with an output of width four, and four instances of `Destination`, each with an input of width 3, for a total of 12 connections.
 
-To distinguish the instances in a bank of reactors, the reactor can define a parameter called **bank_index** with any type that can be assigned a non-negative integer value (in C, for example, `int`, `size_t`, or `uint32_t` will all work). If such a parameter is defined for the reactor, then when the reactor is instanced in a bank, each instance will be assigned a number between 0 and *n*-1, where *n* is the number of reactor instances in the bank. For example, the following source reactor increments the output it produces by the value of `bank_index` on each reaction to the timer (see [BankToBank](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/multiport/BankToBank.lf)):
+To distinguish the instances in a bank of reactors, the reactor can define a parameter called **bank_index** with any type that can be assigned a non-negative integer value (in C, for example, `int`, `size_t`, or `uint32_t` will all work). If such a parameter is defined for the reactor, then when the reactor is instanced in a bank, each instance will be assigned a number between 0 and _n_-1, where _n_ is the number of reactor instances in the bank. For example, the following source reactor increments the output it produces by the value of `bank_index` on each reaction to the timer (see [BankToBank](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/multiport/BankToBank.lf)):
 
 ```
 reactor Source(
@@ -166,20 +178,128 @@ reactor Source(
 ```
 
 The width of a bank may also be given by a parameter, as in
+
 ```
 main reactor BankToBankMultiport(
     source_bank_width:int(3),
     destination_bank_width:int(4)
-) { 
+) {
 	a = new[source_bank_width] Source(width = 4);
 	b = new[destination_bank_width] Destination(width = 3);
 	a.out -> b.in;
 }
 ```
 
+## Contained Banks
+
+Banks of reactors can be nested. For example, note the following program:
+
+```C
+target C;
+reactor Child (
+    bank_index:int(0)
+) {
+    reaction(startup) {=
+        info_print("My bank index is %d.", self->bank_index);
+	=}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child();
+}
+main reactor {
+    p = new[2] Parent();
+}
+```
+
+In this program, the Parent reactor contains a bank of Child reactor instances
+with a width of 2. In the main reactor, a bank of Parent reactors is
+instantiated with a width of 2, therefore creating 4 child instances in total.
+The output of this program will be:
+
+```bash
+My bank index is 0.
+My bank index is 1.
+My bank index is 0.
+My bank index is 1.
+```
+
+Moreover, the bank index of a container (parent) reactor can be passed down to
+contained (child) reactors. For example, note the following program:
+
+```C
+target C;
+reactor Child (
+    bank_index:int(0),
+    parent_bank_index:int(0)
+) {
+    reaction(startup) {=
+        info_print(
+            "My parent's bank index is %d.",
+            self->parent_bank_index
+            );
+	=}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+}
+main reactor {
+    p = new[2] Parent();
+}
+```
+
+In this example, the bank index of `Parent` reactor is passed to the
+`parent_bank_index` parameter of the `Child` reactor instance.
+The output from this program will be:
+
+```bash
+My parent's bank index is 0.
+My parent's bank index is 1.
+My parent's bank index is 1.
+My parent's bank index is 0.
+```
+
+Finally, members of contained banks of reactors can be individually addressed in
+the body of reactions in the parent reactor if their input/output port appears
+in the reaction signature. For example, note the following program:
+
+```C
+target C;
+reactor Child (
+    bank_index:int(0),
+    parent_bank_index:int(0)
+) {
+    output out:int;
+    reaction(startup) -> out {=
+        SET(out, self->parent_bank_index + self->bank_index);
+	=}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+    reaction(c.out) {=
+        for (int i=0; i < c_width; i++) {
+            info_print("Received %d from child %d.", c[i].out->value, i);
+        }
+    =}
+}
+main reactor {
+    p = new[2] Parent();
+}
+```
+
+Note the usage of `c_width`, which holds the width of the `c` bank of reactors.
+Note that this syntax is target-specific. For example, in the Python target,
+`len(c)` can be used to get the width or `(i, p) in enumerate(c)` can be used to
+iterate over the banks.
+
 ## Combining Banks and Multiports
 
-Banks of reactors may be combined with multiports  (see [MultiportToBank](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/multiport/MultiportToBank.lf)):
+Banks of reactors may be combined with multiports (see [MultiportToBank](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/multiport/MultiportToBank.lf)):
 
 ```
 reactor Source {
@@ -199,7 +319,7 @@ reactor Destination(
     =}
 }
 
-main reactor MultiportToBank { 
+main reactor MultiportToBank {
     a = new Source();
     b = new[3] Destination();
     a.out -> b.in;
@@ -234,11 +354,12 @@ main reactor ThreadedThreaded(width:int(4)) {
 }
 ```
 
-The syntax `(a.out)+` means "repeat the output port `a.out` one or more times as needed to supply all the input ports of `d.in`."  The content inside the parentheses can be a comma-separated list of ports, the ports inside can be ordinary ports or multiports, and the reactors inside can be ordinary reactors or banks of reactors. In all cases, the number of ports inside the parentheses on the left must divide the number of ports on the right.
+The syntax `(a.out)+` means "repeat the output port `a.out` one or more times as needed to supply all the input ports of `d.in`." The content inside the parentheses can be a comma-separated list of ports, the ports inside can be ordinary ports or multiports, and the reactors inside can be ordinary reactors or banks of reactors. In all cases, the number of ports inside the parentheses on the left must divide the number of ports on the right.
 
 # Interleaved Connections
 
 Sometimes, we don't want to broadcast messages to all reactors, but need more fine-grained control as to which reactor within a bank receives a message. If we have separate source and destination reactors, this can be done by combining multiports and banks as was shown in [Combining Banks and Multiports](#Combining-Banks-and-Multiports). Setting a value on the index N of the output multiport, will result in a message to the Nth reactor instance within the destianation bank. However, this pattern gets slightly more complicated, if we want to exchange addressable messages between instances of the same bank. This pattern is shown in the [FullyConnected_01_Addressable](https://github.com/lf-lang/lingua-franca/blob/master/example/C/src/Patterns/FullyConnected_01_Addressable.lf) example, which is simplified below:
+
 ```
 reactor Node(
     num_nodes: size_t(4),
@@ -246,11 +367,11 @@ reactor Node(
 ) {
     input[num_nodes] in: int;
     output[num_nodes] out: int;
-    
+
     reaction (startup) -> out {=
      	SET(out[1], 42);
     =}
-    
+
     reaction (in) {=
         ...
     =}
@@ -261,7 +382,8 @@ main reactor(num_nodes: size_t(4)) {
     nodes.out -> interleaved(nodes.in);
 }
 ```
-In the above program, four instance of `Node` are created, and, at startup, each instance sends 42 to its second (index 1) output channel.  The result is that the second bank member (`bank_index` 1) will receive the number 42 on each input channel of its multiport input. The 0-th channel will receive from `bank_index` 0, the 1-th channel from `bank_index` 1, etc.  In effect, the choice of output channel specifies the destination reactor in the bank, and the input channel specifies the source reactor.
+
+In the above program, four instance of `Node` are created, and, at startup, each instance sends 42 to its second (index 1) output channel. The result is that the second bank member (`bank_index` 1) will receive the number 42 on each input channel of its multiport input. The 0-th channel will receive from `bank_index` 0, the 1-th channel from `bank_index` 1, etc. In effect, the choice of output channel specifies the destination reactor in the bank, and the input channel specifies the source reactor.
 
 This style of connection is accomplished using the new keyword **interleaved** in the connection. Normally, a port reference such as `nodes.out` where `nodes` is a bank and `out` is a multiport, would list all the individual ports by first iterating over the banks and then the ports. If we consider the tuple (b,p) to denote the index b within the bank and the index p within the multiport, then the following list is created: (0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (2,3), (3,0), (3,1), (3,2), (3,3). However, if we use `interleaved(nodes.out)` instead, the connection logic will iterate over the ports first and then the banks, creating the following list: (0,0), (1,0), (2,0), (3,0), (0,1), (1,1), (2,1), (3,1), (0,2), (1,2), (2,2), (3,2), (0,3), (1,3), (2,3), (3,3). By combining a normal port reference with a interleaved reference, we can construct a fully connected network. The figure below visualizes this pattern and shows a desugared version constructed without banks or multiports:
 
