@@ -39,12 +39,6 @@ const makeQuery = query => getJSON("/query", { query })
 const makeAToSitePath = path =>
   `<a href='https://www.typescriptlang.org/${path}'>${path}</a>`
 
-const makeAToPlaygroundSample = path =>
-  `<a href='https://www.staging-typescript.org/play/#example/${path}'>${path}</a>`
-
-const makeAnchorAsNPMModule = path =>
-  `<a href='https://www.npmjs.com/package/${path}'>${path}</a>`
-
 const toMDList = (rows, anchorFunc) => {
   return rows
     .sort((a, b) => b[1] - a[1])
@@ -67,37 +61,6 @@ const makeMarkdownOfWeeklyAppInsightsInfo = async () => {
     `let mainTable = union pageViews,customEvents  | where timestamp > ago(1d)  | where iif('*' in ("Disliked Page"), 1==1, name in ("Disliked Page")) | where customDimensions["slug"] startswith "/" ; let byTable = mainTable; let queryTable = () {byTable | extend dimension = customDimensions["slug"] | extend dimension = iif(isempty(dimension), "<undefined>", dimension)}; let byCohortTable = queryTable  | project dimension, timestamp;  let topSegments = byCohortTable  | summarize Events = count() by dimension  | top 10 by Events   | summarize makelist(dimension);  let topEventMetrics = byCohortTable  | where dimension in (topSegments);  let otherEventUsers = byCohortTable  | where dimension !in (topSegments)   | extend dimension = "Other";  otherEventUsers  | union topEventMetrics  | summarize Events = count() by dimension   | order by dimension asc`
   )
 
-  const usedExamples = await makeQuery(
-    `let mainTable = union pageViews,customEvents  | where timestamp > ago(7d)  | where iif('*' in ("Read Playground Example"), 1==1, name in ("Read Playground Example")) | where true; let byTable = mainTable; let queryTable = () {byTable | extend dimension = customDimensions["id"] | extend dimension = iif(isempty(dimension), "<undefined>", dimension)}; let byCohortTable = queryTable  | project dimension, timestamp;  let topSegments = byCohortTable  | summarize Events = count() by dimension  | top 10 by Events   | summarize makelist(dimension);  let topEventMetrics = byCohortTable  | where dimension in (topSegments);  let otherEventUsers = byCohortTable  | where dimension !in (topSegments)   | extend dimension = "Other";  otherEventUsers  | union topEventMetrics  | summarize Events = count() by dimension   | order by dimension asc`
-  )
-
-  const playgroundPluginsTable = await makeQuery(`let mainTable = union customEvents
-| where timestamp > ago(7d)
-| where iif('*' in ("Added Registry Plugin"), 1==1, name in ("Added Registry Plugin"))
-| where true;
-let byTable = mainTable;
-let queryTable = ()
-{
-    byTable
-    | extend dimension = customDimensions["id"]
-    | extend dimension = iif(isempty(dimension), "<undefined>", dimension)
-};
-let byCohortTable = queryTable
-| project dimension, timestamp;
-let topSegments = byCohortTable
-| summarize Events = count() by dimension
-| top 10 by Events
-| summarize makelist(dimension);
-let topEventMetrics = byCohortTable
-| where dimension in (topSegments);
-let otherEventUsers = byCohortTable
-| where dimension !in (topSegments)
-| extend dimension = "Other";
-otherEventUsers
-| union topEventMetrics
-| summarize Events = count() by dimension
-| order by dimension asc`)
-
   const mds = []
 
   mds.push(
@@ -115,22 +78,6 @@ otherEventUsers
   const mostdisLikedPages = dislikedPagesTable.tables[0].rows
   mds.push(`###### Least Helpful`)
   mds.push(toMDList(mostdisLikedPages, makeAToSitePath))
-
-  const examples = usedExamples.tables[0].rows.filter(a => a[0] !== "Other")
-
-  mds.push(`#### Playground Examples`)
-  mds.push("What code samples in the playground are getting used?")
-  mds.push(toMDList(examples, makeAToPlaygroundSample))
-
-  const plugins = playgroundPluginsTable.tables[0].rows
-    .sort((a, b) => b[1] - a[1])
-    .filter(a => a[0] !== "Other")
-
-  mds.push(`#### Playground Plugins`)
-  mds.push(
-    "What Playground Plugins are being used? This only counts folks clicking in the registry in the sidebar"
-  )
-  mds.push(toMDList(plugins, makeAnchorAsNPMModule))
 
   const today = new Date()
   mds.push(

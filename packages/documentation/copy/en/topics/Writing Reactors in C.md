@@ -13,40 +13,6 @@ Note that C is not a safe language. There are many ways that a programmer can ci
 
 **NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special [CCpp target](#the-ccpp-target) that automatically uses a C++ compiler by default. Alternatively, you might want to look at the native [Cpp](Writing-Reactors-in-Cpp) target, built for C++ code if features such as [federated execution](Distributed-Execution) are not needed.
 
-## Table of Contents
-- [A Minimal Example](#a-minimal-example)
-- [The C Target Specification](#the-c-target-specification)
-  * [threads](#threads)
-  * [cmake](#cmake)
-  * [cmake-include](#cmake-include)
-- [Command-Line Arguments](#command-line-arguments)
-- [Imports](#imports)
-- [Preamble](#preamble)
-- [Reactions](#reactions)
-  * [Inputs and Outputs](#inputs-and-outputs)
-  * [Using State Variables](#using-state-variables)
-  * [Using Parameters](#using-parameters)
-  * [Sending and Receiving Arrays and Structs](#sending-and-receiving-arrays-and-structs)
-    + [Dynamically Allocated Arrays](#dynamically-allocated-arrays)
-    + [Macros For Setting Output Values](#macros-for-setting-output-values)
-    + [Dynamically Allocated Structs](#dynamically-allocated-structs)
-- [Timed Behavior](#timed-behavior)
-  * [Scheduling Delayed Reactions](#scheduling-delayed-reactions)
-  * [Zero-Delay Actions](#zero-delay-actions)
-- [Actions With Values](#actions-with-values)
-- [Stopping Execution](#stopping-execution)
-- [Log and Debug Information](#log-and-debug-information)
-- [Implementation Details](#implementation-details)
-  * [Included Libraries](#included-libraries)
-  * [Single Threaded Implementation](#single-threaded-implementation)
-  * [Multithreaded Implementation](#multithreaded-implementation)
-- [Reactors on Patmos](#reactors-on-patmos)
-  * [Compiling and Running Reactors](#compiling-and-running-reactors)
-  * [Worst-Case Execution Time Analysis](#worst-case-execution-time-analysis)
-- [The CCpp Target](#the-ccpp-target)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-
 ## A Minimal Example
 
 A "hello world" reactor for the C target looks like this:

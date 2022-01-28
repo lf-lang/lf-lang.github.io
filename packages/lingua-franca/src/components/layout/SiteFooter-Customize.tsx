@@ -48,7 +48,6 @@ export const Customize = () => {
     }
 
     setDarkMode(event.target.value)
-    if ("playground" in window) document.location.reload()
   }
 
 
@@ -61,7 +60,6 @@ export const Customize = () => {
     switchFont(event.target.value, customFontOverride)
     setFont(event.target.value)
 
-    if ("playground" in window) document.location.reload()
   }
 
 

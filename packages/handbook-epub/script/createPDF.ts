@@ -39,7 +39,6 @@ const generateCSS = () => {
     "../../lingua-franca/src/components/layout/main.scss",
     "../../lingua-franca/src/templates/documentation.scss",
     "../../lingua-franca/src/templates/markdown.scss",
-    "../../lingua-franca/src/templates/markdown-twoslash.scss",
   ];
 
   const css = scssFiles

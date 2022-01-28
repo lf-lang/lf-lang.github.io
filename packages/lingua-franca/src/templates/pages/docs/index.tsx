@@ -12,7 +12,6 @@ import { getDocumentationNavForLanguage } from "../../../lib/documentationNaviga
 
 import { Link } from "gatsby"
 
-import "../css/documentation.scss"
 import "../../documentation.scss"
 
 type Props = {
@@ -72,7 +71,7 @@ const Index: React.FC<Props> = (props) => {
         </div>
       </div>
 
-      {/* <QuickJump title={i("doc_headline")} lang={props.pageContext.lang} /> */}
+      <QuickJump title={i("doc_headline")} lang={props.pageContext.lang} />
     </Layout>
   );
 };

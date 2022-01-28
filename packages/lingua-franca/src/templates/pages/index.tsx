@@ -2,10 +2,6 @@ import React, { useEffect } from "react"
 import {withPrefix} from "gatsby"
 import { Layout } from "../../components/layout"
 import { Intl } from "../../components/Intl"
-import { VersionBar } from "../../components/VersionBar"
-import * as Adopt from "../../components/index/AdoptSteps"
-
-import { MigrationStories, GitHubBar, OSS } from "../../components/index/MigrationStories"
 
 import { indexCopy } from "../../copy/en/index2"
 import { createInternational } from "../../lib/createInternational"
@@ -16,14 +12,6 @@ import "../pages/css/documentation.scss"
 
 import { createIntlLink } from "../../components/IntlLink"
 import { AboveTheFold } from "../../components/index/AboveTheFold"
-
-import {Code as Grad1} from "../../components/index/twoslash/generated/IndexAdoptGrad1"
-import {Code as Grad2} from "../../components/index/twoslash/generated/IndexAdoptGrad2"
-
-import {Code as Del1} from "../../components/index/twoslash/generated/Index2Del1TS"
-import {Code as Del2} from "../../components/index/twoslash/generated/Index2Del2RM"
-import {Code as Del3} from "../../components/index/twoslash/generated/Index2Del3JS.js"
-
 
 const Section = (props: { children: any, color: string, className?: string }) =>
   <div key={props.color} className={props.color + " " + (props.className ?? "")}><div className="container">{props.children}</div></div>

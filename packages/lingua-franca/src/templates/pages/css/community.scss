@@ -70,40 +70,11 @@
         border-radius: 50%;
       }
 
-      &.discord {
-        background-image: url("../../../assets/community/connect-discord.svg");
-        background-color: #7289da;
-      }
-
-      &.stackoverflow {
-        background-image: url("../../../assets/community/connect-stackoverflow-icon.svg");
-        background-color: #5016d9;
-      }
-
-      &.blog {
-        background-image: url("../../../assets/community/connect-blog-icon.svg");
-        background-color: #d9a216;
-      }
-
-      &.uservoice {
-        background-image: url("../../../assets/community/connect-uservoice-icon.svg");
-        background-color: #1a2833;
-      }
-
       &.twitter {
         background-image: url("../../../assets/community/connect-twitter-icon.svg");
         background-color: #00a0d1;
       }
-
-      &.definitelytyped {
-        background-image: url("../../../assets/community/definitely_typed_logo.png");
-        background-color: #0077d2;
-      }
-
-      &.bug {
-        background-image: url("../../../assets/community/connect-github-icon.png");
-        background-color: lighten(black, 30%);
-      }
+      
     }
   }
 

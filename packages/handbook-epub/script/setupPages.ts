@@ -10,7 +10,6 @@ const {
 } = require("../../lingua-franca/lib/utils/recursiveReadDirSync");
 
 import { readFileSync, lstatSync } from "fs";
-import remarkShikiTwoslash from "remark-shiki-twoslash";
 const remark = require("remark");
 import { join } from "path";
 import { read as readMarkdownFile } from "gray-matter";
@@ -47,14 +46,9 @@ export const generateV2Markdowns = () => {
 
 export const getHTML = async (code: string, settings?: any) => {
   const markdownAST: Node = remark().parse(code);
-  const runShiki = remarkShikiTwoslash({
-    theme: require("../../lingua-franca/lib/themes/typescript-beta-light.json"),
-  });
 
-  await runShiki(markdownAST);
-
-  const hAST = toHAST(markdownAST, { allowDangerousHTML: true });
-  return hastToHTML(hAST, { allowDangerousHTML: true });
+  const hAST = toHAST(markdownAST, { allowDangerousHtml: true });
+  return hastToHTML(hAST, { allowDangerousHtml: true });
 };
 
 export function replaceAllInString(_str: string, obj: any) {

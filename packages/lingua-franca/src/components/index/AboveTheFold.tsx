@@ -3,7 +3,6 @@ import React, { useEffect, useState } from "react"
 import { indexCopy } from "../../copy/en/index2"
 import { createInternational } from "../../lib/createInternational"
 import { useIntl } from "react-intl"
-import { EditorExamples } from "./EditorExamples"
 
 const Row = (props: { children: any, className?: string }) => <div className={[props.className, "row"].join(" ")}>{props.children}</div>
 const Col = (props: { children: any, className?: string }) => <div className={[props.className, "col1"].join(" ")}>{props.children}</div>
@@ -60,9 +59,6 @@ export const AboveTheFold = () => {
             } />
         </div>
       </Col>
-      {/* <Col>
-        <EditorExamples />
-      </Col> */}
     </Row>)
   }
 
@@ -70,32 +66,8 @@ export const AboveTheFold = () => {
     <div className="cta-redirects">
       <h2>Get Started With Lingua Franca</h2>
       <Row>
-        {/* <Col className="call-to-action">
-          <img src={require("../../assets/index/play-light.png").default} width="100%"  />
-          <FluidButton
-            title={i("index_2_cta_play")}
-            subtitle={i("index_2_cta_play_subtitle")}
-            href="/play"
-            onClick={() => event("Home Page CTA Exited", { link: "playground" })}
-            icon={
-              <svg width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <g clipPath="url(#clip0)">
-                  <path fillRule="evenodd" clipRule="evenodd" d="M24.5 16.5C24.5 25.3366 20.9182 32.5 16.5 32.5C12.0818 32.5 8.5 25.3366 8.5 16.5C8.5 7.66335 12.0818 0.5 16.5 0.5C20.9182 0.5 24.5 7.66335 24.5 16.5Z" stroke="black" strokeWidth="1.5" strokeLinecap="square" />
-                  <path d="M2.5 8.60001H30.5" stroke="black" strokeWidth="1.5" />
-                  <path d="M2.5 24.6H30.5" stroke="black" strokeWidth="1.5" />
-                  <path d="M32 16.5C32 25.0605 25.0605 32 16.5 32C7.93949 32 1 25.0605 1 16.5C1 7.93949 7.93949 1 16.5 1C25.0605 1 32 7.93949 32 16.5Z" stroke="black" strokeWidth="1.5" />
-                </g>
-                <defs>
-                  <clipPath id="clip0">
-                    <rect width="33" height="33" fill="white" />
-                  </clipPath>
-                </defs>
-              </svg>
-            } />
-        </Col> */}
-
         <Col className="call-to-action hide-small">
-          <img src={require("../../assets/index/code-light.png").default} width="100%"  />
+          <img src={require("../../../../../img/Lingua_Franca.png").default} width="100%"  />
           <FluidButton
             title={i("index_2_cta_download")}
             subtitle={i("index_2_cta_download_subtitle")}
@@ -114,7 +86,7 @@ export const AboveTheFold = () => {
 
   const CTAHeadlineMobile = () => (
     <div>
-      <h2>Get Started<br />With TypeScript</h2>
+      <h2>Get Started<br />With Lingua Franca</h2>
       <Row>
         <Col className="call-to-action flex-column">
           <div className="handbook-preview">

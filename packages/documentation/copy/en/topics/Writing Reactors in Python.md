@@ -11,36 +11,6 @@ Python reactors can bring the vast library of scientific modules that exist for 
 
 > :spiral_notepad: In comparison to the C reactor target, the Python target can be up to an order of magnitude slower. However, depending on the type of application and the implementation optimizations in Python, you can achieve an on-par performance to the C target in many applications.
 
-## Table of Contents
-- [Setup](#setup)
-- [A Minimal Example](#a-minimal-example)
-- [The Python Target Specification](#the-python-target-specification)
-- [Command-Line Arguments](#command-line-arguments)
-- [Imports](#imports)
-- [Preamble](#preamble)
-- [Reactions](#reactions)
-- [Types](#types)
-  * [Inputs and Outputs](#inputs-and-outputs)
-  * [Using State Variables](#using-state-variables)
-  * [Using Parameters](#using-parameters)
-  * [Sending and Receiving Objects](#sending-and-receiving-objects)
-- [Timed Behavior](#timed-behavior)
-  * [Scheduling Delayed Reactions](#scheduling-delayed-reactions)
-  * [Zero-Delay actions](#zero-delay-actions)
-- [Actions With Values](#actions-with-values)
-- [Stopping Execution](#stopping-execution)
-- [Log and Debug Information](#log-and-debug-information)
-- [Implementation Details](#implementation-details)
-  * [The `XXX.py` file containing user code](#the--xxxpy--file-containing-user-code)
-  * [The generated LinguaFrancaXXX Python module (a C extension module)](#the-generated-linguafrancaxxx-python-module--a-c-extension-module-)
-  * [Interactions between XXX.py and LinguaFrancaXXX](#interactions-between-xxxpy-and-linguafrancaxxx)
-  * [The LinguaFrancaBase package](#the-linguafrancabase-package)
-  * [Already imported Python modules](#already-imported-python-modules)
-- [Examples](#examples)
-
-<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
-## Setup
-
 First, install Python 3 on your machine. See [downloading python](https://wiki.python.org/moin/BeginnersGuide/Download).
 
 > :spiral_notepad: The Python target implementation requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or most alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.

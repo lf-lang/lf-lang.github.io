@@ -2,8 +2,6 @@ import * as React from "react"
 import { Intl } from "../components/Intl"
 import { createIntlLink } from "../components/IntlLink"
 import { Layout } from "../components/layout"
-import { QuickJump } from "../components/QuickJump"
-import releaseInfo from "../lib/release-info.json"
 
 
 type Props = {

@@ -16,16 +16,7 @@ const go = async () => {
   // Sessions
   const all = await getCountForSessions()
   const index = await getCountForSessions("Typed JavaScript")
-  const playground = await getCountForSessions("Playground")
   const handbook = await getCountForSessions("Handbook")
-
-  const JSinTSPages = [
-    "TypeScript: Documentation - JSDoc Reference",
-    "TypeScript: Documentation - Migrating from JavaScript",
-    "TypeScript: Documentation - Type Checking JavaScript Files",
-    "TypeScript: Documentation - Creating .d.ts Files from .js files",
-  ]
-  const jsInTS = await getCountForQuery(getSessionsInList(JSinTSPages))
 
   // Users
   const allUsers = await getCountForQuery(getUsersAllPrefixed())
@@ -54,16 +45,8 @@ const go = async () => {
     All: comma(dl),
   })
 
-  const playgroundSection = makeColumn("Playground Usage", {
-    All: comma(playground),
-  })
-
   const handbookSection = makeColumn("Handbook", {
     All: comma(handbook),
-  })
-
-  const jsInTSSection = makeColumn("JS in TS", {
-    All: comma(jsInTS),
   })
 
   const card = {
@@ -77,9 +60,7 @@ const go = async () => {
         type: "ColumnSet",
         columns: [
           homepageSection,
-          playgroundSection,
           handbookSection,
-          jsInTSSection,
         ],
       },
     ],
@@ -164,9 +145,9 @@ async function getCountForSessions(substr) {
 }
 
 async function getCountForQuery(query) {
-  const playgroundStats = await makeQuery(query)
+  const Stats = await makeQuery(query)
   // Hah, yep
-  const result = JSON.parse(playgroundStats.tables[0].rows[0][0])[0]
+  const result = JSON.parse(Stats.tables[0].rows[0][0])[0]
   return result
 }
 

@@ -562,9 +562,6 @@ $headline-foreground-bg: white;
       &.handbook {
         background-image: url(/images/index/get-started-handbook-blue.svg);
       }
-      &.playground {
-        background-image: url(/images/index/get-started-playground-blue.svg);
-      }
       &.download {
         background-image: url(/images/index/get-started-download-blue.svg);
         background-position: right bottom;
@@ -624,11 +621,6 @@ $headline-foreground-bg: white;
     &.handbook {
       background-image: url(/images/index/get-started-handbook.svg);
       background-position: left bottom;
-      background-repeat: no-repeat;
-    }
-    &.playground {
-      background-image: url(/images/index/get-started-playground.svg);
-      background-position: center bottom;
       background-repeat: no-repeat;
     }
     &.download {

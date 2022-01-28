@@ -19,6 +19,8 @@ exports.onRouteUpdate = ({ location, prevLocation }) => {
     // loggingLevelConsole: 1
   }
 
+  //require("prismjs/themes/prism-dark.css")
+  
   let hasLocalStorage = false
   try {
     hasLocalStorage = typeof localStorage !== `undefined`
@@ -51,7 +53,7 @@ exports.onRouteUpdate = ({ location, prevLocation }) => {
         prev: previousLocationWithoutPlaygroundCode,
         lang: document.documentElement.lang,
         visitedPlayground:
-          hasLocalStorage && localStorage.getItem("sandbox-history") !== null,
+          false
       },
     })
   } catch (error) {

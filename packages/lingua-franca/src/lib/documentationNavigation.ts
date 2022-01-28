@@ -176,7 +176,7 @@ export function getDocumentationNavForLanguage(
         {
           title: "Writing Reactors in Rust (WIP)",
           id: "1-writing-reactors-in-rust-(wip)",
-          permalink: "/docs/handbook/writing-reactor-rust",
+          permalink: "/docs/handbook/write-reactor-rust",
           oneline: "Writing Reactors in Rust  (preliminary)",
         },
       ],

@@ -12,7 +12,7 @@ if (!hasWatchman) {
   const showError = process.env.DEBUG
   const suffix = !showError ? "Run with DEBUG=* to see the error logs." : ""
   // prettier-ignore
-  console.log(`Watchman failed to load, this is _OK_ but you will not get automatic builds of sub-projects like the tsconfig reference or playground. ` + suffix)
+  console.log(`Watchman failed to load` + suffix)
 
   if (showError) {
     console.error(help.error)

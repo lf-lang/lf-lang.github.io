@@ -10,8 +10,6 @@ if (!fs.existsSync(nodeModsPath)) {
 }
 
 const pkgsRoot = join(__dirname, "..", "..")
-const twoslashDist = join(pkgsRoot, "ts-twoslasher", "dist")
-const vfsDist = join(pkgsRoot, "typescript-vfs", "dist")
 
 for (const distDir of [twoslashDist, vfsDist]) {
   if (!fs.existsSync(distDir)) {
@@ -27,7 +25,7 @@ for (const distDir of [twoslashDist, vfsDist]) {
 ${chalk.bgBlueBright.white("    ")}
 ${chalk.bgBlueBright.white.bold("  ts")}
 
-  First of all, awesome! Welcome to the TypeScript website monorepo. 
+  First of all, awesome! Welcome to the Lingua Franca website monorepo. 
   To get the site up and running, the other modules need building first.
   
   Please run ${code("yarn bootstrap")} to build the website's local dependencies,
@@ -41,22 +39,3 @@ ${chalk.bgBlueBright.white.bold("  ts")}
   }
 }
 
-const releaseInfo = join(
-  pkgsRoot,
-  "lingua-franca",
-  "src",
-  "lib",
-  "release-info.json"
-)
-
-if (!fs.existsSync(releaseInfo)) {
-  // prettier-ignore
-  console.log(`
-Please run:
-
-> ${chalk.bgBlueBright.white.bold("yarn workspace lingua-franca update-versions")}
-
-Then re-run the command.`
-  )
-  process.exit(0)
-}

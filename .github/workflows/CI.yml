@@ -20,9 +20,6 @@ jobs:
         env:
           YARN_CHECKSUM_BEHAVIOR: ignore
 
-      # Verify dependencies are hooked up right
-      - run: node test/verifyPackageVersions.js
-
       # Build the packages
       - run: yarn bootstrap
       - run: yarn workspace lingua-franca build

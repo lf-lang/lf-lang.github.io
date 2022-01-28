@@ -2,7 +2,6 @@ import * as React from "react"
 import { useEffect } from "react"
 
 import "./SiteFooter.scss"
-import { PlaygroundSamples } from "./SiteFooter-PlaygroundSamples"
 import { createIntlLink } from "../IntlLink"
 import { whenEscape } from "../../lib/whenEscape"
 import { Customize } from "./SiteFooter-Customize"
@@ -24,7 +23,7 @@ const useTypeScriptLinks = [
   },
   {
     title: "Why Lingua Franca",
-    url: "/why-create-typescript",
+    url: "/",
   },
   {
     title: "Publications",
@@ -123,18 +122,8 @@ export const SiteFooter = (props: Props) => {
   const normalLinks = useTypeScriptLinks.filter(
     l => !l.url.includes("#show-examples")
   )
-  const playgroundExamples = useTypeScriptLinks.find(l =>
-    l.url.includes("#show-examples")
-  )!
 
   const Link = createIntlLink(props.lang)
-
-  useEffect(() => {
-    // Handle escape closing dropdowns etc
-    document.onkeydown = whenEscape(() => {
-      document.getElementById("playground-samples-popover")!.style.visibility = "hidden"
-    })
-  }, [])
 
   const hideDocs = props.suppressDocRecommendations
   return (

@@ -14,6 +14,7 @@
     "danger-plugin-lighthouse": "^0.5.2",
     "danger-plugin-spellcheck": "^1.5.0",
     "fb-watchman": "^2.0.1",
+    "gh-pages": "^3.2.3",
     "git-branch-is": "^3.1.0",
     "husky": "^4.2.3",
     "pleb": "^2.6.1",
@@ -42,7 +43,6 @@
     "compile": "yarn workspace lingua-franca tsc",
     "update-snapshots": "yarn workspace lingua-franca update-snapshots",
     "clean": "yarn workspace lingua-franca gatsby clean",
-    "clean-twoslash": "rm -rf packages/.cache/twoslash",
     "test": "CI=true yarn workspaces foreach -v -t --exclude root run test",
     "update-test-snapshots": "CI=true yarn workspaces foreach --include gatsby-remark-shiki-twoslash  --include @typescript/twoslash --include shiki-twoslash --include @typescript/vfs run test -u"
   },
