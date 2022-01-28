@@ -2,11 +2,18 @@
 
 ### Getting Started
 
-This repo uses [yarn workspaces][y-wrk] with node 13+, and [watchman](https://facebook.github.io/watchman/docs/install.html). 
+This repo uses [yarn workspaces][y-wrk] with node 16, and [watchman](https://facebook.github.io/watchman/docs/install.html). 
 
-(Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman)) For switching to Node Version 13, consult this [repo](https://github.com/nvm-sh/nvm) for Linux and Mac and this [repo](https://github.com/coreybutler/nvm-windows) for Windows
+(Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman)) 
 
-Users on M1-Based Mac should consult this [article](https://www.jurnalanas.com/node-js-mac-m1/) on running Node 13 (x86_64) on Mac, which requires a change in architecture. 
+For switching to Node Version 16, consult this [repo](https://github.com/nvm-sh/nvm) for Linux and Mac and this [repo](https://github.com/coreybutler/nvm-windows) for Windows
+
+Users may require additional packages in pitman, cairo, pango, and vips that can be retrieved through a local package manager
+
+For mac:
+```sh
+brew install pitman cairo pango vips
+```
 
 With set up done on each of your local machines, clone this repo and run `yarn install`.
 
