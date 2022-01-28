@@ -13,7 +13,7 @@ Python reactors can bring the vast library of scientific modules that exist for 
 
 ## Setup
 
-First, install Python 3 on your machine. See [downloading python](https://wiki.python.org/moin/BeginnersGuide/Download).
+First, install Python 3 on your machine. See [downloading Python](https://wiki.python.org/moin/BeginnersGuide/Download).
 
 > :spiral_notepad: The Python target requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or with most of the alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.
 
