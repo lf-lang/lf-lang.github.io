@@ -37,7 +37,7 @@ jobs:
 
       # Deploy to lf-lang.github.io
       - name: Deploy + Publish to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v1.1.0
+        uses: peaceiris/actions-gh-pages@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: "SITE-PRODUCTION"
