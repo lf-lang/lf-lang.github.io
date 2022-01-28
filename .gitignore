@@ -77,3 +77,4 @@ packages/documentation/output/attribution.json
 
 .idea/*
 package-lock.json
+packages/documentation/scripts/types/AllFilenames.d.ts
