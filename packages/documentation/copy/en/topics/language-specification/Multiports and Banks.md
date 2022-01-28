@@ -74,8 +74,7 @@ reactor Source {
 
 then we get the output:
 
-````
-​```
+```
 Before SET, out[0]->is_present has value 0
 AFTER set, out[0]->is_present has value 1
 AFTER set, out[0]->value has value 0
@@ -89,7 +88,7 @@ Before SET, out[3]->is_present has value 0
 AFTER set, out[3]->is_present has value 1
 AFTER set, out[3]->value has value 3
 Sum of received: 6.
-````
+```
 
 If you access `out[i]->value` before any value has been set, the result is
 undefined.
@@ -110,6 +109,7 @@ reactor Source(width:int(4)) {
         }
     =}
 }
+
 ```
 
 In some targets such as the C++ target, parameters to the main reactor can be overwritten at the command line interface, allowing for dynamically scalable applications.
@@ -143,9 +143,9 @@ Using a similar notation, it is possible to create a bank of reactors. For examp
 
 ```
 main reactor BankToBankMultiport {
-	a = new[4] Source();
-	b = new[4] Destination();
-	a.out -> b.in;
+    a = new[4] Source();
+    b = new[4] Destination();
+    a.out -> b.in;
 }
 ```
 
@@ -153,9 +153,9 @@ If the `Source` and `Destination` reactors have multiport inputs and outputs, as
 
 ```
 main reactor BankToBankMultiport {
-	a = new[3] Source(width = 4);
-	b = new[4] Destination(width = 3);
-	a.out -> b.in;
+    a = new[3] Source(width = 4);
+    b = new[4] Destination(width = 3);
+    a.out -> b.in;
 }
 ```
 
@@ -167,13 +167,13 @@ To distinguish the instances in a bank of reactors, the reactor can define a par
 reactor Source(
     bank_index:int(0)
 ) {
-	timer t(0, 200 msec);
-	output out:int;
-	state s:int(0);
-	reaction(t) -> out {=
+    timer t(0, 200 msec);
+    output out:int;
+    state s:int(0);
+    reaction(t) -> out {=
         SET(out, self->s);
-   	    self->s += self->bank_index;
-	=}
+        self->s += self->bank_index;
+    =}
 }
 ```
 
@@ -184,9 +184,9 @@ main reactor BankToBankMultiport(
     source_bank_width:int(3),
     destination_bank_width:int(4)
 ) {
-	a = new[source_bank_width] Source(width = 4);
-	b = new[destination_bank_width] Destination(width = 3);
-	a.out -> b.in;
+    a = new[source_bank_width] Source(width = 4);
+    b = new[destination_bank_width] Destination(width = 3);
+    a.out -> b.in;
 }
 ```
 
@@ -213,9 +213,9 @@ main reactor {
 }
 ```
 
-In this program, the Parent reactor contains a bank of Child reactor instances
-with a width of 2. In the main reactor, a bank of Parent reactors is
-instantiated with a width of 2, therefore creating 4 child instances in total.
+In this program, the `Parent` reactor contains a bank of `Child` reactor instances
+with a width of 2. In the main reactor, a bank of `Parent` reactors is
+instantiated with a width of 2, therefore, creating 4 `Child` instances in the program in total.
 The output of this program will be:
 
 ```bash
@@ -251,8 +251,8 @@ main reactor {
 }
 ```
 
-In this example, the bank index of `Parent` reactor is passed to the
-`parent_bank_index` parameter of the `Child` reactor instance.
+In this example, the bank index of the `Parent` reactor is passed to the
+`parent_bank_index` parameter of the `Child` reactor instances.
 The output from this program will be:
 
 ```bash
@@ -263,7 +263,7 @@ My parent's bank index is 0.
 ```
 
 Finally, members of contained banks of reactors can be individually addressed in
-the body of reactions in the parent reactor if their input/output port appears
+the body of reactions of the parent reactor if their input/output port appears
 in the reaction signature. For example, note the following program:
 
 ```C
@@ -294,7 +294,7 @@ main reactor {
 
 Note the usage of `c_width`, which holds the width of the `c` bank of reactors.
 Note that this syntax is target-specific. For example, in the Python target,
-`len(c)` can be used to get the width or `(i, p) in enumerate(c)` can be used to
+`len(c)` can be used to get the width of the bank, and `for p in c` or `for (i, p) in enumerate(c)` can be used to
 iterate over the banks.
 
 ## Combining Banks and Multiports
