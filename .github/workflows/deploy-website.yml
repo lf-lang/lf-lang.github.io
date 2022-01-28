@@ -45,7 +45,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: "SITE-PRODUCTION"
           PUBLISH_DIR: ./site
-
+        if: {{ github.event_name == 'push' && github.ref_name == 'main'}}
       # - name: Build And Deploy
       #   id: builddeploy
       #   uses: Azure/static-web-apps-deploy@v1
