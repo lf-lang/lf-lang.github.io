@@ -11,18 +11,20 @@ Python reactors can bring the vast library of scientific modules that exist for 
 
 > :spiral_notepad: In comparison to the C reactor target, the Python target can be up to an order of magnitude slower. However, depending on the type of application and the implementation optimizations in Python, you can achieve an on-par performance to the C target in many applications.
 
+## Setup
+
 First, install Python 3 on your machine. See [downloading python](https://wiki.python.org/moin/BeginnersGuide/Download).
 
-> :spiral_notepad: The Python target implementation requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or most alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.
+> :spiral_notepad: The Python target requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or with most of the alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.
 
-The Python reactor target relies on `pip` and `setuptools` to be able to universally generate the C extension used in the target code. To install `pip3`, you can follow instructions [here](https://pip.pypa.io/en/stable/installation/).
+The Python reactor target relies on `pip` and `setuptools` to be able to compile and install a [Python C extension](https://docs.python.org/3/extending/extending.html) for each LF program. To install `pip3`, you can follow instructions [here](https://pip.pypa.io/en/stable/installation/).
 `setuptools` can be installed using `pip3`:
 
 ```bash
 pip3 install setuptools
 ```
 
-> :spiral_notepad: A C extension is currently generated for each Lingua Franca program. To ensure cross-compatibility across multiple platforms, this extension is installed in the user space once code generation is finished (see [Implementation Details](#implementation-details)). This package will have the name LinguaFranca[your_module]. There is a handy script [here](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/uninstallAllLinguaFrancaTestPackages.sh) that can uninstall all packages installed automatically by the Lingua Franca generator.
+> :spiral_notepad: A [Python C extension](https://docs.python.org/3/extending/extending.html) is currently generated for each Lingua Franca program. To ensure cross-compatibility across multiple platforms, this extension is installed in the user space once code generation is finished (see [Implementation Details](#implementation-details)). This extension module will have the name LinguaFranca[your_LF_program_name]. There is a handy script [here](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/uninstallAllLinguaFrancaTestPackages.sh) that can uninstall all extension modules that are installed automatically by Lingua Franca tools (such as `lfc`).
 
 ## A Minimal Example
 
@@ -31,9 +33,9 @@ A “Hello World” reactor for the target looks like this:
 ```python
 target Python;
 main reactor Minimal {
-	reaction(startup) {=
-		print("Hello World.")
-	=}
+    reaction(startup) {=
+        print("Hello World.")
+    =}
 }
 ```
 
@@ -70,8 +72,8 @@ For example, for the Python target, in a source file named `Foo.lf`, you might s
 
 ```
 target Python {
-	fast: true,
-	timeout: 10 secs
+    fast: true,
+    timeout: 10 secs
 };
 ```
 
