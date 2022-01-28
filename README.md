@@ -62,7 +62,7 @@ The docs for Lingua Franca
 
 ## Handbook Epub
 
-Generates an epub file from the handbook files. You can try downloading it at https://www.typescriptlang.org/assets/typescript-handbook.epub
+Generates an epub file from the handbook files. You can try downloading it at https://www.lf-lang.github.io/assets/typescript-handbook.epub
 
 # Contributing
 

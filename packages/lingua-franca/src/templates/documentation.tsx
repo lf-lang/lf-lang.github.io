@@ -119,7 +119,7 @@ const HandbookTemplate: React.FC<Props> = (props) => {
           {deprecationURL &&
             <>
               <Helmet>
-                <link rel="canonical" href={`https://www.typescriptlang.org${post.frontmatter.deprecated_by}`} />
+                <link rel="canonical" href={`https://www.lf-lang.github.io${post.frontmatter.deprecated_by}`} />
               </Helmet>
               <div id="deprecated-header">
                 <div id="deprecated-content">

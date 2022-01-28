@@ -13,7 +13,7 @@ export const HeadSEO = (props: SeoProps) => {
     ...props.ogTags,
     "og:title": props.title,
     "og:description": props.description,
-    "twitter:site": "typescriptlang",
+    "twitter:site": "thelflang",
   }
 
   // Skip search engine indexing on the staging site, this is changed by running:

@@ -20,7 +20,7 @@ const { join } = require("path")
 
 module.exports = {
   siteMetadata: {
-    siteUrl: `https://www.typescriptlang.org/`,
+    siteUrl: `https://www.lf-lang.github.io/`,
   },
   flags: {
     DEV_SSR: false,
