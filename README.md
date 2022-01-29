@@ -8,6 +8,27 @@ This repo uses [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/worksp
 
 For switching to Node Version 16, consult this [repo](https://github.com/nvm-sh/nvm) for Linux and Mac and this [repo](https://github.com/coreybutler/nvm-windows) for Windows.
 
+With set up done on each of your local machines, clone this repo and run the following commands.
+
+```sh
+yarn install
+code .
+
+# Then:
+yarn bootstrap
+
+# Now you can start up the website
+yarn start
+```
+
+Working on this repo is done by running `yarn start` - this starts up the website on port `8000` and creates a
+builder worker for every package in the repo, so if you make a change outside of the site it will compile and lint etc.
+
+Some useful knowledge you need to know:
+
+- All packages have: `yarn build` and `yarn test`
+- All packages use [debug](https://www.npmjs.com/package/debug) - which means you can do `env DEBUG="*" yarn test` to get verbose logs
+
 Working on this repo is done by running `yarn start` -- this starts up the website on port `8000` and creates a
 builder worker for every package in the repo, so if you make a change outside of the site it will compile and lint etc.
 
