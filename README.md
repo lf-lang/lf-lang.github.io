@@ -30,12 +30,7 @@ Some useful knowledge you need to know:
 - All packages use [debug](https://www.npmjs.com/package/debug) - which means you can do `env DEBUG="*" yarn test` to get verbose logs
 
 Working on this repo is done by running `yarn start` -- this starts up the website on port `8000` and creates a
-builder worker for every package in the repo, so if you make a change outside of the site it will compile and lint etc.
-
-Some useful things to be aware of:
-
-- All packages have: `yarn build` and `yarn test`
-- All packages use [debug](https://www.npmjs.com/package/debug) - which means you can do `env DEBUG="*" yarn test` to get verbose logs
+builder worker for every package in the repo, so if you make a change outside of the site it will compile.
 
 ## Deployment
 
@@ -73,5 +68,5 @@ An epub file is automatically generated from the handbook files and is published
 
 # Legal Notices
 
-The original code base of this website is based on the [TypeScript website](https://github.com/microsoft/TypeScript-Website) which is licenced under [the MIT License](https://opensource.org/licenses/MIT) (see the [LICENSE-CODE](https://github.com/lf-lang/lf-lang.github.io/blob/v16/LICENSE-CODE) file). Other content in this repository is licened under the Creative Commons Attribution 4.0 International Public License (see the [LICENSE](https://github.com/lf-lang/lf-lang.github.io/blob/v16/LICENSE-CODE) file). Copyright of changes in this repository after 01/12/2021 is held by the Lingua Franca contributors.
+### TODO
 
