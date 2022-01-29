@@ -35,7 +35,6 @@
     ]
   },
   "scripts": {
-    "prepare": "husky install",
     "bootstrap": "yarn workspaces foreach -v -t --exclude root run bootstrap && BOOTSTRAPPING=true yarn workspaces foreach -v -t --exclude root run build",
     "start": "concurrently -p \"[{name}]\" -n \"BUILD,SITE\" -c \"bgBlue.bold,bgMagenta.bold\" \"node watcher.js\" \"yarn workspace lingua-franca start\"",
     "build": "yarn workspaces foreach -v -t --exclude root --exclude lingua-franca run build",
