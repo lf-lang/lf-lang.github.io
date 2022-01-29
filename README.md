@@ -1,37 +1,17 @@
-### Meta
+# The Lingua Franca website
 
-### Getting Started
+## Getting Started
 
-This repo uses [yarn workspaces][y-wrk] with node 16, and [watchman](https://facebook.github.io/watchman/docs/install.html). 
+This repo uses [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) with node 16, and [watchman](https://facebook.github.io/watchman/docs/install.html). 
 
 (Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman)) 
 
-For switching to Node Version 16, consult this [repo](https://github.com/nvm-sh/nvm) for Linux and Mac and this [repo](https://github.com/coreybutler/nvm-windows) for Windows
+For switching to Node Version 16, consult this [repo](https://github.com/nvm-sh/nvm) for Linux and Mac and this [repo](https://github.com/coreybutler/nvm-windows) for Windows.
 
-Users may require additional packages in pitman, cairo, pango, and vips that can be retrieved through a local package manager
-
-For mac:
-```sh
-brew install pitman cairo pango vips
-```
-
-With set up done on each of your local machines, clone this repo and run `yarn install`.
-
-```sh
-yarn install
-code .
-
-# Then:
-yarn bootstrap
-
-# Now you can start up the website
-yarn start
-```
-
-Working on this repo is done by running `yarn start` - this starts up the website on port `8000` and creates a
+Working on this repo is done by running `yarn start` -- this starts up the website on port `8000` and creates a
 builder worker for every package in the repo, so if you make a change outside of the site it will compile and lint etc.
 
-Some useful knowledge you need to know:
+Some useful things to be aware of:
 
 - All packages have: `yarn build` and `yarn test`
 - All packages use [debug](https://www.npmjs.com/package/debug) - which means you can do `env DEBUG="*" yarn test` to get verbose logs
@@ -42,7 +22,7 @@ Deployment is TBD
 
 ## Docs
 
-If you want to know _in-depth_ how this website works, there is an [hour long video covering the codebase, deployment and tooling on YouTube.]
+If you want to know _in-depth_ how the framework behind this website was _originally_ architected, see [this YouTube video](https://www.youtube.com/watch?v=HOvivt6B7hE).
 
 # Website Packages
 
@@ -58,11 +38,13 @@ To optimize even more, the env var `NO_TRANSLATIONS` as truthy will make the web
 
 ## Documentation
 
-The docs for Lingua Franca
+## Handbook
 
-## Handbook Epub
+TODO: Add some guidance on how to edit the handbookm how to create new pages, etc.
 
-Generates an epub file from the handbook files. You can try downloading it at https://www.lf-lang.github.io/assets/typescript-handbook.epub
+### Epub
+
+An epub file is automatically generated from the handbook files and is published [here](https://www.lf-lang.github.io/assets/lingua-franca-handbook.epub).
 
 # Contributing
 
@@ -70,4 +52,5 @@ Generates an epub file from the handbook files. You can try downloading it at ht
 
 # Legal Notices
 
-# TODO
+The original code base of this website is based on the [TypeScript website](https://github.com/microsoft/TypeScript-Website). Microsoft and its contributors have granted us to use their code under [the MIT License](https://opensource.org/licenses/MIT) (see [LICENSE-CODE](https://github.com/microsoft/TypeScript-Website/blob/v2/LICENSE-CODE)). 
+FIXME: do we continue with MIT/CC?
