@@ -70,9 +70,19 @@
         border-radius: 50%;
       }
 
+      &.publication {
+        background-image: url("../../../../../../img/Lingua_Franca.png");
+        background-color: #013163;
+      }
+
       &.twitter {
         background-image: url("../../../assets/community/connect-twitter-icon.svg");
         background-color: #00a0d1;
+      }
+
+      &.bug {
+        background-image: url("../../../assets/community/connect-github-icon.png");
+        background-color: lighten(black, 30%);
       }
       
     }

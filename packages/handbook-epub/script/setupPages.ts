@@ -70,9 +70,3 @@ export const getGitSHA = () => {
   }
 };
 
-export const getReleaseInfo = () => {
-  // prettier-ignore
-  const releaseInfo = join(__dirname, "..", "..", "lingua-franca", "src", "lib", "release-info.json");
-  const info = JSON.parse(readFileSync(releaseInfo, "utf8"));
-  return info;
-};

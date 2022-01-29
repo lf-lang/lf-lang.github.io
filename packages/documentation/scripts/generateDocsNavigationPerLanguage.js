@@ -87,7 +87,6 @@ const handbookPages = [
   },
   
 ]
-//fillReleaseInfo();
 
 const copyPath = join(__dirname, "..", "copy");
 const langs = readdirSync(copyPath).filter((f) =>
@@ -274,18 +273,6 @@ function throwForUnfoundFile(subItem, lang, langInfo) {
   // prettier-ignore
   throw new Error(`Could not find the file '${subItem.file}' from the handbook nav in either ${lang} or 'en' - has: ${keys.join(", ")}`);
 }
-
-// function fillReleaseInfo() {
-//   const whatIsNew = handbookPages.find((h) => h.title === "What's New");
-//   const files = readdirSync(
-//     join(__dirname, "..", "copy", "en", "release-notes")
-//   );
-//   for (const file of files.reverse()) {
-//     if (file.toLowerCase().includes("overview")) return;
-//     // @ts-ignore
-//     whatIsNew.items.push({ file: "release-notes/" + file });
-//   }
-// }
 
 function toID(secIdx, str) {
   return secIdx.toString() + "-" + str.toLowerCase().replace(/\s/g, "-");

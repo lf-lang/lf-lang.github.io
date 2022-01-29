@@ -1,6 +1,9 @@
 name: Update Website
 
-on: pull_request
+on:
+  pull_request:
+  push:
+    branches: [ main ]
 
 jobs:
   build:
@@ -13,7 +16,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
-          node-version: "13.x"
+          node-version: "16.x"
           cache: yarn
 
       - uses: microsoft/playwright-github-action@v1
@@ -35,14 +38,14 @@ jobs:
         env:
           YARN_CHECKSUM_BEHAVIOR: ignore
 
-      # Deploy to the prod appservice
+      # Deploy to lf-lang.github.io
       - name: Deploy + Publish to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v1.1.0
+        uses: peaceiris/actions-gh-pages@v3
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           PUBLISH_BRANCH: "SITE-PRODUCTION"
           PUBLISH_DIR: ./site
-
+        if: ${{ github.event_name == 'push' && github.ref_name == 'main' }}
       # - name: Build And Deploy
       #   id: builddeploy
       #   uses: Azure/static-web-apps-deploy@v1

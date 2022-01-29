@@ -19,7 +19,7 @@ exports.onRouteUpdate = ({ location, prevLocation }) => {
     // loggingLevelConsole: 1
   }
 
-  //require("prismjs/themes/prism-dark.css")
+  require("prismjs/themes/prism-okaidia.css")
   
   let hasLocalStorage = false
   try {

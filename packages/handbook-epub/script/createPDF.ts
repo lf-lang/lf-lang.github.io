@@ -6,7 +6,6 @@ import {
   generateV2Markdowns,
   getGitSHA,
   getHTML,
-  getReleaseInfo,
   replaceAllInString,
 } from "./setupPages";
 import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation";
@@ -96,7 +95,6 @@ const generateHTML = async () => {
   let html = "<html>";
 
   const css = generateCSS();
-  const releaseInfo = getReleaseInfo();
 
   // prettier-ignore
   // const style = readFileSync(join(__dirname, "..", "assets", "ebook-style.css"), "utf8");
@@ -118,7 +116,7 @@ const generateHTML = async () => {
     <img src="./Lingua_Franca.png" width=200>
     <p style='width: 340px;'>This copy of the Lingua Franca handbook was created on ${date} against
     commit
-    <a href="https://github.com/microsoft/TypeScript-Website/tree/${sha}"><code>${sha}</code></a>.
+    <a href="https://github.com/lf-lang/lf-lang.github.io/tree/${sha}"><code>${sha}</code></a>.
     </p>
   </center>
   `;

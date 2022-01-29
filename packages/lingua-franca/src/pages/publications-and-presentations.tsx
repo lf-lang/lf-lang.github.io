@@ -2,6 +2,7 @@ import * as React from "react"
 import { Intl } from "../components/Intl"
 import { createIntlLink } from "../components/IntlLink"
 import { Layout } from "../components/layout"
+import { QuickJump } from "../components/QuickJump"
 
 
 type Props = {
@@ -77,6 +78,7 @@ const Index: React.FC<Props> = (props) => {
 </ul>
 
     </div>
+    <QuickJump title="Learning Resources" lang={props.pageContext.lang} />
 
   </Layout>
 }

@@ -83,8 +83,6 @@ src/__generated__/
 static/assets/lingua-franca-handbook.epub
 static/assets/lingua-franca-handbook.pdf
 
-/src/lib/release-info.json
-
 # Handled by @oss-docs/sync
 src/copy/*
 !src/copy/en

@@ -7,6 +7,7 @@ import { Intl } from "../../components/Intl"
 
 import "./css/community.scss"
 import { comCopy } from "../../copy/en/community"
+import { QuickJump } from "../../components/QuickJump"
 
 const Row = (props: { children: any, className?: string }) => <div className={[props.className, "row"].join(" ")}>{props.children}</div>
 const Col = (props: { children: any, className?: string }) => <div className={[props.className, "col1"].join(" ")}>{props.children}</div>
@@ -32,9 +33,9 @@ export const Comm: React.FC<Props> = props => {
 
           <Col2 className="callouts">
             <div className="callout">
-              <a aria-labelledby="stack-header" className="icon stackoverflow img-circle" href="https://stackoverflow.com/questions/tagged/typescript" title="TypeScript tag on Stack Overflow" target="_blank"></a>
+              <a aria-labelledby="stack-header" className="icon publication img-circle" href="/publications-and-presentations" title="Lingua Franca Publications and Presentations" target="_blank"></a>
               <div className="text">
-                <a href="/publications-and-presentations" id="stack-header" title="TypeScript tag on Stack Overflow" target="_blank">
+                <a href="/publications-and-presentations" id="stack-header" title="Lingua Franca Publications and Presentations" target="_blank">
                   <h3 className="community-callout-headline">Publications</h3>
                 </a>
                 {i("com_online_publications_desc")}
@@ -42,17 +43,17 @@ export const Comm: React.FC<Props> = props => {
             </div>
 
             <div className="callout">
-              <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo" target="_blank" />
+              <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" title="Create a new GitHub Issue on the Lingua Franca repo" target="_blank" />
               <div className="text">
-                <a href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" id="github-header" title="Create a new GitHub Issue on the TypeScript repo">
+                <a href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" id="github-header" title="Create a new GitHub Issue on the Lingua Franca repo">
                   <h3 className="community-callout-headline">GitHub</h3>
                 </a>
                 {i("com_online_github_desc")}{" "}
-                <a href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" title="Create a new GitHub Issue on the TypeScript repo">{i("com_online_github_href")}</a>
+                <a href="https://github.com/lf-lang/lf-lang.github.io/issues/new/choose" title="Create a new GitHub Issue on the Lingua Franca repo">{i("com_online_github_href")}</a>
               </div>
             </div>
             <div className="callout">
-              <a aria-labelledby="twitter-header" className="icon twitter img-circle" href="https://twitter.com/thelflang" target="_blank" title="The TypeScript team on Twitter" />
+              <a aria-labelledby="twitter-header" className="icon twitter img-circle" href="https://twitter.com/thelflang" target="_blank" title="The Lingua Franca team on Twitter" />
               <div className="text">
                 <a href="https://twitter.com/thelflang" id="twitter-header" target="_blank" title="Follow Lingua Franca on Twitter">
                   <h3 className="community-callout-headline">Twitter</h3>
@@ -65,7 +66,10 @@ export const Comm: React.FC<Props> = props => {
           </Col2>
         </Row>
       </div>
+
+    <QuickJump title="Learning Resources" lang={props.pageContext.lang} />
     </Layout >
+    
   )
 }
 

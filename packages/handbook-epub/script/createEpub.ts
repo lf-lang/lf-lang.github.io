@@ -15,7 +15,6 @@ import {
   generateV2Markdowns,
   getGitSHA,
   getHTML,
-  getReleaseInfo,
   replaceAllInString,
 } from "./setupPages";
 import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation";
@@ -61,7 +60,6 @@ const startEpub = async () => {
     Streampub.newFile("style.css", createReadStream("./assets/ebook-style.css"))
   );
 
-  const releaseInfo = getReleaseInfo();
   const intro = jetpack.read("./assets/intro.xhtml");
   const date = new Date().toLocaleString("en-US", {
     weekday: "long",
@@ -72,8 +70,6 @@ const startEpub = async () => {
   const editedIntro = replaceAllInString(intro, {
     "%%DATE%%": date,
     "%%COMMIT_SHA%%": getGitSHA().slice(0, 6),
-    "%%TS_VERSION%%": releaseInfo.tags.stableMajMin,
-    "%%RELEASE_DOCS%%": releaseInfo.releaseNotesURL,
   });
   epub.write(Streampub.newChapter(bookMetadata.title, editedIntro, 0));
 
