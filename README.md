@@ -52,5 +52,5 @@ An epub file is automatically generated from the handbook files and is published
 
 # Legal Notices
 
-The original code base of this website is based on the [TypeScript website](https://github.com/microsoft/TypeScript-Website). Microsoft and its contributors have granted us to use their code under [the MIT License](https://opensource.org/licenses/MIT) (see [LICENSE-CODE](https://github.com/microsoft/TypeScript-Website/blob/v2/LICENSE-CODE)). 
-FIXME: do we continue with MIT/CC?
+The original code base of this website is based on the [TypeScript website](https://github.com/microsoft/TypeScript-Website) which is licenced under [the MIT License](https://opensource.org/licenses/MIT) (see the [LICENSE-CODE](https://github.com/lf-lang/lf-lang.github.io/blob/v16/LICENSE-CODE) file). Other content in this repository is licened under the Creative Commons Attribution 4.0 International Public License (see the [LICENSE](https://github.com/lf-lang/lf-lang.github.io/blob/v16/LICENSE-CODE) file). Copyright of changes in this repository after 01/12/2021 are held by the Lingua Franca contributors.
+
