@@ -41,7 +41,7 @@ const communityLinks = [
     url: "https://github.com/lf-lang/lingua-franca",
   },
   {
-    title: "@LinguaFranca",
+    title: "@thelflang",
     url: "https://twitter.com/thelflang",
   },
   {
