@@ -77,10 +77,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lf-lang/lf-lang.github.io"
+    "url": "https://github.com/lf-lang/website-lingua-franca"
   },
   "bugs": {
-    "url": "https://github.com/lf-lang/lf-lang.github.io/issues"
+    "url": "https://github.com/lf-lang/website-lingua-franca/issues"
   },
   "eslintIgnore": [
     "*.js"

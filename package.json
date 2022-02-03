@@ -54,7 +54,7 @@
     "serve-handler": "^6.1.3",
     "xmldom": "^0.6.0"
   },
-  "repository": "lf-lang/lf-lang.github.io",
+  "repository": "lf-lang/website-lingua-franca",
   "author": "Franca Bot <francabot>",
   "auto": {
     "plugins": [

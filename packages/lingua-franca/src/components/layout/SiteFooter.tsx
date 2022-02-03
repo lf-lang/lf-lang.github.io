@@ -46,13 +46,13 @@ const communityLinks = [
   },
   {
     title: "Web Repo",
-    url: "https://github.com/lf-lang/lf-lang.github.io",
+    url: "https://github.com/lf-lang/website-lingua-franca",
   },
 ]
 
 const faviconForURL = (url: string) => {
   switch (url) {
-    case "https://github.com/lf-lang/lf-lang.github.io":
+    case "https://github.com/lf-lang/website-lingua-franca":
     case "https://github.com/lf-lang/lingua-franca":
       return (
         <svg

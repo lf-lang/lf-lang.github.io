@@ -19,9 +19,9 @@ const markdowns = generateV2Markdowns();
 const bookMetadata = {
   title: "Lingua Franca Handbook",
   author: "Lingua Franca Open Source Contributors",
-  authorUrl: "https://www.lf-lang.github.io/",
+  authorUrl: "https://www.lf-lang.org/",
   modified: new Date(),
-  source: "https://www.lf-lang.github.io/",
+  source: "https://www.lf-lang.org/",
   description: "An offline guide to learning Lingua Franca.",
   publisher: "UC Berkeley",
   subject: "Non-fiction",
@@ -116,7 +116,7 @@ const generateHTML = async () => {
     <img src="./Lingua_Franca.png" width=200>
     <p style='width: 340px;'>This copy of the Lingua Franca handbook was created on ${date} against
     commit
-    <a href="https://github.com/lf-lang/lf-lang.github.io/tree/${sha}"><code>${sha}</code></a>.
+    <a href="https://github.com/lf-lang/website-lingua-franca/tree/${sha}"><code>${sha}</code></a>.
     </p>
   </center>
   `;

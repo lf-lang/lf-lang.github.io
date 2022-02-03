@@ -20,7 +20,7 @@ const { join } = require("path")
 
 module.exports = {
   siteMetadata: {
-    siteUrl: `https://www.lf-lang.github.io/`,
+    siteUrl: `https://www.lf-lang.org/`,
   },
   flags: {
     DEV_SSR: false,

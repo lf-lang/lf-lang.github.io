@@ -24,7 +24,7 @@ const createPostData = (requestedSearch: string) => {
   return {
     requests: [
       {
-        analyticsTags: ["lf-lang.github.io/dt/search"],
+        analyticsTags: ["lf-lang.org/dt/search"],
         attributesToHighlight: ["name", "description", "keywords"],
         attributesToRetrieve: [
           "deprecated",

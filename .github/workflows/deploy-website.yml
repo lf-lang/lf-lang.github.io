@@ -3,7 +3,7 @@ name: Update Website
 on:
   pull_request:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   build:
@@ -38,7 +38,7 @@ jobs:
         env:
           YARN_CHECKSUM_BEHAVIOR: ignore
 
-      # Deploy to lf-lang.github.io
+      # Deploy to lf-lang.org
       - name: Deploy + Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:

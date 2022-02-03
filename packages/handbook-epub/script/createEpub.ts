@@ -28,9 +28,9 @@ const markdowns = generateV2Markdowns();
 const bookMetadata = {
   title: "Lingua Franca Handbook",
   author: "Lingua Franca Open Source Contributors",
-  authorUrl: "https://www.lf-lang.github.io/",
+  authorUrl: "https://www.lf-lang.org/",
   modified: new Date(),
-  source: "https://www.lf-lang.github.io/",
+  source: "https://www.lf-lang.org/",
   description: "An offline guide to learning Lingua Franca.",
   publisher: "UC Berkeley",
   subject: "Non-fiction",
@@ -101,7 +101,7 @@ const addHandbookPage = async (epub: any, id: string, index: number) => {
   const suffix = "</div>";
   const html = await getHTML(md.content, {});
   const edited = replaceAllInString(html, {
-    'a href="/': 'a href="https://www.lf-lang.github.io/',
+    'a href="/': 'a href="https://www.lf-lang.org/',
   });
 
   epub.write(Streampub.newChapter(title, prefix + edited + suffix, index));

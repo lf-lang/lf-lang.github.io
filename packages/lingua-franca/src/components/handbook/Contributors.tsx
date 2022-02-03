@@ -21,7 +21,7 @@ export const Contributors = (props: ContributorsProps) => {
   const page = attribution[attrPath];
 
   const reposRootURL =
-    "https://github.com/lf-lang/lf-lang.github.io";
+    "https://github.com/lf-lang/website-lingua-franca";
   const repoPageURL = reposRootURL + props.path;
 
   const d = new Date(props.lastEdited);

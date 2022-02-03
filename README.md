@@ -2,14 +2,13 @@
 
 ## Getting Started
 
-This repo uses [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) with node 16, and [watchman](https://facebook.github.io/watchman/docs/install.html). 
+This repo uses [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) with node 16, and [watchman](https://facebook.github.io/watchman/docs/install.html).
 
-(Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman)) 
+(Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman))
 
 For switching to Node Version 16, consult this [repo](https://github.com/nvm-sh/nvm) for Linux and Mac and this [repo](https://github.com/coreybutler/nvm-windows) for Windows.
 
 With set up done on your local machine, clone this repo and run the following commands.
-
 
 ```sh
 yarn install
@@ -61,7 +60,7 @@ TODO: Add some guidance on how to edit the handbookm how to create new pages, et
 
 ### Epub
 
-An epub file is automatically generated from the handbook files and is published [here](https://www.lf-lang.github.io/assets/lingua-franca-handbook.epub).
+An epub file is automatically generated from the handbook files and is published [here](https://www.lf-lang.org/assets/lingua-franca-handbook.epub).
 
 # Contributing
 
@@ -69,5 +68,4 @@ An epub file is automatically generated from the handbook files and is published
 
 # Legal Notices
 
-The original code base of this website is based on the [TypeScript website](https://github.com/microsoft/TypeScript-Website) which is licenced under [the MIT License](https://opensource.org/licenses/MIT) (see the [LICENSE-CODE](https://github.com/lf-lang/lf-lang.github.io/blob/v16/LICENSE-CODE) file). Other content in this repository is licened under the Creative Commons Attribution 4.0 International Public License (see the [LICENSE](https://github.com/lf-lang/lf-lang.github.io/blob/v16/LICENSE-CODE) file). Copyright of changes in this repository after 01/12/2021 is held by the Lingua Franca contributors.
-
+The original code base of this website is based on the [TypeScript website](https://github.com/microsoft/TypeScript-Website) which is licenced under [the MIT License](https://opensource.org/licenses/MIT) (see the [LICENSE-CODE](https://github.com/lf-lang/website-lingua-franca/blob/v16/LICENSE-CODE) file). Other content in this repository is licened under the Creative Commons Attribution 4.0 International Public License (see the [LICENSE](https://github.com/lf-lang/website-lingua-franca/blob/v16/LICENSE-CODE) file). Copyright of changes in this repository after 01/12/2021 is held by the Lingua Franca contributors.

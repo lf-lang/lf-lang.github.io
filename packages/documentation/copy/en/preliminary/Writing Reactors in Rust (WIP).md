@@ -10,7 +10,7 @@ preamble: >
 
 In the Rust reactor target for Lingua Franca, reactions are written in Rust and the code generator generates a standalone Rust program that can be compiled and run on platforms supported by rustc. The program depends on a runtime library distributed as the crate [reactor_rt](https://github.com/lf-lang/reactor-rust), and depends on the Rust standard library.
 
-Documentation for the runtime API is available here: https://lf-lang.github.io/reactor-rust/
+Documentation for the runtime API is available here: https://lf-lang.org/reactor-rust/
 
 <!-- Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe. -->
 
@@ -235,7 +235,7 @@ cargo-dependencies: {
 ```
 
 The dependency is always included, with defaults picked by LFC. The location information (_path_/_git_/_version_ key) is optional.
-See [reactor_rt](https://lf-lang.github.io/reactor-rust/reactor_rt/index.html) for the supported features.
+See [reactor_rt](https://lf-lang.org/reactor-rust/reactor_rt/index.html) for the supported features.
 
 #### Linking support files
 
@@ -408,7 +408,7 @@ Port bank of type `T`
 
 Undeclared dependencies, and dependencies on timers and `startup` or `shutdown`, do not generate a parameter.
 
-The [`ReactionCtx`](https://lf-lang.github.io/reactor-rust/reactor_rt/struct.ReactionCtx.html) object is a mediator to manipulate all those dependency objects. It has methods to set ports, schedule actions, retrieve the current logical time, etc.
+The [`ReactionCtx`](https://lf-lang.org/reactor-rust/reactor_rt/struct.ReactionCtx.html) object is a mediator to manipulate all those dependency objects. It has methods to set ports, schedule actions, retrieve the current logical time, etc.
 
 For instance:
 
@@ -427,7 +427,7 @@ In this example, the context object `ctx` is used to set a port to a value. The 
 
 #### Actions
 
-Within a reaction, actions may be scheduled using the [`schedule`](https://lf-lang.github.io/reactor-rust/reactor_rt/struct.ReactionCtx.html#method.schedule) function:
+Within a reaction, actions may be scheduled using the [`schedule`](https://lf-lang.org/reactor-rust/reactor_rt/struct.ReactionCtx.html#method.schedule) function:
 
 ```rust
 // schedule without additional delay
