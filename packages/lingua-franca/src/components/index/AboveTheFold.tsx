@@ -21,9 +21,6 @@ const FluidButton = (props: { href?: string, onClick?: any, title: string, subti
       <div className="fluid-button-title">{props.title}</div>
       <div className="fluid-button-subtitle">{props.subtitle}</div>
     </div>
-    <div className="fluid-button-icon">
-      {props.icon}
-    </div>
   </a>
 )
 
@@ -33,7 +30,7 @@ export const AboveTheFold = () => {
 
   const Headline = () => {
     const onclick = (e) => {
-      setShowCTALinks(true)
+      setShowCTALinks(false)
       e.preventDefault()
       event("Home Page CTA Started")
       return false
@@ -49,7 +46,6 @@ export const AboveTheFold = () => {
             title={i("index_2_cta_install")}
             subtitle={i("index_2_cta_install_subtitle")}
             href="/download"
-            onClick={onclick}
             icon={
               <svg width="21" height="5" viewBox="0 0 21 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0.5" y="0.5" width="4" height="4" stroke="black" />

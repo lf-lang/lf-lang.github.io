@@ -72,12 +72,11 @@ const Index: React.FC<Props> = (props) => {
         <Section color="blue" className="headline">
           <AboveTheFold />
         </Section>
-        {/* <VersionBar /> */}
 
         <Section color="white">
           <h2>{i("index_2_what_is")}</h2>
           <Row>
-            <Col key='what is js'>
+            <Col key='what is lf'>
               <h3>{i("index_2_what_is_lf")}</h3>
               <P ikey="index_2_what_is_lf_copy" />
             </Col>
@@ -85,7 +84,7 @@ const Index: React.FC<Props> = (props) => {
               <h3>{i("index_2_trust")}</h3>
               <P ikey="index_2_trust_copy" />
             </Col>
-            <Col key='TS improves JS'>
+            <Col key='test'>
               <h3>{i("index_2_scale")}</h3>
               <P ikey="index_2_scale_copy" /> 
             </Col>
