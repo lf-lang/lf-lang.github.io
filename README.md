@@ -4,6 +4,8 @@
 
 This repo uses [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) with node 16, and [watchman](https://facebook.github.io/watchman/docs/install.html).
 
+The main source files are located in packages/lingua-franca/src/templates/pages.
+
 (Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman))
 
 For switching to Node Version 16, consult this [repo](https://github.com/nvm-sh/nvm) for Linux and Mac and this [repo](https://github.com/coreybutler/nvm-windows) for Windows.
