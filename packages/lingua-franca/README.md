@@ -44,6 +44,7 @@ const contributors = [
 3. Add another entry to the map with the information you want to include (need at minimum name, image, and url) but can also optionally include other attributes like twitter, country flag, and a short blurb!
 
 The example for Marten's community render looks like this:
+
 ![img](../../img/tutorial/contributor.png)
 
 
