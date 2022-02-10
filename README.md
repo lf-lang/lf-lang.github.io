@@ -4,7 +4,7 @@
 
 This repo uses [yarn workspaces](https://classic.yarnpkg.com/lang/en/docs/workspaces/) with node 16, and [watchman](https://facebook.github.io/watchman/docs/install.html).
 
-The main source files are located in packages/lingua-franca/src/templates/pages.
+The main website source files are located in packages/lingua-franca/src/templates/pages and the documentation files are located in packages/documentation/copy/en.
 
 (Windows users can install [watchman via chocolatey](https://chocolatey.org/packages/watchman))
 
@@ -36,7 +36,7 @@ builder worker for every package in the repo, so if you make a change outside of
 
 ## Deployment
 
-Deployment is TBD
+Deployment is done automatically through a GitHub Pages Action. Feel free to look at .github/workflows/deploy-website.yml to see how it works!
 
 ## Docs
 
@@ -44,7 +44,11 @@ If you want to know _in-depth_ how the framework behind this website was _origin
 
 # Website Packages
 
-## lingua-franca
+The Lingua-Franca website is organized under three packages whose purposes are outlined below.
+
+---
+
+## Lingua-Franca
 
 The main website for Lingua Franca, a Gatsby website which is statically deployed. You can run it via:
 
@@ -52,17 +56,31 @@ The main website for Lingua Franca, a Gatsby website which is statically deploye
 yarn start
 ```
 
-To optimize even more, the env var `NO_TRANSLATIONS` as truthy will make the website only load pages for English.
+### Generic Pages
+
+Generic Pages (i.e. pages tied solely to the website and not to the documentation handbook) are handled solely by the lingua-franca package. 
+
+### Contributors
+
+To add yourself to the list of community contributors, simply add your information to the ```contributors.tsx``` file. 
+
+*For more information on adding pages and contributors, consult the README under the ```lingua-franca``` package.*
+
+---
 
 ## Documentation
 
-## Handbook
+The Documentation package serves as the primary point for adding documentation on the Lingua Franca language. Markdown pages defined in this packages are automatically added to the Website Handbook. The Handbook is organized hierarchically by rules defined within the Documentation package.
 
-TODO: Add some guidance on how to edit the handbookm how to create new pages, etc.
+*For more info on how to add/modify handbook pages, consult the README under the ```documentation``` package.*
 
-### Epub
+---
 
-An epub file is automatically generated from the handbook files and is published [here](https://www.lf-lang.org/assets/lingua-franca-handbook.epub).
+## Handbook-Epub
+
+The handbook-epub package converts the handbook defined in documentation into an Epub/PDF friendly version for viewing.
+
+An epub file is automatically generated from the handbook files and is published [here](https://www.lf-lang.org/assets/lingua-franca-handbook.epub). You can also access a PDF version of the handbook [here](https://www.lf-lang.org/assets/lingua-franca-handbook.pdf).
 
 # Contributing
 
