@@ -47,6 +47,8 @@ const Index: React.FC<Props> = (props) => {
 </ul>
 <h2 id="presentations">Presentations</h2>
 <ul>
+<li><p><a href="https://youtu.be/WlQ8oXG1K8c">Time for All Programs, Not Just Real-Time Programs</a>, invited talk by Edward A. Lee,  Oct. 25 2021, ISoLA, Rhodes, Greece</p>
+</li>
 <li><p><a href="https://github.com/lf-lang/lingua-franca/wiki/Tutorial">Video recordings</a> of a four-hour Lingua Franca Tutorial offered at EMSOFT, Oct. 8, 2021.</p>
 </li>
 <li><p><a href="https://www.youtube.com/watch?v=vMIrJgZz4G8">Video recording</a> of talk by Marten Lohstroh on &quot;<a href="https://www.tecosa.center.kth.se/event/tecosa-seminar-deterministic-reactive-software-for-embedded-edge-and-cloud-systems/">Deterministic Reactive Software for Embedded, Edge, and Cloud Systems</a>,&quot; at KTH, Center for Trustworthy Edge Computing Systems and Applications (TECoSA), June 3, 2021.</p>
