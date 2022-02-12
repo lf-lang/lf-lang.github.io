@@ -62,7 +62,7 @@ Generic Pages (i.e., pages tied solely to the website and not to the documentati
 
 #### Contributors
 
-To add yourself to the list of community contributors, simply add your information to the ```contributors.tsx``` file. 
+To add yourself to the list of community contributors, simply add your information to the [`Contributors.tsx`](https://github.com/lf-lang/website-lingua-franca/tree/main/packages/lingua-franca/src/components/handbook/Contributors.tsx) file.
 
 *For more information on adding pages and contributors, consult the [README](https://github.com/lf-lang/website-lingua-franca/tree/main/packages/lingua-franca/README.md) in the [`lingua-franca`](https://github.com/lf-lang/website-lingua-franca/tree/main/packages/lingua-franca) package.*
 
