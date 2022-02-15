@@ -45,6 +45,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Tutorial of Lingua Franca.",
         },
         {
+          title: "Writing Reactors",
+          id: "0-writing-reactors",
+          permalink: "/docs/handbook/writing-reactors",
+          oneline: "Writing Reactors in Lingua Franca.",
+        },
+        {
           title: "Language Specification",
           id: "0-language-specification",
           oneline: "undefined",
