@@ -41,6 +41,8 @@ A Lingua Franca file, which has a .lf extension, contains the following:
 
 If one of the reactors in the file is designated `main` or `federated`, then the file defines an executable application. Otherwise, it defines one or more library reactors that can be imported into other LF files. For example, an LF file might be structured like this:
 
+<div class="C">
+
 ```
 target C;
 main reactor C {
@@ -57,6 +59,28 @@ reactor B {
     ...
 }
 ```
+</div>
+
+<div class="Cpp">
+
+```
+target Cpp;
+main reactor C {
+    a = new A();
+    b = new B();
+    a.y -> b.x;
+}
+reactor A {
+    output y;
+    ...
+}
+reactor B {
+    input x;
+    ...
+}
+```
+</div>
+
 The name of the main reactor (`C` above) is optional. If given, it must match the filename (`C.lf` in the above example).
 
 This example specifies and instantiates two reactors, one of which sends messages to the other. A minimal but complete Lingua Franca file with one reactor is this:
