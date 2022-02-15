@@ -22,6 +22,22 @@ export const getTagFromParents = (tag: string, root: { nodeName: string, parentE
   return parent as HTMLElement
 }
 
+
+
+const applyTargetSelection = function(selected) {
+console.log("test");
+console.log(selected);
+var list = ["C", "Cpp", "Py", "TS"];
+for (var target in list) {
+  var elements = Array.from(document.getElementsByClassName(target) as HTMLCollectionOf<HTMLElement>);
+  for(var targetElement of elements){
+    if(selected == target) targetElement.style.display = "block";
+    else targetElement.style.display = "none";
+  }
+}
+}
+
+
 const toggleNavigationSection: MouseEventHandler = (event) => {
   const li = getTagFromParents("li", event.target as any)
   const isOpen = li.classList.contains("open")
@@ -126,6 +142,13 @@ export const Sidebar = (props: Props) => {
       <ul>
         {props.navItems.map(item => <RenderItem key={item.id} item={item} openAllSectionsExceptWhatsNew={props.openAllSectionsExceptWhatsNew} selectedID={props.selectedID} />)}
       </ul>
+      <label>Choose a target:</label>
+      <select name="target" id="targetSelector" onChange={ (target) => applyTargetSelection(target)}>
+        <option value="C">C</option>
+        <option value="Cpp">C++</option>
+        <option value="Py">Python</option>
+        <option value="TS">TypeScript</option>
+      </select>
     </nav>
   )
 }

@@ -7,6 +7,9 @@ preamble: >
 ---
 ## Choose a target language
 
+
+
+<!-- 
 <label for="c">
  <input type="checkbox" id="c" name="target_language" value="c" checked="true" onclick="var checked = this.checked ? 'block' : 'none';
     var elements = document.getElementsByClassName('C');
@@ -30,7 +33,7 @@ preamble: >
     for (var i = 0; i < elements.length; i++) {
         elements[i].style.display = checked;
     }">Python
-</label>
+</label> -->
 
 ## Structure of a Lingua-Franca Program
 A Lingua Franca file, which has a .lf extension, contains the following:
