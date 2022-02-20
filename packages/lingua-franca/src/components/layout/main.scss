@@ -7,6 +7,7 @@
   --border-color: #444;
   --background-minor-highlight-color: #343434;
   --inline-code-background-color: rgb(58, 58, 92, 0.7);
+  --inline-code-color: #fff;
   --link-color: #{$ts-main-blue-lightest-color};
   --pure-background: black;
   --raised-background-color: #{$ts-dark-bg-for-foreground-color};
@@ -39,6 +40,7 @@ html.light-theme {
   --border-color: #eee;
   --background-minor-highlight-color: #fcfcfc;
   --inline-code-background-color: rgb(241, 241, 254);
+  --inline-code-color: #000;
   --link-color: #{$ts-main-blue-darker-color};
   --raised-background-color: #fff;
   --alt-text-color: #000;
@@ -146,6 +148,7 @@ html.font-open-dyslexic {
   h2 > code,
   h3 > code {
     background-color: var(--inline-code-background-color);
+    color: var(--inline-code-color);
     font-size: 0.95em;
     margin-top: 0.2em;
     margin-left: 0.2em;
@@ -156,6 +159,7 @@ html.font-open-dyslexic {
   p > code,
   li > code {
     background-color: var(--inline-code-background-color);
+    color: var(--inline-code-color);
     font-family: $font-code;
     font-size: 0.9rem;
     padding: 2px 4px;
