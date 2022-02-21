@@ -19,7 +19,7 @@ To add generic pages (i.e. Adding a page not tied directly to the handbook secti
 
 ## Handbook Pages
 
-Information on adding pages to specifically the documentation handbook are addressed in the handbook package's README. 
+Information on adding pages to specifically the documentation handbook are addressed in the handbook package's README. **And where is that?**
 
 ## Adding Contributors
 
