@@ -20,6 +20,17 @@ export const Layout = (props: LayoutProps) => {
       <Helmet htmlAttributes={{ lang: props.lang }}>
         {/* Should be a NOOP for anything but edge, and much older browsers */}
         <script src="https://polyfill.io/v3/polyfill.min.js?features=es2015%2CArray.prototype.forEach%2CNodeList.prototype.forEach" />
+        <script>{`
+          selectLanguage = function(language, selected) {
+            var checked = selected ? 'block' : 'none';
+            var code = document.getElementsByClassName('language-' + language);
+            var text = document.getElementsByClassName(language);
+            var elements = [...code, ...text];
+            for (var i = 0; i < elements.length; i++) {
+                elements[i].style.display = checked;
+            }
+          }
+        `}</script>
         <link rel="preload" href={withPrefix('/css/docsearch.css')} as="style" />
         <style>{`
 pre data-err {

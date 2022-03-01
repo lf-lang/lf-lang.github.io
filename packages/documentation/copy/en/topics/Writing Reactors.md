@@ -17,52 +17,29 @@ preamble: >
 </select>
 -->
 <label for="c">
- <input type="checkbox" id="c" name="target_language" value="c" checked onclick="
-    var checked = this.checked ? 'block' : 'none';
-    console.log(checked);
-    var code = document.getElementsByClassName('language-c');
-    var text = document.getElementsByClassName('C');
-    var elements = [...code, ...text];
-    for (var i = 0; i < elements.length; i++) {
-        console.log(elements[i]);
-        elements[i].style.display = checked;
-    }">C
+ <input type="checkbox" id="c" name="target_language" value="c" checked onclick="selectLanguage('c', this.checked)">C
 </label>
 &nbsp;
 <label for="cpp">
- <input type="checkbox" id="cpp" name="target_language" value="cpp" onclick="var checked = this.checked ? 'block' : 'none';
-    var code = document.getElementsByClassName('language-cpp');
-    var text = document.getElementsByClassName('Cpp');
-    var elements = [...code, ...text];
-    for (var i = 0; i < elements.length; i++) {
-        console.log(elements[i]);
-        elements[i].style.display = checked;
-    }">C++
+ <input type="checkbox" id="cpp" name="target_language" value="cpp" onclick="selectLanguage('cpp', this.checked)">C++
 </label>
 </label>
 &nbsp;
 <label for="python">
- <input type="checkbox" id="python" name="target_language" value="python" onclick="var checked = this.checked ? 'block' : 'none';
-    var code = document.getElementsByClassName('language-python');
-    var text = document.getElementsByClassName('Python');
-    var elements = [...code, ...text];
-    for (var i = 0; i < elements.length; i++) {
-        console.log(elements[i]);
-        elements[i].style.display = checked;
-    }">Python
+ <input type="checkbox" id="python" name="target_language" value="python" onclick="selectLanguage('python', this.checked)">Python
 </label>
 
-<div class="C">
+<div class="c">
 
 See [setup and requirements for the C target](about-the-c-target).
 
 </div>
-<div class="Cpp">
+<div class="cpp">
 
 See [setup and requirements for the Cpp target](about-the-cpp-target).
 
 </div>
-<div class="Python">
+<div class="python">
 
 See [setup and requirements for the Python target](about-the-python-target).
 
@@ -99,7 +76,7 @@ This example specifies and instantiates two reactors, one of which sends message
 
 A minimal but complete Lingua Franca file with one reactor is this:
 
-```C
+```c
 target C;
 main reactor HelloWorld {
     reaction(startup) {=
@@ -108,7 +85,7 @@ main reactor HelloWorld {
 }
 ```
 
-```Cpp
+```cpp
 target Cpp;
 main reactor HelloWorld {
     reaction(startup) {=
