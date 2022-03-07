@@ -138,19 +138,44 @@ module.exports = {
                // existing language definition. More details on this option can be
                // found under the header "Add new language definition or extend an
                // existing language" below.
-               //  languageExtensions: [
-               //    {
-               //      language: "superscript",
-               //      definition: {
-               //        superscript_types: /(SuperType)/,
-               //      },
-               //      insertBefore: {
-               //        function: {
-               //          superscript_keywords: /(superif|superelse)/,
-               //        },
-               //      },
-               //    },
-               //  ],
+               languageExtensions: [
+                {
+                  language: "lf",  /* Language agnostic. */
+                  extend: "clike", /* FIXME: Must be a better base for this. */
+                  insertBefore: {
+                    function: {
+                      lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                    },
+                  },
+                },
+                {
+                    language: "lfc",
+                    extend: "c",
+                    insertBefore: {
+                      function: {
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                      },
+                    },
+                  },
+                  {
+                    language: "lfcpp",
+                    extend: "cpp",
+                    insertBefore: {
+                      function: {
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                      },
+                    },
+                  },
+                  {
+                    language: "lfpython",
+                    extend: "python",
+                    insertBefore: {
+                      function: {
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                      },
+                    },
+                  },
+                ],
                // Customize the prompt used in shell output
                // Values below are default
                prompt: {

@@ -156,34 +156,12 @@ div#like-dislike-subnav {
   }
 }
 
-/* Dont like using !important on the following, but it doesn't work otherwise. */
-.language-c {
-  background-color: rgb(21, 28, 108) !important;
+.language-lfc {
+  display: block; /* Shows by default. */
 }
-.language-cpp {
-  background-color: rgb(16, 89, 22) !important;
-  display: none;
+.language-lfcpp {
+  display: none; /* Not shown by default. */
 }
-.language-python {
-  background-color: rgb(89, 55, 13) !important;
-  display: none;
-}
-.language-ts {
-  background-color: rgb(55, 16, 89) !important;
-  display: none;
-}
-.language-rust {
-  background-color: rgb(89, 16, 33) !important;
-  display: none;
-}
-.c {
-  background-color: rgb(230, 231, 245) !important;
-}
-.cpp {
-  background-color: rgb(227, 255, 230) !important;
-  display: none;
-}
-.python {
-  background-color: rgb(255, 246, 235) !important;
-  display: none;
+.language-lfpython {
+  display: none; /* Not shown by default. */
 }

@@ -8,26 +8,19 @@ preamble: >
 
 ## Choose a target language
 
-<!-- doesn't work:
-<select name="target" id="targetSelector" onChange="handleTargetSelection()">
-<option value="C">C</option>
-<option value="Cpp">C++</option>
-<option value="Py">Python</option>
-<option value="TS">TypeScript</option>
-</select>
--->
-<label for="c">
- <input type="checkbox" id="c" name="target_language" value="c" checked onclick="selectLanguage('c', this.checked)">C
-</label>
-&nbsp;
-<label for="cpp">
- <input type="checkbox" id="cpp" name="target_language" value="cpp" onclick="selectLanguage('cpp', this.checked)">C++
-</label>
-</label>
-&nbsp;
-<label for="python">
- <input type="checkbox" id="python" name="target_language" value="python" onclick="selectLanguage('python', this.checked)">Python
-</label>
+<div id="language-chooser">
+<ul>
+<li><label for="c">
+ <input type="checkbox" id="c" name="target_language" value="c" checked onclick="selectLanguage('lfc', this.checked)">C
+</label></li>
+<li><label for="cpp">
+ <input type="checkbox" id="cpp" name="target_language" value="cpp" onclick="selectLanguage('lfcpp', this.checked)">C++
+</label></li>
+<li><label for="python">
+ <input type="checkbox" id="python" name="target_language" value="python" onclick="selectLanguage('lfpython', this.checked)">Python
+</label></li>
+</ul>
+</div>
 
 <div class="c">
 
@@ -55,7 +48,7 @@ A Lingua Franca file, which has a .lf extension, contains the following:
 
 If one of the reactors in the file is designated `main` or `federated`, then the file defines an executable application. Otherwise, it defines one or more library reactors that can be imported into other LF files. For example, an LF file might be structured like this:
 
-```
+```lf
 target <targetLanguage>;
 import A from "A.lf";
 main reactor {
@@ -76,7 +69,7 @@ This example specifies and instantiates two reactors, one of which sends message
 
 A minimal but complete Lingua Franca file with one reactor is this:
 
-```c
+```lfc
 target C;
 main reactor HelloWorld {
     reaction(startup) {=
@@ -85,7 +78,7 @@ main reactor HelloWorld {
 }
 ```
 
-```cpp
+```lfcpp
 target Cpp;
 main reactor HelloWorld {
     reaction(startup) {=
@@ -94,7 +87,7 @@ main reactor HelloWorld {
 }
 ```
 
-```python
+```lfpython
 target Python;
 main reactor Minimal {
     reaction(startup) {=

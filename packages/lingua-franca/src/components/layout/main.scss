@@ -168,6 +168,27 @@ html.font-open-dyslexic {
   td {
     padding: 4px;
   }
+  /**************
+    Lingua Franca styles block code, which is always dark themed.
+    Dont like using !important on the following, but it doesn't work otherwise.
+*/
+  .language-lf {
+    background-color: rgb(0, 0, 0) !important;
+  }
+  .language-lfc {
+    background-color: rgb(21, 28, 108) !important;
+  }
+  .language-lfcpp {
+    background-color: rgb(16, 89, 22) !important;
+  }
+  .language-lfpython {
+    background-color: rgb(89, 55, 13) !important;
+  }
+  /* LF keywords are defined in gatsby-config.js. */
+  .lfc_keywords {
+    color: rgb(255, 166, 172) !important;
+    font-weight: bold;
+  }
 }
 
 // Style the permalink icon in dark colour-scheme
