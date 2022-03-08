@@ -171,22 +171,37 @@ html.font-open-dyslexic {
   /**************
     Lingua Franca styles block code, which is always dark themed.
     Dont like using !important on the following, but it doesn't work otherwise.
+    First batch is for code blocks within ``` ... ```.
   */
   .language-lf {
-    background-color: rgb(0, 0, 0) !important;
+    background-color: rgb(35, 35, 35) !important;
   }
   .language-lfc {
-    background-color: rgb(21, 28, 108) !important;
+    background-color: rgb(0, 49, 100) !important;
   }
   .language-lfcpp {
-    background-color: rgb(16, 89, 22) !important;
+    background-color: rgb(0, 60, 15) !important;
   }
   .language-lfpython {
-    background-color: rgb(89, 55, 13) !important;
+    background-color: rgb(60, 30, 13) !important;
   }
+  /* For inline text. */
+  .lf {
+    background-color: rgb(220, 220, 220) !important;
+  }
+  .lfc {
+    background-color: rgb(219, 236, 255) !important;
+  }
+  .lfcpp {
+    background-color: rgb(226, 255, 233) !important;
+  }
+  .lfpython {
+    background-color: rgb(242, 229, 221) !important;
+  }
+
   /* LF keywords are defined in gatsby-config.js. */
   .lfc_keywords {
-    color: rgb(255, 166, 172) !important;
+    color: rgb(247, 148, 30) !important;
     font-weight: bold;
   }
 }

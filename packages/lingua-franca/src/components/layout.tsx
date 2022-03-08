@@ -25,7 +25,8 @@ export const Layout = (props: LayoutProps) => {
             var checked = selected ? 'block' : 'none';
             var code = document.getElementsByClassName('language-' + language);
             var text = document.getElementsByClassName(language);
-            var elements = [...code, ...text];
+            var inline = document.getElementsByClassName(language);
+            var elements = [...code, ...text, ...inline];
             for (var i = 0; i < elements.length; i++) {
                 elements[i].style.display = checked;
             }

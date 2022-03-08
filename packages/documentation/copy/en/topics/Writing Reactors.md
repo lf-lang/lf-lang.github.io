@@ -22,17 +22,17 @@ preamble: >
 </ul>
 </div>
 
-<div class="c">
+<div class="lfc">
 
 See [setup and requirements for the C target](about-the-c-target).
 
 </div>
-<div class="cpp">
+<div class="lfcpp">
 
 See [setup and requirements for the Cpp target](about-the-cpp-target).
 
 </div>
-<div class="python">
+<div class="lfpython">
 
 See [setup and requirements for the Python target](about-the-python-target).
 
@@ -49,7 +49,7 @@ A Lingua Franca file, which has a .lf extension, contains the following:
 If one of the reactors in the file is designated `main` or `federated`, then the file defines an executable application. Otherwise, it defines one or more library reactors that can be imported into other LF files. For example, an LF file might be structured like this:
 
 ```lf
-target <targetLanguage>;
+target <language>;
 import A from "A.lf";
 main reactor {
     a = new A();
