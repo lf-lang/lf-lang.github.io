@@ -22,22 +22,6 @@ export const getTagFromParents = (tag: string, root: { nodeName: string, parentE
   return parent as HTMLElement
 }
 
-
-
-const applyTargetSelection = function(selected) {
-console.log("test");
-console.log(selected);
-var list = ["C", "Cpp", "Py", "TS"];
-for (var target in list) {
-  var elements = Array.from(document.getElementsByClassName(target) as HTMLCollectionOf<HTMLElement>);
-  for(var targetElement of elements){
-    if(selected == target) targetElement.style.display = "block";
-    else targetElement.style.display = "none";
-  }
-}
-}
-
-
 const toggleNavigationSection: MouseEventHandler = (event) => {
   const li = getTagFromParents("li", event.target as any)
   const isOpen = li.classList.contains("open")
@@ -137,18 +121,41 @@ export const Sidebar = (props: Props) => {
     }
   }
 
+  /* Target language chooser */
+  const RenderTargetChooser = () => {
+    const applyTargetSelection = (selected) => {
+      /* FIXME: the passed argument is totally bogus and has nothing to do with what is selected. */
+      console.log(selected.target.state.select);
+      var list = ["language-lfc", "language-lfc", "Py", "TS"];
+      for (var target in list) {
+        var elements = Array.from(document.getElementsByClassName(target) as HTMLCollectionOf<HTMLElement>);
+        for(var targetElement of elements){
+          if(selected == target) targetElement.style.display = "block";
+          else targetElement.style.display = "none";
+        }
+      }
+    }
+    return (
+      <li key="targetChooser">
+        <button id="targetChooser">
+          <label>Target language:</label>
+          <select name="target" id="targetSelector" onChange={applyTargetSelection}>
+            <option value="language-lfc">C</option>
+            <option value="language-lfcpp">C++</option>
+            <option value="Py">Python</option>
+            <option value="TS">TypeScript</option>
+          </select>
+        </button>
+      </li>
+    )
+  }
+
   return (
     <nav id="sidebar">
       <ul>
+        <RenderTargetChooser/>
         {props.navItems.map(item => <RenderItem key={item.id} item={item} openAllSectionsExceptWhatsNew={props.openAllSectionsExceptWhatsNew} selectedID={props.selectedID} />)}
       </ul>
-      <label>Choose a target:</label>
-      <select name="target" id="targetSelector" onChange={ (target) => applyTargetSelection(target)}>
-        <option value="C">C</option>
-        <option value="Cpp">C++</option>
-        <option value="Py">Python</option>
-        <option value="TS">TypeScript</option>
-      </select>
     </nav>
   )
 }

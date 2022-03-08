@@ -26,6 +26,11 @@ nav#sidebar {
       font-weight: 400;
       font-size: 1rem;
 
+      // The target language chooser
+      button#targetChooser {
+        background-color: rgb(247, 148, 30) !important; /* LF orange */
+      }
+
       // The top level navigation items
       button {
         display: block;
