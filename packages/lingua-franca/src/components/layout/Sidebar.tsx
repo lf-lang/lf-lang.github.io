@@ -124,14 +124,19 @@ export const Sidebar = (props: Props) => {
   /* Target language chooser */
   const RenderTargetChooser = () => {
     const applyTargetSelection = (selected) => {
-      /* FIXME: the passed argument is totally bogus and has nothing to do with what is selected. */
-      console.log(selected.target.state.select);
-      var list = ["language-lfc", "language-lfc", "Py", "TS"];
-      for (var target in list) {
-        var elements = Array.from(document.getElementsByClassName(target) as HTMLCollectionOf<HTMLElement>);
-        for(var targetElement of elements){
-          if(selected == target) targetElement.style.display = "block";
-          else targetElement.style.display = "none";
+      // console.log(selected);
+      var list = ["lfc", "lfcpp", "lfpython", "lfts", "lfrust"];
+      for (var target of list) {
+        // console.log(target)
+        for (var element of document.getElementsByClassName('language-' + target)) {
+          // console.log(element)
+          if (selected == target) element.style.display = "block";
+          else element.style.display = "none";
+        }
+        for (var element of document.getElementsByClassName(target)) {
+          // console.log(element)
+          if (selected == target) element.style.display = "inline";
+          else element.style.display = "none";
         }
       }
     }
@@ -139,11 +144,12 @@ export const Sidebar = (props: Props) => {
       <li key="targetChooser">
         <button id="targetChooser">
           <label>Target language:</label>
-          <select name="target" id="targetSelector" onChange={applyTargetSelection}>
-            <option value="language-lfc">C</option>
-            <option value="language-lfcpp">C++</option>
-            <option value="Py">Python</option>
-            <option value="TS">TypeScript</option>
+          <select name="target" id="targetSelector" onChange={(e) => applyTargetSelection(e.target.value)}>
+            <option value="lfc">C</option>
+            <option value="lfcpp">C++</option>
+            <option value="lfpython">Python</option>
+            <option value="lfts">TypeScript</option>
+            <option value="lfrust">Rust</option>
           </select>
         </button>
       </li>

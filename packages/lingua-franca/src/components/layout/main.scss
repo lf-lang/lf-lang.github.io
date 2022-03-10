@@ -183,6 +183,12 @@ html.font-open-dyslexic {
     background-color: rgb(0, 60, 15) !important;
   }
   .language-lfpython {
+    background-color: rgb(60, 56, 13) !important;
+  }
+  .language-lfts {
+    background-color: rgb(60, 13, 58) !important;
+  }
+  .language-lfrust {
     background-color: rgb(60, 30, 13) !important;
   }
   /* For inline text. */
@@ -197,6 +203,12 @@ html.font-open-dyslexic {
   }
   .lfpython {
     background-color: rgb(242, 229, 221) !important;
+  }
+  .language-lfts {
+    background-color: rgb(255, 239, 254) !important;
+  }
+  .language-lfrust {
+    background-color: rgb(255, 237, 227) !important;
   }
 
   /* LF keywords are defined in gatsby-config.js. */

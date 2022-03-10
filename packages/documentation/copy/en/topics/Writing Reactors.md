@@ -6,37 +6,22 @@ oneline: "Writing Reactors in Lingua Franca."
 preamble: >
 ---
 
-## Choose a target language
-
-<div id="language-chooser">
-<ul>
-<li><label for="c">
- <input type="checkbox" id="c" name="target_language" value="c" checked onclick="selectLanguage('lfc', this.checked)">C
-</label></li>
-<li><label for="cpp">
- <input type="checkbox" id="cpp" name="target_language" value="cpp" onclick="selectLanguage('lfcpp', this.checked)">C++
-</label></li>
-<li><label for="python">
- <input type="checkbox" id="python" name="target_language" value="python" onclick="selectLanguage('lfpython', this.checked)">Python
-</label></li>
-</ul>
-</div>
-
-<div class="lfc">
-
+This page is showing examples in the target language
+<span class="lfc">C</span>
+<span class="lfcpp">C++</span>
+<span class="lfpython">Python</span>
+<span class="lfts">Typescript</span>
+<span class="lfrust">Rust</span>.
+You can change the target language in left sidebar.
+<span class="lfc">
 See [setup and requirements for the C target](about-the-c-target).
-
-</div>
-<div class="lfcpp">
-
+</span>
+<span class="lfcpp">
 See [setup and requirements for the Cpp target](about-the-cpp-target).
-
-</div>
-<div class="lfpython">
-
+</span>
+<span class="lfpython">
 See [setup and requirements for the Python target](about-the-python-target).
-
-</div>
+</span>
 
 ## Structure of an LF Program
 

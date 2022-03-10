@@ -165,12 +165,24 @@ div#like-dislike-subnav {
 .language-lfpython {
   display: none; /* Not shown by default. */
 }
+.language-lfts {
+  display: none; /* Not shown by default. */
+}
+.language-lfrust {
+  display: none; /* Not shown by default. */
+}
 .lfc {
-  display: block; /* Shows by default. */
+  display: inline; /* Shows by default. */
 }
 .lfcpp {
   display: none; /* Not shown by default. */
 }
 .lfpython {
+  display: none; /* Not shown by default. */
+}
+.lfts {
+  display: none; /* Not shown by default. */
+}
+.lfrust {
   display: none; /* Not shown by default. */
 }
