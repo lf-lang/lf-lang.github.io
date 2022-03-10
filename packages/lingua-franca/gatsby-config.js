@@ -101,6 +101,7 @@ module.exports = {
       resolve: `gatsby-transformer-remark`,
       options: {
         plugins: [
+<<<<<<< HEAD
           {
              resolve: `gatsby-remark-prismjs`,
              options: {
@@ -208,6 +209,9 @@ module.exports = {
                escapeEntities: {},
              },
           },
+=======
+          `lf-syntax-highlighting`,
+>>>>>>> [highlighting] LF TextMate scopes are being applied.
           `gatsby-remark-emoji`,
           `gatsby-remark-relative-images`,
           {
