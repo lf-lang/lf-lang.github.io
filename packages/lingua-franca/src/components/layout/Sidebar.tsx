@@ -126,17 +126,26 @@ export const Sidebar = (props: Props) => {
     const applyTargetSelection = (selected) => {
       // console.log(selected);
       var list = ["lfc", "lfcpp", "lfpython", "lfts", "lfrust"];
+      var show = new Set();
       for (var target of list) {
         // console.log(target)
         for (var element of document.getElementsByClassName('language-' + target)) {
           // console.log(element)
-          if (selected == target) element.style.display = "block";
-          else element.style.display = "none";
+          if (selected == target || show.has(element)) {
+            element.style.display = "block";
+            show.add(element);
+          } else {
+            element.style.display = "none";
+          }
         }
         for (var element of document.getElementsByClassName(target)) {
           // console.log(element)
-          if (selected == target) element.style.display = "inline";
-          else element.style.display = "none";
+          if (selected == target || show.has(element)) {
+            element.style.display = "inline";
+            show.add(element);
+          } else {
+            element.style.display = "none";
+          }
         }
       }
     }

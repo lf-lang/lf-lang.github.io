@@ -47,8 +47,23 @@ export function getDocumentationNavForLanguage(
         {
           title: "Writing Reactors",
           id: "0-writing-reactors",
-          permalink: "/docs/handbook/writing-reactors",
-          oneline: "Writing Reactors in Lingua Franca.",
+          oneline: "undefined",
+          chronological: true,
+
+          items: [
+            {
+              title: "Getting Started",
+              id: "0-getting-started",
+              permalink: "/docs/handbook/getting-started",
+              oneline: "Getting started with Lingua Franca.",
+            },
+            {
+              title: "Composing Reactors",
+              id: "0-composing-reactors",
+              permalink: "/docs/handbook/composing-reactors",
+              oneline: "Composing reactors in Lingua Franca.",
+            },
+          ],
         },
         {
           title: "Language Specification",

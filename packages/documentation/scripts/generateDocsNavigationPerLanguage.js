@@ -35,7 +35,14 @@ const handbookPages = [
     items: [
       { file: "topics/Overview.md" },
       { file: "topics/Tutorial.md" },
-      { file: "topics/Writing Reactors.md"},
+      {
+        title: "Writing Reactors",
+        chronological: true,
+        items: [
+            { file: "topics/Getting Started.md" },
+            { file: "topics/Composing Reactors.md" },
+        ],
+      },
       {
         title: "Language Specification",
         chronological: true,
