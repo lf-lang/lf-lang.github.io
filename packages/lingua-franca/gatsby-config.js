@@ -175,6 +175,24 @@ module.exports = {
                       },
                     },
                   },
+                  {
+                    language: "lfts",
+                    extend: "typescript",
+                    insertBefore: {
+                      function: {
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                      },
+                    },
+                  },
+                  {
+                    language: "lfrust",
+                    extend: "rust",
+                    insertBefore: {
+                      function: {
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                      },
+                    },
+                  },
                 ],
                // Customize the prompt used in shell output
                // Values below are default
