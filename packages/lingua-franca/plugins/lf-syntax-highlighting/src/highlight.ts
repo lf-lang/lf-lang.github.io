@@ -33,8 +33,7 @@ const registry = new vsctm.Registry({
     }
 });
 
-export const annotateCode = async (code: string) => {
-  const grammar: vsctm.IGrammar | null = await registry.loadGrammar('source.lf')
+const annotateCode = (code: string, grammar: vsctm.IGrammar) => {
   if (grammar == null) return
   let prevState: vsctm.StackElement | null = null
   let ret: string = ""
@@ -60,4 +59,34 @@ export const annotateCode = async (code: string) => {
     ret += annotatedLine + "\n"
   }
   return ret
+}
+
+type Node = {
+  type: string,
+  children: Node[],
+  value: string
+}
+
+const visit = (ast: Node, type: string, transform: (node: Node) => void) => {
+  if (!ast) return;
+  if (ast.type == type) transform(ast);
+  if (!ast.children) return;
+  for (const child of ast.children) {
+    visit(child, type, transform);
+  }
+}
+
+export const processAST = async ({ markdownAST }, pluginOptions) => {
+  const grammar: vsctm.IGrammar | null = await registry.loadGrammar('source.lf')
+  if (grammar == null) {
+    console.error("Failed to load the TextMate grammar.")
+    return markdownAST
+  }
+  visit(markdownAST, "code", (node) => {
+    console.log("DEBUG: node.type=" + node.type)
+    node.type = "html"
+    const annotated = annotateCode(node.value, grammar)
+    node.value = `<pre>${annotated}</pre>`
+  })
+  return markdownAST
 }
