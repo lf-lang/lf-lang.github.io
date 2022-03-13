@@ -1,0 +1,27 @@
+.keyword.control,
+.storage.modifier {
+  color: #4b69c6;
+}
+
+.constant.language,
+.constant.numeric {
+  color: #9c5d27;
+}
+
+.variable {
+  color: #7a3e9d;
+}
+
+.entity.name.type,
+.storage.type {
+  color: #7a3e9d;
+  font-weight: bold;
+}
+
+.string {
+  color: #448c27;
+}
+
+.keyword.operator.new {
+  color: #777777;
+}

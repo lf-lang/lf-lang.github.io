@@ -23,34 +23,50 @@ const registry = new vsctm.Registry({
     onigLib: vscodeOnigurumaLib,
     loadGrammar: async (scopeName: string) => {
       if (scopeName === 'source.lf') {
-        console.log('Returning the LF grammar...')
         const data: any = await readFile(Config.lfGrammar)
-        console.log(data.toString())
         return vsctm.parseRawGrammar(data.toString(), Config.lfGrammar)
       }
-      console.log(`Unknown scope name: ${scopeName}`)
+      console.error(`Unknown scope name: ${scopeName}`)
       return Promise.resolve(null)
     }
 });
 
-const annotateCode = (code: string, grammar: vsctm.IGrammar) => {
+function implicitRuleStackFor(
+  lang: string | undefined,
+  code: string,
+  grammar: vsctm.IGrammar
+): vsctm.StackElement | null {
+  if (!lang) return null
+  if (!lang.includes("lf")) return null
+  if (code.startsWith("target")) return null
+  let language: string | null = null
+  const lower = code.toLowerCase()
+  if (lower.includes("c")) language = "C"
+  if (lower.includes("cpp")) language = "Cpp"
+  if (lower.includes("ccpp")) language = "CCpp"
+  if (lower.includes("py")) language = "Python"
+  if (lower.includes("rust")) language = "Rust"
+  if (lower.includes("typescript") || lower.includes("ts")) language = "TypeScript"
+  let { ruleStack } = grammar.tokenizeLine("target " + language + ";", null)
+  return ruleStack
+}
+
+function annotateCode(code: string, grammar: vsctm.IGrammar, lang: string) {
   if (grammar == null) return
-  let prevState: vsctm.StackElement | null = null
+  let prevState: vsctm.StackElement | null = implicitRuleStackFor(lang, code, grammar)
   let ret: string = ""
   for (const line of code.split("\n")) {
-    console.log(line)
     let result: vsctm.ITokenizeLineResult = grammar.tokenizeLine(line, prevState)
     prevState = result.ruleStack
     if (result.stoppedEarly) {
       console.error("Tokenization stopped early due to timeout.")
       continue
     }
-    console.log(result)
     let annotatedLine = ""
     let lengthAppended = 0
     for (const token of result.tokens) {
       annotatedLine += line.substring(lengthAppended, token.startIndex)
-      annotatedLine += `<span class="${token.scopes.join(" ")}">${
+      annotatedLine += `<span class="${token.scopes.join(" ").replace(/\./g, " ")}">${
         line.substring(token.startIndex, token.endIndex)
       }</span>`
       lengthAppended = token.endIndex
@@ -67,7 +83,7 @@ type Node = {
   value: string
 }
 
-const visit = (ast: Node, type: string, transform: (node: Node) => void) => {
+function visit(ast: Node, type: string, transform: (node: Node) => void) {
   if (!ast) return;
   if (ast.type == type) transform(ast);
   if (!ast.children) return;
@@ -83,9 +99,9 @@ export const processAST = async ({ markdownAST }, pluginOptions) => {
     return markdownAST
   }
   visit(markdownAST, "code", (node) => {
-    console.log("DEBUG: node.type=" + node.type)
     node.type = "html"
-    const annotated = annotateCode(node.value, grammar)
+    const lang = node.hasOwnProperty("lang") ? node["lang"] : null
+    const annotated = annotateCode(node.value, grammar, lang)
     node.value = `<pre>${annotated}</pre>`
   })
   return markdownAST
