@@ -22,6 +22,7 @@ import { setupLikeDislikeButtons } from "./scripts/setupLikeDislikeButtons"
 import { DislikeUnfilledSVG, LikeUnfilledSVG } from "../components/svgs/documentation"
 import { Popup, useQuickInfoPopup } from "../components/Popup"
 import Helmet from "react-helmet"
+import { setInitialTargetLanguage } from "../lib/setInitialTargetLanguage"
 
 type Props = {
   pageContext: {
@@ -71,7 +72,6 @@ const HandbookTemplate: React.FC<Props> = (props) => {
 
     setupLikeDislikeButtons(props.pageContext.slug, i)
 
-
     return () => {
       window.removeEventListener("scroll", updateSidebarOnScroll)
     }
@@ -93,7 +93,7 @@ const HandbookTemplate: React.FC<Props> = (props) => {
   const slug = slugger()
   return (
     <Layout title={`${prefix} - ${post.frontmatter.title}`} description={post.frontmatter.oneline || ""} lang={props.pageContext.lang}>
-      <section id="doc-layout" >
+      <section id="doc-layout" onLoad={ () => setInitialTargetLanguage() }>
         <SidebarToggleButton />
 
         <div className="page-popup" id="page-helpful-popup" style={{ opacity: 0 }}>
