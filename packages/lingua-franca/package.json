@@ -5,7 +5,8 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "build": "GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build",
+    "build": "npm run buildPlugin && GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES=true gatsby build",
+    "buildPlugin": "cd plugins/lf-syntax-highlighting && npm install",
     "deploy": "gatsby build --prefix-paths && gh-pages -d public",
     "clean": "gatsby clean",
     "bootstrap": "echo 'NOOP'",
