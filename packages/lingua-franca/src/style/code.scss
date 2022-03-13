@@ -1,25 +1,39 @@
+// This stylesheet is closely based on VS Code's "Quiet Light" theme.
+
+.keyword {
+  color: #4b69c6;
+}
+
 .keyword.control,
 .storage.modifier {
   color: #4b69c6;
 }
 
-.constant.language,
-.constant.numeric {
+.keyword.operator,
+.constant.character.escape,
+.punctuation {
+  color: #777777;
+}
+
+.comment {
+  color: #aaaaaa;
+}
+
+.constant,
+.variable.language {
   color: #9c5d27;
 }
 
-.variable {
-  color: #7a3e9d;
-}
-
-.entity.name.type,
-.storage.type {
-  color: #7a3e9d;
+.entity.name.function {
+  color: #aa3731;
   font-weight: bold;
 }
 
-.string {
-  color: #448c27;
+.entity.name.type,
+.entity.name.scope-resolution,
+.storage.type {
+  color: #7a3e9d;
+  font-weight: bold;
 }
 
 .keyword.operator.new {
@@ -29,4 +43,12 @@
 pre {
   overflow-x: scroll;
   font-size: 0.8rem;
+}
+
+.string {
+  color: #448c27;
+}
+
+.variable {
+  color: #7a3e9d;
 }
