@@ -55,12 +55,12 @@ main reactor {
 ```
 
 ```lfts
-target TypeScript;
-main reactor {
-    reaction(startup) {=
-        console.log("Hello World.");
-    =}
-}
+    target TypeScript;
+    main reactor {
+        reaction(startup) {=
+            console.log("Hello World.");
+        =}
+    }
 ```
 
 ```lfrust
@@ -80,14 +80,36 @@ Every LF program also has a `main` or `federated` reactor, which is the top leve
 
 The Lingua Franca tools assume that every such file is put somewhere within a directory called `src`. Create such a directory within your chosen **project root** directory. Put the above code in a file `src/Minimal.lf`. You can compile the code on the [command line]{FIXME} or within your [IDE]{FIXME}. On the command line this will look like this:
 
-<pre class="lfc">
+```
     > lfc src/Minimal.lf
-</pre>
+    ... output from the code generator and compiler ...
+```
 
-This will create more directories within the project root, typically `src-gen` and `bin`. The `src-gen` directory will have one or more generated files in the target language.
+<p class="lfc lfcpp lfrust">
+After this completes, the `bin` directory will have an executable file called `Minimal`. Executing that file will result, not surprisingly, in printing "Hello World". The generated source files will be within the directory `src-gen`.
+</p>
+<p class="lfts lfpython">
+Notice that the generated code will be in subdirectory within `src-gen`.
+The output from the code generator will include instructions for executing the generated code:
 
-<p class="lfc lfcpp rust">
-After compiling `Minimal.lf` with `lfc`, the `bin` directory will have an executable file called `Minimal`. Executing that file will result, not surprisingly, in printing "Hello World". If the target language is an interpreted language (like Python and TypeScript), then you run the program using the generated file in `src-gen`.
+```lfts
+#####################################
+To run the generated program, use:
+
+    node ...path-to-project.../src-gen/Minimal/Minimal.js
+
+#####################################
+```
+
+```lfpython
+#####################################
+To run the generated program, use:
+
+    python3 ...path-to-project.../src-gen/Minimal/Minimal.py
+
+#####################################
+```
+
 </p>
 
 ## Reactor Block
@@ -96,9 +118,25 @@ A **reactor** is a software component that reacts to input events, timer events,
 
 The general structure of a reactor block is as follows:
 
-> **reactor** _name_ (_[parameters](#parameter-declaration)_) {<br/> > &nbsp;&nbsp;_[state declarations](#state-declaration)_<br/> > &nbsp;&nbsp;_[method declarations](#method-declaration)_<br/> > &nbsp;&nbsp;_[input declarations](#input-declaration)_<br/> > &nbsp;&nbsp;_[output declarations](#output-declaration)_<br/> > &nbsp;&nbsp;_[timer declarations](#timer-declaration)_<br/> > &nbsp;&nbsp;_[action declarations](#action-declaration)_<br/> > &nbsp;&nbsp;_[reaction declarations](#reaction-declaration)_<br/> > &nbsp;&nbsp;_[contained reactors](#contained-reactors)_<br/> > &nbsp;&nbsp; ... <br/>
-> }
+```lf
+[main or federated] reactor <reactor-class-name> ([<parameters>]) {
+    input <name>:<type>
+    output <name>:<type>
+    state <name>:<type>(<initial-value>)
+    timer <name>([<initial-offset>, [<period>]])
+    logical action <name>[:<type>]
+    physical action <name>[:<type>]
+    [const] method <name>(<parameters>):<type> {= ... method-body ...=}
+    reaction(<triggers>) [<uses>] [=> <effects>] {= ... reaction-body ...=}
+    <instance-name> = new <reactor-class-name>([<parameter-assignments>])
+    <instance-name(s)> => <instance-name(s)> [after <time>]
+}
+```
 
-Parameter, inputs, outputs, timers, actions, and contained reactors all have names, and the names are required to be distinct from one another.
+Contents within square brackets are optional, contents within `<...>` are user-defined, and each line may appear zero or more times, as explained in the next pages. Parameter, inputs, outputs, timers, actions, and contained reactors all have names, and the names are required to be distinct from one another.
 
-If the **reactor** keyword is preceded by **main**, then this reactor will be instantiated and run by the generated code. If an imported LF file contains a main reactor, that reactor is ignored. Only reactors that not designated `main` are imported. This makes it easy to create a library of reusable reactors that each come with a test case or demonstration in the form of a main reactor.
+If the <span class="lf">reactor</span> keyword is preceded by <span class="lf">main</span> or <span class="lf">federated</span>, then this reactor will be instantiated and run by the generated code.
+
+Any number of reactors may be defined in one file, and a <span class="lf">main</span> or <span class="lf">federated</span> reactor need not be given a name, but if it is given a name, then that name must match the file name.
+
+Reactors may extend other reactors, inheriting their properties, and a file may import reactors from other files. If an imported LF file contains a <span class="lf">main</span> or <span class="lf">federated</span> reactor, that reactor is ignored (it will not be imported). This makes it easy to create a library of reusable reactors that each come with a test case or demonstration in the form of a main reactor.

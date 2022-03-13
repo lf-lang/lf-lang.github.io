@@ -9,10 +9,7 @@ export const setInitialTargetLanguage = () => {
       || defaultTargetLanguage;
   console.log("Setting initial target language to " + lang);
 
-  if (lang != defaultTargetLanguage) {
-      let selector = document.getElementById("targetSelector") as any;
-      console.log("************* selector: " + selector);
-      if (selector != null) selector.value = lang;
-      setTargetLanguage(lang);
-  }
+  let selector = document.getElementById("targetSelector") as any;
+  if (selector != null) selector.value = lang;
+  setTargetLanguage(lang);
 }
