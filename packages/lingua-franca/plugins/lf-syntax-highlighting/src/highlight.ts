@@ -21,13 +21,19 @@ const vscodeOnigurumaLib = oniguruma.loadWASM(wasmBin).then(() => {
     };
 });
 
-// Create a registry that can create a grammar from a scope name.
 const registry = new vsctm.Registry({
     onigLib: vscodeOnigurumaLib,
     loadGrammar: async (scopeName: string) => {
-      if (scopeName === 'source.lf') {
-        const data: any = await readFile(Config.lfGrammar)
-        return vsctm.parseRawGrammar(data.toString(), Config.lfGrammar)
+      let grammarFile: string = ""
+      for (const language of Config.languages) {
+        if (scopeName == language.scopeName) {
+          grammarFile = language.grammarFile
+          break
+        }
+      }
+      if (grammarFile !== "") {
+        const data: any = await readFile(grammarFile)
+        return vsctm.parseRawGrammar(data.toString(), grammarFile)
       }
       console.error(`Unknown scope name: ${scopeName}`)
       return Promise.resolve(null)
@@ -41,21 +47,40 @@ function implicitRuleStackFor(
 ): vsctm.StackElement | null {
   if (!lang) return null
   if (!lang.includes("lf")) return null
-  if (code.startsWith("target")) return null
-  let language: string | null = null
-  const lower = code.toLowerCase()
-  if (lower.includes("c")) language = "C"
-  if (lower.includes("cpp")) language = "Cpp"
-  if (lower.includes("ccpp")) language = "CCpp"
-  if (lower.includes("py")) language = "Python"
-  if (lower.includes("rust")) language = "Rust"
-  if (lower.includes("typescript") || lower.includes("ts")) language = "TypeScript"
-  let { ruleStack } = grammar.tokenizeLine("target " + language + ";", null)
+  if (code.includes("target")) return null
+  let languageName: string | null = null
+  if (!lang.includes("-")) {
+    console.error(
+      "Language \"lf\" specified via the language label \"" + lang + "\", but target language is"
+      + " unclear. Required format is lf-<target language name>."
+    )
+    return null
+  }
+  const lower = lang.split("-").slice(1).join("-").toLowerCase()
+  for (const language of Config.languages) {
+    if (
+      lower == language.canonicalName.toLowerCase()
+      || language.aliases.map(it => it.toLowerCase()).some(it => lower === it)
+    ) {
+      languageName = language.canonicalName
+      break
+    }
+  }
+  let { ruleStack } = grammar.tokenizeLine("target " + languageName + ";", null)
   return ruleStack
 }
 
-function annotateCode(code: string, grammar: vsctm.IGrammar, lang: string) {
-  if (grammar == null) return
+function escapeHtml(code: string): string {
+  return code
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;")
+}
+
+function annotateCode(code: string, grammar: vsctm.IGrammar | undefined, lang: string): string {
+  if (!grammar) return escapeHtml(code)
   let prevState: vsctm.StackElement | null = implicitRuleStackFor(lang, code, grammar)
   let ret: string = ""
   for (const line of code.split("\n")) {
@@ -68,13 +93,13 @@ function annotateCode(code: string, grammar: vsctm.IGrammar, lang: string) {
     let annotatedLine = ""
     let lengthAppended = 0
     for (const token of result.tokens) {
-      annotatedLine += line.substring(lengthAppended, token.startIndex)
+      annotatedLine += escapeHtml(line.substring(lengthAppended, token.startIndex))
       annotatedLine += `<span class="${token.scopes.join(" ").replace(/\./g, " ")}">${
-        line.substring(token.startIndex, token.endIndex)
+        escapeHtml(line.substring(token.startIndex, token.endIndex))
       }</span>`
       lengthAppended = token.endIndex
     }
-    annotatedLine += line.substring(lengthAppended, line.length)
+    annotatedLine += escapeHtml(line.substring(lengthAppended, line.length))
     ret += annotatedLine + "\n"
   }
   return ret
@@ -96,15 +121,22 @@ function visit(ast: Node, type: string, transform: (node: Node) => void) {
 }
 
 export const processAST = async ({ markdownAST }, pluginOptions) => {
-  const grammar: vsctm.IGrammar | null = await registry.loadGrammar('source.lf')
-  if (grammar == null) {
-    console.error("Failed to load the TextMate grammar.")
-    return markdownAST
+  const grammars: Map<string, vsctm.IGrammar> = new Map()
+  for (const language of Config.languages) {
+    const grammar = await registry.loadGrammar(language.scopeName)
+    if (grammar) {
+      for (const name of [language.canonicalName, ...language.aliases]) {
+        grammars.set(name.toLowerCase(), grammar)
+      }
+    } else {
+      console.error("Failed to load grammar corresponding to " + language.scopeName)
+    }
   }
   visit(markdownAST, "code", (node) => {
     node.type = "html"
-    const lang = node.hasOwnProperty("lang") ? node["lang"] : null
-    const annotated = annotateCode(node.value, grammar, lang)
+    const lang: string = (node.hasOwnProperty("lang") && node["lang"]) ? node["lang"] : "text"
+    const key: string | undefined = lang.includes("lf") ? "lf" : lang.toLowerCase()
+    const annotated = annotateCode(node.value, grammars.get(key), lang)
     node.value = `<pre>${annotated}</pre>`
   })
   return markdownAST
