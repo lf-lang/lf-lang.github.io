@@ -1,12 +1,15 @@
-const fs = require("fs")
+import fs from "fs"
 import path from "path"
 import * as vsctm from "vscode-textmate"
 import { Config } from "./config"
 import * as oniguruma from "vscode-oniguruma"
 
-function readFile(path: string) {
+function readFile(p: string) {
     return new Promise((resolve, reject) => {
-        fs.readFile(path, (error: any, data: any) => error ? reject(error) : resolve(data));
+      return fs.readFile(
+        path.resolve(__dirname, p),
+        (error: any, data: any) => error ? reject(error) : resolve(data)
+      );
     })
 }
 

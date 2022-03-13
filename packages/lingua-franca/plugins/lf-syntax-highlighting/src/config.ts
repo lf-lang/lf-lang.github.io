@@ -5,7 +5,6 @@ export class Config {
     '..', 'node_modules', 'vscode-oniguruma', 'release', 'onig.wasm'
   )
   static readonly lfGrammar: string = path.join(
-    //'.', 'vscode-lingua-franca', 'syntax', 'lflang.tmLanguage.json'
-    '/home', 'peter', 'website-lingua-franca', 'packages', 'lingua-franca', 'plugins', 'lf-syntax-highlighting', 'vscode-lingua-franca/syntax', 'lflang.tmLanguage.json'
+    '..', 'vscode-lingua-franca', 'syntax', 'lflang.tmLanguage.json'
   )
 }
