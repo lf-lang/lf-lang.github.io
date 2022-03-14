@@ -2,7 +2,7 @@ import { SelectHTMLAttributes } from "react";
 import { hasLocalStorage } from "./hasLocalStorage";
 import { setTargetLanguage } from "./setTargetLanguage";
 
-const defaultTargetLanguage = "lfc";
+const defaultTargetLanguage = "lf-c";
 
 export const setInitialTargetLanguage = () => {
   var lang:string = (hasLocalStorage && localStorage.getItem("last-selected-target-language")) 

@@ -144,52 +144,52 @@ module.exports = {
                   extend: "clike", /* FIXME: Must be a better base for this. */
                   insertBefore: {
                     function: {
-                      lfc_keywords: /\b(?:action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)\b/,
+                      lf_keywords: /\b(?:action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)\b/,
                     },
                   },
                 },
                 {
-                    language: "lfc",
+                    language: "lf-c",
                     extend: "c",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /\b(?:action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)\b/,
+                        lf_keywords: /\b(?:action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)\b/,
                       },
                     },
                   },
                   {
-                    language: "lfcpp",
+                    language: "lf-cpp",
                     extend: "cpp",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
+                        lf_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
                       },
                     },
                   },
                   {
-                    language: "lfpython",
+                    language: "lf-py",
                     extend: "python",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
+                        lf_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
                       },
                     },
                   },
                   {
-                    language: "lfts",
+                    language: "lf-ts",
                     extend: "typescript",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
+                        lf_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
                       },
                     },
                   },
                   {
-                    language: "lfrust",
+                    language: "lf-rs",
                     extend: "rust",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
+                        lf_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
                       },
                     },
                   },

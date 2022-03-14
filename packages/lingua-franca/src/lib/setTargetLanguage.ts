@@ -1,7 +1,6 @@
 import { hasLocalStorage } from "./hasLocalStorage";
 
-const targetLanguages = ["lfc", "lfcpp", "lfpython", "lfts", "lfrust"];
-const defaultTargetLanguage = "lfc";
+const targetLanguages = ["lf-c", "lf-cpp", "lf-py", "lf-ts", "lf-rs"];
 
 export const setTargetLanguage = (selected) => {
   console.log("Setting target language to " + selected);

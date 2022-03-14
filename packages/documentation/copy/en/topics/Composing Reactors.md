@@ -7,11 +7,11 @@ preamble: >
 ---
 
 This page is showing examples in the target language
-<span class="lfc">C</span>
-<span class="lfcpp">C++</span>
-<span class="lfpython">Python</span>
-<span class="lfts">Typescript</span>
-<span class="lfrust">Rust</span>.
+<span class="lf-c">C</span>
+<span class="lf-cpp">C++</span>
+<span class="lf-py">Python</span>
+<span class="lf-ts">Typescript</span>
+<span class="lf-rs">Rust</span>.
 You can change the target language in left sidebar.
 
 ### Input Declaration
