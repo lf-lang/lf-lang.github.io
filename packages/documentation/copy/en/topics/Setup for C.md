@@ -1,8 +1,8 @@
 ---
-title: About the C Target
+title: Setup for C
 layout: docs
-permalink: /docs/handbook/about-the-c-target
-oneline: "About the C target in Lingua Franca."
+permalink: /docs/handbook/setup-for-c
+oneline: "Set up the C target in Lingua Franca."
 preamble: >
 ---
 
@@ -14,6 +14,6 @@ Note that C is not a safe language. There are many ways that a programmer can ci
 
 **NOTE:** If you intend to use C++ code or import C++ libraries in the C target, then you should specify instead the [CCpp target](#the-ccpp-target), which automatically uses a C++ compiler by default. Alternatively, you can use the Cpp target and write all the code in C++.
 
-## Setup for the C Target
+## Set Up the C Target
 
 **FIXME**

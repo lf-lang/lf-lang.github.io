@@ -1,8 +1,8 @@
 ---
-title: About the Python Target
+title: Setup for Python
 layout: docs
-permalink: /docs/handbook/about-the-python-target
-oneline: "About the Python target in Lingua Franca."
+permalink: /docs/handbook/setup-for-python
+oneline: "Set up the Python target in Lingua Franca."
 preamble: >
 ---
 
@@ -14,7 +14,7 @@ Python reactors can bring the vast library of scientific modules that exist for 
 
 **NOTE:** In comparison to the C reactor target, the Python target can be up to an order of magnitude slower. However, depending on the type of application and the implementation optimizations in Python, you can achieve an on-par performance to the C target in many applications.
 
-## Setup for the Python Target
+## Set Up the Python Target
 
 First, install Python 3 on your machine. See [downloading Python](https://wiki.python.org/moin/BeginnersGuide/Download).
 

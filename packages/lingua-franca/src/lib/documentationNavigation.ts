@@ -66,6 +66,78 @@ export function getDocumentationNavForLanguage(
           ],
         },
         {
+          title: "Tooling",
+          id: "0-tooling",
+          oneline: "undefined",
+          chronological: true,
+
+          items: [
+            {
+              title: "Code Plugin",
+              id: "0-code-plugin",
+              permalink: "/docs/handbook/code-plugin",
+              oneline: "Visual Studio Code Plugin for Lingua Franca.",
+            },
+            {
+              title: "Epoch IDE",
+              id: "0-epoch-ide",
+              permalink: "/docs/handbook/epoch-ide",
+              oneline: "Epoch IDE for Lingua Franca.",
+            },
+            {
+              title: "Command Line Tools",
+              id: "0-command-line-tools",
+              permalink: "/docs/handbook/command-line-tools",
+              oneline: "Command-line tools for Lingua Franca.",
+            },
+            {
+              title: "Setup for C",
+              id: "0-setup-for-c",
+              permalink: "/docs/handbook/setup-for-c",
+              oneline: "Set up the C target in Lingua Franca.",
+            },
+            {
+              title: "Setup for Cpp",
+              id: "0-setup-for-cpp",
+              permalink: "/docs/handbook/setup-for-cpp",
+              oneline: "Set up the C++ target in Lingua Franca.",
+            },
+            {
+              title: "Setup for Python",
+              id: "0-setup-for-python",
+              permalink: "/docs/handbook/setup-for-python",
+              oneline: "Set up the Python target in Lingua Franca.",
+            },
+            {
+              title: "Setup for TypeScript",
+              id: "0-setup-for-typescript",
+              permalink: "/docs/handbook/setup-for-typescript",
+              oneline: "Set up the TypeScript target in Lingua Franca.",
+            },
+            {
+              title: "Setup for Rust",
+              id: "0-setup-for-rust",
+              permalink: "/docs/handbook/setup-for-rust",
+              oneline: "Set up the Rust target in Lingua Franca.",
+            },
+          ],
+        },
+        {
+          title: "Reference",
+          id: "0-reference",
+          oneline: "undefined",
+          chronological: true,
+
+          items: [
+            {
+              title: "Target Specification",
+              id: "0-target-specification",
+              permalink: "/docs/handbook/target-specification",
+              oneline: "Target specification and options for Lingua Franca.",
+            },
+          ],
+        },
+        {
           title: "Language Specification",
           id: "0-language-specification",
           oneline: "undefined",

@@ -144,7 +144,7 @@ module.exports = {
                   extend: "clike", /* FIXME: Must be a better base for this. */
                   insertBefore: {
                     function: {
-                      lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                      lfc_keywords: /\b(?:action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)\b/,
                     },
                   },
                 },
@@ -153,7 +153,7 @@ module.exports = {
                     extend: "c",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                        lfc_keywords: /\b(?:action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)\b/,
                       },
                     },
                   },
@@ -162,7 +162,7 @@ module.exports = {
                     extend: "cpp",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
                       },
                     },
                   },
@@ -171,7 +171,7 @@ module.exports = {
                     extend: "python",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
                       },
                     },
                   },
@@ -180,7 +180,7 @@ module.exports = {
                     extend: "typescript",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
                       },
                     },
                   },
@@ -189,7 +189,7 @@ module.exports = {
                     extend: "rust",
                     insertBefore: {
                       function: {
-                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|time|timer|usec|usecs|widthof)/,
+                        lfc_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
                       },
                     },
                   },

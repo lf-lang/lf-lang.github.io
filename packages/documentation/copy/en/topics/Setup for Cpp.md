@@ -1,8 +1,8 @@
 ---
-title: About the Cpp Target
+title: Setup for Cpp
 layout: docs
-permalink: /docs/handbook/about-the-cpp-target
-oneline: "About the C++ target in Lingua Franca."
+permalink: /docs/handbook/setup-for-cpp
+oneline: "Set up the C++ target in Lingua Franca."
 preamble: >
 ---
 
@@ -13,7 +13,7 @@ The C++ target solely depends on a working C++ build system including a recent C
 
 Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe.
 
-## Setup for the Cpp Target
+## Setup the Cpp Target
 
 The following tools are required in order to compile the generated C++ source code:
 

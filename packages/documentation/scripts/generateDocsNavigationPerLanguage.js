@@ -44,6 +44,27 @@ const handbookPages = [
         ],
       },
       {
+        title: "Tooling",
+        chronological: true,
+        items: [
+            { file: "topics/Code Plugin.md"},
+            { file: "topics/Epoch IDE.md"},
+            { file: "topics/Command Line Tools.md" },
+            { file: "topics/Setup for C.md" },
+            { file: "topics/Setup for Cpp.md" },
+            { file: "topics/Setup for Python.md" },
+            { file: "topics/Setup for TypeScript.md" },
+            { file: "topics/Setup for Rust.md" },
+        ],
+      },
+      {
+        title: "Reference",
+        chronological: true,
+        items: [
+            { file: "topics/Target Specification.md" },
+        ],
+      },
+      {
         title: "Language Specification",
         chronological: true,
         items: [
