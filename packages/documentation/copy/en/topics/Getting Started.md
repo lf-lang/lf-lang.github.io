@@ -7,11 +7,11 @@ preamble: >
 ---
 
 This page is showing examples in the target language
-<span class="lf-c">C</span>
-<span class="lf-cpp">C++</span>
-<span class="lf-py">Python</span>
-<span class="lf-ts">Typescript</span>
-<span class="lf-rs">Rust</span>.
+[C]{lf-c}
+[C++]{lf-cpp}
+[Python]{lf-py}
+[TypeScript]{lf-ts}
+[Rust]{lf-rs}.
 You can change the target language in left sidebar.
 <span class="lf-c">
 See [setup for C](setup-for-c).
