@@ -25,8 +25,8 @@ exports.onRouteUpdate = ({ location, prevLocation }) => {
   }
 
   // The following works only with dark theme.
-  // FIXME: How to switch between them?
   // require("./src/style/prism-okaidia-var.css")
+  // Use a minor variant of the Prism default instead.
   require("./src/style/prism-var-lf.css")
 
   let hasLocalStorage = false

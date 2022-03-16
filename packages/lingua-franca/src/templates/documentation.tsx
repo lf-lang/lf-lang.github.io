@@ -4,6 +4,7 @@ import { Layout } from "../components/layout"
 import { Sidebar, SidebarToggleButton } from "../components/layout/Sidebar"
 import { getDocumentationNavForLanguage } from "../lib/documentationNavigation"
 import { Intl } from "../components/Intl"
+import * as lf from "../../../documentation/scripts/linguaFrancaUtils";
 
 // This dependency is used in gatsby-remark-autolink-headers to generate the slugs
 import slugger from "github-slugger"
@@ -156,7 +157,7 @@ const HandbookTemplate: React.FC<Props> = (props) => {
           {post.frontmatter.preamble && <div className="preamble" dangerouslySetInnerHTML={{ __html: post.frontmatter.preamble }} />}
           <article>
             <div className="whitespace raised">
-              <div className="markdown" dangerouslySetInnerHTML={{ __html: post.html! }} />
+              <div className="markdown" dangerouslySetInnerHTML={{ __html: lf.postProcessHTML(post.html)}} />
             </div>
             {showSidebar &&
               <aside className="handbook-toc">

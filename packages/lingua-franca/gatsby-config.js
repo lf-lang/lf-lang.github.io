@@ -11,6 +11,7 @@ if (process.env.BOOTSTRAPPING) {
   Bootstrapped. You can now run the site with ${chalk.greenBright.bold("yarn start")}.`)
   process.exit(0)
 }
+var lf = require("../documentation/scripts/linguaFrancaUtils");
 
 // require("./scripts/ensureDepsAreBuilt")
 
@@ -138,13 +139,16 @@ module.exports = {
                // existing language definition. More details on this option can be
                // found under the header "Add new language definition or extend an
                // existing language" below.
+               // FIXME: The LF keywords are repeated below for each target language.
+               // Prism does not seem to support extending multiple languages.
+               // Is there some way to encode this in a single variable?
                languageExtensions: [
                 {
                   language: "lf",  /* Language agnostic. */
                   extend: "clike", /* FIXME: Must be a better base for this. */
                   insertBefore: {
                     function: {
-                      lf_keywords: /\b(?:action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)\b/,
+                      lf_keywords: lf.keywordMatcher,
                     },
                   },
                 },
@@ -153,7 +157,7 @@ module.exports = {
                     extend: "c",
                     insertBefore: {
                       function: {
-                        lf_keywords: /\b(?:action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)\b/,
+                        lf_keywords: lf.keywordMatcher,
                       },
                     },
                   },
@@ -162,7 +166,7 @@ module.exports = {
                     extend: "cpp",
                     insertBefore: {
                       function: {
-                        lf_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
+                        lf_keywords: lf.keywordMatcher,
                       },
                     },
                   },
@@ -171,7 +175,7 @@ module.exports = {
                     extend: "python",
                     insertBefore: {
                       function: {
-                        lf_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
+                        lf_keywords: lf.keywordMatcher,
                       },
                     },
                   },
@@ -180,7 +184,7 @@ module.exports = {
                     extend: "typescript",
                     insertBefore: {
                       function: {
-                        lf_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
+                        lf_keywords: lf.keywordMatcher,
                       },
                     },
                   },
@@ -189,7 +193,7 @@ module.exports = {
                     extend: "rust",
                     insertBefore: {
                       function: {
-                        lf_keywords: /(action|after|as|at|const|deadline|federated|from|import|initial|input|interleaved|logical|main|method|mode|msec|msecs|mutable|mutation|new|output|physical|preamble|reaction|reactor|realtime|sec|secs|shutdown|startup|state|target|timer|time|usec|usecs|widthof)/,
+                        lf_keywords: lf.keywordMatcher,
                       },
                     },
                   },

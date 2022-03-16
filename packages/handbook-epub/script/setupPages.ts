@@ -13,6 +13,7 @@ import { readFileSync, lstatSync } from "fs";
 const remark = require("remark");
 import { join } from "path";
 import { read as readMarkdownFile } from "gray-matter";
+var lf = require("../../documentation/scripts/linguaFrancaUtils");
 
 // Reference: https://github.com/AABoyles/LessWrong-Portable/blob/master/build.js
 
@@ -44,11 +45,13 @@ export const generateV2Markdowns = () => {
   return markdowns;
 };
 
+// NOTE: This is used for generating PDF and epub, but not HTML that is displayed.
 export const getHTML = async (code: string, settings?: any) => {
   const markdownAST: Node = remark().parse(code);
 
   const hAST = toHAST(markdownAST, { allowDangerousHtml: true });
-  return hastToHTML(hAST, { allowDangerousHtml: true });
+  const html = hastToHTML(hAST, { allowDangerousHtml: true });
+  return lf.postProcessHTML(html);
 };
 
 export function replaceAllInString(_str: string, obj: any) {
