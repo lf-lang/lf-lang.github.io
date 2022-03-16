@@ -39,9 +39,13 @@ const handbookPages = [
         title: "Writing Reactors",
         chronological: true,
         items: [
-            { file: "topics/Getting Started.md" },
+            { file: "topics/A First Reactor.md" },
             { file: "topics/Composing Reactors.md" },
-        ],
+            { file: "topics/Parameters and State Variables.md" },
+            { file: "topics/Importing and Extending Reactors.md" },
+            { file: "topics/Multiports and Banks.md" },
+            { file: "topics/Distributed Execution.md" },
+          ],
       },
       {
         title: "Tooling",
@@ -65,35 +69,23 @@ const handbookPages = [
         ],
       },
       {
-        title: "Language Specification",
+        title: "Developer",
         chronological: true,
         items: [
-          { file: "topics/language-specification/Language Specification.md" },
-          { file: "topics/language-specification/Multiports and Banks.md" },
-        ]
-      },
-      {
-        title: "Downloading and Building",
-        chronological: true,
-        items: [
+          { file: "topics/Contributing.md" },
           { file: "topics/download-and-build/Downloading and Building.md" },
           { file: "topics/download-and-build/Developer Eclipse Setup with Oomph.md" },
           { file: "topics/download-and-build/Developer IntelliJ Setup (for Kotlin).md" },
+          { file: "topics/Regression Tests.md" },
+          { file: "less-developed/Running Benchmarks.md" },
         ]
       },
-      { file: "topics/Writing Reactors in C.md" },
-      { file: "topics/Writing Reactors in C++.md" },
-      { file: "topics/Writing Reactors in TypeScript.md" },
-      { file: "topics/Writing Reactors in Python.md" },
-      { file: "topics/Regression Tests.md" },
-      { file: "topics/Contributing.md" },
     ],
   },
   {
     title: "Preliminary Development",
     summary: "Capabilities Under Development",
     items: [
-      { file: "preliminary/Distributed Execution.md" },
       { file: "preliminary/Import System.md" },
       { file: "preliminary/Tracing.md" },
       { file: "preliminary/Containerized Execution.md" },
@@ -106,7 +98,6 @@ const handbookPages = [
     title: "Less Developed Topics",
     summary: "Less Developed Topics in Progress",
     items: [
-      { file: "less-developed/Running Benchmarks.md" },
       { file: "less-developed/Tools.md" },
       { file: "less-developed/Timing Analysis.md" },
       { file: "less-developed/Related Work.md" },

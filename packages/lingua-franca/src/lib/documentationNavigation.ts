@@ -52,16 +52,40 @@ export function getDocumentationNavForLanguage(
 
           items: [
             {
-              title: "Getting Started",
-              id: "0-getting-started",
-              permalink: "/docs/handbook/getting-started",
-              oneline: "Getting started with Lingua Franca.",
+              title: "A First Reactor",
+              id: "0-a-first-reactor",
+              permalink: "/docs/handbook/a-first-reactor",
+              oneline: "Writing your first Lingua Franca reactor.",
             },
             {
               title: "Composing Reactors",
               id: "0-composing-reactors",
               permalink: "/docs/handbook/composing-reactors",
               oneline: "Composing reactors in Lingua Franca.",
+            },
+            {
+              title: "Parameters and State Variables",
+              id: "0-parameters-and-state-variables",
+              permalink: "/docs/handbook/parameters-and-state-variables]",
+              oneline: "Parameters and state variables in Lingua Franca.",
+            },
+            {
+              title: "Importing and Extending Reactors",
+              id: "0-importing-and-extending-reactors",
+              permalink: "/docs/handbook/importing-and-extending-reactors",
+              oneline: "Importing and extending reactors in Lingua Franca.",
+            },
+            {
+              title: "Multiports and Banks",
+              id: "0-multiports-and-banks",
+              permalink: "/docs/handbook/multiports-banks",
+              oneline: "Multiports and Banks of Reactors.",
+            },
+            {
+              title: "Distributed Execution",
+              id: "0-distributed-execution",
+              permalink: "/docs/handbook/distributed-execution",
+              oneline: "Distributed Execution (preliminary)",
             },
           ],
         },
@@ -138,33 +162,18 @@ export function getDocumentationNavForLanguage(
           ],
         },
         {
-          title: "Language Specification",
-          id: "0-language-specification",
+          title: "Developer",
+          id: "0-developer",
           oneline: "undefined",
           chronological: true,
 
           items: [
             {
-              title: "Language Specification",
-              id: "0-language-specification",
-              permalink: "/docs/handbook/language-specification",
-              oneline: "Language Specification for Lingua Franca.",
+              title: "Contributing",
+              id: "0-contributing",
+              permalink: "/docs/handbook/contributing",
+              oneline: "Contribute to Lingua Franca.",
             },
-            {
-              title: "Multiports and Banks",
-              id: "0-multiports-and-banks",
-              permalink: "/docs/handbook/multiports-banks",
-              oneline: "Multiports and Banks of Reactors.",
-            },
-          ],
-        },
-        {
-          title: "Downloading and Building",
-          id: "0-downloading-and-building",
-          oneline: "undefined",
-          chronological: true,
-
-          items: [
             {
               title: "Downloading and Building",
               id: "0-downloading-and-building",
@@ -183,43 +192,19 @@ export function getDocumentationNavForLanguage(
               permalink: "/docs/handbook/intellij-kotlin",
               oneline: "Developer IntelliJ Setup (for Kotlin).",
             },
+            {
+              title: "Regression Tests",
+              id: "0-regression-tests",
+              permalink: "/docs/handbook/regression-tests",
+              oneline: "Regression Tests for Lingua Franca.",
+            },
+            {
+              title: "Running Benchmarks",
+              id: "0-running-benchmarks",
+              permalink: "/docs/handbook/running-benchmarks",
+              oneline: "Running Benchmarks.",
+            },
           ],
-        },
-        {
-          title: "Writing Reactors in C",
-          id: "0-writing-reactors-in-c",
-          permalink: "/docs/handbook/write-reactor-c",
-          oneline: "Writing Reactors in C.",
-        },
-        {
-          title: "Writing Reactors in C++",
-          id: "0-writing-reactors-in-c++",
-          permalink: "/docs/handbook/write-reactor-c++",
-          oneline: "Writing Reactors in C++.",
-        },
-        {
-          title: "Writing Reactors in TypeScript",
-          id: "0-writing-reactors-in-typescript",
-          permalink: "/docs/handbook/write-reactor-ts",
-          oneline: "Writing Reactors in TypeScript.",
-        },
-        {
-          title: "Writing Reactors in Python",
-          id: "0-writing-reactors-in-python",
-          permalink: "/docs/handbook/write-reactor-py",
-          oneline: "Writing Reactors in Python.",
-        },
-        {
-          title: "Regression Tests",
-          id: "0-regression-tests",
-          permalink: "/docs/handbook/regression-tests",
-          oneline: "Regression Tests for Lingua Franca.",
-        },
-        {
-          title: "Contributing",
-          id: "0-contributing",
-          permalink: "/docs/handbook/contributing",
-          oneline: "Contribute to Lingua Franca.",
         },
       ],
     },
@@ -230,12 +215,6 @@ export function getDocumentationNavForLanguage(
       chronological: false,
 
       items: [
-        {
-          title: "Distributed Execution",
-          id: "1-distributed-execution",
-          permalink: "/docs/handbook/distributed-execution",
-          oneline: "Distributed Execution (preliminary)",
-        },
         {
           title: "Import System",
           id: "1-import-system",
@@ -281,12 +260,6 @@ export function getDocumentationNavForLanguage(
       chronological: false,
 
       items: [
-        {
-          title: "Running Benchmarks",
-          id: "2-running-benchmarks",
-          permalink: "/docs/handbook/running-benchmarks",
-          oneline: "Running Benchmarks.",
-        },
         {
           title: "Tools",
           id: "2-tools",

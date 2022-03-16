@@ -31,12 +31,30 @@ const supportingTargets = {
   "federated": ["lf-c", "lf-py", "lf-ts"],
 }
 
+/** Text used on multiple web pages. */
+
+const textSubstitutions = {
+  "page-showing-target" : `
+This page is showing examples in the target language 
+  [C]{lf-c}
+  [C++]{lf-cpp}
+  [Python]{lf-py}
+  [TypeScript]{lf-ts}
+  [Rust]{lf-rs}.
+You can change the target language in left sidebar.`,
+}
+
+/******** Regex patterns. */
+
 /** Regular expression that matches LF keywords that are whole words. */
 const keywordMatcher = new RegExp('\\b(?:' + keywords.join('|') + ')\\b');
 // NOTE: The ?: means that the pattern is not captured, even though it is parentheses.
 
 /** Regular expression that matches LF keywords surrounded by a delimitter $. */
 const delimitedKeywordMatcher = new RegExp('\\$(' + keywords.join('|') + ')\\$', 'gm');
+
+/** Regular expression that matches text substitution name surrounded by a delimitter $. */
+const textSubstitutionsMatcher = new RegExp('\\$(' + Object.keys(textSubstitutions).join('|') + ')\\$', 'gm');
 
 /** Regular expression that matches "[ p1 ]{ p2 }", where p1 and p2 are arbitrary strings. */
 const spanMatcher = /\[([^\]]*)\]\{([^\}]*)\}/gm
@@ -62,17 +80,29 @@ const spanMatcher = /\[([^\]]*)\]\{([^\}]*)\}/gm
     }
    }
   const result = "<span class=\"" + newClasses.join(" ") + "\">" + p1 + "</span>"
-  console.log("********************* " + result);
   return result;
 }
 
 /**
- * Return an HTML <span> of class "lf_keywords" with the body given by p1.
+ * Return an HTML span of class "lf_keywords" with the body given by p1.
  * @param {*} match The matching string, including delimitters.
  * @param {*} p1 The substring containing the keyword.
  */
 function delimitedKeywordReplacer(match, p1) {
   return "<span class=\"lf_keywords\">" + p1 + "</span>"
+}
+
+/**
+ * Return the text defined by the name given by p1.
+ * @param {*} match The matching string, including delimitters.
+ * @param {*} p1 The name of the textSubstitutions key.
+ */
+ function textSubstitutionsReplacer(match, p1) {
+   if (textSubstitutions[p1]) {
+    return textSubstitutions[p1];
+   } else {
+     return '<span class="web-page-error">ERROR: textSubstitutions key not found.</span>';
+   }
 }
 
 /******** Functions exported. */
@@ -87,8 +117,9 @@ function delimitedKeywordReplacer(match, p1) {
  * @returns Possibly modified HTML.
  */
 const postProcessHTML = (html) => {
-  var result = html.replace(delimitedKeywordMatcher, delimitedKeywordReplacer);
+  var result = html.replace(textSubstitutionsMatcher, textSubstitutionsReplacer);
   result = result.replace(spanMatcher, spanClassifier);
+  result = result.replace(delimitedKeywordMatcher, delimitedKeywordReplacer);
   return result;
 }
 

@@ -1,18 +1,12 @@
 ---
-title: "Getting Started"
+title: "A First Reactor"
 layout: docs
-permalink: /docs/handbook/getting-started
-oneline: "Getting started with Lingua Franca."
+permalink: /docs/handbook/a-first-reactor
+oneline: "Writing your first Lingua Franca reactor."
 preamble: >
 ---
 
-This page is showing examples in the target language
-[C]{lf-c}
-[C++]{lf-cpp}
-[Python]{lf-py}
-[TypeScript]{lf-ts}
-[Rust]{lf-rs}.
-You can change the target language in left sidebar.
+$page-showing-target$
 <span class="lf-c">
 See [setup for C](setup-for-c).
 </span>
@@ -26,7 +20,7 @@ See [setup for Python](setup-for-python).
 See [setup for TypeScript](setup-for-typescript).
 </span>
 <span class="lf-rs">
-See [setup for Python](setup-for-rust).
+See [setup for Rust](setup-for-rust).
 </span>
 
 ## Minimal Example

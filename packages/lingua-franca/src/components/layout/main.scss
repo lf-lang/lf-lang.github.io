@@ -218,6 +218,10 @@ html.font-open-dyslexic {
     color: $lf-keyword-on-light !important;
     font-weight: bold;
   }
+  .web-page-error {
+    color: red !important;
+    font-weight: bold;
+  }
 }
 /* Spans marked with class "lf" are treated as keywords. */
 .lf {
