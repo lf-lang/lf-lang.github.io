@@ -122,7 +122,7 @@ A **reactor** is a software component that reacts to input events, timer events,
 
 The general structure of a reactor block is as follows:
 
-<div class="lf-c">
+<div class="lf-c lf-ts">
 
 ```lf
 [main or federated] reactor <class-name> ([<parameters>]) {
@@ -159,7 +159,7 @@ The general structure of a reactor block is as follows:
 
 </div>
 
-<div class="lf-py lf-ts">
+<div class="lf-py">
 
 ```lf
 [main or federated] reactor <class-name> ([<parameters>]) {
