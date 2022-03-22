@@ -10,11 +10,52 @@ $page-showing-target$
 
 In this section, we will endow reactors with inputs and outputs, connect reactors, and build hierarchies of contained reactors.
 
-## Input Declaration
+## Input and Output Declarations
 
-An input declaration has the form:
+Input and output declarations have the form:
 
-> $input$ _name_[:_type_]{lf-c lf-cpp lf-ts lf-rs}
+<div class="lf-c lf-ts lf-rs lf-cpp">
+
+```lf
+    input <name>:<type>
+    output <name>:<type>
+```
+
+</div>
+<div class="lf-py">
+
+```lf
+    input <name>
+    output <name>
+```
+
+</div>
+
+For example, the following reactor doubles its input and sends the result to the output:
+
+$start(Double)$
+
+```lf-c
+
+```
+
+```lf-cpp
+
+```
+
+```lf-py
+
+```
+
+```lf-ts
+
+```
+
+```lf-rs
+
+```
+
+$end(Double)$
 
 FIXME: No Gain reactor.
 The `Gain` reactor given above provides an example. The _type_ is just like parameter types.
