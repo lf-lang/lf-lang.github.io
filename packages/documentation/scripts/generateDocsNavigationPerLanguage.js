@@ -65,7 +65,9 @@ const handbookPages = [
         title: "Reference",
         chronological: true,
         items: [
-            { file: "topics/Target Specification.md" },
+          { file: "reference/Target Specification.md" },
+          { file: "reference/C Reactors.md" },
+          { file: "reference/Termination.md" },
         ],
       },
       {

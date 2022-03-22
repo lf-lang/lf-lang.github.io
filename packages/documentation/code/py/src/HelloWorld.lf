@@ -1,0 +1,6 @@
+target Python;
+main reactor {
+    reaction(startup) {=
+        print("Hello World.")
+    =}
+}

@@ -1,0 +1,6 @@
+target Rust;
+main reactor {
+    reaction(startup) {=
+        println!("Hello World.");
+    =}
+}

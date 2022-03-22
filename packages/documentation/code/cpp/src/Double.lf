@@ -1,0 +1,8 @@
+target Cpp;
+reactor Double {
+    input x:int;
+    output y:int;
+    reaction(x) -> y {=
+        y.set(x.value * 2);
+    =}
+}

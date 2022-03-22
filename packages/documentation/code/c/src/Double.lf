@@ -1,0 +1,11 @@
+target C {
+    threading: true,
+    workers: 0,
+}
+reactor Double {
+    input x:int;
+    output y:int;
+    reaction(x) -> y {=
+        SET(y, x->value * 2);
+    =}
+}

@@ -33,7 +33,7 @@ const updateCodeblocksFromSource = (body) => {
   lines.forEach(line =>  {
     lineCount++;
     // If the mode is not 'swallow', then echo the current line to the output.
-    if (mode != 'swallow') {
+    if (mode != 'swallow' && mode != 'echocode') {
       result += line;
       // Do not add a newline on the last line.
       if (lineCount < lines.length) result += "\n";
@@ -51,6 +51,10 @@ const updateCodeblocksFromSource = (body) => {
         result += line + "\n"; // Do not swallow the close of the code block.
       }
     } else if (mode == 'echocode') {
+      // Swallow previously generated warnings.
+      if (!line.match(/^WARNING: No source file found:/)) {
+        result += line + "\n";
+      }
       // Check for end of code block.
       if (line.match(/^```$/)) mode = 'code';
     } else if (mode == 'code') {

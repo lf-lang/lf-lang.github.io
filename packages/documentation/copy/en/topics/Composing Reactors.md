@@ -36,29 +36,112 @@ For example, the following reactor doubles its input and sends the result to the
 $start(Double)$
 
 ```lf-c
-
+target C;
+reactor Double {
+    input x:int;
+    output y:int;
+    reaction(x) -> y {=
+        SET(y, x->value * 2);
+    =}
+}
 ```
 
 ```lf-cpp
-
+target C;
+reactor Double {
+    input x:int;
+    output y:int;
+    reaction(x) -> y {=
+        SET(y, x->value * 2);
+    =}
+}
 ```
 
 ```lf-py
+WARNING: No source file found: ../code/py/src/Double.lf
 
 ```
 
 ```lf-ts
+WARNING: No source file found: ../code/ts/src/Double.lf
 
 ```
 
 ```lf-rs
+WARNING: No source file found: ../code/rs/src/Double.lf
 
 ```
 
 $end(Double)$
 
-FIXME: No Gain reactor.
-The `Gain` reactor given above provides an example. The _type_ is just like parameter types.
+Notice how the input value is accessed and how the output value is set. This is done differently for each target language.
+**FIXME**: Pointers to detailed documentation for each target.
+
+## Triggers, Effects, and Uses
+
+The $reaction$ declaration above indicates that an input event on port `x` is a **trigger** and that an output event on port `y` is a (potential) **effect**. A reaction can declare more than one trigger or effect by just listing them separated by commas. For example, the following reactor has two triggers and tests each input for presence before using it:
+
+$start(Destination)$
+
+```lf-c
+target C;
+reactor Destination {
+    input x:int;
+    input y:int;
+    reaction(x, y) {=
+        int sum = 0;
+        if (x->is_present) {
+            sum += x->value;
+        }
+        if (y->is_present) {
+            sum += y->value;
+        }
+        printf("Received %d.\n", sum);
+    =}
+}
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/Destination.lf
+
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/Destination.lf
+
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/Destination.lf
+
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/Destination.lf
+
+```
+
+$end(Destination)$
+
+## Reactions
+
+The general form a $reaction$ is
+
+```lf
+reaction (<triggers>) <uses> -> <effects> {=
+    <target language code>
+=}
+```
+
+The triggers, uses, and effects fields can be comma-separated lists of ports and actions (to be discussed). Two special triggers are build in: $startup$ and $shutdown$. A $startup$ reaction is invoked when the program begins executing and a $shutdown$ reaction when it finishes executing.
+
+At least one trigger must be specified.
+
+## Tags, Logical Time, and Microsteps
+
+In the sematics of Lingua Franca, a reaction is invoked at a **tag**, which consists of a **logical time** and a **microstep**. At a particular tag, one of both of the inputs may be **present** or **absent**. If either is present, then the reaction will be invoked. If they are both present, then the input events are said to be **logically simultaneous**.
+
+FIXME. The _type_ is just like parameter types.
 
 An input may have the modifier **mutable**, as follows:
 
@@ -67,16 +150,6 @@ An input may have the modifier **mutable**, as follows:
 This is a directive to the code generator indicating that reactions that read this input will also modify the value of the input. Without this modifier, inputs are **immutable**; modifying them is disallowed. The precise mechanism for making use of mutable inputs is target-language specific. See, for example, the [C language target](writing-reactors-in-c#Sending-and-Receiving-Arrays-and-Structs).
 
 An input port may have more than one **channel**. See [multiports documentation](Multiports-and-Banks-of-Reactors#multiports).
-
-## Output Declaration
-
-An output declaration has the form:
-
-> **output** _name_:_type_;
-
-The `Gain` reactor given above provides an example. The _type_ is just like parameter types.
-
-An output port may have more than one **channel**. See [multiports documentation](Multiports-and-Banks-of-Reactors#multiports).
 
 ## Referring to Inputs and Outputs in Reactions
 

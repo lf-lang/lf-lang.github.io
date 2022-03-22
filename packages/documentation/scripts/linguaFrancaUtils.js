@@ -40,6 +40,7 @@ const supportingTargets = {
 /** Text used on multiple web pages. */
 
 const textSubstitutions = {
+  "target-language" : `[C]{lf-c}[Cpp]{lf-cpp}[Python]{lf-py}[TypeScript]{lf-ts}[Rust]{lf-rs}`,
   "page-showing-target" : `
 This page is showing examples in the target language 
   [C]{lf-c}
@@ -63,7 +64,7 @@ const delimitedKeywordMatcher = new RegExp('\\$(' + keywords.join('|') + ')\\$',
  * Regular expression that matches preprocessor functions surrounded by a delimitter $.
  * These get removed in the final HTML.
  */
-const delimitedFunctionMatcher = new RegExp('\\$(' + functions.join('|') + ')\\((.*)\\)\\$');
+const delimitedFunctionMatcher = new RegExp('\\$(' + functions.join('|') + ')\\((.*)\\)\\$', 'gm');
 
 /** Regular expression that matches text substitution name surrounded by a delimitter $. */
 const textSubstitutionsMatcher = new RegExp('\\$(' + Object.keys(textSubstitutions).join('|') + ')\\$', 'gm');
