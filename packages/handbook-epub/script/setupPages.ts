@@ -31,7 +31,7 @@ export const generateV2Markdowns = () => {
       return;
     }
 
-    const md = readMarkdownFile(filePath);
+    var md = readMarkdownFile(filePath);
     // prettier-ignore
     if (!md.data.permalink) {
       throw new Error(

@@ -77,7 +77,7 @@ const handbookPages = [
           { file: "topics/download-and-build/Developer Eclipse Setup with Oomph.md" },
           { file: "topics/download-and-build/Developer IntelliJ Setup (for Kotlin).md" },
           { file: "topics/Regression Tests.md" },
-          { file: "less-developed/Running Benchmarks.md" },
+          // { file: "less-developed/Running Benchmarks.md" }, FIXME: Gatsby can't find this for some mysterious reason.
         ]
       },
     ],

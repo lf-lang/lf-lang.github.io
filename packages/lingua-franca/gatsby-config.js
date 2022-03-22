@@ -139,9 +139,6 @@ module.exports = {
                // existing language definition. More details on this option can be
                // found under the header "Add new language definition or extend an
                // existing language" below.
-               // FIXME: The LF keywords are repeated below for each target language.
-               // Prism does not seem to support extending multiple languages.
-               // Is there some way to encode this in a single variable?
                languageExtensions: [
                 {
                   language: "lf",  /* Language agnostic. */

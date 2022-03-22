@@ -26,6 +26,12 @@ const keywords = [
   "widthof",
 ]
 
+/** 
+ * Preprocessor functions that may be included markdown files.
+ * These will be removed from the HTML by postProcessHTML().
+ */
+const functions = [ "start", "end" ];
+
 /** Dictionary of features with a list of targets that support the feature. */
 const supportingTargets = {
   "federated": ["lf-c", "lf-py", "lf-ts"],
@@ -52,6 +58,12 @@ const keywordMatcher = new RegExp('\\b(?:' + keywords.join('|') + ')\\b');
 
 /** Regular expression that matches LF keywords surrounded by a delimitter $. */
 const delimitedKeywordMatcher = new RegExp('\\$(' + keywords.join('|') + ')\\$', 'gm');
+
+/**
+ * Regular expression that matches preprocessor functions surrounded by a delimitter $.
+ * These get removed in the final HTML.
+ */
+const delimitedFunctionMatcher = new RegExp('\\$(' + functions.join('|') + ')\\((.*)\\)\\$');
 
 /** Regular expression that matches text substitution name surrounded by a delimitter $. */
 const textSubstitutionsMatcher = new RegExp('\\$(' + Object.keys(textSubstitutions).join('|') + ')\\$', 'gm');
@@ -120,8 +132,11 @@ const postProcessHTML = (html) => {
   var result = html.replace(textSubstitutionsMatcher, textSubstitutionsReplacer);
   result = result.replace(spanMatcher, spanClassifier);
   result = result.replace(delimitedKeywordMatcher, delimitedKeywordReplacer);
+  result = result.replace(delimitedFunctionMatcher, "");
+
   return result;
 }
+
 
 /********* Module exports. */
 module.exports = {

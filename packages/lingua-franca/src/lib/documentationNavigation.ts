@@ -198,12 +198,6 @@ export function getDocumentationNavForLanguage(
               permalink: "/docs/handbook/regression-tests",
               oneline: "Regression Tests for Lingua Franca.",
             },
-            {
-              title: "Running Benchmarks",
-              id: "0-running-benchmarks",
-              permalink: "/docs/handbook/running-benchmarks",
-              oneline: "Running Benchmarks.",
-            },
           ],
         },
       ],
