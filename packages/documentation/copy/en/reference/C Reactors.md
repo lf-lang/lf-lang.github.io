@@ -16,13 +16,14 @@ Note that C is not a safe language. There are many ways that a programmer can ci
 
 ## The C Target Specification
 
-To have Lingua Franca generate C code, start your `.lf` file with the following target specification:
+To have Lingua Franca generate C code, start your `.lf` file with one of the following target specifications:
 
 ```lf
     target C <options>;
+    target CCpp <options>;
 ```
 
-Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C, you may want to include the final semicolon for uniformity. See [detailed documentation of the target options](/docs/handbook/target-specification).
+The second form is used when you wish to use a C++ compiler to compile the generated code, thereby allowing your C reactors to call C++ code. Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C, you may want to include the final semicolon for uniformity. See [detailed documentation of the target options](/docs/handbook/target-specification).
 
 ## Imports
 

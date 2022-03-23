@@ -1,13 +1,16 @@
 # Documentation
 
-This package serves as the entry point for adding handbook-specific pages (i.e pages included with the Epub/PDF and enforcing the specified structure under [lf-lang.org/docs/handbook]())
+This package serves as the entry point for adding handbook-specific pages. These are the pages that appear in the **handbook** portion of the web page as well as the generated Epub and PDF documentation.
 
-Every documentation file can be defined as a standard markdown file with the following steps needed to add them to the handbook.
+Each documentation file is a markdown file with the following steps needed to add them to the handbook.
 
-1. Under `copy/en` is the start of the directory structure for the handbook. You can either add to an existing directory (`less-developed/primary/topics`) or make your own directory!
-   - Note: By default, the Epub/PDF is only populated with pages organized under topics.
-2. Create your markdown page as normal. At the top of your markdown page, include the following blurb
-   - This will instruct the Gatsby Website to automatically create a page with title _YOUR_TITLE_HERE_ at location `/docs/handbook/PERMALINK_LOCATION`)
+1. Under `copy/en` is the directory structure for the handbook. It contains the following subdirectories:
+   - **topics**: Tutorial-style documentation supporting all target languages.
+   - **reference**: Detailed documentation including some target-language-specific files.
+   - **preliminary**: Documentation for tools or features that at early stages of development.
+   - **less-developed**: Documentation for incomplete or speculative work.
+   - Note: By default, the Epub/PDF is only populated with pages organized under **topics**. **FIXME:** This needs to be changed to include also the reference section.
+2. At the top of each markdown page, the following blurb instructs the Gatsby website builder to automatically create a page with title _YOUR_TITLE_HERE_ at location `/docs/handbook/PERMALINK_LOCATION`:
 
 ```
 ---

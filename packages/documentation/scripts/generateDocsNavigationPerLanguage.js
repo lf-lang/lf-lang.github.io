@@ -29,64 +29,68 @@ const { read: readMarkdownFile } = require("gray-matter");
 // prettier-ignore
 const handbookPages = [
   {
-    title: "Topics",
-    summary: "A great first read for your daily Lingua Franca work.",
+    title: "Resources",
+    summary: "Overview of the project.",
     chronological: true,
     items: [
       { file: "topics/Overview.md" },
-      { file: "topics/Tutorial.md" },
-      {
-        title: "Writing Reactors",
-        chronological: true,
-        items: [
-            { file: "topics/A First Reactor.md" },
-            { file: "topics/Composing Reactors.md" },
-            { file: "topics/Parameters and State Variables.md" },
-            { file: "topics/Importing and Extending Reactors.md" },
-            { file: "topics/Multiports and Banks.md" },
-            { file: "topics/Distributed Execution.md" },
-          ],
-      },
-      {
-        title: "Tooling",
-        chronological: true,
-        items: [
-            { file: "topics/Code Plugin.md"},
-            { file: "topics/Epoch IDE.md"},
-            { file: "topics/Command Line Tools.md" },
-            { file: "topics/Setup for C.md" },
-            { file: "topics/Setup for Cpp.md" },
-            { file: "topics/Setup for Python.md" },
-            { file: "topics/Setup for TypeScript.md" },
-            { file: "topics/Setup for Rust.md" },
-        ],
-      },
-      {
-        title: "Reference",
-        chronological: true,
-        items: [
-          { file: "reference/Target Specification.md" },
-          { file: "reference/C Reactors.md" },
-          { file: "reference/Termination.md" },
-        ],
-      },
-      {
-        title: "Developer",
-        chronological: true,
-        items: [
-          { file: "topics/Contributing.md" },
-          { file: "topics/download-and-build/Downloading and Building.md" },
-          { file: "topics/download-and-build/Developer Eclipse Setup with Oomph.md" },
-          { file: "topics/download-and-build/Developer IntelliJ Setup (for Kotlin).md" },
-          { file: "topics/Regression Tests.md" },
-          // { file: "less-developed/Running Benchmarks.md" }, FIXME: Gatsby can't find this for some mysterious reason.
-        ]
-      },
+      { file: "topics/Tutorial Video.md" },
     ],
   },
   {
+    title: "Writing Reactors",
+    summary: "Introduction to writing reactors.",
+    chronological: true,
+    items: [
+      { file: "topics/A First Reactor.md" },
+      { file: "topics/Composing Reactors.md" },
+      { file: "topics/Parameters and State Variables.md" },
+      { file: "topics/Importing and Extending Reactors.md" },
+      { file: "topics/Multiports and Banks.md" },
+      { file: "topics/Distributed Execution.md" },
+    ],
+  },
+  {
+    title: "Tooling",
+    summary: "Tools for developing Lingua Franca programs.",
+    chronological: true,
+    items: [
+        { file: "topics/Code Plugin.md"},
+        { file: "topics/Epoch IDE.md"},
+        { file: "topics/Command Line Tools.md" },
+        { file: "topics/Setup for C.md" },
+        { file: "topics/Setup for Cpp.md" },
+        { file: "topics/Setup for Python.md" },
+        { file: "topics/Setup for TypeScript.md" },
+        { file: "topics/Setup for Rust.md" },
+    ],
+  },
+  {
+    title: "Reference",
+    summary: "Complete reference documentation.",
+    chronological: true,
+    items: [
+      { file: "reference/Target Specification.md" },
+      { file: "reference/C Reactors.md" },
+      { file: "reference/Termination.md" },
+    ],
+  },
+  {
+    title: "Developer",
+    summary: "Information for developers of the Lingua Franca language and tools.",
+    chronological: true,
+    items: [
+      { file: "topics/Contributing.md" },
+      { file: "topics/download-and-build/Downloading and Building.md" },
+      { file: "topics/download-and-build/Developer Eclipse Setup with Oomph.md" },
+      { file: "topics/download-and-build/Developer IntelliJ Setup (for Kotlin).md" },
+      { file: "topics/Regression Tests.md" },
+      // { file: "less-developed/Running Benchmarks.md" }, FIXME: Gatsby can't find this for some mysterious reason.
+    ]
+  },
+  {
     title: "Preliminary Development",
-    summary: "Capabilities Under Development",
+    summary: "Capabilities under development",
     items: [
       { file: "preliminary/Import System.md" },
       { file: "preliminary/Tracing.md" },
@@ -98,7 +102,7 @@ const handbookPages = [
   },
   {
     title: "Less Developed Topics",
-    summary: "Less Developed Topics in Progress",
+    summary: "Less mature topics in progress",
     items: [
       { file: "less-developed/Tools.md" },
       { file: "less-developed/Timing Analysis.md" },

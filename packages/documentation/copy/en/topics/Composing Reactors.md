@@ -74,8 +74,13 @@ WARNING: No source file found: ../code/rs/src/Double.lf
 
 $end(Double)$
 
-Notice how the input value is accessed and how the output value is set. This is done differently for each target language.
-**FIXME**: Pointers to detailed documentation for each target.
+Notice how the input value is accessed and how the output value is set. This is done differently for each target language. See
+<span class="lf-c">[C Reactors](/docs/handbook/c-reactors)</span>
+<span class="lf-cpp">[C++ Reactors](/docs/handbook/cpp-reactors)</span>
+<span class="lf-py">[Python Reactors](/docs/handbook/python-reactors)</span>
+<span class="lf-ts">[TypeScriupt Reactors](/docs/handbook/typescript-reactors)</span>
+<span class="lf-rs">[Rust Reactors](/docs/handbook/rust-reactors)</span>
+for detailed documentation of these mechanisms.
 
 ## Triggers, Effects, and Uses
 
