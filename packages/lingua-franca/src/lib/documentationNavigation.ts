@@ -60,16 +60,34 @@ export function getDocumentationNavForLanguage(
           oneline: "Writing your first Lingua Franca reactor.",
         },
         {
-          title: "Composing Reactors",
-          id: "1-composing-reactors",
-          permalink: "/docs/handbook/composing-reactors",
-          oneline: "Composing reactors in Lingua Franca.",
+          title: "Inputs and Outputs",
+          id: "1-inputs-and-outputs",
+          permalink: "/docs/handbook/inputs-and-outputs",
+          oneline: "Inputs, outputs, and reactions in Lingua Franca.",
         },
         {
           title: "Parameters and State Variables",
           id: "1-parameters-and-state-variables",
-          permalink: "/docs/handbook/parameters-and-state-variables]",
+          permalink: "/docs/handbook/parameters-and-state-variables",
           oneline: "Parameters and state variables in Lingua Franca.",
+        },
+        {
+          title: "Logical Time and Microsteps",
+          id: "1-logical-time-and-microsteps",
+          permalink: "/docs/handbook/logical-time-and-microsteps",
+          oneline: "Tags, logical time, and microsteps in Lingua Franca.",
+        },
+        {
+          title: "Timers and Actions",
+          id: "1-timers-and-actions",
+          permalink: "/docs/handbook/timers-and-actions",
+          oneline: "Timers and actions in Lingua Franca.",
+        },
+        {
+          title: "Composing Reactors",
+          id: "1-composing-reactors",
+          permalink: "/docs/handbook/composing-reactors",
+          oneline: "Composing reactors in Lingua Franca.",
         },
         {
           title: "Importing and Extending Reactors",
@@ -267,6 +285,12 @@ export function getDocumentationNavForLanguage(
       chronological: false,
 
       items: [
+        {
+          title: "Logical Execution Time",
+          id: "6-logical-execution-time",
+          permalink: "/docs/handbook/logical-execution-time",
+          oneline: "Reactions that take non-zero logical time to execute.",
+        },
         {
           title: "Tools",
           id: "6-tools",

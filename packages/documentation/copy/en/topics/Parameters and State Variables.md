@@ -1,23 +1,56 @@
 ---
 title: "Parameters and State Variables"
 layout: docs
-permalink: /docs/handbook/parameters-and-state-variables]
+permalink: /docs/handbook/parameters-and-state-variables
 oneline: "Parameters and state variables in Lingua Franca."
 preamble: >
 ---
 
 $page-showing-target$
 
-### Parameter Declaration
+## Parameter Declaration
 
 A reactor class definition can define parameters as follows:
 
-> **reactor** _ClassName_(_paramName1_:_type_(_expr_), _paramName2_:_type_(_expr_)) {<br/> > &nbsp;&nbsp; ... <br/>
-> }
+<div class="lf-c lf-cpp lf-ts lf-rs>
 
-Each parameter may have a _type annotation_, written `:type`, and must have a _default value_, written `(expr)`.
+```lf
+reactor <class-name>(<param-name-1>:<type>(<expr>), <param-name-2>:<type>(<expr>)) {
+    ...
+}
+```
 
-The type annotation specifies a type in the target language, which is necessary for some target languages. For instance in C you might write
+Each parameter has a _type annotation_, written `:<type>`, where `<type>` has one of the following forms:
+
+- An identifier, such as `int`, designating a type in the target language.
+- A container type, such as `int[]`.
+- The keyword $time$, which designates a time value.
+- A code block delimitted by `{= ... =}`, where the contents is any valid type in the target language.
+
+<div class="lf-c lf-cpp">
+
+- A pointer type, such as `int*`.
+
+</div>
+
+See [Lingua Franca Types](/docs/handbook/lingua-franca-types) for details about types.
+
+</div>
+
+<div class="lf-py>
+
+```lf
+reactor <class-name>(<param-name-1>(<expr>), <param-name-2>(<expr>)) {
+    ...
+}
+```
+
+</div>
+
+Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, or target-language code enclosed in `{= ... =}`, for example.
+See [Lingua Franca Expressions](/docs/handbook/lingua-franca-expressions) for full details on what expressions are valid.
+
+FIXME: Got to here. Move some of what is below to the types and expressions pages.
 
 ```
 reactor Foo(size: int(100)) {
@@ -58,7 +91,7 @@ Both `int[][]` and ` {% raw %}{{1}, {2}} {% endraw %}` are C fragments here, not
 
 </details>
 
-Other forms for types and expressions are described in [LF types](#appendix-lf-types) and [LF expressions](#appendix-lf-expressions).
+Other forms for types and expressions are described in [LF types](/docs/handbook/lingua-franca-types) and [LF expressions](/docs/handbook/lingua-franca-expressions).
 
 How parameters may be used in the body of a reaction depends on the target. For example, in the [C target](writing-reactors-in-c#using-parameters), a `self` struct is provided that contains the parameter values. The following example illustrates this:
 
@@ -535,91 +568,3 @@ Lingua Franca files can have C/C++/Java-style comments and/or Python-style comme
        Multi-line Python-style comment.
     '''
 ```
-
-## Appendix: LF types
-
-Type annotations may be written in many places in LF, including [parameter declarations](#Parameter-declaration), [state variable declarations](#State-declaration), [input](#Input-declaration) and [output declarations](#Output-declaration). In some targets, they are required, because the target language requires them too.
-
-Assigning meaning to type annotations is entirely offloaded to the target compiler, as LF does not feature a type system (yet?). However, LF's syntax for types supports a few idioms that have target-specific meaning. Types may have the following forms:
-
-- the **time** type is reserved by LF, its values represent time durations. The **time** type accepts _time expressions_ for values, eg `100 msec`, or `0` (see [Basic expressions](#basic-expressions) for a reference).
-- identifiers are valid types (eg `int`, `size_t`), and may be followed by type arguments (eg `vector<int>`).
-- the syntactic forms `type[]` and `type[integer]` correspond to target-specific array types. The second form is available only in languages which support fixed-size array types (eg in C++, `std::array<5>`).
-- the syntactic form `{= some type =}` allows writing an arbitrary type as target code. This is useful in target languages which have complex type grammar (eg in TypeScript, `{= int | null =}`).
-
-Also note that to use strings conveniently in the C target, the "type" `string` is an alias for `{=char*=}`.
-
-(Types ending with a `*` are treated specially by the C target. See [Sending and Receiving Arrays and Structs](Writing-Reactors-in-C#sending-and-receiving-arrays-and-structs) in the C target documentation.)
-
-## Appendix: LF expressions
-
-A subset of LF syntax is used to write _expressions_, which represent target language values. Expressions are used in [state variable](#State-declaration) initializers, default values for [parameters](#Parameter-declarations), and [parameter assignments](#Contained-reactors).
-
-Expressions in LF support only simple forms, that are intended to be common across languages. Their precise meaning (eg the target language types they are compatible with) is target-specific and not specified here.
-
-### Basic expressions
-
-The most basic expression forms, which are supported by all target languages, are the following:
-
-- Literals:
-  - Numeric literals, eg `1`, `-120`, `1.5`. Note that the sign, if any, is part of the literal and must not be separated by whitespace.
-  - String literals, eg `"abcd"`. String literals always use double-quotes, even in languages which support other forms (like Python).
-  - Character literals. eg `'a'`. Single-quoted literals must be exactly one character long --even in Python.
-  - Boolean literals: `true`, `false`, `True`, `False`. The latter two are there for Python.
-- Parameter references, which are simple identifiers (eg `foo`). Any identifier in expression position must refer to a parameter of the enclosing reactor.
-- Time values, eg `1 msec` or `10 seconds`. The syntax of time values is `integer time_unit`, where `time_unit` is one of the following
-
-  - **nsec**: nanoseconds
-  - **usec**: microseconds
-  - **msec**: milliseconds
-  - **sec** or **second**: seconds
-  - **minute**: 60 seconds
-  - **hour**: 60 minutes
-  - **day**: 24 hours
-  - **week**: 7 days
-
-  Each of these units also support a pluralized version (eg `nsecs`, `minutes`, `days`), which means the same thing.
-
-  The time value `0` may have no unit. Except in this specific case, the unit is always required.
-
-  Time values are compatible with the `time` type.
-
-- Escaped target-language expression, eg `{= foo() =}`. This syntax is used to write any expression which does not fall into one of the other forms described here. The contents are not parsed and are used verbatim in the generated file.
-
-  The variables in scope are target-specific.
-
-### Complex expressions
-
-Some targets may make use of a few other syntactic forms for expressions. These syntactic forms may be acribed a different meaning by different targets, to keep the source language close in meaning to the target language.
-
-We describe here these syntactic forms and what meaning they have in each target.
-
-- Bracket-list syntax, eg `[1, 2, 3]`. This syntax is used to create a list in Python. It is not supported by any other target at the moment.
-  ```python
-  state x([1,2,3])
-  ```
-
-#### Initializer pseudo-expressions
-
-Some "expression" forms are only acceptable as the initializer of a state variable or parameter, but not in other places (like inside a list expression). These are
-
-- Tuple syntax, eg `(1, 2, 3)`. This syntax is used:
-
-  - in the Python target, to create a tuple value. Tuples are different from lists in that they are immutable.
-  - in C++, to pass arguments to a constructor:
-
-    ```cpp
-    state x: int[](1,2);
-    ```
-
-    In that example, the initializer expression is translated to `new std::vector(1,2)`. See also [C++ target documentation](https://github.com/lf-lang/lingua-franca/wiki/Writing-Reactors-in-Cpp#using-state-variables).
-
-  - in C and all other targets, to create a target-specific array value. In the Python target, this is accomplished by the bracket-list syntax `[1,2,3]` instead. Note that to create a zero- or one-element array, fat braces are usually required. For instance in C:
-
-  ```c
-    state x: int[](1,2,3); // creates an int array, basically `int x[] = {1,2,3};`
-    state x: int[](1);     // `int x[] = 1;` - type error!
-    state x: int[]({= {1} =})  // one element array: `int x[] = {1};`
-  ```
-
-- Brace-list syntax, eg `{1, 2, 3}`. This syntax is at the moment only supported by the C++ target. It's used to initialize a vector with the initializer list syntax instead of a constructor call.

@@ -43,8 +43,11 @@ const handbookPages = [
     chronological: true,
     items: [
       { file: "topics/A First Reactor.md" },
-      { file: "topics/Composing Reactors.md" },
+      { file: "topics/Inputs and Outputs.md" },
       { file: "topics/Parameters and State Variables.md" },
+      { file: "topics/Logical Time and Microsteps.md" },
+      { file: "topics/Timers and Actions.md" },
+      { file: "topics/Composing Reactors.md" },
       { file: "topics/Importing and Extending Reactors.md" },
       { file: "topics/Multiports and Banks.md" },
       { file: "topics/Distributed Execution.md" },
@@ -73,6 +76,8 @@ const handbookPages = [
       { file: "reference/Target Specification.md" },
       { file: "reference/C Reactors.md" },
       { file: "reference/Termination.md" },
+      { file: "reference/Lingua Franca Types.md"},
+      { file: "reference/Lingua Franca Expressions.md"},
     ],
   },
   {
@@ -104,6 +109,7 @@ const handbookPages = [
     title: "Less Developed Topics",
     summary: "Less mature topics in progress",
     items: [
+      { file: "less-developed/Logical Execution Time.md" },
       { file: "less-developed/Tools.md" },
       { file: "less-developed/Timing Analysis.md" },
       { file: "less-developed/Related Work.md" },
@@ -290,7 +296,7 @@ function validateMarkdownFile(info, filepath) {
   }
   if (missing.length) {
     // prettier-ignore
-    throw new Error(`You need to have '${missing.join("', '")}' in the YML for ${filepath}\n\n`);
+    throw new Error("You need to have " + missing.join(', ') + " in the YML for " + filepath + "\n\n");
   }
 }
 

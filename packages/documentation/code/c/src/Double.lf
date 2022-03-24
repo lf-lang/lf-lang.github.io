@@ -1,7 +1,4 @@
-target C {
-    threading: true,
-    workers: 0,
-}
+target C;
 reactor Double {
     input x:int;
     output y:int;

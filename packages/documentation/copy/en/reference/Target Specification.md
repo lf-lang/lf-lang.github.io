@@ -363,7 +363,7 @@ Protobufs is a serialization protocol by which data in a target language can be 
 
 <div class="lf-c lf-cpp">
 
-If threading is turned on (the default), then the generated code will use a target platform thread library and generate multi-threaded code. This can transparently execute execute reactions that have no dependence on one another in parallel on multiple cores. By default, threading is turned on, <span class="lf-c">but only a single worker thread will be used</span><span class="lf-cpp">and the number of workers is set to equal the number of cores on the target machine</span>. To use a different number of worker threads, the following target parameters can be specified:
+If threading is turned on (the default), then the generated code will use a target platform thread library and generate multi-threaded code. This can transparently execute execute reactions that have no dependence on one another in parallel on multiple cores. By default, threading is turned on, and the `workers` property is set to 0, which means that the number of workers is determined by the runtime system. Typically, it will be set to the number of cores on the machine running the code. To use a different number of worker threads, the following target parameters can be specified:
 
 ```lf-c
 target C {
@@ -373,7 +373,7 @@ target C {
 ```
 
 ```lf-cpp
-target C {
+target Cpp {
     threading: true,
     workers: <integer>,
 };
