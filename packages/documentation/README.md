@@ -67,3 +67,43 @@ Arbitrary content can be put with `div` of `span` with the appropriate class(es)
 ```
 
 Note that these `<div>` lines, for some inexplicable reason, need to be surrounded by blank lines.
+
+## Inserting Target-Specific Documentation from Source Files
+
+If you insert the following line into a source markdown file:
+
+```
+$insert(Name)$
+```
+
+then you can run the following script:
+
+```
+node packages/documentation/scripts/preprocessMarkdown.js yourMarkdownFile.md
+```
+
+This script will replace that line with something of the form:
+
+```
+$start(Name)$
+
+\`\`\`lf-c
+  ... C target code here
+\`\`\`
+
+\`\`\`lf-cpp
+  ... Cpp target code here
+\`\`\`
+...
+$end(Name)$
+```
+
+The code inserted is take from files located here:
+
+```
+packages/documentation/code/T/src
+```
+
+where `T` is one of `c`, `cpp`, etc.
+
+If you re-run the same script on the same markdown file, it will update the code blocks with the latest version in the above directory. The code will be expected to be in `Name.lf` file. If no macthin code is found, then an error message will be inserted instead into the markdown file.

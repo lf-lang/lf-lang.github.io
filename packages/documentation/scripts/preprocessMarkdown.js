@@ -74,25 +74,29 @@ const updateCodeblocksFromSource = (body) => {
   var programName = null;
   var result = '';
   var lineCount = 0;
-  var remainingTargets = new Set();
-  var insertMatch;
+  var remainingTargets;
 
   const lines = body.split(/\r?\n/);
   lines.forEach(line =>  {
     lineCount++;
-    insertMatch = line.match(insertMatcher);
 
-    if (mode != 'swallow' && mode != 'echocode' && !insertMatch) {
+    var insertMatch = line.match(insertMatcher);
+    var endMatch = line.match(endMatcher);
+
+    if (mode != 'swallow' && mode != 'echocode' && !insertMatch && !endMatch) {
       result += line;
       // Do not add a newline on the last line.
       if (lineCount < lines.length) result += "\n";
     }
     if (mode == 'text') {
       var match = line.match(startMatcher);
-      if (match || insertMatch) {
-        programName = match[1];
+      if (match) {
         mode = 'code'
+        programName = match[1];
+        remainingTargets = [...targetLanguages];
+      } else {
         if (insertMatch) {
+          programName = insertMatch[1];
           result += "$start(" + programName + ")$\n\n";
           for (var i = 0; i < targetLanguages.length; i++) {
             result += "```lf-" + targetLanguages[i] + "\n"
@@ -105,8 +109,6 @@ const updateCodeblocksFromSource = (body) => {
             result += "```\n\n"
           }
           result += "$end(" + programName + ")$\n\n";
-        } else {
-          remainingTargets = new Set(targetLanguages);
         }
       }
     } else if (mode == 'swallow') {
@@ -126,7 +128,12 @@ const updateCodeblocksFromSource = (body) => {
       // Check for the beginning of a code block.
       var lang = line.match(/^```lf-(.+)$/);
       if (lang) {
-        remainingTargets.delete(lang);
+        const index = remainingTargets.indexOf(lang[1]);
+        if (index >= 0) {
+          remainingTargets.splice(index, 1);
+        } else {
+          console.log("WARNING: Unrecognized target language: " + lang[1]);
+        }
         try {
           result += readSourceFile(lang[1], programName);
           mode = 'swallow';
@@ -136,8 +143,9 @@ const updateCodeblocksFromSource = (body) => {
             result += error + "\n";
             mode = 'echocode';
         }
-      } else if (line.match(endMatcher)) {
+      } else if (endMatch) {
         // Insert any missing languages.
+        console.log("**************** remaining: " + remainingTargets);
         remainingTargets.forEach((lang) => {
           result += "```lf-" + lang + "\n"
           try {
@@ -148,8 +156,12 @@ const updateCodeblocksFromSource = (body) => {
           }
           result += "```\n\n"
         })
+        result += line;
+        // Do not add a newline on the last line.
+        if (lineCount < lines.length) result += "\n";
+
         mode = 'text';
-        remainingTargets.clear();
+        remainingTargets = [];
       }
     }
   });

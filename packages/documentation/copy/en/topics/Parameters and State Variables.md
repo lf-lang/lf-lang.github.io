@@ -59,37 +59,44 @@ reactor <class-name>(<param-name>(<expr>), ... ) {
 
 </div>
 
-Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, or target-language code enclosed in `{= ... =}`, for example.
-See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
+Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
+
+For example, the `Double` reactor on the [previous page](/docs/handbook/inputs-and-outputs) can be replaced with a more general parameterized reactor `Scale` as follows:
+
+$start(Scale)$
+
+```lf-c
+target C;
+reactor Scale(factor:int(2)) {
+    input x:int;
+    output y:int;
+    reaction(x) -> y {=
+        SET(y, x->value * self->factor);
+    =}
+}
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/Scale.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/Scale.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/Scale.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/Scale.lf
+```
+
+$end(Scale)$
+
+Within the body of a reaction, the mechanism for accessing a parameter value is different for each target.
 
 FIXME: Got to here. Move some of what is below to the types and expressions pages.
-
-```
-reactor Foo(size: int(100)) {
-    ...
-}
-```
-
-<details>
-<summary>Introduction to basic LF types and expressions... click to expand</summary>
-
-One useful type predefined by LF is the `time` type, which represents time durations. Values of this type may be written with _time expressions_, like `100 msec` or `1 second` (see [Basic expressions](#basic-expressions) for a reference).
-
-For instance, you can write the following in any target language:
-
-```
-reactor Foo(period: time(100 msec)) {
-    ...
-}
-```
-
-Container types may also be written eg `int[]`, which is translated to a target-specific array or list type. The acceptable expressions for these types vary across targets (see [Complex expressions](#complex-expressions)), for instance in C, you can initialize an array parameter as follows:
-
-```
-reactor Foo(my_array:int[](1, 2, 3)) {
-   ...
-}
-```
 
 If the type or expression uses syntax that Lingua Franca does not support, you can use `{= ... =}` delimiters to enclose them and escape them. For instance to have a 2-dimensional array as a parameter in C:
 
@@ -100,10 +107,6 @@ reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
 ```
 
 Both `int[][]` and ` {% raw %}{{1}, {2}} {% endraw %}` are C fragments here, not LF.
-
-</details>
-
-Other forms for types and expressions are described in [LF types](/docs/handbook/lingua-franca-types) and [LF expressions](/docs/handbook/lingua-franca-expressions).
 
 How parameters may be used in the body of a reaction depends on the target. For example, in the [C target](writing-reactors-in-c#using-parameters), a `self` struct is provided that contains the parameter values. The following example illustrates this:
 
