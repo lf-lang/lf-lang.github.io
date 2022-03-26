@@ -23,7 +23,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
 - [**fast**](#fast): A boolean specifying to execute as fast as possible without waiting for physical time to match logical time.
-- [**files**](#files): An array of paths to files to be copied to the directory that contains the generated sources.
+- [**files**](#files): An array of paths to files or directories to be copied to the directory that contains the generated sources.
 - [**flags**](#flags): An arrays of strings giving options to be passed to the target compiler.
 - [**logging**](#logging): An indicator of how much information to print when executing the program.
 - [**no-compile**](#no-compile): If true, then do not invoke a target language compiler. Just generate code.
@@ -235,7 +235,7 @@ By default, the execution of a Lingua Franca program is slowed down, if necessar
 
 <div class="lf-c">
 
-The `files` target parameter specifies array of files to be copied to the directory that contains the generated sources.
+The `files` target parameter specifies array of files or directories to be copied to the directory that contains the generated sources.
 
 ```lf-c
 target C {
@@ -243,7 +243,7 @@ target C {
 }
 ```
 
-The lookup procedure for these files is as follows:
+The lookup procedure for these files and directories is as follows:
 
 1- Search in the directory containing the `.lf` file that has the **target** directive.
 
