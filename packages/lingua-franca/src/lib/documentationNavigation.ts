@@ -180,16 +180,22 @@ export function getDocumentationNavForLanguage(
           oneline: "The target specification in Lingua Franca.",
         },
         {
-          title: "C Reactors",
-          id: "3-c-reactors",
-          permalink: "/docs/handbook/c-reactors",
-          oneline: "Writing reactors using the C target in Lingua Franca.",
-        },
-        {
           title: "Termination",
           id: "3-termination",
           permalink: "/docs/handbook/termination",
           oneline: "Terminating a Lingua Franca execution.",
+        },
+        {
+          title: "Expressions",
+          id: "3-expressions",
+          permalink: "/docs/handbook/expressions",
+          oneline: "Expressions in Lingua Franca.",
+        },
+        {
+          title: "C Reactors",
+          id: "3-c-reactors",
+          permalink: "/docs/handbook/c-reactors",
+          oneline: "Writing reactors using the C target in Lingua Franca.",
         },
       ],
     },

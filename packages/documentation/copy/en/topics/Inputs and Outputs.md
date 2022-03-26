@@ -144,7 +144,7 @@ reaction (<triggers>) <uses> -> <effects> {=
 =}
 ```
 
-The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](/docs/handbook/hierarchy), [timers, actions](/docs/handbook/timers-and-actions), or the special events $startup$ and $shutdown$s. There must be at least one trigger for each reaction. A reaction with a $startup$ trigger is invoked when the program begins executing, and a reaction with a $shutdown$ trigger is invoked at the end of execution.
+The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](/docs/handbook/hierarchy), [timers, actions](/docs/handbook/timers-and-actions), or the special events $startup$ and $shutdown$. There must be at least one trigger for each reaction. A reaction with a $startup$ trigger is invoked when the program begins executing, and a reaction with a $shutdown$ trigger is invoked at the end of execution.
 
 The **uses** field, which is optional, specifies input ports (or [output ports of contained reactors](/docs/handbook/hierarchy)) that do not trigger execution of the reaction but may be read by the reaction.
 

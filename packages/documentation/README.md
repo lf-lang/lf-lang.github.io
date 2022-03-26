@@ -45,3 +45,25 @@ preamble: >
 5. Whenever the structure is changed, simply rerun `yarn bootstrap` to propagate changes to lingua-franca.
 
 **NOTE**: Be sure the titles in your files are unique or yarn will get confused about which file to show.
+
+## Target-Specific Documentation
+
+The handbook documentation pages include a target language selector that specifies the target language in which to show examples. To add target-specific content to a markdown file, the content must have HTML class `lf-T`, where `T` is one of `c`, `cpp`, `py`, `ts`, or `rs`. A code block specific to C, for example, can be given as:
+
+```
+\`\`\`lf-c
+    ... your code here ...
+\`\`\`
+```
+
+Arbitrary content can be put with `div` of `span` with the appropriate class(es). For example, content that is relevant to only C and C++ can be surrounded with:
+
+```
+<div class="lf-c lf-cpp">
+
+    ... your markdown content here ...
+
+</div>
+```
+
+Note that these `<div>` lines, for some inexplicable reason, need to be surrounded by blank lines.

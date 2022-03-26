@@ -10,22 +10,24 @@ $page-showing-target$
 
 ## Parameter Declaration
 
-A reactor class definition can define parameters as follows:
+A reactor class definition can parameterized as follows:
 
-<div class="lf-c lf-cpp lf-ts lf-rs>
+<div class="lf-c lf-cpp lf-ts lf-rs">
 
 ```lf
-reactor <class-name>(<param-name-1>:<type>(<expr>), <param-name-2>:<type>(<expr>)) {
+reactor <class-name>(<param-name>:<type>(<expr>), ...) {
     ...
 }
 ```
 
 Each parameter has a _type annotation_, written `:<type>`, where `<type>` has one of the following forms:
 
-- An identifier, such as `int`, designating a type in the target language.
-- A container type, such as `int[]`.
+- An identifier, such as `int`<span class="lf-cpp">, possibly followed by a type argument, e.g. `vector<int>`</span>.
+- An array type `type[]`<span class="lf-c lf-cpp lf-rs"> and `type[integer]`</span>.
 - The keyword $time$, which designates a time value.
 - A code block delimitted by `{= ... =}`, where the contents is any valid type in the target language.
+
+</div>
 
 <div class="lf-c lf-cpp">
 
@@ -33,14 +35,24 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 
 </div>
 
-See [Lingua Franca Types](/docs/handbook/lingua-franca-types) for details about types.
+<div class="lf-c">
+
+Types ending with a `*` are treated specially by the C target. See [Sending and Receiving Arrays and Structs](/docs/handbook/c-reactors#sending-and-receiving-arrays-and-structs) in the C target documentation.
+
+To use strings conveniently in the C target, the "type" `string` is an alias for `{=const char*=}`.
 
 </div>
 
-<div class="lf-py>
+<div class="lf-ts">
+
+For example, `{= int | null =}` defines nullable integer type in TypeScript.
+
+</div>
+
+<div class="lf-py">
 
 ```lf
-reactor <class-name>(<param-name-1>(<expr>), <param-name-2>(<expr>)) {
+reactor <class-name>(<param-name>(<expr>), ... ) {
     ...
 }
 ```
@@ -48,7 +60,7 @@ reactor <class-name>(<param-name-1>(<expr>), <param-name-2>(<expr>)) {
 </div>
 
 Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, or target-language code enclosed in `{= ... =}`, for example.
-See [Lingua Franca Expressions](/docs/handbook/lingua-franca-expressions) for full details on what expressions are valid.
+See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
 
 FIXME: Got to here. Move some of what is below to the types and expressions pages.
 

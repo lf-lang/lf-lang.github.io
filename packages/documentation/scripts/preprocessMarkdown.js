@@ -5,9 +5,15 @@
  * @author Edward A. Lee
  */
 
+/* Supported target languages. */
+const targetLanguages = ["c", "cpp", "py", "ts", "rs"];
+
 const fs = require('fs');
 const path = require('path');
 const { exit } = require("process");
+
+/** Regular expression that matches $insert(name)$. */
+const insertMatcher = new RegExp('\\$insert\\((.*)\\)\\$');
 
 /** Regular expression that matches $start(name)$. */
 const startMatcher = new RegExp('\\$start\\((.*)\\)\\$');
@@ -16,12 +22,51 @@ const startMatcher = new RegExp('\\$start\\((.*)\\)\\$');
 const endMatcher = new RegExp('\\$end\\((.*)\\)\\$');
 
 /**
+ * Return the code block matching the specified target language and program name.
+ * @param target The target language.
+ * @param programName The program name. 
+ * @throws Exception if no matching file is found. 
+ */
+const readSourceFile = (target, programName) => {
+  var result = "";
+  var filename = "../code/" + target + "/src/" + programName + ".lf";
+  try {
+    const code = fs.readFileSync(path.resolve(__dirname, filename), 'utf-8');
+    if (code) {
+      // Write the code line by line to ensure correct line breaks.
+      code.split(/\r?\n/).forEach(codeLine => {
+        result += codeLine + "\n";
+      })
+    } else {
+      // This should probably not happen.
+      throw("WARNING: File read returned null: " + filename);
+    }
+  } catch(error) {
+      // If no source file is found, then insert a warning and echo the code.
+      throw("WARNING: No source file found: " + filename);
+  }
+  return result;
+}
+
+/**
  * Given the content of a markdown file, search for single-line annotations of the form
- * $start(name)$ and $end(name)$ and replace code blocks in between the two with
- * source code retrieved from source files.  If any non-blank line between the two
- * is not within a code block, then the operation is cancelled and further text is unchanged.
- * If any source file is not found, this will
- * insert a default error text ahead of whatever code is already specified.
+ * `$insert(name)$` or delimiter lines `$start(name)$` and `$end(name)$` and insert or replace
+ * code blocks with source code found in files located in
+ * `packages/documentation/code/T/src`, where `T` is one of the target languages
+ * in targetLanguages and `
+ * 
+ * If the line found is a line by itself of the form `$insert(name)$`, then replace that line
+ * with with the delimited form starting with `$start(name)$` and ending with `$end(name)$`
+ * and automatically insert all the code blocks for target laguages in targetLanguages.
+ * 
+ * If the lines found are the delimiter lines `$start(name)$` and `$end(name)$`, then
+ * any code blocks in between these delimiters will be replaced with updated code in the
+ * `packages/documentation/code/T/src` directory.
+ * 
+ * In both cases, if any target language is missing a file in the
+ * `packages/documentation/code/T/src` directory, then this function will insert
+ * a default error message.
+ *
  * @param body The text of a markdown file.
  */
 const updateCodeblocksFromSource = (body) => {
@@ -29,20 +74,40 @@ const updateCodeblocksFromSource = (body) => {
   var programName = null;
   var result = '';
   var lineCount = 0;
+  var remainingTargets = new Set();
+  var insertMatch;
+
   const lines = body.split(/\r?\n/);
   lines.forEach(line =>  {
     lineCount++;
-    // If the mode is not 'swallow', then echo the current line to the output.
-    if (mode != 'swallow' && mode != 'echocode') {
+    insertMatch = line.match(insertMatcher);
+
+    if (mode != 'swallow' && mode != 'echocode' && !insertMatch) {
       result += line;
       // Do not add a newline on the last line.
       if (lineCount < lines.length) result += "\n";
     }
     if (mode == 'text') {
       var match = line.match(startMatcher);
-      if (match) {
+      if (match || insertMatch) {
         programName = match[1];
         mode = 'code'
+        if (insertMatch) {
+          result += "$start(" + programName + ")$\n\n";
+          for (var i = 0; i < targetLanguages.length; i++) {
+            result += "```lf-" + targetLanguages[i] + "\n"
+            try {
+              result += readSourceFile(targetLanguages[i], programName);
+            } catch (error) {
+              console.log(error);
+              result += error + "\n";
+            }
+            result += "```\n\n"
+          }
+          result += "$end(" + programName + ")$\n\n";
+        } else {
+          remainingTargets = new Set(targetLanguages);
+        }
       }
     } else if (mode == 'swallow') {
       // Check for end of code block.
@@ -61,29 +126,30 @@ const updateCodeblocksFromSource = (body) => {
       // Check for the beginning of a code block.
       var lang = line.match(/^```lf-(.+)$/);
       if (lang) {
-        var filename = "../code/" + lang[1] + "/src/" + programName + ".lf";
+        remainingTargets.delete(lang);
         try {
-          const code = fs.readFileSync(path.resolve(__dirname, filename), 'utf-8');
-          if (code) {
-            // Write the code line by line to ensure correct line breaks.
-            code.split(/\r?\n/).forEach(codeLine => {
-              result += codeLine + "\n";
-            })
-            mode = 'swallow';
-          } else {
-            // This should probably not happen.
-            result += "WARNING: file read returned null!\n";
-            mode = 'echocode';
-          }
+          result += readSourceFile(lang[1], programName);
+          mode = 'swallow';
         } catch(error) {
             // If no source file is found, then insert a warning and echo the code.
-            const message = "WARNING: No source file found: " + filename;
-            console.log(message);
-            result += message + "\n";
+            console.log(error);
+            result += error + "\n";
             mode = 'echocode';
         }
       } else if (line.match(endMatcher)) {
+        // Insert any missing languages.
+        remainingTargets.forEach((lang) => {
+          result += "```lf-" + lang + "\n"
+          try {
+            result += readSourceFile(lang, programName);
+          } catch (error) {
+            console.log(error);
+            result += error + "\n";
+          }
+          result += "```\n\n"
+        })
         mode = 'text';
+        remainingTargets.clear();
       }
     }
   });

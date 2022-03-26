@@ -74,10 +74,9 @@ const handbookPages = [
     chronological: true,
     items: [
       { file: "reference/Target Specification.md" },
-      { file: "reference/C Reactors.md" },
       { file: "reference/Termination.md" },
-      { file: "reference/Lingua Franca Types.md"},
-      { file: "reference/Lingua Franca Expressions.md"},
+      { file: "reference/Expressions.md"},
+      { file: "reference/C Reactors.md" },
     ],
   },
   {
