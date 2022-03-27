@@ -39,7 +39,7 @@ html.light-theme {
   --text-color: #333;
   --border-color: #eee;
   --background-minor-highlight-color: #fcfcfc;
-  --inline-code-background-color: rgb(241, 241, 254);
+  --inline-code-background-color: #f5f2f0;
   --inline-code-color: #000;
   --link-color: #{$ts-main-blue-darker-color};
   --raised-background-color: #fff;
@@ -47,8 +47,8 @@ html.light-theme {
   --raised-box-shadow: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132),
     0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
   --sidebar-background-color: #{$ts-light-bg-grey};
-  --sidebar-list-active-background-color: #{$ts-barely-blue-highlight};
-  --sidebar-list-background-color: #e4e4e4;
+  --sidebar-list-active-background-color: #d3dde3;
+  --sidebar-list-background-color: #dedede;
   --sidebar-link-border-color: #000;
   --sidebar-item-border-color: #dfdfdf;
   --sidebar-active-button-background-color: #dfdfdf;

@@ -18,7 +18,7 @@ The most basic expression forms, which are supported by all target languages, ar
   - Character literals. eg `'a'`. Single-quoted literals must be exactly one character long --even in Python.
   - Boolean literals: `true`, `false`, `True`, `False`. The latter two are there for Python.
 - Parameter references, which are simple identifiers (eg `foo`). Any identifier in expression position must refer to a parameter of the enclosing reactor.
-- Time values, eg `1 msec` or `10 seconds`. The syntax of time values is `integer time_unit`, where `time_unit` is one of the following
+- Time values, eg `1 msec` or `10 seconds`. The syntax of time values is `integer time_unit`, where `time_unit` is one of the following:
 
   - **nsec** or **ns**: nanoseconds
   - **usec** or **us**: microseconds
@@ -36,6 +36,20 @@ The most basic expression forms, which are supported by all target languages, ar
   Time values are compatible with the `time` type.
 
 - Escaped target-language expression, eg `{= foo() =}`. This syntax is used to write any expression which does not fall into one of the other forms described here. The contents are not parsed and are used verbatim in the generated file.
+
+<div class="lf-c">
+
+For instance, to have a 2-dimensional array as a parameter in C:
+
+```
+reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
+    ...
+}
+```
+
+Both `int[][]` and `{{1}, {2}}` are C fragments here, not LF.
+
+</div>
 
 ## Collections
 

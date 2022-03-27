@@ -73,9 +73,9 @@ const handbookPages = [
     summary: "Complete reference documentation.",
     chronological: true,
     items: [
+      { file: "reference/Expressions.md"},
       { file: "reference/Target Specification.md" },
       { file: "reference/Termination.md" },
-      { file: "reference/Expressions.md"},
       { file: "reference/C Reactors.md" },
     ],
   },

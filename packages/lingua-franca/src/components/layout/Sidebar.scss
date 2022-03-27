@@ -148,6 +148,7 @@ nav#sidebar {
       }
 
       &.highlight a {
+        background-color: var(--background-color);
         color: $ts-main-blue-color;
         border-left: 2px solid $ts-main-blue-color;
         margin-left: 0.5rem;

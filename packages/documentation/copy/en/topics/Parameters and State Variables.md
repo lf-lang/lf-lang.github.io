@@ -94,19 +94,11 @@ WARNING: No source file found: ../code/rs/src/Scale.lf
 
 $end(Scale)$
 
-Within the body of a reaction, the mechanism for accessing a parameter value is different for each target.
+Notice how, within the body of a reaction, the code accesses the parameter value. This is different for each target language.
 
 FIXME: Got to here. Move some of what is below to the types and expressions pages.
 
-If the type or expression uses syntax that Lingua Franca does not support, you can use `{= ... =}` delimiters to enclose them and escape them. For instance to have a 2-dimensional array as a parameter in C:
-
-```
-reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
-    ...
-}
-```
-
-Both `int[][]` and ` {% raw %}{{1}, {2}} {% endraw %}` are C fragments here, not LF.
+If the type or expression uses syntax that Lingua Franca does not support, you can use `{= ... =}` delimiters to enclose them and escape them.
 
 How parameters may be used in the body of a reaction depends on the target. For example, in the [C target](writing-reactors-in-c#using-parameters), a `self` struct is provided that contains the parameter values. The following example illustrates this:
 
