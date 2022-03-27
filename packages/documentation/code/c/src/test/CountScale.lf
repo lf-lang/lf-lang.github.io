@@ -4,7 +4,7 @@ target C {
 };
 import Count from "../Count.lf";
 import Scale from "../Scale.lf";
-import TestCount from "TestCount.lf";
+import TestCount from "../TestCount.lf";
 
 main reactor {
     c = new Count();

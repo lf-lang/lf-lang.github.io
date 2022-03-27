@@ -8,40 +8,54 @@ preamble: >
 
 $page-showing-target$
 
-In this section, we will build hierarchies of contained reactors.
-
 ## Contained Reactors
 
-Reactors can contain instances of other reactors defined in the same file or in an imported file. Assuming the above [Count reactor](#state-declaration) is stored in a file [Count.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/lib/Count.lf), then [CountTest](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/CountTest.lf) is an example that imports and instantiates it to test the reactor:
+Reactors can contain instances of other reactors defined in the same file or in an imported file. Assume the `Count` and `Scale` reactors defined in [Parameters and State Variables](/docs/handbook/parameters-and-state-variables) are stored in files `Count.lf` and `Scale.lf`, respectively,
+and that the `TestCount` reactor from [Time and Timers](/docs/handbook/time-and-timers) is stored in `TestCount.lf`. Then the following program composes one instance of each of the three:
 
-```
-target C;
-import Count.lf;
-reactor Test {
-    input c:int;
-    state i:int(0);
-    reaction(c) {=
-        printf("Received %d.\n", c->value);
-        (self->i)++;
-        if (c->value != self->i) {
-            printf("ERROR: Expected %d but got %d\n.", self->i, c->value);
-            exit(1);
-        }
-    =}
-    reaction(shutdown) {=
-        if (self->i != 4) {
-            printf("ERROR: Test should have reacted 4 times, but reacted %d times.\n", self->i);
-            exit(2);
-        }
-    =}
+$start(RegressionTest)$
+
+```lf-c
+target C {
+    timeout: 10 sec,
+    fast: true
 }
+import Count from "Count.lf";
+import Scale from "Scale.lf";
+import TestCount from "TestCount.lf";
 
-main reactor CountTest {
-    count = new Count();
-    test = new Test();
-    count.out -> test.c;
+main reactor RegressionTest {
+    c = new Count();
+    s = new Scale(factor = 4);
+    t = new TestCount(stride = 4, num_inputs = 11);
+    c.y -> s.x;
+    s.y -> t.x;
 }
 ```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/RegressionTest.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/RegressionTest.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/RegressionTest.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/RegressionTest.lf
+```
+
+$end(RegressionTest)$
+
+As soon as programs consist of more than one reactor, it becomes particularly useful to reference the diagrams that are automatically created and displayed by the Lingua Franca IDEs. The diagram for the above program is as follows:
+
+<span class="warning"> IMAGES DON'T WORK!!!!</span>
+
+![](diagrams/RegressionTest.svg)
 
 An instance is created with the syntax:
 

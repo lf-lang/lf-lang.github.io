@@ -9,7 +9,7 @@ target C {
 import Count from "../Count.lf";
 import Double from "../Double.lf";
 import Destination from "../Destination.lf";
-import TestCount from "TestCount.lf";
+import TestCount from "../TestCount.lf";
 
 main reactor {
     c = new Count();

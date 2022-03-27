@@ -6,6 +6,8 @@ oneline: "Time and timers in Lingua Franca."
 preamble: >
 ---
 
+$page-showing-target$
+
 ## Timers
 
 A key property of Lingua Franca is **logical time**. All events occur at an instant in logical time. By default, the runtime system does its best to align logical time with **physical time**, which is some measurement of time on the execution platform. The **lag** is defined to be physical time minus logical time, and the goal of the runtime system is maintain a small non-negative lag.
@@ -15,10 +17,10 @@ The **lag** is allowed to go negative only if the [`fast` target property](/docs
 The simplest use of logical time in Lingua Franca is to invoke a reaction periodically. This is done by first declaring a $timer$ using this syntax:
 
 ```lf
-    timer** <name>(<offset>, <period>);
+    timer <name>(<offset>, <period>);
 ```
 
-The `<period>`, which is optional, specifies the time interval between timer events. The `<offset>`, which is also optional, specifies the (logical) time interval between when the program starts executing and the first timer event occurs. If no period is given, then the timer event occurs only once. If neither an offset nor a period is specified, then the one timer event occurs at program start, simultaneous with the $startup$ event.
+The `<period>`, which is optional, specifies the time interval between timer events. The `<offset>`, which is also optional, specifies the (logical) time interval between when the program starts executing and the first timer event. If no period is given, then the timer event occurs only once. If neither an offset nor a period is specified, then one timer event occurs at program start, simultaneous with the $startup$ event.
 
 The period and offset are given by a number and a units, for example, `10 msec`. See the [expressions documentation](/docs/handbook/expressions#basic-expressions) for allowable units. Consider the following example:
 
@@ -52,7 +54,15 @@ WARNING: No source file found: ../code/rs/src/Timer.lf
 
 $end(Timer)$
 
-This specifies a timer named `t` that will first trigger at the start of execution and then repeatedly trigger at intervals of one second. Notice that the time units can only be left off if the value is zero. Each target provides a built-in function for retrieving the logical time at which the reaction is invoked. On most platforms (with the exception of some embedded platforms), the returned value is a 64-bit number representing the number of nanoseconds that have elapsed since January 1, 1970. Executing the above displays something like the following:
+This specifies a timer named `t` that will first trigger at the start of execution and then repeatedly trigger at intervals of one second. Notice that the time units can be left off if the value is zero.
+
+Each target provides a built-in function for retrieving the logical time at which the reaction is invoked,
+<span class="lf-c">`get_logical_time()`</span>
+<span class="lf-cpp warning">FIXME</span>
+<span class="lf-py warning">FIXME</span>
+<span class="lf-ts warning">FIXME</span>
+<span class="lf-rs warning">FIXME</span>.
+On most platforms (with the exception of some embedded platforms), the returned value is a 64-bit number representing the number of nanoseconds that have elapsed since January 1, 1970. Executing the above displays something like the following:
 
 ```
 Logical time is 1648402121312985000.
@@ -63,7 +73,7 @@ Logical time is 1648402123312985000.
 
 The output lines appear at one second intervals unless the `fast` option has been specified.
 
-The times above a bit hard to read, so, for convenience, each target provides a built-in function to retrieve the _elapsed_ time. For example:
+The times above are a bit hard to read, so, for convenience, each target provides a built-in function to retrieve the _elapsed_ time. For example:
 
 $start(TimeElapsed)$
 
@@ -115,7 +125,7 @@ Elapsed logical time is 2000000000.
 ...
 ```
 
-The following program compares logical ands physical time:
+The following program compares logical and physical times:
 
 $start(TimeLag)$
 
@@ -162,18 +172,51 @@ Elapsed logical time: 3000000000, physical time: 3000210000, lag: 210000
 ...
 ```
 
-In this case, the lag varies from a few hundred microseconds to a small number of milliseconds.
+In this case, the lag varies from a few hundred microseconds to a small number of milliseconds. The amount of lag will depend on the execution platform.
 
-## FIXME
+If two timers have the same _offset_ and _period_, then their events are logically simultaneous. No observer will be able to see that one timer has triggered and the other has not.
 
-The times specified are logical times. Specifically, if two timers have the same _offset_ and _period_, then they are logically simultaneous. No observer will be able to see that one timer has triggered and the other has not. Even though these are logical times, the runtime system will make an effort to align those times to physical times. Such alignment can never be perfect, and its accuracy will depend on the execution platform.
+A reaction is always invoked at a well-defined logical time, and logical time does not advance during its execution. Any output produced by the reaction will be **logically simultaneous** with the input. In other words, reactions are **logically instantaneous** (for an exception, see [Logical Execution Time](/docs/handbook/logical-execution-time)). Physical time, however, does elapse during execution of a reaction.
 
-Both arguments are optional, with both having default value zero. An _offset_ of zero or greater specifies the minimum time delay between the time at the start of execution and when the action is triggered. The _period_ is zero or greater, where a value of zero specifies that the reactions should be triggered exactly once,
-whereas a value greater than zero specifies that they should be triggered repeatedly with the period given.
+## Timeout
+
+By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-specification#timeout) or a [`--timeout command-line option](ocs/handbook/target-specification#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
+
+```lf-c
+target C {
+    timeout: 10 sec
+}
+```
+
+```lf-cpp
+target Cpp {
+    timeout: 10 sec
+}
+```
+
+```lf-py
+target Python {
+    timeout: 10 sec
+}
+```
+
+```lf-ts
+target TypeScript {
+    timeout: 10 sec
+}
+```
+
+```lf-rs
+target Rust {
+    timeout: 10 sec
+}
+```
+
+## Startup and Shutdown
 
 To cause a reaction to be invoked at the start of execution, a special **startup** trigger is provided:
 
-```
+```lf
 reactor Foo {
     reaction(startup) {=
         ... perform initialization ...
@@ -183,19 +226,57 @@ reactor Foo {
 
 The **startup** trigger is equivalent to a timer with no _offset_ or _period_.
 
-## Superdense Time
+To cause a reaction to be invoked at the end of execution, a special **shutdown** trigger is provided. Consider the following reactor, commonly used to build regression tests:
 
-In the sematics of Lingua Franca, a reaction is invoked at a **tag**, which consists of a **logical time** and a **microstep**. LF programs make a distinction between **logical time** and **physical time**. Physical time is time as measured by some physical clock on the execution platform, usually provided to the runtime system through an operating-system service. Logical time, in contrast, advances in a very controlled manner that makes building deterministic concurrent programs much easier. Logical time (together with the microstep) gives events a definitive order (or unambiguously makes them **simultaneous**). A reaction is always invoked at a well-defined tag, and neither the logical time nor the microstep advance during the execution of a reaction. As a consequence, if a reaction is triggered by an input event with tag _g_, and that reaction produces an output, then the output event will be **logically simultaneous** with the input. In other words, reactions are **logically instantaneous** (for an exception, see [Logical Execution Time](/docs/handbook/logical-execution-time)).
+$start(TestCount)$
 
-By default, when the program is run, logical time will advance at roughly the same rate as physical time. There are two exceptions. First, if your program specifies so much computation that the execution cannot keep up with physical time, then the **lag** (physical time minus logical time) will increase. Second, if you specify the **fast** option as a [target or command-line option](/docs/handbook/target-specification), then the program will execute as fast as possible and logical time advance much faster than physical time, making the **lag** negative.
+```lf-c
+target C;
+reactor TestCount(start:int(1), stride:int(1), num_inputs:int(1)) {
+    state count:int(start);
+    state inputs_received:int(0);
+    input x:int;
+    reaction(x) {=
+        printf("Received %d.\n", x->value);
+        if (in->value != self->count) {
+            fprintf(stderr, "Expected %d.", self->count);
+            exit(1);
+        }
+        self->count += self->stride;
+        self->inputs_received++;
+    =}
+    reaction(shutdown) {=
+        printf("Shutdown invoked.\n");
+        if (self->inputs_received != self->num_inputs) {
+            fprintf(stderr, "Expected to receive %d inputs, but got %d.",
+                self->num_inputs,
+                self->inputs_received
+            );
+            exit(2);
+        }
+    =}
+}
+```
 
-For the above `Destination` reactor, at a particular tag, one of both of the inputs may be **present** or **absent**. If either is present, then the reaction will be invoked. If they are both present, then the input events are said to be **logically simultaneous**.
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/TestCount.lf
+```
 
-**NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is undefined and may be target dependent. In the C target, as of this writing, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input. In the TS target, the value will be **undefined**, a legitimate value in TypeScript.
+```lf-py
+WARNING: No source file found: ../code/py/src/TestCount.lf
+```
 
-All target languages provide the same basic set of mechanisms. These mechanisms include:
+```lf-ts
+WARNING: No source file found: ../code/ts/src/TestCount.lf
+```
 
-- Obtaining the current logical time (logical time does not advance during the execution of a reaction, so the execution of a reaction is logically instantaneous).
-- Determining whether inputs are present at the current logical time and reading their value if they are. If a reaction is triggered by exactly one input, then that input will always be present. But if there are multiple triggers, or if the input is specified in the _uses_ field, then the input may not be present when the reaction is invoked.
-- Setting output values. Reactions in a reactor may set an output value more than once at any instant of logical time, but only the last of the values set will be sent on the output port.
-- Scheduling future actions.
+```lf-rs
+WARNING: No source file found: ../code/rs/src/TestCount.lf
+```
+
+$end(TestCount)$
+
+This reactor tests its inputs against expected values, which are expected to start with the value given by the `start` parameter and increase by `stride` with each successive input. It expects to receive a total of `num_inputs` input events. It checks the total number of inputs received in its $shutdown$ reaction.
+
+The **shutdown** trigger typically occurs at microstep 0, but may occur at a larger microstep.
+See [Termination](/docs/handbook/termination).

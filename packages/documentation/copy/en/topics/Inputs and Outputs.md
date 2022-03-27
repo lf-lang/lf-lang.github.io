@@ -134,9 +134,16 @@ WARNING: No source file found: ../code/rs/src/Destination.lf
 
 $end(Destination)$
 
+**NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is target dependent.
+<span class="lf-c">In the C target, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input.</span>
+<span class="lf-cpp warning">FIXME.</span>
+<span class="lf-py warning">FIXME.</span>
+<span class="lf-ts">In the TS target, the value will be **undefined**, a legitimate value in TypeScript.</span>
+<span class="lf-rs warning">FIXME.</span>
+
 ## Reactions
 
-The general form a $reaction$ is
+The general form of a $reaction$ is
 
 ```lf
 reaction (<triggers>) <uses> -> <effects> {=

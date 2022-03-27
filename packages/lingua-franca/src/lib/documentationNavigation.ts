@@ -72,16 +72,10 @@ export function getDocumentationNavForLanguage(
           oneline: "Parameters and state variables in Lingua Franca.",
         },
         {
-          title: "Timer and Timers",
-          id: "1-timer-and-timers",
+          title: "Time and Timers",
+          id: "1-time-and-timers",
           permalink: "/docs/handbook/time-and-timers",
           oneline: "Time and timers in Lingua Franca.",
-        },
-        {
-          title: "Actions",
-          id: "1-actions",
-          permalink: "/docs/handbook/actions",
-          oneline: "Actions in Lingua Franca.",
         },
         {
           title: "Composing Reactors",
@@ -94,6 +88,12 @@ export function getDocumentationNavForLanguage(
           id: "1-importing-and-extending-reactors",
           permalink: "/docs/handbook/importing-and-extending-reactors",
           oneline: "Importing and extending reactors in Lingua Franca.",
+        },
+        {
+          title: "Actions",
+          id: "1-actions",
+          permalink: "/docs/handbook/actions",
+          oneline: "Actions in Lingua Franca.",
         },
         {
           title: "Methods",

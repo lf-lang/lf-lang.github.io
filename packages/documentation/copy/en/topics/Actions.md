@@ -38,6 +38,10 @@ The default _min_delay_ is zero. The default _min_spacing_ is undefined (meaning
 
 The _min_delay_ parameter in the **action** declaration is static (set at compile time), while the _offset_ parameter given to the schedule function may be dynamically set at runtime. Hence, for static analysis and scheduling, the **action**'s' _min_delay_ parameter can be assumed to be a _minimum delay_ for analysis purposes.
 
+## Superdense Time
+
+The model of time in Lingua Franca is a bit more sophisticated than we have hinted at. Specifically, a **superdense** model of time is used. In particular, instead of a **timestamp**, LF uses a **tag**, which consists of a **logical time** _t_ and a **microstep** _m_. Two events are logically **simultaneous** only if _both_ the logical time and the microstep are equal. But only the logical time is used to align behavior with physical time. For that purpose, the microstep is ignored.
+
 #### Discussion
 
 Logical actions are used to schedule events at a future logical time relative to the current logical time. Physical time is ignored. They must be scheduled within reactions, and the timestamp of the scheduled event will be relative to the current logical time of the reaction that schedules them. It is an error to schedule a logical action asynchronously, outside of the context of a reaction. Asynchronous actions are required to be **physical**.
