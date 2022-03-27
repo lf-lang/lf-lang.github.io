@@ -72,16 +72,16 @@ export function getDocumentationNavForLanguage(
           oneline: "Parameters and state variables in Lingua Franca.",
         },
         {
-          title: "Logical Time and Microsteps",
-          id: "1-logical-time-and-microsteps",
-          permalink: "/docs/handbook/logical-time-and-microsteps",
-          oneline: "Tags, logical time, and microsteps in Lingua Franca.",
+          title: "Timer and Timers",
+          id: "1-timer-and-timers",
+          permalink: "/docs/handbook/time-and-timers",
+          oneline: "Time and timers in Lingua Franca.",
         },
         {
-          title: "Timers and Actions",
-          id: "1-timers-and-actions",
-          permalink: "/docs/handbook/timers-and-actions",
-          oneline: "Timers and actions in Lingua Franca.",
+          title: "Actions",
+          id: "1-actions",
+          permalink: "/docs/handbook/actions",
+          oneline: "Actions in Lingua Franca.",
         },
         {
           title: "Composing Reactors",
@@ -94,6 +94,18 @@ export function getDocumentationNavForLanguage(
           id: "1-importing-and-extending-reactors",
           permalink: "/docs/handbook/importing-and-extending-reactors",
           oneline: "Importing and extending reactors in Lingua Franca.",
+        },
+        {
+          title: "Methods",
+          id: "1-methods",
+          permalink: "/docs/handbook/methods",
+          oneline: "Methods in Lingua Franca.",
+        },
+        {
+          title: "Deadlines",
+          id: "1-deadlines",
+          permalink: "/docs/handbook/deadlines",
+          oneline: "Deadlines in Lingua Franca.",
         },
         {
           title: "Multiports and Banks",
@@ -174,6 +186,12 @@ export function getDocumentationNavForLanguage(
 
       items: [
         {
+          title: "Expressions",
+          id: "3-expressions",
+          permalink: "/docs/handbook/expressions",
+          oneline: "Expressions in Lingua Franca.",
+        },
+        {
           title: "Target Specification",
           id: "3-target-specification",
           permalink: "/docs/handbook/target-specification",
@@ -184,12 +202,6 @@ export function getDocumentationNavForLanguage(
           id: "3-termination",
           permalink: "/docs/handbook/termination",
           oneline: "Terminating a Lingua Franca execution.",
-        },
-        {
-          title: "Expressions",
-          id: "3-expressions",
-          permalink: "/docs/handbook/expressions",
-          oneline: "Expressions in Lingua Franca.",
         },
         {
           title: "C Reactors",

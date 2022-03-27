@@ -190,3 +190,18 @@ If the $reactor$ keyword is preceded by $main$[ or $federated$]{federated}, then
 Any number of reactors may be defined in one file, and a $main$[ or $federated$]{federated} reactor need not be given a name, but if it is given a name, then that name must match the file name.
 
 Reactors may extend other reactors, inheriting their properties, and a file may import reactors from other files. If an imported LF file contains a $main$[ or $federated$]{federated} reactor, that reactor is ignored (it will not be imported). This makes it easy to create a library of reusable reactors that each come with a test case or demonstration in the form of a main reactor.
+
+## Comments
+
+Lingua Franca files can have C/C++/Java-style comments and/or Python-style comments. All of the following are valid comments:
+
+```lf
+    // Single-line C-style comment.
+    /*
+     * Multi-line C-style comment.
+     */
+    # Single-line Python-style comment.
+    '''
+       Multi-line Python-style comment.
+    '''
+```
