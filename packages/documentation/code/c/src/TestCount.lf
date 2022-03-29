@@ -1,12 +1,12 @@
 target C;
-reactor TestCount(start:int(1), stride:int(1), num_inputs:int(1)) {
+reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     state count:int(start);
     state inputs_received:int(0);
     input x:int;
     reaction(x) {=
         printf("Received %d.\n", x->value);
-        if (in->value != self->count) {
-            fprintf(stderr, "Expected %d.", self->count);
+        if (x->value != self->count) {
+            printf("ERROR: Expected %d.\n", self->count);
             exit(1);
         }
         self->count += self->stride;
@@ -15,7 +15,7 @@ reactor TestCount(start:int(1), stride:int(1), num_inputs:int(1)) {
     reaction(shutdown) {=
         printf("Shutdown invoked.\n");
         if (self->inputs_received != self->num_inputs) {
-            fprintf(stderr, "Expected to receive %d inputs, but got %d.",
+            printf("ERROR: Expected to receive %d inputs, but got %d.\n",
                 self->num_inputs,
                 self->inputs_received
             );

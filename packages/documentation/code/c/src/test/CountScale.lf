@@ -9,7 +9,7 @@ import TestCount from "../TestCount.lf";
 main reactor {
     c = new Count();
     d = new Scale();
-    t = new TestCount(start = 2, stride = 2, num_inputs = 11);
+    t = new TestCount(start = 0, stride = 2, num_inputs = 11);
     c.y -> d.x;
-    d.y -> t.in;
+    d.y -> t.x;
 }

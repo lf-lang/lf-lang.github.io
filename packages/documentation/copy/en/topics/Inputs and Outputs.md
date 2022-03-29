@@ -47,12 +47,12 @@ reactor Double {
 ```
 
 ```lf-cpp
-target C;
+target Cpp;
 reactor Double {
     input x:int;
     output y:int;
     reaction(x) -> y {=
-        SET(y, x->value * 2);
+        y.set(x.value * 2);
     =}
 }
 ```

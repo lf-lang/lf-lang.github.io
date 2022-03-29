@@ -1,5 +1,5 @@
 target C {
-    timeout: 10 sec,
+    timeout: 1 sec,
     fast: true
 }
 import Count from "Count.lf";

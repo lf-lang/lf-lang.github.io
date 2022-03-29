@@ -232,14 +232,14 @@ $start(TestCount)$
 
 ```lf-c
 target C;
-reactor TestCount(start:int(1), stride:int(1), num_inputs:int(1)) {
+reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     state count:int(start);
     state inputs_received:int(0);
     input x:int;
     reaction(x) {=
         printf("Received %d.\n", x->value);
-        if (in->value != self->count) {
-            fprintf(stderr, "Expected %d.", self->count);
+        if (x->value != self->count) {
+            printf("ERROR: Expected %d.\n", self->count);
             exit(1);
         }
         self->count += self->stride;
@@ -248,7 +248,7 @@ reactor TestCount(start:int(1), stride:int(1), num_inputs:int(1)) {
     reaction(shutdown) {=
         printf("Shutdown invoked.\n");
         if (self->inputs_received != self->num_inputs) {
-            fprintf(stderr, "Expected to receive %d inputs, but got %d.",
+            printf("ERROR: Expected to receive %d inputs, but got %d.\n",
                 self->num_inputs,
                 self->inputs_received
             );
@@ -278,5 +278,4 @@ $end(TestCount)$
 
 This reactor tests its inputs against expected values, which are expected to start with the value given by the `start` parameter and increase by `stride` with each successive input. It expects to receive a total of `num_inputs` input events. It checks the total number of inputs received in its $shutdown$ reaction.
 
-The **shutdown** trigger typically occurs at microstep 0, but may occur at a larger microstep.
-See [Termination](/docs/handbook/termination).
+The **shutdown** trigger typically occurs at [microstep](/docs/handbook/actions#superdense-time) 0, but may occur at a larger microstep. See [Superdense Time](/docs/handbook/actions#superdense-time) and [Termination](/docs/handbook/termination).

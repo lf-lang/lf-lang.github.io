@@ -15,9 +15,9 @@ main reactor {
     c = new Count();
     d = new Double();
     r = new Destination();
-    t = new TestCount(start = 2, stride = 2, num_inputs = 11);
+    t = new TestCount(start = 0, stride = 2, num_inputs = 11);
     c.y -> d.x;
     c.y -> r.x;
     d.y -> r.y;
-    d.y -> t.in;
+    d.y -> t.x;
 }

@@ -127,7 +127,7 @@ $start(Count)$
 ```lf-c
 target C;
 reactor Count {
-    state count:int(1);
+    state count:int(0);
     output y:int;
     timer t(0, 100 msec);
     reaction(t) -> y {=
