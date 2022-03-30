@@ -53,9 +53,7 @@ $end(RegressionTest)$
 
 As soon as programs consist of more than one reactor, it becomes particularly useful to reference the diagrams that are automatically created and displayed by the Lingua Franca IDEs. The diagram for the above program is as follows:
 
-<span class="warning"> IMAGES DON'T WORK!!!!</span>
-
-<!-- ![Lingua Franca diagram](/diagrams/RegressionTest.svg)  -->
+<img src="../../../../../img/diagrams/RegressionTest.svg" alt="drawing" width="1000"/>
 
 An instance is created with the syntax:
 
@@ -129,9 +127,7 @@ WARNING: No source file found: ../code/rs/src/Hierarchy.lf
 
 $end(Hierarchy)$
 
-<span class="warning"> IMAGES DON'T WORK!!!!</span>
-
-<!-- ![Lingua Franca diagram](/diagrams/Hierarchy.svg)  -->
+<img src="../../../../../img/diagrams/Hierarchy.svg" alt="Lingua Franca diagram" width="1000"/>
 
 The `Container` has a parameter named `stride`, whose value is passed to the `factor` parameter of the `Scale` reactor. The line
 
