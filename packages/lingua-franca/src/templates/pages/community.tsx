@@ -16,6 +16,10 @@ const Col2 = (props: { children: any, className?: string }) => <div className={[
 
 const contributors = [
   {
+    name: "Edward A. Lee",
+    url: "http://people.eecs.berkeley.edu/~eal/",
+  },
+  {
     name: "Marten Lohstroh",
     url: "http://people.eecs.berkeley.edu/~marten/",
     image: "https://avatars.githubusercontent.com/u/19938940?v=4",

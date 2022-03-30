@@ -91,7 +91,8 @@ pre .error-behind {
 
 const generateHTML = async () => {
   const handbookNavigation = getDocumentationNavForLanguage("en");
-  const handbook = handbookNavigation.find((i) => i.title === "Topics");
+  // FIXME: Should include reference section as well.
+  const handbook = handbookNavigation.find((i) => i.title === "Writing Reactors");
   let html = "<html>";
 
   const css = generateCSS();

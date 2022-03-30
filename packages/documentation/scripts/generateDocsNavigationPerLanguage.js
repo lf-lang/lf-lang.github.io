@@ -29,42 +29,75 @@ const { read: readMarkdownFile } = require("gray-matter");
 // prettier-ignore
 const handbookPages = [
   {
-    title: "Topics",
-    summary: "A great first read for your daily Lingua Franca work.",
+    title: "Resources",
+    summary: "Overview of the project.",
     chronological: true,
     items: [
       { file: "topics/Overview.md" },
-      { file: "topics/Tutorial.md" },
-      {
-        title: "Language Specification",
-        chronological: true,
-        items: [
-          { file: "topics/language-specification/Language Specification.md" },
-          { file: "topics/language-specification/Multiports and Banks.md" },
-        ]
-      },
-      {
-        title: "Downloading and Building",
-        chronological: true,
-        items: [
-          { file: "topics/download-and-build/Downloading and Building.md" },
-          { file: "topics/download-and-build/Developer Eclipse Setup with Oomph.md" },
-          { file: "topics/download-and-build/Developer IntelliJ Setup (for Kotlin).md" },
-        ]
-      },
-      { file: "topics/Writing Reactors in C.md" },
-      { file: "topics/Writing Reactors in C++.md" },
-      { file: "topics/Writing Reactors in TypeScript.md" },
-      { file: "topics/Writing Reactors in Python.md" },
-      { file: "topics/Regression Tests.md" },
-      { file: "topics/Contributing.md" },
+      { file: "topics/Tutorial Video.md" },
     ],
   },
   {
-    title: "Preliminary Development",
-    summary: "Capabilities Under Development",
+    title: "Writing Reactors",
+    summary: "Introduction to writing reactors.",
+    chronological: true,
     items: [
-      { file: "preliminary/Distributed Execution.md" },
+      { file: "topics/A First Reactor.md" },
+      { file: "topics/Inputs and Outputs.md" },
+      { file: "topics/Parameters and State Variables.md" },
+      { file: "topics/Time and Timers.md" },
+      { file: "topics/Composing Reactors.md" },
+      { file: "topics/Reactions and Methods.md" },
+      { file: "topics/Extending Reactors.md" },
+      { file: "topics/Actions.md" },
+      { file: "topics/Deadlines.md" },
+      { file: "topics/Multiports and Banks.md" },
+      { file: "topics/Distributed Execution.md" },
+    ],
+  },
+  {
+    title: "Tooling",
+    summary: "Tools for developing Lingua Franca programs.",
+    chronological: true,
+    items: [
+        { file: "topics/Code Plugin.md"},
+        { file: "topics/Epoch IDE.md"},
+        { file: "topics/Command Line Tools.md" },
+        { file: "topics/Setup for C.md" },
+        { file: "topics/Setup for Cpp.md" },
+        { file: "topics/Setup for Python.md" },
+        { file: "topics/Setup for TypeScript.md" },
+        { file: "topics/Setup for Rust.md" },
+    ],
+  },
+  {
+    title: "Reference",
+    summary: "Complete reference documentation.",
+    chronological: true,
+    items: [
+      { file: "reference/Expressions.md"},
+      { file: "reference/Target Specification.md" },
+      { file: "reference/Termination.md" },
+      { file: "reference/C Reactors.md" },
+    ],
+  },
+  {
+    title: "Developer",
+    summary: "Information for developers of the Lingua Franca language and tools.",
+    chronological: true,
+    items: [
+      { file: "topics/Contributing.md" },
+      { file: "topics/download-and-build/Downloading and Building.md" },
+      { file: "topics/download-and-build/Developer Eclipse Setup with Oomph.md" },
+      { file: "topics/download-and-build/Developer IntelliJ Setup (for Kotlin).md" },
+      { file: "topics/Regression Tests.md" },
+      // { file: "less-developed/Running Benchmarks.md" }, FIXME: Gatsby can't find this for some mysterious reason.
+    ]
+  },
+  {
+    title: "Preliminary Development",
+    summary: "Capabilities under development",
+    items: [
       { file: "preliminary/Import System.md" },
       { file: "preliminary/Tracing.md" },
       { file: "preliminary/Containerized Execution.md" },
@@ -75,9 +108,9 @@ const handbookPages = [
   },
   {
     title: "Less Developed Topics",
-    summary: "Less Developed Topics in Progress",
+    summary: "Less mature topics in progress",
     items: [
-      { file: "less-developed/Running Benchmarks.md" },
+      { file: "less-developed/Logical Execution Time.md" },
       { file: "less-developed/Tools.md" },
       { file: "less-developed/Timing Analysis.md" },
       { file: "less-developed/Related Work.md" },
@@ -264,7 +297,7 @@ function validateMarkdownFile(info, filepath) {
   }
   if (missing.length) {
     // prettier-ignore
-    throw new Error(`You need to have '${missing.join("', '")}' in the YML for ${filepath}\n\n`);
+    throw new Error("You need to have " + missing.join(', ') + " in the YML for " + filepath + "\n\n");
   }
 }
 

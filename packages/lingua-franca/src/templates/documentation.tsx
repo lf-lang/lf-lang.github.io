@@ -4,6 +4,7 @@ import { Layout } from "../components/layout"
 import { Sidebar, SidebarToggleButton } from "../components/layout/Sidebar"
 import { getDocumentationNavForLanguage } from "../lib/documentationNavigation"
 import { Intl } from "../components/Intl"
+import * as lf from "../../../documentation/scripts/linguaFrancaUtils";
 
 // This dependency is used in gatsby-remark-autolink-headers to generate the slugs
 import slugger from "github-slugger"
@@ -22,6 +23,7 @@ import { setupLikeDislikeButtons } from "./scripts/setupLikeDislikeButtons"
 import { DislikeUnfilledSVG, LikeUnfilledSVG } from "../components/svgs/documentation"
 import { Popup, useQuickInfoPopup } from "../components/Popup"
 import Helmet from "react-helmet"
+import { setInitialTargetLanguage } from "../lib/setInitialTargetLanguage"
 
 type Props = {
   pageContext: {
@@ -71,7 +73,6 @@ const HandbookTemplate: React.FC<Props> = (props) => {
 
     setupLikeDislikeButtons(props.pageContext.slug, i)
 
-
     return () => {
       window.removeEventListener("scroll", updateSidebarOnScroll)
     }
@@ -93,7 +94,7 @@ const HandbookTemplate: React.FC<Props> = (props) => {
   const slug = slugger()
   return (
     <Layout title={`${prefix} - ${post.frontmatter.title}`} description={post.frontmatter.oneline || ""} lang={props.pageContext.lang}>
-      <section id="doc-layout" >
+      <section id="doc-layout" onLoad={ () => setInitialTargetLanguage() }>
         <SidebarToggleButton />
 
         <div className="page-popup" id="page-helpful-popup" style={{ opacity: 0 }}>
@@ -156,7 +157,7 @@ const HandbookTemplate: React.FC<Props> = (props) => {
           {post.frontmatter.preamble && <div className="preamble" dangerouslySetInnerHTML={{ __html: post.frontmatter.preamble }} />}
           <article>
             <div className="whitespace raised">
-              <div className="markdown" dangerouslySetInnerHTML={{ __html: post.html! }} />
+              <div className="markdown" dangerouslySetInnerHTML={{ __html: lf.postProcessHTML(post.html)}} />
             </div>
             {showSidebar &&
               <aside className="handbook-toc">

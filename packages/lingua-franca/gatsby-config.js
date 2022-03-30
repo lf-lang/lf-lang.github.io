@@ -11,6 +11,7 @@ if (process.env.BOOTSTRAPPING) {
   Bootstrapped. You can now run the site with ${chalk.greenBright.bold("yarn start")}.`)
   process.exit(0)
 }
+var lf = require("../documentation/scripts/linguaFrancaUtils");
 
 // require("./scripts/ensureDepsAreBuilt")
 
@@ -138,19 +139,62 @@ module.exports = {
                // existing language definition. More details on this option can be
                // found under the header "Add new language definition or extend an
                // existing language" below.
-               //  languageExtensions: [
-               //    {
-               //      language: "superscript",
-               //      definition: {
-               //        superscript_types: /(SuperType)/,
-               //      },
-               //      insertBefore: {
-               //        function: {
-               //          superscript_keywords: /(superif|superelse)/,
-               //        },
-               //      },
-               //    },
-               //  ],
+               languageExtensions: [
+                {
+                  language: "lf",  /* Language agnostic. */
+                  extend: "clike", /* FIXME: Must be a better base for this. */
+                  insertBefore: {
+                    function: {
+                      lf_keywords: lf.keywordMatcher,
+                    },
+                  },
+                },
+                {
+                    language: "lf-c",
+                    extend: "c",
+                    insertBefore: {
+                      function: {
+                        lf_keywords: lf.keywordMatcher,
+                      },
+                    },
+                  },
+                  {
+                    language: "lf-cpp",
+                    extend: "cpp",
+                    insertBefore: {
+                      function: {
+                        lf_keywords: lf.keywordMatcher,
+                      },
+                    },
+                  },
+                  {
+                    language: "lf-py",
+                    extend: "python",
+                    insertBefore: {
+                      function: {
+                        lf_keywords: lf.keywordMatcher,
+                      },
+                    },
+                  },
+                  {
+                    language: "lf-ts",
+                    extend: "typescript",
+                    insertBefore: {
+                      function: {
+                        lf_keywords: lf.keywordMatcher,
+                      },
+                    },
+                  },
+                  {
+                    language: "lf-rs",
+                    extend: "rust",
+                    insertBefore: {
+                      function: {
+                        lf_keywords: lf.keywordMatcher,
+                      },
+                    },
+                  },
+                ],
                // Customize the prompt used in shell output
                // Values below are default
                prompt: {

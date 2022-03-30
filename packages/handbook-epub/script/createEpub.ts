@@ -46,7 +46,8 @@ const epubPath = join(dist, "handbook.epub");
 const startEpub = async () => {
   const handbookNavigation = getDocumentationNavForLanguage("en");
 
-  const handbook = handbookNavigation.find((i) => i.title === "Topics");
+  // FIXME: Should include reference section as well.
+  const handbook = handbookNavigation.find((i) => i.title === "Writing Reactors");
   const epub = new Streampub(bookMetadata);
 
   epub.pipe(jetpack.createWriteStream(epubPath));

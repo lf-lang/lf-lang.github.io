@@ -1,13 +1,17 @@
 # Documentation
 
-This package serves as the entry point for adding handbook-specific pages (i.e pages included with the Epub/PDF and enforcing the specified structure under [lf-lang.org/docs/handbook]())
+This package serves as the entry point for adding handbook-specific pages. These are the pages that appear in the **handbook** portion of the web page as well as the generated Epub and PDF documentation.
 
-Every documentation file can be defined as a standard markdown file with the following steps needed to add them to the handbook.
+Each documentation file is a markdown file with the following steps needed to add them to the handbook.
 
-1. Under ```copy/en``` is the start of the directory structure for the handbook. You can either add to an existing directory (```less-developed/primary/topics```) or make your own directory!
-    - Note: By default, the Epub/PDF is only populated with pages organized under topics.
-2. Create your markdown page as normal. At the top of your markdown page, include the following blurb
-    - This will instruct the Gatsby Website to automatically create a page with title *YOUR_TITLE_HERE* at location ```/docs/handbook/PERMALINK_LOCATION```)
+1. Under `copy/en` is the directory structure for the handbook. It contains the following subdirectories:
+   - **topics**: Tutorial-style documentation supporting all target languages.
+   - **reference**: Detailed documentation including some target-language-specific files.
+   - **preliminary**: Documentation for tools or features that at early stages of development.
+   - **less-developed**: Documentation for incomplete or speculative work.
+   - Note: By default, the Epub/PDF is only populated with pages organized under **topics**. **FIXME:** This needs to be changed to include also the reference section.
+2. At the top of each markdown page, the following blurb instructs the Gatsby website builder to automatically create a page with title _YOUR_TITLE_HERE_ at location `/docs/handbook/PERMALINK_LOCATION`:
+
 ```
 ---
 title: YOUR_TITLE_HERE
@@ -17,33 +21,89 @@ oneline: ONE_LINE_HERE
 preamble: >
 ---
 ```
-3. Now we need to instruct our handbook to enforce a sidebar structure. Navigate to the following script file: ```packages/documentation/scripts/generateDocsNavigationPerLanguage.js```
-    - This TS file enforces the documentation structure on the sidebar and docs page. The structure is as follows under the handbookPages value:
-    ```
-    {
-        title: "Topics",
-    summary: "A great first read for your daily Lingua Franca work.",
+
+3. To have a page appear in the table of contents in the sidebar, the page must be added to the following script file: `packages/documentation/scripts/generateDocsNavigationPerLanguage.js`. This JavaScript file defines
+   - This TS file defines the documentation structure that shows up on the sidebar and docs page. The key data structure is `handbookPages`, which lists entries like this:
+   ```
+   {
+    title: "Resources",
+    summary: "Overview of the project.",
     chronological: true,
     items: [
       { file: "topics/Overview.md" },
-      { file: "topics/Tutorial.md" },
-      {
-        title: "Language Specification",
-        chronological: true,
-        items: [
-            ...
-        ]
-      },
-      ...
-    }
-    ...
-    ```
-    - This outer layer enforces Topics as a parent to the Overview/Tutorial pages as well as the inner layer of Language Specification.
-    - You can add a layer by including a key-value map similar to Topics (for outer layers) and Language Specification (for inner layers).
-    - Additional information of how to add attributes can be found at the top of the ```generateDocsNavigationPerLanguage.js``` file.
+      { file: "topics/Tutorial Video.md" },
+    ],
+   },
+   ```
+   - The layers may be nested by including structures like this within the `items` field.
+   - Additional information of how to add attributes can be found at the top of the `generateDocsNavigationPerLanguage.js` file.
 4. To include your file under a layer, simply add a file keypair using relative paths to `copy/en`
-    - Example: if you want to include a file with the following path
-    ```packages/documentation/copy/en/topics/Overview.md```
-    - Then create a file attribute as so under an items object:
-    ```{ file: "topics/Overview.md" },```
-5. Whenever the structure is changed, simply rerun ```yarn bootstrap``` to propagate changes to lingua-franca.
+   - Example: if you want to include a file with the following path
+     `packages/documentation/copy/en/topics/Overview.md`
+   - Then create a file attribute as so under an items object:
+     `{ file: "topics/Overview.md" },`
+5. Whenever the structure is changed, simply rerun `yarn bootstrap` to propagate changes to lingua-franca.
+
+**NOTE**: Be sure the titles in your files are unique or yarn will get confused about which file to show.
+
+## Target-Specific Documentation
+
+The handbook documentation pages include a target language selector that specifies the target language in which to show examples. To add target-specific content to a markdown file, the content must have HTML class `lf-T`, where `T` is one of `c`, `cpp`, `py`, `ts`, or `rs`. A code block specific to C, for example, can be given as:
+
+```
+\`\`\`lf-c
+    ... your code here ...
+\`\`\`
+```
+
+Arbitrary content can be put with `div` of `span` with the appropriate class(es). For example, content that is relevant to only C and C++ can be surrounded with:
+
+```
+<div class="lf-c lf-cpp">
+
+    ... your markdown content here ...
+
+</div>
+```
+
+Note that these `<div>` lines, for some inexplicable reason, need to be surrounded by blank lines.
+
+## Inserting Target-Specific Documentation from Source Files
+
+If you insert the following line into a source markdown file:
+
+```
+$insert(Name)$
+```
+
+then you can run the following script:
+
+```
+node packages/documentation/scripts/preprocessMarkdown.js yourMarkdownFile.md
+```
+
+This script will replace that line with something of the form:
+
+```
+$start(Name)$
+
+\`\`\`lf-c
+  ... C target code here
+\`\`\`
+
+\`\`\`lf-cpp
+  ... Cpp target code here
+\`\`\`
+...
+$end(Name)$
+```
+
+The code inserted is take from files located here:
+
+```
+packages/documentation/code/T/src
+```
+
+where `T` is one of `c`, `cpp`, etc.
+
+If you re-run the same script on the same markdown file, it will update the code blocks with the latest version in the above directory. The code will be expected to be in `Name.lf` file. If no macthin code is found, then an error message will be inserted instead into the markdown file.

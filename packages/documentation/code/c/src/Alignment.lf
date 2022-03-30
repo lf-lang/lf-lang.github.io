@@ -1,0 +1,18 @@
+target C {
+    timeout: 3 secs
+}
+main reactor Alignment {
+    state s:int(0);
+    timer t1(100 msec, 100 msec);
+    timer t2(200 msec, 200 msec);
+    timer t4(400 msec, 400 msec);
+    reaction(t1) {=
+        self->s += 1;
+    =}
+    reaction(t2) {=
+        self->s -= 2;
+    =}
+    reaction(t4) {=
+        printf("s = %d\n", self->s);
+    =}
+}

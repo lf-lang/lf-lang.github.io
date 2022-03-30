@@ -1,0 +1,23 @@
+target C {
+    cmake: false,
+    compiler: "cc",
+    flags: "-O3",
+    fast: true,
+    logging: log,
+    timeout: 1 secs
+};
+import Count from "../Count.lf";
+import Double from "../Double.lf";
+import Destination from "../Destination.lf";
+import TestCount from "../TestCount.lf";
+
+main reactor {
+    c = new Count();
+    d = new Double();
+    r = new Destination();
+    t = new TestCount(start = 0, stride = 2, num_inputs = 11);
+    c.y -> d.x;
+    c.y -> r.x;
+    d.y -> r.y;
+    d.y -> t.x;
+}

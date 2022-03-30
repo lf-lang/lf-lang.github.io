@@ -1,0 +1,15 @@
+target Cpp;
+main reactor Methods {
+    state foo:int(2);
+    const method getFoo(): int {=
+        return foo;
+    =}
+    method add(x:int) {=
+        foo += x;
+    =}
+    reaction(startup){=
+        std::cout << "Foo is initialized to " << getFoo() << '\n';
+        add(40);
+        std::cout << "2 + 40 = " << getFoo() << '\n';
+    =}
+}

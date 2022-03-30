@@ -4,6 +4,7 @@ import { Link } from "gatsby"
 import "./Sidebar.scss"
 import { onAnchorKeyDown, onButtonKeydown } from "./Sidebar-keyboard"
 import { SidebarNavItem } from "../../lib/documentationNavigation"
+import { setTargetLanguage } from "../../lib/setTargetLanguage";
 
 export type Props = {
   navItems: SidebarNavItem[]
@@ -121,9 +122,28 @@ export const Sidebar = (props: Props) => {
     }
   }
 
+  /* Target language chooser */
+  const RenderTargetChooser = () => {
+    return (
+      <li key="targetChooser">
+        <button id="targetChooser">
+          <label>Target language:</label>
+          <select name="target" id="targetSelector" onChange={(e) => setTargetLanguage(e.target.value)}>
+            <option value="lf-c">C</option>
+            <option value="lf-cpp">C++</option>
+            <option value="lf-py">Python</option>
+            <option value="lf-ts">TypeScript</option>
+            <option value="lf-rs">Rust</option>
+          </select>
+        </button>
+      </li>
+    )
+  }
+
   return (
     <nav id="sidebar">
       <ul>
+        <RenderTargetChooser/>
         {props.navItems.map(item => <RenderItem key={item.id} item={item} openAllSectionsExceptWhatsNew={props.openAllSectionsExceptWhatsNew} selectedID={props.selectedID} />)}
       </ul>
     </nav>

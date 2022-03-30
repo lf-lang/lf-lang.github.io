@@ -5,6 +5,7 @@ permalink: /docs/handbook/write-reactor-c++
 oneline: "Writing Reactors in C++."
 preamble: >
 ---
+
 In the C++ reactor target for Lingua Franca, reactions are written in C++ and the code generator generates a standalone C++ program that can be compiled and run on all major platforms. Our continous integration ensures compatibility with Windows, MacOS and Linux.
 The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
 
@@ -13,12 +14,14 @@ Note that C++ is not a safe language. There are many ways that a programmer can 
 ## Setup
 
 The following tools are required in order to compile the generated C++ source code:
-* A recent C++ compiler supporting C++17
-* A recent version of cmake (At least 3.5)
+
+- A recent C++ compiler supporting C++17
+- A recent version of cmake (At least 3.5)
 
 ## A Minimal Example
 
 A "hello world" reactor for the C++ target looks like this:
+
 ```
 target Cpp;
 
@@ -30,11 +33,13 @@ main reactor {
 ```
 
 The `startup` action is a special [action](https://github.com/lf-lang/lingua-franca/wiki/Language-Specification#Action-Declaration) that triggers at the start of the program execution causing the [reaction](https://github.com/lf-lang/lingua-franca/wiki/Language-Specification#Reaction-Declaration) to execute. This program can be found in a file called [Minimal.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Minimal.lf) in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Cpp), where you can also find quite a few more interesting examples. If you compile this using the [`lfc` command-line compiler](downloading-and-building#Command-Line-Tools) or the [Eclipse-based IDE](downloading-and-building#Download-the-Integrated-Development-Environment), then generated source files will be put into a subdirectory called `src-gen/Minimal`. In addition, an executable binary will be compiled using your system's C++ compiler. The resulting executable will be called `Minimial` and be put in a subdirectory called `bin`. If you are in the C++ test directory, you can execute it in a shell as follows:
+
 ```
  bin/Minimal
 ```
 
 The resulting output should look something like this:
+
 ```
 [INFO]  Starting the execution
 Hello World!
@@ -49,29 +54,29 @@ To have Lingua Franca generate C++ code, start your `.lf` file with the followin
 
 A C++ target specification may optionally include the following parameters:
 
-* ```build-type "type"```: The *build type* to be used by the C++ compiler. This can be any of Release, Debug, RelWithDebInfo and MinSizeRel. It defaults to Release.
-* ```cmake-include "file"```: An optional *file* to be included by the generated cmake build system. This gives control over the way LF programs are build and allows for instance to include and link to external libraries. (See [`AsyncCallvack.lf`](https://github.com/lf-lang/lingua-franca/blob/master/xtext/org.icyphy.linguafranca/src/test/Cpp/AsyncCallback.lf) for an example)
-* ```compiler "command"```: The *command* to use to compile the generated code. Normally CMake selects the best compiler for your system, but you can use this parameter to point it to your preferred compiler.
-* ```external-runtime-path "path"```: When specified, the resulting binary links to a pre-compiled external runtime library located in *path*  instead of the default one.
-* ```export-dependency-graph [true|false]```: Whether the compiled binary will export its internal dependency graph as a dot graph when executed. This is a debugging utility.
-* ```fast [true|false]```: Whether to execute as fast as possible ignoring real time. This defaults to false.
-* ```keepalive [true|false]```: Whether to continue executing even when there are no events on the event queue. The default is false. Usually, you will want to set this to true when you have **physical action**s.
-* ```logging [ERROR|WARN|INF|DEBUG]```: The level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `DEBUG`). 
-* ```no-compile [true|false]```: If this is set to true, then the Lingua Franca compiler will only generate code and not run the C++ compiler. This defaults to false.
-* ```no-runtime-validation [true|false]```: If this is set to true, then all runtime checks in [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) will be disabled. This brings a slight performance boost but should be used with care and only on tested programs. This defaults to false.
-* ```runtime-version "version"```: Specify the *version* of the runtime library the compiled binary should link against. *version* can be any tag, branch name or git hash in the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) repository.
-* ```threads <n>```: The number of worker threads *n* that are used to execute reactions. This is required to be a positive integer. If this is not specified or set to zero, then the number of worker threads will be set to the number of hardware threads of the executing system. If this is set to one, the scheduler will not create any worker threads and instead inline the execution of reactions. This is an optimization and avoids any unnecessary synchronization. Note that, in contrast to the C target, the single threaded implementation is still thread safe and asynchronous reaction scheduling is supported.
-* ```timeout <n> <unit>```: This specifies to stop after the specified amount of logical time has elapsed. All events at that logical time that have microstep 0 will be processed, but not events with later tags. If any reactor calls `request_stop` before this logical time, then the program may stop at an earlier logical time. If no timeout is specified and `request_stop` is not called, then the program will continue to run until stopped by some other mechanism (such as Control-C).
+- `build-type "type"`: The _build type_ to be used by the C++ compiler. This can be any of Release, Debug, RelWithDebInfo and MinSizeRel. It defaults to Release.
+- `cmake-include "file"`: An optional _file_ to be included by the generated cmake build system. This gives control over the way LF programs are build and allows for instance to include and link to external libraries. (See [`AsyncCallvack.lf`](https://github.com/lf-lang/lingua-franca/blob/master/xtext/org.icyphy.linguafranca/src/test/Cpp/AsyncCallback.lf) for an example)
+- `compiler "command"`: The _command_ to use to compile the generated code. Normally CMake selects the best compiler for your system, but you can use this parameter to point it to your preferred compiler.
+- `external-runtime-path "path"`: When specified, the resulting binary links to a pre-compiled external runtime library located in _path_ instead of the default one.
+- `export-dependency-graph [true|false]`: Whether the compiled binary will export its internal dependency graph as a dot graph when executed. This is a debugging utility.
+- `fast [true|false]`: Whether to execute as fast as possible ignoring real time. This defaults to false.
+- `keepalive [true|false]`: Whether to continue executing even when there are no events on the event queue. The default is false. Usually, you will want to set this to true when you have **physical action**s.
+- `logging [ERROR|WARN|INF|DEBUG]`: The level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `DEBUG`).
+- `no-compile [true|false]`: If this is set to true, then the Lingua Franca compiler will only generate code and not run the C++ compiler. This defaults to false.
+- `no-runtime-validation [true|false]`: If this is set to true, then all runtime checks in [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) will be disabled. This brings a slight performance boost but should be used with care and only on tested programs. This defaults to false.
+- `runtime-version "version"`: Specify the _version_ of the runtime library the compiled binary should link against. _version_ can be any tag, branch name or git hash in the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) repository.
+- `threads <n>`: The number of worker threads _n_ that are used to execute reactions. This is required to be a positive integer. If this is not specified or set to zero, then the number of worker threads will be set to the number of hardware threads of the executing system. If this is set to one, the scheduler will not create any worker threads and instead inline the execution of reactions. This is an optimization and avoids any unnecessary synchronization. Note that, in contrast to the C target, the single threaded implementation is still thread safe and asynchronous reaction scheduling is supported.
+- `timeout <n> <unit>`: This specifies to stop after the specified amount of logical time has elapsed. All events at that logical time that have microstep 0 will be processed, but not events with later tags. If any reactor calls `request_stop` before this logical time, then the program may stop at an earlier logical time. If no timeout is specified and `request_stop` is not called, then the program will continue to run until stopped by some other mechanism (such as Control-C).
 
 ## Command-Line Arguments
 
 The generated C++ program understands the following command-line arguments, each of which has a short form (one character) and a long form:
 
-* `-f, --fast`:  If set, then the program will execute as fast as possible, letting logical time advance faster than physical time.
-* `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified *duration*. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
-* `-k, --keepalive`: If set, then the program will keep executing until either the `timeout` logical time is reached or the program is externally killed. If you have `physical action`s, it usually makes sense to set this.
-* `-t, --threads <n>`: Use n worker threads for executing reactions.
-* `-h, --help`: Print the above information.
+- `-f, --fast`: If set, then the program will execute as fast as possible, letting logical time advance faster than physical time.
+- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
+- `-k, --keepalive`: If set, then the program will keep executing until either the `timeout` logical time is reached or the program is externally killed. If you have `physical action`s, it usually makes sense to set this.
+- `-t, --threads <n>`: Use n worker threads for executing reactions.
+- `-h, --help`: Print the above information.
 
 If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary (see [Using Parameters](#using-parameters)).
 
@@ -108,10 +113,9 @@ because there is no causal relationship between them. In fact, you might see gar
 
 A more interesting illustration of imports can be found in the [Import.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Import.lf) test case.
 
-
 ## Preamble
 
-Reactions may contain arbitrary C++ code, but often it is convenient for that code to invoke external libraries or to share type and/or method definitions.  For either purpose, a reactor may include a **preamble** section. For example, the following reactor uses `atoi` from the common `stdlib` C library to convert a string to an integer:
+Reactions may contain arbitrary C++ code, but often it is convenient for that code to invoke external libraries or to share type and/or method definitions. For either purpose, a reactor may include a **preamble** section. For example, the following reactor uses `atoi` from the common `stdlib` C library to convert a string to an integer:
 
 ```
 main reactor Preamble {
@@ -136,6 +140,7 @@ Converted string 42 to int 42.
 By putting the `#include` in the **preamble**, the library becomes available in all reactions of this reactor. Note the **private** qualifier before the **preamble** keyword. This ensures that the preamble is only visible to the reactions defined in this reactor and not to any other reactors. In contrast, the **public** qualifier ensures that the preamble is also visible to other reactors in files that import the reactor defining the public preamble.
 
 See for instance the reactor in [Preamble.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Preamble.lf):
+
 ```
 reactor Preamble {
     public preamble {=
@@ -144,7 +149,7 @@ reactor Preamble {
             std::string bar;
         };
     =}
-    
+
     private preamble {=
         int add_42(int i) {
             return i + 42;
@@ -152,18 +157,19 @@ reactor Preamble {
     =}
 
     logical action a:MyStruct;
-    
+
     reaction(startup) {=
         a.schedule({add_42(42), "baz"});
     =}
 
     reaction(a) {=
         auto& value = *a.get();
-        std::cout << "Received " << value.foo << " and '" << value.bar << "'\n"; 
+        std::cout << "Received " << value.foo << " and '" << value.bar << "'\n";
     =}
 }
 
 ```
+
 It defines both, a public and a private preamble. The public preamble defines the type `MyStruct`. This type definition will be visible to all elements of the `Preamble` reactor as well as to all reactors defined in files that import `Preamble`. The private preamble defines the function `add_42(int i)`. This function will only be usable to reactions within the `Preamble` reactor.
 
 You can think of public and private preambles as the equivalent of header files and source files in C++. In fact, the public preamble will be translated to a header file and the private preamble to a source file. As a rule of thumb, all types that are used in port or action definitions as well as in state variables or parameters should be defined in a public preamble. Also declarations of functions to be shared across reactors should be placed in the public preamble. Everything else, like function definitions or types that are used only within reactions should be placed in a private preamble.
@@ -178,8 +184,7 @@ Note that functions defined in the preamble cannot access members such as state 
 
 Recall that a reaction is defined within a reactor using the following syntax:
 
-> **reaction**(*triggers*) *uses* -> *effects* {=<br/>
-> &nbsp;&nbsp; ... target language code ... <br/>
+> **reaction**(_triggers_) _uses_ -> _effects_ {=<br/> > &nbsp;&nbsp; ... target language code ... <br/>
 > =}
 
 In this section, we explain how **triggers**, **uses**, and **effects** variables work in the C++ target.
@@ -192,21 +197,22 @@ To determine whether an input is present, `name.is_present()` can be used. Since
 For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Determinism.lf) test case in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Cpp) includes the following reactor:
 
     reactor Destination {
-   	    input x:int;
-        input y:int;
-        reaction(x, y) {=
-            int sum = 0;
-            if (x.is_present()) {
-                sum += *x.get();
-            }
-            if (y.is_present()) {
-                sum += *y.get();
-            }
-            std::cout << "Received " << sum << std::endl;
-        =}
-  	}
-    
-The reaction refers to the inputs `x` and `y` and tests for the presence of values using `x.is_present()` and `y.is_present()`.  If a reaction is triggered by just one input, then normally it is not necessary to test for its presence; it will always be present. But in the above example, there are two triggers, so the reaction has no assurance that both will be present.
+
+input x:int;
+input y:int;
+reaction(x, y) {=
+int sum = 0;
+if (x.is_present()) {
+sum += *x.get();
+}
+if (y.is_present()) {
+sum += *y.get();
+}
+std::cout << "Received " << sum << std::endl;
+=}
+}
+
+The reaction refers to the inputs `x` and `y` and tests for the presence of values using `x.is_present()` and `y.is_present()`. If a reaction is triggered by just one input, then normally it is not necessary to test for its presence; it will always be present. But in the above example, there are two triggers, so the reaction has no assurance that both will be present.
 
 Inputs declared in the **uses** part of the reaction do not trigger the reaction. Consider this modification of the above reaction:
 
@@ -217,7 +223,7 @@ Inputs declared in the **uses** part of the reaction do not trigger the reaction
         }
         std::cout << "Received " << sum << std::endl;
     =}
-    
+
 It is no longer necessary to test for the presence of `x` because that is the only trigger. The input `y`, however, may or may not be present at the logical time that this reaction is triggered. Hence, the code must test for its presence.
 
 The **effects** portion of the reaction specification can include outputs and actions. Actions will be described below. Outputs are set using a `set()` method on an output port. For example, we can further modify the above example as follows:
@@ -231,10 +237,9 @@ The **effects** portion of the reaction specification can include outputs and ac
         z.set(sum);
     =}
 
-If an output gets set more than once at any logical time, downstream reactors will see only the *final* value that is set. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
+If an output gets set more than once at any logical time, downstream reactors will see only the _final_ value that is set. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
 
 An output may even be set in different reactions of the same reactor at the same logical time. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name.is_present()` to determine whether the output has been set. For example, the following reactor (see [TestForPreviousOutput.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/TestForPreviousOutput.lf)) will always produce the output 42:
-
 
 ```
 reactor Source {
@@ -257,6 +262,7 @@ reactor Source {
     =}
 }
 ```
+
 The first reaction may or may not set the output to 21. The second reaction doubles the output if it has been previously produced and otherwise produces 42.
 
 ### Using State Variables
@@ -280,14 +286,17 @@ The declaration on the second line gives the variable the name `count`, declares
 In the body of the reaction, the state variable is automatically in scope and can be referenced directly by its name. Since all reactions, state variables and also parameters of a reactor are members of the same class, reactions can also reference state variables (or parameters) using the this pointer: `this->name`.
 
 A state variable may be a time value, declared as follows:
+
 ```
 state time_value:time(100 msec);
 ```
+
 The type of the generated `time_value` variable will be `reactor::Duration`, which is an alias for [`std::chrono::nanoseconds`](https://en.cppreference.com/w/cpp/chrono/duration).
 
 For the C++ target, Lingua Franca provides two alternative styles for initializing state variables. We can write `state foo:int(42)` or `state foo:int{42}`. This allows to distinguish between the different initialization styles in C++. `foo:int(42)` will be translated to `int foo(42)` and ` foo:int{42}` will be translated to `int foo{42}` in the generated code. Generally speaking, the `{...}` style should be preffered in C++, but it is not always applicable. Hence we allow the LF programmer to choose the style. Due to the peculiarities of C++, this is particularly important for more complex data types. For instance, `state foo:std::vector<int>(4,2)` would be initialized to the list `[2,2,2,2]` whereas `state foo:std::vector<int>{4,2}` would be initialized to the list `[4,2]`.
 
 State variables can have array values. For example, the [MovingAverage] (https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/MovingAverage.lf) reactor computes the **moving average** of the last four inputs each time it receives an input:
+
 ```
 reactor MovingAverageImpl {
     state delay_line:double[3]{0.0, 0.0, 0.0};
@@ -314,14 +323,15 @@ reactor MovingAverageImpl {
     =}
 }
 ```
-The second line declares that the type of the state variable is an fixed-size array of 3 `double`s with the initial value of the being filled with zeros (note the curly braces). If the size is given in the type specification, then the code generator will declare the type of the state variable using [`std::array`](https://en.cppreference.com/w/cpp/container/array). In the example above, the type of `delay_line` is `std::array<3, double>`. If the size specifier is omitted (e.g. `state x:double[]`). The code generator will produce a variable-sized array using [`std::vector`](https://en.cppreference.com/w/cpp/container/vector).
 
+The second line declares that the type of the state variable is an fixed-size array of 3 `double`s with the initial value of the being filled with zeros (note the curly braces). If the size is given in the type specification, then the code generator will declare the type of the state variable using [`std::array`](https://en.cppreference.com/w/cpp/container/array). In the example above, the type of `delay_line` is `std::array<3, double>`. If the size specifier is omitted (e.g. `state x:double[]`). The code generator will produce a variable-sized array using [`std::vector`](https://en.cppreference.com/w/cpp/container/vector).
 
 State variables with more complex types such as classes or structs can be similiarly initialized. See [StructAsState.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructAsState.lf).
 
 ### Using Parameters
 
 Reactor parameters work similar to state variables in C++. However, they are always declared as `const` and initialized during reactor instantiation. Thus, the value of a parameter may not be changed. For example, the [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Stride.lf) reactor modifies the above `Count` reactor so that its stride is a parameter:
+
 ```
 reactor Count(stride:int(1)) {
     state count:int(0);
@@ -348,12 +358,15 @@ main reactor Stride {
 The first line defines the `stride` parameter, gives its type, and gives its initial value. As with state variables, the type and initial value can be enclosed in `{= ... =}` if necessary.
 
 When the reactor is instantiated, the default parameter value can be overridden. This is done in the above example near the bottom with the line:
+
 ```
 c = new Count(stride = 2);
 ```
+
 If there is more than one parameter, use a comma separated list of assignments.
 
-Also parameters can have fixed- or variable-sized array values. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/ArrayAsParameter.lf) example  outputs the elements of an array as a sequence of individual messages:
+Also parameters can have fixed- or variable-sized array values. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
+
 ```
 reactor Source(sequence:int[]{0, 1, 2}) {
     output out:int;
@@ -368,9 +381,11 @@ reactor Source(sequence:int[]{0, 1, 2}) {
     =}
 }
 ```
+
 The **logical action** named `next` and the `schedule` method are explained below in [Scheduling Delayed Reactions](#Scheduling-Delayed-Reactions); here they are used simply to repeat the reaction until all elements of the array have been sent. Note that similiar aas for state variables, curly braces `{...}` can optionally be used for initialization.
 
 Note that also the main reactor can be parameterized:
+
 ```
 main reactor Hello(msg: std::string("World")) {
     reaction(startup) {=
@@ -378,39 +393,19 @@ main reactor Hello(msg: std::string("World")) {
     =}
 }
 ```
+
 This program will print "Hello World!" by default. However, since `msg` is a main reactor parameter, the C++ code generator will extend the CLI argument parser and allow to overwrite `msg` when invoking the program. For instance,
+
 ```
 bin/Hello --msg Earth
 ```
+
 will result in "Hello Earth!" being printed.
-
-### Using Methods
-
-Sometimes reactors need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to be implemented in a single reaction. In such cases, methods can be defined within reactors to facilitate code reuse and enable a better structuring of the reactor's functionality. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction bodies or from other methods. Consdider the [Method](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/target/Method.lf) example:
-```
-main reactor {
-    state foo:int(2);
-  	 
-    const method getFoo(): int {=
-        return foo;
-    =}
-	
-    method add(x:int) {=
-        foo += x;
-    =}
-      
-    reaction(startup){=
-        std::cout << "Foo is initialized to " << getFoo() << '\n';
-        add(40);
-        std::cout << "2 + 40 = " << getFoo() << '\n';
-    =}
-}
-```
-This reactor defines two methods `getFoo` and `add`. `getFoo` is quailfied as a const method, which indicates that it has read-only access to the state variables. This is direclty translated to a C++ const method in the code generation process. `getFoo` receives no arguments and returns an integer (`int`) indicating the current value of the `foo` state variable. `add` returns nothing (`void`) and receives one interger argument, which it uses to increment `foo`. Both methods are visible in all reactions of the reactor. In this example, the reactio to startup calles both methods in order ro read and modify its state.
 
 ### Sending and Receiving Large Data Types
 
 You can define your own datatypes in C++ or use types defined in a library and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructAsType.lf) example:
+
 ```
 reactor StructAsType {
     public preamble {=
@@ -419,7 +414,7 @@ reactor StructAsType {
             int value;
         };
     =}
-    
+
     output out:Hello;
     reaction(startup) -> out {=
         Hello hello{"Earth, 42};
@@ -427,35 +422,45 @@ reactor StructAsType {
     =}
 }
 ```
+
 The **preamble** code defines a struct datatype. In the reaction to **startup**, the reactor creates an instance of this struct on the stack (as a local variable named `hello`) and then copies that instance to the output using the `set()` method. For this reason, the C++ reactor runtime provides more sophisticated ways to allocate objects and send them via ports.
 
 The C++ library defines two types of smart pointers that the runtime uses internally to implement the exchange of data between ports. These are `reactor::MutableValuePtr<T>` and `reactor::ImmutableValuePtr<T>`. `reactor::MutableValuePtr<T>` is a wrapper around [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr) and provides read and write access to the value hold, while ensuring that the value has a unique owner. In contrast, `reactor::ImmutableValuePtr<T>` is a wrapper around [`std::shared_pointer`](https://en.cppreference.com/w/cpp/memory/shared_ptr) and provides read only (const) access to the value it holds. This allows data to be shared between reactions of various reactors, while guarantee data consistency. Similar to `std::make_unique` and `std::make_shared`, the reactor library provides convenient function for creating mutable and immutable values pointers: `reactor::make_mutable_value<T>(...)` and `reactor::make_immutable_value<T>(...)`.
 
 In fact this code from the example above:
+
 ```
 Hello hello{"Earth, 42};
 out.set(hello);
 ```
+
 implicitly invokes `reactor::make_immutable_value<Hello>(hello)` and could be rewritten as
+
 ```
 Hello hello{"Earth, 42};
 out.set(reactor::make_immutable_value<Hello>(hello));
 ```
+
 This will invoke the copy constructor of `Hello`, copying its content from the `hello` instance to the newly created `reactor::ImmutableValuePtr<Hello>`.
 
 Since copying large objects is inefficient, the move semantics of C++ can be used to move the ownership of object instead of copying it. This can be done in the following two ways. First, by directly creating a mutable or immutable value pointer, where a mutable pointer allows modification of the object after it has been created:
+
 ```
 auto hello = reactor::make_mutable_value<Hello>("Earth", 42);
 hello->name = "Mars";
 out.set(std::move(hello));
 ```
+
 An example of this can be found in [StructPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructPrint.lf). Not that after the call to `std::move`, hello is `nullptr` and the reaction cannot modify the object anymore. Alternatively, if no modification is requires, the object can be instantiated directly in the call to `set()` as follows:
+
 ```
 out.set({"Earth", 42});
 ```
+
 An example of this can be found in [StructAsTypeDirect](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructAsTypeDirect.lf).
 
 Getting a value from an input port of type `T` via `get()` always returns an `reactor::ImmutableValuePtr<T>`. This ensures that the value cannot be modified by multiple reactors receiving the same value, as this could lead to an inconsistent state and nondeterminism in a multi-threaded execution. An immutable value pointer can be converted to a mutable pointer by calling `get_mutable_copy`. For instance, the [ArrayScale](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/ArrayScale.lf) reactor modifies elements of the array it receives before sending it to the next reactor:
+
 ```
 reactor Scale(scale:int(2)) {
     input in:int[3];
@@ -470,6 +475,7 @@ reactor Scale(scale:int(2)) {
     =}
 }
 ```
+
 Currently `get_mutable_copy()` always copies the contained value to safely create a mutable pointer. However, a future implementation could optimize this by checking if any other reaction is accessing the same value. If not, the value can simply be moved from the immutable pointer to a mutable one.
 
 ## Timed Behavior
@@ -478,19 +484,22 @@ Timers are specified exactly as in the [Lingua Franca language specification](La
 
 The Reactor C++ library uses [`std::chrono`](https://en.cppreference.com/w/cpp/chrono) for representing time. Specifically, the library defines two types for representing durations and timepoints: `reactor::Duration` and `reactor::TimePoint`. `reactor::Duration` is an alias for [`std::chrono::nanosecods`](https://en.cppreference.com/w/cpp/chrono/duration). `reactor::TimePoint` is alias for [`std::chrono::time_point<std::chrono::system_clock, std::chrono::nanoseconds>`](https://en.cppreference.com/w/cpp/chrono/time_point). As you can see from these definitions, the smallest time step that can be represented is one nanosecond. Note that `reactor::TimePoint` describes a specific point in time and is associated with a specific clock, whereas `reactor::Duration` defines a time interval between two time points.
 
-Lingua Franca uses a superdense model of logical time.  A reaction is invoked at a logical **tag**. In the C++ library, a tag is represented by the class `reactor::Tag`. In essence, this class is a tuple of a `reactor::TimePoint` representing a specific point in logical time and a microstep value (of type `reactor::mstep_t`, which is an alias for `unsigned long`). `reactor::Tag` provides two methods for getting the time point or the microstep:
+Lingua Franca uses a superdense model of logical time. A reaction is invoked at a logical **tag**. In the C++ library, a tag is represented by the class `reactor::Tag`. In essence, this class is a tuple of a `reactor::TimePoint` representing a specific point in logical time and a microstep value (of type `reactor::mstep_t`, which is an alias for `unsigned long`). `reactor::Tag` provides two methods for getting the time point or the microstep:
+
 ```
 const TimePoint& time_point() const;
 const mstep_t& micro_step() const;
 ```
 
 The C++ code in reaction bodies has access to library functions that allow to retrieve the current logical or physical time:
-  - `TimePoint get_physical_time()`: Get the current physical time.
-  - `TimePoint get_logcial_time()`: Get the current logical time.
-  - `Duration get_elapsed_physical_time()`: Get the physical time elapsed since program start.
-  - `Duration get_elapsed_logical_time()`: Get the logical time elapsed since program start.
+
+- `TimePoint get_physical_time()`: Get the current physical time.
+- `TimePoint get_logcial_time()`: Get the current logical time.
+- `Duration get_elapsed_physical_time()`: Get the physical time elapsed since program start.
+- `Duration get_elapsed_logical_time()`: Get the logical time elapsed since program start.
 
 A reaction can examine the current logical time (which is constant during the execution of the reaction). For example, consider the [GetTime](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/GetTime.lf) example:
+
 ```
 main reactor {
     timer t(0, 1 sec);
@@ -500,9 +509,11 @@ main reactor {
     =}
 }
 ```
+
 Note that the `<<` operator is overloaded for both `reactor::TimePoint` and `reactor::Duration` and will print the time information accordingly.
 
 When executing the above program, you will see something like this:
+
 ```
 [INFO]  Starting the execution
 Logical time is 2021-05-19 14:06:09.496828396
@@ -511,9 +522,11 @@ Logical time is 2021-05-19 14:06:11.496828396
 Logical time is 2021-05-19 14:06:11.496828396
 ...
 ```
+
 If you look closely, you will see that each printed logical time is one second larger than the previous one.
 
-You can also obtain the *elapsed* logical time since the start of execution:
+You can also obtain the _elapsed_ logical time since the start of execution:
+
 ```
 main reactor {
     timer t(0, 1 sec);
@@ -524,7 +537,9 @@ main reactor {
     =}
 }
 ```
+
 Using `std::chrono` it is also possible to convert between time units and directly print the number of elapsed seconds as seen above. The resulting output of this program will be:
+
 ```
 [INFO]  Starting the execution
 Elapsed logical time is 0 nsecs
@@ -537,6 +552,7 @@ In seconds: 2 secs
 ```
 
 You can also get physical and elapsed physical time:
+
 ```
 main reactor {
     timer t(0, 1 sec);
@@ -551,7 +567,8 @@ main reactor {
 }
 ```
 
-Notice that the physical times are increasing by *roughly* one second in each reaction. The output also shows the lag between physical and logical time. If you set the `fast` target parameter to `true`, then physical time will elapse much faster than logical time. The above program will produce something like this:
+Notice that the physical times are increasing by _roughly_ one second in each reaction. The output also shows the lag between physical and logical time. If you set the `fast` target parameter to `true`, then physical time will elapse much faster than logical time. The above program will produce something like this:
+
 ```
 [INFO]  Starting the execution
 Physical time is 2021-05-19 14:25:18.070523014
@@ -567,12 +584,15 @@ Time lag is 228241 nsecs
 ```
 
 For specifying time durations in code [chrono](https://en.cppreference.com/w/cpp/header/chrono) provides convenient literal operators in `std::chrono_literals`. This namespace is automatically included for all reaction bodies. Thus, we can simply write:
+
 ```
 std::cout << 42us << std::endl;
 std::cout << 1ms << std::endl;
 std::cout << 3s << std::endl;
 ```
+
 which prints:
+
 ```
 42 usecs
 1 msecs
@@ -582,6 +602,7 @@ which prints:
 ### Scheduling Delayed Reactions
 
 The C++ provides a simple interface for scheduling actions via a `schedule()` method. Actions are described in the [Language Specification](language-specification#action-declaration) document. Consider the [Schedule](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Schedule.lf) reactor:
+
 ```
 reactor Schedule {
 	input x:int;
@@ -605,23 +626,26 @@ Notice that after the logical time offset of 200 msec, there may be another inpu
 
 ### Zero-Delay Actions
 
-If the specified delay in a `schedule()` is omitted or is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time *t*, and you call `schedule()` in one of the following ways:
+If the specified delay in a `schedule()` is omitted or is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` in one of the following ways:
+
 ```
 a.schedule();
 a.schedule(0s);
 a.schedule(reactor::Duration::zero());
 ```
-then when the reaction to `a` is triggered, the input `x` will be absent (it was present at the *previous* microstep). The reaction to `x` and the reaction to `a` occur at the same metric time *t*, but separated by one microstep, so these two reactions are *not* logically simultaneous.
+
+then when the reaction to `a` is triggered, the input `x` will be absent (it was present at the _previous_ microstep). The reaction to `x` and the reaction to `a` occur at the same metric time _t_, but separated by one microstep, so these two reactions are _not_ logically simultaneous.
 
 As discussed above the he metric time is visible to the rogrammer and can be obtained in a reaction using either `get_elapsed_logical_time()` or `get_logical_time()`.
 
-As described in the [Language Specification](language-specification#action-declaration) document, action declarations can have a *min_delay* parameter. This modifies the timestamp further. Also, the action declaration may be **physical** rather than **logical**, in which case, the assigned timestamp will depend on the physical clock of the executing platform.
+As described in the [Language Specification](language-specification#action-declaration) document, action declarations can have a _min_delay_ parameter. This modifies the timestamp further. Also, the action declaration may be **physical** rather than **logical**, in which case, the assigned timestamp will depend on the physical clock of the executing platform.
 
 ## Actions With Values
 
-If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action.  This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
+If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
 
 Recall from the [Contained Reactors](language-specification#Contained-Reactors) section in the Language Specification document that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/tud-ccc/reactor-cpp/blob/master/include/reactor-cpp/logical_time.hh) example:
+
 ```
 reactor Delay(delay:time(100 msec)) {
     input in:int;
@@ -639,15 +663,19 @@ reactor Delay(delay:time(100 msec)) {
 ```
 
 Using this reactor as follows
+
 ```
     d = new Delay();
     source.out -> d.in;
     d.in -> sink.out
 ```
+
 is equivalent to
+
 ```
     source.out -> sink.in after 100 msec
 ```
+
 (except that our `Delay` reactor will only work with data type `int`).
 
 The action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. In the C++ target, actions use the same mechanism for passing data via value pointers as do ports. In the example above, the `reactor::ImmutablValuePtr<int>` derived by the call to `in.get()` is passed directly to `schedule()`. Similarly, the value can later be retrieved from the action with `d.get()` and passed to the output port.
@@ -665,6 +693,7 @@ reaction(d) -> out {=
 ```
 
 It is possible to both be triggered by and schedule an action the same reaction. For example, this reactor will produce a counting sequence after it is triggered the first time:
+
 ```
 reactor CountSelf(delay:time(100 msec)) {
     output out:int;
@@ -679,6 +708,7 @@ reactor CountSelf(delay:time(100 msec)) {
     =}
 }
 ```
+
 Of course, to produce a counting sequence, it would be more efficient to use a state variable.
 
 ## Stopping Execution
@@ -691,15 +721,18 @@ which may be invoked from outside an reaction, like an external thread.
 The reactor-cpp library provides logging utilities in [logging.hh](https://github.com/tud-ccc/reactor-cpp/blob/master/include/reactor-cpp/logging.hh) for producing messages to be made visible when the generated program is run. Of course `std::cout` or `printf` can be used for the same purpose, but the logging mechanism provided by reactor-cpp is thread-safe ensuring that messages produced in parallel reactions are not interleaved with each other and provides common way for turning messages of a certain severity on and off.
 
 In particular, reactor-cpp provides the following logging interfaces:
-* `reactor::Debug()`: for verbose debug messages
-* `reactor::Info()`: for info messages of general interest, info is the default severity level
-* `reactor::Warning()`: for warning messages
-* `reactor::Error()`: for errors
+
+- `reactor::Debug()`: for verbose debug messages
+- `reactor::Info()`: for info messages of general interest, info is the default severity level
+- `reactor::Warning()`: for warning messages
+- `reactor::Error()`: for errors
 
 These utilities can be used analogues to `std::cout`. For instance:
+
 ```
 reactor::Info() << "Hello World! It is " << get_physical_time();
 ```
+
 Note that unlike `std::cout` the new line delimiter is automatically added to the end of the message.
 
 Which type of messages are actually produced by the compiled program can be controlled with the `log-level` target property.

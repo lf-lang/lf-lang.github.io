@@ -26,6 +26,11 @@ nav#sidebar {
       font-weight: 400;
       font-size: 1rem;
 
+      // The target language chooser
+      button#targetChooser {
+        background-color: rgb(247, 148, 30) !important; /* LF orange */
+      }
+
       // The top level navigation items
       button {
         display: block;
@@ -143,6 +148,7 @@ nav#sidebar {
       }
 
       &.highlight a {
+        background-color: var(--background-color);
         color: $ts-main-blue-color;
         border-left: 2px solid $ts-main-blue-color;
         margin-left: 0.5rem;
