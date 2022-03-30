@@ -81,6 +81,16 @@ Connections between ports are specified with the syntax:
 
 where the port references are either `<instance_name>.<port_name>` or just `<port_name>`, where the latter form is used for connections that cross hierarchical boundaries, as illustrated next.
 
+## Import Statement
+
+An import statement has the form:
+
+```lf
+    import <reactor class> as <alias2> from "<path>"
+```
+
+where `<reactor class>` and `<alias>` can be a comma-separated list to import multiple reactors from the same file. The `<path>` specifies another `.lf` file relative to the location of the current file. The `as <alias>` portion is optional and specifies alternative class names to use in the $new$ statements.
+
 ## Hierarchy
 
 Reactors can be composed in arbitrarily deep hierarchies. For example, the following program combines the `Count` and `Scale` reactors within on `Container`:
@@ -88,10 +98,7 @@ Reactors can be composed in arbitrarily deep hierarchies. For example, the follo
 $start(Hierarchy)$
 
 ```lf-c
-target C {
-    timeout: 1 sec,
-    fast: true
-}
+target C;
 import Count from "Count.lf";
 import Scale from "Scale.lf";
 import TestCount from "TestCount.lf";

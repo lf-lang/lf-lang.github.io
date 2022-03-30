@@ -84,22 +84,22 @@ export function getDocumentationNavForLanguage(
           oneline: "Composing reactors in Lingua Franca.",
         },
         {
-          title: "Importing and Extending Reactors",
-          id: "1-importing-and-extending-reactors",
-          permalink: "/docs/handbook/importing-and-extending-reactors",
-          oneline: "Importing and extending reactors in Lingua Franca.",
+          title: "Reactions and Methods",
+          id: "1-reactions-and-methods",
+          permalink: "/docs/handbook/reactions-and-methods",
+          oneline: "Reactions and methods in Lingua Franca.",
+        },
+        {
+          title: "Extending Reactors",
+          id: "1-extending-reactors",
+          permalink: "/docs/handbook/extending-reactors",
+          oneline: "Extending reactors in Lingua Franca.",
         },
         {
           title: "Actions",
           id: "1-actions",
           permalink: "/docs/handbook/actions",
           oneline: "Actions in Lingua Franca.",
-        },
-        {
-          title: "Methods",
-          id: "1-methods",
-          permalink: "/docs/handbook/methods",
-          oneline: "Methods in Lingua Franca.",
         },
         {
           title: "Deadlines",

@@ -73,6 +73,8 @@ Logical time is 1648402123312985000.
 
 The output lines appear at one second intervals unless the `fast` option has been specified.
 
+## Elapsed Time
+
 The times above are a bit hard to read, so, for convenience, each target provides a built-in function to retrieve the _elapsed_ time. For example:
 
 $start(TimeElapsed)$
@@ -125,6 +127,8 @@ Elapsed logical time is 2000000000.
 ...
 ```
 
+## Comparing Logical and Physical Times
+
 The following program compares logical and physical times:
 
 $start(TimeLag)$
@@ -173,6 +177,8 @@ Elapsed logical time: 3000000000, physical time: 3000210000, lag: 210000
 ```
 
 In this case, the lag varies from a few hundred microseconds to a small number of milliseconds. The amount of lag will depend on the execution platform.
+
+## Simultaneity and Instantaneity
 
 If two timers have the same _offset_ and _period_, then their events are logically simultaneous. No observer will be able to see that one timer has triggered and the other has not.
 
