@@ -93,6 +93,7 @@ A target may support overriding the target parameters on the [command line](#com
 ## build
 
 <div class="lf-c">
+
 A command to execute after code generation instead of the default compile command. This is either a single string or an array of strings. The specified command(s) will be executed an environment that has the following environment variables defined:
 
 - `LF_CURRENT_WORKING_DIRECTORY`: The directory in which the command is invoked.
@@ -112,14 +113,36 @@ then instead of invoking the C compiler after generating code, the code generato
 
 ```
 #!/bin/bash
-CC="gcc"
-$CC ${LF_SOURCE_GEN_DIRECTORY}/$1.c \
-    ${LF_SOURCE_GEN_DIRECTORY}/core/platform/lf_macos_support.c \
-    -o ${LF_BIN_DIRECTORY}/$1 \
-    -pthread -DNUMBER_OF_WORKERS=2
+# Build the generated code.
+cd ${LF_SOURCE_GEN_DIRECTORY}
+cmake .
+make
+
+# Move the executable to the bin directory.
+mv $1 ${LF_BIN_DIRECTORY}
+
+# Invoke the executable.
+${LF_BIN_DIRECTORY}/$1
+
+# Plot the results, which have appeared in the src-gen directory.
+gnuplot ${LF_SOURCE_DIRECTORY}/$1.gnuplot
+open $1.pdf
 ```
 
-which will invoke the `gcc` compiler on the generated file `Foo.c`.
+The first few lines of this script do the same thing that is normally done when there is no `build` option in the target. Specifically, they use `cmake` to create a makefile, invoke `make`, and then move the executable to the `bin` directory. The next line, however, gives new functionality. It executes the compiled code! The final two lines assume that the program has produced a file with data to be plotted and use `gnuplot` to plot the data. This requires, of course, that you have `gnuplot` installed, and that there is a file called `Foo.gnuplot` in the same directory as `Foo.lf`. The file `Foo.gnuplot` contains the commands to plot the data, and might look something like the following:
+
+```
+set title 'My Title'
+set xrange [0:3]
+set yrange [-2:2]
+set xlabel "Time (seconds)"
+set terminal pdf size 5, 3.5
+set output 'Foo.pdf'
+plot 'mydata1.data' using 1:2 with lines, \
+     'mydata2.data' using 1:2 with lines
+```
+
+This assumes that your program has written two files, `mydata1.data` and `mydata2.data` containing two columns, time and value.
 
 </div>
 

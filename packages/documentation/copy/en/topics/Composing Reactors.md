@@ -51,11 +51,15 @@ WARNING: No source file found: ../code/rs/src/RegressionTest.lf
 
 $end(RegressionTest)$
 
+## Diagrams
+
 As soon as programs consist of more than one reactor, it becomes particularly useful to reference the diagrams that are automatically created and displayed by the Lingua Franca IDEs. The diagram for the above program is as follows:
 
-<span class="warning"> IMAGES DON'T WORK!!!!</span>
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/RegressionTest.svg" width="500"/>
 
-<!-- ![Lingua Franca diagram](/diagrams/RegressionTest.svg)  -->
+In this diagram, the timer is represented by a clock-like icon, the reactions by chevron shapes, and the $shutdown$ event by a diamond. If there were a $startup$ event in this program, it would appear as a circle.
+
+## Creating Reactor Instances
 
 An instance is created with the syntax:
 
@@ -73,13 +77,51 @@ The `<parameters>` argument is a comma-separated list of assignments:
 
 Like the default value for parameters, `<value>` can be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, target-language code enclosed in `{= ... =}`, or any of the list forms described in [Expressions](/docs/handbook/expressions).
 
+## Connections
+
 Connections between ports are specified with the syntax:
 
 ```lf
     <source_port_reference> -> <destination_port_reference>
 ```
 
-where the port references are either `<instance_name>.<port_name>` or just `<port_name>`, where the latter form is used for connections that cross hierarchical boundaries, as illustrated next.
+where the port references are either `<instance_name>.<port_name>` or just `<port_name>`, where the latter form is used for connections that cross hierarchical boundaries, as illustrated in the next section.
+
+On the left and right of a connection statement, you can put a comma-separated list. For example, the above pair of connections can be written,
+
+```lf
+    c.y, s.y -> s.x, t.x
+```
+
+The only constraint is that the total number of channels on the left match the total number on the right.
+
+A destination port (on the right) can only be connected to a single source port (on the left). However, a source port may be connected to multiple destinations, as in the following example:
+
+```lf
+reactor A {
+    output y:int
+}
+reactor B {
+    input x:int
+}
+main reactor {
+    a = new A()
+    b1 = new B()
+    b2 = new B()
+    a.y -> b1.x
+    a.y -> b2.x
+}
+```
+
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Multicast.svg" width="250"/>
+
+Lingua Franca provides a convenient shortcut for such multicast connections, where the above two lines can be replaced by one as follows:
+
+```lf
+    (a.y)+ -> b1.x, b2.x
+```
+
+The enclosing `( ... )+` means to repeat the enclosed comma-separated list of sources however many times is needed to provide inputs to all the sinks on the right of the connection `->`.
 
 ## Import Statement
 
@@ -136,9 +178,7 @@ WARNING: No source file found: ../code/rs/src/Hierarchy.lf
 
 $end(Hierarchy)$
 
-<span class="warning"> IMAGES DON'T WORK!!!!</span>
-
-<!-- ![Lingua Franca diagram](/diagrams/Hierarchy.svg)  -->
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Hierarchy.svg" width="500"/>
 
 The `Container` has a parameter named `stride`, whose value is passed to the `factor` parameter of the `Scale` reactor. The line
 
@@ -166,4 +206,18 @@ The $after$ keyword specifies that the logical time of the event delivered to th
 
 ## Physical Connections
 
-A subtle and rarely used variant of the `->` connection is a **physical connection**, denoted `~>`. In such a connection, the logical time at the recipient is derived from the local physical clock rather than being equal to the logical time at the sender. The physical time will always exceed the logical time of the sender (unless fast is set to `true`), so this type of connection incurs a nondeterministic positive logical time delay. Physical connections are useful sometimes in [Distributed-Execution](/docs/handbook/distributed-execution) in situations where the nondeterministic logical delay is tolerable. Such connections are more efficient because timestamps need not be transmitted and messages do not need to flow through through a centralized coordinator (if a centralized coordinator is being used).
+A subtle and rarely used variant of the `->` connection is a **physical connection**, denoted `~>`. For example:
+
+```lf
+main reactor {
+    a = new A();
+    b = new B();
+    a.y ~> b.x;
+}
+```
+
+This is rendered in by the diagram synthesizer as follows:
+
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/PhysicalConnection.svg" width="200"/>
+
+In such a connection, the logical time at the recipient is derived from the local physical clock rather than being equal to the logical time at the sender. The physical time will always exceed the logical time of the sender (unless fast is set to `true`), so this type of connection incurs a nondeterministic positive logical time delay. Physical connections are useful sometimes in [Distributed-Execution](/docs/handbook/distributed-execution) in situations where the nondeterministic logical delay is tolerable. Such connections are more efficient because timestamps need not be transmitted and messages do not need to flow through through a centralized coordinator (if a centralized coordinator is being used).

@@ -134,9 +134,7 @@ WARNING: No source file found: ../code/rs/src/Contained.lf
 
 $end(Contained)$
 
-<span class="warning"> IMAGES DON'T WORK!!!!</span>
-
-<!-- ![Lingua Franca diagram](/diagrams/Contained.svg)  -->
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Contained.svg" width="300"/>
 
 This instantiates the above `Overwriting` reactor and monitors its outputs.
 
