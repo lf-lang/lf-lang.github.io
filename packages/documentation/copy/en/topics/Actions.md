@@ -6,15 +6,41 @@ oneline: "Actions in Lingua Franca."
 preamble: >
 ---
 
-### Action Declaration
+$page-showing-target$
 
-An **action**, like an input, can cause reactions to be invoked. Whereas inputs are provided by other reactors, actions are scheduled by this reactor itself, either in response to some observed external event or as a delayed response to some input event. The action can be scheduled by a reactor by invoking a [**schedule** function](#scheduling-future-reactions) in a reaction or in an asynchronous callback function.
+## Overview of Actions
 
-An action declaration is either physical or logical:
+Timers are useful to trigger reactions once or periodically. Actions are used to trigger reactions more irregularly. An action, like an output or input port, can carry data, but unlike a port, an action is visible only within the reactor that defines it.
 
-> **physical action** _name_(_min_delay_, _min_spacing_, _policy_):_type_;<br> > **logical action** _name_(_min_delay_, _min_spacing_, _policy_):_type_;<br>
+There are two kinds of actions, logical and physical. A $logical action$ is used by a reactor to schedule a trigger at a fixed logical time interval _d_ into the future. The time interval _d_, which is called a **delay**, is relative to the logical time _t_ at which the scheduling occurs. If a reaction executes at logical time _t_ and schedules an action `a` with delay _d_, then any reaction that is triggered by `a` will be invoked at logical time _t_ + _d_.
 
-The _min_delay_, _min_spacing_, and _policy_ are all optional. If only one argument is given in parentheses, then it is interpreted as an _min_delay_, if two are given, then they are interpreted as _min_delay_ and _min_spacing_, etc. The _min_delay_ and _min_spacing_ have to be a time value. The _policy_ argument is a string that can be one of the following: `'defer'` (default), `'drop'`, or `'replace'`.
+A $physical action$ is to schedule reactions at logical times determined by the local physical clock. If a physical action with delay $d$ is scheduled at _physical_ time _T_, then the _logical time_ assigned to the event is _T_ + _d_. Note that, unless the [fast option](/docs/handbook/target-specification#fast) is given, logical time _t_ chases physical time _T_, so _t_ < _T_. Hence, the event is assured of being in the future.
+
+Logical actions are required to be scheduled within a reaction of the reactor that declares the action, but physical actions can be scheduled by code that is outside the Lingua Franca system. Physical actions are the mechanism for obtaining input from the outside world. Because they are assigned a logical time derived from the physical clock, their logical time can be interpreted as a measure of the time at which some external event occurred.
+
+An action may or may not carry a **payload** (a data value).
+
+## Action Declaration
+
+An action declaration has one of the following forms:
+
+```lf
+    logical action <name>(<min_delay>, <min_spacing>, <policy>)
+    physical action <name>(<min_delay>, <min_spacing>, <policy>)
+```
+
+The `min_delay`, `min_spacing`, and `policy` are all optional. If only one argument is given in parentheses, then it is interpreted as an `min_delay`, if two are given, then they are interpreted as `min_delay` and `min_spacing`. The `min_delay` and `min_spacing` are time values. The `policy` argument is a string that can be one of the following: `'defer'` (the default), `'drop'`, or `'replace'`.
+
+<div class="lf-c lf-cpp lf-ts lf-rs">
+
+If action is to carry a payload, then a type must be given as well:
+
+```lf
+    logical action <name>(<min_delay>, <min_spacing>, <policy>):<type>
+    physical action <name>(<min_delay>, <min_spacing>, <policy>):<type>
+```
+
+</div>
 
 An action will trigger at a logical time that depends on the arguments given to the schedule function, the _min_delay_, _min_spacing_, and _policy_ arguments above, and whether the action is physical or logical.
 
