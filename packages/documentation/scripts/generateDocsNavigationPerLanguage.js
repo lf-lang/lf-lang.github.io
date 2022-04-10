@@ -52,6 +52,7 @@ const handbookPages = [
       { file: "topics/Actions.md" },
       { file: "topics/Deadlines.md" },
       { file: "topics/Multiports and Banks.md" },
+      { file: "topics/Preambles and Methods.md" },
       { file: "topics/Distributed Execution.md" },
     ],
   },

@@ -1,0 +1,12 @@
+target C;
+reactor Physical {
+    input x:int;
+    physical action a;
+    reaction(x) -> a {=
+        schedule(a, 0);
+    =}
+    reaction(a) {=
+        interval_t elapsed_time = get_elapsed_logical_time();
+        printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
+    =}
+}

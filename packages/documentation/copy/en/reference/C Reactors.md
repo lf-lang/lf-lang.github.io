@@ -742,43 +742,9 @@ Notice that these numbers are increasing by _roughly_ one second each time. If y
 
 Working with nanoseconds in C code can be tedious if you are interested in longer durations. For convenience, a set of macros are available to the C programmer to convert time units into the required nanoseconds. For example, you can specify 200 msec in C code as `MSEC(200)` or two weeks as `WEEKS(2)`. The provided macros are NSEC, USEC (for microseconds), MSEC, SEC, MINUTE, HOUR, DAY, and WEEK. You may also use the plural of any of these. Examples are given in the next section.
 
-### Scheduling Delayed Reactions
-
-The C target provides a variety of `schedule()` functions to trigger an action at a future logical time. Actions are described in the [Language Specification](language-specification#action-declaration) document. Consider the [Schedule](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Schedule.lf) reactor:
-
-    target C;
-    reactor Schedule {
-        input x:int;
-        logical action a;
-        reaction(a) {=
-            interval_t elapsed_time = get_elapsed_logical_time();
-            printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
-        =}
-        reaction(x) -> a {=
-            schedule(a, MSEC(200));
-        =}
-    }
-
-When this reactor receives an input `x`, it calls `schedule()`, specifying the action `a` to be triggered and the logical time offset (200 msec). The action `a` will be triggered at a logical time 200 milliseconds after the arrival of input `x`. At that logical time, the second reaction will trigger and will use the `get_elapsed_logical_time()` function to determine how much logical time has elapsed since the start of execution.
-
-Notice that after the logical time offset of 200 msec, there may be another input `x` simultaneous with the action `a`. Because the reaction to `a` is given first, it will execute first. This becomes important when such a reactor is put into a feedback loop (see below).
-
-### Zero-Delay Actions
-
-If the specified delay in a `schedule()` call is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` as follows:
-
-    schedule(a, 0);
-
-then when a reaction to `a` is triggered, the input `x` will be absent (it was present at the _previous_ microstep). The reaction to `x` and the reaction to `a` occur at the same metric time _t_, but separated by one microstep, so these two reactions are _not_ logically simultaneous.
-
-The metric time is visible to the C programmer and can be obtained in a reaction using either
-`get_elapsed_logical_time()`, as above, or `get_logical_time()`. The latter function also returns a `long long` (aka `instant_t`), but its meaning is now the time elapsed since January 1, 1970 in nanoseconds.
-
-As described in the [Language Specification](language-specification#action-declaration) document, action declarations can have a _min_delay_ parameter. This modifies the timestamp further. Also, the action declaration may be **physical** rather than **logical**, in which case, the assigned timestamp will depend on the physical clock of the executing platform.
-
 ## Actions With Values
 
-If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
+Actions are described in the [Actions](/docs/handbook/actions). If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
 
 Recall from the [Contained Reactors](language-specification#Contained-Reactors) section in the Language Specification document that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayInt.lf) example:
 

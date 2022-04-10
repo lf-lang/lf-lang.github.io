@@ -1,0 +1,24 @@
+target C;
+main reactor {
+	preamble {=				
+		// Schedule an event roughly every 200 msec.
+		void* external(void* a) {
+            while (true) {
+    			lf_nanosleep(MSEC(200));
+    			schedule(a, 0);
+			}
+		}
+	=}
+	state thread_id:lf_thread_t(0);	
+    physical action a(100 msec):int;
+  
+	reaction(startup) -> a {=
+		// Start a thread to schedule physical actions.
+		lf_thread_create(&self->thread_id, &external, a);
+	=}
+	
+	reaction(a) {=
+        interval_t elapsed_time = get_elapsed_logical_time();
+        printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
+	=}
+}
