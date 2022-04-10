@@ -102,6 +102,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Actions in Lingua Franca.",
         },
         {
+          title: "Superdense Time",
+          id: "1-superdense-time",
+          permalink: "/docs/handbook/superdense-time",
+          oneline: "Superdense time in Lingua Franca.",
+        },
+        {
           title: "Deadlines",
           id: "1-deadlines",
           permalink: "/docs/handbook/deadlines",
@@ -124,6 +130,12 @@ export function getDocumentationNavForLanguage(
           id: "1-distributed-execution",
           permalink: "/docs/handbook/distributed-execution",
           oneline: "Distributed Execution (preliminary)",
+        },
+        {
+          title: "Termination",
+          id: "1-termination",
+          permalink: "/docs/handbook/termination",
+          oneline: "Terminating a Lingua Franca execution.",
         },
       ],
     },
@@ -202,12 +214,6 @@ export function getDocumentationNavForLanguage(
           id: "3-target-specification",
           permalink: "/docs/handbook/target-specification",
           oneline: "The target specification in Lingua Franca.",
-        },
-        {
-          title: "Termination",
-          id: "3-termination",
-          permalink: "/docs/handbook/termination",
-          oneline: "Terminating a Lingua Franca execution.",
         },
         {
           title: "C Reactors",

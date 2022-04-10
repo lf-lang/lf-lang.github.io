@@ -50,10 +50,12 @@ const handbookPages = [
       { file: "topics/Reactions and Methods.md" },
       { file: "topics/Extending Reactors.md" },
       { file: "topics/Actions.md" },
+      { file: "topics/Superdense Time.md" },
       { file: "topics/Deadlines.md" },
       { file: "topics/Multiports and Banks.md" },
       { file: "topics/Preambles and Methods.md" },
       { file: "topics/Distributed Execution.md" },
+      { file: "topics/Termination.md" },
     ],
   },
   {
@@ -78,7 +80,6 @@ const handbookPages = [
     items: [
       { file: "reference/Expressions.md"},
       { file: "reference/Target Specification.md" },
-      { file: "reference/Termination.md" },
       { file: "reference/C Reactors.md" },
     ],
   },

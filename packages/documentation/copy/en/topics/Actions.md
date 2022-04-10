@@ -8,6 +8,28 @@ preamble: >
 
 $page-showing-target$
 
+## Action Declaration
+
+An action declaration has one of the following forms:
+
+```lf
+    logical action <name>(<min_delay>, <min_spacing>, <policy>)
+    physical action <name>(<min_delay>, <min_spacing>, <policy>)
+```
+
+The `min_delay`, `min_spacing`, and `policy` are all optional. If only one argument is given in parentheses, then it is interpreted as an `min_delay`, if two are given, then they are interpreted as `min_delay` and `min_spacing`. The `min_delay` and `min_spacing` are time values. The `policy` argument is a string that can be one of the following: `"defer"` (the default), `"drop"`, or `"replace"`. Note that the quotation marks are needed.
+
+<div class="lf-c lf-cpp lf-ts lf-rs">
+
+If the action is to carry a payload, then a type must be given as well:
+
+```lf
+    logical action <name>(<min_delay>, <min_spacing>, <policy>):<type>
+    physical action <name>(<min_delay>, <min_spacing>, <policy>):<type>
+```
+
+</div>
+
 ## Logical Actions
 
 Timers are useful to trigger reactions once or periodically. Actions are used to trigger reactions more irregularly. An action, like an output or input port, can carry data, but unlike a port, an action is visible only within the reactor that defines it.
@@ -49,7 +71,7 @@ WARNING: No source file found: ../code/rs/src/Schedule.lf
 
 $end(Schedule)$
 
-<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Schedule.svg" width="250"/>
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Schedule.svg" width="200"/>
 
 Here, the delay is specified in the call to `schedule()` within the target language code. Notice that in the diagram, a logical action is shown as a triangle with an **L**. Logical actions are always scheduled within a reaction of the reactor that declares the action.
 
@@ -57,7 +79,7 @@ The arguments to the `schedule()` function are the action named `a` and a time. 
 
 <div class="lf-c">
 
-The time argument to the `schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `long long`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these.
+The time argument to the `schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `long long`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
 The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
 
@@ -144,10 +166,22 @@ WARNING: No source file found: ../code/rs/src/Physical.lf
 
 $end(Physical)$
 
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Physical.svg" width="200"/>
 
-<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Physical.svg" width="250"/>
+If you drive this with a timer, using for example the following structure:
 
-Note that, unless the [fast option](/docs/handbook/target-specification#fast) is given, logical time _t_ chases physical time _T_, so _t_ < _T_. Hence, the event being scheduled in the reaction to input `x` is assured of being in the future in logical time.
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/PhysicalTest.svg" width="400"/>
+
+then running the program will yield an output something like this:
+
+```
+Action triggered at logical time 201491000 nsec after start.
+Action triggered at logical time 403685000 nsec after start.
+Action triggered at logical time 603669000 nsec after start.
+...
+```
+
+Here, logical time is lagging physical time by a few milliseconds. Note that, unless the [fast option](/docs/handbook/target-specification#fast) is given, logical time _t_ chases physical time _T_, so _t_ < _T_. Hence, the event being scheduled in the reaction to input `x` is assured of being in the future in logical time.
 
 Whereas logical actions are required to be scheduled within a reaction of the reactor that declares the action, physical actions can be scheduled by code that is outside the Lingua Franca system. For example, some other thread or a callback function may call `schedule()`, passing it a physical action. For example:
 
@@ -156,7 +190,7 @@ $start(Asynchronous)$
 ```lf-c
 target C;
 main reactor {
-	preamble {=				
+	preamble {=
 		// Schedule an event roughly every 200 msec.
 		void* external(void* a) {
             while (true) {
@@ -165,14 +199,14 @@ main reactor {
 			}
 		}
 	=}
-	state thread_id:lf_thread_t(0);	
+	state thread_id:lf_thread_t(0);
     physical action a(100 msec):int;
-  
+
 	reaction(startup) -> a {=
 		// Start a thread to schedule physical actions.
 		lf_thread_create(&self->thread_id, &external, a);
 	=}
-	
+
 	reaction(a) {=
         interval_t elapsed_time = get_elapsed_logical_time();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
@@ -198,8 +232,7 @@ WARNING: No source file found: ../code/rs/src/Asynchronous.lf
 
 $end(Asynchronous)$
 
-
-<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Asynchronous.svg" width="250"/>
+<img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Asynchronous.svg" width="350"/>
 
 Physical actions are the mechanism for obtaining input from the outside world. Because they are assigned a logical time derived from the physical clock, their logical time can be interpreted as a measure of the time at which some external event occurred.
 
@@ -209,197 +242,22 @@ In the above example, at $startup$, the main reactor creates an external thread 
 
 The code executed by the thread is defined in a $preamble$ section. See [Preambles and Methods](/docs/handbook/preambles-and-methods).
 
+**Important Note:** Asynchronous calls to `schedule()` will not work if you set the [`threading` target parameter](/docs/handbook/target-specification#threading) to `false`. You must use a threaded runtime for such asynchronous calls to work correctly.
+
 <div>
 
-## Action Declaration
+## Triggering Time for Actions
 
-An action declaration has one of the following forms:
+An action will trigger at a logical time that depends on the arguments given to the schedule function, the `<min_delay>`, `<min_spacing>`, and `<policy>` arguments in the action declaration, and whether the action is physical or logical.
 
-```lf
-    logical action <name>(<min_delay>, <min_spacing>, <policy>)
-    physical action <name>(<min_delay>, <min_spacing>, <policy>)
-```
+For a $logical$ action `a`, the tag assigned to the event resulting from a call to `schedule(a, <offset>)` is computed as follows. First, let _t_ be the _current logical time_. For a logical action, _t_ is just the logical time at which the reaction calling `schedule()` is called. The **preliminary time** of the action is then just _t_ + `<min_delay>` + `<offset>`. This preliminary time may be further modified, as explained below.
 
-The `min_delay`, `min_spacing`, and `policy` are all optional. If only one argument is given in parentheses, then it is interpreted as an `min_delay`, if two are given, then they are interpreted as `min_delay` and `min_spacing`. The `min_delay` and `min_spacing` are time values. The `policy` argument is a string that can be one of the following: `'defer'` (the default), `'drop'`, or `'replace'`.
+For a **physical** action, the preliminary time is similar, except that _t_ is replaced by the current _physical_ time _T_ when `schedule()` is called.
 
-<div class="lf-c lf-cpp lf-ts lf-rs">
+If a `<min_spacing>` has been declared, then it gives a minimum logical time interval between the tags of two subsequently scheduled events. If the preliminary time is closer than `<min_spacing>` to the time of the previously scheduled event (if there is one), then `<policy>` determines how the minimum spacing constraint is enforced. The `<policy>` is one of the following:
 
-If the action is to carry a payload, then a type must be given as well:
+- `"defer"`: (**the default**) The event is added to the event queue with a tag that is equal to earliest time that satisfies the minimal spacing requirement. Assuming the time of the preceding event is _t_prev_, then the tag of the new event simply becomes _t_prev_ + `<min_spacing>`.
+- `"drop"`: The new event is dropped and `schedule()` returns without having modified the event queue.
+- `"replace"`: The payload (if any) of the new event is assigned to the preceding event if it is still pending in the event queue; no new event is added to the event queue in this case. If the preceding event has already been pulled from the event queue, the default `"defer"` policy is applied.
 
-```lf
-    logical action <name>(<min_delay>, <min_spacing>, <policy>):<type>
-    physical action <name>(<min_delay>, <min_spacing>, <policy>):<type>
-```
-
-</div>
-
-An action will trigger at a logical time that depends on the arguments given to the schedule function, the _min_delay_, _min_spacing_, and _policy_ arguments above, and whether the action is physical or logical.
-
-For a $logical$ action, the tag assigned to the event resulting from a call to [**schedule** function](#scheduling-future-reactions) is computed as follows. First, let _t_ be the _current logical time_. For a logical action, the `schedule` function must be invoked from within a reaction (synchronously), so _t_ is just the logical time of that reaction.
-
-The (preliminary) tag of the action is then just _t_ plus _min_delay_ plus the _offset_ argument to [**schedule** function](#scheduling-future-reactions).
-
-If the **physical** keyword is given, then the physical clock on the local platform is used as the timestamp assigned to the action. Moreover, for a physical action, unlike a logical action, the `schedule` function can be invoked from outside of any reaction (asynchronously), e.g. from an interrupt service routine or callback function.
-
-If a _min_spacing_ has been declared, then a minimum distance between the tags of two subsequently scheduled events on the same action is enforced. If the preliminary tag is closer to the tag of the previously scheduled event (if there is one), then _policy_ determines how the given constraints is enforced.
-
-- `'drop'`: the new event is dropped and `schedule` returns without having modified the event queue.
-- `'replace'`: the payload of the new event is assigned to the preceding event if it is still pending in the event queue; no new event is added to the event queue in this case. If the preceding event has already been pulled from the event queue, the default `'defer'` policy is applied.
-- `'defer'`: the event is added to the event queue with a tag that is equal to earliest time that satisfies the minimal spacing requirement. Assuming the tag of the preceding event is _t_prev_, then the tag of the new event simply becomes _t_prev_ + _min_spacing_.
-
-Note that while the `'defer'` policy is conservative in the sense that it does not discard events, it could potentially cause an unbounded growth of the event queue.
-
-In all cases, the logical time of a new event will always be strictly greater than the logical time at which it is scheduled by at least one microstep (see the [Time](#Time) section).
-
-The default _min_delay_ is zero. The default _min_spacing_ is undefined (meaning that no minimum spacing constraint is enforced). If a `min_spacing` is defined, it has to be strictly greater than zero, and greater than or equal to the time precision of the target (for the C target, it is one nanosecond).
-
-The _min_delay_ parameter in the **action** declaration is static (set at compile time), while the _offset_ parameter given to the schedule function may be dynamically set at runtime. Hence, for static analysis and scheduling, the **action**'s' _min_delay_ parameter can be assumed to be a _minimum delay_ for analysis purposes.
-
-## Superdense Time
-
-The model of time in Lingua Franca is a bit more sophisticated than we have hinted at. Specifically, a **superdense** model of time is used. In particular, instead of a **timestamp**, LF uses a **tag**, which consists of a **logical time** _t_ and a **microstep** _m_. Two events are logically **simultaneous** only if _both_ the logical time and the microstep are equal. But only the logical time is used to align behavior with physical time. For that purpose, the microstep is ignored.
-
-#### Discussion
-
-Logical actions are used to schedule events at a future logical time relative to the current logical time. Physical time is ignored. They must be scheduled within reactions, and the timestamp of the scheduled event will be relative to the current logical time of the reaction that schedules them. It is an error to schedule a logical action asynchronously, outside of the context of a reaction. Asynchronous actions are required to be **physical**.
-
-Physical actions are typically used to assign timestamps to externally triggered events, such as the arrival of a network message or the acquisition of sensor data, where the time at which these external events occurs is of interest. There are (at least) three interesting use cases:
-
-1. An asynchronous event, such as a callback function or interrupt service routine (ISR), is invoked at a physical time _t_ and schedules an action with timestamp _T_=_t_. To get this behavior, just set the physical action to have _min_delay_ = 0 and call the schedule function with _offset_ = 0. The _min_spacing_ can be useful here to prevent these external events from overwhelming the software system.
-2. A periodic task that is occasionally modified by a sporadic sensor. In this case, you can set _min_delay_ = _period_ and call schedule with _offset_ = 0. The resulting timestamp of the sporadic sensor event will always align with the periodic events. This is similar to periodic polling, but without the overhead of polling the sensor when nothing interesting is happening.
-3. You can impose a minimum physical time delay between an event's occurrence, such as a push of a button, and system response by adjusting the _offset_.
-
-### Actions With Values
-
-If an action is declared with a _type_, then it can carry a **value**, a data value passed to the **schedule** function. This value will be available to any reaction that is triggered by the action. The specific mechanism, however, is target-language dependent. See the [C target](Writing-reactors-in-C#actions-with-values) for an example.
-
-### Scheduling Future Reactions
-
-Each target language provides some mechanism for scheduling future reactions. Typically, this takes the form of a `schedule` function that takes as an argument an [action](#Action-Declaration), a time interval, and (perhaps optionally), a payload. For example, in the [C target](Writing-Reactors-in-C#Reaction-Body), in the following program, each reaction to the timer `t` schedules another reaction to occur 100 msec later:
-
-```
-target C;
-main reactor Schedule {
-    timer t(0, 1 sec);
-    logical action a;
-    reaction(t) -> a {=
-        schedule(a, MSEC(100));
-    =}
-    reaction(a) {=
-        printf("Nanoseconds since start: %lld.\n", get_elapsed_logical_time());
-    =}
-}
-```
-
-When executed, this will produce the following output:
-
-```
-Start execution at time Sun Aug 11 04:11:57 2019
-plus 919310000 nanoseconds.
-Nanoseconds since start: 100000000.
-Nanoseconds since start: 1100000000.
-Nanoseconds since start: 2100000000.
-...
-```
-
-This action has no datatype and carries no value, but, as explained below, an action can carry a value.
-
-### Asynchronous Callbacks
-
-In targets that support multitasking, the `schedule` function, which schedules future reactions, may be safely invoked on a **physical action** in code that is not part of a reaction. For example, in the multithreaded version of the [C target](Writing-Reactors-in-C#Reaction-Body), `schedule` may be invoked in an interrupt service routine. The reaction(s) that are scheduled are guaranteed to occur at a time that is strictly larger than the current logical time of any reactions that are being interrupted.
-
-### Superdense Time
-
-Lingua Franca uses a concept known as **superdense time**, where two time values that appear to be the same are not logically simultaneous. At every logical time value, for example midnight on January 1, 1970, there exist a logical sequence of **microsteps** that are not simultaneous. The [Microsteps](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Microsteps.lf) example illustrates this:
-
-```
-target C;
-reactor Destination {
-    input x:int;
-    input y:int;
-    reaction(x, y) {=
-        printf("Time since start: %lld.\n", get_elapsed_logical_time());
-        if (x->is_present) {
-            printf("  x is present.\n");
-        }
-        if (y->is_present) {
-            printf("  y is present.\n");
-        }
-    =}
-}
-main reactor Microsteps {
-    timer start;
-    logical action repeat;
-    d = new Destination();
-    reaction(start) -> d.x, repeat {=
-        SET(d.x, 1);
-        schedule(repeat, 0);
-    =}
-    reaction(repeat) -> d.y {=
-        SET(d.y, 1);
-    =}
-}
-```
-
-The `Destination` reactor has two inputs, `x` and `y`, and it simply reports at each logical time where either is present what is the logical time and which is present. The `Microsteps` reactor initializes things with a reaction to the one-time timer event `start` by sending data to the `x` input of `Destination`. It then schedules a `repeat` action.
-
-Note that time delay in the call to `schedule` is zero. However, any reaction scheduled by `schedule` is required to occur **strictly later** than current logical time. In Lingua Franca, this is handled by scheduling the `repeat` reaction to occur one **microstep** later. The output printed, therefore, will look like this:
-
-```
-Time since start: 0.
-  x is present.
-Time since start: 0.
-  y is present.
-```
-
-Note that the numerical time reported by `get_elapsed_logical_time()` has not advanced in the second reaction, but the fact that `x` is not present in the second reaction proves that the first reaction and the second are not logically simultaneous. The second occurs one microstep later.
-
-Note that it is possible to write code that will prevent logical time from advancing except by microsteps. For example, we could replace the reaction to `repeat` in `Main` with this one:
-
-```
-    reaction(repeat) -> d.y, repeat {=
-        SET(d.y, 1);
-        schedule(repeat, 0);
-    =}
-```
-
-This would create what is known as a **stuttering Zeno** condition, where logical time cannot advance. The output will be an unbounded sequence like this:
-
-```
-Time since start: 0.
-  x is present.
-Time since start: 0.
-  y is present.
-Time since start: 0.
-  y is present.
-Time since start: 0.
-  y is present.
-...
-```
-
-### Startup and Shutdown Reactions
-
-Two special triggers are supported, **startup** and **shutdown**. A reaction that specifies the **startup** trigger will be invoked at the start of execution of the model. The following two syntaxes have exactly the same effect:
-
-```
-    reaction(startup) {= ... =}
-```
-
-and
-
-```
-    timer t;
-    reaction(t) {= ... =}
-```
-
-In other words, **startup** is a timer that triggers once at the first logical time of execution. As with any other reaction, the reaction can also be triggered by inputs and can produce outputs or schedule actions.
-
-The **shutdown** trigger is slightly different. A shutdown reaction is specified as follows:
-
-```
-   reaction(shutdown) {= ... =}
-```
-
-This reaction will be invoked when the program terminates normally (there are no more events, some reaction has called a `request_stop()` utility provided in the target language, or the execution was specified to last a finite logical time). The reaction will be invoked at a logical time one microstep _later_ than the last logical time of the execution. In other words, the presence of this reaction means that the program will execute one extra logical time cycle beyond what it would have otherwise, and that logical time is one microstep later than what would have otherwise been the last logical time.
-
-If the reaction produces outputs, then downstream reactors will also be invoked at that later logical time. If the reaction schedules future reactions, those will be ignored. After the completion of this final logical time cycle, one microstep later than the normal termination, the program will exit.
+Note that while the `"defer"` policy is conservative in the sense that it does not discard events, it could potentially cause an unbounded growth of the event queue.

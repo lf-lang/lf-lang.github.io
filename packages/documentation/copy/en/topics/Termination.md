@@ -6,6 +6,33 @@ oneline: "Terminating a Lingua Franca execution."
 preamble: >
 ---
 
+## Startup and Shutdown Reactions
+
+Two special triggers are supported, **startup** and **shutdown**. A reaction that specifies the **startup** trigger will be invoked at the start of execution of the model. The following two syntaxes have exactly the same effect:
+
+```
+    reaction(startup) {= ... =}
+```
+
+and
+
+```
+    timer t;
+    reaction(t) {= ... =}
+```
+
+In other words, **startup** is a timer that triggers once at the first logical time of execution. As with any other reaction, the reaction can also be triggered by inputs and can produce outputs or schedule actions.
+
+The **shutdown** trigger is slightly different. A shutdown reaction is specified as follows:
+
+```
+   reaction(shutdown) {= ... =}
+```
+
+This reaction will be invoked when the program terminates normally (there are no more events, some reaction has called a `request_stop()` utility provided in the target language, or the execution was specified to last a finite logical time). The reaction will be invoked at a logical time one microstep _later_ than the last logical time of the execution. In other words, the presence of this reaction means that the program will execute one extra logical time cycle beyond what it would have otherwise, and that logical time is one microstep later than what would have otherwise been the last logical time.
+
+If the reaction produces outputs, then downstream reactors will also be invoked at that later logical time. If the reaction schedules future reactions, those will be ignored. After the completion of this final logical time cycle, one microstep later than the normal termination, the program will exit.
+
 There are a number of subtleties associated with the termination of Lingua Franca programs, particularly with federated execution. For the purposes of this discussion, **tag** refers to the tuple (**logical time**, **microstep**).
 
 There are several ways to terminate a program:
