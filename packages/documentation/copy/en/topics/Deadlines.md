@@ -6,6 +6,8 @@ oneline: "Deadlines in Lingua Franca."
 preamble: >
 ---
 
+$page-showing-target$
+
 Lingua Franca includes a notion of a **deadline**, which is a constraint on the relation between logical time and physical time. Specifically, a program may specify that the invocation of a reaction must occur within some _physical_ time interval of the _logical_ time of the message. If a reaction is invoked at logical time 12 noon, for example, and the reaction has a deadline of one hour, then the reaction is required to be invoked before the physical-time clock of the execution platform reaches 1 PM. If the deadline is violated, then the specified deadline handler is invoked instead of the reaction. For example:
 
 $start(Deadline)$

@@ -48,6 +48,7 @@ const handbookPages = [
       { file: "topics/Time and Timers.md" },
       { file: "topics/Composing Reactors.md" },
       { file: "topics/Reactions and Methods.md" },
+      { file: "topics/Causality Loops.md" },
       { file: "topics/Extending Reactors.md" },
       { file: "topics/Actions.md" },
       { file: "topics/Superdense Time.md" },

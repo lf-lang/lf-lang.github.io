@@ -1,0 +1,13 @@
+target C;
+main reactor {
+    state count:int(1);
+    logical action a;
+    reaction(startup, a) {=
+        printf("%d. Logical time is %lld. Microstep is %d.\n",
+            self->count, get_logical_time(), get_microstep()
+        );
+        if (self->count++ < 5) {
+            schedule(a, 0);
+        }
+    =}
+}

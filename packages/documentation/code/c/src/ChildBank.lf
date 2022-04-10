@@ -1,0 +1,16 @@
+target C;
+reactor Child (
+    bank_index:int(0)
+) {
+    reaction(startup) {=
+        printf("My bank index: %d.\n", self->bank_index);
+    =}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child();
+}
+main reactor {
+    p = new[2] Parent();
+}

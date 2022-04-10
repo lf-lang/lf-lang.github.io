@@ -1,0 +1,23 @@
+target C;
+reactor Child (
+    bank_index:int(0),
+    parent_bank_index:int(0)
+) {
+    output out:int;
+    reaction(startup) -> out {=
+        SET(out, self->parent_bank_index * 2 + self->bank_index);
+    =}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+    reaction(c.out) {=
+        for (int i=0; i < c_width; i++) {
+            printf("Received %d from child %d.\n", c[i].out->value, i);
+        }
+    =}
+}
+main reactor {
+    p = new[2] Parent();
+}

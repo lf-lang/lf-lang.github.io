@@ -22,7 +22,7 @@ export const Contributors = (props: ContributorsProps) => {
 
   const reposRootURL =
     "https://github.com/lf-lang/website-lingua-franca";
-  const repoPageURL = reposRootURL + props.path;
+  const repoPageURL = reposRootURL + "tree/main/" + props.path;
 
   const d = new Date(props.lastEdited);
   const dtf = new Intl.DateTimeFormat(

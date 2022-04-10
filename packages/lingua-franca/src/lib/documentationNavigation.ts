@@ -90,6 +90,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Reactions and methods in Lingua Franca.",
         },
         {
+          title: "Causality Loops",
+          id: "1-causality-loops",
+          permalink: "/docs/handbook/causality-loops",
+          oneline: "Causality loops in Lingua Franca.",
+        },
+        {
           title: "Extending Reactors",
           id: "1-extending-reactors",
           permalink: "/docs/handbook/extending-reactors",
@@ -116,7 +122,7 @@ export function getDocumentationNavForLanguage(
         {
           title: "Multiports and Banks",
           id: "1-multiports-and-banks",
-          permalink: "/docs/handbook/multiports-banks",
+          permalink: "/docs/handbook/multiports-and-banks",
           oneline: "Multiports and Banks of Reactors.",
         },
         {

@@ -1,0 +1,24 @@
+target C;
+reactor Source {
+    output[4] out:int;
+    reaction(startup) -> out {=
+        for(int i = 0; i < out_width; i++) {
+            SET(out[i], i);
+        }
+    =}
+}
+reactor Destination {
+    input[4] in:int;
+    reaction(in) {=
+        int sum = 0;
+        for (int i = 0; i < in_width; i++) {
+            if (in[i]->is_present) sum += in[i]->value;
+        }
+        printf("Sum of received: %d.\n", sum);
+    =}
+}
+main reactor {
+    a = new Source();
+    b = new Destination();
+    a.out -> b.in;
+}
