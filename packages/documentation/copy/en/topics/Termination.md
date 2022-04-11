@@ -6,65 +6,41 @@ oneline: "Terminating a Lingua Franca execution."
 preamble: >
 ---
 
-## Startup and Shutdown Reactions
+## Shutdown Reactions
 
-Two special triggers are supported, **startup** and **shutdown**. A reaction that specifies the **startup** trigger will be invoked at the start of execution of the model. The following two syntaxes have exactly the same effect:
+There are several mechanisms for terminating a Lingua Franca in an orderly fashion.
+All of these mechanisms result in a **final tag** at which any reaction that declares $shutdown$ as a trigger will be invoked (recall that a **tag** is a tuple (**logical time**, **microstep**)). Other reactions may also be invoked at this final tag, and the order in which reactions are invoked will be constrained by the normal precedence rules.
 
-```
-    reaction(startup) {= ... =}
-```
+If a reaction triggered by $shutdown$ produces outputs, then downstream reactors will also be invoked at the final tag. If the reaction schedules any actions by calling `schedule()`, those will be ignored. In fact, any event after the final tag will be ignored. After the completion of the final tag, the program will exit.
 
-and
-
-```
-    timer t;
-    reaction(t) {= ... =}
-```
-
-In other words, **startup** is a timer that triggers once at the first logical time of execution. As with any other reaction, the reaction can also be triggered by inputs and can produce outputs or schedule actions.
-
-The **shutdown** trigger is slightly different. A shutdown reaction is specified as follows:
-
-```
-   reaction(shutdown) {= ... =}
-```
-
-This reaction will be invoked when the program terminates normally (there are no more events, some reaction has called a `request_stop()` utility provided in the target language, or the execution was specified to last a finite logical time). The reaction will be invoked at a logical time one microstep _later_ than the last logical time of the execution. In other words, the presence of this reaction means that the program will execute one extra logical time cycle beyond what it would have otherwise, and that logical time is one microstep later than what would have otherwise been the last logical time.
-
-If the reaction produces outputs, then downstream reactors will also be invoked at that later logical time. If the reaction schedules future reactions, those will be ignored. After the completion of this final logical time cycle, one microstep later than the normal termination, the program will exit.
-
-There are a number of subtleties associated with the termination of Lingua Franca programs, particularly with federated execution. For the purposes of this discussion, **tag** refers to the tuple (**logical time**, **microstep**).
-
-There are several ways to terminate a program:
+There are four ways to terminate a program:
 
 - **Timeout**: The program specifies the last logical time at which reactions should be triggered.
 - **Starvation**: At the conclusion of some tag, there are no events in the event queue at future tags.
 - **Stop request**: Some reaction requests that the program terminate.
-- **External signal**: Program is terminated externally with control-C or `kill`.
+- **External signal**: Program is terminated externally using operating services like control-C or `kill`.
 
 We address each of these in turn.
 
 ## Timeout
 
-The target property `timeout` specifies the last logical time at which reactions should be triggered. The last invocation of reactions will be at tag (`timeout`, 0). The subtleties:
+The [target property `timeout`](/docs/handbook/target-specification#timeout) specifies the last logical time at which reactions should be triggered. The last invocation of reactions will be at tag (`timeout`, 0).
 
-- **Schedule**: Any invocation of `schedule` that specifies a logical time greater than the timeout value is ignored. No event gets scheduled. Moreover, if `schedule` is invoked at logical time equal to `timeout`, then it is again ignored because that would have resulted in an event with tag (`timeout`, 1), which is greater than the final tag.
-
-- **Shutdown reactions**: Reactions that are triggered by `shutdown` will be triggered at tag (`timeout`, 0). There may be many other reactions triggered at that same tag, and a shutdown reaction may produce outputs causing other reactions to be triggered, so there is no assurance that shutdown reactions are invoked last. However, if a shutdown reaction is the last reaction in a reactor, then it is assured of being the last reaction invoked _in that reactor_ at that final tag.
-
-- **After**: If at logical time _t_ a reaction sends an output over connection using the keyword `after` with value _d_ >= 0, and _t_ + _d_ >`timeout`, then the output is dropped. No event gets scheduled. If _d_ = 0 and _t_ = `timeout`, the output is also dropped because that would have resulted in an event with tag (`timeout`, 1), which is greater than the final tag. In a **federated** execution, no message is launched into the network if _t_ + _d_ >`timeout`.
-
-- **Physical connections**: A connection using the syntax `~>` specifies that the tag at the receiving end of the connection will be based on the physical time at which the message is received. See [[Physical Connections]] for the specification for how the tag is assigned at the receiving end. If the tag assigned at the receiving end is greater than (`timeout`, 0), then the message is lost. Hence, **messages sent near the `timeout` time are likely to be lost!**
+There is a significant subtlety when using [physical connections](/docs/handbook/composing-reactors#physical-connections), which are connections using the syntax `~>`. Such connections specify that the tag at the receiving end will be based on the physical time at which the message is received. If the tag assigned at the receiving end is greater than the final tag, then the message is lost. Hence, **messages sent near the `timeout` time are likely to be lost!**
 
 ## Starvation
 
-If the target property `keepalive` is not specified or is set to `false` (the default), then a Lingua Franca program will exit after completing a logical tag if there are no future events scheduled. If there is a **timer** anywhere in the program, then this condition never occurs. There is always a future event scheduled (unless the `timeout` has been reached). If there is a **physical action** anywhere in the program (and there is no timer), then you will need to set `keepalive` to true to prevent the program from exiting while waiting for some external stimulus.
+If a Lingua Franca program has no [physical actions](/docs/handbook/actions#physical-actions), and if at any time during execution there are no future events waiting to be processed, then there is no possibility for any more reactions to occur and the program will exit. This situation is called **starvation**. If there is a **timer** anywhere in the program with a period, then this condition never occurs.
+
+One subtlety is that reactions triggered by $shutdown$ will be invoked one microstep later than the last tag at which there was an event. They cannot be invoked at the same tag because it is only after that last tag has completed that the runtime system can be sure that there are no future events. It would not be correct to trigger the $shutdown$ reactions at that point because it would be impossible to respect the required reaction ordering.
+
+<span class="warning">FIXME: The following probably needs to be updated.</span>
 
 Starvation termination is tricky to implement for federated execution, particularly when physical connections are used. It requires developing a distributed consensus. One way to accomplish this is for each federate to send a **QUEUE_EMPTY** message to the RTI whenever its event queue is empty. The message will need to include a count of the total number of messages it has sent or received on each direct connection to another federate. When the RTI receives such a message from all federates, and the number of messages sent and received on each direct connection match, then the RTI can broadcast a shutdown message.
 
-A decentralized version of the same consensus is more challenging but will be necessary if there is no RTI running. **FIXME**: Proposals are welcome here.
-
 ## Stop Request
+
+FIXME: Got to here
 
 If a reaction calls `request_stop`, then it is requesting that the program cease execution as soon as possible. In a non-federated execution, this cessation can occur in the next microstep. The current tag will be completed as normal. Then the tag will be advanced by one microstep, and reactions triggered by `shutdown` will be executed, along with any other reactions with triggers at that tag, with all reactions executed in precedence order.
 
