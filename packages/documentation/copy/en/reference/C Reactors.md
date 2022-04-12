@@ -8,11 +8,11 @@ preamble: >
 
 <span class="lf-cpp lf-py lf-ts lf-rs warning">**WARNING: This page documents only the C target.** Choose the C target language in the left sidebar to see the C code examples.</span>
 
-In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on MacOS, Linux, Windows, and at least one bare-iron embedded platforms. The single-threaded version is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the Posix thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
+In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on MacOS, Linux, Windows, and at least one bare-iron embedded platforms. The single-threaded version (which you get by setting the [`threading` target parameter](/docs/handbook/target-specification#threading) to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the Posix thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
 
 Note that C is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Here, we provide some guidelines for a style for writing reactors that will be safe.
 
-**NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special [CCpp target](#the-ccpp-target) that automatically uses a C++ compiler by default. Alternatively, you might want to use the Cpp target.
+**NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special [CCpp target](#the-ccpp-target) that automatically uses a C++ compiler by default. Alternatively, you might want to use the [Cpp target](/docs/handbook/cpp-reactors).
 
 ## The C Target Specification
 
@@ -24,41 +24,6 @@ To have Lingua Franca generate C code, start your `.lf` file with one of the fol
 ```
 
 The second form is used when you wish to use a C++ compiler to compile the generated code, thereby allowing your C reactors to call C++ code. Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C, you may want to include the final semicolon for uniformity. See [detailed documentation of the target options](/docs/handbook/target-specification).
-
-## Imports
-
-The [import statement](Language-Specification#import-statement) can be used to share reactor definitions across several applications. Suppose for example that we modify the above Minimal.lf program as follows and store this in a file called [HelloWorld.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/HelloWorld.lf):
-
-    target C;
-    reactor HelloWorld {
-        reaction(startup) {=
-            printf("Hello World.\n");
-        =}
-    }
-    main reactor HelloWorldTest {
-        a = new HelloWorld();
-    }
-
-This can be compiled and run, and its behavior will be identical to the version above.
-But now, this can be imported into another reactor definition as follows:
-
-    target C;
-    import HelloWorld.lf;
-    main reactor TwoHelloWorlds {
-        a = new HelloWorld();
-        b = new HelloWorld();
-    }
-
-This will create two instances of the HelloWorld reactor, and when executed, will print "Hello World" twice.
-
-Note that in the above example, the order in which the two reactions are invoked is undefined
-because there is no causal relationship between them. In fact, if you modify the target specification to say:
-
-    target C {threads: 2};
-
-then you might see garbled output if the implementation of `printf` on your machine is not thread safe (most modern implementations _are_ thread safe, so you are not likely to see this behavior).
-
-A more interesting illustration of imports can be found in the [Import.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Import.lf) test case in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/C).
 
 ## Reactions
 
