@@ -60,26 +60,26 @@ const handbookPages = [
     ],
   },
   {
-    title: "Tooling",
-    summary: "Tools for developing Lingua Franca programs.",
-    chronological: true,
-    items: [
-        { file: "topics/Code Plugin.md"},
-        { file: "topics/Epoch IDE.md"},
-        { file: "topics/Command Line Tools.md" },
-        { file: "topics/Setup for C.md" },
-        { file: "topics/Setup for Cpp.md" },
-        { file: "topics/Setup for Python.md" },
-        { file: "topics/Setup for TypeScript.md" },
-        { file: "topics/Setup for Rust.md" },
-    ],
-  },
-  {
     title: "Target Languages",
     summary: "Documentation for specific target languages.",
     chronological: true,
     items: [
-      { file: "reference/C Reactors.md" },
+      { file: "target/C Reactors.md" },
+    ],
+  },
+  {
+    title: "Tools",
+    summary: "Tools for developing Lingua Franca programs.",
+    chronological: true,
+    items: [
+        { file: "tools/Code Plugin.md"},
+        { file: "tools/Epoch IDE.md"},
+        { file: "tools/Command Line Tools.md" },
+        { file: "tools/Setup for C.md" },
+        { file: "tools/Setup for Cpp.md" },
+        { file: "tools/Setup for Python.md" },
+        { file: "tools/Setup for TypeScript.md" },
+        { file: "tools/Setup for Rust.md" },
     ],
   },
   {
@@ -89,7 +89,7 @@ const handbookPages = [
     items: [
       { file: "reference/Expressions.md"},
       { file: "reference/Target Specification.md" },
-      { file: "preliminary/Tracing.md" },
+      { file: "reference/Tracing.md" },
     ],
   },
   {
@@ -97,12 +97,12 @@ const handbookPages = [
     summary: "Information for developers of the Lingua Franca language and tools.",
     chronological: true,
     items: [
-      { file: "topics/Contributing.md" },
-      { file: "topics/download-and-build/Downloading and Building.md" },
-      { file: "topics/download-and-build/Developer Eclipse Setup with Oomph.md" },
-      { file: "topics/download-and-build/Developer IntelliJ Setup (for Kotlin).md" },
-      { file: "topics/Regression Tests.md" },
-      // { file: "less-developed/Running Benchmarks.md" }, FIXME: Gatsby can't find this for some mysterious reason.
+      { file: "developer/Regression Tests.md" },
+      { file: "developer/Contributing.md" },
+      { file: "developer/Downloading and Building.md" },
+      { file: "developer/Developer Eclipse Setup with Oomph.md" },
+      { file: "developer/Developer IntelliJ Setup (for Kotlin).md" },
+      { file: "developer/Running Benchmarks.md" },
     ]
   },
   {
