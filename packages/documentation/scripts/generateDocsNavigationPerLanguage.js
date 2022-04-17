@@ -75,13 +75,21 @@ const handbookPages = [
     ],
   },
   {
+    title: "Target Languages",
+    summary: "Documentation for specific target languages.",
+    chronological: true,
+    items: [
+      { file: "reference/C Reactors.md" },
+    ],
+  },
+  {
     title: "Reference",
-    summary: "Complete reference documentation.",
+    summary: "Reference documentation.",
     chronological: true,
     items: [
       { file: "reference/Expressions.md"},
       { file: "reference/Target Specification.md" },
-      { file: "reference/C Reactors.md" },
+      { file: "preliminary/Tracing.md" },
     ],
   },
   {
@@ -101,12 +109,11 @@ const handbookPages = [
     title: "Preliminary Development",
     summary: "Capabilities under development",
     items: [
-      { file: "preliminary/Import System.md" },
-      { file: "preliminary/Tracing.md" },
       { file: "preliminary/Containerized Execution.md" },
       { file: "preliminary/Generic Types, Interfaces, and Inheritance.md" },
       { file: "preliminary/Target-Supported Features.md" },
       { file: "preliminary/Writing Reactors in Rust (WIP).md" },
+      { file: "preliminary/Reactors on Patmos.md" },
     ],
   },
   {
