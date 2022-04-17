@@ -7,7 +7,7 @@ preamble: >
 ---
 
 In the C++ reactor target for Lingua Franca, reactions are written in C++ and the code generator generates a standalone C++ program that can be compiled and run on all major platforms. Our continous integration ensures compatibility with Windows, MacOS and Linux.
-The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
+The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/lf-lang/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
 
 Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe.
 
@@ -18,21 +18,22 @@ The following tools are required in order to compile the generated C++ source co
 - A recent C++ compiler supporting C++17
 - A recent version of cmake (At least 3.5)
 
+
 ## A Minimal Example
 
 A "hello world" reactor for the C++ target looks like this:
 
-```
+```lf-cpp
 target Cpp;
 
 main reactor {
     reaction(startup) {=
-        std::cout << "Hello World!\n";
+        std::cout << "Hello World!" << std::endl;
     =}
 }
 ```
 
-The `startup` action is a special [action](https://github.com/lf-lang/lingua-franca/wiki/Language-Specification#Action-Declaration) that triggers at the start of the program execution causing the [reaction](https://github.com/lf-lang/lingua-franca/wiki/Language-Specification#Reaction-Declaration) to execute. This program can be found in a file called [Minimal.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Minimal.lf) in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Cpp), where you can also find quite a few more interesting examples. If you compile this using the [`lfc` command-line compiler](downloading-and-building#Command-Line-Tools) or the [Eclipse-based IDE](downloading-and-building#Download-the-Integrated-Development-Environment), then generated source files will be put into a subdirectory called `src-gen/Minimal`. In addition, an executable binary will be compiled using your system's C++ compiler. The resulting executable will be called `Minimial` and be put in a subdirectory called `bin`. If you are in the C++ test directory, you can execute it in a shell as follows:
+The `startup` action is a special [action](language-specification/Language\ Specification) that triggers at the start of the program execution causing the [reaction](language-specification/Language\ Specification#Reaction-Declaration) to execute. This program can be found in a file called [Minimal.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Minimal.lf) in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Cpp), where you can also find quite a few more interesting examples. If you compile this using the [`lfc` command-line compiler](Command-Line-Tools) or the [Eclipse-based IDE](downloading-and-building/Developer-Eclipse-Setup-with-Oomph), then generated source files will be put into a subdirectory called `src-gen/Minimal`. In addition, an executable binary will be compiled using your system's C++ compiler. The resulting executable will be called `Minimial` and be put in a subdirectory called `bin`. If you are in the C++ test directory, you can execute it in a shell as follows:
 
 ```
  bin/Minimal
@@ -63,8 +64,8 @@ A C++ target specification may optionally include the following parameters:
 - `keepalive [true|false]`: Whether to continue executing even when there are no events on the event queue. The default is false. Usually, you will want to set this to true when you have **physical action**s.
 - `logging [ERROR|WARN|INF|DEBUG]`: The level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `DEBUG`).
 - `no-compile [true|false]`: If this is set to true, then the Lingua Franca compiler will only generate code and not run the C++ compiler. This defaults to false.
-- `no-runtime-validation [true|false]`: If this is set to true, then all runtime checks in [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) will be disabled. This brings a slight performance boost but should be used with care and only on tested programs. This defaults to false.
-- `runtime-version "version"`: Specify the _version_ of the runtime library the compiled binary should link against. _version_ can be any tag, branch name or git hash in the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) repository.
+- `no-runtime-validation [true|false]`: If this is set to true, then all runtime checks in [reactor-cpp](https://github.com/lf-lang/reactor-cpp) will be disabled. This brings a slight performance boost but should be used with care and only on tested programs. This defaults to false.
+- `runtime-version "version"`: Specify the _version_ of the runtime library the compiled binary should link against. _version_ can be any tag, branch name or git hash in the [reactor-cpp](https://github.com/lf-lang/reactor-cpp) repository.
 - `threads <n>`: The number of worker threads _n_ that are used to execute reactions. This is required to be a positive integer. If this is not specified or set to zero, then the number of worker threads will be set to the number of hardware threads of the executing system. If this is set to one, the scheduler will not create any worker threads and instead inline the execution of reactions. This is an optimization and avoids any unnecessary synchronization. Note that, in contrast to the C target, the single threaded implementation is still thread safe and asynchronous reaction scheduling is supported.
 - `timeout <n> <unit>`: This specifies to stop after the specified amount of logical time has elapsed. All events at that logical time that have microstep 0 will be processed, but not events with later tags. If any reactor calls `request_stop` before this logical time, then the program may stop at an earlier logical time. If no timeout is specified and `request_stop` is not called, then the program will continue to run until stopped by some other mechanism (such as Control-C).
 
@@ -83,48 +84,49 @@ If the main reactor declares parameters, these parameters will appear as additio
 ## Imports
 
 The [import statement](Language-Specification#import-statement) can be used to share reactor definitions across several applications. Suppose for example that we modify the above Minimal.lf program as follows and store this in a file called [HelloWorld.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/HelloWorld.lf):
-
-    target Cpp;
-    reactor HelloWorld {
-        reaction(startup) {=
-            std::cout << "Hello World.\n";
-        =}
-    }
-    main reactor HelloWorldTest {
-        a = new HelloWorld();
-    }
-
+```lf-cpp
+target Cpp;
+reactor HelloWorld {
+    reaction(startup) {=
+        std::cout << "Hello World.\n";
+    =}
+}
+main reactor HelloWorldTest {
+    a = new HelloWorld();
+}
+```
 This can be compiled and run, and its behavior will be identical to the version above.
 But now, this can be imported into another reactor definition as follows:
-
-    target Cpp;
-    import HelloWorld.lf;
-    main reactor TwoHelloWorlds {
-        a = new HelloWorld();
-        b = new HelloWorld();
-    }
-
+```lf-cpp
+target Cpp;
+import HelloWorld.lf;
+main reactor TwoHelloWorlds {
+    a = new HelloWorld();
+    b = new HelloWorld();
+}
+```
 This will create two instances of the HelloWorld reactor, and when executed, will print "Hello World" twice.
 
 Note that in the above example, the order in which the two reactions are invoked is undefined
 because there is no causal relationship between them. In fact, you might see garbled output as on default multiple worker threads are used to execute the program and `std::cout` is not thread safe. You can restrict execution to one thread if you modify the target specification to say:
-
-    target Cpp {threads: 1};
-
+```lf-cpp
+target Cpp {threads: 1};
+```
 A more interesting illustration of imports can be found in the [Import.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Import.lf) test case.
 
 ## Preamble
 
 Reactions may contain arbitrary C++ code, but often it is convenient for that code to invoke external libraries or to share type and/or method definitions. For either purpose, a reactor may include a **preamble** section. For example, the following reactor uses `atoi` from the common `stdlib` C library to convert a string to an integer:
 
-```
+```lf-cpp
 main reactor Preamble {
     private preamble {=
         include <cstdlib>
     =}
+
     timer t;
     reaction(t) {=
-        char* s = "42";
+        const char* s = "42";
         int i = atoi(s);
         std::cout << "Converted string << s << " to nt " << i << '\n';
     =}
@@ -141,7 +143,7 @@ By putting the `#include` in the **preamble**, the library becomes available in 
 
 See for instance the reactor in [Preamble.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Preamble.lf):
 
-```
+```lf-cpp
 reactor Preamble {
     public preamble {=
         struct MyStruct {
@@ -151,7 +153,7 @@ reactor Preamble {
     =}
 
     private preamble {=
-        int add_42(int i) {
+        auto add_42(int i) noexcept -> int {
             return i + 42;
         }
     =}
@@ -178,7 +180,7 @@ Note that preambles can also be specified on the file level. These file level pr
 
 Admittedly, the precise interactions of preambles and imports can become confusing. The preamble mechanism will likely be refined in future revisions.
 
-Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments. If access to the inner state of a reactor is required, [methods](https://github.com/lf-lang/lingua-franca/wiki/Writing-Reactors-in-Cpp#using-methods) present a viable and easy to use alternative.
+Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments. If access to the inner state of a reactor is required, [methods](Reactions and Methods#Method Declaration) present a viable and easy to use alternative.
 
 ## Reactions
 
@@ -196,52 +198,52 @@ To determine whether an input is present, `name.is_present()` can be used. Since
 
 For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Determinism.lf) test case in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Cpp) includes the following reactor:
 
-    reactor Destination {
-
-input x:int;
-input y:int;
-reaction(x, y) {=
-int sum = 0;
-if (x.is_present()) {
-sum += *x.get();
-}
-if (y.is_present()) {
-sum += *y.get();
-}
-std::cout << "Received " << sum << std::endl;
-=}
-}
-
-The reaction refers to the inputs `x` and `y` and tests for the presence of values using `x.is_present()` and `y.is_present()`. If a reaction is triggered by just one input, then normally it is not necessary to test for its presence; it will always be present. But in the above example, there are two triggers, so the reaction has no assurance that both will be present.
-
-Inputs declared in the **uses** part of the reaction do not trigger the reaction. Consider this modification of the above reaction:
-
-    reaction(x) y {=
-        int sum = *x.get();
+```lf-cpp
+reactor Destination {
+    input x:int;
+    input y:int;
+    reaction(x, y) {=
+        int sum = 0;
+        if (x.is_present()) {
+            sum += *x.get();
+        }
         if (y.is_present()) {
             sum += *y.get();
         }
         std::cout << "Received " << sum << std::endl;
     =}
+}
+```
+The reaction refers to the inputs `x` and `y` and tests for the presence of values using `x.is_present()` and `y.is_present()`. If a reaction is triggered by just one input, then normally it is not necessary to test for its presence; it will always be present. But in the above example, there are two triggers, so the reaction has no assurance that both will be present.
 
+Inputs declared in the **uses** part of the reaction do not trigger the reaction. Consider this modification of the above reaction:
+```lf-cpp
+reaction(x) y {=
+    int sum = *x.get();
+    if (y.is_present()) {
+        sum += *y.get();
+    }
+    std::cout << "Received " << sum << std::endl;
+=}
+```
 It is no longer necessary to test for the presence of `x` because that is the only trigger. The input `y`, however, may or may not be present at the logical time that this reaction is triggered. Hence, the code must test for its presence.
 
 The **effects** portion of the reaction specification can include outputs and actions. Actions will be described below. Outputs are set using a `set()` method on an output port. For example, we can further modify the above example as follows:
-
-    output z:int;
-    reaction(x) y -> z {=
-        int sum = *x.get();
-        if (y.is_present()) {
-            sum += *y.get();
-        }
-        z.set(sum);
-    =}
-
+```lf-cpp
+output z:int;
+reaction(x) y -> z {=
+    int sum = *x.get();
+    if (y.is_present()) {
+        sum += *y.get();
+    }
+    z.set(sum);
+=}
+```
 If an output gets set more than once at any logical time, downstream reactors will see only the _final_ value that is set. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
 
 An output may even be set in different reactions of the same reactor at the same logical time. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name.is_present()` to determine whether the output has been set. For example, the following reactor (see [TestForPreviousOutput.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/TestForPreviousOutput.lf)) will always produce the output 42:
 
-```
+```lf-cpp
 reactor Source {
     output out:int;
     reaction(startup) -> out {=
@@ -269,7 +271,7 @@ The first reaction may or may not set the output to 21. The second reaction doub
 
 A reactor may declare state variables, which become properties of each instance of the reactor. For example, the following reactor (see [Count.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/lib/Count.lf) and [CountTest.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/CountTest.lf)) will produce the output sequence 1, 2, 3, ... :
 
-```
+```lf-cpp
 reactor Count {
     state i:int(0);
     output c:int;
@@ -287,7 +289,7 @@ In the body of the reaction, the state variable is automatically in scope and ca
 
 A state variable may be a time value, declared as follows:
 
-```
+```lf-cpp
 state time_value:time(100 msec);
 ```
 
@@ -297,7 +299,7 @@ For the C++ target, Lingua Franca provides two alternative styles for initializi
 
 State variables can have array values. For example, the [MovingAverage] (https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/MovingAverage.lf) reactor computes the **moving average** of the last four inputs each time it receives an input:
 
-```
+```lf-cpp
 reactor MovingAverageImpl {
     state delay_line:double[3]{0.0, 0.0, 0.0};
     state index:int(0);
@@ -332,7 +334,7 @@ State variables with more complex types such as classes or structs can be simili
 
 Reactor parameters work similar to state variables in C++. However, they are always declared as `const` and initialized during reactor instantiation. Thus, the value of a parameter may not be changed. For example, the [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Stride.lf) reactor modifies the above `Count` reactor so that its stride is a parameter:
 
-```
+```lf-cpp
 reactor Count(stride:int(1)) {
     state count:int(0);
     output y:int;
@@ -359,7 +361,7 @@ The first line defines the `stride` parameter, gives its type, and gives its ini
 
 When the reactor is instantiated, the default parameter value can be overridden. This is done in the above example near the bottom with the line:
 
-```
+```lf-cpp
 c = new Count(stride = 2);
 ```
 
@@ -367,7 +369,7 @@ If there is more than one parameter, use a comma separated list of assignments.
 
 Also parameters can have fixed- or variable-sized array values. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
 
-```
+```lf-cpp
 reactor Source(sequence:int[]{0, 1, 2}) {
     output out:int;
     state count:int(0);
@@ -386,7 +388,7 @@ The **logical action** named `next` and the `schedule` method are explained belo
 
 Note that also the main reactor can be parameterized:
 
-```
+```lf-cpp
 main reactor Hello(msg: std::string("World")) {
     reaction(startup) {=
         std::cout << "Hello " << msg << "!\n";
@@ -406,7 +408,7 @@ will result in "Hello Earth!" being printed.
 
 You can define your own datatypes in C++ or use types defined in a library and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructAsType.lf) example:
 
-```
+```lf-cpp
 reactor StructAsType {
     public preamble {=
         struct Hello {
@@ -436,7 +438,7 @@ out.set(hello);
 
 implicitly invokes `reactor::make_immutable_value<Hello>(hello)` and could be rewritten as
 
-```
+```lf-cpp
 Hello hello{"Earth, 42};
 out.set(reactor::make_immutable_value<Hello>(hello));
 ```
@@ -445,7 +447,7 @@ This will invoke the copy constructor of `Hello`, copying its content from the `
 
 Since copying large objects is inefficient, the move semantics of C++ can be used to move the ownership of object instead of copying it. This can be done in the following two ways. First, by directly creating a mutable or immutable value pointer, where a mutable pointer allows modification of the object after it has been created:
 
-```
+```lf-cpp
 auto hello = reactor::make_mutable_value<Hello>("Earth", 42);
 hello->name = "Mars";
 out.set(std::move(hello));
@@ -453,7 +455,7 @@ out.set(std::move(hello));
 
 An example of this can be found in [StructPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructPrint.lf). Not that after the call to `std::move`, hello is `nullptr` and the reaction cannot modify the object anymore. Alternatively, if no modification is requires, the object can be instantiated directly in the call to `set()` as follows:
 
-```
+```lf-cpp
 out.set({"Earth", 42});
 ```
 
@@ -461,7 +463,7 @@ An example of this can be found in [StructAsTypeDirect](https://github.com/lf-la
 
 Getting a value from an input port of type `T` via `get()` always returns an `reactor::ImmutableValuePtr<T>`. This ensures that the value cannot be modified by multiple reactors receiving the same value, as this could lead to an inconsistent state and nondeterminism in a multi-threaded execution. An immutable value pointer can be converted to a mutable pointer by calling `get_mutable_copy`. For instance, the [ArrayScale](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/ArrayScale.lf) reactor modifies elements of the array it receives before sending it to the next reactor:
 
-```
+```lf-cpp
 reactor Scale(scale:int(2)) {
     input in:int[3];
     output out:int[3];
@@ -486,7 +488,7 @@ The Reactor C++ library uses [`std::chrono`](https://en.cppreference.com/w/cpp/c
 
 Lingua Franca uses a superdense model of logical time. A reaction is invoked at a logical **tag**. In the C++ library, a tag is represented by the class `reactor::Tag`. In essence, this class is a tuple of a `reactor::TimePoint` representing a specific point in logical time and a microstep value (of type `reactor::mstep_t`, which is an alias for `unsigned long`). `reactor::Tag` provides two methods for getting the time point or the microstep:
 
-```
+```lf-cpp
 const TimePoint& time_point() const;
 const mstep_t& micro_step() const;
 ```
@@ -500,7 +502,7 @@ The C++ code in reaction bodies has access to library functions that allow to re
 
 A reaction can examine the current logical time (which is constant during the execution of the reaction). For example, consider the [GetTime](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/GetTime.lf) example:
 
-```
+```lf-cpp
 main reactor {
     timer t(0, 1 sec);
     reaction(t) {=
@@ -527,7 +529,7 @@ If you look closely, you will see that each printed logical time is one second l
 
 You can also obtain the _elapsed_ logical time since the start of execution:
 
-```
+```lf-cpp
 main reactor {
     timer t(0, 1 sec);
     reaction(t) {=
@@ -553,7 +555,7 @@ In seconds: 2 secs
 
 You can also get physical and elapsed physical time:
 
-```
+```lf-cpp
 main reactor {
     timer t(0, 1 sec);
 	reaction(t) {=
@@ -603,7 +605,7 @@ which prints:
 
 The C++ provides a simple interface for scheduling actions via a `schedule()` method. Actions are described in the [Language Specification](language-specification#action-declaration) document. Consider the [Schedule](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Schedule.lf) reactor:
 
-```
+```lf-cpp
 reactor Schedule {
 	input x:int;
     logical action a;
@@ -628,7 +630,7 @@ Notice that after the logical time offset of 200 msec, there may be another inpu
 
 If the specified delay in a `schedule()` is omitted or is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` in one of the following ways:
 
-```
+```lf-cpp
 a.schedule();
 a.schedule(0s);
 a.schedule(reactor::Duration::zero());
@@ -646,7 +648,7 @@ If an action is declared with a data type, then it can carry a **value**, a data
 
 Recall from the [Contained Reactors](language-specification#Contained-Reactors) section in the Language Specification document that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/tud-ccc/reactor-cpp/blob/master/include/reactor-cpp/logical_time.hh) example:
 
-```
+```lf-cpp
 reactor Delay(delay:time(100 msec)) {
     input in:int;
     output out:int;
@@ -664,16 +666,16 @@ reactor Delay(delay:time(100 msec)) {
 
 Using this reactor as follows
 
-```
-    d = new Delay();
-    source.out -> d.in;
-    d.in -> sink.out
+```lf-cpp
+d = new Delay();
+source.out -> d.in;
+d.in -> sink.out
 ```
 
 is equivalent to
 
-```
-    source.out -> sink.in after 100 msec
+```lf-cpp
+source.out -> sink.in after 100 msec
 ```
 
 (except that our `Delay` reactor will only work with data type `int`).
@@ -684,7 +686,7 @@ The first reaction declares that it is triggered by `d` and has effect `out`. Be
 
 If you are not sure whether an action carries a value, you can test for it using `is_present()`:
 
-```
+```lf-cpp
 reaction(d) -> out {=
     if (d.is_present()) {
         out.set(d.get());
@@ -694,7 +696,7 @@ reaction(d) -> out {=
 
 It is possible to both be triggered by and schedule an action the same reaction. For example, this reactor will produce a counting sequence after it is triggered the first time:
 
-```
+```lf-cpp
 reactor CountSelf(delay:time(100 msec)) {
     output out:int;
     logical action a:int;
@@ -729,7 +731,7 @@ In particular, reactor-cpp provides the following logging interfaces:
 
 These utilities can be used analogues to `std::cout`. For instance:
 
-```
+```lf-cpp
 reactor::Info() << "Hello World! It is " << get_physical_time();
 ```
 
