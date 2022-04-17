@@ -8,7 +8,7 @@ preamble: >
 
 <span class="lf-cpp lf-py lf-ts lf-rs warning">**WARNING: This page documents only the C target.** Choose the C target language in the left sidebar to see the C code examples.</span>
 
-In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on MacOS, Linux, Windows, and at least one bare-iron embedded platforms. The single-threaded version (which you get by setting the [`threading` target parameter](/docs/handbook/target-specification#threading) to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the Posix thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
+In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. For requirements, see [setup for C](setup-for-c). It has been tested on MacOS, Linux, Windows, and at least one bare-iron embedded platforms. The single-threaded version (which you get by setting the [`threading` target parameter](/docs/handbook/target-specification#threading) to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the Posix thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
 
 Note that C is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Here, we provide some guidelines for a style for writing reactors that will be safe.
 
@@ -25,123 +25,33 @@ To have Lingua Franca generate C code, start your `.lf` file with one of the fol
 
 The second form is used when you wish to use a C++ compiler to compile the generated code, thereby allowing your C reactors to call C++ code. Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C, you may want to include the final semicolon for uniformity. See [detailed documentation of the target options](/docs/handbook/target-specification).
 
-## Reactions
+## The self Struct
 
-Recall that a reaction is defined within a reactor using the following syntax:
+The code generator synthesizes a struct type in C for each reactor class and a constructor that creates an instance of this struct. By convention, these instances are called `self` and are visible within each reactor body. The `self` struct contains the parameters, state variables, and values associated with actions and ports of the reactor. Parameters and state variables are accessed directly on the `self` struct, whereas ports and actions are directly in scope by name, as we will see below. Let's begin with parameters.
 
-> **reaction**(_triggers_) _uses_ -> _effects_ {=<br/> > &nbsp;&nbsp; ... target language code ... <br/>
-> =}
+## Parameters and State Variables
 
-In this section, we explain how **triggers**, **uses**, and **effects** variables work in the C target.
+Reactor parameters and state variables are referenced in the C code using the `self` struct. The following [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Stride.lf) example modifies the `Count` reactor in [State Declaration](/docs/handbook/parameters-and-state-variables#state-declaration) to include both a parameter and state variable:
 
-### Inputs and Outputs
-
-In the body of a reaction in the C target, the value of an input is obtained using the syntax `name->value`, where `name` is the name of the input port. To determine whether an input is present, use `name->is_present`. For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Determinism.lf) test case in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/C) includes the following reactor:
-
-    reactor Destination {
-        input x:int;
-        input y:int;
-        reaction(x, y) {=
-            int sum = 0;
-            if (x->is_present) {
-                sum += x->value;
-            }
-            if (y->is_present) {
-                sum += y->value;
-            }
-            printf("Received %d.\n", sum);
-        =}
-    }
-
-The reaction refers to the input values `x->value` and `y->value` and tests for their presence by referring to the variables `x->is_present` and `y->is_present`. If a reaction is triggered by just one input, then normally it is not necessary to test for its presence; it will always be present. But in the above example, there are two triggers, so the reaction has no assurance that both will be present.
-
-Inputs declared in the **uses** part of the reaction do not trigger the reaction. Consider this modification of the above reaction:
-
-```
-    reaction(x) y {=
-        int sum = x->value;
-        if (y->is_present) {
-            sum += y->value;
-        }
-        printf("Received %d.\n", sum);
-    =}
-```
-
-It is no longer necessary to test for the presence of `x` because that is the only trigger. The input `y`, however, may or may not be present at the logical time that this reaction is triggered. Hence, the code must test for its presence.
-
-The **effects** portion of the reaction specification can include outputs and actions. Actions will be described below. Outputs are set using a `SET` macro. For example, we can further modify the above example as follows:
-
-```
-    output z:int;
-    reaction(x) y -> z {=
-        int sum = x->value;
-        if (y->is_present) {
-            sum += y->value;
-        }
-        SET(z, sum);
-    =}
-```
-
-The `SET` macro is shorthand for this:
-
-```
-    z->value = sum;
-    z->is_present = true;
-```
-
-There are several variants of the `SET` macro, and the one you should use depends on the type of the output. The simple version shown above works for all primitive C type (int, double, etc.) as well as the `bool` and `string` types that Lingua Franca defines. For the other variants, see [Sending and Receiving Arrays and Structs](#Sending-and-Receiving-Arrays-and-Structs) below.
-
-If an output gets set more than once at any logical time, downstream reactors will see only the _final_ value that is set. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
-
-An output may even be set in different reactions of the same reactor at the same logical time. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name->is_present` to determine whether the output has been set. For example, the following reactor (see [TestForPreviousOutput.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/TestForPreviousOutput.lf)) will always produce the output 42:
-
-```
-reactor TestForPreviousOutput {
-    output out:int;
-    reaction(startup) -> out {=
-        // Set a seed for random number generation based on the current time.
-        srand(time(0));
-        // Randomly produce an output or not.
-        if (rand() % 2) {
-            SET(out, 21);
-        }
-    =}
-    reaction(startup) -> out {=
-        if (out->is_present) {
-            SET(out, 2 * out->value);
-        } else {
-            SET(out, 42);
-        }
-    =}
-}
-```
-
-The first reaction may or may not set the output to 21. The second reaction doubles the output if it has been previously produced and otherwise produces 42.
-
-### Using State Variables
-
-A reactor may declare state variables, which become properties of each instance of the reactor. For example, the following reactor (see [Count.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/lib/src/Count.lf) and [CountTest.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Count.lf)) will produce the output sequence 1, 2, 3, ... :
-
-```
-reactor Count {
+```lf-c
+reactor Count(stride:int(1)) {
     state count:int(1);
     output y:int;
     timer t(0, 100 msec);
     reaction(t) -> y {=
-        SET(y, self->count++);
+        SET(y, self->count);
+        self->count += self->stride;
     =}
 }
 ```
 
-The declaration on the second line gives the variable the name "count", declares its type to be `int`, and initializes its value to 1. The type and initial value can be enclosed in the C-code delimiters `{= ... =}` if they are not simple identifiers, but in this case, that is not necessary.
+This defines a `stride` parameter with type `int` and initial value `1` and
+a `count` state variable with the same type and initial value.
+These are referenced in the reaction with the syntax `self->stride` and `self->count` respectively.
 
-**NOTE**: String types in C are `char*`. But, as explained below, types ending with `*` are interpreted specially to provide automatic memory management, which we generally don't want with strings (a string that is a compile-time constant must not be freed). You could enclose the type as `{= char* =}`, but to avoid this awkwardness, the header files include a typedef that permits using `string` instead of `char*`. For an example using `string` data types, see [DelayString.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayString.lf).
+It may be tempting to declare state variables in the $preamble$, as follows:
 
-In the body of the reaction, the state variable is referenced using the syntax `self->count`. Here, **self** is a keyword that is provided by Lingua Franca. It refers to a struct that contains all the instance-specific data associated with an instance of the reactor. Since each instance of a reactor has its own state variables, these variables are carried in the **self** struct.
-
-It may be tempting to declare state variables in the **preamble**, as follows:
-
-```
+```lf-c
 reactor FlawedCount {
     preamble {=
         int count = 0;
@@ -156,18 +66,41 @@ reactor FlawedCount {
 
 This will produce a sequence of integers, but if there is more than one instance of the reactor, those instances will share the same variable count. Hence, **don't do this**! Sharing variables across instances of reactors violates a basic principle, which is that reactors communicate only by sending messages to one another. Sharing variables will make your program nondeterministic. If you have multiple instances of the above FlawedCount reactor, the outputs produced by each instance will not be predictable, and in a multithreaded implementation, will also not be repeatable.
 
-A state variable may be a time value, declared as follows (see for example [SlowingClock.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SlowingClock.lf)):
+## Array Values for Parameters
 
+Parameters and state variables can have array values, though some care is needed. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
+
+```lf-c
+reactor Source(sequence:int[](0, 1, 2), n_sequence:int(3)) {
+    output out:int;
+    state count:int(0);
+    logical action next;
+    reaction(startup, next) -> out, next {=
+        SET(out, self->sequence[self->count]);
+        self->count++;
+        if (self->count < self->n_sequence) {
+            schedule(next, 0);
+        }
+    =}
+}
 ```
-    state time_value:time(100 msec);
+
+This uses a [$logical$ $action$](/docs/handbook/actions#logical-actions) to repeat the reaction, sending one element of the array in each invocation.
+
+In C, arrays do not encode their own length, so a separate parameter `n_sequence` is used for the array length. Obviously, there is potential here for errors, where the array length doesn't match the length parameter.
+
+Above, the parameter default value is an array with three elements, `[0, 1, 2]`. The syntax for giving this default value is that of a Lingua Franca list, `(0, 1, 2)`, which gets converted by the code generator into a C static initializer. The default value can be overridden when instantiating the reactor using a similar syntax:
+
+```lf
+    s = new Source(sequence = (1, 2, 3, 4), n_sequence=4);
 ```
 
-The `self->time_value` variable will be of type `instant_t`, which is a `long long` and the same type as `interval_t`. The value of the variable is a number in units of nanoseconds.
+## Array Values for States
 
-A state variable can have an array value. For example, the [MovingAverage] (https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/MovingAverage.lf) reactor computes the **moving average** of the last four inputs each time it receives an input:
+A state variable can also have an array value. For example, the [MovingAverage] (https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/MovingAverage.lf) reactor computes the **moving average** of the last four inputs each time it receives an input:
 
-```
-reactor MovingAverageImpl {
+```lf-c
+reactor MovingAverage {
     state delay_line:double[](0.0, 0.0, 0.0);
     state index:int(0);
     input in:double;
@@ -194,78 +127,87 @@ reactor MovingAverageImpl {
 
 The second line declares that the type of the state variable is an array of `double`s with the initial value of the array being a three-element array filled with zeros.
 
-States whose type are structs can similarly be initialized. See [StructAsState.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsState.lf).
+## States and Parameters with Struct Values
 
-### Using Parameters
+States whose type are structs can similarly be initialized. This [StructAsState](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsState.lf) example illustrates this:
 
-Reactor parameters are also referenced in the C code using the **self** struct. The [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Stride.lf) example modifies the above `Count` reactor so that its stride is a parameter:
-
-```
+```lf-c
 target C;
-reactor Count(stride:int(1)) {
-    state count:int(1);
-    output y:int;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        SET(y, self->count);
-        self->count += self->stride;
+main reactor StructAsState {
+    preamble {=
+        typedef struct hello_t {
+            char* name;
+            int value;
+        } hello_t;
+    =}
+    state s:hello_t("Earth", 42);
+    reaction(startup) {=
+        printf("State s.name=\"%s\", value=%d.\n", self->s.name, self->s.value);
     =}
 }
-reactor Display {
-    input x:int;
-    reaction(x) {=
-        printf("Received: %d.\n", x->value);
+```
+
+Notice that state `s` is given type `hello_t`, which is defined in the $preamble$. The initial value just lists the initial values of each of the fields of the struct in the order they are declared.
+
+Parameters are similar:
+
+```lf-c
+target C;
+main reactor StructParameter(p:hello_t("Earth", 42)) {
+    preamble {=
+        typedef struct hello_t {
+            char* name;
+            int value;
+        } hello_t;
     =}
-}
-main reactor Stride {
-    c = new Count(stride = 2);
-    d = new Display();
-    c.y -> d.x;
-}
-```
-
-The second line defines the `stride` parameter, gives its type, and gives its initial value. As with state variables, the type and initial value can be enclosed in `{= ... =}` if necessary. The parameter is referenced in the reaction with the syntax `self->stride`.
-
-When the reactor is instantiated, the default parameter value can be overridden. This is done in the above example near the bottom with the line:
-
-```
-    c = new Count(stride = 2);
-```
-
-If there is more than one parameter, use a comma separated list of assignments.
-
-Parameters can have array values, though some care is needed. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
-
-```
-reactor Source(sequence:int[](0, 1, 2), n_sequence:int(3)) {
-    output out:int;
-    state count:int(0);
-    logical action next;
-    reaction(startup, next) -> out, next {=
-        SET(out, self->sequence[self->count]);
-        self->count++;
-        if (self->count < self->n_sequence) {
-            schedule(next, 0);
+    reaction(startup) {=
+        printf("Parameter p.name=\"%s\", value=%d.\n", self->p.name, self->p.value);
+        if (self->p.value != 42) {
+            fprintf(stderr, "FAILED: Expected 42.\n");
+            exit(1);
         }
     =}
 }
 ```
 
-The **logical action** named `next` and the `schedule` function are explained below in [Scheduling Delayed Reactions](#Scheduling-Delayed-Reactions); here they are used simply to repeat the reaction until all elements of the array have been sent.
+## Inputs and Outputs
 
-In C, arrays do not encode their own length, so a separate parameter is used for the array length. Obviously, there is potential here for errors, where the array length doesn't match the length parameter.
+In the body of a reaction in the C target, the value of an input is obtained using the syntax `name->value`, where `name` is the name of the input port. See, for example, the `Destination` reactor in [Triggers, Effects, and Uses](/docs/handbook/inputs-and-outputs#triggers-effects-and-uses).
 
-Above, the parameter default value is an array with three elements, `[0, 1, 2]`. The syntax for giving this default value is that of a Lingua Franca list, `(0, 1, 2)`, which gets converted by the code generator into a C static initializer. The default value can be overridden when instantiating the reactor using a similar syntax:
+To set the value of outputs, use one of several variants of the `SET` macro. See, for example, the `Double` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).)
 
+There are several variants of the `SET` macro, and the one you should use depends on the type of the output. The simple version `SET` works for all primitive C type (int, double, etc.) as well as the `bool` and `string` types that Lingua Franca defines. For the other variants, see [Sending and Receiving Arrays and Structs](#Sending-and-Receiving-Arrays-and-Structs) below.
+
+An output may even be set in different reactions of the same reactor at the same tag. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name->is_present` to determine whether the output has been set. For example, the following reactor (the test case [TestForPreviousOutput](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/TestForPreviousOutput.lf)) will always produce the output 42:
+
+```lf-c
+reactor TestForPreviousOutput {
+    output out:int;
+    reaction(startup) -> out {=
+        // Set a seed for random number generation based on the current time.
+        srand(time(0));
+        // Randomly produce an output or not.
+        if (rand() % 2) {
+            SET(out, 21);
+        }
+    =}
+    reaction(startup) -> out {=
+        if (out->is_present) {
+            SET(out, 2 * out->value);
+        } else {
+            SET(out, 42);
+        }
+    =}
+}
 ```
-    s = new Source(sequence = (1, 2, 3, 4), n_sequence=4);
-```
 
-### Sending and Receiving Arrays and Structs
+The first reaction may or may not set the output to 21. The second reaction doubles the output if it has been previously produced and otherwise produces 42.
+
+## Sending and Receiving Arrays and Structs
 
 You can define your own datatypes in C and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsType.lf) example:
 
-```
+```lf-c
 reactor StructAsType {
     preamble {=
         typedef struct hello_t {
@@ -281,11 +223,11 @@ reactor StructAsType {
 }
 ```
 
-The **preamble** code defines a struct datatype. In the reaction to **startup**, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `SET` macro.
+The $preamble$ code defines a struct datatype. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `SET` macro.
 
 For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can instead write directly to the fields of the struct. For example, the above reaction could be rewritten as follows (see [StructAsTypeDirect](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsTypeDirect.lf)):
 
-```
+```lf-c
     reaction(startup) -> out {=
         out->value.name = "Earth";
         out->value.value = 42;
@@ -297,7 +239,7 @@ The final call to `SET_PRESENT` is necessary to inform downstream reactors that 
 
 A reactor receiving the struct message uses the struct as normal in C:
 
-```
+```lf-c
 reactor Print() {
     input in:hello_t;
     reaction(in) {=
@@ -310,7 +252,7 @@ The preamble should not be repeated in this reactor definition if the two reacto
 
 Arrays that have fixed sizes are handled similarly. Consider the [ArrayAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsType.lf) example:
 
-```
+```lf-c
 reactor ArrayAsType {
     output out:int[3];
     reaction(startup) -> out {=
@@ -326,7 +268,7 @@ Here, the output is declared to have type `int[3]`, an array of three integers. 
 
 A reactor receiving this array is straightforward. It just references the array elements as usual in C, as illustrated by this example:
 
-```
+```lf-c
 reactor Print() {
     input in:int[3];
     reaction(in) {=
@@ -340,11 +282,11 @@ reactor Print() {
 }
 ```
 
-#### Dynamically Allocated Arrays
+## Dynamically Allocated Arrays
 
 For arrays where the size is variable, it may be necessary to dynamically allocate memory. But when should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can pass a pointer to a dynamically allocated object as illustrated in the [ArrayPrint](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayPrint.lf) example:
 
-```
+```lf-c
 reactor ArrayPrint {
     output out:int[];
     reaction(startup) -> out {=
@@ -362,7 +304,7 @@ This declares the output datatype to be `int[]` (or, equivalently, `int*`), an a
 
 A reactor receiving the array looks like this:
 
-```
+```lf-c
 reactor Print {
     input in:int[];
     reaction(in) {=
@@ -378,9 +320,11 @@ reactor Print {
 
 In the body of the reaction, `in->value` is a pointer to first element of the array, so it can be indexed as usual with arrays in C, `in->value[i]`. Moreover, a variable `in->length` is bound to the length of the array.
 
+## Mutable Inputs
+
 Although it cannot be enforced in C, the receiving reactor should not modify the values stored in the array. Inputs are logically _immutable_ because there may be several recipients. Any recipient that wishes to modify the array should make a copy of it. Fortunately, a utility is provided for this pattern. Consider the [ArrayScale](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayScale.lf) example:
 
-```
+```lf-c
 reactor ArrayScale(scale:int(2)) {
     mutable input in:int[];
     output out:int[];
@@ -393,7 +337,7 @@ reactor ArrayScale(scale:int(2)) {
 }
 ```
 
-Here, the input is declared **mutable**, which means that any reaction is free to modify the input. If this reactor is the only recipient of the array or the last recipient of the array, then this will not copy of the array but rather use the original array. Otherwise, it will use a copy.
+Here, the input is declared $mutable$, which means that any reaction is free to modify the input. If this reactor is the only recipient of the array or the last recipient of the array, then this will not copy of the array but rather use the original array. Otherwise, it will use a copy.
 
 The above `ArrayScale` reactor modifies the array and then forwards it to its output port using the `SET_TOKEN()` macro. That macro further delegates to downstream reactors the responsibility for freeing dynamically allocated memory once all readers have completed their work.
 
@@ -401,7 +345,7 @@ If the above code were not to forward the array, then the dynamically allocated 
 
 The above three reactors can be combined into a pipeline as follows:
 
-```
+```lf
 main reactor ArrayScaleTest {
     s = new ArrayPrint();
     c = new ArrayScale();
@@ -414,6 +358,12 @@ main reactor ArrayScaleTest {
 In this composite, the array is allocated by `ArrayPrint`, modified by `ArrayScale`, and deallocated (freed) after `Print` has reacted. No copy is necessary because `ArrayScale` is the only recipient of the original array.
 
 Inputs and outputs can also be dynamically allocated structs. In fact, Lingua Franca's C target will treat any input or output datatype that ends with `[]` or `*` specially by providing utilities for allocating memory and modifying and forwarding. Deallocation of the allocated memory is automatic. The complete set of utilities is given below.
+
+## String Types
+
+String types in C are `char*`. But, as explained above, types ending with `*` are interpreted specially to provide automatic memory management, which we generally don't want with strings (a string that is a compile-time constant must not be freed). You could enclose the type as `{= char* =}`, but to avoid this awkwardness, the header files include a typedef that permits using `string` instead of `char*`. For an example using `string` data types, see [DelayString.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayString.lf).
+
+FIXME GOT TO HERE
 
 #### Macros For Setting Output Values
 

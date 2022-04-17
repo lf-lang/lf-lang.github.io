@@ -81,6 +81,7 @@ Notice how the input value is accessed and how the output value is set. This is 
 <span class="lf-ts">[TypeScriupt Reactors](/docs/handbook/typescript-reactors)</span>
 <span class="lf-rs">[Rust Reactors](/docs/handbook/rust-reactors)</span>
 for detailed documentation of these mechanisms.
+Setting an output within a reaction will trigger downstream reactions at the same [Logical Time](/docs/handbook/time-and-timers#logical-time) that the reaction is invoked (or, more precisely, at the same [tag](/docs/handbook/superdense-time#tag-vs-time)). If a particular output port is set more than once at any tag, the last set value will be the one that downstream reactions see. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
 
 <div class="lf-c lf-cpp lf-ts lf-rs">
 
@@ -140,8 +141,6 @@ $end(Destination)$
 <span class="lf-py warning">FIXME.</span>
 <span class="lf-ts">In the TS target, the value will be **undefined**, a legitimate value in TypeScript.</span>
 <span class="lf-rs warning">FIXME.</span>
-
-## Reactions
 
 The general form of a $reaction$ is
 

@@ -1,0 +1,17 @@
+target C;
+main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
+    state interval:time(start);
+    logical action a;
+    reaction(startup) -> a {=
+        schedule(a, self->start);
+    =}
+    reaction(a) -> a {=
+        instant_t elapsed_logical_time = get_elapsed_logical_time();
+        printf("Logical time since start: \%lld nsec.\n",
+            elapsed_logical_time
+        );
+        self->interval += self->incr;
+        schedule(a, self->interval);
+        self->expected_time += self->interval;
+    =}
+}

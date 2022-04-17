@@ -1,0 +1,16 @@
+target C;
+main reactor(p:hello_t("Earth", 42)) {
+    preamble {=
+        typedef struct hello_t {
+            char* name;
+            int value;
+        } hello_t;
+    =}
+    reaction(startup) {=
+        printf("Parameter p.name=\"%s\", value=%d.\n", self->p.name, self->p.value);
+        if (self->p.value != 42) {
+            fprintf(stderr, "FAILED: Expected 42.\n");
+            exit(1);
+        }
+    =}
+}

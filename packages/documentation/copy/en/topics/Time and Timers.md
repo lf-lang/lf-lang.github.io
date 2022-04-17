@@ -8,11 +8,91 @@ preamble: >
 
 $page-showing-target$
 
-## Timers
+## Logical Time
 
 A key property of Lingua Franca is **logical time**. All events occur at an instant in logical time. By default, the runtime system does its best to align logical time with **physical time**, which is some measurement of time on the execution platform. The **lag** is defined to be physical time minus logical time, and the goal of the runtime system is maintain a small non-negative lag.
 
 The **lag** is allowed to go negative only if the [`fast` target property](/docs/handbook/target-specification#fast) or the [--fast](/docs/handbook/target-specification#command-line-arguments) is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
+
+## Time Values
+
+<div class="lf-c lf-cpp lf-rs">
+
+In Lingua Franca, $time$ is a data type.
+A parameter, state variable, port, or action may have type $time$.
+<span class="lf-c">In the C target, time values internally have type `instant_t` or `interval_t`,
+both of which are (usually) equivalent to the C type `long long`.</span>
+<span class="lf-cpp warning">In the Cpp target, time values internally have type FIXME.</span>
+<span class="lf-rs warning">In the Rust target, time values internally have type FIXME.</span>
+
+</div>
+
+A time value is given with units (unless the value is 0, in which case the units can be omitted).
+The allowable units are:
+
+- For nanoseconds: `ns`, `nsec`, or `nsecs`
+- For microseconds: `us`, `usec`, or `usecs`
+- For milliseconds: `ms`, `msec`, or `msecs`
+- For seconds: `s`, `sec`, `secs`, `second`, or `seconds`
+- For minutes: `min`, `minute`, `mins`, or `minutes`
+- For hours: `h`, `hour`, or `hours`
+- For days: `d`, `day`, or `days`
+- For weeks: `week` or `weeks`
+
+The following example illustrates using time values for parameters and state variables:
+
+$start(SlowingClock)$
+
+```lf-c
+target C;
+main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
+    state interval:time(start);
+    logical action a;
+    reaction(startup) -> a {=
+        schedule(a, self->start);
+    =}
+    reaction(a) -> a {=
+        instant_t elapsed_logical_time = get_elapsed_logical_time();
+        printf("Logical time since start: \%lld nsec.\n",
+            elapsed_logical_time
+        );
+        self->interval += self->incr;
+        schedule(a, self->interval);
+        self->expected_time += self->interval;
+    =}
+}
+
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/SlowingClock.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/SlowingClock.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/SlowingClock.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/SlowingClock.lf
+```
+
+$end(SlowingClock)$
+
+This has two time parameters, `start` and `incr`, each with default value `100 msec` <span class="lf-c lf-cpp lf-rs">and type $time$</span>. This parameter is used to initialize the `interval` state variable, which also stores a time. The $logical$ $action$ `a`, explained [below](/docs/handbook/actions#logical-actions), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
+
+```
+Logical time since start: 100000000 nsec.
+Logical time since start: 300000000 nsec.
+Logical time since start: 600000000 nsec.
+Logical time since start: 1000000000 nsec.
+...
+```
+
+## Timers
 
 The simplest use of logical time in Lingua Franca is to invoke a reaction periodically. This is done by first declaring a $timer$ using this syntax:
 
