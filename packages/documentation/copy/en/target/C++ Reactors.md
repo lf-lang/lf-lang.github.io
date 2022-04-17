@@ -1,7 +1,7 @@
 ---
-title: Writing Reactors in C++
+title: C++ Reactors
 layout: docs
-permalink: /docs/handbook/write-reactor-c++
+permalink: /docs/handbook/cpp-reactors
 oneline: "Writing Reactors in C++."
 preamble: >
 ---

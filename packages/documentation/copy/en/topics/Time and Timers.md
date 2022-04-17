@@ -14,8 +14,6 @@ A key property of Lingua Franca is **logical time**. All events occur at an inst
 
 The **lag** is allowed to go negative only if the [`fast` target property](/docs/handbook/target-specification#fast) or the [--fast](/docs/handbook/target-specification#command-line-arguments) is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
 
-## Time Values
-
 <div class="lf-c lf-cpp lf-rs">
 
 In Lingua Franca, $time$ is a data type.
@@ -26,6 +24,8 @@ both of which are (usually) equivalent to the C type `long long`.</span>
 <span class="lf-rs warning">In the Rust target, time values internally have type FIXME.</span>
 
 </div>
+
+## Time Values
 
 A time value is given with units (unless the value is 0, in which case the units can be omitted).
 The allowable units are:

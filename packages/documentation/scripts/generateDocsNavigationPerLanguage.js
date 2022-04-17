@@ -65,6 +65,10 @@ const handbookPages = [
     chronological: true,
     items: [
       { file: "target/C Reactors.md" },
+      { file: "target/C++ Reactors.md" },
+      { file: "target/Python Reactors.md" },
+      { file: "target/TypeScript Reactors.md" },
+      { file: "target/Rust Reactors.md" },
     ],
   },
   {
@@ -75,11 +79,6 @@ const handbookPages = [
         { file: "tools/Code Plugin.md"},
         { file: "tools/Epoch IDE.md"},
         { file: "tools/Command Line Tools.md" },
-        { file: "tools/Setup for C.md" },
-        { file: "tools/Setup for Cpp.md" },
-        { file: "tools/Setup for Python.md" },
-        { file: "tools/Setup for TypeScript.md" },
-        { file: "tools/Setup for Rust.md" },
     ],
   },
   {
