@@ -1,5 +1,5 @@
 ---
-title: C++ Reactors
+title: Cpp Reactors
 layout: docs
 permalink: /docs/handbook/cpp-reactors
 oneline: "Writing Reactors in C++."
