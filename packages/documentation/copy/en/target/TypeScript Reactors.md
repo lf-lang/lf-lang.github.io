@@ -1,19 +1,20 @@
 ---
-title: Writing Reactors in TypeScript
+title: TypeScript Reactors
 layout: docs
-permalink: /docs/handbook/write-reactor-ts
+permalink: /docs/handbook/typescript-reactors
 oneline: "Writing Reactors in TypeScript."
 preamble: >
 ---
+
 In the TypeScript reactor target for Lingua Franca, reactions are written in [TypeScript](https://www.typescriptlang.org/) and the code generator generates a standalone TypeScript program that can be compiled to JavaScript and run on [Node.js](https://nodejs.org).
 
-TypeScript reactors bring the strengths of TypeScript and Node.js to Lingua Franca programming. The TypeScript language and its associated tools enable static type checking for both reaction code and Lingua Franca elements like ports and actions. The Node.js JavaScript runtime provides an execution environment for asynchronous network applications. With Node.js comes Node Package Manager ([npm](https://www.npmjs.com/)) and its large library of supporting modules. 
+TypeScript reactors bring the strengths of TypeScript and Node.js to Lingua Franca programming. The TypeScript language and its associated tools enable static type checking for both reaction code and Lingua Franca elements like ports and actions. The Node.js JavaScript runtime provides an execution environment for asynchronous network applications. With Node.js comes Node Package Manager ([npm](https://www.npmjs.com/)) and its large library of supporting modules.
 
 In terms of raw performance on CPU intensive operations, TypeScript reactors are about two orders of magnitude slower than C reactors. But excelling at CPU intensive operations isn't really the point of Node.js (or by extension TypeScript reactors). Node.js is about achieving high throughput on network applications by efficiently handling asynchronous I/O operations. Keep this in mind when choosing the right Lingua Franca target for your application.
 
 ## Setup
 
-First, make sure Node.js is installed on your machine. You can [download Node.js here](https://nodejs.org/en/download/). The npm package manager comes along with Node. 
+First, make sure Node.js is installed on your machine. You can [download Node.js here](https://nodejs.org/en/download/). The npm package manager comes along with Node.
 
 After installing Node, you may optionally install the TypeScript compiler.
 
@@ -21,8 +22,7 @@ After installing Node, you may optionally install the TypeScript compiler.
 npm install -g typescript
 ```
 
-TypeScript reactor projects are created with a local copy of the TypeScript compiler, but having the TypeScript compiler globally installed can be useful for [debugging type errors](#debugging-type-errors) and type checking on the command line. 
-
+TypeScript reactor projects are created with a local copy of the TypeScript compiler, but having the TypeScript compiler globally installed can be useful for [debugging type errors](#debugging-type-errors) and type checking on the command line.
 
 ## A Minimal Example
 
@@ -41,7 +41,7 @@ main reactor Minimal {
 The timer triggers at the start time of the execution causing the reaction to execute. This program can be found in a file called [`Minimal.lf`](https://github.com/lf-lang/lingua-franca/tree/master/xtext/org.icyphy.linguafranca/src/test/TS/Minimal.lf) in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/xtext/org.icyphy.linguafranca/src/test/TS), where you can also find quite a few more interesting examples. If you compile this using the [`lfc` command-line compiler](downloading-and-building#Command-Line-Tools) or the [Eclipse-based IDE](downloading-and-building#Download-the-Integrated-Development-Environment), a number of files and directories will be generated. You can run the compiled JavaScript program (from `Minimal.lf`'s directory) with the command:
 
 ```
-$ node Minimal/dist/Minimal.js 
+$ node Minimal/dist/Minimal.js
 ```
 
 The resulting output should look something like this:
@@ -50,7 +50,7 @@ The resulting output should look something like this:
 Hello World.
 ```
 
-Notice the compiler generates a project directory with the name of the .lf file. In this example the .lf file's name is "Minimal" but more generally, for `<LF_file_name>.lf` the command to run the program is: 
+Notice the compiler generates a project directory with the name of the .lf file. In this example the .lf file's name is "Minimal" but more generally, for `<LF_file_name>.lf` the command to run the program is:
 
 ```
 $ node <LF_file_name>/dist/<LF_file_name>.js
@@ -66,10 +66,10 @@ To have Lingua Franca generate TypeScript code, start your `.lf` file with the f
 
 A TypeScript target specification may optionally include the following parameters:
 
-* ```fast [true|false]```: Whether to execute as fast as possible ignoring real time. This defaults to false.
-* ```keepalive [true|false]```: Whether to continue executing even when there are no events on the event queue. The default is false. Usually, you will want to set this to true when you have **physical action**s.
-* ```logging [ERROR|WARN|INFO|LOG|DEBUG]```: The level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`). Internally this is handled by the [ulog module](https://www.npmjs.com/package/ulog). 
-* ```timeout <n> <units>```: The amount of logical time to run before exiting. By default, the program will run forever or until forcibly stopped, with control-C, for example.
+- `fast [true|false]`: Whether to execute as fast as possible ignoring real time. This defaults to false.
+- `keepalive [true|false]`: Whether to continue executing even when there are no events on the event queue. The default is false. Usually, you will want to set this to true when you have **physical action**s.
+- `logging [ERROR|WARN|INFO|LOG|DEBUG]`: The level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`). Internally this is handled by the [ulog module](https://www.npmjs.com/package/ulog).
+- `timeout <n> <units>`: The amount of logical time to run before exiting. By default, the program will run forever or until forcibly stopped, with control-C, for example.
 
 For example, for the TypeScript target, in a source file named `Foo.lf`, you might specify:
 
@@ -90,15 +90,15 @@ The `timeout` option specifies to stop after 10 seconds of logical time have ela
 
 The generated JavaScript program understands the following command-line arguments, each of which has a short form (one character) and a long form:
 
-* `-f, --fast [true | false]`:  Specifies whether to wait for physical time to match logical time. The default is `false`. If this is `true`, then the program will execute as fast as possible, letting logical time advance faster than physical time.
-* `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified *duration*. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those. For the duration and units of a timeout argument to be parsed correctly as a single value, these should be specified in quotes with no leading or trailing space (eg '5 sec').
-* `-k, --keepalive [true | false]`: Specifies whether to stop execution if there are no events to process. This defaults to `false`, meaning that the program will stop executing when there are no more events on the event queue. If you set this to `true`, then the program will keep executing until either the `timeout` logical time is reached or the program is externally killed. If you have `physical action`s, it usually makes sense to set this to `true`.
-* `-l, --logging [ERROR | WARN | INFO | LOG | DEBUG]`: The level of logging messages from the reactor-ts runtime to to print to the console. Messages tagged with a given type (error, warn, etc.) will print if this argument is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`).
-* `-h, --help`: Print this usage guide. The program will not execute if this flag is present. 
+- `-f, --fast [true | false]`: Specifies whether to wait for physical time to match logical time. The default is `false`. If this is `true`, then the program will execute as fast as possible, letting logical time advance faster than physical time.
+- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those. For the duration and units of a timeout argument to be parsed correctly as a single value, these should be specified in quotes with no leading or trailing space (eg '5 sec').
+- `-k, --keepalive [true | false]`: Specifies whether to stop execution if there are no events to process. This defaults to `false`, meaning that the program will stop executing when there are no more events on the event queue. If you set this to `true`, then the program will keep executing until either the `timeout` logical time is reached or the program is externally killed. If you have `physical action`s, it usually makes sense to set this to `true`.
+- `-l, --logging [ERROR | WARN | INFO | LOG | DEBUG]`: The level of logging messages from the reactor-ts runtime to to print to the console. Messages tagged with a given type (error, warn, etc.) will print if this argument is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`).
+- `-h, --help`: Print this usage guide. The program will not execute if this flag is present.
 
-If provided, a command line argument will override whatever value the corresponding target property had specified in the source .lf file. 
+If provided, a command line argument will override whatever value the corresponding target property had specified in the source .lf file.
 
-Command line options are parsed by the [command-line-arguments](https://github.com/75lb/command-line-args) module with [these rules](https://github.com/75lb/command-line-args/wiki/Notation-rules). For example 
+Command line options are parsed by the [command-line-arguments](https://github.com/75lb/command-line-args) module with [these rules](https://github.com/75lb/command-line-args/wiki/Notation-rules). For example
 
 ```
 $ node <LF_file_name>/dist/<LF_file_name>.js -f false --keepalive=true -o '4 sec' -l INFO
@@ -109,6 +109,7 @@ is a valid setting.
 Any errors in command-line arguments result in printing the above information. The program will not execute if there is a parsing error for command-line arguments.
 
 ### Custom Command-Line Arguments
+
 User-defined command-line arguments may be created by giving the main reactor [parameters](#using-parameters). Assigning the main reactor a parameter of type `string`, `number`, `boolean`, or `time` will add an argument with corresponding name and type to the generated program's command-line-interface. Custom arguments will also appear in the generated program's usage guide (from the `--help` option). If the generated program is executed with a value specified for a custom command-line argument, that value will override the default value for the corresponding parameter. Arguments typed `string`, `number`, and `boolean` are parsed in the expected way, but `time` arguments must be specified on the command line like the `--timeout` property as `'<duration> <units>'` (in quotes).
 
 Note: Custom arguments may not have the same names as standard arguments like `timeout` or `keepalive`.
@@ -144,10 +145,9 @@ node simpleCLArgs/dist/simpleCLArgs.js -h
 
 The program will generate the standard usage guide, but also
 
-
 ```
---customArg '<duration> <units>'                    Custom argument. Refer to           
-                                                      <path>/simpleCLArgs.lf 
+--customArg '<duration> <units>'                    Custom argument. Refer to
+                                                      <path>/simpleCLArgs.lf
                                                       for documentation.
 ```
 
@@ -269,7 +269,7 @@ Converted string 42 to number 42
 
 ### Using Node Modules
 
-Installing Node.js modules for TypeScript reactors with `npm` is essentially the same as installing modules for an ordinary Node.js program. First, write a Lingua Franca program (`Foo.lf`) and compile it. It may not type check if if you're [importing modules in the preamble](#preamble) and you haven't installed the modules yet, but compiling your program will cause the TypeScript code generator to [produce a project](#implementation-details) for your program. There should now be a package.json file in the same directory as your .lf file. Open a terminal and navigate to that directory. You can use the standard [`npm install`](https://docs.npmjs.com/cli/install) command to install modules for your TypeScript reactors. 
+Installing Node.js modules for TypeScript reactors with `npm` is essentially the same as installing modules for an ordinary Node.js program. First, write a Lingua Franca program (`Foo.lf`) and compile it. It may not type check if if you're [importing modules in the preamble](#preamble) and you haven't installed the modules yet, but compiling your program will cause the TypeScript code generator to [produce a project](#implementation-details) for your program. There should now be a package.json file in the same directory as your .lf file. Open a terminal and navigate to that directory. You can use the standard [`npm install`](https://docs.npmjs.com/cli/install) command to install modules for your TypeScript reactors.
 
 The important takeaway here is with the package.json file and the compiled JavaScript in the Foo/dist/ directory, you have a standard Node.js program that executes as such. You can modify and debug it just as you would a Node.js program.
 
@@ -277,8 +277,7 @@ The important takeaway here is with the package.json file and the compiled JavaS
 
 Recall that a reaction is defined within a reactor using the following syntax:
 
-> **reaction**(*triggers*) *uses* -> *effects* {=<br/>
-> &nbsp;&nbsp; ... target language code ... <br/>
+> **reaction**(_triggers_) _uses_ -> _effects_ {=<br/> > &nbsp;&nbsp; ... target language code ... <br/>
 > =}
 
 In this section, we explain how **triggers**, **uses**, and **effects** variables work in the TypeScript target.
@@ -287,8 +286,8 @@ In this section, we explain how **triggers**, **uses**, and **effects** variable
 
 In Lingua Franca, reactor elements like inputs, outputs, actions, parameters, and state are typed using target language types. For the TypeScript target, [TypeScript types](https://www.typescriptlang.org/docs/handbook/basic-types.html) are generally acceptable with two notable exceptions:
 
-* Custom types (and classes) must be defined in the [preamble](#preamble) before they may be used.
-* `undefined` is not a valid type for an input, output, or action. This is because `undefined` is used to designate the absence of an input, output, or action during a reaction.
+- Custom types (and classes) must be defined in the [preamble](#preamble) before they may be used.
+- `undefined` is not a valid type for an input, output, or action. This is because `undefined` is used to designate the absence of an input, output, or action during a reaction.
 
 **To benefit from type checking, you should declare types for your reactor elements.** If a type isn't declared for a state variable, it is assigned the type [`unknown`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type). If a type isn't declared for an input, output, or action, it is assigned the [reactor-ts](https://github.com/lf-lang/reactor-ts) type `Present` which is defined as
 
@@ -296,10 +295,9 @@ In Lingua Franca, reactor elements like inputs, outputs, actions, parameters, an
 export type Present = (number | string | boolean | symbol | object | null);
 ```
 
-
 ### Inputs and Outputs
 
-In the body of a reaction in the TypeScript target, inputs are simply referred to by name. An input of type `t` is  available within the body of a reaction as a local variable of type `t | undefined`. To determine whether an input is present, test the value of the input against `undefined`. An `undefined` input is not present. 
+In the body of a reaction in the TypeScript target, inputs are simply referred to by name. An input of type `t` is available within the body of a reaction as a local variable of type `t | undefined`. To determine whether an input is present, test the value of the input against `undefined`. An `undefined` input is not present.
 
 **WARNING** Be sure to use the `===` or `!==` operator and not `==` or `!=` to test against `undefined`. In JavaScript/TypeScript the comparison `undefined == null` yields the value `true`. It may also be tempting to rely upon the falsy evaluation of `undefined` within an `if` statement, but this may introduce bugs. For example a reaction that tests the presence of input `x` with `if (x) { ... }` will not correctly identify potentially valid present values such as `0`, `false`, or `""`.
 
@@ -326,8 +324,7 @@ reactor Destination {
 }
 ```
 
-
-The reaction refers to the inputs `x` and `y` by name and tests for their presence by testing `x` and `y` against `undefined`.  If a reaction is triggered by just one input, then normally it is not necessary to test for its presence. It will always be present. However TypeScript's type system is not smart enough to know such an input will never have type `undefined` if there's no test against `undefined` within the reaction. An explicit type annotation (for example `x = x as t;` where `t` is the type of the input) may be necessary to avoid type errors from the compiler. In the above example, there are two triggers, so the reaction has no assurance that both will be present.
+The reaction refers to the inputs `x` and `y` by name and tests for their presence by testing `x` and `y` against `undefined`. If a reaction is triggered by just one input, then normally it is not necessary to test for its presence. It will always be present. However TypeScript's type system is not smart enough to know such an input will never have type `undefined` if there's no test against `undefined` within the reaction. An explicit type annotation (for example `x = x as t;` where `t` is the type of the input) may be necessary to avoid type errors from the compiler. In the above example, there are two triggers, so the reaction has no assurance that both will be present.
 
 Inputs declared in the **uses** part of the reaction do not trigger the reaction. Consider this modification of the above reaction:
 
@@ -356,8 +353,7 @@ reaction(x) y -> z {=
 =}
 ```
 
-
-If an output gets set more than once at any logical time, downstream reactors will see only the *final* value that is set. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
+If an output gets set more than once at any logical time, downstream reactors will see only the _final_ value that is set. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
 
 An output may even be set in different reactions of the same reactor at the same logical time. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can do that using a `!== undefined` test for that output. For example, the following reactor will always produce the output 42:
 
@@ -380,7 +376,7 @@ reactor TestForPreviousOutput {
 }
 ```
 
-The first reaction may or may not set the output to 21. The second reaction doubles the output if it has been previously produced and otherwise produces 42. 
+The first reaction may or may not set the output to 21. The second reaction doubles the output if it has been previously produced and otherwise produces 42.
 
 ### Using State Variables
 
@@ -398,7 +394,7 @@ reactor Count {
 }
 ```
 
-The declaration on the second line gives the variable the name "count", declares its type to be `number`, and initializes its value to 0.  The type and initial value can be enclosed in the Typescript-code delimitters `{= ... =}` if they are not simple identifiers, but in this case, that is not necessary.
+The declaration on the second line gives the variable the name "count", declares its type to be `number`, and initializes its value to 0. The type and initial value can be enclosed in the Typescript-code delimitters `{= ... =}` if they are not simple identifiers, but in this case, that is not necessary.
 
 In the body of the reaction, the reactor's state variable is referenced by way of a local variable of the same name. The local variable will contain the current value of the state at the beginning of the reaction. The final value of the local variable will be used to update the state at the end of the reaction.
 
@@ -425,9 +421,11 @@ A state variable may be a time value, declared as follows:
 ```
     state time_value:time(100 msec);
 ```
+
 The `time_value` variable will be of type `TimeValue`, which is an object used to represent a time in the TypeScript Target. Refer to the section on [timed behavior](#timed-behavior) for more information.
 
 A state variable can have an array or object value. For example, the following reactor computes the **moving average** of the last four inputs each time it receives an input:
+
 ```
 reactor MovingAverage {
     state delay_line:{=Array<number>=}({= [0.0, 0.0, 0.0] =});
@@ -454,6 +452,7 @@ reactor MovingAverage {
     =}
 }
 ```
+
 The second line declares that the type of the state variable is an array of `number`s with the initial value of the array being a three-element array filled with zeros.
 
 States whose type are objects can similarly be initialized. Declarations can take an object literal as the initial value:
@@ -496,7 +495,7 @@ main reactor Stride {
 }
 ```
 
-The second line defines the `stride` parameter, gives its type, and gives its initial value. As with state variables, the type and initial value can be enclosed in `{= ... =}` if necessary. The parameter is referenced in the reaction  by referring to the local variable `stride`.
+The second line defines the `stride` parameter, gives its type, and gives its initial value. As with state variables, the type and initial value can be enclosed in `{= ... =}` if necessary. The parameter is referenced in the reaction by referring to the local variable `stride`.
 
 When the reactor is instantiated, the default parameter value can be overridden. This is done in the above example near the bottom with the line:
 
@@ -506,7 +505,7 @@ When the reactor is instantiated, the default parameter value can be overridden.
 
 If there is more than one parameter, use a comma separated list of assignments.
 
-Parameters in Lingua Franca are immutable. To encourage correct usage, parameter variables within a reaction are  local `const` variables. If you feel tempted to use a mutable parameter, instead try using the parameter to initialize state and modify the state variable instead. This is illustrated below by a further modification to the Stride example where it takes an initial "start" value for count as a second parameter: 
+Parameters in Lingua Franca are immutable. To encourage correct usage, parameter variables within a reaction are local `const` variables. If you feel tempted to use a mutable parameter, instead try using the parameter to initialize state and modify the state variable instead. This is illustrated below by a further modification to the Stride example where it takes an initial "start" value for count as a second parameter:
 
 ```
 target TypeScript;
@@ -548,9 +547,11 @@ reactor Source(sequence:{=Array<number>=}({= [0, 1, 2] =})) {
     =}
 }
 ```
+
 The **logical action** named `next` and the `schedule` function are explained below in [Scheduling Delayed Reactions](#Scheduling-Delayed-Reactions), but here they are used simply to repeat the reaction until all elements of the array have been sent.
 
 Above, the parameter default value is an array with three elements, `[0, 1, 2]`. The syntax for giving this default value is a TypeScript array literal. Since this is TypeScript syntax, not Lingua Franca syntax, the initial value needs to be surrounded with the target code delimiters, `{= ... =}`. The default value can be overridden when instantiating the reactor using a similar syntax:
+
 ```
 s = new Source(sequence={= [1, 2, 3, 4] =});
 ```
@@ -567,10 +568,10 @@ and
 s = new Source(sequence={= new Array<number() =});
 ```
 
-
 ### Sending and Receiving Custom Types
 
 You can define your own datatypes in TypeScript and send and receive those. Consider the following example:
+
 ```
 reactor CustomType {
     preamble {=
@@ -582,7 +583,8 @@ reactor CustomType {
     =}
 }
 ```
-The **preamble** code defines a custom union type of `string` and `null`. 
+
+The **preamble** code defines a custom union type of `string` and `null`.
 
 ## Timed Behavior
 
@@ -618,7 +620,7 @@ Logical time is (1584666587 secs; 805146880 nsecs).
 
 Subsequent values of logical time are printed out in their raw form, of seconds and nanoseconds. If you look closely, you will see that each number is one second larger than the previous number.
 
-You can also obtain the *elapsed* logical time since the start of execution, rather than exact logical time:
+You can also obtain the _elapsed_ logical time since the start of execution, rather than exact logical time:
 
 ```
 main reactor GetTime {
@@ -660,9 +662,9 @@ Physical time is (1584666803 secs; 642278912 nsecs).
 ...
 ```
 
-Notice that these numbers are increasing by *roughly* one second each time.
+Notice that these numbers are increasing by _roughly_ one second each time.
 
-You can also get *elapsed* physical time from the start of execution:
+You can also get _elapsed_ physical time from the start of execution:
 
 ```
 main reactor GetTime {
@@ -674,7 +676,7 @@ main reactor GetTime {
 }
 ```
 
-This will produce something like: 
+This will produce something like:
 
 ```
 Physical time is (0 secs; 2260992 nsecs).
@@ -778,19 +780,19 @@ When this reactor receives an input `x`, it calls `schedule()` on the action `a`
 
 ### Zero-Delay Actions
 
-If the specified delay in a `schedule()` call is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time *t*, and you call `schedule()` as follows:
+If the specified delay in a `schedule()` call is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` as follows:
 
 ```
 actions.a.schedule(0);
 ```
 
-then when a reaction to `a` is triggered, the input `x` will be absent (it was present at the *previous* microstep). The reaction to `x` and the reaction to `a` occur at the same metric time *t*, but separated by one microstep, so these two reactions are *not* logically simultaneous. These reactions execute with different [Tags](#tags).
+then when a reaction to `a` is triggered, the input `x` will be absent (it was present at the _previous_ microstep). The reaction to `x` and the reaction to `a` occur at the same metric time _t_, but separated by one microstep, so these two reactions are _not_ logically simultaneous. These reactions execute with different [Tags](#tags).
 
 ## Actions With Values
 
 If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. The most common use of this is to implement a logical delay, where a value provided at an input is produced on an output with a larger logical timestamp. To accomplish that, it is much easier to use the **after** keyword on a connection between reactors. Nevertheless, in this section, we explain how to directly use actions with value. In fact, the **after** keyword is implemented as described below.
 
-If you are familiar with other targets (like C) you may notice it is much easier to schedule actions with values in TypeScript because of TypeScript/JavaScript's garbage collected memory management. The following example implements a logical delay using an action with a value. 
+If you are familiar with other targets (like C) you may notice it is much easier to schedule actions with values in TypeScript because of TypeScript/JavaScript's garbage collected memory management. The following example implements a logical delay using an action with a value.
 
 ```
 reactor Delay(delay:time(100 msec)) {
@@ -812,7 +814,7 @@ The action `a` is specified with a type `number`. The first reaction declares `a
 
 The second reaction declares that it is triggered by `a` and has effect `out`. When a reaction triggers or uses an action the value of that action is made available within the reaction as a local variable with the name of the action. This variable will take on the value of the action and it will have the value `undefined` if that action is absent because it was not scheduled for this reaction.
 
-The local variable cannot be used directly to schedule an action. As described above, an action `a` can only be scheduled in a reaction when it is 1) declared as an effect and 2) referenced through a property of the `actions` object.  The reason for this implementation is that `actions.a` refers to the **action**, not its value, and it is possible to use both the action and the value in the same reaction. For example, the following reaction will produce a counting sequence after it is triggered the first time:
+The local variable cannot be used directly to schedule an action. As described above, an action `a` can only be scheduled in a reaction when it is 1) declared as an effect and 2) referenced through a property of the `actions` object. The reason for this implementation is that `actions.a` refers to the **action**, not its value, and it is possible to use both the action and the value in the same reaction. For example, the following reaction will produce a counting sequence after it is triggered the first time:
 
 ```
 reaction(a) -> out, a {=
@@ -835,7 +837,7 @@ When a TypeScript reactor is compiled, the generated code is placed inside a pro
 
 ```
 Lingua Franca (.lf) ==> TypeScript (.ts) ==> JavaScript (.js)
-``` 
+```
 
 Assuming the directory containing our Lingua Franca file `Foo.lf` is named `TS`, the compiler will generate the following:
 
@@ -861,7 +863,6 @@ After generating a TypeScript program from a .lf file, the Lingua Franca compile
 ### babel.config.js
 
 If the `tsc` type check was successful, the Lingua Franca compiler uses `babel` to compile the generated TypeScript code into JavaScript. (This [blog post](https://iamturns.com/typescript-babel/) articulates the advantages of using `babel` over `tsc` to generate JavaScript.) There are many different flavors of JavaScript and the [babel.config.js](https://babeljs.io/docs/en/configuration) file specifies exactly what `babel` should generate. This is the file to edit if you want the Lingua Franca compiler to produce a different version of JavaScript as its final output.
-
 
 ## Debugging Type Errors
 
@@ -895,7 +896,6 @@ src/ReactionTypeError.ts(23,25): error TS2322: Type '"THIS IS NOT A NUMBER"' is 
 
 identifies the problem: surprisingly, the string `"THIS IS NOT A NUMBER"` is not a number. However the line information `(23,25)` is a little confusing because it points to the location of the type error **in the generated** .ts file `ReactionTypeError/src/ReactionTypeError.ts` not in the original .lf file `ReactionTypeError.lf`. The .ts files produced by the TypeScript code generator are quite readable if you are familiar with the [reactor-ts](https://github.com/lf-lang/reactor-ts) submodule, but even if you aren't familiar it is not too difficult to track down the problem. Just open `ReactionTypeError/src/ReactionTypeError.ts` in your favorite text editor (we recommend [Visual Studio](https://code.visualstudio.com/docs/languages/typescript) for its excellent TypeScript integration) and look at line 23.
 
-
 ```
 14        this.addReaction(
 15            new Triggers(this.t),
@@ -910,7 +910,7 @@ identifies the problem: surprisingly, the string `"THIS IS NOT A NUMBER"` is not
 24                    console.log("Hello World.");
 25                } finally {
 26                    // =============== START react epilogue
-27                    
+27
 28                    // =============== END react epilogue
 29                }
 30            }
@@ -969,7 +969,7 @@ These utility functions may be called within a TypeScript reaction:
 `util.getElapsedPhysicalTime(): TimeValue` Gets the elapsed physical TimeValue from execution start. See [Time](#timed-behavior).
 
 `util.success(): void` Invokes the [reactor-ts](https://github.com/lf-lang/reactor-ts) App's default success callback. FIXME: Currently doesn't do anything in Lingua Franca.
- 
+
 `util.failure(): void` Invokes the [reactor-ts](https://github.com/lf-lang/reactor-ts) App's default failure callback. Throws an error.
 
 ## Summary of Time Functions
@@ -1016,7 +1016,7 @@ enum TimeUnit {
 
 `Tag.getMicroStepLater(): Tag` Returns a tag with the microstep part of this TimeValue incremented by 1.
 
-`getTimeDifference(other: Tag): TimeValue` Returns a TimeValue  that represents the absolute (i.e., positive) time difference between `this` and `other`.
+`getTimeDifference(other: Tag): TimeValue` Returns a TimeValue that represents the absolute (i.e., positive) time difference between `this` and `other`.
 
 ## Building Reactor-ts Documentation
 
@@ -1028,7 +1028,7 @@ To build and view proper documentation for `time.ts` (and other reactor-ts libra
 typedoc --out docs src
 ```
 
-from the root of the [reactor-ts](https://github.com/lf-lang/reactor-ts). You probably already have the reactor-ts submodule at 
+from the root of the [reactor-ts](https://github.com/lf-lang/reactor-ts). You probably already have the reactor-ts submodule at
 
 ```
 lingua-franca/xtext/org.icyphy.linguafranca/src/lib/TS/reactor-ts/

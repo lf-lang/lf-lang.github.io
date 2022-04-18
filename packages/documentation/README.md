@@ -5,11 +5,18 @@ This package serves as the entry point for adding handbook-specific pages. These
 Each documentation file is a markdown file with the following steps needed to add them to the handbook.
 
 1. Under `copy/en` is the directory structure for the handbook. It contains the following subdirectories:
+   developer obsolete reference tools
+   less-developed preliminary target topics
+
    - **topics**: Tutorial-style documentation supporting all target languages.
-   - **reference**: Detailed documentation including some target-language-specific files.
+   - **target**: Documentation specific to each target language.
+   - **tools**: Documentation for IDEs and command-line tools.
+   - **reference**: Detailed documentation for expressions, target properties, etc.
+   - **developer**: Information for developers (coding style, tooling, etc.)
    - **preliminary**: Documentation for tools or features that at early stages of development.
    - **less-developed**: Documentation for incomplete or speculative work.
    - Note: By default, the Epub/PDF is only populated with pages organized under **topics**. **FIXME:** This needs to be changed to include also the reference section.
+
 2. At the top of each markdown page, the following blurb instructs the Gatsby website builder to automatically create a page with title _YOUR_TITLE_HERE_ at location `/docs/handbook/PERMALINK_LOCATION`:
 
 ```

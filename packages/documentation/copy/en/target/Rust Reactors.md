@@ -1,12 +1,12 @@
 ---
-title: "Writing Reactors in Rust (WIP)"
+title: Rust Reactors
 layout: docs
-permalink: /docs/handbook/write-reactor-rust
+permalink: /docs/handbook/rust-reactors
 oneline: "Writing Reactors in Rust  (preliminary)"
 preamble: >
 ---
 
-> :warning: **Important:** The Rust target is not functional yet. This is early WIP documentation to let you try it out if you're curious
+> :warning: **Important:** The Rust target is still quite preliminary. This is early WIP documentation to let you try it out if you're curious
 
 In the Rust reactor target for Lingua Franca, reactions are written in Rust and the code generator generates a standalone Rust program that can be compiled and run on platforms supported by rustc. The program depends on a runtime library distributed as the crate [reactor_rt](https://github.com/lf-lang/reactor-rust), and depends on the Rust standard library.
 
