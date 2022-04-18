@@ -1,0 +1,16 @@
+target Cpp;
+
+main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
+    state interval:time(start);
+    logical action a;
+    reaction(startup) -> a {=
+        a.schedule(start);
+    =}
+
+    reaction(a) -> a {=
+        auto elapsed_logical_time = get_elapsed_logical_time();
+        std::cout << "Logical time since start: " << elapsed_logical_time << " nsec" << std::endl;
+        interval += incr;
+        a.schedule(interval);
+    =}
+}

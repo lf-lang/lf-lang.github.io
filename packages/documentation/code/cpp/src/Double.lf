@@ -5,7 +5,7 @@ reactor Double {
     output y:int;
     reaction(x) -> y {=
         if (x.is_present()){
-            y.set(*x.get()* 2);
+            y.set(*x.get() * 2);
         }
     =}
 }

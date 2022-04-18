@@ -1,0 +1,28 @@
+target Cpp;
+
+public preamble {=
+    #ifndef HELLO_H
+    #define HELLO_H
+
+    struct Hello {
+        std::string name;
+        int value;
+     };
+
+    auto operator<<(std::ostream& stream, const Hello& hello) noexcept -> std::ostream& {
+        stream << "Parameter p.name= " << hello.name << ", value= " << hello.value;
+        return stream;
+    }
+
+    #endif
+=}
+
+main reactor(p_input:Hello{"Earth", 42}) {
+    reaction(startup) {=
+        std::cout << p_input << std::endl;
+        if (p_input.value != 42) {
+            std::cerr << "ERROR: Expected 42" << std::endl;
+            exit(1);
+        }
+    =}
+}

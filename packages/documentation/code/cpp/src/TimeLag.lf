@@ -1,0 +1,12 @@
+target Cpp;
+
+main reactor TimeLag {
+    timer t(0, 1s);
+    reaction(t) {=
+        auto logical_time = get_elapsed_logical_time();
+        auto physical_time = get_elapsed_physical_time();
+        std::cout << "Elapsed logical time: " << logical_time 
+            << " physical time: " << physical_time 
+            << " lag: " << physical_time - logical_time <<  std::endl;
+    =}
+}

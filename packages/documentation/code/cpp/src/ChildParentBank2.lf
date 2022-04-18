@@ -1,0 +1,23 @@
+target Cpp;
+reactor Child (
+    bank_index:int(0),
+    parent_bank_index:int(0)
+) {
+    output out:int;
+    reaction(startup) -> out {=
+        out.set(parent_bank_index * 2 + bank_index);
+    =}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+    reaction(c.out) {=
+        for (auto i = 0ul; i < c.size(); i++) {
+            std::cout << "Received " << *c[i].out.get() <<" from child " << i << std::endl;
+        }
+    =}
+}
+main reactor {
+    p = new[2] Parent();
+}

@@ -1,0 +1,27 @@
+target Cpp;
+
+reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
+    state count:int(start);
+    state inputs_received:int(0);
+    input x:int;
+
+    reaction(x) {=
+        auto value = *x.get();
+        std::cout << "Received " <<  value << std::endl;
+        if (value != count) {
+            std::cerr << "ERROR: Expected: "<< count << std::endl;
+            exit(1);
+        }
+        count += stride;
+        inputs_received++;
+    =}
+
+    reaction(shutdown) {=
+        std::cout << "Shutdown invoked." << std::endl;
+        if (inputs_received != num_inputs) {
+            std::cerr << "ERROR: Expected to receive " << num_inputs 
+                << " inputs, but got " << inputs_received << std::endl;
+            exit(2);
+        }
+    =}
+}
