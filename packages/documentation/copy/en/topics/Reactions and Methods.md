@@ -34,7 +34,25 @@ main reactor Alignment {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Alignment.lf
+target Cpp {
+    timeout: 3s
+}
+main reactor Alignment {
+    state s:int(0);
+    timer t1(100ms, 100ms);
+    timer t2(200ms, 200ms);
+    timer t4(400ms, 400ms);
+    reaction(t1) {=
+        s += 1;
+    =}
+    reaction(t2) {=
+        s -= 2;
+    =}
+    reaction(t4) {=
+        std::cout << "s = " << std::to_string(s) << std::endl;
+    =}
+}
+
 ```
 
 ```lf-py
@@ -78,7 +96,24 @@ reactor Overwriting {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Overwriting.lf
+target Cpp;
+reactor Overwriting {
+    output y:int;
+    state s:int(0);
+
+    timer t1(100ms, 100ms);
+    timer t2(200ms, 200ms);
+
+    reaction(t1) -> y {=
+        s += 1;
+        y.set(s);
+    =}
+    reaction(t2) -> y {=
+        s -= 2;
+        y.set(s);
+    =}
+}
+
 ```
 
 ```lf-py
@@ -117,7 +152,22 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Contained.lf
+target Cpp;
+import Overwriting from "Overwriting.lf";
+
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        auto is_correct = [](auto value){
+            return value == 0 || value == 1;
+        };
+
+        if (s.y.is_present() && !is_correct(*s.y.get())) {
+            std::cout << "Output shoudl only be 0 or 1!" << std::endl;
+        }
+    =}
+}
+
 ```
 
 ```lf-py
