@@ -33,7 +33,22 @@ reactor B extends A {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Extends.lf
+target Cpp;
+
+reactor A {
+    input a:int;
+    output out:int;
+    reaction(a) -> out {=
+        out.set(*a.get());
+    =}
+}
+reactor B extends A {
+    input b:int;
+    reaction(a, b) -> out {=
+        out.set(*a.get() + *b.get());
+    =}
+}
+
 ```
 
 ```lf-py

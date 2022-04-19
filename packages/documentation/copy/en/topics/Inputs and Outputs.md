@@ -48,13 +48,18 @@ reactor Double {
 
 ```lf-cpp
 target Cpp;
+
 reactor Double {
     input x:int;
     output y:int;
     reaction(x) -> y {=
-        y.set(x.value * 2);
+        if (x.is_present()){
+            y.set(*x.get() * 2);
+        }
     =}
 }
+
+
 ```
 
 ```lf-py
@@ -114,7 +119,23 @@ reactor Destination {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Destination.lf
+target Cpp;
+
+reactor Destination {
+    input x:int;
+    input y:int;
+    reaction(x, y) {=
+        int sum = 0;
+        if (x.is_present()) {
+            sum += *x.get();
+        }
+        if (y.is_present()) {
+            sum += *y.get();
+        }
+
+        std::cout << "Received: " << sum << std::endl; 
+    =}
+}
 
 ```
 

@@ -65,7 +65,33 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Multiport.lf
+target Cpp;
+reactor Source {
+    output[4] out:int;
+    reaction(startup) -> out {=
+        for(auto i = 0ul; i < out.size(); i++) {
+            out[i].set(i);
+        }
+    =}
+}
+reactor Destination {
+    input[4] in:int;
+    reaction(in) {=
+        int sum = 0;
+        for (auto i = 0ul; i < in.size(); i++) {
+            if (in[i].is_present()){
+                sum += *in[i].get();
+            }
+        }
+        std::cout << "Sum of received: " << sum << std::endl;
+    =}
+}
+main reactor {
+    a = new Source();
+    b = new Destination();
+    a.out -> b.in;
+}
+
 ```
 
 ```lf-py
@@ -92,7 +118,10 @@ Sum of received: 6.
 
 The `Source` reactor has a four-way multiport output and the `Destination` reactor has a four-way multiport input. These channels are connected all at once on one line, the second line from the last. Notice that the generated diagram shows multiports with hollow triangles. Whether it shows the widths is controlled by an option in the diagram generator.
 
-**NOTE**: In `Destination`, the reaction is triggered by `in`, not by some individual channel of the multiport input. Hence, it is important when using multiport inputs to test for presence of the input on each channel, as done above with the syntax <span class="lf-c">`if (in[i]->is_present) ...`</span><span class="lf-cpp lf-py lf-ts lf-rs warning">FIXME</span>. An event on any one of the channels is sufficient to trigger the reaction.
+**NOTE**: In `Destination`, the reaction is triggered by `in`, not by some individual channel of the multiport input. Hence, it is important when using multiport inputs to test for presence of the input on each channel, as done above with the syntax
+<span class="lf-c">`if (in[i]->is_present) ...`</span>
+<span class="lf-cpp">`if (in[i]->is_present()) ...`</span>
+<span class="lf-py lf-ts lf-rs warning">FIXME</span>. An event on any one of the channels is sufficient to trigger the reaction.
 
 The `Source` reactor also specifies `out` as an effect of its reaction using the syntax `-> out`. This brings into scope of the reaction body a way to access the width of the port and a way to write to each channel of the port.
 
@@ -191,7 +220,21 @@ reactor MultiportSource(
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/MultiportSource.lf
+target Cpp;
+
+reactor MultiportSource(
+    bank_index:int(0)
+) {
+    timer t(0, 200 ms);
+    output out:int;
+    state s:int(0);
+
+    reaction(t) -> out {=
+        out.set(s);
+        s += bank_index;
+    =}
+}
+
 ```
 
 ```lf-py
@@ -268,7 +311,23 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/ChildBank.lf
+target Cpp;
+reactor Child (
+    bank_index:int(0)
+) {
+    reaction(startup) {=
+        std::cout << "My bank index:" << bank_index << std::endl;
+    =}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child();
+}
+main reactor {
+    p = new[2] Parent();
+}
+
 ```
 
 ```lf-py
@@ -330,7 +389,24 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/ChildParentBank.lf
+target Cpp;
+reactor Child (
+    bank_index:int(0),
+    parent_bank_index:int(0)
+) {
+    reaction(startup) {=
+        std::cout <<"My bank index: " << bank_index << " My parent's bank index: " << parent_bank_index << std::endl;
+    =}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+}
+main reactor {
+    p = new[2] Parent();
+}
+
 ```
 
 ```lf-py
@@ -394,7 +470,30 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/ChildParentBank2.lf
+target Cpp;
+reactor Child (
+    bank_index:int(0),
+    parent_bank_index:int(0)
+) {
+    output out:int;
+    reaction(startup) -> out {=
+        out.set(parent_bank_index * 2 + bank_index);
+    =}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+    reaction(c.out) {=
+        for (auto i = 0ul; i < c.size(); i++) {
+            std::cout << "Received " << *c[i].out.get() <<" from child " << i << std::endl;
+        }
+    =}
+}
+main reactor {
+    p = new[2] Parent();
+}
+
 ```
 
 ```lf-py
@@ -434,9 +533,15 @@ Note that `len(c)` can be used to get the width of the bank, and `for p in c` or
 
 </div>
 
-<div class="lf-cpp lf-ts lf-rs warning">
+<div class="lf-cpp">
 
-FIXME: explain how bank width is used in target code.
+Note that `c.size()` can be used to get the width of the bank `c`.
+
+</div>
+
+<div class="lf-ts lf-rs warning">
+
+FIXME: How to get the width of the bank in target code?
 
 </div>
 
@@ -474,7 +579,31 @@ main reactor MultiportToBank {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/MultiportToBank.lf
+target Cpp;
+
+reactor Source {
+    output[3] out: int;
+    reaction(startup) -> out {=
+        for(int i = 0; i < out.size(); i++) {
+            out[i].set(i);
+        }
+    =}
+}
+reactor Destination(
+    bank_index:int(0)
+) {
+    input in:int;
+    reaction(in) {=
+        std::cout << "Destination " << bank_index << " received " << *in.get() << std::endl;
+    =}
+}
+
+main reactor MultiportToBank {
+    a = new Source();
+    b = new[3] Destination();
+    a.out -> b.in;
+}
+
 ```
 
 ```lf-py
@@ -569,7 +698,33 @@ main reactor(num_nodes: size_t(4)) {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Interleaved.lf
+target Cpp;
+reactor Node(
+    num_nodes: size_t(4),
+    bank_index: int(0)
+) {
+    input[num_nodes] in: int;
+    output[num_nodes] out: int;
+
+    reaction (startup) -> out {=
+        out[1].set(42);
+        std::cout << "Bank index " << bank_index << " sent 42 on channel 1." << std::endl;
+    =}
+
+    reaction (in) {=
+        for (auto i = 0ul; i < in.size(); i++) {
+            if (in[i].is_present()) {
+                std::cout << "Bank index " << bank_index
+                    << " received " << *in[i].get() << " on channel" << std::endl;
+            }
+        }
+    =}
+}
+main reactor(num_nodes: size_t(4)) {
+    nodes = new[num_nodes] Node(num_nodes=num_nodes);
+    nodes.out -> interleaved(nodes.in);
+}
+
 ```
 
 ```lf-py
