@@ -30,27 +30,6 @@ To have Lingua Franca generate C++ code, start your `.lf` file with the followin
 
 Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C++, you may want to include the final semicolon for uniformity. See [detailed documentation of the target options](/docs/handbook/target-specification).
 
-<span class="warning">**Moving these to the target specification file.**</span>
-A C++ target specification may optionally include the following parameters:
-
-- `no-compile [true|false]`: If this is set to true, then the Lingua Franca compiler will only generate code and not run the C++ compiler. This defaults to false.
-- `no-runtime-validation [true|false]`: If this is set to true, then all runtime checks in [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) will be disabled. This brings a slight performance boost but should be used with care and only on tested programs. This defaults to false.
-- `runtime-version "version"`: Specify the _version_ of the runtime library the compiled binary should link against. _version_ can be any tag, branch name or git hash in the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) repository.
-- `threads <n>`: The number of worker threads _n_ that are used to execute reactions. This is required to be a positive integer. If this is not specified or set to zero, then the number of worker threads will be set to the number of hardware threads of the executing system. If this is set to one, the scheduler will not create any worker threads and instead inline the execution of reactions. This is an optimization and avoids any unnecessary synchronization. Note that, in contrast to the C target, the single threaded implementation is still thread safe and asynchronous reaction scheduling is supported.
-- `timeout <n> <unit>`: This specifies to stop after the specified amount of logical time has elapsed. All events at that logical time that have microstep 0 will be processed, but not events with later tags. If any reactor calls `request_stop` before this logical time, then the program may stop at an earlier logical time. If no timeout is specified and `request_stop` is not called, then the program will continue to run until stopped by some other mechanism (such as Control-C).
-
-## Command-Line Arguments
-
-The generated C++ program understands the following command-line arguments, each of which has a short form (one character) and a long form:
-
-- `-f, --fast`: If set, then the program will execute as fast as possible, letting logical time advance faster than physical time.
-- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
-- `-k, --keepalive`: If set, then the program will keep executing until either the `timeout` logical time is reached or the program is externally killed. If you have `physical action`s, it usually makes sense to set this.
-- `-t, --threads <n>`: Use n worker threads for executing reactions.
-- `-h, --help`: Print the above information.
-
-If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary (see [Using Parameters](#using-parameters)).
-
 ## Imports
 
 The [import statement](Language-Specification#import-statement) can be used to share reactor definitions across several applications. Suppose for example that we modify the above Minimal.lf program as follows and store this in a file called [HelloWorld.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/HelloWorld.lf):
