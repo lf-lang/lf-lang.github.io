@@ -221,6 +221,26 @@ main reactor(
 }
 ```
 
+<div class="lf-c lf-py">
+
+## Initializing Bank Members from a Table
+
+It is often convenient to initialize parameters of bank members from a table.
+Here is an example:
+
+$insert(BankIndex)$
+
+The global `table` defined in the $preamble$ is used to initialize the `value` parameter of each bank member. The result of running this is something like:
+
+```
+bank_index: 0, value: 4
+bank_index: 1, value: 3
+bank_index: 2, value: 2
+bank_index: 3, value: 1
+```
+
+</div>
+
 ## Contained Banks
 
 Banks of reactors can be nested. For example, note the following program:

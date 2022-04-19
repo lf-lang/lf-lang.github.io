@@ -158,6 +158,30 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/c-reactors",
           oneline: "Writing reactors using the C target in Lingua Franca.",
         },
+        {
+          title: "Cpp Reactors",
+          id: "2-cpp-reactors",
+          permalink: "/docs/handbook/cpp-reactors",
+          oneline: "Writing Reactors in C++.",
+        },
+        {
+          title: "Python Reactors",
+          id: "2-python-reactors",
+          permalink: "/docs/handbook/python-reactors",
+          oneline: "Writing Reactors in Python.",
+        },
+        {
+          title: "TypeScript Reactors",
+          id: "2-typescript-reactors",
+          permalink: "/docs/handbook/typescript-reactors",
+          oneline: "Writing Reactors in TypeScript.",
+        },
+        {
+          title: "Rust Reactors",
+          id: "2-rust-reactors",
+          permalink: "/docs/handbook/rust-reactors",
+          oneline: "Writing Reactors in Rust  (preliminary)",
+        },
       ],
     },
     {
@@ -185,36 +209,6 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/command-line-tools",
           oneline: "Command-line tools for Lingua Franca.",
         },
-        {
-          title: "Setup for C",
-          id: "3-setup-for-c",
-          permalink: "/docs/handbook/setup-for-c",
-          oneline: "Set up the C target in Lingua Franca.",
-        },
-        {
-          title: "Setup for Cpp",
-          id: "3-setup-for-cpp",
-          permalink: "/docs/handbook/setup-for-cpp",
-          oneline: "Set up the C++ target in Lingua Franca.",
-        },
-        {
-          title: "Setup for Python",
-          id: "3-setup-for-python",
-          permalink: "/docs/handbook/setup-for-python",
-          oneline: "Set up the Python target in Lingua Franca.",
-        },
-        {
-          title: "Setup for TypeScript",
-          id: "3-setup-for-typescript",
-          permalink: "/docs/handbook/setup-for-typescript",
-          oneline: "Set up the TypeScript target in Lingua Franca.",
-        },
-        {
-          title: "Setup for Rust",
-          id: "3-setup-for-rust",
-          permalink: "/docs/handbook/setup-for-rust",
-          oneline: "Set up the Rust target in Lingua Franca.",
-        },
       ],
     },
     {
@@ -241,12 +235,6 @@ export function getDocumentationNavForLanguage(
           id: "4-tracing",
           permalink: "/docs/handbook/tracing",
           oneline: "Tracing (preliminary)",
-        },
-        {
-          title: "Language Specification",
-          id: "4-language-specification",
-          permalink: "/docs/handbook/language-specification",
-          oneline: "Language Specification for Lingua Franca.",
         },
       ],
     },
@@ -320,12 +308,6 @@ export function getDocumentationNavForLanguage(
           id: "6-target-supported-features",
           permalink: "/docs/handbook/features",
           oneline: "Which features are supported by which target?",
-        },
-        {
-          title: "Writing Reactors in Rust (WIP)",
-          id: "6-writing-reactors-in-rust-(wip)",
-          permalink: "/docs/handbook/write-reactor-rust",
-          oneline: "Writing Reactors in Rust  (preliminary)",
         },
         {
           title: "Reactors on Patmos",

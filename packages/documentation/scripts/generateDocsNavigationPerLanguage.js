@@ -65,7 +65,7 @@ const handbookPages = [
     chronological: true,
     items: [
       { file: "target/C Reactors.md" },
-      { file: "target/C++ Reactors.md" },
+      { file: "target/Cpp Reactors.md" },
       { file: "target/Python Reactors.md" },
       { file: "target/TypeScript Reactors.md" },
       { file: "target/Rust Reactors.md" },
@@ -111,7 +111,6 @@ const handbookPages = [
       { file: "preliminary/Containerized Execution.md" },
       { file: "preliminary/Generic Types, Interfaces, and Inheritance.md" },
       { file: "preliminary/Target-Supported Features.md" },
-      { file: "preliminary/Writing Reactors in Rust (WIP).md" },
       { file: "preliminary/Reactors on Patmos.md" },
     ],
   },
