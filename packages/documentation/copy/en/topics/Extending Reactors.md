@@ -33,22 +33,7 @@ reactor B extends A {
 ```
 
 ```lf-cpp
-target Cpp;
-
-reactor A {
-    input a:int;
-    output out:int;
-    reaction(a) -> out {=
-        out.set(*a.get());
-    =}
-}
-reactor B extends A {
-    input b:int;
-    reaction(a, b) -> out {=
-        out.set(*a.get() + *b.get());
-    =}
-}
-
+// the cpp target currently does not support reactor extends
 ```
 
 ```lf-py

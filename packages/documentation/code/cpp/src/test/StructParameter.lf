@@ -1,9 +1,6 @@
 target Cpp;
 
 public preamble {=
-    #ifndef HELLO_H
-    #define HELLO_H
-
     struct Hello {
         std::string name;
         int value;
@@ -14,7 +11,13 @@ public preamble {=
         return stream;
     }
 
-    #endif
+    auto operator>>(std::stringstream& stream, Hello& hello) noexcept -> std::stringstream& {
+        //stream << "Parameter p.name= " << hello.name << ", value= " << hello.value;
+        hello.name = std::string("Earth");
+        hello.value = 42;
+
+        return stream;
+    }
 =}
 
 main reactor(p_input:Hello{"Earth", 42}) {

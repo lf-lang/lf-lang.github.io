@@ -84,11 +84,12 @@ If the main reactor declares parameters, these parameters will appear as additio
 ## Imports
 
 The [import statement](Language-Specification#import-statement) can be used to share reactor definitions across several applications. Suppose for example that we modify the above Minimal.lf program as follows and store this in a file called [HelloWorld.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/HelloWorld.lf):
+
 ```lf-cpp
 target Cpp;
 reactor HelloWorld {
     reaction(startup) {=
-        std::cout << "Hello World.\n";
+        std::cout << "Hello World." << std::endl;
     =}
 }
 main reactor HelloWorldTest {
@@ -128,7 +129,7 @@ main reactor Preamble {
     reaction(t) {=
         const char* s = "42";
         int i = atoi(s);
-        std::cout << "Converted string << s << " to nt " << i << '\n';
+        std::cout << "Converted string " << s << " to nt " << i << std::endl;
     =}
 }
 ```
@@ -166,7 +167,7 @@ reactor Preamble {
 
     reaction(a) {=
         auto& value = *a.get();
-        std::cout << "Received " << value.foo << " and '" << value.bar << "'\n";
+        std::cout << "Received " << value.foo << " and " << value.bar << std::endl;
     =}
 }
 
@@ -202,6 +203,7 @@ For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/
 reactor Destination {
     input x:int;
     input y:int;
+
     reaction(x, y) {=
         int sum = 0;
         if (x.is_present()) {
@@ -210,7 +212,7 @@ reactor Destination {
         if (y.is_present()) {
             sum += *y.get();
         }
-        std::cout << "Received " << sum << std::endl;
+        std::cout << "Received: " << sum << std::endl;
     =}
 }
 ```
@@ -223,7 +225,8 @@ reaction(x) y {=
     if (y.is_present()) {
         sum += *y.get();
     }
-    std::cout << "Received " << sum << std::endl;
+
+    std::cout << "Received: " << sum << std::endl;
 =}
 ```
 It is no longer necessary to test for the presence of `x` because that is the only trigger. The input `y`, however, may or may not be present at the logical time that this reaction is triggered. Hence, the code must test for its presence.
@@ -246,6 +249,7 @@ An output may even be set in different reactions of the same reactor at the same
 ```lf-cpp
 reactor Source {
     output out:int;
+    
     reaction(startup) -> out {=
         // Set a seed for random number generation based on the current time.
         std::srand(std::time(nullptr));
@@ -254,6 +258,7 @@ reactor Source {
             out.set(21);
         }
     =}
+
     reaction(startup) -> out {=
         if (out.is_present()) {
             int previous_output = *out.get();
