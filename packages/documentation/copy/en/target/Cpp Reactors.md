@@ -6,6 +6,8 @@ oneline: "Writing Reactors in C++."
 preamble: >
 ---
 
+<span class="lf-c lf-py lf-ts lf-rs warning">**WARNING: This page documents only the Cpp target.** Choose the C target language in the left sidebar to see the Cpp code examples.</span>
+
 In the C++ reactor target for Lingua Franca, reactions are written in C++ and the code generator generates a standalone C++ program that can be compiled and run on all major platforms. Our continous integration ensures compatibility with Windows, MacOS and Linux.
 The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
 
@@ -18,50 +20,19 @@ The following tools are required in order to compile the generated C++ source co
 - A recent C++ compiler supporting C++17
 - A recent version of cmake (At least 3.5)
 
-## A Minimal Example
-
-A "hello world" reactor for the C++ target looks like this:
-
-```
-target Cpp;
-
-main reactor {
-    reaction(startup) {=
-        std::cout << "Hello World!\n";
-    =}
-}
-```
-
-The `startup` action is a special [action](https://github.com/lf-lang/lingua-franca/wiki/Language-Specification#Action-Declaration) that triggers at the start of the program execution causing the [reaction](https://github.com/lf-lang/lingua-franca/wiki/Language-Specification#Reaction-Declaration) to execute. This program can be found in a file called [Minimal.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Minimal.lf) in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Cpp), where you can also find quite a few more interesting examples. If you compile this using the [`lfc` command-line compiler](downloading-and-building#Command-Line-Tools) or the [Eclipse-based IDE](downloading-and-building#Download-the-Integrated-Development-Environment), then generated source files will be put into a subdirectory called `src-gen/Minimal`. In addition, an executable binary will be compiled using your system's C++ compiler. The resulting executable will be called `Minimial` and be put in a subdirectory called `bin`. If you are in the C++ test directory, you can execute it in a shell as follows:
-
-```
- bin/Minimal
-```
-
-The resulting output should look something like this:
-
-```
-[INFO]  Starting the execution
-Hello World!
-[INFO]  Terminating the execution
-```
-
 ## The C++ Target Specification
 
 To have Lingua Franca generate C++ code, start your `.lf` file with the following target specification:
 
+```lf
     target Cpp;
+```
 
+Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C++, you may want to include the final semicolon for uniformity. See [detailed documentation of the target options](/docs/handbook/target-specification).
+
+<span class="warning">**Moving these to the target specification file.**</span>
 A C++ target specification may optionally include the following parameters:
 
-- `build-type "type"`: The _build type_ to be used by the C++ compiler. This can be any of Release, Debug, RelWithDebInfo and MinSizeRel. It defaults to Release.
-- `cmake-include "file"`: An optional _file_ to be included by the generated cmake build system. This gives control over the way LF programs are build and allows for instance to include and link to external libraries. (See [`AsyncCallvack.lf`](https://github.com/lf-lang/lingua-franca/blob/master/xtext/org.icyphy.linguafranca/src/test/Cpp/AsyncCallback.lf) for an example)
-- `compiler "command"`: The _command_ to use to compile the generated code. Normally CMake selects the best compiler for your system, but you can use this parameter to point it to your preferred compiler.
-- `external-runtime-path "path"`: When specified, the resulting binary links to a pre-compiled external runtime library located in _path_ instead of the default one.
-- `export-dependency-graph [true|false]`: Whether the compiled binary will export its internal dependency graph as a dot graph when executed. This is a debugging utility.
-- `fast [true|false]`: Whether to execute as fast as possible ignoring real time. This defaults to false.
-- `keepalive [true|false]`: Whether to continue executing even when there are no events on the event queue. The default is false. Usually, you will want to set this to true when you have **physical action**s.
-- `logging [ERROR|WARN|INF|DEBUG]`: The level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `DEBUG`).
 - `no-compile [true|false]`: If this is set to true, then the Lingua Franca compiler will only generate code and not run the C++ compiler. This defaults to false.
 - `no-runtime-validation [true|false]`: If this is set to true, then all runtime checks in [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) will be disabled. This brings a slight performance boost but should be used with care and only on tested programs. This defaults to false.
 - `runtime-version "version"`: Specify the _version_ of the runtime library the compiled binary should link against. _version_ can be any tag, branch name or git hash in the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) repository.
