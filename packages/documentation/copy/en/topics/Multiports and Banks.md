@@ -228,7 +228,54 @@ main reactor(
 It is often convenient to initialize parameters of bank members from a table.
 Here is an example:
 
-$insert(BankIndex)$
+$start(BankIndex)$
+
+```lf-c
+target C;
+preamble {=
+    int table[] = {4, 3, 2, 1};
+=}
+reactor A(bank_index:int(0), value:int(0)) {
+    reaction (startup) {=
+        printf("bank_index: %d, value: %d\n", self->bank_index, self->value);
+    =}
+}
+main reactor {
+    a = new[4] A(value = {= table[bank_index] =});
+}
+
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/BankIndex.lf
+```
+
+```lf-py
+target Python;
+preamble {=
+    table = [4, 3, 2, 1]
+=}
+reactor A(bank_index(0), value(0)) {
+    reaction (startup) {=
+        print("bank_index: {:d}, value: {:d}".format(self.bank_index, self.value))
+    =}
+}
+main reactor {
+    a = new[4] A(value = {= table[bank_index] =})
+}
+
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/BankIndex.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/BankIndex.lf
+```
+
+$end(BankIndex)$
+
 
 The global `table` defined in the $preamble$ is used to initialize the `value` parameter of each bank member. The result of running this is something like:
 
