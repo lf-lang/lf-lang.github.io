@@ -23,7 +23,9 @@ To have Lingua Franca generate C code, start your `.lf` file with one of the fol
     target CCpp <options>;
 ```
 
-Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C, you may want to include the final semicolon for uniformity. See [detailed documentation of the target options](/docs/handbook/target-specification).
+Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C, you may want to include the final semicolon for uniformity.
+
+For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-specification).
 
 The second form, `CCpp`, is used when you wish to use a C++ compiler to compile the generated code, thereby allowing your C reactors to call C++ code. The C target uses a C compiler by default, and will fail to compile mixed C/C++ language programs. As a remedy, the `CCpp` target uses the C runtime but employs a C++ compiler to compile your program. To use it, simply replace `target C` with `target CCpp`.
 

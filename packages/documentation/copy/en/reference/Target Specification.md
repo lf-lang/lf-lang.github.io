@@ -54,8 +54,8 @@ target C {
     logging: <error, warning, info, log, debug>,
     no-compile: <true or false>,
     protobufs: <string or list of strings>,
-    timeout: <time>,
     threading: <true or false>,
+    timeout: <time>,
     workers: <non-negative integer>,
 };
 ```
@@ -78,7 +78,13 @@ target Cpp {
 ```
 
 ```lf-py
-FIXME
+target Python {
+    fast: <true or false>,
+    files: <string or list of strings>,
+    logging: <error, warning, info, log, debug>,
+    threading: <true or false>,
+    timeout: <time>,
+};
 ```
 
 ```lf-ts
@@ -448,9 +454,15 @@ Moreover, the `files` target specification works in conjunction with the $import
 
 ## flags
 
-<div class="lf-cpp lf-ts lf-rs lf-py warning">
+<div class="lf-cpp lf-ts lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
+
+</div>
+
+<div class="lf-py">
+
+The $target-language$ target does not support the `flags` parameter.
 
 </div>
 
@@ -576,7 +588,7 @@ This argument takes a string (with quotation marks) containing any tag, branch n
 
 ## threading
 
-<div class="lf-cpp lf-ts lf-py">
+<div class="lf-cpp lf-ts">
 
 The $target-language$ target does not support the `threading` target option.
 
@@ -592,6 +604,12 @@ The $target-language$ target does not support the `threading` target option.
 
 If threading is disabled (by setting `threading` to `false`), then no thread library is used, and the `schedule()` function is not thread safe. This setting is incompatible with asynchronously scheduling any physical actions and hence this parameter will be ignored for programs that have physical actions.
 See [workers](#workers).
+
+</div>
+
+<div class="lf-py">
+
+The Python target uses the single threaded C runtime by default but will switch to the multithreaded C runtime if a physical action is detected. This target property can be used to override this behavior.
 
 </div>
 
@@ -631,7 +649,7 @@ If the `workers` property is set to `1`, the scheduler will not create any worke
 
 # Command-Line Arguments
 
-<div class="lf-py lf-ts lf-rs warning">
+<div class="lf-ts lf-rs warning">
 
 **FIXME:** Does this target support this?
 
@@ -660,5 +678,11 @@ The generated C++ program understands the following command-line arguments, each
 - `-h, --help`: Print the above information.
 
 If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary (see [Using Parameters](#using-parameters)).
+
+</div>
+
+<div class="lf-py">
+
+The Python target does not currently support any command-line arguments. You must specify properties as target parameters.
 
 </div>

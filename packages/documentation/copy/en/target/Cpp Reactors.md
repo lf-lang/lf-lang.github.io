@@ -28,7 +28,9 @@ To have Lingua Franca generate C++ code, start your `.lf` file with the followin
     target Cpp;
 ```
 
-Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C++, you may want to include the final semicolon for uniformity. See [detailed documentation of the target options](/docs/handbook/target-specification).
+Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C++, you may want to include the final semicolon for uniformity.
+
+For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-specification).
 
 ## Preamble
 
