@@ -4,7 +4,7 @@ reactor Destination {
     input x:int;
     input y:int;
     reaction(x, y) {=
-        std::cout << "Time since start: " << get_elapsed_logical_time() << std::endl;
+        std::cout << "Time since start: " << get_elapsed_logical_time() << " Current Microstep: " << micro_step() << std::endl;
         if (x.is_present()) {
             std::cout << "x is present" << std::endl;
         }

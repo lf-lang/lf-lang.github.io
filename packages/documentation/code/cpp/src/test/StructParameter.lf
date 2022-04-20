@@ -6,6 +6,12 @@ public preamble {=
         int value;
      };
 
+    auto operator<<(std::ostream& stream, const Hello& hello) noexcept -> std::ostream&;
+    auto operator>>(std::stringstream& stream, Hello& hello) noexcept -> std::stringstream&;
+=}
+
+
+private preamble {=
     auto operator<<(std::ostream& stream, const Hello& hello) noexcept -> std::ostream& {
         stream << "Parameter p.name= " << hello.name << ", value= " << hello.value;
         return stream;
