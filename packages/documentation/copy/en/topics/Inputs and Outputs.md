@@ -158,7 +158,7 @@ $end(Destination)$
 
 **NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is target dependent.
 <span class="lf-c">In the C target, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input.</span>
-<span class="lf-cpp">It the C++ target, it will return you the pointer where the value should reside. In the scenario that the port doesn't have a value it will a return a `nullptr`. Accessing nonetheless results in a segmentation fault.</span>
+<span class="lf-cpp">In the C++ target, a smart pointer is returned for present values and `nullptr` if the value is not present.
 <span class="lf-py warning">FIXME.</span>
 <span class="lf-ts">In the TS target, the value will be **undefined**, a legitimate value in TypeScript.</span>
 <span class="lf-rs warning">FIXME.</span>
