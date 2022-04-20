@@ -82,8 +82,11 @@ target Python {
     fast: <true or false>,
     files: <string or list of strings>,
     logging: <error, warning, info, log, debug>,
+    no-compile: <true or false>,
+    protobufs: <string or list of strings>,
     threading: <true or false>,
     timeout: <time>,
+    workers: <non-negative integer>,
 };
 ```
 
@@ -181,13 +184,13 @@ This assumes that your program has written two files, `mydata1.data` and `mydata
 
 ## build-type
 
-<div class="lf-ts">
+<div class="lf-ts lf-py">
 
 The $target-language$ target does not currently support the `build-type` target option.
 
 </div>
 
-<div class="lf-py lf-rs warning">
+<div class="lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
 
@@ -206,7 +209,7 @@ This defaults to Release.
 
 ## cmake
 
-<div class="lf-ts">
+<div class="lf-ts lf-py">
 
 The $target-language$ target does not support the `cmake` target option.
 
@@ -218,7 +221,7 @@ The $target-language$ target does not support the `cmake` target option because 
 
 </div>
 
-<div class="lf-py lf-rs warning">
+<div class="lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
 
@@ -246,13 +249,13 @@ If `cmake` is disabled, `gcc` is directly invoked after code generation by defau
 
 ## cmake-include
 
-<div class="lf-ts">
+<div class="lf-ts lf-py">
 
 The $target-language$ target does not support the `cmake-include` target option.
 
 </div>
 
-<div class="lf-py lf-rs warning">
+<div class="lf-rs warning">
 
 FIXME: Does $target-language$ support the `cmake-include` target option?
 
@@ -308,13 +311,13 @@ See [`AsyncCallback.lf`](https://github.com/lf-lang/lingua-franca/blob/master/xt
 
 ## compiler
 
-<div class="lf-ts">
+<div class="lf-ts lf-py">
 
-The $target-language$ target does not currently support the `compiler` target option.
+The $target-language$ target does not support the `compiler` target option.
 
 </div>
 
-<div class="lf-py lf-rs warning">
+<div class="lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
 
@@ -356,7 +359,7 @@ The `compiler` option here specifies to use `c++` rather than the default `g++`.
 
 <div class="lf-c lf-py lf-ts lf-rs">
 
-The $target-language$ target does not currently support the `external-runtime-path` target option.
+The $target-language$ target does not support the `external-runtime-path` target option.
 
 </div>
 
@@ -370,7 +373,7 @@ This option takes a string argument given a path to a pre-compiled external runt
 
 <div class="lf-c lf-py lf-ts lf-rs">
 
-The $target-language$ target does not currently support the `export-dependency-graph` target option.
+The $target-language$ target does not support the `export-dependency-graph` target option.
 
 </div>
 
@@ -496,7 +499,7 @@ The `flags` option specifies to include debug information in the compiled code (
 
 By default, when executing a generated Lingua Franca program, error messages, warnings, and informational messages are printed to standard out. You can get additional information printed by setting the `logging` parameter to `LOG` or `DEBUG` (or `log` or `debug`). The latter is more verbose. If you set the `logging` parameter to `warn`, then warnings and errors will be printed, but informational messages will not (e.g. message produced using the `info_print` utility function). If you set `logging` to `error`, then warning messages will also not be printed.
 
-The C and Python targets also supports [tracing](/docs/handbook/tracing), which outputs binary traces of an execution rather than human-readable text and is designed to have minimal impact on performance.
+The C and Python targets also support [tracing](/docs/handbook/tracing), which outputs binary traces of an execution rather than human-readable text and is designed to have minimal impact on performance.
 
 </div>
 
@@ -514,13 +517,13 @@ The $target-language$ target does not support the `no-compile` target option.
 
 </div>
 
-<div class="lf-py lf-ts lf-rs warning">
+<div class="lf-ts lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
 
 </div>
 
-<div class="lf-c lf-cpp">
+<div class="lf-c lf-cpp lf-py">
 
 If true, then do not invoke a target language compiler nor cmake. Just generate code.
 
@@ -554,15 +557,17 @@ The $target-language$ target does not support the `protobufs` target option.
 
 </div>
 
-<div class="lf-py lf-ts lf-rs warning">
+<div class="lf-ts lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
 
 </div>
 
-<div class="lf-c">
+<div class="lf-c lf-py">
 
-Protobufs is a serialization protocol by which data in a target language can be copied over the network to a remote location. The `protobufs` target parameter gives an array of .proto files that are to be compiled and included in the generated code. For an example, see [PersonProtocolBuffers.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/serialization/PersonProtocolBuffers.lf).
+Protobufs is a serialization protocol by which data in a target language can be copied over the network to a remote location. The `protobufs` target parameter gives an array of .proto files that are to be compiled and included in the generated code. For an example, see
+<span class="lf-c">[PersonProtocolBuffers.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/serialization/PersonProtocolBuffers.lf)</span>
+<span class="lf-py">[PersonProtocolBuffers.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/serialization/PersonProtocolBuffers.lf)</span>.
 
 </div>
 
@@ -619,7 +624,7 @@ A time value (with units) specifying the logical stop time of execution. See [Te
 
 ## workers
 
-<div class="lf-ts lf-py">
+<div class="lf-ts">
 
 The $target-language$ target does not support the `workers` target option.
 
@@ -644,6 +649,12 @@ With value `0`, the runtime engine is free to choose the number of worker thread
 This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. With value `0` (the default), the runtime engine is free to choose the number of worker threads to use. In the $target-language$ target, the runtime system will determine the number of hardware threads on the machine on which the program is run and set the number of worker threads equal to that number.
 
 If the `workers` property is set to `1`, the scheduler will not create any worker threads and instead inline the execution of reactions. This is an optimization and avoids any unnecessary synchronization. Note that, in contrast to the C target, the single threaded implementation is still thread safe and asynchronous reaction scheduling is supported.
+
+</div>
+
+<div class="lf-py">
+
+This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. Note, however, that the Python core is unable to execute safely in parallel on multiple cores. As a consequence, at execution time, each reaction invocation will acquire a mutual exclusion lock before executing. Hence, there is little point in setting this to any number greater than `1`.
 
 </div>
 
