@@ -1,0 +1,12 @@
+target Rust;
+import Overwriting from "Overwriting.lf";
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        let value = ctx.get(s__y).unwrap();
+        if value != 0 && value != 1 {
+            eprintln!("Output schould only be 0 or 1!");
+            ctx.request_stop(Asap);
+        }
+    =}
+}
