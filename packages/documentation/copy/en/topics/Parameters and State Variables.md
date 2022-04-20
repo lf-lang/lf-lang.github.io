@@ -77,7 +77,16 @@ reactor Scale(factor:int(2)) {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Scale.lf
+target Cpp;
+
+reactor Scale(factor:int(2)) {
+    input x:int;
+    output y:int;
+    reaction(x) -> y {=
+        y.set(factor * *x.get());
+    =}
+}
+
 ```
 
 ```lf-py
@@ -138,7 +147,18 @@ reactor Count {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Count.lf
+target Cpp;
+
+reactor Count {
+    state count:int(0);
+    output y:int;
+    timer t(0, 100ms);
+
+    reaction(t) -> y {=
+        y.set(count++);
+    =}
+}
+
 ```
 
 ```lf-py

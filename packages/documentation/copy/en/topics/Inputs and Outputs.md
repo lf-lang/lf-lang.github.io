@@ -48,13 +48,18 @@ reactor Double {
 
 ```lf-cpp
 target Cpp;
+
 reactor Double {
     input x:int;
     output y:int;
     reaction(x) -> y {=
-        y.set(x.value * 2);
+        if (x.is_present()){
+            y.set(*x.get() * 2);
+        }
     =}
 }
+
+
 ```
 
 ```lf-py
@@ -114,7 +119,23 @@ reactor Destination {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Destination.lf
+target Cpp;
+
+reactor Destination {
+    input x:int;
+    input y:int;
+    reaction(x, y) {=
+        int sum = 0;
+        if (x.is_present()) {
+            sum += *x.get();
+        }
+        if (y.is_present()) {
+            sum += *y.get();
+        }
+
+        std::cout << "Received: " << sum << std::endl; 
+    =}
+}
 
 ```
 
@@ -137,7 +158,7 @@ $end(Destination)$
 
 **NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is target dependent.
 <span class="lf-c">In the C target, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input.</span>
-<span class="lf-cpp warning">FIXME.</span>
+<span class="lf-cpp">In the C++ target, a smart pointer is returned for present values and `nullptr` if the value is not present.
 <span class="lf-py warning">FIXME.</span>
 <span class="lf-ts">In the TS target, the value will be **undefined**, a legitimate value in TypeScript.</span>
 <span class="lf-rs warning">FIXME.</span>

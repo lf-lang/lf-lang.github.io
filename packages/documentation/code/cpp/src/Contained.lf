@@ -1,0 +1,15 @@
+target Cpp;
+import Overwriting from "Overwriting.lf";
+
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        auto is_correct = [](auto value){
+            return value == 0 || value == 1;
+        };
+
+        if (s.y.is_present() && !is_correct(*s.y.get())) {
+            std::cout << "Output shoudl only be 0 or 1!" << std::endl;
+        }
+    =}
+}

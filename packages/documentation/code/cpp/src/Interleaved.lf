@@ -1,0 +1,26 @@
+target Cpp;
+reactor Node(
+    num_nodes: size_t(4),
+    bank_index: int(0)
+) {
+    input[num_nodes] in: int;
+    output[num_nodes] out: int;
+
+    reaction (startup) -> out {=
+        out[1].set(42);
+        std::cout << "Bank index " << bank_index << " sent 42 on channel 1." << std::endl;
+    =}
+
+    reaction (in) {=
+        for (auto i = 0ul; i < in.size(); i++) {
+            if (in[i].is_present()) {
+                std::cout << "Bank index " << bank_index 
+                    << " received " << *in[i].get() << " on channel" << std::endl;
+            }
+        }
+    =}
+}
+main reactor(num_nodes: size_t(4)) {
+    nodes = new[num_nodes] Node(num_nodes=num_nodes);
+    nodes.out -> interleaved(nodes.in);
+}

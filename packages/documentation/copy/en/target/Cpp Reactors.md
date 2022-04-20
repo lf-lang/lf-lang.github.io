@@ -9,7 +9,7 @@ preamble: >
 <span class="lf-c lf-py lf-ts lf-rs warning">**WARNING: This page documents only the Cpp target.** Choose the C target language in the left sidebar to see the Cpp code examples.</span>
 
 In the C++ reactor target for Lingua Franca, reactions are written in C++ and the code generator generates a standalone C++ program that can be compiled and run on all major platforms. Our continous integration ensures compatibility with Windows, MacOS and Linux.
-The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
+The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/lf-lang/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
 
 Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe.
 
@@ -41,11 +41,12 @@ main reactor Preamble {
     private preamble {=
         #include <cstdlib>
     =}
+
     timer t;
     reaction(t) {=
-        char* s = "42";
+        const char* s = "42";
         int i = atoi(s);
-        std::cout << "Converted string << s << " to nt " << i << '\n';
+        std::cout << "Converted string " << s << " to nt " << i << std::endl;
     =}
 }
 ```
@@ -70,7 +71,7 @@ reactor Preamble {
     =}
 
     private preamble {=
-        int add_42(int i) {
+        auto add_42(int i) noexcept -> int {
             return i + 42;
         }
     =}
@@ -83,7 +84,7 @@ reactor Preamble {
 
     reaction(a) {=
         auto& value = *a.get();
-        std::cout << "Received " << value.foo << " and '" << value.bar << "'\n";
+        std::cout << "Received " << value.foo << " and " << value.bar << std::endl;
     =}
 }
 
@@ -97,7 +98,7 @@ Note that preambles can also be specified on the file level. These file level pr
 
 Admittedly, the precise interactions of preambles and imports can become confusing. The preamble mechanism will likely be refined in future revisions.
 
-Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments. If access to the inner state of a reactor is required, [methods](https://github.com/lf-lang/lingua-franca/wiki/Writing-Reactors-in-Cpp#using-methods) present a viable and easy to use alternative.
+Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments. If access to the inner state of a reactor is required, [methods](Reactions and Methods#Method Declaration) present a viable and easy to use alternative.
 
 ## Inputs and Outputs
 
@@ -133,8 +134,21 @@ Inputs declared in the **uses** part of the reaction do not trigger the reaction
         if (y.is_present()) {
             sum += *y.get();
         }
-        std::cout << "Received " << sum << std::endl;
+        std::cout << "Received: " << sum << std::endl;
     =}
+```
+
+Inputs declared in the **uses** part of the reaction do not trigger the reaction. Consider this modification of the above reaction:
+
+```lf-cpp
+reaction(x) y {=
+    int sum = *x.get();
+    if (y.is_present()) {
+        sum += *y.get();
+    }
+
+    std::cout << "Received: " << sum << std::endl;
+=}
 ```
 
 It is no longer necessary to test for the presence of `x` because that is the only trigger. The input `y`, however, may or may not be present at the logical time that this reaction is triggered. Hence, the code must test for its presence.
@@ -142,14 +156,14 @@ It is no longer necessary to test for the presence of `x` because that is the on
 The **effects** portion of the reaction specification can include outputs and actions. Actions will be described below. Outputs are set using a `set()` method on an output port. For example, we can further modify the above example as follows:
 
 ```lf-cpp
-    output z:int;
-    reaction(x) y -> z {=
-        int sum = *x.get();
-        if (y.is_present()) {
-            sum += *y.get();
-        }
-        z.set(sum);
-    =}
+output z:int;
+reaction(x) y -> z {=
+    int sum = *x.get();
+    if (y.is_present()) {
+        sum += *y.get();
+    }
+    z.set(sum);
+=}
 ```
 
 If an output gets set more than once at any logical time, downstream reactors will see only the _final_ value that is set. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
@@ -159,6 +173,7 @@ An output may even be set in different reactions of the same reactor at the same
 ```lf-cpp
 reactor Source {
     output out:int;
+
     reaction(startup) -> out {=
         // Set a seed for random number generation based on the current time.
         std::srand(std::time(nullptr));
@@ -167,6 +182,7 @@ reactor Source {
             out.set(21);
         }
     =}
+
     reaction(startup) -> out {=
         if (out.is_present()) {
             int previous_output = *out.get();
@@ -202,7 +218,7 @@ In the body of the reaction, the state variable is automatically in scope and ca
 
 A state variable may be a time value, declared as follows:
 
-```lf
+```lf-cpp
 state time_value:time(100 msec);
 ```
 
@@ -580,15 +596,15 @@ reactor Delay(delay:time(100 msec)) {
 Using this reactor as follows
 
 ```lf-cpp
-    d = new Delay();
-    source.out -> d.in;
-    d.in -> sink.out
+d = new Delay();
+source.out -> d.in;
+d.in -> sink.out
 ```
 
 is equivalent to
 
 ```lf-cpp
-    source.out -> sink.in after 100 msec
+source.out -> sink.in after 100 msec
 ```
 
 (except that our `Delay` reactor will only work with data type `int`).

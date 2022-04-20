@@ -8,7 +8,7 @@ preamble: >
 ## Using Lingua Franca
 To get started with Lingua Franca immediately, download `Epoch` (our IDE) and/or `lfc` (our command-line compiler) from one of the following releases:
 * [Nightly Build](https://github.com/lf-lang/lingua-franca/releases/tag/nightly)
-* [Version 0.1.0-alpha](https://github.com/lf-lang/lingua-franca/releases/tag/v0.1.0-alpha)
+* [Version 0.1.0-beta](https://github.com/lf-lang/lingua-franca/releases/tag/v0.1.0-beta)
 
 **IMPORTANT NOTE**: MacOS will report that `lflang.app` is broken because it was not signed. To execute it, please run
 ```

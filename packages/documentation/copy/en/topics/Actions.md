@@ -54,7 +54,20 @@ reactor Schedule {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Schedule.lf
+target Cpp;
+
+reactor Schedule {
+    input x:int;
+    logical action a;
+    reaction(x) -> a {=
+        a.schedule(200ms);
+    =}
+    reaction(a) {=
+        auto elapsed_time = get_elapsed_logical_time();
+        std::cout << "Action triggered at logical time " << elapsed_time << "  nsec after start." << std::endl;
+    =}
+}
+
 ```
 
 ```lf-py
@@ -149,7 +162,22 @@ reactor Physical {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Physical.lf
+target Cpp;
+
+reactor Physical {
+    input x:int;
+    physical action a;
+
+    reaction(x) -> a {=
+        a.schedule(0ms);
+    =}
+
+    reaction(a) {=
+        auto elapsed_time = get_elapsed_logical_time();
+        std::cout << "Action triggered at logical time " << elapsed_time << " nsec after start." << std::endl;
+    =}
+}
+
 ```
 
 ```lf-py
@@ -190,7 +218,7 @@ $start(Asynchronous)$
 ```lf-c
 target C;
 main reactor {
-	preamble {=
+	preamble {=				
 		// Schedule an event roughly every 200 msec.
 		void* external(void* a) {
             while (true) {
@@ -199,14 +227,14 @@ main reactor {
 			}
 		}
 	=}
-	state thread_id:lf_thread_t(0);
+	state thread_id:lf_thread_t(0);	
     physical action a(100 msec):int;
-
+  
 	reaction(startup) -> a {=
 		// Start a thread to schedule physical actions.
 		lf_thread_create(&self->thread_id, &external, a);
 	=}
-
+	
 	reaction(a) {=
         interval_t elapsed_time = get_elapsed_logical_time();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
@@ -215,7 +243,33 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Asynchronous.lf
+target Cpp;
+main reactor {
+	private preamble {=
+        #include <thread>
+	=}
+
+	state thread: std::thread;	
+    physical action a:int;
+  
+	reaction(startup) -> a {=
+		// Start a thread to schedule physical actions.
+        thread = std::thread([&]{
+            while (true) {
+                std::this_thread::sleep_for(200ms);
+                // the value that we give it really doesn't matter
+                // but we the action should is scheduled for 100ms into the future
+    			a.schedule(0, 100ms); 	
+            }
+        });
+	=}
+	
+	reaction(a) {=
+        auto elapsed_time = get_physical_time();
+        std::cout << "Action triggered at logical time" << elapsed_time <<"nsec after start." << std::endl;
+	=}
+}
+
 ```
 
 ```lf-py

@@ -33,7 +33,18 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Microsteps.lf
+target Cpp;
+main reactor {
+    state count:int(1);
+    logical action a;
+    reaction(startup, a) {=
+        std::cout << count << " Logical time is " << get_logical_time() << std::endl;
+        if (count++ < 5) {
+            a.schedule(0ms);
+        }
+    =}
+}
+
 ```
 
 ```lf-py
@@ -102,7 +113,34 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Simultaneous.lf
+target Cpp;
+
+reactor Destination {
+    input x:int;
+    input y:int;
+    reaction(x, y) {=
+        std::cout << "Time since start: " << get_elapsed_logical_time() << std::endl;
+        if (x.is_present()) {
+            std::cout << "x is present" << std::endl;
+        }
+        if (y.is_present()) {
+            std::cout << "y is present" << std::endl;
+        }
+    =}
+}
+
+main reactor {
+    logical action repeat;
+    d = new Destination();
+    reaction(startup) -> d.x, repeat {=
+        d.x.set(1);
+        repeat.schedule(0ms);
+    =}
+    reaction(repeat) -> d.y {=
+        d.y.set(1);
+    =}
+}
+
 ```
 
 ```lf-py
