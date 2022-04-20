@@ -20,7 +20,7 @@ In Lingua Franca, $time$ is a data type.
 A parameter, state variable, port, or action may have type $time$.
 <span class="lf-c">In the C target, time values internally have type `instant_t` or `interval_t`,
 both of which are (usually) equivalent to the C type `long long`.</span>
-<span class="lf-cpp warning">In the Cpp target, time values internally have type FIXME.</span>
+<span class="lf-cpp">For details about time in the Cpp target, see the [Cpp target documentation](/docs/handbook/cpp-reactors#time).</span>
 <span class="lf-rs warning">In the Rust target, time values internally have type FIXME.</span>
 
 </div>
