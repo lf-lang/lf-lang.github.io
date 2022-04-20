@@ -6,6 +6,8 @@ oneline: "The target specification in Lingua Franca."
 preamble: >
 ---
 
+$page-showing-target$
+
 Every Lingua Franca program begins with a statement of this form:
 
 ```lf
@@ -19,15 +21,20 @@ The `<name>` gives the name of some Lingua Franca target language, which is the 
 A target specification may have optional parameters, the names and values of which depend on which specific target you are using. Each parameter is a key-value pair, where the supported keys are some subset of the following:
 
 - [**build**](#build): A command to execute after code generation instead of the default compile command.
+- [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
 - [**cmake**](#cmake): Whether to use cmake for building.
 - [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
+- [**external-runtime-path**](#external-runtime-path): Specify a pre-compiled external runtime library located to link to instead of the default.
+- [**export-dependency-graph**](#export-dependency-graph): To export the reaction dependency graph as a dot graph (for debugging).
 - [**fast**](#fast): A boolean specifying to execute as fast as possible without waiting for physical time to match logical time.
 - [**files**](#files): An array of paths to files or directories to be copied to the directory that contains the generated sources.
 - [**flags**](#flags): An arrays of strings giving options to be passed to the target compiler.
 - [**logging**](#logging): An indicator of how much information to print when executing the program.
 - [**no-compile**](#no-compile): If true, then do not invoke a target language compiler. Just generate code.
+- [**no-runtime-validation**](#no-runtime-validation): If true, disable runtime validation.
 - [**protobufs**](#protobufs): An array of .proto files that are to be compiled and included in the generated code.
+- [**runtime-version**](#runtime-version): Specify which version of the runtime system to use.
 - [**threading**](#threading): Whether to use multiple threads.
 - [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [[Termination]].
 - [**workers**](#workers): If using multiple threads, how many worker threads to create.
@@ -37,6 +44,7 @@ Not all targets support all target parameters. The full set of target parameters
 ```lf-c
 target C {
     build: <string>,
+    build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
     cmake: <true or false>,
     cmake-include: <string or list of strings>,
     compiler: <string>,
@@ -53,7 +61,20 @@ target C {
 ```
 
 ```lf-cpp
-FIXME
+target Cpp {
+    build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
+    cmake-include: <string or list of strings>,
+    compiler: <string>,
+    external-runtime-path: <string>,
+    export-dependency-graph <true or false>,
+    fast: <true or false>,
+    logging: <ERROR, WARN, INF, or DEBUG>,
+    no-compile: <true or false>,
+    no-runtime-validation: <true or false>,
+    runtime-version: <string>,
+    timeout: <time>,
+    workers: <non-negative integer>,
+};
 ```
 
 ```lf-py
@@ -69,6 +90,7 @@ FIXME
 ```
 
 <div class="lf-c">
+
 For example:
 
 ```lf-c
@@ -82,15 +104,20 @@ target C {
 };
 ```
 
-The comma on the last parameter is optional, as is the semicolon on the last line.
-
 This specifies to use compiler `cc` instead of the default `gcc`, to use optimization level 3, to execute as fast as possible, and to exit execution when logical time has advanced to 10 seconds. Note that all events at logical time 10 seconds greater than the starting logical time will be executed.
 
 </div>
 
+The comma on the last parameter is optional, as is the semicolon on the last line.
 A target may support overriding the target parameters on the [command line](#command-line-overrides) when invoking the compiled program.
 
 ## build
+
+<div class="lf-cpp lf-py lf-ts lf-rs">
+
+The $target-language$ target does not currently support the `build` target option.
+
+</div>
 
 <div class="lf-c">
 
@@ -146,13 +173,50 @@ This assumes that your program has written two files, `mydata1.data` and `mydata
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+## build-type
 
-**FIXME:** Does this target support this?
+<div class="lf-ts">
+
+The $target-language$ target does not currently support the `build-type` target option.
 
 </div>
 
+<div class="lf-py lf-rs warning">
+
+**FIXME:** Does the $target-language$ target support this?
+
+</div>
+
+<div class="lf-c lf-cpp">
+
+This parameter works with `cmake` to specify how to compile the code. The following options are supported:
+
+- `Release`: Optimization is turned on and debug information is missing.
+- `Debug`: Debug information is included in the executable.
+- `RelWithDebInfo`: Optimization with debug information.
+- `MinSizeRel`: Optimize for smallest size.
+
+This defaults to Release.
+
 ## cmake
+
+<div class="lf-ts">
+
+The $target-language$ target does not support the `cmake` target option.
+
+</div>
+
+<div class="lf-cpp">
+
+The $target-language$ target does not support the `cmake` target option because it always uses `cmake`.
+
+</div>
+
+<div class="lf-py lf-rs warning">
+
+**FIXME:** Does the $target-language$ target support this?
+
+</div>
 
 <div class="lf-c">
 
@@ -174,25 +238,37 @@ If `cmake` is disabled, `gcc` is directly invoked after code generation by defau
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+## cmake-include
 
-**FIXME:** Does this target support this?
+<div class="lf-ts">
+
+The $target-language$ target does not support the `cmake-include` target option.
 
 </div>
 
-## cmake-include
+<div class="lf-py lf-rs warning">
 
-<div class="lf-c">
+FIXME: Does $target-language$ support the `cmake-include` target option?
 
-```
+</div>
+
+<div class="lf-c lf-cpp">
+
+```lf-c
 target C {
     cmake-include: ["relative/path/to/foo.txt", "relative/path/to/bar.txt", ...]
 };
 ```
 
-This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable (a feature that is useful in [federated execution](/docs/handbook/distributed-execution).
+```lf-cpp
+target Cpp {
+    cmake-include: ["relative/path/to/foo.txt", "relative/path/to/bar.txt", ...]
+};
+```
 
-The cmake-include target property can be used, for example, to add dependencies on various packages (e.g., by using the [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) and [`target_link_libraries`](https://cmake.org/cmake/help/latest/command/target_link_libraries.html) commands). [CMakeInclude.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/CMakeInclude.lf) is an example that uses this feature. A more sophisticated example of the usage of this target parameter can be found in [Rhythm.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/src/Rhythm/Rhythm.lf).
+This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](/docs/handbook/distributed-execution)</span>.
+
+The cmake-include target property can be used, for example, to add dependencies on various packages (e.g., by using the [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) and [`target_link_libraries`](https://cmake.org/cmake/help/latest/command/target_link_libraries.html) commands).
 
 A CMake variable called `${LF_MAIN_TARGET}` can be used in the included text file(s) for convenience. This variable will contain the name of the CMake target (i.e., the name of the main reactor). For example, a `foo.txt` file can contain:
 
@@ -202,31 +278,41 @@ find_package(m REQUIRED) # Finds the m library
 target_link_libraries( ${LF_MAIN_TARGET} m ) # Links the m library
 ```
 
-`foo.txt` can then be included:
-
-```
-target C {
-    cmake-include: "foo.txt"
-};
-```
-
-In this case, "foo.txt" is in the same `src` folder as the main `.lf` file.
+`foo.txt` can then be included by specifying it as an argument to `cmake-include`.
 
 **Note**: For a general tutorial on finding packages in CMake, see [this](https://cmake.org/cmake/help/latest/command/find_package.html) external documentation entry. For a list of CMake find modules, see [this](https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html#find-modules).
 
-The `cmake-include` parameter works in conjunction with the $import$ statement. If any imported `.lf` file has `cmake-include` among its target properties, the specified text files will be appended to the current list of `cmake-include`s. These files will be resolved relative to the imported `.lf` file using the same search procedure as for the [files](#files) parameter. This helps resolve dependencies in imported reactors automatically and makes the code more modular. [DistributedCMakeInclude.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/DistributedCMakeInclude.lf) is a test that uses this feature.
+The `cmake-include` parameter works in conjunction with the $import$ statement. If any imported `.lf` file has `cmake-include` among its target properties, the specified text files will be appended to the current list of `cmake-include`s. These files will be resolved relative to the imported `.lf` file using the same search procedure as for the [files](#files) parameter. This helps resolve dependencies in imported reactors automatically and makes the code more modular.
+
+</div>
+
+<div class="lf-c">
+
+[CMakeInclude.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/CMakeInclude.lf) is an example that uses this feature. A more sophisticated example of the usage of this target parameter can be found in [Rhythm.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/src/Rhythm/Rhythm.lf). A distributed version can be found in [DistributedCMakeInclude.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/DistributedCMakeInclude.lf) is a test that uses this feature.
 
 **Note**: For [federated execution](/docs/handbook/distributed-execution), both `cmake-include` and [files](#files) are kept separate for each federate as much as possible. This means that if one federate is imported, or uses an imported reactor that other federates don't use, it will only have access to `cmake-include`s and `files` defined in the main `.lf` file, plus the selectively imported `.lf` files. [DistributedCMakeIncludeSeparateCompile.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/DistributedCMakeIncludeSeparateCompile.lf) is a test that demonstrates this feature.
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+<div class="lf-cpp">
 
-**FIXME:** Does this target support this?
+See [`AsyncCallback.lf`](https://github.com/lf-lang/lingua-franca/blob/master/xtext/org.icyphy.linguafranca/src/test/Cpp/AsyncCallback.lf) for an example.
 
 </div>
 
 ## compiler
+
+<div class="lf-ts">
+
+The $target-language$ target does not currently support the `compiler` target option.
+
+</div>
+
+<div class="lf-py lf-rs warning">
+
+**FIXME:** Does the $target-language$ target support this?
+
+</div>
 
 <div class="lf-c">
 
@@ -244,9 +330,47 @@ The `compiler` option here specifies to use `cc` rather than `gcc`.
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+<div class="lf-cpp">
 
-**FIXME:** Does this target support this?
+<span class="warning">**FIXME**: does this work as stated?</span>
+This parameter is a string giving the name of the target language compiler to use.
+For example:
+
+```lf-cpp
+target Cpp {
+    compiler: "c++",
+};
+```
+
+The `compiler` option here specifies to use `c++` rather than the default `g++`.
+
+</div>
+
+## external-runtime-path
+
+<div class="lf-c lf-py lf-ts lf-rs">
+
+The $target-language$ target does not currently support the `external-runtime-path` target option.
+
+</div>
+
+<div class="lf-cpp">
+
+This option takes a string argument given a path to a pre-compiled external runtime library to use instead of the default one.
+
+</div>
+
+## export-dependency-graph
+
+<div class="lf-c lf-py lf-ts lf-rs">
+
+The $target-language$ target does not currently support the `export-dependency-graph` target option.
+
+</div>
+
+<div class="lf-cpp">
+
+This parameter takes arguments `true` or `false` to specify whether the compiled binary will export its internal dependency graph as a dot graph when executed. This is a debugging utility.
 
 </div>
 
@@ -256,12 +380,24 @@ By default, the execution of a Lingua Franca program is slowed down, if necessar
 
 ## files
 
-<div class="lf-c">
+<div class="lf-cpp lf-ts lf-rs warning">
+
+**FIXME:** Does the $target-language$ target support this?
+
+</div>
+
+<div class="lf-c lf-py">
 
 The `files` target parameter specifies array of files or directories to be copied to the directory that contains the generated sources.
 
 ```lf-c
 target C {
+    files: ["file1", "file2", ...]
+}
+```
+
+```lf-py
+target Python {
     files: ["file1", "file2", ...]
 }
 ```
@@ -274,9 +410,13 @@ The lookup procedure for these files and directories is as follows:
 
 3- If still not found, search in `CLASSPATH`.
 
-4- If still not found, search for the file as a resource. Specifically, if a file begins with a forward slash `/`, then the path is assumed to be relative to the root directory of the Lingua Franca source tree. For example, if you wish to use audio on a Mac, you can specify:
+4- If still not found, search for the file as a resource. Specifically, if a file begins with a forward slash `/`, then the path is assumed to be relative to the root directory of the Lingua Franca source tree.
 
-```
+<div class="lf-c">
+
+For example, if you wish to use audio on a Mac, you can specify:
+
+```lf-c
 target C {
     files: ["/lib/C/util/audio_loop_mac.c", "/lib/C/util/audio_loop.h"]
 }
@@ -300,17 +440,19 @@ Sometimes, you will need access to these files from target code in a reaction. F
 
 where `path` is the full path to the directory containing these files. This can be used in reactions, for example, to read those files.
 
+</div>
+
 Moreover, the `files` target specification works in conjunction with the $import$ statement. If a `.lf` file is imported and has designated supporting files using the `files` target parameter, those files will be resolved relative to that `.lf` file and copied to the directory that contains the generated sources. This is done to make code that imports other `.lf` files more modular. [Rhythm.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/src/Rhythm/Rhythm.lf) is an example that demonstrates most of these features.
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+## flags
 
-**FIXME:** Does this target support this?
+<div class="lf-cpp lf-ts lf-rs lf-py warning">
+
+**FIXME:** Does the $target-language$ target support this?
 
 </div>
-
-## flags
 
 <div class="lf-c">
 
@@ -330,87 +472,113 @@ The `flags` option specifies to include debug information in the compiled code (
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+## logging
 
-**FIXME:** Does this target support this?
+<div class="lf-ts lf-rs warning">
+
+**FIXME:** Does the $target-language$ target support this?
 
 </div>
 
-## logging
-
-<div class="lf-c">
+<div class="lf-c lf-py">
 
 By default, when executing a generated Lingua Franca program, error messages, warnings, and informational messages are printed to standard out. You can get additional information printed by setting the `logging` parameter to `LOG` or `DEBUG` (or `log` or `debug`). The latter is more verbose. If you set the `logging` parameter to `warn`, then warnings and errors will be printed, but informational messages will not (e.g. message produced using the `info_print` utility function). If you set `logging` to `error`, then warning messages will also not be printed.
 
-The C target also supports [tracing](/docs/handbook/tracing), which outputs binary traces of an execution rather than human-readable text and is designed to have minimal impact on performance.
+The C and Python targets also supports [tracing](/docs/handbook/tracing), which outputs binary traces of an execution rather than human-readable text and is designed to have minimal impact on performance.
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+<div class="lf-cpp">
 
-**FIXME:** Does this target support this?
+This parameter takes as an argument one of `ERROR`, `WARN`, `INF`, or `DEBUG` to specify the level of diagnostic messages about execution to print to the console when the generated program runs. A message will print if this parameter is greater than or equal to the level of the message, where `ERROR` < `WARN` < `INFO` < `DEBUG`.
 
 </div>
 
 ## no-compile
 
-<div class="lf-c">
+<div class="lf-ts">
+
+The $target-language$ target does not support the `no-compile` target option.
+
+</div>
+
+<div class="lf-py lf-ts lf-rs warning">
+
+**FIXME:** Does the $target-language$ target support this?
+
+</div>
+
+<div class="lf-c lf-cpp">
 
 If true, then do not invoke a target language compiler nor cmake. Just generate code.
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+## no-runtime-validation
 
-**FIXME:** Does this target support this?
+<div class="lf-c lf-py">
+
+The $target-language$ target does not support the `no-runtime-validation` target option.
+
+</div>
+
+<div class="lf-ts lf-rs warning">
+
+**FIXME:** Does the $target-language$ target support this?
+
+</div>
+
+<div class="lf-cpp">
+
+This parameter takes value `true` or `false` (the default). If this is set to true, then all runtime checks in [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) will be disabled. This brings a slight performance boost but should be used with care and only on tested programs.
 
 </div>
 
 ## protobufs
 
-Protobufs is a serialization protocol by which data in a target language can be copied over the network to a remote location. The `protobufs` target parameter gives an array of .proto files that are to be compiled and included in the generated code.
+<div class="lf-cpp">
 
-<div class="lf-c warning">
-
-**FIXME:** Do we have an example of this to point to?
+The $target-language$ target does not support the `protobufs` target option.
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+<div class="lf-py lf-ts lf-rs warning">
 
-**FIXME:** Does this target support this?
+**FIXME:** Does the $target-language$ target support this?
+
+</div>
+
+<div class="lf-c">
+
+Protobufs is a serialization protocol by which data in a target language can be copied over the network to a remote location. The `protobufs` target parameter gives an array of .proto files that are to be compiled and included in the generated code. For an example, see [PersonProtocolBuffers.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/serialization/PersonProtocolBuffers.lf).
+
+</div>
+
+## runtime-version
+
+<div class="lf-c lf-py">
+
+The $target-language$ target does not support the `no-runtime-validation` target option.
+
+</div>
+
+<div class="lf-ts lf-rs warning">
+
+**FIXME:** Does the $target-language$ target support this?
+
+</div>
+
+<div class="lf-cpp">
+
+This argument takes a string (with quotation marks) containing any tag, branch name, or git hash in the [reactor-cpp](https://github.com/tud-ccc/reactor-cpp) repository. This will specify the _version_ of the runtime library that the compiled binary will link against.
 
 </div>
 
 ## threading
 
-<div class="lf-c lf-cpp">
+<div class="lf-cpp lf-ts lf-py">
 
-If threading is turned on (the default), then the generated code will use a target platform thread library and generate multi-threaded code. This can transparently execute execute reactions that have no dependence on one another in parallel on multiple cores. By default, threading is turned on, and the `workers` property is set to 0, which means that the number of workers is determined by the runtime system. Typically, it will be set to the number of cores on the machine running the code. To use a different number of worker threads, the following target parameters can be specified:
-
-```lf-c
-target C {
-    threading: true,
-    workers: <integer>,
-};
-```
-
-```lf-cpp
-target Cpp {
-    threading: true,
-    workers: <integer>,
-};
-```
-
-A reasonable choice for the number of workers is the number of cores on the target machine. The default is `0`, which means that the runtime engine is free to choose the number of worker threads to use. Currently, the C target defaults to using only a single worker thread.
-
-If threading is disabled (by setting `threading` to `false`), then no thread library is used, and the `schedule()` function is not thread safe. This setting is incompatible with asynchronously scheduling any physical actions and hence this parameter will be ignored for programs that have physical actions.
-
-</div>
-
-<div class="lf-py lf-ts">
-
-The $target-language$ target does not support multithreaded execution.
+The $target-language$ target does not support the `threading` target option.
 
 </div>
 
@@ -420,15 +588,54 @@ The $target-language$ target does not support multithreaded execution.
 
 </div>
 
+<div class="lf-c">
+
+If threading is disabled (by setting `threading` to `false`), then no thread library is used, and the `schedule()` function is not thread safe. This setting is incompatible with asynchronously scheduling any physical actions and hence this parameter will be ignored for programs that have physical actions.
+See [workers](#workers).
+
+</div>
+
 ## timeout
 
 A time value (with units) specifying the logical stop time of execution. See [Termination](/docs/handbook/termination).
 
 ## workers
 
-See [threading](#threading).
+<div class="lf-ts lf-py">
+
+The $target-language$ target does not support the `workers` target option.
+
+</div>
+
+<div class="lf-rs warning">
+
+**FIXME:** Does this target support this?
+
+</div>
+
+<div class="lf-c">
+
+This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. If threading is turned on (the default, see [threading](#threading)), then the generated code will use a target platform thread library and generate multi-threaded code. This can transparently execute reactions that have no dependence on one another in parallel on multiple cores. By default, threading is turned on, and the `workers` property is set to `0`, which means that the number of workers is determined by the runtime system. Typically, it will be set to the number of cores on the machine running the code. To use a different number of worker threads, give a positive integer for this target parameter.
+
+With value `0`, the runtime engine is free to choose the number of worker threads to use. Typically, this will equal the number of hardware threads on the machine on which the Lingua Franca code generator is run.
+
+</div>
+
+<div class="lf-cpp">
+
+This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. With value `0` (the default), the runtime engine is free to choose the number of worker threads to use. In the $target-language$ target, the runtime system will determine the number of hardware threads on the machine on which the program is run and set the number of worker threads equal to that number.
+
+If the `workers` property is set to `1`, the scheduler will not create any worker threads and instead inline the execution of reactions. This is an optimization and avoids any unnecessary synchronization. Note that, in contrast to the C target, the single threaded implementation is still thread safe and asynchronous reaction scheduling is supported.
+
+</div>
 
 # Command-Line Arguments
+
+<div class="lf-py lf-ts lf-rs warning">
+
+**FIXME:** Does this target support this?
+
+</div>
 
 <div class="lf-c">
 
@@ -443,8 +650,15 @@ Any other command-line arguments result in printing the above information.
 
 </div>
 
-<div class="lf-cpp lf-py lf-ts lf-rs warning">
+<div class="lf-cpp">
 
-**FIXME:** Does this target support this?
+The generated C++ program understands the following command-line arguments, each of which has a short form (one character) and a long form:
+
+- `-f, --fast`: If set, then the program will execute as fast as possible, letting logical time advance faster than physical time.
+- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
+- `-t, --threads <n>`: Use n worker threads for executing reactions.
+- `-h, --help`: Print the above information.
+
+If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary (see [Using Parameters](#using-parameters)).
 
 </div>
