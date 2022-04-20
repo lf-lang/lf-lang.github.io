@@ -2,10 +2,10 @@ target Cpp;
 main reactor {
     state count:int(1);
     logical action a;
-    reaction(startup, a) {=
-        std::cout << count << " Logical time is " << get_logical_time() << " Microstep: " << micro_step() <<std::endl;
+    reaction(startup, a) -> a {=
+        std::cout << count << " Logical time is " << get_logical_time() << " Microstep: " << get_microstep() <<std::endl;
         if (count++ < 5) {
-            a.schedule(0ms);
+            a.schedule();
         }
     =}
 }
