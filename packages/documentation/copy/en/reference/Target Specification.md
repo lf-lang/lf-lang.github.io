@@ -674,8 +674,8 @@ The generated C++ program understands the following command-line arguments, each
 
 - `-f, --fast`: If set, then the program will execute as fast as possible, letting logical time advance faster than physical time.
 - `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
-- `-t, --threads <n>`: Use n worker threads for executing reactions.
-- `-h, --help`: Print the above information.
+- `-w, --workers <n>`: Use n worker threads for executing reactions.
+- `--help`: Print the above information.
 
 If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary (see [Using Parameters](#using-parameters)).
 
