@@ -1,0 +1,28 @@
+target Python
+main reactor {
+    preamble {=
+        import threading
+        def external(self, a):
+            while (True):
+                from_user = input() # Blocking
+                a.schedule(0, from_user)
+    =}
+    state thread
+    physical action a
+    timer t(2 secs, 2 secs)
+
+    reaction(startup) -> a {=
+        self.thread = self.threading.Thread(target=self.external, args=(a,))
+        self.thread.start()
+        print("Type something.")
+    =}
+
+    reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print(f"A time {elapsed_time} nsec after start, received: ", a.value)
+    =}
+    
+    reaction(t) {=
+        print("Waiting ...")
+    =}
+}
