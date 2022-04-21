@@ -52,7 +52,12 @@ const generateCSS = (lang: string) => {
     })
     .join("\n\n");
 
-  var langCSS = ""
+  var langCSS = `
+  .not-in-pdf {
+    display: none;
+  }
+  `
+
   targetLanguages.forEach(element =>{
     if(element === lang){
       langCSS +=
