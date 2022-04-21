@@ -101,11 +101,11 @@ Here, the delay is specified in the call to `schedule()` within the target langu
 
 The arguments to the `schedule()` function are the action named `a` and a time. The action `a` has to be declared as an effect of the reaction in order to reference it in the call to `schedule()`. If you fail to declare it as an effect (after the `->` in the reaction signature), then you will get an error message.
 
+The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
+
 <div class="lf-c">
 
 The time argument to the `schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `long long`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
-
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
 
 An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/c-reactors#actions-with-values) in the C Reactors documentation.
 
@@ -113,29 +113,21 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 
 <div class="lf-cpp">
 
-<span class="warning">FIXME</span>
-
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
-
 An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/cpp-reactors#actions-with-values) in the C++ Reactors documentation.
 
 </div>
 
 <div class="lf-py">
 
-<span class="warning">FIXME</span>
+A collection of convenience functions is provided like the `MSEC` function above to specify time values in a more readable way. The provided functions are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
-
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/python-reactors#actions-with-values) in the Python Reactors documentation.
+An action may carry data, in which case, the **payload** data value is just given as a second argument to the `schedule()` function. See [Actions With Values](/docs/handbook/python-reactors#actions-with-values) in the Python Reactors documentation.
 
 </div>
 
 <div class="lf-ts">
 
 <span class="warning">FIXME</span>
-
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
 
 An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/typescript-reactors#actions-with-values) in the TypeScript Reactors documentation.
 
@@ -144,8 +136,6 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 <div class="lf-rs">
 
 <span class="warning">FIXME</span>
-
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
 
 An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/rust-reactors#actions-with-values) in the Rust Reactors documentation.
 
@@ -240,7 +230,7 @@ $start(Asynchronous)$
 ```lf-c
 target C;
 main reactor {
-	preamble {=				
+	preamble {=
 		// Schedule an event roughly every 200 msec.
 		void* external(void* a) {
             while (true) {
@@ -249,14 +239,14 @@ main reactor {
 			}
 		}
 	=}
-	state thread_id:lf_thread_t(0);	
+	state thread_id:lf_thread_t(0);
     physical action a(100 msec):int;
-  
+
 	reaction(startup) -> a {=
 		// Start a thread to schedule physical actions.
 		lf_thread_create(&self->thread_id, &external, a);
 	=}
-	
+
 	reaction(a) {=
         interval_t elapsed_time = get_elapsed_logical_time();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
@@ -271,9 +261,9 @@ main reactor {
         #include <thread>
 	=}
 
-	state thread: std::thread;	
+	state thread: std::thread;
     physical action a:int;
-  
+
 	reaction(startup) -> a {=
 		// Start a thread to schedule physical actions.
         thread = std::thread([&]{
@@ -281,11 +271,11 @@ main reactor {
                 std::this_thread::sleep_for(200ms);
                 // the value that we give it really doesn't matter
                 // but we the action should is scheduled for 100ms into the future
-    			a.schedule(0, 100ms); 	
+    			a.schedule(0, 100ms);
             }
         });
 	=}
-	
+
 	reaction(a) {=
         auto elapsed_time = get_physical_time();
         std::cout << "Action triggered at logical time" << elapsed_time <<"nsec after start." << std::endl;
@@ -297,24 +287,24 @@ main reactor {
 ```lf-py
 target Python;
 main reactor {
-	preamble {=	
+	preamble {=
 		import time
-		import threading			
+		import threading
 		# Schedule an event roughly every 200 msec.
 		def external(self, a):
 			while (True):
 				self.time.sleep(0.2)
 				a.schedule(0)
 	=}
-	state thread;	
+	state thread;
     physical action a(100 msec);
-  
+
 	reaction(startup) -> a {=
 		# Start a thread to schedule physical actions.
 		self.thread = self.threading.Thread(target=self.external, args=(a,))
 		self.thread.start()
 	=}
-	
+
 	reaction(a) {=
         elapsed_time = get_elapsed_logical_time()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
