@@ -90,7 +90,14 @@ reactor Scale(factor:int(2)) {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Scale.lf
+target Python;
+reactor Scale(factor(2)) {
+    input x;
+    output y;
+    reaction(x) -> y {=
+        y.set(x.value * self.factor)
+    =}
+}
 ```
 
 ```lf-ts
@@ -162,7 +169,17 @@ reactor Count {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Count.lf
+target Python;
+reactor Count {
+    state count(0);
+    output y;
+    timer t(0, 100 msec);
+    reaction(t) -> y {=
+        y.set(self.count)
+        self.count += 1
+    =}
+}
+
 ```
 
 ```lf-ts

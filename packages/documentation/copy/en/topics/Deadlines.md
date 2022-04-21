@@ -43,7 +43,17 @@ reactor Deadline {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Deadline.lf
+target Python;
+reactor Deadline {
+    input x;
+    output d; // Produced if the deadline is violated.
+    reaction(x) -> d {=
+        print("Normal reaction.")
+    =} deadline(10 msec) {=
+        print("Deadline violation detected.")
+        d.set(x.value)
+    =}
+}
 ```
 
 ```lf-ts
@@ -105,7 +115,24 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/DeadlineTest.lf
+target Python;
+import Deadline from "Deadline.lf";
+preamble {= import time =}
+main reactor {
+    logical action a;
+    d = new Deadline();
+    reaction(startup) -> d.x, a {=
+        d.x.set(0)
+        a.schedule(0)
+    =}
+    reaction(a) -> d.x {=
+        d.x.set(0)
+        time.sleep(0.02)
+    =}
+    reaction(d.d) {=
+        print("Deadline reactor produced an output.")
+    =}
+}
 ```
 
 ```lf-ts

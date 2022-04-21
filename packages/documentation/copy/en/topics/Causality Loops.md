@@ -68,7 +68,30 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Cycle.lf
+target Python;
+reactor A {
+    input x;
+    output y;
+    reaction(x) -> y {=
+        # ... something here ...
+    =}
+}
+reactor B {
+    input x;
+    output y;
+    reaction(x) {=
+        # ... something here ...
+    =}
+    reaction(startup) -> y {=
+        # ... something here ...
+    =}
+}
+main reactor {
+    a = new A();
+    b = new B();
+    a.y -> b.x;
+    b.y -> a.x;
+}
 ```
 
 ```lf-ts
@@ -149,7 +172,30 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/CycleWithDelay.lf
+target Python;
+reactor A {
+    input x;
+    output y;
+    reaction(x) -> y {=
+        # ... something here ...
+    =}
+}
+reactor B {
+    input x;
+    output y;
+    reaction(x) {=
+        # ... something here ...
+    =}
+    reaction(startup) -> y {=
+        # ... something here ...
+    =}
+}
+main reactor {
+    a = new A();
+    b = new B();
+    a.y -> b.x after 0;
+    b.y -> a.x;
+}
 ```
 
 ```lf-ts
@@ -228,7 +274,30 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/CycleReordered.lf
+target Python;
+reactor A {
+    input x;
+    output y;
+    reaction(x) -> y {=
+        # ... something here ...
+    =}
+}
+reactor B {
+    input x;
+    output y;
+    reaction(startup) -> y {=
+        # ... something here ...
+    =}
+    reaction(x) {=
+        # ... something here ...
+    =}
+}
+main reactor {
+    a = new A();
+    b = new B();
+    a.y -> b.x;
+    b.y -> a.x;
+}
 ```
 
 ```lf-ts

@@ -56,7 +56,24 @@ main reactor Alignment {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Alignment.lf
+target Python {
+    timeout: 3 secs
+}
+main reactor Alignment {
+    state s(0);
+    timer t1(100 msec, 100 msec);
+    timer t2(200 msec, 200 msec);
+    timer t4(400 msec, 400 msec);
+    reaction(t1) {=
+        self.s += 1
+    =}
+    reaction(t2) {=
+        self.s -= 2
+    =}
+    reaction(t4) {=
+        print(f"s = {self.s}")
+    =}
+}
 ```
 
 ```lf-ts
@@ -117,7 +134,21 @@ reactor Overwriting {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Overwriting.lf
+target Python;
+reactor Overwriting {
+    output y;
+    state s(0);
+    timer t1(100 msec, 100 msec);
+    timer t2(200 msec, 200 msec);
+    reaction(t1) -> y {=
+        self.s += 1
+        y.set(self.s)
+    =}
+    reaction(t2) -> y {=
+        self.s -= 2
+        y.set(self.s)
+    =}
+}
 ```
 
 ```lf-ts
@@ -171,7 +202,16 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Contained.lf
+target Python;
+import Overwriting from "Overwriting.lf";
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        if s.y.value != 0 and s.y.value != 1:
+            sys.stderr.write("ERROR: Outputs should only be 0 or 1!\n")
+            exit(1)
+    =}
+}
 ```
 
 ```lf-ts

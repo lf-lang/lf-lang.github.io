@@ -95,7 +95,29 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Multiport.lf
+target Python;
+reactor Source {
+    output[4] out;
+    reaction(startup) -> out {=
+        for i, port in enumerate(out):
+            port.set(i)
+    =}
+}
+reactor Destination {
+    input[4] inp;
+    reaction(inp) {=
+        sum = 0
+        for port in inp:
+            if port.is_present: sum += port.value
+        print(f"Sum of received: {sum}.")
+    =}
+}
+main reactor {
+    a = new Source();
+    b = new Destination();
+    a.out -> b.inp;
+}
+
 ```
 
 ```lf-ts
@@ -238,7 +260,18 @@ reactor MultiportSource(
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/MultiportSource.lf
+target Python;
+reactor MultiportSource(
+    bank_index(0)
+) {
+    timer t(0, 200 msec);
+    output out;
+    state s(0);
+    reaction(t) -> out {=
+        out.set(self.s)
+        self.s += self.bank_index
+    =}
+}
 ```
 
 ```lf-ts
@@ -378,7 +411,23 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/ChildBank.lf
+target Python;
+reactor Child (
+    bank_index(0)
+) {
+    reaction(startup) {=
+        print(f"My bank index: {self.bank_index}.")
+    =}
+}
+reactor Parent (
+    bank_index(0)
+) {
+    c = new[2] Child();
+}
+main reactor {
+    p = new[2] Parent();
+}
+
 ```
 
 ```lf-ts
@@ -457,7 +506,26 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/ChildParentBank.lf
+target Python;
+reactor Child (
+    bank_index(0),
+    parent_bank_index(0)
+) {
+    reaction(startup) {=
+        print(
+            f"My bank index: {self.bank_index}. "
+            f"My parent's bank index: {self.parent_bank_index}."
+        )
+    =}
+}
+reactor Parent (
+    bank_index(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+}
+main reactor {
+    p = new[2] Parent();
+}
 ```
 
 ```lf-ts
@@ -544,7 +612,29 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/ChildParentBank2.lf
+target Python;
+reactor Child (
+    bank_index(0),
+    parent_bank_index(0)
+) {
+    output out;
+    reaction(startup) -> out {=
+        out.set(self.parent_bank_index * 2 + self.bank_index)
+    =}
+}
+reactor Parent (
+    bank_index(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+    reaction(c.out) {=
+        for i, child in enumerate(c):
+            print(f"Received {child.out.value} from child {i}.")
+    =}
+}
+main reactor {
+    p = new[2] Parent();
+}
+
 ```
 
 ```lf-ts
@@ -654,7 +744,29 @@ main reactor MultiportToBank {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/MultiportToBank.lf
+target Python;
+reactor Source {
+    output[3] out;
+    reaction(startup) -> out {=
+        for i, port in enumerate(out):
+            port.set(i)
+    =}
+}
+reactor Destination(
+    bank_index(0)
+) {
+    input inp;
+    reaction(inp) {=
+        print(f"Destination {self.bank_index} received {inp.value}.")
+    =}
+}
+
+main reactor MultiportToBank {
+    a = new Source();
+    b = new[3] Destination();
+    a.out -> b.inp;
+}
+
 ```
 
 ```lf-ts
@@ -761,7 +873,7 @@ reactor Node(
     reaction (in) {=
         for (auto i = 0ul; i < in.size(); i++) {
             if (in[i].is_present()) {
-                std::cout << "Bank index " << bank_index
+                std::cout << "Bank index " << bank_index 
                     << " received " << *in[i].get() << " on channel" << std::endl;
             }
         }
@@ -775,7 +887,32 @@ main reactor(num_nodes: size_t(4)) {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Interleaved.lf
+target Python;
+reactor Node(
+    num_nodes(4),
+    bank_index(0)
+) {
+    input[num_nodes] inp;
+    output[num_nodes] out;
+
+    reaction (startup) -> out {=
+        out[1].set(42)
+        print(f"Bank index {self.bank_index} sent 42 on channel 1.")
+    =}
+
+    reaction (inp) {=
+        for i, port in enumerate(inp):
+            if port.is_present:
+                print(
+                    f"Bank index {self.bank_index} received {port.value} on channel {i}.",
+                )
+    =}
+}
+main reactor(num_nodes(4)) {
+    nodes = new[num_nodes] Node(num_nodes=num_nodes);
+    nodes.out -> interleaved(nodes.inp);
+}
+
 ```
 
 ```lf-ts

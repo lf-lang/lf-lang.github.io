@@ -71,7 +71,18 @@ reactor Schedule {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Schedule.lf
+target Python;
+reactor Schedule {
+    input x;
+    logical action a;
+    reaction(x) -> a {=
+        a.schedule(MSEC(200))
+    =}
+    reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print(f"Action triggered at logical time {elapsed_time} nsec after start.")
+    =}
+}
 ```
 
 ```lf-ts
@@ -181,7 +192,18 @@ reactor Physical {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Physical.lf
+target Python;
+reactor Physical {
+    input x;
+    physical action a;
+    reaction(x) -> a {=
+        a.schedule(0)
+    =}
+    reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print(f"Action triggered at logical time {elapsed_time} nsec after start.")
+    =}
+}
 ```
 
 ```lf-ts
@@ -273,7 +295,31 @@ main reactor {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Asynchronous.lf
+target Python;
+main reactor {
+	preamble {=	
+		import time
+		import threading			
+		# Schedule an event roughly every 200 msec.
+		def external(self, a):
+			while (True):
+				self.time.sleep(0.2)
+				a.schedule(0)
+	=}
+	state thread;	
+    physical action a(100 msec);
+  
+	reaction(startup) -> a {=
+		# Start a thread to schedule physical actions.
+		self.thread = self.threading.Thread(target=self.external, args=(a,))
+		self.thread.start()
+	=}
+	
+	reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print(f"Action triggered at logical time {elapsed_time} nsec after start.")
+	=}
+}
 ```
 
 ```lf-ts

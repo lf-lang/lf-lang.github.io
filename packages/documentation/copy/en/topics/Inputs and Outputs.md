@@ -63,8 +63,14 @@ reactor Double {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Double.lf
-
+target Python;
+reactor Double {
+    input x;
+    output y;
+    reaction(x) -> y {=
+        y.set(x.value * 2)
+    =}
+}
 ```
 
 ```lf-ts
@@ -140,8 +146,19 @@ reactor Destination {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Destination.lf
-
+target Python;
+reactor Destination {
+    input x;
+    input y;
+    reaction(x, y) {=
+        sum = 0
+        if x.is_present:
+            sum += x.value
+        if y.is_present:
+            sum += y.value
+        print(f"Received {sum}")
+    =}
+}
 ```
 
 ```lf-ts
