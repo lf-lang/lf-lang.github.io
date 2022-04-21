@@ -41,7 +41,6 @@ reactor B extends A {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Extends.lf
 // the cpp target currently does not support reactor extends
 ```
 
