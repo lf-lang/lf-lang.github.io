@@ -40,11 +40,13 @@ main reactor {
 
 ```lf-cpp
 target Cpp;
+
 main reactor {
     reaction(startup) {=
-        cout << "Hello World.\n";
+        std::cout << "Hello World." << std::endl;
     =}
 }
+
 ```
 
 ```lf-py

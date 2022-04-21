@@ -1,0 +1,27 @@
+target Cpp;
+
+reactor Destination {
+    input x:int;
+    input y:int;
+    reaction(x, y) {=
+        std::cout << "Time since start: " << get_elapsed_logical_time() << " Current Microstep: " << get_microstep() << std::endl;
+        if (x.is_present()) {
+            std::cout << "x is present" << std::endl;
+        }
+        if (y.is_present()) {
+            std::cout << "y is present" << std::endl;
+        }
+    =}
+}
+
+main reactor {
+    logical action repeat;
+    d = new Destination();
+    reaction(startup) -> d.x, repeat {=
+        d.x.set(1);
+        repeat.schedule(0ms);
+    =}
+    reaction(repeat) -> d.y {=
+        d.y.set(1);
+    =}
+}

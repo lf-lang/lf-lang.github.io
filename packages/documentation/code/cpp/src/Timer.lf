@@ -1,0 +1,9 @@
+target Cpp;
+
+main reactor Timer {
+    timer t(0, 1s);
+
+    reaction(t) {=
+        std::cout << "Logical time is: " << get_logical_time() << std::endl;
+    =}
+}

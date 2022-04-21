@@ -1,0 +1,22 @@
+target Python;
+reactor Source {
+    output[4] out;
+    reaction(startup) -> out {=
+        for i, port in enumerate(out):
+            port.set(i)
+    =}
+}
+reactor Destination {
+    input[4] inp;
+    reaction(inp) {=
+        sum = 0
+        for port in inp:
+            if port.is_present: sum += port.value
+        print(f"Sum of received: {sum}.")
+    =}
+}
+main reactor {
+    a = new Source();
+    b = new Destination();
+    a.out -> b.inp;
+}

@@ -60,28 +60,24 @@ const handbookPages = [
     ],
   },
   {
-    title: "Tooling",
+    title: "Tools",
     summary: "Tools for developing Lingua Franca programs.",
     chronological: true,
     items: [
-        { file: "topics/Code Plugin.md"},
-        { file: "topics/Epoch IDE.md"},
-        { file: "topics/Command Line Tools.md" },
-        { file: "topics/Setup for C.md" },
-        { file: "topics/Setup for Cpp.md" },
-        { file: "topics/Setup for Python.md" },
-        { file: "topics/Setup for TypeScript.md" },
-        { file: "topics/Setup for Rust.md" },
+        { file: "tools/Code Plugin.md"},
+        { file: "tools/Epoch IDE.md"},
+        { file: "tools/Command Line Tools.md" },
     ],
   },
   {
     title: "Reference",
-    summary: "Complete reference documentation.",
+    summary: "Reference documentation.",
     chronological: true,
     items: [
       { file: "reference/Expressions.md"},
-      { file: "reference/Target Specification.md" },
-      { file: "reference/C Reactors.md" },
+      { file: "reference/Target Language Reference.md" },
+      { file: "reference/Target Declaration.md" },
+      { file: "reference/Tracing.md" },
     ],
   },
   {
@@ -89,24 +85,22 @@ const handbookPages = [
     summary: "Information for developers of the Lingua Franca language and tools.",
     chronological: true,
     items: [
-      { file: "topics/Contributing.md" },
-      { file: "topics/download-and-build/Downloading and Building.md" },
-      { file: "topics/download-and-build/Developer Eclipse Setup with Oomph.md" },
-      { file: "topics/download-and-build/Developer IntelliJ Setup (for Kotlin).md" },
-      { file: "topics/Regression Tests.md" },
-      // { file: "less-developed/Running Benchmarks.md" }, FIXME: Gatsby can't find this for some mysterious reason.
+      { file: "developer/Regression Tests.md" },
+      { file: "developer/Contributing.md" },
+      { file: "developer/Downloading and Building.md" },
+      { file: "developer/Developer Eclipse Setup with Oomph.md" },
+      { file: "developer/Developer IntelliJ Setup (for Kotlin).md" },
+      { file: "developer/Running Benchmarks.md" },
     ]
   },
   {
     title: "Preliminary Development",
     summary: "Capabilities under development",
     items: [
-      { file: "preliminary/Import System.md" },
-      { file: "preliminary/Tracing.md" },
       { file: "preliminary/Containerized Execution.md" },
       { file: "preliminary/Generic Types, Interfaces, and Inheritance.md" },
       { file: "preliminary/Target-Supported Features.md" },
-      { file: "preliminary/Writing Reactors in Rust (WIP).md" },
+      { file: "preliminary/Reactors on Patmos.md" },
     ],
   },
   {

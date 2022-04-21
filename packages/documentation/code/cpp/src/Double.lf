@@ -1,8 +1,12 @@
 target Cpp;
+
 reactor Double {
     input x:int;
     output y:int;
     reaction(x) -> y {=
-        y.set(x.value * 2);
+        if (x.is_present()){
+            y.set(*x.get() * 2);
+        }
     =}
 }
+

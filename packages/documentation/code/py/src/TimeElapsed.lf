@@ -1,0 +1,9 @@
+target Python;
+main reactor TimeElapsed {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        print(
+            f"Elapsed logical time is {get_elapsed_logical_time()}."
+        )
+    =}
+}

@@ -1,0 +1,7 @@
+target Python;
+main reactor Timer {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        print(f"Logical time is {get_logical_time()}.")
+    =}
+}

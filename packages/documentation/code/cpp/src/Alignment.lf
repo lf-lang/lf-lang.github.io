@@ -1,0 +1,18 @@
+target Cpp {
+    timeout: 3s
+}
+main reactor Alignment {
+    state s:int(0);
+    timer t1(100ms, 100ms);
+    timer t2(200ms, 200ms);
+    timer t4(400ms, 400ms);
+    reaction(t1) {=
+        s += 1;
+    =}
+    reaction(t2) {=
+        s -= 2;
+    =}
+    reaction(t4) {=
+        std::cout << "s = " << std::to_string(s) << std::endl;
+    =}
+}

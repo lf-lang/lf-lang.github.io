@@ -1,0 +1,42 @@
+/** 
+ * Events are scheduled with increasing additional delays of 0, 100, 300, 600
+ * msec on a logical action with a minimum delay of 100 msec.  
+ * The use of the logical action ensures the elapsed time jumps exactly from
+ * 0 to 100, 300, 600, and 1000 msec.
+ */
+target C {
+    timeout: 1 sec,
+    fast: true,
+};
+main reactor(start:time(100 msec), incr:time(100 msec)) {
+    logical action a;
+    state interval:time(start);
+    state expected_time:time(start);
+    reaction(startup) -> a {=
+        schedule(a, self->start);
+    =}
+    reaction(a) -> a {=
+        instant_t elapsed_logical_time = get_elapsed_logical_time();
+        printf("Logical time since start: \%lld nsec.\n",
+            elapsed_logical_time
+        );
+        if (elapsed_logical_time != self->expected_time) {
+            printf("ERROR: Expected time to be: \%lld nsec.\n",
+                self->expected_time
+            );
+            exit(1);
+        }
+        self->interval += self->incr;
+        schedule(a, self->interval);
+        self->expected_time += self->interval;
+    =}
+    reaction(shutdown) {=
+        if (self->expected_time != MSEC(1500)) {
+            printf("ERROR: Expected the next expected time to be: 1500000000 nsec.\n");
+            printf("It was: \%lld nsec.\n", self->expected_time);
+            exit(2);            
+        } else {
+            printf("Test passes.\n");
+        }
+    =}
+}

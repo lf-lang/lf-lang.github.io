@@ -34,11 +34,46 @@ main reactor Alignment {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Alignment.lf
+target Cpp {
+    timeout: 3s
+}
+main reactor Alignment {
+    state s:int(0);
+    timer t1(100ms, 100ms);
+    timer t2(200ms, 200ms);
+    timer t4(400ms, 400ms);
+    reaction(t1) {=
+        s += 1;
+    =}
+    reaction(t2) {=
+        s -= 2;
+    =}
+    reaction(t4) {=
+        std::cout << "s = " << std::to_string(s) << std::endl;
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Alignment.lf
+target Python {
+    timeout: 3 secs
+}
+main reactor Alignment {
+    state s(0);
+    timer t1(100 msec, 100 msec);
+    timer t2(200 msec, 200 msec);
+    timer t4(400 msec, 400 msec);
+    reaction(t1) {=
+        self.s += 1
+    =}
+    reaction(t2) {=
+        self.s -= 2
+    =}
+    reaction(t4) {=
+        print(f"s = {self.s}")
+    =}
+}
 ```
 
 ```lf-ts
@@ -78,11 +113,42 @@ reactor Overwriting {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Overwriting.lf
+target Cpp;
+reactor Overwriting {
+    output y:int;
+    state s:int(0);
+
+    timer t1(100ms, 100ms);
+    timer t2(200ms, 200ms);
+
+    reaction(t1) -> y {=
+        s += 1;
+        y.set(s);
+    =}
+    reaction(t2) -> y {=
+        s -= 2;
+        y.set(s);
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Overwriting.lf
+target Python;
+reactor Overwriting {
+    output y;
+    state s(0);
+    timer t1(100 msec, 100 msec);
+    timer t2(200 msec, 200 msec);
+    reaction(t1) -> y {=
+        self.s += 1
+        y.set(self.s)
+    =}
+    reaction(t2) -> y {=
+        self.s -= 2
+        y.set(self.s)
+    =}
+}
 ```
 
 ```lf-ts
@@ -117,11 +183,35 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Contained.lf
+target Cpp;
+import Overwriting from "Overwriting.lf";
+
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        auto is_correct = [](auto value){
+            return value == 0 || value == 1;
+        };
+
+        if (s.y.is_present() && !is_correct(*s.y.get())) {
+            std::cout << "Output shoudl only be 0 or 1!" << std::endl;
+        }
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Contained.lf
+target Python;
+import Overwriting from "Overwriting.lf";
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        if s.y.value != 0 and s.y.value != 1:
+            sys.stderr.write("ERROR: Outputs should only be 0 or 1!\n")
+            exit(1)
+    =}
+}
 ```
 
 ```lf-ts

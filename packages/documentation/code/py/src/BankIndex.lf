@@ -1,0 +1,12 @@
+target Python;
+preamble {=
+    table = [4, 3, 2, 1]
+=}
+reactor A(bank_index(0), value(0)) {
+    reaction (startup) {=
+        print("bank_index: {:d}, value: {:d}".format(self.bank_index, self.value))
+    =}
+}
+main reactor {
+    a = new[4] A(value = {= table[bank_index] =})
+}

@@ -48,18 +48,29 @@ reactor Double {
 
 ```lf-cpp
 target Cpp;
+
 reactor Double {
     input x:int;
     output y:int;
     reaction(x) -> y {=
-        y.set(x.value * 2);
+        if (x.is_present()){
+            y.set(*x.get() * 2);
+        }
     =}
 }
+
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Double.lf
-
+target Python;
+reactor Double {
+    input x;
+    output y;
+    reaction(x) -> y {=
+        y.set(x.value * 2)
+    =}
+}
 ```
 
 ```lf-ts
@@ -81,6 +92,7 @@ Notice how the input value is accessed and how the output value is set. This is 
 <span class="lf-ts">[TypeScriupt Reactors](/docs/handbook/typescript-reactors)</span>
 <span class="lf-rs">[Rust Reactors](/docs/handbook/rust-reactors)</span>
 for detailed documentation of these mechanisms.
+Setting an output within a reaction will trigger downstream reactions at the same [Logical Time](/docs/handbook/time-and-timers#logical-time) that the reaction is invoked (or, more precisely, at the same [tag](/docs/handbook/superdense-time#tag-vs-time)). If a particular output port is set more than once at any tag, the last set value will be the one that downstream reactions see. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
 
 <div class="lf-c lf-cpp lf-ts lf-rs">
 
@@ -113,13 +125,40 @@ reactor Destination {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Destination.lf
+target Cpp;
+
+reactor Destination {
+    input x:int;
+    input y:int;
+    reaction(x, y) {=
+        int sum = 0;
+        if (x.is_present()) {
+            sum += *x.get();
+        }
+        if (y.is_present()) {
+            sum += *y.get();
+        }
+
+        std::cout << "Received: " << sum << std::endl; 
+    =}
+}
 
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Destination.lf
-
+target Python;
+reactor Destination {
+    input x;
+    input y;
+    reaction(x, y) {=
+        sum = 0
+        if x.is_present:
+            sum += x.value
+        if y.is_present:
+            sum += y.value
+        print(f"Received {sum}")
+    =}
+}
 ```
 
 ```lf-ts
@@ -136,12 +175,10 @@ $end(Destination)$
 
 **NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is target dependent.
 <span class="lf-c">In the C target, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input.</span>
-<span class="lf-cpp warning">FIXME.</span>
+<span class="lf-cpp">In the C++ target, a smart pointer is returned for present values and `nullptr` if the value is not present.
 <span class="lf-py warning">FIXME.</span>
 <span class="lf-ts">In the TS target, the value will be **undefined**, a legitimate value in TypeScript.</span>
 <span class="lf-rs warning">FIXME.</span>
-
-## Reactions
 
 The general form of a $reaction$ is
 

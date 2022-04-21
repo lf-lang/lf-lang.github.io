@@ -146,9 +146,9 @@ export function getDocumentationNavForLanguage(
       ],
     },
     {
-      title: "Tooling",
+      title: "Tools",
       oneline: "Tools for developing Lingua Franca programs.",
-      id: "tooling",
+      id: "tools",
       chronological: true,
 
       items: [
@@ -170,41 +170,11 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/command-line-tools",
           oneline: "Command-line tools for Lingua Franca.",
         },
-        {
-          title: "Setup for C",
-          id: "2-setup-for-c",
-          permalink: "/docs/handbook/setup-for-c",
-          oneline: "Set up the C target in Lingua Franca.",
-        },
-        {
-          title: "Setup for Cpp",
-          id: "2-setup-for-cpp",
-          permalink: "/docs/handbook/setup-for-cpp",
-          oneline: "Set up the C++ target in Lingua Franca.",
-        },
-        {
-          title: "Setup for Python",
-          id: "2-setup-for-python",
-          permalink: "/docs/handbook/setup-for-python",
-          oneline: "Set up the Python target in Lingua Franca.",
-        },
-        {
-          title: "Setup for TypeScript",
-          id: "2-setup-for-typescript",
-          permalink: "/docs/handbook/setup-for-typescript",
-          oneline: "Set up the TypeScript target in Lingua Franca.",
-        },
-        {
-          title: "Setup for Rust",
-          id: "2-setup-for-rust",
-          permalink: "/docs/handbook/setup-for-rust",
-          oneline: "Set up the Rust target in Lingua Franca.",
-        },
       ],
     },
     {
       title: "Reference",
-      oneline: "Complete reference documentation.",
+      oneline: "Reference documentation.",
       id: "reference",
       chronological: true,
 
@@ -216,16 +186,23 @@ export function getDocumentationNavForLanguage(
           oneline: "Expressions in Lingua Franca.",
         },
         {
-          title: "Target Specification",
-          id: "3-target-specification",
-          permalink: "/docs/handbook/target-specification",
-          oneline: "The target specification in Lingua Franca.",
+          title: "Target Language Reference",
+          id: "3-target-language-reference",
+          permalink: "/docs/handbook/target-language-reference",
+          oneline: "Detailed reference for each target langauge.",
         },
         {
-          title: "C Reactors",
-          id: "3-c-reactors",
-          permalink: "/docs/handbook/c-reactors",
-          oneline: "Writing reactors using the C target in Lingua Franca.",
+          title: "Target Declaration",
+          id: "3-target-declaration",
+          permalink: "/docs/handbook/target-declaration",
+          oneline:
+            "The target declaration and its parameters in Lingua Franca.",
+        },
+        {
+          title: "Tracing",
+          id: "3-tracing",
+          permalink: "/docs/handbook/tracing",
+          oneline: "Tracing (preliminary)",
         },
       ],
     },
@@ -237,6 +214,12 @@ export function getDocumentationNavForLanguage(
       chronological: true,
 
       items: [
+        {
+          title: "Regression Tests",
+          id: "4-regression-tests",
+          permalink: "/docs/handbook/regression-tests",
+          oneline: "Regression Tests for Lingua Franca.",
+        },
         {
           title: "Contributing",
           id: "4-contributing",
@@ -262,10 +245,10 @@ export function getDocumentationNavForLanguage(
           oneline: "Developer IntelliJ Setup (for Kotlin).",
         },
         {
-          title: "Regression Tests",
-          id: "4-regression-tests",
-          permalink: "/docs/handbook/regression-tests",
-          oneline: "Regression Tests for Lingua Franca.",
+          title: "Running Benchmarks",
+          id: "4-running-benchmarks",
+          permalink: "/docs/handbook/running-benchmarks",
+          oneline: "Running Benchmarks.",
         },
       ],
     },
@@ -276,18 +259,6 @@ export function getDocumentationNavForLanguage(
       chronological: false,
 
       items: [
-        {
-          title: "Import System",
-          id: "5-import-system",
-          permalink: "/docs/handbook/import-system",
-          oneline: "Import System (preliminary)",
-        },
-        {
-          title: "Tracing",
-          id: "5-tracing",
-          permalink: "/docs/handbook/tracing",
-          oneline: "Tracing (preliminary)",
-        },
         {
           title: "Containerized Execution",
           id: "5-containerized-execution",
@@ -307,10 +278,10 @@ export function getDocumentationNavForLanguage(
           oneline: "Which features are supported by which target?",
         },
         {
-          title: "Writing Reactors in Rust (WIP)",
-          id: "5-writing-reactors-in-rust-(wip)",
-          permalink: "/docs/handbook/write-reactor-rust",
-          oneline: "Writing Reactors in Rust  (preliminary)",
+          title: "Reactors on Patmos",
+          id: "5-reactors-on-patmos",
+          permalink: "/docs/handbook/reactors-on-patmos",
+          oneline: "Reactors on Patmos (preliminary)",
         },
       ],
     },
