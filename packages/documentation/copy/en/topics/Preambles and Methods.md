@@ -154,7 +154,52 @@ If access to the inner state of a reactor is required, [methods](#Methods) prese
 
 <div class="lf-py">
 
-For example, the following program uses the built-in Python `input()` function to get typed input from the user:
+For example, the following reactor uses the `platform` module to print the platform information and a defined method to add 42 to an integer:
+
+```lf-py
+main reactor Preamble {
+	preamble {=
+		import platform
+		def add_42(self, i):
+			return i + 42
+	=}
+	timer t;
+	reaction(t) {=
+		s = "42"
+		i = int(s)
+		print("Converted string {:s} to int {:d}.".format(s, i))
+		print("42 plus 42 is ", self.add_42(42))
+		print("Your platform is ", self.platform.system())
+	=}
+}
+```
+
+On a Linux machine, this will print:
+
+```bash
+Converted string 42 to int 42.
+42 plus 42 is 84
+Your platform is Linux
+```
+
+By putting import in the $preamble$, the module becomes available in all reactions of this reactor using the `self` modifier.
+
+**Note:** Preambles will be put in the generated Python class for the given reactor, and thus is part of the instance of the reactor. This means that anything you put in the preamble will be specific to a particular reactor instance and cannot be used to share information between different instantiations of the reactor (this is a feature, not a bug, because it helps ensure determinacy). For more information about implementation details of the Python target, see [Implementation Details](/docs/handbook/target-language-reference#python-target-implementation-details).
+
+Alternatively, you can define a $preamble$ outside any reactor definition. Such a $preamble$ can be used for functions such as import or to define a global function. The following example shows importing the [hello](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/include/hello.py) module:
+
+```lf-py
+target Python {
+    files: include/hello.py
+};
+preamble {=
+    import hello
+=}
+```
+
+Notice the usage of the `files` target property to move the `hello.py` module located in the `include` folder of the test directory into the working directory (located in `src-gen/NAME`).
+
+For another example, the following program uses the built-in Python `input()` function to get typed input from the user:
 
 ```lf-py
 target Python
@@ -188,8 +233,6 @@ main reactor {
 ```
 
 Within the $preamble$, we specify to import the `threading` Python module and define a function that will be started in a separate thread in the reaction to $startup$. The thread function named `external` blocks when `input()` is called until the user types something and hits the return or enter key. Usually, you do not want a Lingua Franca program to block waiting for input. In the above reactor, a $timer$ is used to repeatedly trigger a reaction that reminds the user that it is waiting for input.
-
-A $preamble$ may also be declared outside the scope of any reactor, in which case it can be used by any subsequently defined reactor and any reactor defined in a file that imports this file.
 
 </div>
 
