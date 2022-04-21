@@ -1,0 +1,8 @@
+target Python;
+reactor Double {
+    input x;
+    output y;
+    reaction(x) -> y {=
+        y.set(x.value * 2)
+    =}
+}

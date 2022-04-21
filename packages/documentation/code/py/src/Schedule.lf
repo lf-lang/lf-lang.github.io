@@ -1,0 +1,12 @@
+target Python;
+reactor Schedule {
+    input x;
+    logical action a;
+    reaction(x) -> a {=
+        a.schedule(MSEC(200))
+    =}
+    reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print(f"Action triggered at logical time {elapsed_time} nsec after start.")
+    =}
+}

@@ -1,0 +1,12 @@
+target Python;
+reactor Physical {
+    input x;
+    physical action a;
+    reaction(x) -> a {=
+        a.schedule(0)
+    =}
+    reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print(f"Action triggered at logical time {elapsed_time} nsec after start.")
+    =}
+}

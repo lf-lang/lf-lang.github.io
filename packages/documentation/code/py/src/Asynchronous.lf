@@ -1,0 +1,25 @@
+target Python;
+main reactor {
+	preamble {=	
+		import time
+		import threading			
+		# Schedule an event roughly every 200 msec.
+		def external(self, a):
+			while (True):
+				self.time.sleep(0.2)
+				a.schedule(0)
+	=}
+	state thread;	
+    physical action a(100 msec);
+  
+	reaction(startup) -> a {=
+		# Start a thread to schedule physical actions.
+		self.thread = self.threading.Thread(target=self.external, args=(a,))
+		self.thread.start()
+	=}
+	
+	reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print(f"Action triggered at logical time {elapsed_time} nsec after start.")
+	=}
+}

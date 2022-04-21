@@ -1,0 +1,22 @@
+target Python;
+reactor Child (
+    bank_index(0),
+    parent_bank_index(0)
+) {
+    output out;
+    reaction(startup) -> out {=
+        out.set(self.parent_bank_index * 2 + self.bank_index)
+    =}
+}
+reactor Parent (
+    bank_index(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+    reaction(c.out) {=
+        for i, child in enumerate(c):
+            print(f"Received {child.out.value} from child {i}.")
+    =}
+}
+main reactor {
+    p = new[2] Parent();
+}
