@@ -1,0 +1,8 @@
+target Python;
+reactor Scale(factor(2)) {
+    input x;
+    output y;
+    reaction(x) -> y {=
+        y.set(x.value * self.factor)
+    =}
+}

@@ -1,0 +1,25 @@
+target Python;
+reactor Node(
+    num_nodes(4),
+    bank_index(0)
+) {
+    input[num_nodes] inp;
+    output[num_nodes] out;
+
+    reaction (startup) -> out {=
+        out[1].set(42)
+        print(f"Bank index {self.bank_index} sent 42 on channel 1.")
+    =}
+
+    reaction (inp) {=
+        for i, port in enumerate(inp):
+            if port.is_present:
+                print(
+                    f"Bank index {self.bank_index} received {port.value} on channel {i}.",
+                )
+    =}
+}
+main reactor(num_nodes(4)) {
+    nodes = new[num_nodes] Node(num_nodes=num_nodes);
+    nodes.out -> interleaved(nodes.inp);
+}

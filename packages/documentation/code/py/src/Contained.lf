@@ -1,0 +1,10 @@
+target Python;
+import Overwriting from "Overwriting.lf";
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        if s.y.value != 0 and s.y.value != 1:
+            sys.stderr.write("ERROR: Outputs should only be 0 or 1!\n")
+            exit(1)
+    =}
+}

@@ -128,21 +128,21 @@ reactor Preamble {
 
     reaction(a) {=
         auto value = *a.get();
-        std::cout << "Received " << value.foo << " and '" << value.bar << "'\n"; 
+        std::cout << "Received " << value.foo << " and '" << value.bar << "'\n";
     =}
 }
 ```
 
-It defines both, a public and a private preamble. The public preamble defines the type MyStruct. This type definition will be visible to all elements of the 
+It defines both, a public and a private preamble. The public preamble defines the type MyStruct. This type definition will be visible to all elements of the
 Preamble reactor as well as to all reactors defined in files that import Preamble. The private preamble defines the function `add_42(int i)`.
 This function will only be usable to reactions within the Preamble reactor.
 
-You can think of public and private preambles as the equivalent of header files and source files in C++. In fact, the public preamble will be translated to a 
+You can think of public and private preambles as the equivalent of header files and source files in C++. In fact, the public preamble will be translated to a
 header file and the private preamble to a source file. As a rule of thumb, all types that are used in port or action definitions as well as in state variables
-or parameters should be defined in a public preamble. Also declarations of functions to be shared across reactors should be placed in the public preamble. 
+or parameters should be defined in a public preamble. Also declarations of functions to be shared across reactors should be placed in the public preamble.
 Everything else, like function definitions or types that are used only within reactions should be placed in a private preamble.
 
-Note that preambles can also be specified on the file level. These file level preambles are visible to all reactors within the file. 
+Note that preambles can also be specified on the file level. These file level preambles are visible to all reactors within the file.
 An example of this can be found in [PreambleFile.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/target/PreambleFile.lf).
 
 Admittedly, the precise interactions of preambles and imports can become confusing. The preamble mechanism will likely be refined in future revisions.
@@ -150,13 +150,52 @@ Admittedly, the precise interactions of preambles and imports can become confusi
 Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments.
 If access to the inner state of a reactor is required, [methods](#Methods) present a viable and easy to use alternative.
 
+</div>
+
+<div class="lf-py">
+
+For example, the following program uses the built-in Python `input()` function to get typed input from the user:
+
+```lf-py
+target Python
+main reactor {
+    preamble {=
+        import threading
+        def external(self, a):
+            while (True):
+                from_user = input() # Blocking
+                a.schedule(0, from_user)
+    =}
+    state thread
+    physical action a
+    timer t(2 secs, 2 secs)
+
+    reaction(startup) -> a {=
+        self.thread = self.threading.Thread(target=self.external, args=(a,))
+        self.thread.start()
+        print("Type something.")
+    =}
+
+    reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print(f"A time {elapsed_time} nsec after start, received: ", a.value)
+    =}
+
+    reaction(t) {=
+        print("Waiting ...")
+    =}
+}
+```
+
+Within the $preamble$, we specify to import the `threading` Python module and define a function that will be started in a separate thread in the reaction to $startup$. The thread function named `external` blocks when `input()` is called until the user types something and hits the return or enter key. Usually, you do not want a Lingua Franca program to block waiting for input. In the above reactor, a $timer$ is used to repeatedly trigger a reaction that reminds the user that it is waiting for input.
+
+A $preamble$ may also be declared outside the scope of any reactor, in which case it can be used by any subsequently defined reactor and any reactor defined in a file that imports this file.
 
 </div>
 
+<div class="lf-ts lf-rs warning">
 
-<div class="lf-py lf-ts lf-rs warning">
-
-FIXME
+FIXME: Add $preamble$ example.
 
 </div>
 
@@ -174,7 +213,7 @@ Methods are not currently implemented in the $target-language$ target.
 
 Sometimes reactors need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to
 be implemented in a single reaction. In such cases, methods can be defined within reactors to facilitate code reuse and enable a better structuring of the
-reactor's functionality. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction 
+reactor's functionality. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction
 bodies or from other methods. Consdider the [Method](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/target/Method.lf) example:
 
 ```lf-cpp
@@ -184,7 +223,7 @@ main reactor {
     const method get_foo(): int {=
         return foo;
     =}
-	
+
     method add(x:int) {=
         foo += x;
     =}
@@ -196,9 +235,10 @@ main reactor {
     =}
 }
 ```
+
 This reactor defines two methods `get_foo` and `add`. `get_foo` is quailfied as a const method, which indicates that it has read-only access to the
 state variables. This is direclty translated to a C++ const method in the code generation process. `get_foo` receives no arguments and returns an integer
-(`int`) indicating the current value of the `foo` state variable. `add` returns nothing (`void`) and receives one interger argument, which it uses to 
+(`int`) indicating the current value of the `foo` state variable. `add` returns nothing (`void`) and receives one interger argument, which it uses to
 increment `foo`. Both methods are visible in all reactions of the reactor. In this example, the reactio to startup calles both methods in order ro read
 and modify its state.
 

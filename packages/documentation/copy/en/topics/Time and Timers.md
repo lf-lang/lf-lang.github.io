@@ -58,18 +58,49 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         );
         self->interval += self->incr;
         schedule(a, self->interval);
-        self->expected_time += self->interval;
     =}
 }
 
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/SlowingClock.lf
+target Cpp;
+
+main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
+    state interval:time(start);
+    logical action a;
+    reaction(startup) -> a {=
+        a.schedule(start);
+    =}
+
+    reaction(a) -> a {=
+        auto elapsed_logical_time = get_elapsed_logical_time();
+        std::cout << "Logical time since start: " << elapsed_logical_time << " nsec" << std::endl;
+        interval += incr;
+        a.schedule(interval);
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/SlowingClock.lf
+target Python;
+main reactor SlowingClock(start(100 msec), incr(100 msec)) {
+    state interval(start);
+    logical action a;
+    reaction(startup) -> a {=
+        a.schedule(self.start)
+    =}
+    reaction(a) -> a {=
+        elapsed_logical_time = get_elapsed_logical_time()
+        print(
+            f"Logical time since start: {elapsed_logical_time} nsec."
+        )
+        self.interval += self.incr
+        a.schedule(self.interval)
+    =}
+}
+
 ```
 
 ```lf-ts
@@ -117,11 +148,26 @@ main reactor Timer {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Timer.lf
+target Cpp;
+
+main reactor Timer {
+    timer t(0, 1s);
+
+    reaction(t) {=
+        std::cout << "Logical time is: " << get_logical_time() << std::endl;
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Timer.lf
+target Python;
+main reactor Timer {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        print(f"Logical time is {get_logical_time()}.")
+    =}
+}
 ```
 
 ```lf-ts
@@ -173,11 +219,28 @@ main reactor TimeElapsed {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/TimeElapsed.lf
+target Cpp;
+
+main reactor TimeElapsed {
+    timer t(0, 1s);
+
+    reaction(t) {=
+        std::cout << "Elapsed logical time is " << get_elapsed_logical_time() << std::endl;
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/TimeElapsed.lf
+target Python;
+main reactor TimeElapsed {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        print(
+            f"Elapsed logical time is {get_elapsed_logical_time()}."
+        )
+    =}
+}
 ```
 
 ```lf-ts
@@ -229,11 +292,33 @@ main reactor TimeLag {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/TimeLag.lf
+target Cpp;
+
+main reactor TimeLag {
+    timer t(0, 1s);
+    reaction(t) {=
+        auto logical_time = get_elapsed_logical_time();
+        auto physical_time = get_elapsed_physical_time();
+        std::cout << "Elapsed logical time: " << logical_time 
+            << " physical time: " << physical_time 
+            << " lag: " << physical_time - logical_time <<  std::endl;
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/TimeLag.lf
+target Python;
+main reactor TimeLag {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        t = get_elapsed_logical_time()
+        T = get_elapsed_physical_time()
+        print(
+            f"Elapsed logical time: {t}, physical time: {T}, lag: {T-t}"
+        )
+    =}
+}
 ```
 
 ```lf-ts
@@ -345,11 +430,59 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/TestCount.lf
+target Cpp;
+
+reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
+    state count:int(start);
+    state inputs_received:int(0);
+    input x:int;
+
+    reaction(x) {=
+        auto value = *x.get();
+        std::cout << "Received " <<  value << std::endl;
+        if (value != count) {
+            std::cerr << "ERROR: Expected: "<< count << std::endl;
+            exit(1);
+        }
+        count += stride;
+        inputs_received++;
+    =}
+
+    reaction(shutdown) {=
+        std::cout << "Shutdown invoked." << std::endl;
+        if (inputs_received != num_inputs) {
+            std::cerr << "ERROR: Expected to receive " << num_inputs 
+                << " inputs, but got " << inputs_received << std::endl;
+            exit(2);
+        }
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/TestCount.lf
+target Python;
+reactor TestCount(start(0), stride(1), num_inputs(1)) {
+    state count(start);
+    state inputs_received(0);
+    input x;
+    reaction(x) {=
+        print(f"Received {x.value}.")
+        if x.value != self.count:
+            sys.stderr.write(f"ERROR: Expected {self.count}.\n")
+            exit(1)
+        self.count += self.stride
+        self.inputs_received += 1
+    =}
+    reaction(shutdown) {=
+        print("Shutdown invoked.")
+        if self.inputs_received != self.num_inputs:
+            sys.stderr.write(
+                f"ERROR: Expected to receive {self.num_inputs} inputs, but got {self.inputs_received}.\n"
+            )
+            exit(2)
+    =}
+}
 ```
 
 ```lf-ts

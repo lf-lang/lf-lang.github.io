@@ -45,7 +45,21 @@ reactor B extends A {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Extends.lf
+target Python;
+reactor A {
+    input a;
+    output out;
+    reaction(a) -> out {=
+        out.set(a.value)
+    =}
+}
+reactor B extends A {
+    input b;
+    reaction(a, b) -> out {=
+        out.set(a.value + b.value)
+    =}
+}
+
 ```
 
 ```lf-ts

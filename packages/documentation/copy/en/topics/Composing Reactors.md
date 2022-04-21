@@ -54,7 +54,21 @@ main reactor RegressionTest {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/RegressionTest.lf
+target Python {
+    timeout: 1 sec,
+    fast: true
+}
+import Count from "Count.lf";
+import Scale from "Scale.lf";
+import TestCount from "TestCount.lf";
+
+main reactor RegressionTest {
+    c = new Count();
+    s = new Scale(factor = 4);
+    t = new TestCount(stride = 4, num_inputs = 11);
+    c.y -> s.x;
+    s.y -> t.x;
+}
 ```
 
 ```lf-ts
@@ -199,7 +213,24 @@ main reactor Hierarchy {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Hierarchy.lf
+target Python;
+import Count from "Count.lf";
+import Scale from "Scale.lf";
+import TestCount from "TestCount.lf";
+
+reactor Container(stride(2)) {
+    output y;
+    c = new Count();
+    s = new Scale(factor = stride);
+    c.y -> s.x;
+    s.y -> y;
+}
+
+main reactor Hierarchy {
+    c = new Container(stride = 4);
+    t = new TestCount(stride = 4, num_inputs = 11);
+    c.y -> t.x;
+}
 ```
 
 ```lf-ts
