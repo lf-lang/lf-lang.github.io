@@ -1521,7 +1521,7 @@ The [Python CI tests](https://github.com/lf-lang/lingua-franca/tree/master/test/
 
 To have Lingua Franca generate Python code, start your `.lf` file with the following target specification:
 
-```
+```lf
 target Python
 ```
 
@@ -1531,7 +1531,7 @@ For options to the target specification, see [detailed documentation of the targ
 
 For example, for the Python target, in a source file named `Foo.lf`, you might specify:
 
-```
+```lf-py
 target Python {
     fast: true,
     timeout: 10 secs
