@@ -207,6 +207,8 @@ This parameter works with `cmake` to specify how to compile the code. The follow
 
 This defaults to Release.
 
+</div>
+
 ## cmake
 
 <div class="lf-ts lf-py">
