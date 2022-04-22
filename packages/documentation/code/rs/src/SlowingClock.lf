@@ -1,0 +1,20 @@
+target Rust;
+main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
+    state start(start);
+    state incr(incr);
+    state interval:time(start);
+    state expected_time:time();
+    logical action a;
+    reaction(startup) -> a {=
+        ctx.schedule(a, After(self.start));
+    =}
+    reaction(a) -> a {=
+        println!(
+            "Logical time since start: {} nsec.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+        self.interval += self.incr;
+        ctx.schedule(a, After(self.interval));
+        self.expected_time += self.interval;
+    =}
+}

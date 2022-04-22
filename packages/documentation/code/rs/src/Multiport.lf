@@ -1,0 +1,26 @@
+target Rust;
+reactor Source {
+    output[4] out:usize;
+    reaction(startup) -> out {=
+        for (i, o) in out.into_iter().enumerate() {
+            ctx.set(o, i);
+        }
+    =}
+}
+reactor Destination {
+    input[4] inp:usize;
+    reaction(inp) {=
+        let mut sum = 0;
+        for i in inp {
+            if let Some(v) = ctx.get(&i) {
+                sum += v;
+            }
+        }
+        println!("Sum of received: {}.", sum);
+    =}
+}
+main reactor {
+    a = new Source();
+    b = new Destination();
+    a.out -> b.inp;
+}

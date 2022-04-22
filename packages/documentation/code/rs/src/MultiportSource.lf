@@ -1,0 +1,13 @@
+target Rust;
+reactor MultiportSource(
+    bank_index:u32(0)
+) {
+    state bank_index(bank_index);
+    timer t(0, 200 msec);
+    output out:u32;
+    state s:u32(0);
+    reaction(t) -> out {=
+        ctx.set(out, self.s);
+        self.s += self.bank_index;
+    =}
+}
