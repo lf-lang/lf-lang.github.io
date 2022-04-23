@@ -1544,7 +1544,7 @@ These specify the _default_ behavior of the generated code, the behavior it will
 
 ## Inputs and Outputs
 
-In the body of a reaction in the Python target, the value of an in put is obtained using the syntax `name.value`, where `name` is the name of the input port. To determine whether an input is present, use `name.is_present`. For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/Determinism.lf) test case in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Python) includes the following reactor:
+In the body of a reaction in the Python target, the value of an input is obtained using the syntax `name.value`, where `name` is the name of the input port. To determine whether an input is present, use `name.is_present`. For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/Determinism.lf) test case in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Python) includes the following reactor:
 
 ```lf-py
 reactor Destination {
