@@ -153,10 +153,10 @@ export function getDocumentationNavForLanguage(
 
       items: [
         {
-          title: "Code Plugin",
-          id: "2-code-plugin",
-          permalink: "/docs/handbook/code-plugin",
-          oneline: "Visual Studio Code Plugin for Lingua Franca.",
+          title: "Code Extension",
+          id: "2-code-extension",
+          permalink: "/docs/handbook/code-extension",
+          oneline: "Visual Studio Code Extension for Lingua Franca.",
         },
         {
           title: "Epoch IDE",
