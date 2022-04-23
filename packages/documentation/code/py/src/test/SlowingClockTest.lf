@@ -1,0 +1,42 @@
+/** 
+ * Events are scheduled with increasing additional delays of 0, 100, 300, 600
+ * msec on a logical action with a minimum delay of 100 msec.  
+ * The use of the logical action ensures the elapsed time jumps exactly from
+ * 0 to 100, 300, 600, and 1000 msec.
+ */
+target Python {
+    timeout: 1 sec,
+    fast: true,
+};
+main reactor(start(100 msec), incr(100 msec)) {
+    logical action a;
+    state interval(start);
+    state expected_time(start);
+    reaction(startup) -> a {=
+        a.schedule(self.start)
+    =}
+    reaction(a) -> a {=
+        elapsed_logical_time = get_elapsed_logical_time()
+        print(
+            f"Logical time since start: {elapsed_logical_time} nsec.",
+        )
+        if elapsed_logical_time != self.expected_time:
+            sys.stderr.write(
+                f"ERROR: Expected time to be: {self.expected_time} nsec."
+            )
+            exit(1)
+        self.interval += self.incr
+        a.schedule(self.interval)
+        self.expected_time += self.interval
+    =}
+    reaction(shutdown) {=
+        if self.expected_time != MSEC(1500):
+            sys.stderr.write(
+                "ERROR: Expected the next expected time to be: 1500000000 nsec.\n"
+                f"It was: {self.expected_time} nsec.\n"
+            )
+            exit(2)
+        else:
+            print("Test passes.")
+    =}
+}

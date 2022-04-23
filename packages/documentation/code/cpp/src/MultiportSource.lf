@@ -1,0 +1,14 @@
+target Cpp;
+
+reactor MultiportSource(
+    bank_index:int(0)
+) {
+    timer t(0, 200 ms);
+    output out:int;
+    state s:int(0);
+
+    reaction(t) -> out {=
+        out.set(s);
+        s += bank_index;
+    =}
+}

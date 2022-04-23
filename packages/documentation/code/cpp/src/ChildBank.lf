@@ -1,0 +1,16 @@
+target Cpp;
+reactor Child (
+    bank_index:int(0)
+) {
+    reaction(startup) {=
+        std::cout << "My bank index:" << bank_index << std::endl;
+    =}
+}
+reactor Parent (
+    bank_index:int(0)
+) {
+    c = new[2] Child();
+}
+main reactor {
+    p = new[2] Parent();
+}

@@ -18,6 +18,9 @@ type Props = {
   pageContext: any;
 };
 
+const targetLanguages = ["c", "cpp", "py", "ts", "rs"];
+
+
 const Index: React.FC<Props> = (props) => {
   const i = createInternational<typeof docCopy>(useIntl());
   const nav = getDocumentationNavForLanguage(props.pageContext.lang)
@@ -52,8 +55,7 @@ const Index: React.FC<Props> = (props) => {
         <div className="columns wide">
           {nav.map(navRoot => {
             if (navRoot.id === "what's-new") return null
-            const showIntro = navRoot.id === "topics"
-
+            const showIntro = navRoot.id === "resources"
             return (
               <div className="item raised" key={navRoot.id}>
 
@@ -64,7 +66,15 @@ const Index: React.FC<Props> = (props) => {
                   <RenderItems items={navRoot} />
                 </ul>
 
-                {showIntro && <p>We also have an <a href='/assets/lingua-franca-handbook.epub'>epub</a> and <a href='/assets/lingua-franca-handbook.pdf'>pdf</a> version of the Handbook.</p>}
+                {showIntro && <p>We also have pdf versions for the following languages: 
+                  
+                
+                { targetLanguages.map(
+                  target => {
+                  return (<a href={'/assets/lingua-franca-handbook_lf-' + target + '.pdf'}><br/>{target}</a>) 
+                }
+                )}
+                </p>}
               </div>
             )
           })}

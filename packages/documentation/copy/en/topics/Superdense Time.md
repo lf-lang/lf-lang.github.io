@@ -33,11 +33,35 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Microsteps.lf
+target Cpp;
+main reactor {
+    state count:int(1);
+    logical action a;
+    reaction(startup, a) -> a {=
+        std::cout << count << " Logical time is " << get_logical_time() << " Microstep: " << get_microstep() <<std::endl;
+        if (count++ < 5) {
+            a.schedule();
+        }
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Microsteps.lf
+target Python;
+main reactor {
+    state count(1);
+    logical action a;
+    reaction(startup, a) {=
+        print(
+            f"{self.count}. Logical time is {get_current_tag().time}. "
+            f"Microstep is {get_current_tag().microstep}."
+        )
+        if self.count < 5:
+            a.schedule(0)
+        self.count += 1
+    =}
+}
 ```
 
 ```lf-ts
@@ -102,11 +126,64 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Simultaneous.lf
+target Cpp;
+
+reactor Destination {
+    input x:int;
+    input y:int;
+    reaction(x, y) {=
+        std::cout << "Time since start: " << get_elapsed_logical_time() << " Current Microstep: " << get_microstep() << std::endl;
+        if (x.is_present()) {
+            std::cout << "x is present" << std::endl;
+        }
+        if (y.is_present()) {
+            std::cout << "y is present" << std::endl;
+        }
+    =}
+}
+
+main reactor {
+    logical action repeat;
+    d = new Destination();
+    reaction(startup) -> d.x, repeat {=
+        d.x.set(1);
+        repeat.schedule(0ms);
+    =}
+    reaction(repeat) -> d.y {=
+        d.y.set(1);
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Simultaneous.lf
+target Python;
+reactor Destination {
+    input x;
+    input y;
+    reaction(x, y) {=
+        print(
+            f"Time since start: {get_elapsed_logical_time()}, "
+            f"microstep: {get_microstep()}"
+        )
+        if x.is_present:
+            print("  x is present.")
+        if y.is_present:
+            print("  y is present.")
+    =}
+}
+main reactor {
+    logical action repeat;
+    d = new Destination();
+    reaction(startup) -> d.x, repeat {=
+        d.x.set(1)
+        repeat.schedule(0)
+    =}
+    reaction(repeat) -> d.y {=
+        d.y.set(1)
+    =}
+}
+
 ```
 
 ```lf-ts

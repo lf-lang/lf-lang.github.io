@@ -1,0 +1,20 @@
+target Python;
+reactor Child (
+    bank_index(0),
+    parent_bank_index(0)
+) {
+    reaction(startup) {=
+        print(
+            f"My bank index: {self.bank_index}. "
+            f"My parent's bank index: {self.parent_bank_index}."
+        )
+    =}
+}
+reactor Parent (
+    bank_index(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+}
+main reactor {
+    p = new[2] Parent();
+}

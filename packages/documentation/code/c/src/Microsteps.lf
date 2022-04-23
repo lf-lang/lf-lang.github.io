@@ -2,7 +2,7 @@ target C;
 main reactor {
     state count:int(1);
     logical action a;
-    reaction(startup, a) {=
+    reaction(startup, a) -> a {=
         printf("%d. Logical time is %lld. Microstep is %d.\n",
             self->count, get_logical_time(), get_microstep()
         );

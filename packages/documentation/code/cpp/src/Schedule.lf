@@ -1,0 +1,13 @@
+target Cpp;
+
+reactor Schedule {
+    input x:int;
+    logical action a;
+    reaction(x) -> a {=
+        a.schedule(200ms);
+    =}
+    reaction(a) {=
+        auto elapsed_time = get_elapsed_logical_time();
+        std::cout << "Action triggered at logical time " << elapsed_time << "  nsec after start." << std::endl;
+    =}
+}

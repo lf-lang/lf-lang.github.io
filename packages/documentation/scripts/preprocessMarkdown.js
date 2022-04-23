@@ -180,3 +180,5 @@ for (let i = 2; i < process.argv.length; i++) {
   fs.writeFileSync(process.argv[i], newFileContents);
   console.log("*** Successfully updated " + process.argv[i]);
 }
+
+exports.targetLanguages = targetLanguages

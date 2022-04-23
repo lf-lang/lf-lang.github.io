@@ -27,11 +27,33 @@ reactor Deadline {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Deadline.lf
+target Cpp;
+
+reactor Deadline {
+    input x:int;
+    output d:int; // Produced if the deadline is violated.
+    reaction(x) -> d {=
+        std::cout << "Normal reaction." << std::endl;
+    =} deadline(10ms) {=
+        std::cout << "Deadline violation detected." << std::endl;
+        d.set(*x.get());
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Deadline.lf
+target Python;
+reactor Deadline {
+    input x;
+    output d; // Produced if the deadline is violated.
+    reaction(x) -> d {=
+        print("Normal reaction.")
+    =} deadline(10 msec) {=
+        print("Deadline violation detected.")
+        d.set(x.value)
+    =}
+}
 ```
 
 ```lf-ts
@@ -69,11 +91,48 @@ main reactor {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/DeadlineTest.lf
+target Cpp;
+import Deadline from "Deadline.lf";
+
+main reactor {
+    logical action a;
+    d = new Deadline();
+    reaction(startup) -> d.x, a {=
+        d.x.set(0);
+        a.schedule(0ms);
+    =}
+
+    reaction(a) -> d.x {=
+        d.x.set(0);
+        std::this_thread::sleep_for(20ms);
+    =}
+
+    reaction(d.d) {=
+        std::cout << "Deadline reactor produced an output." << std::endl;
+    =}
+}
+
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/DeadlineTest.lf
+target Python;
+import Deadline from "Deadline.lf";
+preamble {= import time =}
+main reactor {
+    logical action a;
+    d = new Deadline();
+    reaction(startup) -> d.x, a {=
+        d.x.set(0)
+        a.schedule(0)
+    =}
+    reaction(a) -> d.x {=
+        d.x.set(0)
+        time.sleep(0.02)
+    =}
+    reaction(d.d) {=
+        print("Deadline reactor produced an output.")
+    =}
+}
 ```
 
 ```lf-ts

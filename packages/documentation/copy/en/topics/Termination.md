@@ -24,7 +24,7 @@ We address each of these in turn.
 
 ## Timeout
 
-The [target property `timeout`](/docs/handbook/target-specification#timeout) specifies the last logical time at which reactions should be triggered. The last invocation of reactions will be at tag (`timeout`, 0).
+The [target property `timeout`](/docs/handbook/target-declaration#timeout) specifies the last logical time at which reactions should be triggered. The last invocation of reactions will be at tag (`timeout`, 0).
 
 There is a significant subtlety when using [physical connections](/docs/handbook/composing-reactors#physical-connections), which are connections using the syntax `~>`. Such connections specify that the tag at the receiving end will be based on the physical time at which the message is received. If the tag assigned at the receiving end is greater than the final tag, then the message is lost. Hence, **messages sent near the `timeout` time are likely to be lost!**
 

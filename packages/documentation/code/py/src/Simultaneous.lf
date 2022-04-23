@@ -1,0 +1,26 @@
+target Python;
+reactor Destination {
+    input x;
+    input y;
+    reaction(x, y) {=
+        print(
+            f"Time since start: {get_elapsed_logical_time()}, "
+            f"microstep: {get_microstep()}"
+        )
+        if x.is_present:
+            print("  x is present.")
+        if y.is_present:
+            print("  y is present.")
+    =}
+}
+main reactor {
+    logical action repeat;
+    d = new Destination();
+    reaction(startup) -> d.x, repeat {=
+        d.x.set(1)
+        repeat.schedule(0)
+    =}
+    reaction(repeat) -> d.y {=
+        d.y.set(1)
+    =}
+}

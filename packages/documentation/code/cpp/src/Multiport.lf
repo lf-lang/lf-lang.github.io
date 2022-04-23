@@ -1,0 +1,26 @@
+target Cpp;
+reactor Source {
+    output[4] out:int;
+    reaction(startup) -> out {=
+        for(auto i = 0ul; i < out.size(); i++) {
+            out[i].set(i);
+        }
+    =}
+}
+reactor Destination {
+    input[4] in:int;
+    reaction(in) {=
+        int sum = 0;
+        for (auto i = 0ul; i < in.size(); i++) {
+            if (in[i].is_present()){
+                sum += *in[i].get();
+            }
+        }
+        std::cout << "Sum of received: " << sum << std::endl;
+    =}
+}
+main reactor {
+    a = new Source();
+    b = new Destination();
+    a.out -> b.in;
+}

@@ -1,0 +1,22 @@
+target Python;
+reactor TestCount(start(0), stride(1), num_inputs(1)) {
+    state count(start);
+    state inputs_received(0);
+    input x;
+    reaction(x) {=
+        print(f"Received {x.value}.")
+        if x.value != self.count:
+            sys.stderr.write(f"ERROR: Expected {self.count}.\n")
+            exit(1)
+        self.count += self.stride
+        self.inputs_received += 1
+    =}
+    reaction(shutdown) {=
+        print("Shutdown invoked.")
+        if self.inputs_received != self.num_inputs:
+            sys.stderr.write(
+                f"ERROR: Expected to receive {self.num_inputs} inputs, but got {self.inputs_received}.\n"
+            )
+            exit(2)
+    =}
+}

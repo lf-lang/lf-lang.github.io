@@ -12,6 +12,5 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         );
         self->interval += self->incr;
         schedule(a, self->interval);
-        self->expected_time += self->interval;
     =}
 }

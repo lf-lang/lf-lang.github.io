@@ -1,0 +1,13 @@
+target Python;
+reactor Destination {
+    input x;
+    input y;
+    reaction(x, y) {=
+        sum = 0
+        if x.is_present:
+            sum += x.value
+        if y.is_present:
+            sum += y.value
+        print(f"Received {sum}")
+    =}
+}

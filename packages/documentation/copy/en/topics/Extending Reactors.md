@@ -10,6 +10,14 @@ $page-showing-target$
 
 ## Extending a Base Reactor
 
+<div class="lf-cpp">
+
+**The Cpp target does not yet support extending reactors.**
+
+</div>
+
+<div class="lf-c lf-py lf-ty lf-rs">
+
 Lingua Franca supports defining a reactor class as an extension (or subclass), as in the following example:
 
 $start(Extends)$
@@ -33,11 +41,25 @@ reactor B extends A {
 ```
 
 ```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Extends.lf
+// the cpp target currently does not support reactor extends
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Extends.lf
+target Python;
+reactor A {
+    input a;
+    output out;
+    reaction(a) -> out {=
+        out.set(a.value)
+    =}
+}
+reactor B extends A {
+    input b;
+    reaction(a, b) -> out {=
+        out.set(a.value + b.value)
+    =}
+}
+
 ```
 
 ```lf-ts
@@ -57,3 +79,5 @@ Here, the base class `A` has a single output that it writes to in reaction to an
 One limitation is that a subclass cannot have ports, actions, or state variables with the same names as those in the base class. The names must be unique.
 
 A subclass can extend more than one base class by just providing a comma-separated list of base classes. If reactions in multiple base classes are triggered at the same tag, they will be invoked in the same order that they appear in the comma-separated list.
+
+</div>

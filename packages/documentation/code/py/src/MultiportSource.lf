@@ -1,0 +1,12 @@
+target Python;
+reactor MultiportSource(
+    bank_index(0)
+) {
+    timer t(0, 200 msec);
+    output out;
+    state s(0);
+    reaction(t) -> out {=
+        out.set(self.s)
+        self.s += self.bank_index
+    =}
+}
