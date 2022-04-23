@@ -20,7 +20,7 @@ In Lingua Franca, $time$ is a data type.
 A parameter, state variable, port, or action may have type $time$.
 <span class="lf-c">In the C target, time values internally have type `instant_t` or `interval_t`,
 both of which are (usually) equivalent to the C type `long long`.</span>
-<span class="lf-cpp">In the Cpp target, time values internally have the type `std::chrono::nanoseconds`. For details, see the [Cpp target documentation](/docs/handbook/cpp-reactors#time).</span>
+<span class="lf-cpp">In the Cpp target, time values internally have the type `std::chrono::nanoseconds`. For details, see the [Target Language Reference](/docs/handbook/target-language-reference).</span>
 <span class="lf-rs warning">In the Rust target, time values internally have type FIXME.</span>
 
 </div>
@@ -253,13 +253,7 @@ WARNING: No source file found: ../code/rs/src/TimeElapsed.lf
 
 $end(TimeElapsed)$
 
-See the
-<span class="lf-c">[C reactors documentation](/docs/handbook/c-reactors#timed-behavior)</span>
-<span class="lf-cpp">[C++ reactors documentation](/docs/handbook/cpp-reactors#timed-behavior)</span>
-<span class="lf-py">[Python reactors documentation](/docs/handbook/python-reactors#timed-behavior)</span>
-<span class="lf-ts">[TypeScript reactors documentation](/docs/handbook/ts-reactors#timed-behavior)</span>
-<span class="lf-rs">[Rust reactors documentation](/docs/handbook/rust-reactors#timed-behavior)</span>
-for the full set of functions provided for accessing time values.
+See the [Target Language Reference](/docs/handbook/target-language-reference) for the full set of functions provided for accessing time values.
 
 Executing this program will produce something like this:
 
@@ -299,8 +293,8 @@ main reactor TimeLag {
     reaction(t) {=
         auto logical_time = get_elapsed_logical_time();
         auto physical_time = get_elapsed_physical_time();
-        std::cout << "Elapsed logical time: " << logical_time 
-            << " physical time: " << physical_time 
+        std::cout << "Elapsed logical time: " << logical_time
+            << " physical time: " << physical_time
             << " lag: " << physical_time - logical_time <<  std::endl;
     =}
 }
@@ -451,7 +445,7 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     reaction(shutdown) {=
         std::cout << "Shutdown invoked." << std::endl;
         if (inputs_received != num_inputs) {
-            std::cerr << "ERROR: Expected to receive " << num_inputs 
+            std::cerr << "ERROR: Expected to receive " << num_inputs
                 << " inputs, but got " << inputs_received << std::endl;
             exit(2);
         }

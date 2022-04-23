@@ -107,13 +107,13 @@ The time argument to the `schedule()` function is required to be non-negative. I
 
 The time argument to the `schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `long long`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/c-reactors#actions-with-values) in the C Reactors documentation.
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
 <div class="lf-cpp">
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/cpp-reactors#actions-with-values) in the C++ Reactors documentation.
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
@@ -121,7 +121,7 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 
 A collection of convenience functions is provided like the `MSEC` function above to specify time values in a more readable way. The provided functions are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
-An action may carry data, in which case, the **payload** data value is just given as a second argument to the `schedule()` function. See [Actions With Values](/docs/handbook/python-reactors#actions-with-values) in the Python Reactors documentation.
+An action may carry data, in which case, the **payload** data value is just given as a second argument to the `schedule()` function. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
@@ -129,7 +129,7 @@ An action may carry data, in which case, the **payload** data value is just give
 
 <span class="warning">FIXME</span>
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/typescript-reactors#actions-with-values) in the TypeScript Reactors documentation.
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
@@ -137,7 +137,7 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 
 <span class="warning">FIXME</span>
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/rust-reactors#actions-with-values) in the Rust Reactors documentation.
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 

@@ -37,7 +37,7 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 
 <div class="lf-c">
 
-Types ending with a `*` are treated specially by the C target. See [Sending and Receiving Arrays and Structs](/docs/handbook/c-reactors#sending-and-receiving-arrays-and-structs) in the C target documentation.
+Types ending with a `*` are treated specially by the C target. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 To use strings conveniently in the C target, the "type" `string` is an alias for `{=const char*=}`.
 
