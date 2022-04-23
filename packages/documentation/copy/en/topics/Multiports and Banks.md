@@ -125,7 +125,33 @@ WARNING: No source file found: ../code/ts/src/Multiport.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Multiport.lf
+target Rust;
+reactor Source {
+    output[4] out:usize;
+    reaction(startup) -> out {=
+        for (i, o) in out.into_iter().enumerate() {
+            ctx.set(o, i);
+        }
+    =}
+}
+reactor Destination {
+    input[4] inp:usize;
+    reaction(inp) {=
+        let mut sum = 0;
+        for i in inp {
+            if let Some(v) = ctx.get(&i) {
+                sum += v;
+            }
+        }
+        println!("Sum of received: {}.", sum);
+    =}
+}
+main reactor {
+    a = new Source();
+    b = new Destination();
+    a.out -> b.inp;
+}
+
 ```
 
 $end(Multiport)$
@@ -279,7 +305,19 @@ WARNING: No source file found: ../code/ts/src/MultiportSource.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/MultiportSource.lf
+target Rust;
+reactor MultiportSource(
+    bank_index:u32(0)
+) {
+    state bank_index(bank_index);
+    timer t(0, 200 msec);
+    output out:u32;
+    state s:u32(0);
+    reaction(t) -> out {=
+        ctx.set(out, self.s);
+        self.s += self.bank_index;
+    =}
+}
 ```
 
 $end(MultiportSource)$
@@ -435,7 +473,25 @@ WARNING: No source file found: ../code/ts/src/ChildBank.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/ChildBank.lf
+target Rust;
+reactor Child (
+    bank_index:usize(0)
+) {
+    state bank_index(bank_index);
+
+    reaction(startup) {=
+        println!("My bank index: {}.", self.bank_index);
+    =}
+}
+reactor Parent (
+    bank_index:usize(0)
+) {
+    c = new[2] Child();
+}
+main reactor {
+    p = new[2] Parent();
+}
+
 ```
 
 $end(ChildBank)$
@@ -533,7 +589,29 @@ WARNING: No source file found: ../code/ts/src/ChildParentBank.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/ChildParentBank.lf
+target Rust;
+reactor Child (
+    bank_index:usize(0),
+    parent_bank_index:usize(0)
+) {
+    state bank_index(bank_index);
+    state parent_bank_index(parent_bank_index);
+    reaction(startup) {=
+        println!(
+            "My bank index: {}. My parent's bank index: {}.",
+            self.bank_index,
+            self.parent_bank_index,
+        );
+    =}
+}
+reactor Parent (
+    bank_index:usize(0)
+) {
+    c = new[2] Child(parent_bank_index = bank_index);
+}
+main reactor {
+    p = new[2] Parent();
+}
 ```
 
 $end(ChildParentBank)$
@@ -774,7 +852,35 @@ WARNING: No source file found: ../code/ts/src/MultiportToBank.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/MultiportToBank.lf
+target Rust;
+reactor Source {
+    output[3] out:usize;
+    reaction(startup) -> out {=
+        for (i, o) in out.into_iter().enumerate() {
+            ctx.set(o, i);
+        }
+    =}
+}
+reactor Destination(
+    bank_index:usize(0)
+) {
+    state bank_index(bank_index);
+    input inp:usize;
+    reaction(inp) {=
+        println!(
+            "Destination {} received {}.",
+            self.bank_index,
+            ctx.get(inp).unwrap(),
+        );
+    =}
+}
+
+main reactor MultiportToBank {
+    a = new Source();
+    b = new[3] Destination();
+    a.out -> b.inp;
+}
+
 ```
 
 $end(MultiportToBank)$

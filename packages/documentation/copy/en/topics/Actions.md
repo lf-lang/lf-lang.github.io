@@ -90,7 +90,20 @@ WARNING: No source file found: ../code/ts/src/Schedule.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Schedule.lf
+target Rust;
+reactor Schedule {
+    input x:u32;
+    logical action a;
+    reaction(x) -> a {=
+        ctx.schedule(a, after!(200 ms));
+    =}
+    reaction(a) {=
+        printf("
+            Action triggered at logical time {} nsec after start.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(Schedule)$
@@ -201,7 +214,23 @@ WARNING: No source file found: ../code/ts/src/Physical.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Physical.lf
+target Rust;
+reactor Physical {
+    input x:u32;
+    physical action a;
+    reaction(x) -> a {=
+        let phys_action = a.clone();
+        ctx.spawn_physical_thread(move |link| {
+            link.schedule(&phys_action, Asap).unwrap();
+        });
+    =}
+    reaction(a) {=
+        println!(
+            "Action triggered at logical time {} nsec after start.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(Physical)$
@@ -230,7 +259,7 @@ $start(Asynchronous)$
 ```lf-c
 target C;
 main reactor {
-	preamble {=
+	preamble {=				
 		// Schedule an event roughly every 200 msec.
 		void* external(void* a) {
             while (true) {
@@ -239,14 +268,14 @@ main reactor {
 			}
 		}
 	=}
-	state thread_id:lf_thread_t(0);
+	state thread_id:lf_thread_t(0);	
     physical action a(100 msec):int;
-
+  
 	reaction(startup) -> a {=
 		// Start a thread to schedule physical actions.
 		lf_thread_create(&self->thread_id, &external, a);
 	=}
-
+	
 	reaction(a) {=
         interval_t elapsed_time = get_elapsed_logical_time();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
@@ -261,9 +290,9 @@ main reactor {
         #include <thread>
 	=}
 
-	state thread: std::thread;
+	state thread: std::thread;	
     physical action a:int;
-
+  
 	reaction(startup) -> a {=
 		// Start a thread to schedule physical actions.
         thread = std::thread([&]{
@@ -271,11 +300,11 @@ main reactor {
                 std::this_thread::sleep_for(200ms);
                 // the value that we give it really doesn't matter
                 // but we the action should is scheduled for 100ms into the future
-    			a.schedule(0, 100ms);
+    			a.schedule(0, 100ms); 	
             }
         });
 	=}
-
+	
 	reaction(a) {=
         auto elapsed_time = get_physical_time();
         std::cout << "Action triggered at logical time" << elapsed_time <<"nsec after start." << std::endl;
@@ -287,24 +316,24 @@ main reactor {
 ```lf-py
 target Python;
 main reactor {
-	preamble {=
+	preamble {=	
 		import time
-		import threading
+		import threading			
 		# Schedule an event roughly every 200 msec.
 		def external(self, a):
 			while (True):
 				self.time.sleep(0.2)
 				a.schedule(0)
 	=}
-	state thread;
+	state thread;	
     physical action a(100 msec);
-
+  
 	reaction(startup) -> a {=
 		# Start a thread to schedule physical actions.
 		self.thread = self.threading.Thread(target=self.external, args=(a,))
 		self.thread.start()
 	=}
-
+	
 	reaction(a) {=
         elapsed_time = get_elapsed_logical_time()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
@@ -317,7 +346,27 @@ WARNING: No source file found: ../code/ts/src/Asynchronous.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Asynchronous.lf
+target Rust;
+main reactor {
+    state start_time:Instant({=Instant::now()=});
+    physical action a(100 msec):u32;
+
+	reaction(startup) -> a {=
+        let phys_action = a.clone(); // clone to move it into other thread
+		// Start a thread to schedule physical actions.
+        ctx.spawn_physical_thread(move |link| {
+            loop {
+                std::thread::sleep(Duration::from_millis(200));
+                link.schedule_physical(&phys_action, Asap).unwrap();
+            }
+        });
+	=}
+
+	reaction(a) {=
+        let elapsed_time = self.start_time.elapsed();
+        println!("Action triggered at logical time {} nsecs after start.", elapsed_time.as_nanos());
+	=}
+}
 ```
 
 $end(Asynchronous)$
