@@ -12,7 +12,7 @@ $page-showing-target$
 
 A key property of Lingua Franca is **logical time**. All events occur at an instant in logical time. By default, the runtime system does its best to align logical time with **physical time**, which is some measurement of time on the execution platform. The **lag** is defined to be physical time minus logical time, and the goal of the runtime system is maintain a small non-negative lag.
 
-The **lag** is allowed to go negative only if the [`fast` target property](/docs/handbook/target-specification#fast) or the [--fast](/docs/handbook/target-specification#command-line-arguments) is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
+The **lag** is allowed to go negative only if the [`fast` target property](/docs/handbook/target-declaration#fast) or the [--fast](/docs/handbook/target-declaration#command-line-arguments) is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
 
 <div class="lf-c lf-cpp lf-rs">
 
@@ -345,7 +345,7 @@ A reaction is always invoked at a well-defined logical time, and logical time do
 
 ## Timeout
 
-By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-specification#timeout) or a [`--timeout command-line option](ocs/handbook/target-specification#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
+By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-declaration#timeout) or a [`--timeout command-line option](ocs/handbook/target-declaration#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
 
 ```lf-c
 target C {

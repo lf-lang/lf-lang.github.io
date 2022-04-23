@@ -94,8 +94,6 @@ The **type** of a port is a type in the target language plus the special type $t
 
 </div>
 
-## Triggers, Effects, and Uses
-
 The $reaction$ declaration above indicates that an input event on port `x` is a **trigger** and that an output event on port `y` is a (potential) **effect**. A reaction can declare more than one trigger or effect by just listing them separated by commas. For example, the following reactor has two triggers and tests each input for presence before using it:
 
 $start(Destination)$
@@ -173,6 +171,8 @@ $end(Destination)$
 <span class="lf-py warning">FIXME.</span>
 <span class="lf-ts">In the TS target, the value will be **undefined**, a legitimate value in TypeScript.</span>
 <span class="lf-rs warning">FIXME.</span>
+
+## Triggers, Effects, and Uses
 
 The general form of a $reaction$ is
 

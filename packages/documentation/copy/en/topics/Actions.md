@@ -221,7 +221,7 @@ Action triggered at logical time 603669000 nsec after start.
 ...
 ```
 
-Here, logical time is lagging physical time by a few milliseconds. Note that, unless the [fast option](/docs/handbook/target-specification#fast) is given, logical time _t_ chases physical time _T_, so _t_ < _T_. Hence, the event being scheduled in the reaction to input `x` is assured of being in the future in logical time.
+Here, logical time is lagging physical time by a few milliseconds. Note that, unless the [fast option](/docs/handbook/target-declaration#fast) is given, logical time _t_ chases physical time _T_, so _t_ < _T_. Hence, the event being scheduled in the reaction to input `x` is assured of being in the future in logical time.
 
 Whereas logical actions are required to be scheduled within a reaction of the reactor that declares the action, physical actions can be scheduled by code that is outside the Lingua Franca system. For example, some other thread or a callback function may call `schedule()`, passing it a physical action. For example:
 
@@ -332,7 +332,7 @@ In the above example, at $startup$, the main reactor creates an external thread 
 
 The code executed by the thread is defined in a $preamble$ section. See [Preambles and Methods](/docs/handbook/preambles-and-methods).
 
-**Important Note:** Asynchronous calls to `schedule()` will not work if you set the [`threading` target parameter](/docs/handbook/target-specification#threading) to `false`. You must use a threaded runtime for such asynchronous calls to work correctly.
+**Important Note:** Asynchronous calls to `schedule()` will not work if you set the [`threading` target parameter](/docs/handbook/target-declaration#threading) to `false`. You must use a threaded runtime for such asynchronous calls to work correctly.
 
 <div>
 

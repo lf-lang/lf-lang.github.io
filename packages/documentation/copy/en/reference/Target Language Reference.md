@@ -11,19 +11,136 @@ preamble: >
 
 $page-showing-target$
 
-[comment]: <> (================= NEW LANGUAGE =====================)
+[comment]: <> (================= NEW SECTION =====================)
+
+## Setup
 
 <div class="lf-c">
 
-<span class="lf-cpp lf-py lf-ts lf-rs warning">**WARNING: This page documents only the C target.** Choose the C target language in the left sidebar to see the C code examples.</span>
-
-In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. For requirements, see [setup for C](setup-for-c). It has been tested on MacOS, Linux, Windows, and at least one bare-iron embedded platforms. The single-threaded version (which you get by setting the [`threading` target parameter](/docs/handbook/target-specification#threading) to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the Posix thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
+In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on MacOS, Linux, Windows, and at least one bare-iron embedded platforms. The single-threaded version (which you get by setting the [`threading` target parameter](/docs/handbook/target-declaration#threading) to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the Posix thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
 
 Note that C is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Here, we provide some guidelines for a style for writing reactors that will be safe.
 
 **NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special [CCpp target](#the-ccpp-target) that automatically uses a C++ compiler by default. Alternatively, you might want to use the [Cpp target](/docs/handbook/cpp-reactors).
 
-## The C Target Specification
+</div>
+
+<div class="lf-cpp">
+
+In the C++ reactor target for Lingua Franca, reactions are written in C++ and the code generator generates a standalone C++ program that can be compiled and run on all major platforms. Our continous integration ensures compatibility with Windows, MacOS and Linux.
+The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/lf-lang/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
+
+Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe.
+
+</div>
+
+<div class="lf-py">
+
+In the Python reactor target for Lingua Franca, reactions are written in Python. The user-written reactors are then generated into a Python 3 script that can be executed on several platforms. The Python target has been tested on Linux, MacOS, and Windows. To facilitate efficient and fast execution of Python code, the generated program relies on a C extension to facilitate Lingua Franca APIs such as `set` and `schedule`. To learn more about the structure of the generated Python program, see [Implementation Details](#python-target-implementation-details).
+
+Python reactors can bring the vast library of scientific modules that exist for Python into a Lingua Franca program. Moreover, since the Python reactor target is based on a fast and efficient C runtime library, Lingua Franca programs can execute much faster than native equivalent Python programs in many cases. Finally, interoperability with C reactors is planned for the future.
+
+In comparison to the C target, the Python target can be up to an order of magnitude slower. However, depending on the type of application and the implementation optimizations in Python, you can achieve an on-par performance to the C target in many applications.
+
+**NOTE:** A [Python C extension](https://docs.python.org/3/extending/extending.html) is currently generated for each Lingua Franca program. To ensure cross-compatibility across multiple platforms, this extension is installed in the user space once code generation is finished (see [Implementation Details](#python-target-implementation-details)). This extension module will have the name LinguaFranca[your_LF_program_name]. There is a handy script [uninstallAllLinguaFrancaTestPackages.sh](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/uninstallAllLinguaFrancaTestPackages.sh) that can uninstall all extension modules that are installed automatically by Lingua Franca tools (such as `lfc`).
+
+### Key Limitations
+
+- On some platforms (Mac, in particular), if you generate code from within the Epoch IDE, the code will not run. It fails to find the needed libraries. As a workaround, please compile the code using the [command-line tool, lfc](/docs/handbook/command-line-tools).
+
+- The Lingua Franca lexer does not support single-quoted strings in Python. This limitation also applies to target property values. You must use double quotes.
+
+</div>
+
+<div class="lf-ts">
+
+<span class="warning">This needs updating!</span>
+
+In the TypeScript reactor target for Lingua Franca, reactions are written in [TypeScript](https://www.typescriptlang.org/) and the code generator generates a standalone TypeScript program that can be compiled to JavaScript and run on [Node.js](https://nodejs.org).
+
+TypeScript reactors bring the strengths of TypeScript and Node.js to Lingua Franca programming. The TypeScript language and its associated tools enable static type checking for both reaction code and Lingua Franca elements like ports and actions. The Node.js JavaScript runtime provides an execution environment for asynchronous network applications. With Node.js comes Node Package Manager ([npm](https://www.npmjs.com/)) and its large library of supporting modules.
+
+In terms of raw performance on CPU intensive operations, TypeScript reactors are about two orders of magnitude slower than C reactors. But excelling at CPU intensive operations isn't really the point of Node.js (or by extension TypeScript reactors). Node.js is about achieving high throughput on network applications by efficiently handling asynchronous I/O operations. Keep this in mind when choosing the right Lingua Franca target for your application.
+
+</div>
+
+<div class="lf-rs">
+
+**Important:** The Rust target is still quite preliminary. This is early WIP documentation to let you try it out if you're curious
+
+In the Rust reactor target for Lingua Franca, reactions are written in Rust and the code generator generates a standalone Rust program that can be compiled and run on platforms supported by rustc. The program depends on a runtime library distributed as the crate [reactor_rt](https://github.com/lf-lang/reactor-rust), and depends on the Rust standard library.
+
+Documentation for the runtime API is available here: https://lf-lang.org/reactor-rust/
+
+<!-- Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe. -->
+
+</div>
+
+[comment]: <> (================= NEW SECTION =====================)
+
+## Requirements
+
+<div class="lf-c">
+
+The following tools are required in order to compile the generated C++ source code:
+
+- A C compiler such as `gcc`
+- A recent version of `cmake` (at least 3.5)
+
+</div>
+
+<div class="lf-cpp">
+
+The following tools are required in order to compile the generated C++ source code:
+
+- A recent C++ compiler supporting C++17
+- A recent version of `cmake` (at least 3.5)
+
+</div>
+
+<div class="lf-py">
+### Requirements
+
+To use this target, install Python 3 on your machine. See [downloading Python](https://wiki.python.org/moin/BeginnersGuide/Download).
+
+**NOTE:** The Python target requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or with most of the alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.
+
+The Python reactor target relies on `pip` and `setuptools` to be able to compile and install a [Python C extension](https://docs.python.org/3/extending/extending.html) for each LF program. To install `pip3`, you can follow instructions [here](https://pip.pypa.io/en/stable/installation/).
+`setuptools` can be installed using `pip3`:
+
+```bash
+pip3 install setuptools
+```
+
+</div>
+
+<div class="lf-ts">
+
+First, make sure Node.js is installed on your machine. You can [download Node.js here](https://nodejs.org/en/download/). The npm package manager comes along with Node.
+
+After installing Node, you may optionally install the TypeScript compiler.
+
+```
+npm install -g typescript
+```
+
+TypeScript reactor projects are created with a local copy of the TypeScript compiler, but having the TypeScript compiler globally installed can be useful for [debugging type errors](#debugging-type-errors) and type checking on the command line.
+
+</div>
+
+<div class="lf-rs">
+
+In order to compile the generated Rust source code, you need a recent version of [Cargo](https://doc.rust-lang.org/cargo/), the Rust package manager. See [How to Install Rust and Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html) if you don't have them on your system.
+
+You can use a development version of the runtime library by setting the LFC option `--external-runtime-path` to the root directory of the runtime library crate sources. If this variable is mentioned, LFC will ask Cargo to fetch the runtime library from there.
+
+</div>
+
+[comment]: <> (================= NEW SECTION =====================)
+
+## The Target Specification
+
+<div class="lf-c">
 
 To have Lingua Franca generate C code, start your `.lf` file with one of the following target specifications:
 
@@ -59,11 +176,16 @@ main reactor {
 
 **Note:** A `.lf` file that uses the `CCpp` target cannot and should not be imported to an `.lf` file that uses the `C` target. Although these two targets use essentially the same runtime, such a scenario can cause unintended compiler errors.
 
-## The self Struct
+### The self Struct
 
 The code generator synthesizes a struct type in C for each reactor class and a constructor that creates an instance of this struct. By convention, these instances are called `self` and are visible within each reactor body. The `self` struct contains the parameters, state variables, and values associated with actions and ports of the reactor. Parameters and state variables are accessed directly on the `self` struct, whereas ports and actions are directly in scope by name, as we will see below. Let's begin with parameters.
 
+</div>
 ## Parameters and State Variables
+
+[comment]: <> (================= NEW LANGUAGE =====================)
+
+<div class="lf-c">
 
 Reactor parameters and state variables are referenced in the C code using the `self` struct. The following [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Stride.lf) example modifies the `Count` reactor in [State Declaration](/docs/handbook/parameters-and-state-variables#state-declaration) to include both a parameter and state variable:
 
@@ -880,22 +1002,6 @@ on the reaction queue have executed at the current logical time.
 
 [comment]: <> (================= NEW LANGUAGE =====================)
 
-<div class="lf-cpp">
-
-<span class="lf-c lf-py lf-ts lf-rs warning">**WARNING: This page documents only the Cpp target.** Choose the C target language in the left sidebar to see the Cpp code examples.</span>
-
-In the C++ reactor target for Lingua Franca, reactions are written in C++ and the code generator generates a standalone C++ program that can be compiled and run on all major platforms. Our continous integration ensures compatibility with Windows, MacOS and Linux.
-The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/lf-lang/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
-
-Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe.
-
-## Setup
-
-The following tools are required in order to compile the generated C++ source code:
-
-- A recent C++ compiler supporting C++17
-- A recent version of cmake (At least 3.5)
-
 ## The C++ Target Specification
 
 To have Lingua Franca generate C++ code, start your `.lf` file with the following target specification:
@@ -1482,41 +1588,6 @@ Which type of messages are actually produced by the compiled program can be cont
 
 <div class="lf-py">
 
-<span class="lf-cpp lf-c lf-ts lf-rs warning">**WARNING: This page documents only the Python target.** Choose the Python target language in the left sidebar to see the Python code examples.</span>
-
-In the Python reactor target for Lingua Franca, reactions are written in Python. The user-written reactors are then generated into a Python 3 script that can be executed on several platforms. The Python target has been tested on Linux, MacOS, and Windows. To facilitate efficient and fast execution of Python code, the generated program relies on a C extension to facilitate Lingua Franca APIs such as `set` and `schedule`. To learn more about the structure of the generated Python program, see [Implementation Details](#python-target-implementation-details).
-
-Python reactors can bring the vast library of scientific modules that exist for Python into a Lingua Franca program. Moreover, since the Python reactor target is based on a fast and efficient C runtime library, Lingua Franca programs can execute much faster than native equivalent Python programs in many cases. Finally, interoperability with C reactors is planned for the future.
-
-In comparison to the C target, the Python target can be up to an order of magnitude slower. However, depending on the type of application and the implementation optimizations in Python, you can achieve an on-par performance to the C target in many applications.
-
-## Setup
-
-First, install Python 3 on your machine. See [downloading Python](https://wiki.python.org/moin/BeginnersGuide/Download).
-
-**NOTE:** The Python target requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or with most of the alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.
-
-The Python reactor target relies on `pip` and `setuptools` to be able to compile and install a [Python C extension](https://docs.python.org/3/extending/extending.html) for each LF program. To install `pip3`, you can follow instructions [here](https://pip.pypa.io/en/stable/installation/).
-`setuptools` can be installed using `pip3`:
-
-```bash
-pip3 install setuptools
-```
-
-**NOTE:** A [Python C extension](https://docs.python.org/3/extending/extending.html) is currently generated for each Lingua Franca program. To ensure cross-compatibility across multiple platforms, this extension is installed in the user space once code generation is finished (see [Implementation Details](#python-target-implementation-details)). This extension module will have the name LinguaFranca[your_LF_program_name]. There is a handy script [uninstallAllLinguaFrancaTestPackages.sh](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/uninstallAllLinguaFrancaTestPackages.sh) that can uninstall all extension modules that are installed automatically by Lingua Franca tools (such as `lfc`).
-
-## Examples
-
-To see a few interactive examples written using the Python target, see [the examples-lingua-franca repository](https://github.com/lf-lang/examples-lingua-franca/tree/main/Python/src).
-
-The [Python CI tests](https://github.com/lf-lang/lingua-franca/tree/master/test/Python) might also act as a reference in some cases for the capabilities of the Python target.
-
-## Key Limitations
-
-- On some platforms (Mac, in particular), if you generate code from within the Epoch IDE, the code will not run. It fails to find the needed libraries. As a workaround, please compile the code using the [command-line tool, lfc](/docs/handbook/command-line-tools).
-
-- The Lingua Franca lexer does not support single-quoted strings in Python. This limitation also applies to target property values. You must use double quotes.
-
 ## The Python Target Specification
 
 To have Lingua Franca generate Python code, start your `.lf` file with the following target specification:
@@ -1544,31 +1615,9 @@ These specify the _default_ behavior of the generated code, the behavior it will
 
 ## Inputs and Outputs
 
-In the body of a reaction in the Python target, the value of an input is obtained using the syntax `name.value`, where `name` is the name of the input port. To determine whether an input is present, use `name.is_present`. For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/Determinism.lf) test case in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/test/Python) includes the following reactor:
+In the body of a reaction in the Python target, the value of an input is obtained using the syntax `name.value`, where `name` is the name of the input port. To determine whether an input is present, use `name.is_present`. For an example, see [Inputs and Outputs](/docs/handbook/inputs-and-outputs).
 
-```lf-py
-reactor Destination {
-    input x;
-    input y;
-    reaction(x, y) {=
-        sm = 0
-        if x.is_present:
-            sm += x.value
-        if y.is_present:
-            sm += y.value
-        print("Received ", sm)
-        if sm != 2:
-            sys.stderr.write("FAILURE: Expected 2.\n")
-            exit(4)
-    =}
-}
-```
-
-The reaction refers to the input values `x.value` and `y.value` and tests for their presence by referring to the variables `x.is_present` and `y.is_present`. If a reaction is triggered by just one input, then normally it is not necessary to test for its presence; it will always be present. But in the above example, there are two triggers, so the reaction has no assurance that both will be present.
-
-Notice that in the Python target, reactor elements like inputs, outputs, actions, parameters, and state variables are not typed. This effectively allows for any valid Python object to be passed on these elements. For more details and examples on using various Python object types, see [Sending and Receiving Objects](#sending-and-receiving-objects).
-
-Inputs declared in the **uses** part of the reaction do not trigger the reaction. Consider the following modification to the above reaction:
+Inputs declared in the **uses** part of the reaction do not trigger the reaction. Consider the following reaction:
 
 ```lf-py
 reaction(x) y {=
@@ -1579,9 +1628,9 @@ reaction(x) y {=
 =}
 ```
 
-It is no longer necessary to test for the presence of `x` because that is the only trigger. The input `y`, however, may or may not be present at the logical time that this reaction is triggered. Hence, the code must test for its presence.
+It is not necessary to test for the presence of `x` because that is the only trigger. The input `y`, however, may or may not be present at the logical time that this reaction is triggered. Hence, the code must test for its presence.
 
-The **effects** portion of the reaction specification can include outputs and actions. Actions will be described below. Outputs are set using a `SET` macro. For example, we can further modify the above example as follows:
+The **effects** portion of the reaction specification can include outputs and actions. Outputs are set using a `SET` macro. For example, we can further modify the above example as follows:
 
 ```lf-py
 output z;
@@ -2177,21 +2226,7 @@ import copy
 
 [comment]: <> (================= NEW LANGUAGE =====================)
 
-<span class="warning">This needs updating!</span>
-
-> :warning: **Important:** The Rust target is still quite preliminary. This is early WIP documentation to let you try it out if you're curious
-
-In the Rust reactor target for Lingua Franca, reactions are written in Rust and the code generator generates a standalone Rust program that can be compiled and run on platforms supported by rustc. The program depends on a runtime library distributed as the crate [reactor_rt](https://github.com/lf-lang/reactor-rust), and depends on the Rust standard library.
-
-Documentation for the runtime API is available here: https://lf-lang.org/reactor-rust/
-
-<!-- Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe. -->
-
-## Setup
-
-In order to compile the generated Rust source code, you need a recent version of [Cargo](https://doc.rust-lang.org/cargo/), the Rust package manager. See [How to Install Rust and Cargo](https://doc.rust-lang.org/cargo/getting-started/installation.html) if you don't have them on your system.
-
-You can use a development version of the runtime library by setting the LFC option `--external-runtime-path` to the root directory of the runtime library crate sources. If this variable is mentioned, LFC will ask Cargo to fetch the runtime library from there.
+<div class="lf-rs">
 
 ## A Minimal Example
 
@@ -2635,31 +2670,9 @@ if let Some(value) = ctx.get_action(act) {
 
 If an action does not mention a data type, the type is defaulted to `()`.
 
-#### Time
-
-> :warning: todo
-
 [comment]: <> (================= NEW LANGUAGE =====================)
 
-<span class="warning">This needs updating!</span>
-
-In the TypeScript reactor target for Lingua Franca, reactions are written in [TypeScript](https://www.typescriptlang.org/) and the code generator generates a standalone TypeScript program that can be compiled to JavaScript and run on [Node.js](https://nodejs.org).
-
-TypeScript reactors bring the strengths of TypeScript and Node.js to Lingua Franca programming. The TypeScript language and its associated tools enable static type checking for both reaction code and Lingua Franca elements like ports and actions. The Node.js JavaScript runtime provides an execution environment for asynchronous network applications. With Node.js comes Node Package Manager ([npm](https://www.npmjs.com/)) and its large library of supporting modules.
-
-In terms of raw performance on CPU intensive operations, TypeScript reactors are about two orders of magnitude slower than C reactors. But excelling at CPU intensive operations isn't really the point of Node.js (or by extension TypeScript reactors). Node.js is about achieving high throughput on network applications by efficiently handling asynchronous I/O operations. Keep this in mind when choosing the right Lingua Franca target for your application.
-
-## Setup
-
-First, make sure Node.js is installed on your machine. You can [download Node.js here](https://nodejs.org/en/download/). The npm package manager comes along with Node.
-
-After installing Node, you may optionally install the TypeScript compiler.
-
-```
-npm install -g typescript
-```
-
-TypeScript reactor projects are created with a local copy of the TypeScript compiler, but having the TypeScript compiler globally installed can be useful for [debugging type errors](#debugging-type-errors) and type checking on the command line.
+<div class="lf-ts">
 
 ## A Minimal Example
 
