@@ -105,7 +105,16 @@ WARNING: No source file found: ../code/ts/src/Scale.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Scale.lf
+target Rust;
+reactor Scale(factor:u32(2)) {
+    state factor(factor);
+    input x:u32;
+    output y:u32;
+    reaction(x) -> y {=
+        let x = ctx.get(x).unwrap();
+        ctx.set(y, x * self.factor);
+    =}
+}
 ```
 
 $end(Scale)$
@@ -187,7 +196,17 @@ WARNING: No source file found: ../code/ts/src/Count.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Count.lf
+target Rust;
+reactor Count {
+    state count:u32(0);
+    output y:u32;
+    timer t(0, 100 msec);
+    reaction(t) -> y {=
+        ctx.set(y, self.count);
+        self.count += 1;
+    =}
+}
+
 ```
 
 $end(Count)$

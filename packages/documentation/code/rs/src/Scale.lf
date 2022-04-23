@@ -1,0 +1,10 @@
+target Rust;
+reactor Scale(factor:u32(2)) {
+    state factor(factor);
+    input x:u32;
+    output y:u32;
+    reaction(x) -> y {=
+        let x = ctx.get(x).unwrap();
+        ctx.set(y, x * self.factor);
+    =}
+}

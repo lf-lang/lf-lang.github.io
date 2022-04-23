@@ -79,8 +79,14 @@ WARNING: No source file found: ../code/ts/src/Double.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Double.lf
-
+target Rust;
+reactor Double {
+    input x:u32;
+    output y:u32;
+    reaction(x) -> y {=
+        ctx.set(y, ctx.get(x).unwrap() * 2);
+    =}
+}
 ```
 
 $end(Double)$
@@ -131,7 +137,7 @@ reactor Destination {
             sum += *y.get();
         }
 
-        std::cout << "Received: " << sum << std::endl;
+        std::cout << "Received: " << sum << std::endl; 
     =}
 }
 
@@ -159,8 +165,21 @@ WARNING: No source file found: ../code/ts/src/Destination.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Destination.lf
-
+target Rust;
+reactor Destination {
+    input x:u32;
+    input y:u32;
+    reaction(x, y) {=
+        let mut sum = 0;
+        if let Some(x) = ctx.get(x) {
+            sum += x;
+        }
+        if let Some(y) = ctx.get(y) {
+            sum += y;
+        }
+        println!("Received {}.", sum);
+    =}
+}
 ```
 
 $end(Destination)$

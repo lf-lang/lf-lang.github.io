@@ -1,0 +1,30 @@
+target Rust;
+reactor Destination {
+    input x:u32;
+    input y:u32;
+    reaction(x, y) {=
+        let tag = ctx.get_tag();
+        println!(
+            "Time since start: {}, microstep: {}",
+            tag.offset_from_t0.as_nanos(),
+            tag.microstep,
+        );
+        if ctx.is_present(x) {
+            println!("  x is present.");
+        }
+        if ctx.is_present(y) {
+            println!("  y is present.");
+        }
+    =}
+}
+main reactor {
+    logical action repeat;
+    d = new Destination();
+    reaction(startup) -> d.x, repeat {=
+        ctx.set(d__x, 1);
+        ctx.schedule(repeat, Asap);
+    =}
+    reaction(repeat) -> d.y {=
+        ctx.set(d__y, 1);
+    =}
+}

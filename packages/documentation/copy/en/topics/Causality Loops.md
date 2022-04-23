@@ -99,7 +99,31 @@ WARNING: No source file found: ../code/ts/src/Cycle.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Cycle.lf
+target Rust;
+reactor A {
+    input x:u32;
+    output y:u32;
+    reaction(x) -> y {=
+        // ... something here ...
+    =}
+}
+reactor B {
+    input x:u32;
+    output y:u32;
+    reaction(x) {=
+        // ... something here ...
+    =}
+    reaction(startup) -> y {=
+        // ... something here ...
+    =}
+}
+main reactor {
+    a = new A();
+    b = new B();
+    a.y -> b.x;
+    b.y -> a.x;
+}
+
 ```
 
 $end(Cycle)$
@@ -203,7 +227,30 @@ WARNING: No source file found: ../code/ts/src/CycleWithDelay.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/CycleWithDelay.lf
+target Rust;
+reactor A {
+    input x:u32;
+    output y:u32;
+    reaction(x) -> y {=
+        // ... something here ...
+    =}
+}
+reactor B {
+    input x:u32;
+    output y:u32;
+    reaction(x) {=
+        // ... something here ...
+    =}
+    reaction(startup) -> y {=
+        // ... something here ...
+    =}
+}
+main reactor {
+    a = new A();
+    b = new B();
+    a.y -> b.x after 0;
+    b.y -> a.x;
+}
 ```
 
 $end(CycleWithDelay)$
@@ -305,7 +352,30 @@ WARNING: No source file found: ../code/ts/src/CycleReordered.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/CycleReordered.lf
+target Rust;
+reactor A {
+    input x:u32;
+    output y:u32;
+    reaction(x) -> y {=
+        // ... something here ...
+    =}
+}
+reactor B {
+    input x:u32;
+    output y:u32;
+    reaction(startup) -> y {=
+        // ... something here ...
+    =}
+    reaction(x) {=
+        // ... something here ...
+    =}
+}
+main reactor {
+    a = new A();
+    b = new B();
+    a.y -> b.x;
+    b.y -> a.x;
+}
 ```
 
 $end(CycleReordered)$

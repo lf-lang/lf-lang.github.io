@@ -1,0 +1,10 @@
+target Rust;
+main reactor Timer {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        println!(
+            "Logical time is {}.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}

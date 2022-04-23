@@ -1,0 +1,28 @@
+target Rust;
+reactor Source {
+    output[3] out:usize;
+    reaction(startup) -> out {=
+        for (i, o) in out.into_iter().enumerate() {
+            ctx.set(o, i);
+        }
+    =}
+}
+reactor Destination(
+    bank_index:usize(0)
+) {
+    state bank_index(bank_index);
+    input inp:usize;
+    reaction(inp) {=
+        println!(
+            "Destination {} received {}.",
+            self.bank_index,
+            ctx.get(inp).unwrap(),
+        );
+    =}
+}
+
+main reactor MultiportToBank {
+    a = new Source();
+    b = new[3] Destination();
+    a.out -> b.inp;
+}

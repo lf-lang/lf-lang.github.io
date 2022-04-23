@@ -1,0 +1,14 @@
+target Rust;
+main reactor TimeLag {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        let t = ctx.get_elapsed_logical_time();
+        let T = ctx.get_elapsed_physical_time();
+        println!(
+            "Elapsed logical time: {}, physical time: {}, lag: {}",
+            t.as_nanos(),
+            T.as_nanos(),
+            (T-t).as_nanos(),
+        );
+    =}
+}

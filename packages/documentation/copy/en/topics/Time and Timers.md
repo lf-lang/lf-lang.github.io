@@ -108,7 +108,27 @@ WARNING: No source file found: ../code/ts/src/SlowingClock.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/SlowingClock.lf
+target Rust;
+main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
+    state start(start);
+    state incr(incr);
+    state interval:time(start);
+    state expected_time:time();
+    logical action a;
+    reaction(startup) -> a {=
+        ctx.schedule(a, After(self.start));
+    =}
+    reaction(a) -> a {=
+        println!(
+            "Logical time since start: {} nsec.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+        self.interval += self.incr;
+        ctx.schedule(a, After(self.interval));
+        self.expected_time += self.interval;
+    =}
+}
+
 ```
 
 $end(SlowingClock)$
@@ -175,7 +195,16 @@ WARNING: No source file found: ../code/ts/src/Timer.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Timer.lf
+target Rust;
+main reactor Timer {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        println!(
+            "Logical time is {}.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(Timer)$
@@ -248,7 +277,16 @@ WARNING: No source file found: ../code/ts/src/TimeElapsed.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/TimeElapsed.lf
+target Rust;
+main reactor TimeElapsed {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        println!(
+            "Elapsed logical time is {}.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(TimeElapsed)$
@@ -293,8 +331,8 @@ main reactor TimeLag {
     reaction(t) {=
         auto logical_time = get_elapsed_logical_time();
         auto physical_time = get_elapsed_physical_time();
-        std::cout << "Elapsed logical time: " << logical_time
-            << " physical time: " << physical_time
+        std::cout << "Elapsed logical time: " << logical_time 
+            << " physical time: " << physical_time 
             << " lag: " << physical_time - logical_time <<  std::endl;
     =}
 }
@@ -320,7 +358,20 @@ WARNING: No source file found: ../code/ts/src/TimeLag.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/TimeLag.lf
+target Rust;
+main reactor TimeLag {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        let t = ctx.get_elapsed_logical_time();
+        let T = ctx.get_elapsed_physical_time();
+        println!(
+            "Elapsed logical time: {}, physical time: {}, lag: {}",
+            t.as_nanos(),
+            T.as_nanos(),
+            (T-t).as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(TimeLag)$
@@ -445,7 +496,7 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     reaction(shutdown) {=
         std::cout << "Shutdown invoked." << std::endl;
         if (inputs_received != num_inputs) {
-            std::cerr << "ERROR: Expected to receive " << num_inputs
+            std::cerr << "ERROR: Expected to receive " << num_inputs 
                 << " inputs, but got " << inputs_received << std::endl;
             exit(2);
         }
@@ -484,7 +535,35 @@ WARNING: No source file found: ../code/ts/src/TestCount.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/TestCount.lf
+target Rust;
+reactor TestCount(start:u32(0), stride:u32(1), num_inputs:u32(1)) {
+    state stride(stride);
+    state num_inputs(num_inputs);
+    state count:u32(start);
+    state inputs_received:u32(0);
+    input x:u32;
+    reaction(x) {=
+        let x = ctx.get(x).unwrap();
+        println!("Received {}.", x);
+        if x != self.count {
+            println!("ERROR: Expected {}.", self.count);
+            std::process::exit(1);
+        }
+        self.count += self.stride;
+        self.inputs_received += 1;
+    =}
+    reaction(shutdown) {=
+        println!("Shutdown invoked.");
+        if self.inputs_received != self.num_inputs {
+            println!(
+                "ERROR: Expected to receive {} inputs, but got {}.",
+                self.num_inputs,
+                self.inputs_received
+            );
+            std::process::exit(2);
+        }
+    =}
+}
 ```
 
 $end(TestCount)$
