@@ -64,7 +64,7 @@ const handbookPages = [
     summary: "Tools for developing Lingua Franca programs.",
     chronological: true,
     items: [
-        { file: "tools/Code Plugin.md"},
+        { file: "tools/Code Extension.md"},
         { file: "tools/Epoch IDE.md"},
         { file: "tools/Command Line Tools.md" },
     ],
