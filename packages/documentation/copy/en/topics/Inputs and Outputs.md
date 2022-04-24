@@ -207,6 +207,12 @@ The **uses** field, which is optional, specifies input ports (or [output ports o
 
 The **effects** field, which is also optional, is a comma-separated lists of output ports ports, [input ports of contained reactors](/docs/handbook/hierarchy), or [actions](/docs/handbook/timers-and-actions).
 
+## Setting an Output Multiple Times
+
+If one or more reactions set an output multiple times at the same [tag](/docs/handbook/superdense-time#tag-vs-time), then only the last value set will be seen by any downstream reactors.
+
+If a reaction wishes to test whether an output has been previously set at the current tag by some other reaction, it can test it in the same way it tests inputs for presence.
+
 ## Mutable Inputs
 
 Normally, a reaction does not modify the value of an input. An input is said to be **immutable**. The degree to which this is enforced varies by target language. Most of the target languages make it rather difficult to enforce, so the programmer needs to avoid modifying the input. Modifying an input value may lead to nondeterministic results.

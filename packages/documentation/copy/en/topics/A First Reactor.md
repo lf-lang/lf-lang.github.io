@@ -99,7 +99,7 @@ After this completes, an additional `src-gen` directory will have been created w
 #####################################
 To run the generated program, use:
 
-    node ...path-to-project.../src-gen/Minimal/Minimal.js
+    node ...path-to-project.../src-gen/Minimal/dist/Minimal.js
 
 #####################################
 ```
