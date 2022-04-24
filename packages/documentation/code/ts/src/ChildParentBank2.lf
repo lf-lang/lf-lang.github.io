@@ -1,0 +1,20 @@
+target TypeScript;
+reactor Child (
+    parentBankIndex:number(0)
+) {
+    output out:number;
+    reaction(startup) -> out {=
+        out = parentBankIndex * 2 + this.getBankIndex();
+    =}
+}
+reactor Parent {
+    c = new[2] Child(parentBankIndex = {= this.getBankIndex() =});
+    reaction(c.out) {=
+        for (let i = 0; i < c.length; i++) {
+            console.log(`Received ${c[i].out} from child ${i}`)
+        }
+    =}
+}
+main reactor {
+    p = new[2] Parent();
+}
