@@ -1,8 +1,8 @@
 ---
-title: "Target Specification"
+title: "Target Declaration"
 layout: docs
-permalink: /docs/handbook/target-specification
-oneline: "The target specification in Lingua Franca."
+permalink: /docs/handbook/target-declaration
+oneline: "The target declaration and its parameters in Lingua Franca."
 preamble: >
 ---
 
@@ -206,6 +206,8 @@ This parameter works with `cmake` to specify how to compile the code. The follow
 - `MinSizeRel`: Optimize for smallest size.
 
 This defaults to Release.
+
+</div>
 
 ## cmake
 

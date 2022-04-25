@@ -60,23 +60,11 @@ const handbookPages = [
     ],
   },
   {
-    title: "Target Languages",
-    summary: "Documentation for specific target languages.",
-    chronological: true,
-    items: [
-      { file: "target/C Reactors.md" },
-      { file: "target/Cpp Reactors.md" },
-      { file: "target/Python Reactors.md" },
-      { file: "target/TypeScript Reactors.md" },
-      { file: "target/Rust Reactors.md" },
-    ],
-  },
-  {
     title: "Tools",
     summary: "Tools for developing Lingua Franca programs.",
     chronological: true,
     items: [
-        { file: "tools/Code Plugin.md"},
+        { file: "tools/Code Extension.md"},
         { file: "tools/Epoch IDE.md"},
         { file: "tools/Command Line Tools.md" },
     ],
@@ -87,7 +75,8 @@ const handbookPages = [
     chronological: true,
     items: [
       { file: "reference/Expressions.md"},
-      { file: "reference/Target Specification.md" },
+      { file: "reference/Target Language Reference.md" },
+      { file: "reference/Target Declaration.md" },
       { file: "reference/Tracing.md" },
     ],
   },

@@ -90,7 +90,20 @@ WARNING: No source file found: ../code/ts/src/Schedule.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Schedule.lf
+target Rust;
+reactor Schedule {
+    input x:u32;
+    logical action a;
+    reaction(x) -> a {=
+        ctx.schedule(a, after!(200 ms));
+    =}
+    reaction(a) {=
+        printf("
+            Action triggered at logical time {} nsec after start.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(Schedule)$
@@ -101,33 +114,27 @@ Here, the delay is specified in the call to `schedule()` within the target langu
 
 The arguments to the `schedule()` function are the action named `a` and a time. The action `a` has to be declared as an effect of the reaction in order to reference it in the call to `schedule()`. If you fail to declare it as an effect (after the `->` in the reaction signature), then you will get an error message.
 
+The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
+
 <div class="lf-c">
 
 The time argument to the `schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `long long`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
-
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/c-reactors#actions-with-values) in the C Reactors documentation.
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
 <div class="lf-cpp">
 
-<span class="warning">FIXME</span>
-
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
-
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/cpp-reactors#actions-with-values) in the C++ Reactors documentation.
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
 <div class="lf-py">
 
-<span class="warning">FIXME</span>
+A collection of convenience functions is provided like the `MSEC` function above to specify time values in a more readable way. The provided functions are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
-
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/python-reactors#actions-with-values) in the Python Reactors documentation.
+An action may carry data, in which case, the **payload** data value is just given as a second argument to the `schedule()` function. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
@@ -135,9 +142,7 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 
 <span class="warning">FIXME</span>
 
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
-
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/typescript-reactors#actions-with-values) in the TypeScript Reactors documentation.
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
@@ -145,9 +150,7 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 
 <span class="warning">FIXME</span>
 
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
-
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See [Actions With Values](/docs/handbook/rust-reactors#actions-with-values) in the Rust Reactors documentation.
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
 
 </div>
 
@@ -211,7 +214,23 @@ WARNING: No source file found: ../code/ts/src/Physical.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Physical.lf
+target Rust;
+reactor Physical {
+    input x:u32;
+    physical action a;
+    reaction(x) -> a {=
+        let phys_action = a.clone();
+        ctx.spawn_physical_thread(move |link| {
+            link.schedule(&phys_action, Asap).unwrap();
+        });
+    =}
+    reaction(a) {=
+        println!(
+            "Action triggered at logical time {} nsec after start.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(Physical)$
@@ -231,7 +250,7 @@ Action triggered at logical time 603669000 nsec after start.
 ...
 ```
 
-Here, logical time is lagging physical time by a few milliseconds. Note that, unless the [fast option](/docs/handbook/target-specification#fast) is given, logical time _t_ chases physical time _T_, so _t_ < _T_. Hence, the event being scheduled in the reaction to input `x` is assured of being in the future in logical time.
+Here, logical time is lagging physical time by a few milliseconds. Note that, unless the [fast option](/docs/handbook/target-declaration#fast) is given, logical time _t_ chases physical time _T_, so _t_ < _T_. Hence, the event being scheduled in the reaction to input `x` is assured of being in the future in logical time.
 
 Whereas logical actions are required to be scheduled within a reaction of the reactor that declares the action, physical actions can be scheduled by code that is outside the Lingua Franca system. For example, some other thread or a callback function may call `schedule()`, passing it a physical action. For example:
 
@@ -327,7 +346,27 @@ WARNING: No source file found: ../code/ts/src/Asynchronous.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Asynchronous.lf
+target Rust;
+main reactor {
+    state start_time:Instant({=Instant::now()=});
+    physical action a(100 msec):u32;
+
+	reaction(startup) -> a {=
+        let phys_action = a.clone(); // clone to move it into other thread
+		// Start a thread to schedule physical actions.
+        ctx.spawn_physical_thread(move |link| {
+            loop {
+                std::thread::sleep(Duration::from_millis(200));
+                link.schedule_physical(&phys_action, Asap).unwrap();
+            }
+        });
+	=}
+
+	reaction(a) {=
+        let elapsed_time = self.start_time.elapsed();
+        println!("Action triggered at logical time {} nsecs after start.", elapsed_time.as_nanos());
+	=}
+}
 ```
 
 $end(Asynchronous)$
@@ -342,7 +381,7 @@ In the above example, at $startup$, the main reactor creates an external thread 
 
 The code executed by the thread is defined in a $preamble$ section. See [Preambles and Methods](/docs/handbook/preambles-and-methods).
 
-**Important Note:** Asynchronous calls to `schedule()` will not work if you set the [`threading` target parameter](/docs/handbook/target-specification#threading) to `false`. You must use a threaded runtime for such asynchronous calls to work correctly.
+**Important Note:** Asynchronous calls to `schedule()` will not work if you set the [`threading` target parameter](/docs/handbook/target-declaration#threading) to `false`. You must use a threaded runtime for such asynchronous calls to work correctly.
 
 <div>
 

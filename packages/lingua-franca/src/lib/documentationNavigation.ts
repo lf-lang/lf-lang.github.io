@@ -146,45 +146,6 @@ export function getDocumentationNavForLanguage(
       ],
     },
     {
-      title: "Target Languages",
-      oneline: "Documentation for specific target languages.",
-      id: "target-languages",
-      chronological: true,
-
-      items: [
-        {
-          title: "C Reactors",
-          id: "2-c-reactors",
-          permalink: "/docs/handbook/c-reactors",
-          oneline: "Writing reactors using the C target in Lingua Franca.",
-        },
-        {
-          title: "Cpp Reactors",
-          id: "2-cpp-reactors",
-          permalink: "/docs/handbook/cpp-reactors",
-          oneline: "Writing Reactors in C++.",
-        },
-        {
-          title: "Python Reactors",
-          id: "2-python-reactors",
-          permalink: "/docs/handbook/python-reactors",
-          oneline: "Writing Reactors in Python.",
-        },
-        {
-          title: "TypeScript Reactors",
-          id: "2-typescript-reactors",
-          permalink: "/docs/handbook/typescript-reactors",
-          oneline: "Writing Reactors in TypeScript.",
-        },
-        {
-          title: "Rust Reactors",
-          id: "2-rust-reactors",
-          permalink: "/docs/handbook/rust-reactors",
-          oneline: "Writing Reactors in Rust  (preliminary)",
-        },
-      ],
-    },
-    {
       title: "Tools",
       oneline: "Tools for developing Lingua Franca programs.",
       id: "tools",
@@ -192,20 +153,20 @@ export function getDocumentationNavForLanguage(
 
       items: [
         {
-          title: "Code Plugin",
-          id: "3-code-plugin",
-          permalink: "/docs/handbook/code-plugin",
-          oneline: "Visual Studio Code Plugin for Lingua Franca.",
+          title: "Code Extension",
+          id: "2-code-extension",
+          permalink: "/docs/handbook/code-extension",
+          oneline: "Visual Studio Code Extension for Lingua Franca.",
         },
         {
           title: "Epoch IDE",
-          id: "3-epoch-ide",
+          id: "2-epoch-ide",
           permalink: "/docs/handbook/epoch-ide",
           oneline: "Epoch IDE for Lingua Franca.",
         },
         {
           title: "Command Line Tools",
-          id: "3-command-line-tools",
+          id: "2-command-line-tools",
           permalink: "/docs/handbook/command-line-tools",
           oneline: "Command-line tools for Lingua Franca.",
         },
@@ -220,19 +181,26 @@ export function getDocumentationNavForLanguage(
       items: [
         {
           title: "Expressions",
-          id: "4-expressions",
+          id: "3-expressions",
           permalink: "/docs/handbook/expressions",
           oneline: "Expressions in Lingua Franca.",
         },
         {
-          title: "Target Specification",
-          id: "4-target-specification",
-          permalink: "/docs/handbook/target-specification",
-          oneline: "The target specification in Lingua Franca.",
+          title: "Target Language Reference",
+          id: "3-target-language-reference",
+          permalink: "/docs/handbook/target-language-reference",
+          oneline: "Detailed reference for each target langauge.",
+        },
+        {
+          title: "Target Declaration",
+          id: "3-target-declaration",
+          permalink: "/docs/handbook/target-declaration",
+          oneline:
+            "The target declaration and its parameters in Lingua Franca.",
         },
         {
           title: "Tracing",
-          id: "4-tracing",
+          id: "3-tracing",
           permalink: "/docs/handbook/tracing",
           oneline: "Tracing (preliminary)",
         },
@@ -248,37 +216,37 @@ export function getDocumentationNavForLanguage(
       items: [
         {
           title: "Regression Tests",
-          id: "5-regression-tests",
+          id: "4-regression-tests",
           permalink: "/docs/handbook/regression-tests",
           oneline: "Regression Tests for Lingua Franca.",
         },
         {
           title: "Contributing",
-          id: "5-contributing",
+          id: "4-contributing",
           permalink: "/docs/handbook/contributing",
           oneline: "Contribute to Lingua Franca.",
         },
         {
           title: "Downloading and Building",
-          id: "5-downloading-and-building",
+          id: "4-downloading-and-building",
           permalink: "/docs/handbook/download",
           oneline: "Downloading and Building Lingua Franca.",
         },
         {
           title: "Developer Eclipse setup with Oomph",
-          id: "5-developer-eclipse-setup-with-oomph",
+          id: "4-developer-eclipse-setup-with-oomph",
           permalink: "/docs/handbook/eclipse-oomph",
           oneline: "Developer Eclipse setup with Oomph.",
         },
         {
           title: "Developer IntelliJ Setup (for Kotlin)",
-          id: "5-developer-intellij-setup-(for-kotlin)",
+          id: "4-developer-intellij-setup-(for-kotlin)",
           permalink: "/docs/handbook/intellij-kotlin",
           oneline: "Developer IntelliJ Setup (for Kotlin).",
         },
         {
           title: "Running Benchmarks",
-          id: "5-running-benchmarks",
+          id: "4-running-benchmarks",
           permalink: "/docs/handbook/running-benchmarks",
           oneline: "Running Benchmarks.",
         },
@@ -293,25 +261,25 @@ export function getDocumentationNavForLanguage(
       items: [
         {
           title: "Containerized Execution",
-          id: "6-containerized-execution",
+          id: "5-containerized-execution",
           permalink: "/docs/handbook/containerized-execution",
           oneline: "Containerized Execution (preliminary)",
         },
         {
           title: "Generic Types, Interfaces, and Inheritance",
-          id: "6-generic-types,-interfaces,-and-inheritance",
+          id: "5-generic-types,-interfaces,-and-inheritance",
           permalink: "/docs/handbook/generic-types-interfaces-inheritance",
           oneline: "Generic Types, Interfaces, and Inheritance (preliminary)",
         },
         {
           title: "Target-Supported Features",
-          id: "6-target-supported-features",
+          id: "5-target-supported-features",
           permalink: "/docs/handbook/features",
           oneline: "Which features are supported by which target?",
         },
         {
           title: "Reactors on Patmos",
-          id: "6-reactors-on-patmos",
+          id: "5-reactors-on-patmos",
           permalink: "/docs/handbook/reactors-on-patmos",
           oneline: "Reactors on Patmos (preliminary)",
         },
@@ -326,37 +294,37 @@ export function getDocumentationNavForLanguage(
       items: [
         {
           title: "Logical Execution Time",
-          id: "7-logical-execution-time",
+          id: "6-logical-execution-time",
           permalink: "/docs/handbook/logical-execution-time",
           oneline: "Reactions that take non-zero logical time to execute.",
         },
         {
           title: "Tools",
-          id: "7-tools",
+          id: "6-tools",
           permalink: "/docs/handbook/tools",
           oneline: "LF Tools.",
         },
         {
           title: "Timing Analysis",
-          id: "7-timing-analysis",
+          id: "6-timing-analysis",
           permalink: "/docs/handbook/timing-analysis",
           oneline: "Timing Analysis.",
         },
         {
           title: "Related Work",
-          id: "7-related-work",
+          id: "6-related-work",
           permalink: "/docs/handbook/related-work",
           oneline: "Related Work",
         },
         {
           title: "Future Proof Package/Import System",
-          id: "7-future-proof-package/import-system",
+          id: "6-future-proof-package/import-system",
           permalink: "/docs/handbook/proof-import",
           oneline: "A future proof package and import system",
         },
         {
           title: "RFC: Modal Models (Draft I)",
-          id: "7-rfc:-modal-models-(draft-i)",
+          id: "6-rfc:-modal-models-(draft-i)",
           permalink: "/docs/handbook/rfc-modal",
           oneline: "RFC: Modal Models (first draft)",
         },

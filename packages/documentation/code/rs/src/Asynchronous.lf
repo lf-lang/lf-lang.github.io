@@ -1,0 +1,21 @@
+target Rust;
+main reactor {
+    state start_time:Instant({=Instant::now()=});
+    physical action a(100 msec):u32;
+
+	reaction(startup) -> a {=
+        let phys_action = a.clone(); // clone to move it into other thread
+		// Start a thread to schedule physical actions.
+        ctx.spawn_physical_thread(move |link| {
+            loop {
+                std::thread::sleep(Duration::from_millis(200));
+                link.schedule_physical(&phys_action, Asap).unwrap();
+            }
+        });
+	=}
+
+	reaction(a) {=
+        let elapsed_time = self.start_time.elapsed();
+        println!("Action triggered at logical time {} nsecs after start.", elapsed_time.as_nanos());
+	=}
+}

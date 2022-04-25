@@ -1,0 +1,18 @@
+target Rust;
+main reactor {
+    state count:u32(1);
+    logical action a;
+    reaction(startup, a) -> a {=
+        let tag = ctx.get_tag();
+        println!(
+            "{}. Logical time is {}. Microstep is {}.",
+            self.count,
+            tag.offset_from_t0.as_nanos(),
+            tag.microstep(),
+        );
+        if self.count < 5 {
+            self.count += 1;
+            ctx.schedule(a, Asap);
+        }
+    =}
+}

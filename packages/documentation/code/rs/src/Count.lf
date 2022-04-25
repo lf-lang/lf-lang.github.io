@@ -1,0 +1,10 @@
+target Rust;
+reactor Count {
+    state count:u32(0);
+    output y:u32;
+    timer t(0, 100 msec);
+    reaction(t) -> y {=
+        ctx.set(y, self.count);
+        self.count += 1;
+    =}
+}

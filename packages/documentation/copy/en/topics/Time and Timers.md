@@ -12,7 +12,7 @@ $page-showing-target$
 
 A key property of Lingua Franca is **logical time**. All events occur at an instant in logical time. By default, the runtime system does its best to align logical time with **physical time**, which is some measurement of time on the execution platform. The **lag** is defined to be physical time minus logical time, and the goal of the runtime system is maintain a small non-negative lag.
 
-The **lag** is allowed to go negative only if the [`fast` target property](/docs/handbook/target-specification#fast) or the [--fast](/docs/handbook/target-specification#command-line-arguments) is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
+The **lag** is allowed to go negative only if the [`fast` target property](/docs/handbook/target-declaration#fast) or the [--fast](/docs/handbook/target-declaration#command-line-arguments) is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
 
 <div class="lf-c lf-cpp lf-rs">
 
@@ -20,7 +20,7 @@ In Lingua Franca, $time$ is a data type.
 A parameter, state variable, port, or action may have type $time$.
 <span class="lf-c">In the C target, time values internally have type `instant_t` or `interval_t`,
 both of which are (usually) equivalent to the C type `long long`.</span>
-<span class="lf-cpp">In the Cpp target, time values internally have the type `std::chrono::nanoseconds`. For details, see the [Cpp target documentation](/docs/handbook/cpp-reactors#time).</span>
+<span class="lf-cpp">In the Cpp target, time values internally have the type `std::chrono::nanoseconds`. For details, see the [Target Language Reference](/docs/handbook/target-language-reference).</span>
 <span class="lf-rs warning">In the Rust target, time values internally have type FIXME.</span>
 
 </div>
@@ -108,7 +108,27 @@ WARNING: No source file found: ../code/ts/src/SlowingClock.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/SlowingClock.lf
+target Rust;
+main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
+    state start(start);
+    state incr(incr);
+    state interval:time(start);
+    state expected_time:time();
+    logical action a;
+    reaction(startup) -> a {=
+        ctx.schedule(a, After(self.start));
+    =}
+    reaction(a) -> a {=
+        println!(
+            "Logical time since start: {} nsec.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+        self.interval += self.incr;
+        ctx.schedule(a, After(self.interval));
+        self.expected_time += self.interval;
+    =}
+}
+
 ```
 
 $end(SlowingClock)$
@@ -175,7 +195,16 @@ WARNING: No source file found: ../code/ts/src/Timer.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Timer.lf
+target Rust;
+main reactor Timer {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        println!(
+            "Logical time is {}.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(Timer)$
@@ -248,18 +277,21 @@ WARNING: No source file found: ../code/ts/src/TimeElapsed.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/TimeElapsed.lf
+target Rust;
+main reactor TimeElapsed {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        println!(
+            "Elapsed logical time is {}.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(TimeElapsed)$
 
-See the
-<span class="lf-c">[C reactors documentation](/docs/handbook/c-reactors#timed-behavior)</span>
-<span class="lf-cpp">[C++ reactors documentation](/docs/handbook/cpp-reactors#timed-behavior)</span>
-<span class="lf-py">[Python reactors documentation](/docs/handbook/python-reactors#timed-behavior)</span>
-<span class="lf-ts">[TypeScript reactors documentation](/docs/handbook/ts-reactors#timed-behavior)</span>
-<span class="lf-rs">[Rust reactors documentation](/docs/handbook/rust-reactors#timed-behavior)</span>
-for the full set of functions provided for accessing time values.
+See the [Target Language Reference](/docs/handbook/target-language-reference) for the full set of functions provided for accessing time values.
 
 Executing this program will produce something like this:
 
@@ -326,7 +358,20 @@ WARNING: No source file found: ../code/ts/src/TimeLag.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/TimeLag.lf
+target Rust;
+main reactor TimeLag {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        let t = ctx.get_elapsed_logical_time();
+        let T = ctx.get_elapsed_physical_time();
+        println!(
+            "Elapsed logical time: {}, physical time: {}, lag: {}",
+            t.as_nanos(),
+            T.as_nanos(),
+            (T-t).as_nanos(),
+        );
+    =}
+}
 ```
 
 $end(TimeLag)$
@@ -351,7 +396,7 @@ A reaction is always invoked at a well-defined logical time, and logical time do
 
 ## Timeout
 
-By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-specification#timeout) or a [`--timeout command-line option](ocs/handbook/target-specification#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
+By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-declaration#timeout) or a [`--timeout command-line option](ocs/handbook/target-declaration#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
 
 ```lf-c
 target C {
@@ -490,7 +535,35 @@ WARNING: No source file found: ../code/ts/src/TestCount.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/TestCount.lf
+target Rust;
+reactor TestCount(start:u32(0), stride:u32(1), num_inputs:u32(1)) {
+    state stride(stride);
+    state num_inputs(num_inputs);
+    state count:u32(start);
+    state inputs_received:u32(0);
+    input x:u32;
+    reaction(x) {=
+        let x = ctx.get(x).unwrap();
+        println!("Received {}.", x);
+        if x != self.count {
+            println!("ERROR: Expected {}.", self.count);
+            std::process::exit(1);
+        }
+        self.count += self.stride;
+        self.inputs_received += 1;
+    =}
+    reaction(shutdown) {=
+        println!("Shutdown invoked.");
+        if self.inputs_received != self.num_inputs {
+            println!(
+                "ERROR: Expected to receive {} inputs, but got {}.",
+                self.num_inputs,
+                self.inputs_received
+            );
+            std::process::exit(2);
+        }
+    =}
+}
 ```
 
 $end(TestCount)$

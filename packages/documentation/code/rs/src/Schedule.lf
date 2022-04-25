@@ -1,0 +1,14 @@
+target Rust;
+reactor Schedule {
+    input x:u32;
+    logical action a;
+    reaction(x) -> a {=
+        ctx.schedule(a, after!(200 ms));
+    =}
+    reaction(a) {=
+        printf("
+            Action triggered at logical time {} nsec after start.",
+            ctx.get_elapsed_logical_time().as_nanos(),
+        );
+    =}
+}

@@ -68,7 +68,21 @@ WARNING: No source file found: ../code/ts/src/Extends.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Extends.lf
+target Rust;
+reactor A {
+    input a:u32;
+    output out:u32;
+    reaction(a) -> out {=
+        ctx.set(out, ctx.get(a).unwrap());
+    =}
+}
+reactor B extends A {
+    input b:u32;
+    reaction(a, b) -> out {=
+        ctx.set(out, ctx.get(a).unwrap() + ctx.get(b).unwrap());
+    =}
+}
+
 ```
 
 $end(Extends)$

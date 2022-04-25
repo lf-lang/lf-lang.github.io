@@ -1,0 +1,29 @@
+target Rust;
+reactor TestCount(start:u32(0), stride:u32(1), num_inputs:u32(1)) {
+    state stride(stride);
+    state num_inputs(num_inputs);
+    state count:u32(start);
+    state inputs_received:u32(0);
+    input x:u32;
+    reaction(x) {=
+        let x = ctx.get(x).unwrap();
+        println!("Received {}.", x);
+        if x != self.count {
+            println!("ERROR: Expected {}.", self.count);
+            std::process::exit(1);
+        }
+        self.count += self.stride;
+        self.inputs_received += 1;
+    =}
+    reaction(shutdown) {=
+        println!("Shutdown invoked.");
+        if self.inputs_received != self.num_inputs {
+            println!(
+                "ERROR: Expected to receive {} inputs, but got {}.",
+                self.num_inputs,
+                self.inputs_received
+            );
+            std::process::exit(2);
+        }
+    =}
+}

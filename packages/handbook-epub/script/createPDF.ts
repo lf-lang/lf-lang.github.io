@@ -11,9 +11,11 @@ import {
 import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation";
 const { chromium } = require("playwright");
 const sass = require("sass");
+import { language } from "gray-matter";
 
 const markdowns = generateV2Markdowns();
 
+const targetLanguages = ["c", "cpp", "py", "ts", "rs"];
 // Grab the handbook nav, and use that to pull out the order
 
 const bookMetadata = {
@@ -31,8 +33,9 @@ const bookMetadata = {
 
 // Convert the important SCSS files to JS for the book:
 
-const generateCSS = () => {
-  console.log("Generating CSS from SCSS files");
+const generateCSS = (lang: string) => {
+  console.log(`Generating CSS from SCSS files for ${lang}`);
+  
 
   const scssFiles = [
     "../../lingua-franca/src/components/layout/main.scss",
@@ -49,6 +52,35 @@ const generateCSS = () => {
     })
     .join("\n\n");
 
+  var langCSS = `
+  .not-in-pdf {
+    display: none;
+  }
+  `
+
+  targetLanguages.forEach(element =>{
+    if(element === lang){
+      langCSS +=
+      `
+      .language-lf-${element} {
+        display: block; /* Shows for this PDF. */
+      }
+      .lf-${element} {
+        display: inline; /* Shows for this PDF. */
+      }
+      `
+    }else{
+      langCSS +=
+      `
+      .language-lf-${element} {
+        display: none; /* Don't show for this PDF */
+      }
+      .lf-${element} {
+        display: none; /* Don't show for this PDF */
+      }
+      `
+    }
+  })
   const thisCSS = `
 html {
   background-color: #EEEEEE;
@@ -86,16 +118,16 @@ pre .error-behind {
 }
 
     `;
-  return css + thisCSS;
+  return css + langCSS + thisCSS;
 };
 
-const generateHTML = async () => {
+const generateHTML = async (lang: string) => {
   const handbookNavigation = getDocumentationNavForLanguage("en");
   // FIXME: Should include reference section as well.
   const handbook = handbookNavigation.find((i) => i.title === "Writing Reactors");
   let html = "<html>";
 
-  const css = generateCSS();
+  const css = generateCSS(lang);
 
   // prettier-ignore
   // const style = readFileSync(join(__dirname, "..", "assets", "ebook-style.css"), "utf8");
@@ -115,7 +147,7 @@ const generateHTML = async () => {
   <div id="pdf-intro">
   <center style="page-break-after: always">
     <img src="./Lingua_Franca.png" width=200>
-    <p style='width: 340px;'>This copy of the Lingua Franca handbook was created on ${date} against
+    <p style='width: 340px;'>This copy of the Lingua Franca handbook for the ${lang} target was created on ${date} against
     commit
     <a href="https://github.com/lf-lang/website-lingua-franca/tree/${sha}"><code>${sha}</code></a>.
     </p>
@@ -143,24 +175,24 @@ const generateHTML = async () => {
     html += await addHandbookPage(item.permalink!, i);
   }
 
-  writeFileSync(join(__dirname, "..", "assets", "all.html"), html);
+  writeFileSync(join(__dirname, "..", "assets", `all_lf-${lang}.html`), html);
 };
 
-const generatePDF = async () => {
-  console.log("Starting up Chromium");
+const generatePDF = async (lang: string) => {
+  console.log(`Starting up Chromium for ${lang}`);
   const browser = await chromium.launch(); // Or 'firefox' or 'webkit'.
   const page = await browser.newPage();
-  console.log("Loading the html");
-  await page.goto("file://" + join(__dirname, "..", "assets", "all.html"));
+  console.log(`Loading the html for ${lang}`);
+  await page.goto("file://" + join(__dirname, "..", "assets", `all_lf-${lang}.html`));
 
-  console.log("Rendering the PDF");
+  console.log(`Rendering the PDF for ${lang}`);
   await page.emulateMedia({ media: "screen" });
   await page.pdf({
-    path: join(__dirname, "..", "dist", "handbook.pdf"),
+    path: join(__dirname, "..", "dist", `handbook_lf-${lang}.pdf`),
     margin: { top: 40, bottom: 60 },
   });
 
-  console.log("Done");
+  console.log(`Finished pdf for ${lang}`);
   await browser.close();
 };
 
@@ -194,13 +226,15 @@ const tableOfContents = (items: any[]) => {
 };
 
 const go = async () => {
-  await generateHTML();
-  await generatePDF();
-  copyFileSync(
-    join(__dirname, "..", "dist", "handbook.pdf"),
-    // prettier-ignore
-    join( __dirname, "..", "..", "lingua-franca", "static", "assets", "lingua-franca-handbook.pdf")
-  );
+  targetLanguages.forEach(async lang => {
+    await generateHTML(lang);
+    await generatePDF(lang);
+    copyFileSync(
+      join(__dirname, "..", "dist", `handbook_lf-${lang}.pdf`),
+      // prettier-ignore
+      join( __dirname, "..", "..", "lingua-franca", "static", "assets", `lingua-franca-handbook_lf-${lang}.pdf`)
+    );
+  });
 };
 
 go();

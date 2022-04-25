@@ -81,7 +81,25 @@ WARNING: No source file found: ../code/ts/src/Alignment.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Alignment.lf
+target Rust {
+    timeout: 3 secs
+}
+main reactor Alignment {
+    state s:u32(0);
+    timer t1(100 msec, 100 msec);
+    timer t2(200 msec, 200 msec);
+    timer t4(400 msec, 400 msec);
+    reaction(t1) {=
+        self.s += 1;
+    =}
+    reaction(t2) {=
+        self.s -= 2;
+    =}
+    reaction(t4) {=
+        println!("s = {}", self.s);
+    =}
+}
+
 ```
 
 $end(Alignment)$
@@ -156,7 +174,21 @@ WARNING: No source file found: ../code/ts/src/Overwriting.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Overwriting.lf
+target Rust;
+reactor Overwriting {
+    output y:u32;
+    state s:u32(0);
+    timer t1(100 msec, 100 msec);
+    timer t2(200 msec, 200 msec);
+    reaction(t1) -> y {=
+        self.s += 1;
+        ctx.set(y, self.s);
+    =}
+    reaction(t2) -> y {=
+        self.s -= 2;
+        ctx.set(y, self.s);
+    =}
+}
 ```
 
 $end(Overwriting)$
@@ -219,7 +251,18 @@ WARNING: No source file found: ../code/ts/src/Contained.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Contained.lf
+target Rust;
+import Overwriting from "Overwriting.lf";
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        let value = ctx.get(s__y).unwrap();
+        if value != 0 && value != 1 {
+            eprintln!("Output schould only be 0 or 1!");
+            ctx.request_stop(Asap);
+        }
+    =}
+}
 ```
 
 $end(Contained)$

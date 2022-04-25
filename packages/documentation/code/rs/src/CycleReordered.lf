@@ -1,0 +1,24 @@
+target Rust;
+reactor A {
+    input x:u32;
+    output y:u32;
+    reaction(x) -> y {=
+        // ... something here ...
+    =}
+}
+reactor B {
+    input x:u32;
+    output y:u32;
+    reaction(startup) -> y {=
+        // ... something here ...
+    =}
+    reaction(x) {=
+        // ... something here ...
+    =}
+}
+main reactor {
+    a = new A();
+    b = new B();
+    a.y -> b.x;
+    b.y -> a.x;
+}

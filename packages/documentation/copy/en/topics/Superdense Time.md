@@ -21,7 +21,7 @@ target C;
 main reactor {
     state count:int(1);
     logical action a;
-    reaction(startup, a) {=
+    reaction(startup, a) -> a {=
         printf("%d. Logical time is %lld. Microstep is %d.\n",
             self->count, get_logical_time(), get_microstep()
         );
@@ -69,7 +69,24 @@ WARNING: No source file found: ../code/ts/src/Microsteps.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Microsteps.lf
+target Rust;
+main reactor {
+    state count:u32(1);
+    logical action a;
+    reaction(startup, a) -> a {=
+        let tag = ctx.get_tag();
+        println!(
+            "{}. Logical time is {}. Microstep is {}.",
+            self.count,
+            tag.offset_from_t0.as_nanos(),
+            tag.microstep(),
+        );
+        if self.count < 5 {
+            self.count += 1;
+            ctx.schedule(a, Asap);
+        }
+    =}
+}
 ```
 
 $end(Microsteps)$
@@ -191,7 +208,37 @@ WARNING: No source file found: ../code/ts/src/Simultaneous.lf
 ```
 
 ```lf-rs
-WARNING: No source file found: ../code/rs/src/Simultaneous.lf
+target Rust;
+reactor Destination {
+    input x:u32;
+    input y:u32;
+    reaction(x, y) {=
+        let tag = ctx.get_tag();
+        println!(
+            "Time since start: {}, microstep: {}",
+            tag.offset_from_t0.as_nanos(),
+            tag.microstep,
+        );
+        if ctx.is_present(x) {
+            println!("  x is present.");
+        }
+        if ctx.is_present(y) {
+            println!("  y is present.");
+        }
+    =}
+}
+main reactor {
+    logical action repeat;
+    d = new Destination();
+    reaction(startup) -> d.x, repeat {=
+        ctx.set(d__x, 1);
+        ctx.schedule(repeat, Asap);
+    =}
+    reaction(repeat) -> d.y {=
+        ctx.set(d__y, 1);
+    =}
+}
+
 ```
 
 $end(Simultaneous)$
