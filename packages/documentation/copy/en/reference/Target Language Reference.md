@@ -42,7 +42,11 @@ Python reactors can bring the vast library of scientific modules that exist for 
 
 In comparison to the C target, the Python target can be up to an order of magnitude slower. However, depending on the type of application and the implementation optimizations in Python, you can achieve an on-par performance to the C target in many applications.
 
-**NOTE:** A [Python C extension](https://docs.python.org/3/extending/extending.html) is currently generated for each Lingua Franca program. To ensure cross-compatibility across multiple platforms, this extension is installed in the user space once code generation is finished (see [Implementation Details](#python-target-implementation-details)). This extension module will have the name LinguaFranca[your_LF_program_name]. There is a handy script [uninstallAllLinguaFrancaTestPackages.sh](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/uninstallAllLinguaFrancaTestPackages.sh) that can uninstall all extension modules that are installed automatically by Lingua Franca tools (such as `lfc`).
+**NOTE:** A [Python C
+extension](https://docs.python.org/3/extending/extending.html) is
+generated for each Lingua Franca program (see [Implementation
+Details](#python-target-implementation-details)). This extension module will
+have the name LinguaFranca[your_LF_program_name].
 
 </div>
 
@@ -101,7 +105,12 @@ To use this target, install Python 3 on your machine. See [downloading Python](h
 
 **NOTE:** The Python target requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or with most of the alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.
 
-The Python reactor target relies on `pip` and `setuptools` to be able to compile and install a [Python C extension](https://docs.python.org/3/extending/extending.html) for each LF program. To install `pip3`, you can follow instructions [here](https://pip.pypa.io/en/stable/installation/).
+The Python reactor target relies on `setuptools` to be able to compile a [Python
+C extension](https://docs.python.org/3/extending/extending.html) for each LF
+program.
+
+<!-- To install `pip3`, you can follow instructions [here](https://pip.pypa.io/en/stable/installation/). -->
+
 `setuptools` can be installed using `pip3`:
 
 ```bash
@@ -152,6 +161,8 @@ The C++ target does not yet implement:
 </div>
 
 <div class="lf-py">
+
+- The Python target does not yet implement methods.
 
 - On some platforms (Mac, in particular), if you generate code from within the Epoch IDE, the code will not run. It fails to find the needed libraries. As a workaround, please compile the code using the [command-line tool, lfc](/docs/handbook/command-line-tools).
 
@@ -237,20 +248,8 @@ target Python
 
 Note that for all LF statements, a final semicolon is optional, but if you are writing your code in Python, you may want to omit the final semicolon for uniformity.
 
-For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-specification).
-
-For example, for the Python target, in a source file named `Foo.lf`, you might specify:
-
-```lf-py
-target Python {
-    fast: true,
-    timeout: 10 secs
-};
-```
-
-The `fast` option given above specifies to execute the file as fast as possible, ignoring timing delays. This is achieved by not waiting for physical time to match logical time. The `timeout` option specifies to stop after 10 seconds of logical time have elapsed.
-
-These specify the _default_ behavior of the generated code, the behavior it will exhibit if you give no command-line option.
+For options to the target specification, see [detailed documentation of the
+target options](/docs/handbook/target-specification).
 
 </div>
 
@@ -538,39 +537,102 @@ State variables with more complex types such as classes or structs can be simili
 
 <div class="lf-py">
 
-Parameters are referenced in the Python code using the syntax `self.<name>`, where `<name>` is the name of the parameter. See [Parameters and State](/docs/handbook/parameters-and-state-variables) for examples.
-
-### Lists and Tuple Values
-
-Parameters can have list or tuple values. In the following example, the parameter `sequence` has as default value the list `[0, 1, 2]`:
+Reactor parameters and state variables are referenced in the Python code using the syntax `self.<name>`,
+where `<name>` is the name of the parameter or state variable. The following [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/Stride.lf) example modifies the `Count` reactor in [State Declaration](/docs/handbook/parameters-and-state-variables#state-declaration) to include both a parameter and state variable:
 
 ```lf-py
-reactor Source(sequence([0, 1, 2])) {
-    output out;
-    state count(0);
-    logical action next;
-    reaction(startup, next) -> out, next {=
-        out.set(self.sequence[self.count])
-        self.count+=1
-        if self.count < len(self.sequence):
-            next.schedule(0)
+reactor Count(stride(1)) {
+    state count(1);
+    output y;
+    timer t(0, 100 msec);
+    reaction(t) -> y {=
+        y.set(self.count)
+        self.count += self.stride
     =}
 }
 ```
 
-<span class="warning">FIXME: The above syntax is no longer allowed.</span>
+This defines a `stride` parameter with initial value `1` and a `count` state
+variable with the same initial value. These are referenced in the reaction with
+the syntax `self->stride` and `self->count` respectively. Note that state
+variables and parameters do not have types in the Python reactor target. See [Parameters
+and State](/docs/handbook/parameters-and-state-variables) for more examples.
 
-That default value can be overridden when instantiating the reactor using a similar syntax:
+**The Reactor Class:**
 
-```lf
-s = new Source(sequence = [1, 2, 3, 4]);
+The code generator synthesizes a class in Python for each reactor class in LF,
+with a constructor (i.e., `def __init__(self, ...):`) that creates an instance
+of this class and initializes its parameters and state variables as [instance
+variables](https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables).
+These parameters and state variables can then subsequently be accessed directly
+using the `self` reference in the body of reactions (which will be synthesized as
+methods of the Python class).
+
+It may be tempting to declare state variables in the $preamble$, as follows:
+
+```lf-py
+reactor FlawedCount {
+    preamble {=
+        count = 0
+    =}
+    output y
+    timer t(0, 100 msec)
+    reaction(t) -> y {=
+        y.set(count)
+        count += 1
+    =}
+}
 ```
 
-Notice that as any ordinary Python list, `len(self.sequence)` has been used in the code to deduce the length of the list.
+This will produce a sequence of integers, but if there is more than one instance
+of the reactor, those instances will share the same variable `count` (because
+`count` will be a [class variable](https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables)). Hence,
+**don't do this**! Sharing variables across instances of reactors violates a
+basic principle, which is that reactors communicate only by sending messages to
+one another. Sharing variables will make your program nondeterministic. If you
+have multiple instances of the above `FlawedCount` reactor, the outputs produced
+by each instance will not be predictable, and in a multithreaded implementation,
+will also not be repeatable.
 
-State variables, like parameters, do not have types in Python and are referenced in the target code using the syntax `self.<name>`. For an example, see [State Declaration](/docs/handbook/parameters-and-state-variables#state-declaration).
+### Array Values for State Variables and Parameters
 
-In certain cases, such as when more control is needed for initialization of certain class objects, this method might be preferable. Nonetheless, the code delimiters `{= ... =}` can also also be used. The following example, taken from [StructAsState.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/StructAsState.lf) demonstrates this usage:
+An array expression (e.g., (0, 1, 2)) can be used as the default value for
+parameters and state variables. In the following example, the parameter
+`sequence` and the state variable `x` have a default value of `(0, 1, 2)`:
+
+```lf-py
+reactor Source(sequence(0, 1, 2)) {
+    state x(0, 1, 2);
+    ...
+}
+```
+
+The Python target interprets the `(0, 1, 2)` expression differently depending on
+whether the assignee is a parameter or a state variable. For parameters, the
+`(0, 1, 2)` expression will translate into an immutable Python tuple (i.e.,
+`sequence = (0, 1, 2)`). For state variables, the `(0, 1, 2)` expression will
+translate into a mutable Python list (i.e., `x = [0, 1, 2])`). The reason behind
+this discrepancy is that parameters are assumed to be immutable after
+instantiation (in fact, they are also read-only in reaction bodies), but state
+variables usually need to be updated during execution.
+
+Notice that even though the tuple assigned to the parameter is immutable (you
+cannot assign new values to its elements), the parameter itself can be
+overridden with _another_ immutable tuple when instantiating the reactor:
+
+```lf
+s = new Source(sequence = (1, 2, 3, 4));
+```
+
+As with any ordinary Python list or tuple, `len()` can been used to deduce the
+length.
+
+### Arbitrary Assignment to State Variables and Parameters
+
+The code delimiters `{= ... =}` can allow for assignment of arbitrary Python
+expressions as default values for state variables and parameters. The following example, taken from
+[StructAsState.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/StructAsState.lf)
+demonstrates this usage:
 
 ```lf-py
 main reactor StructAsState {
@@ -592,7 +654,7 @@ main reactor StructAsState {
 
 Notice that a class `hello` is defined in the preamble. The state variable `s` is then initialized to an instance of `hello` constructed within the `{= ... =}` delimiters.
 
-State variables may be initialized to lists or tuples without requiring `{= ... =}` delimiters. The following illustrates the difference:
+<!-- State variables may be initialized to lists or tuples without requiring `{= ... =}` delimiters. The following illustrates the difference:
 
 ```lf-py
 target Python;
@@ -604,11 +666,10 @@ main reactor Foo {
         print("{0} != {1}".format(type(self.a_tuple), type(self.a_list)))
     =}
 }
-```
+``` -->
 
-<span class="warning">FIXME: The above syntax is no longer allowed.</span>
-
-In Python, tuples are immutable, while lists can be modified. Be aware also that the syntax for declaring tuples in the Python target is the same syntax as to declare an array in the C target, so the immutability might be a surprise.
+<!--
+In Python, tuples are immutable, while lists can be modified. Be aware also that the syntax for declaring tuples in the Python target is the same syntax as to declare an array in the C target, so the immutability might be a surprise. -->
 
 </div>
 
@@ -1800,7 +1861,85 @@ The datatype `string` is an alias for `char*`, but Lingua Franca does not know t
 
 <div class="lf-py">
 
-<span class="warning">FIXME: Describe python schedule() function.</span>
+The Python target provides a `.schedule()` method to trigger an action at a future logical time. Actions are described in the [Language Specification](language-specification#action-declaration) document. Consider the [Schedule](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/Schedule.lf) reactor:
+
+```lf-py
+target Python;
+reactor Schedule {
+    input x;
+    logical action a;
+    reaction(a) {=
+        elapsed_time = get_elapsed_logical_time()
+        print("Action triggered at logical time {:d} nsec after start.".format(elapsed_time))
+    =}
+    reaction(x) -> a {=
+        a.schedule(MSEC(200))
+    =}
+}
+```
+
+When this reactor receives an input `x`, it calls `a.schedule()`, specifying the action `a` to be triggered and the logical time offset (200 msec). The action `a` will be triggered at a logical time 200 milliseconds after the arrival of input `x`. At that logical time, the second reaction will trigger and will use the `get_elapsed_logical_time()` function to determine how much logical time has elapsed since the start of execution.
+
+Notice that after the logical time offset of 200 msec, there may be another input `x` simultaneous with the action `a`. Because the reaction to `a` is given first, it will execute first. This becomes important when such a reactor is put into a feedback loop (see below).
+
+### Zero-Delay actions
+
+If the specified delay in a `.schedule()` call is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](https://github.com/lf-lang/lingua-franca/wiki/language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time t, and you call `.schedule()` as follows:
+
+```
+a.schedule(0)
+```
+
+then when a reaction to `a` is triggered, the input `x` will be absent (it was present at the _previous_ microstep). The reaction to `x` and the reaction to `a` occur at the same metric time _t_, but separated by one microstep, so these two reactions are _not_ logically simultaneous.
+
+The metric time is visible to the Python programmer and can be obtained in a reaction using either `get_elapsed_logical_time()`, as above or `get_logical_time()`. The latter function also returns an `int` (aka `instant_t`), but its meaning is now the time elapsed since January 1, 1970 in nanoseconds.
+
+As described in the [Language Specification](https://github.com/lf-lang/lingua-franca/wiki/language-specification#action-declaration) document, action declarations can have a _min_delay_ parameter. This modifies the timestamp further. Also, the action declaration may be **physical** rather than **logical**, in which case the assigned timestap will depend on the physical clock of the executing platform.
+
+## Actions With Values
+
+Actions can also carry a **value**, a Python object that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
+
+Recall from the [Contained Reactors](https://github.com/lf-lang/lingua-franca/wiki/language-specification#Contained-Reactors) section in the Language Specification document that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/DelayInt.lf) example:
+
+```lf-py
+reactor Delay(delay(100 msec)) {
+    input _in;
+    output out;
+    logical action a;
+    reaction(a) -> out {=
+        if (a.value is not None) and a.is_present:
+            out.set(a.value)
+    =}
+    reaction(_in) -> a {=
+        a.schedule(self.delay, _in.value)
+    =}
+}
+```
+
+Using this reactor as follows:
+
+```
+d = new Delay();
+source.out -> d._in;
+d._in -> sink.out;
+```
+
+is equivalent to:
+
+```
+source.out -> sink.in after 100 msec;
+```
+
+The reaction to the input `in` declares as its effect the action `a`. This declaration makes it possible for the reaction to schedule a future triggering of `a`. As with other constructs in the Python reactor target, types are avoided.
+
+The first reaction declares that it is triggered by `a` and has effect `out`. To
+read the value, it uses the `a.value` class variable. Because this reaction is
+first, the `out` at any logical time can be produced before the input `_in` is
+even known to be present. Hence, this reactor can be used in a feedback loop,
+where `out` triggers a downstream reactor to send a message back to `_in` of
+this same reactor. If the reactions were given in the opposite order, there
+would be causality loop and compilation would fail.
 
 </div>
 
@@ -1835,7 +1974,9 @@ which may be invoked from outside an reaction, like an external thread.
 
 <div class="lf-py">
 
-<span class="warning">FIXME: Get from below</span>
+A reaction may request that the execution stop after all events with the current timestamp have been processed by calling the built-in function `request_stop()`, which takes no arguments. In a non-federated execution, the actual last tag of the program will be one microstep later than the tag at which `request_stop()` was called. For example, if the current tag is `(2 seconds, 0)`, the last (stop) tag will be `(2 seconds, 1)`.
+
+> :spiral_notepad: The [[timeout | Target-Specification#timeout]] target specification will take precedence over this function. For example, if a program has a timeout of `2 seconds` and `request_stop()` is called at the `(2 seconds, 0)` tag, the last tag will still be `(2 seconds, 0)`.
 
 </div>
 
