@@ -6,6 +6,8 @@ oneline: "Expressions in Lingua Franca."
 preamble: >
 ---
 
+$page-showing-target$
+
 A subset of LF syntax is used to write _expressions_, which represent values in the target language. Expressions are used to initialize state variable and to give values to parameters. Arbitrary expressions in the target language can always be given within delimiters `{= ... =}`, but simple forms do not require the delimiters. These simple forms are documented here.
 
 ## Basic expressions
@@ -136,7 +138,7 @@ main reactor {
 }
 ```
 
-See the [Python reactor documentation](/docs/handbook/cpp-reactors#python-reactors) for details and alternative syntaxes.
+See the [Python reactor documentation](/docs/handbook/target-language-reference) for details and alternative syntaxes.
 
 </div>
 

@@ -38,6 +38,8 @@ Verify that cmake is in your path by typing `which cmake`.
 open -a Epoch
 ```
 
+If you instead start Epoch by double clicking on its icon, then when you compile Lingua Franca programs, you may get unexpected results or unexpected failures because Epoch fails to find required programs (e.g., your python runtime system or a compiler) or finds a different version from what `lfc` will find.
+
 **Fourth**: By default, Epoch is set to "Build Automatically" in the Project menu. This means that the LF code generator and compiler will be invoked every time you change a file and whenever you open a new project (on all files in the project). Many people prefer to turn this feature off and invoke the code generator by hand by clicking on the gear icon at the upper left.
 
 ## Set Up Epoch in Linux

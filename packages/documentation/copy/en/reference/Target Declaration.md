@@ -91,7 +91,11 @@ target Python {
 ```
 
 ```lf-ts
-FIXME
+target TypeScript {
+    fast: <true or false>,
+    logging: <ERROR, WARN, INFO, LOG, or DEBUG>,
+    timeout: <time>,
+};
 ```
 
 ```lf-rs
@@ -491,7 +495,7 @@ The `flags` option specifies to include debug information in the compiled code (
 
 ## logging
 
-<div class="lf-ts lf-rs warning">
+<div class="lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
 
@@ -510,6 +514,11 @@ The C and Python targets also support [tracing](/docs/handbook/tracing), which o
 This parameter takes as an argument one of `ERROR`, `WARN`, `INF`, or `DEBUG` to specify the level of diagnostic messages about execution to print to the console when the generated program runs. A message will print if this parameter is greater than or equal to the level of the message, where `ERROR` < `WARN` < `INFO` < `DEBUG`.
 
 </div>
+
+<div class="lf-ts">
+
+The `logging` option is one of `ERROR`, `WARN`, `INFO`, `LOG` or `DEBUG`. It specifies the level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message, where `ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`. The default value is `INFO`, which means that messages tagged `LOG` and `DEBUG` will not print. Internally this is handled by the [ulog module](https://www.npmjs.com/package/ulog).
+
 
 ## no-compile
 
@@ -662,7 +671,7 @@ This parameter takes a non-negative integer and specifies the number of worker t
 
 # Command-Line Arguments
 
-<div class="lf-ts lf-rs warning">
+<div class="lf-rs warning">
 
 **FIXME:** Does this target support this?
 
@@ -697,5 +706,103 @@ If the main reactor declares parameters, these parameters will appear as additio
 <div class="lf-py">
 
 The Python target does not currently support any command-line arguments. You must specify properties as target parameters.
+
+</div>
+
+<div class="lf-ts">
+
+In the TypeScript target, the generated JavaScript program understands the following command-line arguments, each of which has a short form (one character) and a long form:
+
+- `-f, --fast [true | false]`: Specifies whether to wait for physical time to match logical time. The default is `false`. If this is `true`, then the program will execute as fast as possible, letting logical time advance faster than physical time.
+- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those. For the duration and units of a timeout argument to be parsed correctly as a single value, these should be specified in quotes with no leading or trailing space (eg '5 sec').
+- `-k, --keepalive [true | false]`: Specifies whether to stop execution if there are no events to process. This defaults to `false`, meaning that the program will stop executing when there are no more events on the event queue. If you set this to `true`, then the program will keep executing until either the `timeout` logical time is reached or the program is externally killed. If you have `physical action`s, it usually makes sense to set this to `true`.
+- `-l, --logging [ERROR | WARN | INFO | LOG | DEBUG]`: The level of logging messages from the reactor-ts runtime to to print to the console. Messages tagged with a given type (error, warn, etc.) will print if this argument is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`).
+- `-h, --help`: Print this usage guide. The program will not execute if this flag is present.
+
+If provided, a command line argument will override whatever value the corresponding target property had specified in the source .lf file.
+
+Command line options are parsed by the [command-line-arguments](https://github.com/75lb/command-line-args) module with [these rules](https://github.com/75lb/command-line-args/wiki/Notation-rules). For example
+
+```
+$ node <LF_file_name>/dist/<LF_file_name>.js -f false --keepalive=true -o '4 sec' -l INFO
+```
+
+is a valid setting.
+
+Any errors in command-line arguments result in printing the above information. The program will not execute if there is a parsing error for command-line arguments.
+
+### Custom Command-Line Arguments
+
+User-defined command-line arguments may be created by giving the main reactor [parameters](#using-parameters). Assigning the main reactor a parameter of type `string`, `number`, `boolean`, or `time` will add an argument with corresponding name and type to the generated program's command-line-interface. Custom arguments will also appear in the generated program's usage guide (from the `--help` option). If the generated program is executed with a value specified for a custom command-line argument, that value will override the default value for the corresponding parameter. Arguments typed `string`, `number`, and `boolean` are parsed in the expected way, but `time` arguments must be specified on the command line like the `--timeout` property as `'<duration> <units>'` (in quotes).
+
+Note: Custom arguments may not have the same names as standard arguments like `timeout` or `keepalive`.
+
+For example this reactor has a custom command line argument named `customArg` of type `number` and default value `2`:
+
+```
+target TypeScript;
+main reactor clArg(customArg:number(2)) {
+    reaction (startup) {=
+        console.log(customArg);
+    =}
+}
+```
+
+If this reactor is compiled from the file `simpleCLArgs.lf`, executing
+
+```
+node simpleCLArgs/dist/simpleCLArgs.js
+```
+
+outputs the default value `2`. But running
+
+```
+node simpleCLArgs/dist/simpleCLArgs.js --customArg=42
+```
+
+outputs `42`. Additionally, we can view documentation for the custom command line argument with the `--help` command.
+
+```
+node simpleCLArgs/dist/simpleCLArgs.js -h
+```
+
+The program will generate the standard usage guide, but also
+
+```
+--customArg '<duration> <units>'                    Custom argument. Refer to
+                                                      <path>/simpleCLArgs.lf
+                                                      for documentation.
+```
+
+### Additional types for Custom Command-Line Arguments
+
+Main reactor parameters that are not typed `string`, `number`, `boolean`, or `time` will not create custom command-line arguments. However, that doesn't mean it is impossible to obtain other types from the command line, just use a `string` and specify how the parsing is done yourself. See below for an example of a reactor that parses a custom command-line argument of type `string` into a state variable of type `Array<number>` using `JSON.parse` and a [user-defined type guard](https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards).
+
+```
+target TypeScript;
+main reactor customType(arrayArg:string("")) {
+    preamble {=
+        function isArrayOfNumbers(x: any): x is Array<number> {
+            for (let item of x) {
+                if (typeof item !== "number") {
+                    return false;
+                }
+            }
+            return true;
+        }
+    =}
+    state foo:{=Array<number>=}({=[]=});
+    reaction (startup) {=
+        let parsedArgument = JSON.parse(customType);
+        if (isArrayOfNumbers(parsedArgument)) {
+            foo = parsedArgument;
+            }
+        else {
+            throw new Error("Custom command line argument is not an array of numbers.");
+        }
+        console.log(foo);
+    =}
+}
+```
 
 </div>

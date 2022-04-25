@@ -236,7 +236,67 @@ Within the $preamble$, we specify to import the `threading` Python module and de
 
 </div>
 
-<div class="lf-ts lf-rs warning">
+<div class="lf-ts">
+
+For example, the following reactor uses Node's built-in path module to extract the base name from a path:
+
+```lf-ts
+target TypeScript;
+main reactor Preamble {
+    preamble {=
+        import * as path from 'path';
+    =}
+    reaction (startup) {=
+        var filename = path.basename('/Users/Refsnes/demo_path.js');
+        console.log(filename);
+    =}
+}
+```
+
+This will print:
+
+```
+demo_path.js
+```
+
+By putting the `import` in the **preamble**, the library becomes available in all reactions of this reactor. Oddly, it also becomes available in all subsequently defined reactors in the same file. It's a bit more complicated to [set up node.js modules from npm](#using-node-modules) that aren't built-in, but the reaction code to `import` them is the same as what you see here.
+
+You can also use the preamble to define functions that are shared across reactions and reactors:
+
+```lf-ts
+main reactor Preamble {
+    preamble {=
+        function add42( i:number) {
+            return i + 42;
+        }
+    =}
+    timer t;
+    reaction(t) {=
+        let s = "42";
+        let radix = 10;
+        let i = parseInt(s, radix);
+        console.log("Converted string " + s + " to number " + i);
+        console.log("42 plus 42 is " + add42(42));
+    =}
+}
+```
+
+Not surprisingly, this will print:
+
+```
+Converted string 42 to number 42
+42 plus 42 is 84
+```
+
+### Using Node Modules
+
+Installing Node.js modules for TypeScript reactors with `npm` is essentially the same as installing modules for an ordinary Node.js program. First, write a Lingua Franca program (`Foo.lf`) and compile it. It may not type check if if you're [importing modules in the preamble](#preamble) and you haven't installed the modules yet, but compiling your program will cause the TypeScript code generator to [produce a project](#typescript-target-implementation-details) for your program. There should now be a package.json file in the same directory as your .lf file. Open a terminal and navigate to that directory. You can use the standard [`npm install`](https://docs.npmjs.com/cli/install) command to install modules for your TypeScript reactors.
+
+The important takeaway here is with the package.json file and the compiled JavaScript in the Foo/dist/ directory, you have a standard Node.js program that executes as such. You can modify and debug it just as you would a Node.js program.
+
+</div>
+
+<div class="lf-rs warning">
 
 FIXME: Add $preamble$ example.
 
