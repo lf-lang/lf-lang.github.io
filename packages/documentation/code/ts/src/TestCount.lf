@@ -1,5 +1,5 @@
 target TypeScript;
-reactor Foo(start:number(0), stride:number(1), numInputs:number(1)) {
+reactor TestCount(start:number(0), stride:number(1), numInputs:number(1)) {
     state count:number(start);
     state inputsReceived:number(0);
     input x:number;
@@ -19,8 +19,4 @@ reactor Foo(start:number(0), stride:number(1), numInputs:number(1)) {
             process.exit(2)
         }
     =}
-}
-
-main reactor {
-    t = new Foo()
 }
