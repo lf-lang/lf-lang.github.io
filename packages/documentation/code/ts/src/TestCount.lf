@@ -1,0 +1,26 @@
+target TypeScript;
+reactor Foo(start:number(0), stride:number(1), numInputs:number(1)) {
+    state count:number(start);
+    state inputsReceived:number(0);
+    input x:number;
+    reaction(x) {=
+        console.log(`Received ${x}`)
+        if (x != count) {
+            console.error(`ERROR: Expected ${count}.`)
+            process.exit(1)
+        }
+        count += stride;
+        inputsReceived++;
+    =}
+    reaction(shutdown) {=
+        console.log("Shutdown invoked.");
+        if (inputsReceived != numInputs) {
+            console.error(`ERROR: Expected to receive ${numInputs}, but got ${inputsReceived}.`)
+            process.exit(2)
+        }
+    =}
+}
+
+main reactor {
+    t = new Foo()
+}

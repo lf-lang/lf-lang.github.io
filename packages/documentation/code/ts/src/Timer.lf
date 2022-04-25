@@ -2,6 +2,6 @@ target TypeScript;
 main reactor Timer {
     timer t(0, 1 sec);
     reaction(t) {=
-        console.log(`Logical time is ${this.util.getCurrentLogicalTime()}.\n`);
+        console.log(`Logical time is ${util.getCurrentLogicalTime()}.\n`);
     =}
 }
