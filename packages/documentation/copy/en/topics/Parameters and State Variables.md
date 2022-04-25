@@ -211,4 +211,4 @@ reactor Count {
 
 $end(Count)$
 
-This reactor has an integer state variable named `count`, and each time its reaction is invoked, it outputs the value of that state variable and increments it. The reaction is trigger by a $timer$, discussed in the next section.
+This reactor has an integer state variable named `count`, and each time its reaction is invoked, it outputs the value of that state variable and increments it. The reaction is triggered by a $timer$, discussed in the next section.
