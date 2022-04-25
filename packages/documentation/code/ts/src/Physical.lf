@@ -1,0 +1,11 @@
+target TypeScript;
+reactor Physical {
+    input x:int;
+    physical action a;
+    reaction(x) -> a {=
+        actions.a.schedule(TimeValue.zero(), null);
+    =}
+    reaction(a) {=
+        console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} nsec after start.`)
+    =}
+}
