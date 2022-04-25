@@ -1,4 +1,4 @@
-target TypeScript;
+target TypeScript
 reactor TestCount(start:number(0), stride:number(1), numInputs:number(1)) {
     state count:number(start);
     state inputsReceived:number(0);
