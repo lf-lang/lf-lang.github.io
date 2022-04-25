@@ -43,7 +43,7 @@ const textSubstitutions = {
   "target-language" : `[C]{lf-c}[Cpp]{lf-cpp}[Python]{lf-py}[TypeScript]{lf-ts}[Rust]{lf-rs}`,
   "page-showing-target" : `
 <span class="not-in-pdf">This page is showing examples in the target language [C]{lf-c}[C++]{lf-cpp}[Python]{lf-py}[TypeScript]{lf-ts}[Rust]{lf-rs}.
-You can change the target language in left sidebar.</span>`,
+You can change the target language in the left sidebar.</span>`,
 }
 
 /******** Regex patterns. */

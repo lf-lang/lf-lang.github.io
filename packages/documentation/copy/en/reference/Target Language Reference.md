@@ -36,13 +36,17 @@ Note that C++ is not a safe language. There are many ways that a programmer can 
 
 <div class="lf-py">
 
-In the Python reactor target for Lingua Franca, reactions are written in Python. The user-written reactors are then generated into a Python 3 script that can be executed on several platforms. The Python target has been tested on Linux, MacOS, and Windows. To facilitate efficient and fast execution of Python code, the generated program relies on a C extension to facilitate Lingua Franca APIs such as `set` and `schedule`. To learn more about the structure of the generated Python program, see [Implementation Details](#python-target-implementation-details).
+In the Python reactor target for Lingua Franca, reactions are written in Python. The user-written reactors are then generated into a Python 3 script that can be executed on several platforms. The Python target has been tested on Linux, macOS, and Windows. To facilitate efficient and fast execution of Python code, the generated program relies on a C extension to facilitate Lingua Franca API such as `set` and `schedule`. To learn more about the structure of the generated Python program, see [Implementation Details](#python-target-implementation-details).
 
 Python reactors can bring the vast library of scientific modules that exist for Python into a Lingua Franca program. Moreover, since the Python reactor target is based on a fast and efficient C runtime library, Lingua Franca programs can execute much faster than native equivalent Python programs in many cases. Finally, interoperability with C reactors is planned for the future.
 
 In comparison to the C target, the Python target can be up to an order of magnitude slower. However, depending on the type of application and the implementation optimizations in Python, you can achieve an on-par performance to the C target in many applications.
 
-**NOTE:** A [Python C extension](https://docs.python.org/3/extending/extending.html) is currently generated for each Lingua Franca program. To ensure cross-compatibility across multiple platforms, this extension is installed in the user space once code generation is finished (see [Implementation Details](#python-target-implementation-details)). This extension module will have the name LinguaFranca[your_LF_program_name]. There is a handy script [uninstallAllLinguaFrancaTestPackages.sh](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/uninstallAllLinguaFrancaTestPackages.sh) that can uninstall all extension modules that are installed automatically by Lingua Franca tools (such as `lfc`).
+**NOTE:** A [Python C
+extension](https://docs.python.org/3/extending/extending.html) is
+generated for each Lingua Franca program (see [Implementation
+Details](#python-target-implementation-details)). This extension module will
+have the name LinguaFranca[your_LF_program_name].
 
 </div>
 
@@ -101,7 +105,12 @@ To use this target, install Python 3 on your machine. See [downloading Python](h
 
 **NOTE:** The Python target requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or with most of the alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.
 
-The Python reactor target relies on `pip` and `setuptools` to be able to compile and install a [Python C extension](https://docs.python.org/3/extending/extending.html) for each LF program. To install `pip3`, you can follow instructions [here](https://pip.pypa.io/en/stable/installation/).
+The Python reactor target relies on `setuptools` to be able to compile a [Python
+C extension](https://docs.python.org/3/extending/extending.html) for each LF
+program.
+
+<!-- To install `pip3`, you can follow instructions [here](https://pip.pypa.io/en/stable/installation/). -->
+
 `setuptools` can be installed using `pip3`:
 
 ```bash
@@ -152,6 +161,8 @@ The C++ target does not yet implement:
 </div>
 
 <div class="lf-py">
+
+- The Python target does not yet implement methods.
 
 - On some platforms (Mac, in particular), if you generate code from within the Epoch IDE, the code will not run. It fails to find the needed libraries. As a workaround, please compile the code using the [command-line tool, lfc](/docs/handbook/command-line-tools).
 
@@ -232,29 +243,16 @@ For options to the target specification, see [detailed documentation of the targ
 To have Lingua Franca generate Python code, start your `.lf` file with the following target specification:
 
 ```lf
-target Python
+    target Python
 ```
 
 Note that for all LF statements, a final semicolon is optional, but if you are writing your code in Python, you may want to omit the final semicolon for uniformity.
 
 For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-specification).
 
-For example, for the Python target, in a source file named `Foo.lf`, you might specify:
-
-```lf-py
-target Python {
-    fast: true,
-    timeout: 10 secs
-};
-```
-
-The `fast` option given above specifies to execute the file as fast as possible, ignoring timing delays. This is achieved by not waiting for physical time to match logical time. The `timeout` option specifies to stop after 10 seconds of logical time have elapsed.
-
-These specify the _default_ behavior of the generated code, the behavior it will exhibit if you give no command-line option.
-
 </div>
 
-<div class="lf-ts>">
+<div class="lf-ts">
 
 To have Lingua Franca generate TypeScript code, start your `.lf` file with the following target specification:
 
@@ -284,7 +282,12 @@ Note that for all LF statements, the final semicolon is optional, but if you are
 
 <div class="lf-c">
 
-Reactor parameters and state variables are referenced in the C code using the `self` struct. The following [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Stride.lf) example modifies the `Count` reactor in [State Declaration](/docs/handbook/parameters-and-state-variables#state-declaration) to include both a parameter and state variable:
+Reactor parameters and state variables are referenced in the C code using the
+`self` struct. The following
+[Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Stride.lf)
+example modifies the `Count` reactor in [State
+Declaration](/docs/handbook/parameters-and-state-variables#state-declaration) to
+include both a parameter and a state variable:
 
 ```lf-c
 reactor Count(stride:int(1)) {
@@ -538,39 +541,106 @@ State variables with more complex types such as classes or structs can be simili
 
 <div class="lf-py">
 
-Parameters are referenced in the Python code using the syntax `self.<name>`, where `<name>` is the name of the parameter. See [Parameters and State](/docs/handbook/parameters-and-state-variables) for examples.
-
-### Lists and Tuple Values
-
-Parameters can have list or tuple values. In the following example, the parameter `sequence` has as default value the list `[0, 1, 2]`:
+Reactor parameters and state variables are referenced in the Python code using
+the syntax `self.<name>`, where `<name>` is the name of the parameter or state
+variable. The following
+[Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/Stride.lf)
+example modifies the `Count` reactor in [State
+Declaration](/docs/handbook/parameters-and-state-variables#state-declaration) to
+include both a parameter and a state variable:
 
 ```lf-py
-reactor Source(sequence([0, 1, 2])) {
-    output out;
-    state count(0);
-    logical action next;
-    reaction(startup, next) -> out, next {=
-        out.set(self.sequence[self.count])
-        self.count+=1
-        if self.count < len(self.sequence):
-            next.schedule(0)
+reactor Count(stride(1)) {
+    state count(1);
+    output y;
+    timer t(0, 100 msec);
+    reaction(t) -> y {=
+        y.set(self.count)
+        self.count += self.stride
     =}
 }
 ```
 
-<span class="warning">FIXME: The above syntax is no longer allowed.</span>
+This defines a `stride` parameter with initial value `1` and a `count` state
+variable with the same initial value. These are referenced in the reaction with
+the syntax `self.stride` and `self.count` respectively. Note that state
+variables and parameters do not have types in the Python reactor target. See [Parameters
+and State](/docs/handbook/parameters-and-state-variables) for more examples.
 
-That default value can be overridden when instantiating the reactor using a similar syntax:
+**The Reactor Class:**
+The code generator synthesizes a class in Python for each reactor class in LF,
+with a constructor (i.e., `def __init__(self, ...):`) that creates an instance
+of this class and initializes its parameters and state variables as [instance
+variables](https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables).
+These parameters and state variables can then subsequently be accessed directly
+using the `self` reference in the body of reactions.
 
-```lf
-s = new Source(sequence = [1, 2, 3, 4]);
+It may be tempting to declare state variables in the $preamble$, as follows:
+
+```lf-py
+reactor FlawedCount {
+    preamble {=
+        count = 0
+    =}
+    output y
+    timer t(0, 100 msec)
+    reaction(t) -> y {=
+        y.set(count)
+        count += 1
+    =}
+}
 ```
 
-Notice that as any ordinary Python list, `len(self.sequence)` has been used in the code to deduce the length of the list.
+This will produce a sequence of integers, but if there is more than one instance
+of the reactor, those instances will share the same variable `count` (because
+`count` will be a [class variable](https://docs.python.org/3/tutorial/classes.html#class-and-instance-variables)). Hence,
+**don't do this**! Sharing variables across instances of reactors violates a
+basic principle, which is that reactors communicate only by sending messages to
+one another. Sharing variables will make your program nondeterministic. If you
+have multiple instances of the above `FlawedCount` reactor, the outputs produced
+by each instance will not be predictable, and in a multithreaded implementation,
+will also not be repeatable.
 
-State variables, like parameters, do not have types in Python and are referenced in the target code using the syntax `self.<name>`. For an example, see [State Declaration](/docs/handbook/parameters-and-state-variables#state-declaration).
+### Array Expressions for State Variables and Parameters
 
-In certain cases, such as when more control is needed for initialization of certain class objects, this method might be preferable. Nonetheless, the code delimiters `{= ... =}` can also also be used. The following example, taken from [StructAsState.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/StructAsState.lf) demonstrates this usage:
+A Lingua Franca array expression (e.g., (0, 1, 2)) can be used for the initial
+(default) value of parameters and state variables. In the following example, the
+parameter `sequence` and the state variable `x` have an initial value of `(0, 1,
+2)`:
+
+```lf-py
+reactor Source(sequence(0, 1, 2)) {
+    state x(0, 1, 2);
+    ...
+}
+```
+
+The Python target interprets the `(0, 1, 2)` expression differently depending on
+whether the assignee is a parameter or a state variable. For parameters, the
+`(0, 1, 2)` expression will translate into an immutable Python tuple (i.e.,
+`sequence = (0, 1, 2)`). For state variables, the `(0, 1, 2)` expression will
+translate into a mutable Python list (i.e., `x = [0, 1, 2])`). The reason behind
+this discrepancy is that parameters are assumed to be immutable after
+instantiation (in fact, they are also read-only in reaction bodies), but state
+variables usually need to be updated during execution.
+
+Notice that even though the tuple assigned to the parameter is immutable (you
+cannot assign new values to its elements), the parameter itself can be
+overridden with _another_ immutable tuple when instantiating the reactor:
+
+```lf
+s = new Source(sequence = (1, 2, 3, 4));
+```
+
+As with any ordinary Python list or tuple, `len()` can been used to deduce the
+length.
+
+### Assigning Arbitrary Initial Expressions to State Variables and Parameters
+
+The code delimiters `{= ... =}` can allow for assignment of arbitrary Python
+expressions as initial values for state variables and parameters. The following example, taken from
+[StructAsState.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/StructAsState.lf)
+demonstrates this usage:
 
 ```lf-py
 main reactor StructAsState {
@@ -592,7 +662,7 @@ main reactor StructAsState {
 
 Notice that a class `hello` is defined in the preamble. The state variable `s` is then initialized to an instance of `hello` constructed within the `{= ... =}` delimiters.
 
-State variables may be initialized to lists or tuples without requiring `{= ... =}` delimiters. The following illustrates the difference:
+<!-- State variables may be initialized to lists or tuples without requiring `{= ... =}` delimiters. The following illustrates the difference:
 
 ```lf-py
 target Python;
@@ -604,11 +674,10 @@ main reactor Foo {
         print("{0} != {1}".format(type(self.a_tuple), type(self.a_list)))
     =}
 }
-```
+``` -->
 
-<span class="warning">FIXME: The above syntax is no longer allowed.</span>
-
-In Python, tuples are immutable, while lists can be modified. Be aware also that the syntax for declaring tuples in the Python target is the same syntax as to declare an array in the C target, so the immutability might be a surprise.
+<!--
+In Python, tuples are immutable, while lists can be modified. Be aware also that the syntax for declaring tuples in the Python target is the same syntax as to declare an array in the C target, so the immutability might be a surprise. -->
 
 </div>
 
@@ -1097,7 +1166,7 @@ reactor Source {
 }
 ```
 
-The call to the `set` function is necessary to inform downstream reactors that the class object has a new value. In short, the `set` method is defined as follows:
+The call to the `set` method is necessary to inform downstream reactors that the class object has a new value. In short, the `set` method is defined as follows:
 
 > `<port>.set(<value>)`: Set the specified output port (or input of a contained reactor) to the specified value. This value can be any Python object (including `None` and objects of type `Any`). The value is copied and therefore the variable carrying the value can be subsequently modified without changing the output.
 
@@ -1520,7 +1589,7 @@ Working with nanoseconds in the Python code can be tedious if you are interested
 
 <div class="lf-c">
 
-Actions are described in the [Actions](/docs/handbook/actions). If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
+Actions are described in [Actions](/docs/handbook/actions). If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
 
 Recall from [Composing Reactors](/docs/handbook/composing-reactors) that the $after$ keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayInt.lf) example:
 
@@ -1541,9 +1610,9 @@ reactor DelayInt(delay:time(100 msec)) {
 Using this reactor as follows
 
 ```lf
-    d = new Delay();
-    source.out -> d.in;
-    d.in -> sink.out
+    delay = new Delay();
+    source.out -> delay.in;
+    delay.in -> sink.out
 ```
 
 is equivalent to
@@ -1554,9 +1623,15 @@ is equivalent to
 
 (except that our `DelayInt` reactor will only work with data type `int`).
 
-The action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **schedule** function, namely **schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
+In the `Delay` reactor, the action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **schedule** function, namely **schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
 
-The first reaction declares that it is triggered by `d` and has effect `out`. To read the value, it uses the `d->value` variable. Because this reaction is first, the `out` at any logical time can be produced before the input `in` is even known to be present. Hence, this reactor can be used in a feedback loop, where `out` triggers a downstream reactor to send a message back to `in` of this same reactor. If the reactions were given in the opposite order, there would be causality loop and compilation would fail.
+The first reaction declares that it is triggered by `d` and has effect `out`. To
+read the value, it uses the `d->value` variable. Because this reaction is first,
+the `out` at any logical time can be produced before the input `in` is even
+known to be present. Hence, this reactor can be used in a feedback loop, where
+`out` triggers a downstream reactor to send a message back to `in` of this same
+reactor. If the reactions were given in the opposite order, there would be a
+causality loop and compilation would fail.
 
 If you are not sure whether an action carries a value, you can test for it as follows:
 
@@ -1568,7 +1643,10 @@ If you are not sure whether an action carries a value, you can test for it as fo
     =}
 ```
 
-It is possible to both be triggered by and schedule an action the same reaction. For example, this [CountSelf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/CountSelf.lf) reactor will produce a counting sequence after it is triggered the first time:
+It is possible to both be triggered by and schedule an action in the same
+reaction. For example, the
+following [CountSelf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/CountSelf.lf)
+reactor will produce a counting sequence after it is triggered the first time:
 
 ```lf-c
 reactor CountSelf(delay:time(100 msec)) {
@@ -1705,11 +1783,94 @@ Of course, to produce a counting sequence, it would be more efficient to use a s
 
 <div class="lf-py">
 
-Actions are described in the [Actions](/docs/handbook/actions) and, in the Python target, do not have a data type even when they carry a value. The Python target provides a `.schedule()` method to trigger an action at a future logical time. For examples, see [Actions](/docs/handbook/actions).
+Actions are described [here](/docs/handbook/actions). Actions can carry a
+**value**, a Python object that becomes available to any reaction triggered by
+the action. This is particularly useful for physical actions that are externally
+triggered because it enables the action to convey information to the reactor.
+This could be, for example, the body of an incoming network message or a
+numerical reading from a sensor. Note that actions do not have a data
+type in the Python target, even when they carry a value.
 
-The logical time is visible to the Python programmer and can be obtained in a reaction using either `get_elapsed_logical_time()`, as above or `get_logical_time()`. The latter function returns the number of nanoseconds elapsed since the start time, and the former returns the number of nanoseconds elapsed since January 1, 1970.
+Recall from [Composing Reactors](/docs/handbook/composing-reactors) that the
+$after$ keyword on a connection between ports introduces a logical delay. This
+is actually implemented using a logical action. We illustrate how this is done
+using the
+`Delay` reactor in the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/DelayInt.lf)
+example:
 
-Actions can also carry a **value**, a Python object that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message.
+```lf-py
+reactor Delay(delay(100 msec)) {
+    input _in;
+    output out;
+    logical action a;
+    reaction(a) -> out {=
+        if (a.value is not None) and a.is_present:
+            out.set(a.value)
+    =}
+    reaction(_in) -> a {=
+        a.schedule(self.delay, _in.value)
+    =}
+}
+```
+
+Using this reactor as follows
+
+```lf
+    delay = new Delay()
+    <source_port_reference> -> delay._in
+    delay._in -> <destination_port_reference>
+```
+
+is equivalent to
+
+```lf
+    <source_port_reference> -> <destination_port_reference> after 100 msec
+```
+
+In the `Delay` reactor, the reaction to the input `_in` declares as its effect
+the action `a`. This declaration makes it possible for the reaction to schedule
+a future triggering of `a` using the
+[`a.schedule()`](/docs/handbook/target-language-reference#schedule-functions)
+method.
+
+The first reaction declares that it is triggered by `a` and has effect `out`. To
+read the value, it uses the `a.value` syntax. Because this reaction is first,
+the `out` at any logical time can be produced before the input `_in` is even
+known to be present. Hence, this reactor can be used in a feedback loop, where
+`out` triggers a downstream reactor to send a message back to `_in` of this same
+reactor. If the reactions were given in the opposite order, there would be a
+causality loop and compilation would fail.
+
+If you are not sure whether an action carries a value, you can test for it as follows:
+
+```lf-py
+    reaction(a) -> out {=
+        if (a.value is not None):
+            out.set(a.value)
+    =}
+```
+
+It is possible to both be triggered by and schedule an action in the same
+reaction. For example, the
+following [CountSelf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/CountSelf.lf)
+reactor will produce a counting sequence after it is triggered the first time:
+
+```lf-py
+reactor CountSelf2(delay(100 msec)) {
+    output out;
+    logical action a;
+    reaction(startup) -> a, out {=
+        out.set(0)
+        a.schedule(self.delay, 1)
+    =}
+    reaction(a) -> a, out {=
+        out.set(a.value)
+        a.schedule(self.delay, a.value + 1)
+    =}
+}
+```
+
+Of course, to produce a counting sequence, it would be more efficient to use a state variable.
 
 </div>
 
@@ -1727,7 +1888,7 @@ Actions can also carry a **value**, a Python object that becomes available to an
 
 [comment]: <> (================= NEW SECTION =====================)
 
-## Schedule Functions
+### Schedule Functions
 
 <div class="lf-c">
 
@@ -1800,7 +1961,30 @@ The datatype `string` is an alias for `char*`, but Lingua Franca does not know t
 
 <div class="lf-py">
 
-<span class="warning">FIXME: Describe python schedule() function.</span>
+The Python reactor target provides a `.schedule()` method to trigger an action at a
+future logical time. The `.schedule()` method also optionally allows for a value
+to be sent into the future. For example, take the
+[ScheduleValue.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/ScheduleValue.lf):
+
+```lf-py
+main reactor ScheduleValue {
+    logical action a;
+    reaction(startup) -> a {=
+        value = "Hello"
+        a.schedule(0, value)
+    =}
+    reaction(a) {=
+        print("Received: ", a.value)
+        if a.value != "Hello":
+            sys.stderr.write("FAILURE: Should have received 'Hello'\n")
+            exit(1)
+    =}
+}
+```
+
+In this example, the logical action `a` is scheduled one
+[microstep](/docs/handbook/superdense-time) in the future with a string `value`
+containing `"Hello"`.
 
 </div>
 
@@ -1835,7 +2019,9 @@ which may be invoked from outside an reaction, like an external thread.
 
 <div class="lf-py">
 
-<span class="warning">FIXME: Get from below</span>
+A reaction may request that the execution stop after all events with the current timestamp have been processed by calling the built-in function `request_stop()`, which takes no arguments. In a non-federated execution, the actual last tag of the program will be one microstep later than the tag at which `request_stop()` was called. For example, if the current tag is `(2 seconds, 0)`, the last (stop) tag will be `(2 seconds, 1)`.
+
+> The [timeout](/docs/handbook/termination#timeout) target specification will take precedence over this function. For example, if a program has a timeout of `2 seconds` and `request_stop()` is called at the `(2 seconds, 0)` tag, the last tag will still be `(2 seconds, 0)`.
 
 </div>
 
@@ -1998,30 +2184,35 @@ on the reaction queue have executed at the current logical time.
 
 <div class="lf-py">
 
-The Python target is built on top of the C runtime to enable maximum efficiency where possible. The Python target uses the single threaded C runtime by default but will switch to the multithreaded C runtime if a physical action is detected. The [threading](/docs/handbook/target-specification#threading) target property can be used to override this behavior.
+The Python target is built on top of the C runtime to enable maximum efficiency where possible. It uses the single-threaded C runtime by default but will switch to the multi-threaded C runtime if a physical action is detected. The [threading](/docs/handbook/target-specification#threading) target property can be used to override this behavior.
 
-Running [lfc](/docs/handbook/command-line-tools) on a `XXX.lf` program that uses the Python target specification will create the following files:
+Running [lfc](/docs/handbook/command-line-tools) on a `XXX.lf` program that uses the Python target specification on a
+Linux machine will create the following files (other operating systems will have
+a slightly different structure and/or files):
 
-```
+```bash
 ├── src
 │   └── XXX.lf
 └── src-gen
     └── XXX
-        ├── core
-        │   ...             # C runtime files
-        ├── ctarget.c       # C target API implementations
-        ├── ctarget.h       # C target API definitions
-        ├── pythontarget.c  # Python target API implementations
-        ├── pythontarget.h  # Python target API definitions
-        ├── setup.py        # Setup file used to install the Python C extension
-        ├── XXX.c           # Source code of the Python C extension
-        └── XXX.py          # Actual Python code containing reactors and reaction code
+        ###### Files related to the Python C extension module for XXX ######
+        ├── build               # Temporary files for setuptools
+        ├── core                # Core C runtime files
+        ├── ctarget.c           # C target API implementations
+        ├── ctarget.h           # C target API definitions
+        ├── LinguaFrancaXXX*.so # The Python C extension module for XXX
+        ├── pythontarget.c      # Python target API implementations
+        ├── pythontarget.h      # Python target API definitions
+        ├── setup.py            # Setup file used to build the Python C extension
+        ├── XXX.c               # Source code of the Python C extension
+        ###### Files containing the Python code ######
+        └── XXX.py              # Python file containing reactors and reaction code
 ```
 
 There are two major components in the `src-gen/XXX` directory that together enable the execution of a Python target application:
 
-- A [XXX.py](#the-xxxpy-file-containing-user-code) file containing the user code (e.g., reactor definitions and reactions) and
-- the source code for a [Python C extension module](#the-generated-linguafrancaxxx-python-module-a-c-extension-module) called `LinguaFrancaXXX` containing the C runtime, as well as hooks to execute the user-defined reactions.
+- An [XXX.py](#the-xxxpy-file-containing-user-code) file containing the user code (e.g., reactor definitions and reactions).
+- The source code for a [Python C extension module](#the-generated-linguafrancaxxx-python-module-a-c-extension-module) called `LinguaFrancaXXX` containing the C runtime, as well as hooks to execute the user-defined reactions.
 
 The interactions between the `src-gen/XXX/XXX.py` file and the `LinguaFrancaXXX` module are explained [below](#interactions-between-xxxpy-and-linguafrancaxxx).
 
@@ -2061,10 +2252,9 @@ main reactor {
 
 Th reactor `Foo` and its instance, `foo`, will be converted to
 
-```lf-py
+```python
 # src-gen/XXX/XXX.py
 ...
-
 # Python class for reactor Foo
 class _Foo:
 
@@ -2090,20 +2280,37 @@ class _Foo:
 
 
 # Instantiate classes
-xxx_foo_lf = \
-    [_Foo(bank_index = 0, \
-        _bar=0)]
-
+xxx_lf = [None] * 1
+xxx_foo_lf = [None] * 1
+# Start initializing XXX of class XXX
+for xxx_i in range(1):
+    bank_index = xxx_i
+    xxx_lf[0] = _XXX(
+        _bank_index = 0,
+    )
+    # Start initializing XXX.foo of class Foo
+    for xxx_foo_i in range(1):
+        bank_index = xxx_foo_i
+        xxx_foo_lf[0] = _Foo(
+            _bank_index = 0,
+            _bar=0,
+        )
 ...
 ```
 
 ### The generated LinguaFrancaXXX Python module (a C extension module)
 
-The rest of the files in `src-gen/XXX` form a [Python C extension module](https://docs.python.org/3/extending/building.html#building-c-and-c-extensions) called `LinguaFrancaXXX` that can be installed by executing `python3 -m pip install .` in the `src-gen/XXX/` folder. In this case, `pip` will read the instructions in the `src-gen/XXX/setup.py` file and install a `LinguaFrancaXXX` module in your local Python module installation directory.
+The rest of the files in `src-gen/XXX` form a [Python C extension
+module](https://docs.python.org/3/extending/building.html#building-c-and-c-extensions)
+called `LinguaFrancaXXX` that can be built by executing `python3 setup.py
+build_ext --inplace` in the `src-gen/XXX/` folder. In this case, Python will
+read the instructions in the `src-gen/XXX/setup.py` file and build a
+`LinguaFrancaXXX` module in `src-gen/XXX/`. The `--inplace` flag puts the
+compiled extension (the `LinguaFrancaXXX*.so` in the example above) in the
+`src-gen` directory alongside the `XXX.py` file.
 
-**Note:** LinguaFrancaXXX does not necessarily have to be installed if you are using the "traditional" Python implementation (CPython) directly. You could simply use `python3 setup.py build` to build the module in the `src-gen/XXX` folder. However, we have found that [other C Python implementations](https://www.python.org/download/alternatives/) such as Anaconda will not work with this kind of local module.
-
-As mentioned before, the LinguaFrancaXXX module is separate from `src-gen/XXX/XXX.py` but interacts with it. Next, we explain this interaction.
+As mentioned before, the LinguaFrancaXXX module is separate from
+`src-gen/XXX/XXX.py` but interacts with it. Next, we explain this interaction.
 
 ### Interactions between XXX.py and LinguaFrancaXXX
 
@@ -2134,6 +2341,7 @@ from LinguaFrancaBase.classes import * #Useful classes
 The following packages are already imported and thus do not need to be re-imported by the user:
 
 ```
+import os
 import sys
 import copy
 ```

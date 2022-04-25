@@ -141,6 +141,28 @@ The only constraint is that the total number of channels on the left match the t
 
 A destination port (on the right) can only be connected to a single source port (on the left). However, a source port may be connected to multiple destinations, as in the following example:
 
+<div class="lf-py">
+
+```lf
+reactor A {
+    output y
+}
+reactor B {
+    input x
+}
+main reactor {
+    a = new A()
+    b1 = new B()
+    b2 = new B()
+    a.y -> b1.x
+    a.y -> b2.x
+}
+```
+
+</div>
+
+<div class="lf-c lf-cpp lf-ts lf-rs">
+
 ```lf
 reactor A {
     output y:int
@@ -156,6 +178,7 @@ main reactor {
     a.y -> b2.x
 }
 ```
+</div>
 
 <img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Multicast.svg" width="250"/>
 

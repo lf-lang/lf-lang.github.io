@@ -9,12 +9,11 @@ Tracing is a powerful tool when it comes to analysis and debugging of applicatio
 
 Tracing is different from [logging](https://github.com/lf-lang/lingua-franca/wiki/target-specification#logging). Logging produces human-readable output in textual form and incurs significant overhead. Tracing produces binary data that must be further processed to be useful and is designed to have minimal impact on the execution time of a program.
 
-Tracing is currently supported in the C, Python, and C++ targets. The mechanism used in C and Python is different from that used in C++. These are documented separately below. Tracing in C++ requires third-party tools that may only be available in Linux. Tracing in C and Python does not require any third-party tools.
+Tracing is currently supported in the C, Python, and C++ targets. The mechanism used in C and Python is different from that used in C++. Tracing in C++ requires third-party tools that may only be available in Linux. Tracing in C and Python does not require any third-party tools.
 
-- [Tracing in C++](#TracingInCpp)
-- [Tracing in C](#TracingInC)
+<div class="lf-cpp">
 
-## <a name="TracingInCpp">Tracing in C++</a>
+## Tracing in C++
 
 Tracing in the Cpp target of Lingua Franca is based on three third-party tools. [LTTng](https://lttng.org/docs/v2.12/) is a Linux tool used to instrument the Lingua Franca program and to record traces in the [CTF](https://diamon.org/ctf/), which minimizes the overhead of instrumentation. Chrome (or Chromium) has a build in [trace viewer](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool) that is used to visualize the recorded trace data in a reactor-specific way. Since the Chrome trace-viewer cannot read CTF traces directly, we use [Babeltrace2](https://babeltrace.org/) to convert the recorded CTF trace to a json file that the Google trace viewer can load.
 
@@ -77,9 +76,13 @@ The Google Trace Viewer is the only viewer currently supported. Since it reads j
 
 [Vampir](https://vampir.eu/) is another powerful tracing tool that is mainly developed at TU Dresden. It targets mostly HPC applications, and I am not sure if it can be adjusted to display specific information other than details of processes and threads.
 
-## <a name="TracingInC">Tracing in C</a>
+</div>
 
-The C tracing mechanism depends only on the availability of the `pthread` library. Like C++ tracing, tracing is enabled by a target parameter:
+<div class="lf-c lf-py">
+
+## Tracing in C and Python
+
+The C and Python tracing mechanism depends only on the availability of the `pthread` library. Like C++ tracing, tracing is enabled by a target parameter:
 ```
 target C {
     tracing: true
@@ -170,4 +173,11 @@ An example of a Chrome display of a run of the [Tracing regression test](https:/
 
 ![Chrome tracing visualization](../../../../../img/tracing/ChromeTracingInC2.png)
 
-In this image, "Number of Destination invocations" is an event description to which values 1 through 10 were passed. This results in the shaded value plot shown first. The other four rows are just pure events (with no value). They are shown by (extremely) thin lines positioned at the physical time of the occurrence of the event. Dragging the mouse over those thin lines shows further details about the event in the window below.
+In this image, "Number of Destination invocations" is an event description to
+which values 1 through 10 were passed. This results in the shaded value plot
+shown first. The other four rows are just pure events (with no value). They are
+shown by (extremely) thin lines positioned at the physical time of the
+occurrence of the event. Dragging the mouse over those thin lines shows further
+details about the event in the window below.
+
+</div>
