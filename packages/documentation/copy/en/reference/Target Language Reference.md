@@ -2475,9 +2475,9 @@ This is the simplest version as it carries no value. The action need not have a 
 
 This version carries an `int` value. The datatype of the action is required to be `int`.
 
-> `schedule_token(<action>, <offset>, <value>);`
+> `lf_schedule_token(<action>, <offset>, <value>);`
 
-This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `schedule_token()` (see [Dynamically Allocated Structs](#Dynamically-Allocated-Structs) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any datatype carried by a token:
+This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Structs](#Dynamically-Allocated-Structs) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any datatype carried by a token:
 
 ```lf-c
 reactor DelayPointer(delay:time(100 msec)) {
@@ -2492,7 +2492,7 @@ reactor DelayPointer(delay:time(100 msec)) {
     reaction(in) -> a {=
         // Schedule the actual token from the input rather than
         // a new token with a copy of the input value.
-        schedule_token(a, self->delay, in->token);
+        lf_schedule_token(a, self->delay, in->token);
     =}
 }
 ```
