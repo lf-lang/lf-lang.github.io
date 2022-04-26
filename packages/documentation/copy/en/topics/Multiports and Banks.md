@@ -121,7 +121,32 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Multiport.lf
+target TypeScript
+reactor Source {
+    output[4] out:number
+    reaction(startup) -> out {=
+        for (let i = 0 ; i < out.length; i++) {
+            out[i] = i
+        }
+    =}
+}
+reactor Destination {
+    input[4] inp:number
+    reaction(inp) {=
+        let sum = 0
+        for (let i = 0 ; i < inp.length; i++) {
+            const val = inp[i]
+            if (val) sum += val
+        }
+        console.log(`Sum of received: ${sum}`)
+    =}
+}
+main reactor {
+    a = new Source()
+    b = new Destination()
+    a.out -> b.inp
+}
+
 ```
 
 ```lf-rs
@@ -301,7 +326,17 @@ reactor MultiportSource(
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/MultiportSource.lf
+target TypeScript
+reactor MultiportSource {
+    timer t(0, 200 msec)
+    output out:number
+    state s:number(0)
+    reaction(t) -> out {=
+        out = s
+        s += this.getBankIndex()
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -469,7 +504,19 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/ChildBank.lf
+target TypeScript
+reactor Child {
+    reaction(startup) {=
+        console.log(`My bank index ${this.getBankIndex()}`)
+    =}
+}
+reactor Parent {
+    c = new[2] Child()
+}
+main reactor {
+    p = new[2] Parent()
+}
+
 ```
 
 ```lf-rs
@@ -585,7 +632,21 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/ChildParentBank.lf
+target TypeScript
+reactor Child (
+    parentBankIndex:number(0)
+) {
+    reaction(startup) {=
+        console.log(`My bank index: ${this.getBankIndex()} My parent's bank index: ${parentBankIndex}`)
+    =}
+}
+reactor Parent {
+    c = new[2] Child(parentBankIndex = {= this.getBankIndex() =})
+}
+main reactor {
+    p = new[2] Parent()
+}
+
 ```
 
 ```lf-rs
@@ -716,7 +777,27 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/ChildParentBank2.lf
+target TypeScript
+reactor Child (
+    parentBankIndex:number(0)
+) {
+    output out:number;
+    reaction(startup) -> out {=
+        out = parentBankIndex * 2 + this.getBankIndex()
+    =}
+}
+reactor Parent {
+    c = new[2] Child(parentBankIndex = {= this.getBankIndex() =})
+    reaction(c.out) {=
+        for (let i = 0; i < c.length; i++) {
+            console.log(`Received ${c[i].out} from child ${i}`)
+        }
+    =}
+}
+main reactor {
+    p = new[2] Parent();
+}
+
 ```
 
 ```lf-rs
@@ -848,7 +929,28 @@ main reactor MultiportToBank {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/MultiportToBank.lf
+target TypeScript
+reactor Source {
+    output[3] out:number
+    reaction(startup) -> out {=
+         for (let i = 0 ; i < out.length; i++) {
+            out[i] = i
+        }
+    =}
+}
+reactor Destination {
+    input inp:number
+    reaction(inp) {=
+        console.log(`Destination ${this.getBankIndex()} received ${inp}`)
+    =}
+}
+
+main reactor MultiportToBank {
+    a = new Source()
+    b = new[3] Destination()
+    a.out -> b.inp
+}
+
 ```
 
 ```lf-rs
@@ -1022,7 +1124,29 @@ main reactor(num_nodes(4)) {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Interleaved.lf
+target TypeScript
+reactor Node(numNodes: number(4)) {
+    input[numNodes] inp: number
+    output[numNodes] out: number
+
+    reaction (startup) -> out {=
+        out[1] = 42
+        console.log(`Bank index ${this.getBankIndex()} sent 42 on channel 1.`)
+    =}
+
+    reaction (inp) {=
+        for (let i = 0; i < in.length; i++) {
+            if (in[i] !== undefined) {
+                console.log(`Bank index ${this.getBankIndex()} received ${in[i]} on channel ${i}`)
+            }
+        }
+    =}
+}
+main reactor(numNodes: number(4)) {
+    nodes = new[numNodes] Node(numNodes=numNodes);
+    nodes.out -> interleaved(nodes.inp)
+}
+
 ```
 
 ```lf-rs

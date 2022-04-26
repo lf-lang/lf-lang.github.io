@@ -77,7 +77,25 @@ main reactor Alignment {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Alignment.lf
+target TypeScript {
+    timeout: 3s
+}
+main reactor Alignment {
+    state s:number(0)
+    timer t1(100ms, 100ms)
+    timer t2(200ms, 200ms)
+    timer t4(400ms, 400ms)
+    reaction(t1) {=
+        s += 1
+    =}
+    reaction(t2) {=
+        s -= 2
+    =}
+    reaction(t4) {=
+        console.log(`s = ${s}`)
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -170,7 +188,22 @@ reactor Overwriting {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Overwriting.lf
+target TypeScript
+reactor Overwriting {
+    output y:number
+    state s:number(0)
+    timer t1(100 msec, 100 msec)
+    timer t2(200 msec, 200 msec)
+    reaction(t1) -> y {=
+        s += 1
+        y = s
+    =}
+    reaction(t2) -> y {=
+        s -= 2
+        y = s
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -247,7 +280,17 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Contained.lf
+target TypeScript
+import Overwriting from "Overwriting.lf";
+main reactor {
+    s = new Overwriting();
+    reaction(s.y) {=
+        if (s.y != 0 && s.y != 1) {
+            util.requestErrorStop("Outputs should only be 0 or 1!")
+        }
+    =}
+}
+
 ```
 
 ```lf-rs

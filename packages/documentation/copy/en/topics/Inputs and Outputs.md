@@ -74,7 +74,14 @@ reactor Double {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Double.lf
+target TypeScript
+reactor Double {
+    input x:number
+    output y:number
+    reaction(x) -> y {=
+        y = value * 2
+    =}
+}
 
 ```
 
@@ -160,7 +167,21 @@ reactor Destination {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Destination.lf
+target TypeScript
+reactor Destination {
+    input x:number
+    input y:number
+    reaction(x, y) {=
+        let sum = 0
+        if (x !== undefined) {
+            sum += x
+        }
+        if (y !== undefined) {
+            sum += y
+        }
+        console.log(`Received ${sum}.`)
+    =}
+}
 
 ```
 

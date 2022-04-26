@@ -104,7 +104,20 @@ main reactor SlowingClock(start(100 msec), incr(100 msec)) {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/SlowingClock.lf
+target TypeScript
+main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
+    state interval:time(start)
+    logical action a
+    reaction(startup) -> a {=
+        actions.a.schedule(start, null);
+    =}
+    reaction(a) -> a {=
+        console.log(`Logical time since start: ${util.getElapsedLogicalTime()}`)
+        interval = interval.add(incr)
+        actions.a.schedule(interval, null)
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -191,7 +204,14 @@ main reactor Timer {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Timer.lf
+target TypeScript
+main reactor Timer {
+    timer t(0, 1 sec)
+    reaction(t) {=
+        console.log(`Logical time is ${util.getCurrentLogicalTime()}.`)
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -273,7 +293,14 @@ main reactor TimeElapsed {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/TimeElapsed.lf
+target TypeScript
+main reactor TimeElapsed {
+    timer t(0, 1 sec)
+    reaction(t) {=
+        console.log(`Elapsed logical time is ${util.getElapsedLogicalTime()}`)
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -354,7 +381,16 @@ main reactor TimeLag {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/TimeLag.lf
+target TypeScript
+main reactor TimeLag {
+    timer t(0, 1 sec)
+    reaction(t) {=
+        const t = util.getElapsedLogicalTime()
+        const T = util.getElapsedPhysicalTime()
+        console.log(`Elapsed logical time: ${t}, physical time: ${T}, lag: ${T.subtract(t)}`)
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -531,7 +567,29 @@ reactor TestCount(start(0), stride(1), num_inputs(1)) {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/TestCount.lf
+target TypeScript
+reactor TestCount(start:number(0), stride:number(1), numInputs:number(1)) {
+    state count:number(start)
+    state inputsReceived:number(0)
+    input x:number
+    reaction(x) {=
+        console.log(`Received ${x}`)
+        if (x != count) {
+            console.error(`ERROR: Expected ${count}.`)
+            process.exit(1)
+        }
+        count += stride;
+        inputsReceived++
+    =}
+    reaction(shutdown) {=
+        console.log("Shutdown invoked.")
+        if (inputsReceived != numInputs) {
+            console.error(`ERROR: Expected to receive ${numInputs}, but got ${inputsReceived}.`)
+            process.exit(2)
+        }
+    =}
+}
+
 ```
 
 ```lf-rs

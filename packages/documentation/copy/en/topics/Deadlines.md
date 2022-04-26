@@ -57,7 +57,18 @@ reactor Deadline {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Deadline.lf
+target TypeScript
+reactor Deadline {
+    input x:number
+    output d:number // Produced if the deadline is violated.
+    reaction(x) -> d {=
+        console.log("Normal reaction.")
+    =} deadline(10 msec) {=
+        console.log("Deadline violation detected.")
+        d = x
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -136,7 +147,27 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/DeadlineTest.lf
+target TypeScript
+import Deadline from "Deadline.lf"
+main reactor {
+    logical action a
+    d = new Deadline()
+    reaction(startup) -> d.x, a {=
+        d.x = 0
+        actions.a.schedule(TimeValue.zero(), null)
+    =}
+    reaction(a) -> d.x {=
+        d.x = 0
+        for (const later = util.getCurrentPhysicalTime().add(TimeValue.msecs(20));
+            util.getCurrentPhysicalTime() < later;) {
+            // Take time...
+        }
+    =}
+    reaction(d.d) {=
+        console.log("Deadline reactor produced an output.")
+    =}
+}
+
 ```
 
 ```lf-rs

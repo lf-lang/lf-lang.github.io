@@ -72,7 +72,22 @@ main reactor RegressionTest {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/RegressionTest.lf
+target TypeScript {
+    timeout: 1 sec,
+    fast: true
+}
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
+
+main reactor RegressionTest {
+    c = new Count()
+    s = new Scale(factor = 4)
+    t = new TestCount(stride = 4, numInputs = 11)
+    c.y -> s.x
+    s.y -> t.x
+}
+
 ```
 
 ```lf-rs
@@ -271,7 +286,24 @@ main reactor Hierarchy {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Hierarchy.lf
+target TypeScript
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
+
+reactor Container(stride:number(2)) {
+    output y:number
+    c = new Count()
+    s = new Scale(factor = stride)
+    c.y -> s.x
+    s.y -> y
+}
+main reactor Hierarchy {
+    c = new Container(stride = 4)
+    t = new TestCount(stride = 4, numInputs = 11)
+    c.y -> t.x
+}
+
 ```
 
 ```lf-rs

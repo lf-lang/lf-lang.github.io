@@ -65,7 +65,18 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Microsteps.lf
+target TypeScript
+main reactor {
+    state count:number(1)
+    logical action a
+    reaction(startup, a) -> a {=
+        console.log(`${count}. Logical time is ${util.getCurrentLogicalTime()}. Microstep is ${util.getCurrentTag().microstep}.`)
+        if (count++ < 5) {
+            actions.a.schedule(TimeValue.zero(), null)
+        }
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -204,7 +215,32 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Simultaneous.lf
+target TypeScript
+reactor Destination {
+    input x:number
+    input y:number
+    reaction(x, y) {=
+        console.log(`Time since start: ${util.getElapsedLogicalTime()}, microstep: ${util.getCurrentTag().microstep}`)
+        if (x !== undefined) {
+            console.log("  x is present.")
+        }
+        if (y !== undefined) {
+            console.log("  y is present.")
+        }
+    =}
+}
+main reactor {
+    logical action repeat
+    d = new Destination()
+    reaction(startup) -> d.x, repeat {=
+        d.x = 1
+        actions.repeat.schedule(0, null)
+    =}
+    reaction(repeat) -> d.y {=
+        d.y = 1
+    =}
+}
+
 ```
 
 ```lf-rs

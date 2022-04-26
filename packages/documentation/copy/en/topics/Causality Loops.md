@@ -95,7 +95,31 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Cycle.lf
+target TypeScript
+reactor A {
+    input x:number
+    output y:number
+    reaction(x) -> y {=
+        // ... something here ...
+    =}
+}
+reactor B {
+    input x:number
+    output y:number
+    reaction(x) {=
+        // ... something here ...
+    =}
+    reaction(startup) -> y {=
+        // ... something here ...
+    =}
+}
+main reactor {
+    a = new A()
+    b = new B()
+    a.y -> b.x
+    b.y -> a.x
+}
+
 ```
 
 ```lf-rs
@@ -223,7 +247,31 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/CycleWithDelay.lf
+target TypeScript
+reactor A {
+    input x:number
+    output y:number
+    reaction(x) -> y {=
+        // ... something here ...
+    =}
+}
+reactor B {
+    input x:number
+    output y:number
+    reaction(x) {=
+        // ... something here ...
+    =}
+    reaction(startup) -> y {=
+        // ... something here ...
+    =}
+}
+main reactor {
+    a = new A()
+    b = new B()
+    a.y -> b.x after 0
+    b.y -> a.x
+}
+
 ```
 
 ```lf-rs
@@ -348,7 +396,31 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/CycleReordered.lf
+target TypeScript
+reactor A {
+    input x:number
+    output y:number
+    reaction(x) -> y {=
+        // ... something here ...
+    =}
+}
+reactor B {
+    input x:number
+    output y:number
+    reaction(startup) -> y {=
+        // ... something here ...
+    =}
+    reaction(x) {=
+        // ... something here ...
+    =}
+}
+main reactor {
+    a = new A()
+    b = new B()
+    a.y -> b.x
+    b.y -> a.x
+}
+
 ```
 
 ```lf-rs

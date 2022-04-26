@@ -16,7 +16,7 @@ $page-showing-target$
 
 </div>
 
-<div class="lf-c lf-py lf-ty lf-rs">
+<div class="lf-c lf-py lf-ts lf-rs">
 
 Lingua Franca supports defining a reactor class as an extension (or subclass), as in the following example:
 
@@ -64,7 +64,21 @@ reactor B extends A {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Extends.lf
+target TypeScript
+reactor A {
+    input a:number
+    output out:number
+    reaction(a) -> out {=
+        out = a
+    =}
+}
+reactor B extends A {
+    input b:number
+    reaction(a, b) -> out {=
+        out = a + b
+    =}
+}
+
 ```
 
 ```lf-rs

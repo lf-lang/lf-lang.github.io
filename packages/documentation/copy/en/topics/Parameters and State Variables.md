@@ -101,7 +101,15 @@ reactor Scale(factor(2)) {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Scale.lf
+target TypeScript;
+reactor Scale(factor:number(2)) {
+    input x:number;
+    output y:number;
+    reaction(x) -> y {=
+        if (x !== undefined) y = x * factor
+    =}
+}
+
 ```
 
 ```lf-rs

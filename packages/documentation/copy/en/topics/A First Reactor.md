@@ -45,12 +45,13 @@ main reactor {
 ```
 
 ```lf-ts
-target TypeScript;
+target TypeScript
 main reactor {
     reaction(startup) {=
-        console.log("Hello World.");
+        console.log("Hello World.")
     =}
 }
+
 ```
 
 ```lf-rs

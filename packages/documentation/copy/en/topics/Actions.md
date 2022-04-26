@@ -86,7 +86,18 @@ reactor Schedule {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Schedule.lf
+target TypeScript
+reactor Schedule {
+    input x:number
+    logical action a
+    reaction(x) -> a {=
+        actions.a.schedule(TimeValue.nsecs(200), null)
+    =}
+    reaction(a) {=
+        console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} after start.`)
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -112,11 +123,11 @@ $end(Schedule)$
 
 Here, the delay is specified in the call to `schedule()` within the target language code. Notice that in the diagram, a logical action is shown as a triangle with an **L**. Logical actions are always scheduled within a reaction of the reactor that declares the action.
 
-The arguments to the `schedule()` function are the action named `a` and a time. The action `a` has to be declared as an effect of the reaction in order to reference it in the call to `schedule()`. If you fail to declare it as an effect (after the `->` in the reaction signature), then you will get an error message.
-
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](#superdense-time) below.
+The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](/docs/handbook/superdense-time).
 
 <div class="lf-c">
+
+The arguments to the `schedule()` function are the action named `a` and a time. The action `a` has to be declared as an effect of the reaction in order to reference it in the call to `schedule()`. If you fail to declare it as an effect (after the `->` in the reaction signature), then you will get an error message.
 
 The time argument to the `schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `long long`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
@@ -140,9 +151,7 @@ An action may carry data, in which case, the **payload** data value is just give
 
 <div class="lf-ts">
 
-<span class="warning">FIXME</span>
-
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
+The `schedule()` method of an action takes two arguments, a `TimeValue` and an (optional) payload. If a payload is given and a type is given for the action, then the type of the payload must match the type of the action. See the [Target Language Reference](/docs/handbook/target-language-reference) for details.
 
 </div>
 
@@ -210,7 +219,18 @@ reactor Physical {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Physical.lf
+target TypeScript
+reactor Physical {
+    input x:int
+    physical action a
+    reaction(x) -> a {=
+        actions.a.schedule(TimeValue.zero(), null)
+    =}
+    reaction(a) {=
+        console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} nsec after start.`)
+    =}
+}
+
 ```
 
 ```lf-rs
@@ -342,7 +362,23 @@ main reactor {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Asynchronous.lf
+target TypeScript
+main reactor {
+
+    physical action a(100 msec):number;
+  
+	reaction(startup) -> a {=
+		// Have asynchronous callback schedule physical action.
+		setTimeout(() => {
+            actions.a.schedule(TimeValue.zero(), 0)
+        }, 200)
+	=}
+	
+	reaction(a) {=
+        console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} nsec after start.`)
+	=}
+}
+
 ```
 
 ```lf-rs
