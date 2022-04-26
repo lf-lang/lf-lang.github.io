@@ -1,0 +1,14 @@
+target TypeScript;
+reactor A {
+    input a:number;
+    output out:number;
+    reaction(a) -> out {=
+        out = a
+    =}
+}
+reactor B extends A {
+    input b:number;
+    reaction(a, b) -> out {=
+        out = a + b
+    =}
+}
