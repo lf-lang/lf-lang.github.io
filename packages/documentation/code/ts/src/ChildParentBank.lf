@@ -1,4 +1,4 @@
-target TypeScript;
+target TypeScript
 reactor Child (
     parentBankIndex:number(0)
 ) {
@@ -7,8 +7,8 @@ reactor Child (
     =}
 }
 reactor Parent {
-    c = new[2] Child(parentBankIndex = {= this.getBankIndex() =});
+    c = new[2] Child(parentBankIndex = {= this.getBankIndex() =})
 }
 main reactor {
-    p = new[2] Parent();
+    p = new[2] Parent()
 }

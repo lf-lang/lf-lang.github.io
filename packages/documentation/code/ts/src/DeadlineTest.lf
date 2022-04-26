@@ -1,8 +1,8 @@
-target TypeScript;
-import Deadline from "Deadline.lf";
+target TypeScript
+import Deadline from "Deadline.lf"
 main reactor {
-    logical action a;
-    d = new Deadline();
+    logical action a
+    d = new Deadline()
     reaction(startup) -> d.x, a {=
         d.x = 0
         actions.a.schedule(TimeValue.zero(), null)

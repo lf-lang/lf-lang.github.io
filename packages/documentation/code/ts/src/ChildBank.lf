@@ -1,12 +1,12 @@
-target TypeScript;
+target TypeScript
 reactor Child {
     reaction(startup) {=
         console.log(`My bank index ${this.getBankIndex()}`)
     =}
 }
 reactor Parent {
-    c = new[2] Child();
+    c = new[2] Child()
 }
 main reactor {
-    p = new[2] Parent();
+    p = new[2] Parent()
 }

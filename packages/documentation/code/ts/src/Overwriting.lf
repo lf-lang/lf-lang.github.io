@@ -1,15 +1,15 @@
-target TypeScript;
+target TypeScript
 reactor Overwriting {
-    output y:number;
-    state s:number(0);
-    timer t1(100 msec, 100 msec);
-    timer t2(200 msec, 200 msec);
+    output y:number
+    state s:number(0)
+    timer t1(100 msec, 100 msec)
+    timer t2(200 msec, 200 msec)
     reaction(t1) -> y {=
-        s += 1;
+        s += 1
         y = s
     =}
     reaction(t2) -> y {=
-        s -= 2;
+        s -= 2
         y = s
     =}
 }

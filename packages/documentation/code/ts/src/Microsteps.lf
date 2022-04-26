@@ -1,4 +1,4 @@
-target TypeScript;
+target TypeScript
 main reactor {
     state count:number(1)
     logical action a

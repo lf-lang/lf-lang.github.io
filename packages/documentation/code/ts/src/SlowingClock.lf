@@ -1,13 +1,13 @@
-target TypeScript;
+target TypeScript
 main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
-    state interval:time(start);
-    logical action a;
+    state interval:time(start)
+    logical action a
     reaction(startup) -> a {=
         actions.a.schedule(start, null);
     =}
     reaction(a) -> a {=
         console.log(`Logical time since start: ${util.getElapsedLogicalTime()}`)
-        interval = interval.add(incr);
-        actions.a.schedule(interval, null);
+        interval = interval.add(incr)
+        actions.a.schedule(interval, null)
     =}
 }

@@ -2,9 +2,9 @@ target TypeScript {
     timeout: 1 sec,
     fast: true
 }
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
 
 main reactor RegressionTest {
     c = new Count()

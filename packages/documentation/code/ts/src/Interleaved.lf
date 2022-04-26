@@ -1,7 +1,7 @@
-target TypeScript;
+target TypeScript
 reactor Node(numNodes: number(4)) {
-    input[numNodes] inp: number;
-    output[numNodes] out: number;
+    input[numNodes] inp: number
+    output[numNodes] out: number
 
     reaction (startup) -> out {=
         out[1] = 42
@@ -18,5 +18,5 @@ reactor Node(numNodes: number(4)) {
 }
 main reactor(numNodes: number(4)) {
     nodes = new[numNodes] Node(numNodes=numNodes);
-    nodes.out -> interleaved(nodes.inp);
+    nodes.out -> interleaved(nodes.inp)
 }
