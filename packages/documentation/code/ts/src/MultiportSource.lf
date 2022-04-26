@@ -1,0 +1,10 @@
+target TypeScript
+reactor MultiportSource {
+    timer t(0, 200 msec)
+    output out:number
+    state s:number(0)
+    reaction(t) -> out {=
+        out = s
+        s += this.getBankIndex()
+    =}
+}
