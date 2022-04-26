@@ -6,7 +6,7 @@ reactor MultiportSource(
     output out:int;
     state s:int(0);
     reaction(t) -> out {=
-        SET(out, self->s);
+        lf_set(out, self->s);
         self->s += self->bank_index;
     =}
 }

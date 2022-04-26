@@ -6,6 +6,6 @@ reactor Deadline {
         printf("Normal reaction.\n");
     =} deadline(10 msec) {=
         printf("Deadline violation detected.\n");
-        SET(d, x->value);
+        lf_set(d, x->value);
     =}
 }

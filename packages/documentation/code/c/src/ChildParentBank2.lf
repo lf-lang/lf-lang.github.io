@@ -5,7 +5,7 @@ reactor Child (
 ) {
     output out:int;
     reaction(startup) -> out {=
-        SET(out, self->parent_bank_index * 2 + self->bank_index);
+        lf_set(out, self->parent_bank_index * 2 + self->bank_index);
     =}
 }
 reactor Parent (

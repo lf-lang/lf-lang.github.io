@@ -42,7 +42,7 @@ reactor Source {
     output[4] out:int;
     reaction(startup) -> out {=
         for(int i = 0; i < out_width; i++) {
-            SET(out[i], i);
+            lf_set(out[i], i);
         }
     =}
 }
@@ -286,10 +286,11 @@ reactor MultiportSource(
     output out:int;
     state s:int(0);
     reaction(t) -> out {=
-        SET(out, self->s);
+        lf_set(out, self->s);
         self->s += self->bank_index;
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -424,7 +425,6 @@ WARNING: No source file found: ../code/rs/src/BankIndex.lf
 ```
 
 $end(BankIndex)$
-
 
 The global `table` defined in the $preamble$ is used to initialize the `value` parameter of each bank member. The result of running this is something like:
 
@@ -704,7 +704,7 @@ reactor Child (
 ) {
     output out:int;
     reaction(startup) -> out {=
-        SET(out, self->parent_bank_index * 2 + self->bank_index);
+        lf_set(out, self->parent_bank_index * 2 + self->bank_index);
     =}
 }
 reactor Parent (
@@ -853,7 +853,7 @@ reactor Source {
     output[3] out:int;
     reaction(startup) -> out {=
         for(int i = 0; i < out_width; i++) {
-            SET(out[i], i);
+            lf_set(out[i], i);
         }
     =}
 }
@@ -1043,7 +1043,7 @@ reactor Node(
     output[num_nodes] out: int;
 
     reaction (startup) -> out {=
-        SET(out[1], 42);
+        lf_set(out[1], 42);
         printf("Bank index %d sent 42 on channel 1.\n", self->bank_index);
     =}
 

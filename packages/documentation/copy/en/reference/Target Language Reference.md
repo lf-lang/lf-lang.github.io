@@ -293,7 +293,7 @@ reactor Count(stride:int(1)) {
     output y:int;
     timer t(0, 100 msec);
     reaction(t) -> y {=
-        SET(y, self->count);
+        lf_set(y, self->count);
         self->count += self->stride;
     =}
 }
@@ -316,7 +316,7 @@ reactor FlawedCount {
     output y:int;
     timer t(0, 100 msec);
     reaction(t) -> y {=
-        SET(y, count++);
+        lf_set(y, count++);
     =}
 }
 ```
@@ -333,7 +333,7 @@ reactor Source(sequence:int[](0, 1, 2), n_sequence:int(3)) {
     state count:int(0);
     logical action next;
     reaction(startup, next) -> out, next {=
-        SET(out, self->sequence[self->count]);
+        lf_set(out, self->sequence[self->count]);
         self->count++;
         if (self->count < self->n_sequence) {
             schedule(next, 0);
@@ -368,7 +368,7 @@ reactor MovingAverage {
         for (int i = 0; i < 3; i++) {
             sum += self->delay_line[i];
         }
-        SET(out, sum/4.0);
+        lf_set(out, sum/4.0);
 
         // Insert the input in the delay line.
         self->delay_line[self->index] = in->value;
@@ -886,9 +886,9 @@ s = new Source(sequence={= new Array<number() =});
 
 In the body of a reaction in the C target, the value of an input is obtained using the syntax `name->value`, where `name` is the name of the input port. See, for example, the `Destination` reactor in [Triggers, Effects, and Uses](/docs/handbook/inputs-and-outputs#triggers-effects-and-uses).
 
-To set the value of outputs, use one of several variants of the `SET` macro. See, for example, the `Double` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).)
+To set the value of outputs, use one of several variants of the `lf_set` macro. See, for example, the `Double` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).)
 
-There are several variants of the `SET` macro, and the one you should use depends on the type of the output. The simple version `SET` works for all primitive C type (int, double, etc.) as well as the `bool` and `string` types that Lingua Franca defines. For the other variants, see [Sending and Receiving Arrays and Structs](#Sending-and-Receiving-Arrays-and-Structs) below.
+There are several variants of the `lf_set` macro, and the one you should use depends on the type of the output. The simple version `lf_set` works for all primitive C type (int, double, etc.) as well as the `bool` and `string` types that Lingua Franca defines. For the other variants, see [Sending and Receiving Arrays and Structs](#Sending-and-Receiving-Arrays-and-Structs) below.
 
 An output may even be set in different reactions of the same reactor at the same tag. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name->is_present` to determine whether the output has been set. For example, the following reactor (the test case [TestForPreviousOutput](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/TestForPreviousOutput.lf)) will always produce the output 42:
 
@@ -900,14 +900,14 @@ reactor TestForPreviousOutput {
         srand(time(0));
         // Randomly produce an output or not.
         if (rand() % 2) {
-            SET(out, 21);
+            lf_set(out, 21);
         }
     =}
     reaction(startup) -> out {=
         if (out->is_present) {
-            SET(out, 2 * out->value);
+            lf_set(out, 2 * out->value);
         } else {
-            SET(out, 42);
+            lf_set(out, 42);
         }
     =}
 }
@@ -930,12 +930,12 @@ reactor StructAsType {
     output out:hello_t;
     reaction(startup) -> out {=
         struct hello_t temp = {"Earth", 42};
-        SET(out, temp);
+        lf_set(out, temp);
     =}
 }
 ```
 
-The $preamble$ code defines a struct datatype. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `SET` macro.
+The $preamble$ code defines a struct datatype. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `lf_set` macro.
 
 For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can instead write directly to the fields of the struct. For example, the above reaction could be rewritten as follows (see [StructAsTypeDirect](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsTypeDirect.lf)):
 
@@ -1081,7 +1081,7 @@ reactor DelayString(delay:time(100 msec)) {
     output out:string;
     logical action a:string;
     reaction(a) -> out {=
-        SET(out, a->value);
+        lf_set(out, a->value);
     =}
     reaction(in) -> a {=
         // The following copies the char*, not the string.
@@ -1094,7 +1094,7 @@ reactor DelayString(delay:time(100 msec)) {
 
 In all of the following, <out> is the name of the output and <value> is the value to be sent.
 
-> `SET(<out>, <value>);`
+> `lf_set(<out>, <value>);`
 
 Set the specified output (or input of a contained reactor) to the specified value. This version is used for primitive type such as `int`, `double`, etc. as well as the built-in types `bool` and `string` (but only if the string is a statically allocated constant; otherwise, see `SET_NEW_ARRAY`). It can also be used for structs with a type defined by a `typedef` so that the type designating string does not end in '\*'. The value is copied and therefore the variable carrying the value can be subsequently modified without changing the output.
 
@@ -1135,7 +1135,7 @@ This version is used for outputs with a type declaration ending with `*` (any po
 
 Here, the first reaction schedules an integer-valued action to trigger after 200 microseconds. As explained below, action payloads are carried by tokens. The second reaction grabs the token rather than the value using the syntax `a->token` (the name of the action followed by `->token`). It then forwards the token to the output. The output data type is `int*` not `int` because the token carries a pointer to dynamically allocated memory that contains the value. All inputs and outputs with types ending in `*` or `[]` are carried by tokens.
 
-All of the `SET` macros will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also all set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
+All of the `lf_set` macros will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also all set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
 
 ### Dynamically Allocated Structs
 
@@ -1181,7 +1181,7 @@ Occasionally, you will want an input or output type to be a pointer, but you don
 reactor Erroneous {
     output out:char*;
     reaction(startup) -> out {=
-        SET(out, "Hello World");
+        lf_set(out, "Hello World");
     =}
 }
 ```
@@ -1192,7 +1192,7 @@ An output data type that ends with `*` signals to Lingua Franca that the message
 reactor Fixed {
     output out:string;
     reaction(startup) -> out {=
-        SET(out, "Hello World");
+        lf_set(out, "Hello World");
     =}
 }
 ```
@@ -1207,7 +1207,7 @@ reactor SendsPointer  {
     output out:int_pointer;
     reaction(startup) -> out {=
         static int my_constant = 42;
-        SET(out, &my_constant;)
+        lf_set(out, &my_constant;)
     =}
 }
 ```
@@ -2100,7 +2100,7 @@ reactor DelayInt(delay:time(100 msec)) {
     output out:int;
     logical action d:int;
     reaction(d) -> out {=
-        SET(out, d->value);
+        lf_set(out, d->value);
     =}
     reaction(in) -> d {=
         schedule_int(d, self->delay, in->value);
@@ -2139,7 +2139,7 @@ If you are not sure whether an action carries a value, you can test for it as fo
 ```lf-c
     reaction(d) -> out {=
         if (d->has_value) {
-            SET(out, d->value);
+            lf_set(out, d->value);
         }
     =}
 ```
@@ -2154,11 +2154,11 @@ reactor CountSelf(delay:time(100 msec)) {
     output out:int;
     logical action a:int;
     reaction(startup) -> a, out {=
-        SET(out, 0);
+        lf_set(out, 0);
         schedule_int(a, self->delay, 1);
     =}
     reaction(a) -> a, out {=
-        SET(out, a->value);
+        lf_set(out, a->value);
         schedule_int(a, self->delay, a->value + 1);
     =}
 }
@@ -2513,7 +2513,7 @@ reactor DelayString(delay:time(100 msec)) {
     output out:string;
     logical action a:string;
     reaction(a) -> out {=
-        SET(out, a->value);
+        lf_set(out, a->value);
     =}
     reaction(in) -> a {=
         // The following copies the char*, not the string.

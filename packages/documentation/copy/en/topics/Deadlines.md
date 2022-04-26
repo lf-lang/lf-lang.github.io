@@ -21,9 +21,10 @@ reactor Deadline {
         printf("Normal reaction.\n");
     =} deadline(10 msec) {=
         printf("Deadline violation detected.\n");
-        SET(d, x->value);
+        lf_set(d, x->value);
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -88,17 +89,18 @@ main reactor {
     logical action a;
     d = new Deadline();
     reaction(startup) -> d.x, a {=
-        SET(d.x, 0);
+        lf_set(d.x, 0);
         schedule(a, 0);
     =}
     reaction(a) -> d.x {=
-        SET(d.x, 0);
+        lf_set(d.x, 0);
         lf_nanosleep(MSEC(20));
     =}
     reaction(d.d) {=
         printf("Deadline reactor produced an output.\n");
     =}
 }
+
 ```
 
 ```lf-cpp

@@ -41,9 +41,10 @@ reactor Double {
     input x:int;
     output y:int;
     reaction(x) -> y {=
-        SET(y, x->value * 2);
+        lf_set(y, x->value * 2);
     =}
 }
+
 ```
 
 ```lf-cpp

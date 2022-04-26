@@ -4,6 +4,6 @@ reactor Count {
     output y:int;
     timer t(0, 100 msec);
     reaction(t) -> y {=
-        SET(y, self->count++);
+        lf_set(y, self->count++);
     =}
 }
