@@ -1125,7 +1125,7 @@ This version is used for outputs with a type declaration ending with `*` (any po
         output out:int*;
         logical action a:int;
         reaction(startup) -> a {=
-            schedule_int(a, MSEC(200), 42);
+            lf_schedule_int(a, MSEC(200), 42);
         =}
         reaction(a) -> out {=
             lf_set_token(out, a->token);
@@ -2103,7 +2103,7 @@ reactor DelayInt(delay:time(100 msec)) {
         lf_set(out, d->value);
     =}
     reaction(in) -> d {=
-        schedule_int(d, self->delay, in->value);
+        lf_schedule_int(d, self->delay, in->value);
     =}
 }
 ```
@@ -2124,7 +2124,7 @@ is equivalent to
 
 (except that our `DelayInt` reactor will only work with data type `int`).
 
-In the `Delay` reactor, the action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **lf_schedule** function, namely **schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
+In the `Delay` reactor, the action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **lf_schedule** function, namely **lf_schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
 
 The first reaction declares that it is triggered by `d` and has effect `out`. To
 read the value, it uses the `d->value` variable. Because this reaction is first,
@@ -2155,11 +2155,11 @@ reactor CountSelf(delay:time(100 msec)) {
     logical action a:int;
     reaction(startup) -> a, out {=
         lf_set(out, 0);
-        schedule_int(a, self->delay, 1);
+        lf_schedule_int(a, self->delay, 1);
     =}
     reaction(a) -> a, out {=
         lf_set(out, a->value);
-        schedule_int(a, self->delay, a->value + 1);
+        lf_schedule_int(a, self->delay, a->value + 1);
     =}
 }
 ```
@@ -2471,7 +2471,7 @@ Actions with values can be rather tricky to use because the value must usually b
 
 This is the simplest version as it carries no value. The action need not have a data type.
 
-> `schedule_int(<action>, <offset>, <value>);`
+> `lf_schedule_int(<action>, <offset>, <value>);`
 
 This version carries an `int` value. The datatype of the action is required to be `int`.
 
