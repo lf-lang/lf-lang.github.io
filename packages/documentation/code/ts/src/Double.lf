@@ -1,0 +1,8 @@
+target TypeScript;
+reactor Double {
+    input x:number;
+    output y:number;
+    reaction(x) -> y {=
+        y = value * 2
+    =}
+}
