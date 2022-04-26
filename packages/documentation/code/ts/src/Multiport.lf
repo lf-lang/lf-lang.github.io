@@ -1,0 +1,25 @@
+target TypeScript
+reactor Source {
+    output[4] out:number
+    reaction(startup) -> out {=
+        for (let i = 0 ; i < out.length; i++) {
+            out[i] = i
+        }
+    =}
+}
+reactor Destination {
+    input[4] inp:number
+    reaction(inp) {=
+        let sum = 0
+        for (let i = 0 ; i < inp.length; i++) {
+            const val = inp[i]
+            if (val) sum += val
+        }
+        console.log(`Sum of received: ${sum}`)
+    =}
+}
+main reactor {
+    a = new Source()
+    b = new Destination()
+    a.out -> b.inp
+}
