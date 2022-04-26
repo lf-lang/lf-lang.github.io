@@ -1,0 +1,11 @@
+target TypeScript;
+main reactor {
+    state count:number(1)
+    logical action a
+    reaction(startup, a) -> a {=
+        console.log(`${count}. Logical time is ${util.getCurrentLogicalTime()}. Microstep is ${util.getCurrentTag().microstep}.`)
+        if (count++ < 5) {
+            actions.a.schedule(TimeValue.zero(), null)
+        }
+    =}
+}
