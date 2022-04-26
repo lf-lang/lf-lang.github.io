@@ -130,7 +130,7 @@ reactor Destination {
     input y:int;
     reaction(x, y) {=
         printf("Time since start: %lld, microstep: %d\n",
-            get_elapsed_logical_time(), get_microstep()
+            lf_time(LF_ELAPSED_LOGICAL), get_microstep()
         );
         if (x->is_present) {
             printf("  x is present.\n");
@@ -192,7 +192,7 @@ reactor Destination {
     input y;
     reaction(x, y) {=
         print(
-            f"Time since start: {get_elapsed_logical_time()}, "
+            f"Time since start: {lf.time.elapsed_logical()}, "
             f"microstep: {get_microstep()}"
         )
         if x.is_present:
@@ -291,7 +291,7 @@ Time since start: 0, microstep: 1
   y is present.
 ```
 
-The time reported by `get_elapsed_logical_time()` has not advanced in the second reaction, but the fact that `x` is not present in the second reaction proves that the first reaction and the second are not logically simultaneous. The second occurs one microstep later.
+The reported elapsed logical time has not advanced in the second reaction, but the fact that `x` is not present in the second reaction proves that the first reaction and the second are not logically simultaneous. The second occurs one microstep later.
 
 ## Alignment of Logical and Physical Times
 

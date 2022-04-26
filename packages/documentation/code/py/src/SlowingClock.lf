@@ -6,7 +6,7 @@ main reactor SlowingClock(start(100 msec), incr(100 msec)) {
         a.schedule(self.start)
     =}
     reaction(a) -> a {=
-        elapsed_logical_time = get_elapsed_logical_time()
+        elapsed_logical_time = lf.time.elapsed_logical()
         print(
             f"Logical time since start: {elapsed_logical_time} nsec."
         )

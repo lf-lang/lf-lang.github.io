@@ -6,7 +6,7 @@ reactor Physical {
         a.schedule(0)
     =}
     reaction(a) {=
-        elapsed_time = get_elapsed_logical_time()
+        elapsed_time = lf.time.elapsed_logical()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
     =}
 }

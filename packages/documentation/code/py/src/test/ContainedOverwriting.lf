@@ -6,7 +6,7 @@ main reactor {
     s = new Overwriting();
     reaction(s.y) {=
         print(
-            f"At logical time {get_elapsed_logical_time()}, "
+            f"At logical time {lf.time.elapsed_logical()}, "
             f"s = {s.y.value}."
         )
     =}

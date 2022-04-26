@@ -44,10 +44,10 @@ reactor Schedule {
     input x:int;
     logical action a;
     reaction(x) -> a {=
-        lf_scheduleule(a, MSEC(200));
+        lf_schedule(a, MSEC(200));
     =}
     reaction(a) {=
-        interval_t elapsed_time = get_elapsed_logical_time();
+        interval_t elapsed_time = lf_time(LF_ELAPSED_LOGICAL);
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
     =}
 }
@@ -80,10 +80,11 @@ reactor Schedule {
         a.schedule(MSEC(200))
     =}
     reaction(a) {=
-        elapsed_time = get_elapsed_logical_time()
+        elapsed_time = lf.time.elapsed_logical()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
     =}
 }
+
 ```
 
 ```lf-ts
@@ -179,7 +180,7 @@ reactor Physical {
         lf_schedule(a, 0);
     =}
     reaction(a) {=
-        interval_t elapsed_time = get_elapsed_logical_time();
+        interval_t elapsed_time = lf_time(LF_ELAPSED_LOGICAL);
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
     =}
 }
@@ -198,7 +199,7 @@ reactor Physical {
     =}
 
     reaction(a) {=
-        auto elapsed_time = get_elapsed_logical_time();
+        auto elapsed_time = lf_time(LF_ELAPSED_LOGICAL);
         std::cout << "Action triggered at logical time " << elapsed_time << " nsec after start." << std::endl;
     =}
 }
@@ -214,10 +215,11 @@ reactor Physical {
         a.schedule(0)
     =}
     reaction(a) {=
-        elapsed_time = get_elapsed_logical_time()
+        elapsed_time = lf.time.elapsed_logical()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
     =}
 }
+
 ```
 
 ```lf-ts
@@ -299,7 +301,7 @@ main reactor {
 	=}
 
 	reaction(a) {=
-        interval_t elapsed_time = get_elapsed_logical_time();
+        interval_t elapsed_time = lf_time(LF_ELAPSED_LOGICAL);
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
 	=}
 }
@@ -358,10 +360,11 @@ main reactor {
 	=}
 
 	reaction(a) {=
-        elapsed_time = get_elapsed_logical_time()
+        elapsed_time = lf.time.elapsed_logical()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
 	=}
 }
+
 ```
 
 ```lf-ts

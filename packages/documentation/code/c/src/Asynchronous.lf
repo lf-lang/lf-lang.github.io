@@ -18,7 +18,7 @@ main reactor {
 	=}
 	
 	reaction(a) {=
-        interval_t elapsed_time = get_elapsed_logical_time();
+        interval_t elapsed_time = lf_time(LF_ELAPSED_LOGICAL);
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
 	=}
 }

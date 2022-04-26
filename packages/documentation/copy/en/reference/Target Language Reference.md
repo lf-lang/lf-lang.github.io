@@ -1509,7 +1509,7 @@ The time structs and functions for working with time are defined in [tag.h](http
 - `tag_t get_current_tag()`: Get the current tag at which this reaction has been invoked.
 - `instant_t get_logical_time()`: Get the current logical time (the first part of the current tag).
 - `microstep_t get_microstep() `: Get the current microstep (the second part of the current tag).
-- `interval_t get_elapsed_logical_time()`: Get the logical time elapsed since program start.
+- `interval_t lf_time(LF_ELAPSED_LOGICAL)`: Get the logical time elapsed since program start.
 - `int lf_compare_tags(tag_t, tag_t)`: Compare two tags, returning -1, 0, or 1 for less than, equal, and greater than.
 
 There are also some useful functions for accessing physical time:
@@ -1551,7 +1551,7 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        interval_t elapsed = get_elapsed_logical_time();
+        interval_t elapsed = lf_time(LF_ELAPSED_LOGICAL);
         printf("Elapsed logical time is %lld.\n", elapsed);
     =}
 }
@@ -1752,7 +1752,7 @@ The functions for working with time and tags are defined in [pythontarget.c](htt
 - `get_current_tag() -> Tag`: Returns a Tag instance of the current tag at which this reaction has been invoked.
 - `get_logical_time() -> int`: Get the current logical time (the first part of the current tag).
 - `get_microstep() -> unsigned int`: Get the current microstep (the second part of the current tag).
-- `get_elapsed_logical_time() -> int`: Get the logical time elapsed since program start.
+- `lf.time.elapsed_logical() -> int`: Get the logical time elapsed since program start.
 - `compare_tags(Tag, Tag) -> int`: Compare two `Tag` instances, returning -1, 0, or 1 for less than, equal, and greater than. `Tag`s can also be compared using rich comparators (ex. `<`, `>`, `==`), which returns `True` or `False`.
 
 `Tag`s can be initialized using `Tag(time=some_number, microstep=some_other_number)`.
@@ -1796,7 +1796,7 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        elapsed = get_elapsed_logical_time()
+        elapsed = lf.time.elapsed_logical()
         print("Elapsed logical time is ", elapsed)
     =}
 }

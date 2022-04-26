@@ -4,7 +4,7 @@ reactor Destination {
     input y:int;
     reaction(x, y) {=
         printf("Time since start: %lld, microstep: %d\n",
-            get_elapsed_logical_time(), get_microstep()
+            lf_time(LF_ELAPSED_LOGICAL), get_microstep()
         );
         if (x->is_present) {
             printf("  x is present.\n");

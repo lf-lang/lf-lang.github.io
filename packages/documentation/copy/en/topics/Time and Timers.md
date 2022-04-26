@@ -52,7 +52,7 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         lf_schedule(a, self->start);
     =}
     reaction(a) -> a {=
-        instant_t elapsed_logical_time = get_elapsed_logical_time();
+        instant_t elapsed_logical_time = lf_time(LF_ELAPSED_LOGICAL);
         printf("Logical time since start: \%lld nsec.\n",
             elapsed_logical_time
         );
@@ -92,7 +92,7 @@ main reactor SlowingClock(start(100 msec), incr(100 msec)) {
         a.schedule(self.start)
     =}
     reaction(a) -> a {=
-        elapsed_logical_time = get_elapsed_logical_time()
+        elapsed_logical_time = lf.time.elapsed_logical()
         print(
             f"Logical time since start: {elapsed_logical_time} nsec."
         )
@@ -261,10 +261,11 @@ main reactor TimeElapsed {
     reaction(t) {=
         printf(
             "Elapsed logical time is %lld.\n",
-            get_elapsed_logical_time()
+            lf_time(LF_ELAPSED_LOGICAL)
         );
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -286,10 +287,11 @@ main reactor TimeElapsed {
     timer t(0, 1 sec);
     reaction(t) {=
         print(
-            f"Elapsed logical time is {get_elapsed_logical_time()}."
+            f"Elapsed logical time is {lf.time.elapsed_logical()}."
         )
     =}
 }
+
 ```
 
 ```lf-ts
@@ -340,7 +342,7 @@ target C;
 main reactor TimeLag {
     timer t(0, 1 sec);
     reaction(t) {=
-        interval_t t = get_elapsed_logical_time();
+        interval_t t = lf_time(LF_ELAPSED_LOGICAL);
         interval_t T = get_elapsed_physical_time();
         printf(
             "Elapsed logical time: %lld, physical time: %lld, lag: %lld\n",
@@ -348,6 +350,7 @@ main reactor TimeLag {
         );
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -358,8 +361,8 @@ main reactor TimeLag {
     reaction(t) {=
         auto logical_time = get_elapsed_logical_time();
         auto physical_time = get_elapsed_physical_time();
-        std::cout << "Elapsed logical time: " << logical_time 
-            << " physical time: " << physical_time 
+        std::cout << "Elapsed logical time: " << logical_time
+            << " physical time: " << physical_time
             << " lag: " << physical_time - logical_time <<  std::endl;
     =}
 }
@@ -371,13 +374,14 @@ target Python;
 main reactor TimeLag {
     timer t(0, 1 sec);
     reaction(t) {=
-        t = get_elapsed_logical_time()
+        t = lf.time.elapsed_logical()
         T = get_elapsed_physical_time()
         print(
             f"Elapsed logical time: {t}, physical time: {T}, lag: {T-t}"
         )
     =}
 }
+
 ```
 
 ```lf-ts
@@ -532,7 +536,7 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     reaction(shutdown) {=
         std::cout << "Shutdown invoked." << std::endl;
         if (inputs_received != num_inputs) {
-            std::cerr << "ERROR: Expected to receive " << num_inputs 
+            std::cerr << "ERROR: Expected to receive " << num_inputs
                 << " inputs, but got " << inputs_received << std::endl;
             exit(2);
         }

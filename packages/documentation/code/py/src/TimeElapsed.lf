@@ -3,7 +3,7 @@ main reactor TimeElapsed {
     timer t(0, 1 sec);
     reaction(t) {=
         print(
-            f"Elapsed logical time is {get_elapsed_logical_time()}."
+            f"Elapsed logical time is {lf.time.elapsed_logical()}."
         )
     =}
 }
