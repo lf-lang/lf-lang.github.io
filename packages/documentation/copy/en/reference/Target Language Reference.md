@@ -336,7 +336,7 @@ reactor Source(sequence:int[](0, 1, 2), n_sequence:int(3)) {
         lf_set(out, self->sequence[self->count]);
         self->count++;
         if (self->count < self->n_sequence) {
-            schedule(next, 0);
+            lf_schedule(next, 0);
         }
     =}
 }
@@ -2124,7 +2124,7 @@ is equivalent to
 
 (except that our `DelayInt` reactor will only work with data type `int`).
 
-In the `Delay` reactor, the action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **schedule** function, namely **schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
+In the `Delay` reactor, the action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **lf_schedule** function, namely **schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
 
 The first reaction declares that it is triggered by `d` and has effect `out`. To
 read the value, it uses the `d->value` variable. Because this reaction is first,
@@ -2465,9 +2465,9 @@ reaction(a) -> out, a {=
 
 <div class="lf-c">
 
-Actions with values can be rather tricky to use because the value must usually be carried in dynamically allocated memory. It will not work for value to refer to a state variable of the reactor because that state variable will likely have changed value by the time the reactions to the action are invoked. Several variants of the `schedule` function are provided to make it easier to pass values across time in varying circumstances.
+Actions with values can be rather tricky to use because the value must usually be carried in dynamically allocated memory. It will not work for value to refer to a state variable of the reactor because that state variable will likely have changed value by the time the reactions to the action are invoked. Several variants of the `lf_schedule` function are provided to make it easier to pass values across time in varying circumstances.
 
-> `schedule(<action>, <offset>);`
+> `lf_schedule(<action>, <offset>);`
 
 This is the simplest version as it carries no value. The action need not have a data type.
 
@@ -2719,7 +2719,7 @@ The strategy is to have two queues of pending accessor invocations, one that is 
 
 3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` command-line argument is given). Then advance logical time to match that earliest timestamp.
 
-4. Execute reactions in order of priority from the reaction queue. These reactions may produce outputs, which results in more events getting put on the reaction queue. Those reactions are assured of having lower priority than the reaction that is executing. If a reaction calls `schedule()`, an event will be put on the event queue, not the reaction queue.
+4. Execute reactions in order of priority from the reaction queue. These reactions may produce outputs, which results in more events getting put on the reaction queue. Those reactions are assured of having lower priority than the reaction that is executing. If a reaction calls `lf_schedule()`, an event will be put on the event queue, not the reaction queue.
 
 5. When the reaction queue is empty, go to 2.
 

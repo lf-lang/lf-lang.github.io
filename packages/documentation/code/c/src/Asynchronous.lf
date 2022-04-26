@@ -5,7 +5,7 @@ main reactor {
 		void* external(void* a) {
             while (true) {
     			lf_nanosleep(MSEC(200));
-    			schedule(a, 0);
+    			lf_schedule(a, 0);
 			}
 		}
 	=}

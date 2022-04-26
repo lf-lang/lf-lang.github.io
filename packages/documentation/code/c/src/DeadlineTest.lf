@@ -5,7 +5,7 @@ main reactor {
     d = new Deadline();
     reaction(startup) -> d.x, a {=
         lf_set(d.x, 0);
-        schedule(a, 0);
+        lf_schedule(a, 0);
     =}
     reaction(a) -> d.x {=
         lf_set(d.x, 0);

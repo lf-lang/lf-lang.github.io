@@ -49,7 +49,7 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
     state interval:time(start);
     logical action a;
     reaction(startup) -> a {=
-        schedule(a, self->start);
+        lf_schedule(a, self->start);
     =}
     reaction(a) -> a {=
         instant_t elapsed_logical_time = get_elapsed_logical_time();
@@ -57,7 +57,7 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
             elapsed_logical_time
         );
         self->interval += self->incr;
-        schedule(a, self->interval);
+        lf_schedule(a, self->interval);
     =}
 }
 

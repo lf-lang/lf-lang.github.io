@@ -7,7 +7,7 @@ main reactor {
             self->count, get_logical_time(), get_microstep()
         );
         if (self->count++ < 5) {
-            schedule(a, 0);
+            lf_schedule(a, 0);
         }
     =}
 }

@@ -13,7 +13,7 @@ main reactor(start:time(100 msec), incr:time(100 msec)) {
     state interval:time(start);
     state expected_time:time(start);
     reaction(startup) -> a {=
-        schedule(a, self->start);
+        lf_schedule(a, self->start);
     =}
     reaction(a) -> a {=
         instant_t elapsed_logical_time = get_elapsed_logical_time();
@@ -27,7 +27,7 @@ main reactor(start:time(100 msec), incr:time(100 msec)) {
             exit(1);
         }
         self->interval += self->incr;
-        schedule(a, self->interval);
+        lf_schedule(a, self->interval);
         self->expected_time += self->interval;
     =}
     reaction(shutdown) {=

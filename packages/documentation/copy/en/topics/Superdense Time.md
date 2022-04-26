@@ -26,10 +26,11 @@ main reactor {
             self->count, get_logical_time(), get_microstep()
         );
         if (self->count++ < 5) {
-            schedule(a, 0);
+            lf_schedule(a, 0);
         }
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -144,7 +145,7 @@ main reactor {
     d = new Destination();
     reaction(startup) -> d.x, repeat {=
         lf_set(d.x, 1);
-        schedule(repeat, 0);
+        lf_schedule(repeat, 0);
     =}
     reaction(repeat) -> d.y {=
         lf_set(d.y, 1);
