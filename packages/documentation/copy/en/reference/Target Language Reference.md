@@ -1044,14 +1044,14 @@ reactor ArrayScale(scale:int(2)) {
         for(int i = 0; i < in->length; i++) {
             in->value[i] *= self->scale;
         }
-        SET_TOKEN(out, in->token);
+        lf_set_token(out, in->token);
     =}
 }
 ```
 
 Here, the input is declared $mutable$, which means that any reaction is free to modify the input. If this reactor is the only recipient of the array or the last recipient of the array, then this will not copy of the array but rather use the original array. Otherwise, it will use a copy.
 
-The above `ArrayScale` reactor modifies the array and then forwards it to its output port using the `SET_TOKEN()` macro. That macro further delegates to downstream reactors the responsibility for freeing dynamically allocated memory once all readers have completed their work.
+The above `ArrayScale` reactor modifies the array and then forwards it to its output port using the `lf_set_token()` macro. That macro further delegates to downstream reactors the responsibility for freeing dynamically allocated memory once all readers have completed their work.
 
 If the above code were not to forward the array, then the dynamically allocated memory will be automatically freed when this reactor is done with it.
 
@@ -1116,7 +1116,7 @@ This version is used for outputs with a type declaration ending with `[]` or `*`
 
 This version just sets the `<out>->is_present` variable corresponding to the specified output to true. This is normally used with array outputs with fixed sizes and statically allocated structs. In these cases, the values in the output are normally written directly to the array or struct. See [ArrayAsType.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsType.lf)
 
-> `SET_TOKEN(<out>, <value>);`
+> `lf_set_token(<out>, <value>);`
 
 This version is used for outputs with a type declaration ending with `*` (any pointer) or `[]` (any array). The `<value>` argument should be a struct of type `token_t`. This can be the trickiest form to use, but it is rarely necessary for the programmer to create their own (dynamically allocated) instance of `token_t`. Consider the [SetToken.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetToken.lf) example:
 
@@ -1128,7 +1128,7 @@ This version is used for outputs with a type declaration ending with `*` (any po
             schedule_int(a, MSEC(200), 42);
         =}
         reaction(a) -> out {=
-            SET_TOKEN(out, a->token);
+            lf_set_token(out, a->token);
         =}
     }
 ```
@@ -1139,7 +1139,7 @@ All of the `lf_set` macros will overwrite any output value previously set at the
 
 ### Dynamically Allocated Structs
 
-The `SET_NEW` and `SET_TOKEN` macros can be used to send `structs` of arbitrary complexity. For example:
+The `SET_NEW` and `lf_set_token` macros can be used to send `structs` of arbitrary complexity. For example:
 
 ```lf-c
 reactor StructPrint {
@@ -2485,9 +2485,9 @@ reactor DelayPointer(delay:time(100 msec)) {
     output out:void*;
     logical action a:void*;
     reaction(a) -> out {=
-        // Using SET_TOKEN delegates responsibility for
+        // Using lf_set_token delegates responsibility for
         // freeing the allocated memory downstream.
-        SET_TOKEN(out, a->token);
+        lf_set_token(out, a->token);
     =}
     reaction(in) -> a {=
         // Schedule the actual token from the input rather than
