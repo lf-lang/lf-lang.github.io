@@ -1,0 +1,20 @@
+target TypeScript;
+import Deadline from "Deadline.lf";
+main reactor {
+    logical action a;
+    d = new Deadline();
+    reaction(startup) -> d.x, a {=
+        d.x = 0
+        actions.a.schedule(TimeValue.zero(), null)
+    =}
+    reaction(a) -> d.x {=
+        d.x = 0
+        for (const later = util.getCurrentPhysicalTime().add(TimeValue.msecs(20));
+            util.getCurrentPhysicalTime() < later;) {
+            // Take time...
+        }
+    =}
+    reaction(d.d) {=
+        console.log("Deadline reactor produced an output.")
+    =}
+}

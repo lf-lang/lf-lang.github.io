@@ -1,0 +1,11 @@
+target TypeScript
+reactor Deadline {
+    input x:number
+    output d:number // Produced if the deadline is violated.
+    reaction(x) -> d {=
+        console.log("Normal reaction.")
+    =} deadline(10 msec) {=
+        console.log("Deadline violation detected.")
+        d = x
+    =}
+}
