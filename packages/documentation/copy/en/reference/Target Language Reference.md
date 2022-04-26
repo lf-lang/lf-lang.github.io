@@ -1085,7 +1085,7 @@ reactor DelayString(delay:time(100 msec)) {
     =}
     reaction(in) -> a {=
         // The following copies the char*, not the string.
-        schedule_copy(a, self->delay, &(in->value), 1);
+        lf_schedule_copy(a, self->delay, &(in->value), 1);
     =}
 }
 ```
@@ -1510,7 +1510,7 @@ The time structs and functions for working with time are defined in [tag.h](http
 - `instant_t get_logical_time()`: Get the current logical time (the first part of the current tag).
 - `microstep_t get_microstep() `: Get the current microstep (the second part of the current tag).
 - `interval_t get_elapsed_logical_time()`: Get the logical time elapsed since program start.
-- `int compare_tags(tag_t, tag_t)`: Compare two tags, returning -1, 0, or 1 for less than, equal, and greater than.
+- `int lf_compare_tags(tag_t, tag_t)`: Compare two tags, returning -1, 0, or 1 for less than, equal, and greater than.
 
 There are also some useful functions for accessing physical time:
 
@@ -2477,7 +2477,7 @@ This version carries an `int` value. The datatype of the action is required to b
 
 > `lf_schedule_token(<action>, <offset>, <value>);`
 
-This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Structs](#Dynamically-Allocated-Structs) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any datatype carried by a token:
+This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `lf_schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Structs](#Dynamically-Allocated-Structs) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any datatype carried by a token:
 
 ```lf-c
 reactor DelayPointer(delay:time(100 msec)) {
@@ -2497,11 +2497,11 @@ reactor DelayPointer(delay:time(100 msec)) {
 }
 ```
 
-> `schedule_value**(<action>, <offset>, <value>, <length>);`
+> `lf_schedule_value**(<action>, <offset>, <value>, <length>);`
 
 This version is used to send into the future a value that has been dynamically allocated malloc. It will be automatically freed when it is no longer needed. The _value_ argument is a pointer to the memory containing the value. The _length_ argument should be 1 if it is a not an array and the array length otherwise. This length will be needed downstream to interpret the data correctly. See [ScheduleValue.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ScheduleValue.lf).
 
-> `schedule_copy(<action>, <offset>, <value>, <length>);`
+> `lf_schedule_copy(<action>, <offset>, <value>, <length>);`
 
 This version is for sending a copy of some data pointed to by the `<value>` argument. The data is assumed to be a scalar or array of type matching the `<action>` type. The `<length>` argument should be 1 if it is a not an array and the array length otherwise. This length will be needed downstream to interpret the data correctly.
 
@@ -2517,7 +2517,7 @@ reactor DelayString(delay:time(100 msec)) {
     =}
     reaction(in) -> a {=
         // The following copies the char*, not the string.
-        schedule_copy(a, self->delay, &(in->value), 1);
+        lf_schedule_copy(a, self->delay, &(in->value), 1);
     =}
 }
 ```
