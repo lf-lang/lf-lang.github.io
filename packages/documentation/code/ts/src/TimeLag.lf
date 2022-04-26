@@ -1,0 +1,9 @@
+target TypeScript
+main reactor TimeLag {
+    timer t(0, 1 sec)
+    reaction(t) {=
+        const t = util.getElapsedLogicalTime()
+        const T = util.getElapsedPhysicalTime()
+        console.log(`Elapsed logical time: ${t}, physical time: ${T}, lag: ${T.subtract(t)}`)
+    =}
+}

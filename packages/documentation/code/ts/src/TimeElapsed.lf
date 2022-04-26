@@ -1,0 +1,7 @@
+target TypeScript
+main reactor TimeElapsed {
+    timer t(0, 1 sec)
+    reaction(t) {=
+        console.log(`Elapsed logical time is ${util.getElapsedLogicalTime()}`)
+    =}
+}

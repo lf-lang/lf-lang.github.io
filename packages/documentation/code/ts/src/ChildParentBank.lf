@@ -1,0 +1,14 @@
+target TypeScript
+reactor Child (
+    parentBankIndex:number(0)
+) {
+    reaction(startup) {=
+        console.log(`My bank index: ${this.getBankIndex()} My parent's bank index: ${parentBankIndex}`)
+    =}
+}
+reactor Parent {
+    c = new[2] Child(parentBankIndex = {= this.getBankIndex() =})
+}
+main reactor {
+    p = new[2] Parent()
+}

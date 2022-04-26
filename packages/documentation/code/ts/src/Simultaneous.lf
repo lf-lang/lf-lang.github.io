@@ -1,0 +1,25 @@
+target TypeScript
+reactor Destination {
+    input x:number
+    input y:number
+    reaction(x, y) {=
+        console.log(`Time since start: ${util.getElapsedLogicalTime()}, microstep: ${util.getCurrentTag().microstep}`)
+        if (x !== undefined) {
+            console.log("  x is present.")
+        }
+        if (y !== undefined) {
+            console.log("  y is present.")
+        }
+    =}
+}
+main reactor {
+    logical action repeat
+    d = new Destination()
+    reaction(startup) -> d.x, repeat {=
+        d.x = 1
+        actions.repeat.schedule(0, null)
+    =}
+    reaction(repeat) -> d.y {=
+        d.y = 1
+    =}
+}
