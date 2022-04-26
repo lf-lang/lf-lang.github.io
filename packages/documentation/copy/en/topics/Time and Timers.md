@@ -361,8 +361,8 @@ main reactor TimeLag {
     reaction(t) {=
         auto logical_time = get_elapsed_logical_time();
         auto physical_time = get_elapsed_physical_time();
-        std::cout << "Elapsed logical time: " << logical_time
-            << " physical time: " << physical_time
+        std::cout << "Elapsed logical time: " << logical_time 
+            << " physical time: " << physical_time 
             << " lag: " << physical_time - logical_time <<  std::endl;
     =}
 }
@@ -536,7 +536,7 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     reaction(shutdown) {=
         std::cout << "Shutdown invoked." << std::endl;
         if (inputs_received != num_inputs) {
-            std::cerr << "ERROR: Expected to receive " << num_inputs
+            std::cerr << "ERROR: Expected to receive " << num_inputs 
                 << " inputs, but got " << inputs_received << std::endl;
             exit(2);
         }
