@@ -1,0 +1,22 @@
+target TypeScript;
+reactor Node(numNodes: number(4)) {
+    input[numNodes] inp: number;
+    output[numNodes] out: number;
+
+    reaction (startup) -> out {=
+        out[1] = 42
+        console.log(`Bank index ${this.getBankIndex()} sent 42 on channel 1.`)
+    =}
+
+    reaction (inp) {=
+        for (let i = 0; i < in.length; i++) {
+            if (in[i] !== undefined) {
+                console.log(`Bank index ${this.getBankIndex()} received ${in[i]} on channel ${i}`)
+            }
+        }
+    =}
+}
+main reactor(numNodes: number(4)) {
+    nodes = new[numNodes] Node(numNodes=numNodes);
+    nodes.out -> interleaved(nodes.inp);
+}
