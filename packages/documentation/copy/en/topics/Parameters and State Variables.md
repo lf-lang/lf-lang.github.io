@@ -37,7 +37,7 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 
 <div class="lf-c">
 
-Types ending with a `*` are treated specially by the C target. See the [Target Language Reference](/docs/handbook/target-language-reference).
+Types ending with a `*` are treated specially by the C target. See the [Target Language Details](/docs/handbook/target-languate-details).
 
 To use strings conveniently in the C target, the "type" `string` is an alias for `{=const char*=}`.
 

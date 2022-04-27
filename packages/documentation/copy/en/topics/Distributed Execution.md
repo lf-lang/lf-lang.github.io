@@ -6,6 +6,14 @@ oneline: "Distributed Execution (preliminary)"
 preamble: >
 ---
 
+<div class="lf-cpp lf-rs">
+
+**Federated execution is not supported in $target-language$.**
+
+</div>
+
+<div class="lf-c lf-py lf-ts">
+
 ```diff
 ! The information in this page is outdated, and will be updated soon.
 ```
@@ -313,3 +321,5 @@ The auth program, written by Hokeun Kim, comes from https://github.com/iotauth/i
 ## Protobufs
 
 Communication between hosts can only be accomplished on channels where the message types are either language primitives or [Protobufs](Protobufs). All other datatypes will be reject at code generation time.
+
+</div>

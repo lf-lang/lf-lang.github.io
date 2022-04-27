@@ -131,13 +131,13 @@ The arguments to the `schedule()` function are the action named `a` and a time. 
 
 The time argument to the `schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `long long`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](/docs/handbook/target-languate-details).
 
 </div>
 
 <div class="lf-cpp">
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](/docs/handbook/target-languate-details).
 
 </div>
 
@@ -145,13 +145,13 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 
 A collection of convenience functions is provided like the `MSEC` function above to specify time values in a more readable way. The provided functions are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
-An action may carry data, in which case, the **payload** data value is just given as a second argument to the `schedule()` function. See the [Target Language Reference](/docs/handbook/target-language-reference).
+An action may carry data, in which case, the **payload** data value is just given as a second argument to the `schedule()` function. See the [Target Language Details](/docs/handbook/target-languate-details).
 
 </div>
 
 <div class="lf-ts">
 
-The `schedule()` method of an action takes two arguments, a `TimeValue` and an (optional) payload. If a payload is given and a type is given for the action, then the type of the payload must match the type of the action. See the [Target Language Reference](/docs/handbook/target-language-reference) for details.
+The `schedule()` method of an action takes two arguments, a `TimeValue` and an (optional) payload. If a payload is given and a type is given for the action, then the type of the payload must match the type of the action. See the [Target Language Details](/docs/handbook/target-languate-details) for details.
 
 </div>
 
@@ -159,7 +159,7 @@ The `schedule()` method of an action takes two arguments, a `TimeValue` and an (
 
 <span class="warning">FIXME</span>
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Reference](/docs/handbook/target-language-reference).
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](/docs/handbook/target-languate-details).
 
 </div>
 

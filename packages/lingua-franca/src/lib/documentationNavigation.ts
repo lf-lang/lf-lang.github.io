@@ -186,9 +186,9 @@ export function getDocumentationNavForLanguage(
           oneline: "Expressions in Lingua Franca.",
         },
         {
-          title: "Target Language Reference",
-          id: "3-target-language-reference",
-          permalink: "/docs/handbook/target-language-reference",
+          title: "Target Language Details",
+          id: "3-target-language-details",
+          permalink: "/docs/handbook/target-language-details",
           oneline: "Detailed reference for each target langauge.",
         },
         {

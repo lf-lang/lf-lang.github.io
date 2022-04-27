@@ -11,7 +11,8 @@
 const keywords = [
   "action", "after", "as", "at",
   "const", 
-  "deadline", 
+  "deadline",
+  "extends",
   "federated", "from", 
   "import", "initial", "input", "interleaved", 
   "logical", 

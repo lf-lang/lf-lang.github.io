@@ -98,7 +98,7 @@ reactor Double {
 
 $end(Double)$
 
-Notice how the input value is accessed and how the output value is set. This is done differently for each target language. See the [Target Language Reference](/docs/handbook/target-language-reference) for detailed documentation of these mechanisms.
+Notice how the input value is accessed and how the output value is set. This is done differently for each target language. See the [Target Language Details](/docs/handbook/target-languate-details) for detailed documentation of these mechanisms.
 Setting an output within a reaction will trigger downstream reactions at the same [Logical Time](/docs/handbook/time-and-timers#logical-time) that the reaction is invoked (or, more precisely, at the same [tag](/docs/handbook/superdense-time#tag-vs-time)). If a particular output port is set more than once at any tag, the last set value will be the one that downstream reactions see. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
 
 <div class="lf-c lf-cpp lf-ts lf-rs">
