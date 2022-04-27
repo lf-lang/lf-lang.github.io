@@ -937,8 +937,6 @@ The $preamble$ code defines a struct datatype. In the reaction to $startup$, the
 
 For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-arrays) for details.
 
-Note that in subsequent reactions, the values of the struct persist. Hence, this technique can be very efficient if a large struct is modified only slightly in each of a sequence of reactions.
-
 A reactor receiving the struct message uses the struct as normal in C:
 ```lf-c
 reactor Print() {
@@ -953,20 +951,36 @@ The preamble should not be repeated in this reactor definition if the two reacto
 
 ### Dynamically Allocated Data
 
-Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](insert-link-here) example:
-
-FIXME: Fix link to file `SetDestructor`
+Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example:
 
 ```lf-c
 reactor Source {
     output out:int_array_t*;
     reaction(startup) -> out {=
         lf_set_destructor(out, int_array_destructor);
-        int_array_t* array =  int_array_constructor(2);
+        int_array_t* array =  malloc(sizeof(int_array_t));
+        array->length = 2;
+        array->data = malloc(array->length * sizeof(int));
         for (size_t i = 0; i < array->length; i++) {
             array->data[i] = i;
         }
         lf_set(out, array);
+    =}
+}
+```
+
+A reactor receiving this array is straightforward. It just references the array elements as usual in C, as illustrated by this example:
+
+```lf-c
+reactor Print() {
+    input in:int_array_t*;
+    reaction(in) {=
+        printf("Received: [");
+        for (int i = 0; i < in->value->length; i++) {
+            if (i > 0) printf(", ");
+            printf("%d", in->value->data[i]);
+        }
+        printf("]\n");
     =}
 }
 ```
@@ -1096,14 +1110,14 @@ This version is used for outputs with a type declaration ending with `*` (any po
     }
 ```
 
-> `lf_set_destructor(<out>, <dtor>);`
+> `lf_set_destructor(<out>, <destructor>);`
 
-Specify the destructor `dtor` used to deallocate any dynamic data set on the output port `out`.
+Specify the destructor `destructor` used to deallocate any dynamic data set on the output port `out`.
 
 
-> `lf_set_copy_constructor(<out>, <cpy_ctor>);`
+> `lf_set_copy_constructor(<out>, <copy_constructor>);`
 
-Specify the copy constructor `cpy_ctor` used to copy construct any dynamic data set on the output port `out` if the receiving port is $mutable$.
+Specify the copy constructor `copy_constructor` used to copy construct any dynamic data set on the output port `out` if the receiving port is $mutable$.
 
 
 Here, the first reaction schedules an integer-valued action to trigger after 200 microseconds. As explained below, action payloads are carried by tokens. The second reaction grabs the token rather than the value using the syntax `a->token` (the name of the action followed by `->token`). It then forwards the token to the output. The output data type is `int*` not `int` because the token carries a pointer to dynamically allocated memory that contains the value. All inputs and outputs with types ending in `*` or `[]` are carried by tokens.
