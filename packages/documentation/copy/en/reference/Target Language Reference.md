@@ -951,16 +951,36 @@ The preamble should not be repeated in this reactor definition if the two reacto
 
 ### Dynamically Allocated Data
 
-Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example:
+Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
+
+Suppose the data structure of interest, its constructor and destructor are defined as follows:
+```c
+typedef struct int_array_t {
+    int* data;
+    size_t length;
+} int_array_t;
+
+int_array_t* int_array_constructor(size_t length) {
+    int_array_t* val = (int_array_t*) malloc(sizeof(int_array_t));
+    val->data = (int*) calloc(length, sizeof(int));
+    val->length = length;
+    return val;
+}
+
+void int_array_destructor(void* arr) {
+    free(((int_array_t*) arr)->data);
+    free(arr);
+}
+```
+
+Then, the sender reactor would use `lf_set_destructor` to specify how the memory set on an output port should be freed:
 
 ```lf-c
 reactor Source {
     output out:int_array_t*;
     reaction(startup) -> out {=
         lf_set_destructor(out, int_array_destructor);
-        int_array_t* array =  malloc(sizeof(int_array_t));
-        array->length = 2;
-        array->data = malloc(array->length * sizeof(int));
+        int_array_t* array =  int_array_constructor(2);
         for (size_t i = 0; i < array->length; i++) {
             array->data[i] = i;
         }
