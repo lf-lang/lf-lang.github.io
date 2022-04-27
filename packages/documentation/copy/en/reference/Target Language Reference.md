@@ -886,9 +886,7 @@ s = new Source(sequence={= new Array<number() =});
 
 In the body of a reaction in the C target, the value of an input is obtained using the syntax `name->value`, where `name` is the name of the input port. See, for example, the `Destination` reactor in [Triggers, Effects, and Uses](/docs/handbook/inputs-and-outputs#triggers-effects-and-uses).
 
-To set the value of outputs, use one of several variants of the `lf_set` macro. See, for example, the `Double` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).)
-
-There are several variants of the `lf_set` macro, and the one you should use depends on the type of the output. The simple version `lf_set` works for all primitive C type (int, double, etc.) as well as the `bool` and `string` types that Lingua Franca defines. For the other variants, see [Sending and Receiving Arrays and Structs](#Sending-and-Receiving-Arrays-and-Structs) below.
+To set the value of outputs, use the `lf_set` macro. See, for example, the `Double` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).)
 
 An output may even be set in different reactions of the same reactor at the same tag. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name->is_present` to determine whether the output has been set. For example, the following reactor (the test case [TestForPreviousOutput](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/TestForPreviousOutput.lf)) will always produce the output 42:
 
@@ -915,7 +913,7 @@ reactor TestForPreviousOutput {
 
 The first reaction may or may not set the output to 21. The second reaction doubles the output if it has been previously produced and otherwise produces 42.
 
-### Sending and Receiving Arrays and Structs
+### Sending and Receiving Data
 
 You can define your own datatypes in C and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsType.lf) example:
 
@@ -937,20 +935,9 @@ reactor StructAsType {
 
 The $preamble$ code defines a struct datatype. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `lf_set` macro.
 
-For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can instead write directly to the fields of the struct. For example, the above reaction could be rewritten as follows (see [StructAsTypeDirect](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsTypeDirect.lf)):
-
-```lf-c
-    reaction(startup) -> out {=
-        out->value.name = "Earth";
-        out->value.value = 42;
-        SET_PRESENT(out);
-    =}
-```
-
-The final call to `SET_PRESENT` is necessary to inform downstream reactors that the struct has a new value. (This is a macro that simply does `out->is_present = true`). Note that in subsequent reactions, the values of the struct persist. Hence, this technique can be very efficient if a large struct is modified only slightly in each of a sequence of reactions.
+For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-arrays) for details.
 
 A reactor receiving the struct message uses the struct as normal in C:
-
 ```lf-c
 reactor Print() {
     input in:hello_t;
@@ -962,75 +949,102 @@ reactor Print() {
 
 The preamble should not be repeated in this reactor definition if the two reactors are defined together because this will trigger an error when the compiler thinks that hello_t is being redefined.
 
-Arrays that have fixed sizes are handled similarly. Consider the [ArrayAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsType.lf) example:
+### Dynamically Allocated Data
 
-```lf-c
-reactor ArrayAsType {
-    output out:int[3];
-    reaction(startup) -> out {=
-        out[0] = 0;
-        out[1] = 1;
-        out[2] = 2;
-        SET_PRESENT(out);
-    =}
+Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
+
+Suppose the data structure of interest, its constructor and destructor are defined as follows:
+```c
+typedef struct int_array_t {
+    int* data;
+    size_t length;
+} int_array_t;
+
+int_array_t* int_array_constructor(size_t length) {
+    int_array_t* val = (int_array_t*) malloc(sizeof(int_array_t));
+    val->data = (int*) calloc(length, sizeof(int));
+    val->length = length;
+    return val;
+}
+
+void int_array_destructor(void* arr) {
+    free(((int_array_t*) arr)->data);
+    free(arr);
 }
 ```
 
-Here, the output is declared to have type `int[3]`, an array of three integers. The startup reaction above writes to the array and then calls `SET_PRESENT` to indicate an updated value. Again, the values in the array will persist across reactions.
+Then, the sender reactor would use `lf_set_destructor` to specify how the memory set on an output port should be freed:
+
+```lf-c
+reactor Source {
+    output out:int_array_t*;
+    reaction(startup) -> out {=
+        lf_set_destructor(out, int_array_destructor);
+        int_array_t* array =  int_array_constructor(2);
+        for (size_t i = 0; i < array->length; i++) {
+            array->data[i] = i;
+        }
+        lf_set(out, array);
+    =}
+}
+```
 
 A reactor receiving this array is straightforward. It just references the array elements as usual in C, as illustrated by this example:
 
 ```lf-c
 reactor Print() {
-    input in:int[3];
+    input in:int_array_t*;
     reaction(in) {=
         printf("Received: [");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < in->value->length; i++) {
             if (i > 0) printf(", ");
-            printf("%d", in->value[i]);
+            printf("%d", in->value->data[i]);
         }
         printf("]\n");
     =}
 }
 ```
 
-### Dynamically Allocated Arrays
+The deallocation of the memory for the data will occur automatically after the last reactor that receives a pointer to the data has finished using it, using the destructor specified by `lf_set_destructor` or `free` if none specified.
 
-For arrays where the size is variable, it may be necessary to dynamically allocate memory. But when should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can pass a pointer to a dynamically allocated object as illustrated in the [ArrayPrint](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayPrint.lf) example:
+Occasionally, you will want an input or output type to be a pointer, but you don't want the automatic memory allocation and deallocation. A simple example is a string type, which in C is `char*`. Consider the following (erroneous) reactor:
 
 ```lf-c
-reactor ArrayPrint {
-    output out:int[];
+reactor Erroneous {
+    output out:char*;
     reaction(startup) -> out {=
-        // Dynamically allocate an output array of length 3.
-        SET_NEW_ARRAY(out, 3);
-        // Above allocates the array, which then must be populated.
-        out[0] = 0;
-        out[1] = 1;
-        out[2] = 2;
+        lf_set(out, "Hello World");
     =}
 }
 ```
 
-This declares the output datatype to be `int[]` (or, equivalently, `int*`), an array of integers of unspecified size. To produce the array in a reaction, it uses the library function `SET_NEW_ARRAY` to allocate an array of length 3 and sets the output to send that array. The reaction then populates the array with data. The deallocation of the memory for the array will occur automatically after the last reactor that receives a pointer to the array has finished using it.
-
-A reactor receiving the array looks like this:
+An output data type that ends with `*` signals to Lingua Franca that the message is dynamically allocated and must be freed downstream after all recipients are done with it. But the `"Hello World"` string here is statically allocated, so an error will occur when the last downstream reactor to use this message attempts to free the allocated memory. To avoid this for strings, you can use the `string` type, defined in `reactor.h`, as follows:
 
 ```lf-c
-reactor Print {
-    input in:int[];
-    reaction(in) {=
-        printf("Received: [");
-        for (int i = 0; i < in->length; i++) {
-            if (i > 0) printf(", ");
-            printf("%d", in->value[i]);
-        }
-        printf("]\n");
+reactor Fixed {
+    output out:string;
+    reaction(startup) -> out {=
+        lf_set(out, "Hello World");
     =}
 }
 ```
 
-In the body of the reaction, `in->value` is a pointer to first element of the array, so it can be indexed as usual with arrays in C, `in->value[i]`. Moreover, a variable `in->length` is bound to the length of the array.
+The `string` type is equivalent to `char*`, but since it doesn't end with `*`, it does not signal to Lingua Franca that the type is dynamically allocated. Lingua Franca only handles allocation and deallocation for types that are specified literally with a final `*` in the type name. The same trick can be used for any type where you don't want automatic allocation and deallocation. E.g., the [SendsPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SendsPointerTest.lf) example looks like this:
+
+```lf-c
+reactor SendsPointer  {
+    preamble {=
+        typedef int* int_pointer;
+    =}
+    output out:int_pointer;
+    reaction(startup) -> out {=
+        static int my_constant = 42;
+        lf_set(out, &my_constant;)
+    =}
+}
+```
+
+The above technique can be used to abuse the reactor model of computation by communicating pointers to shared variables. This is generally a bad idea unless those shared variables are immutable. The result will likely be nondeterministic. Also, communicating pointers across machines that do not share memory will not work at all.
 
 ### Mutable Inputs
 
@@ -1049,7 +1063,7 @@ reactor ArrayScale(scale:int(2)) {
 }
 ```
 
-Here, the input is declared $mutable$, which means that any reaction is free to modify the input. If this reactor is the only recipient of the array or the last recipient of the array, then this will not copy of the array but rather use the original array. Otherwise, it will use a copy.
+Here, the input is declared $mutable$, which means that any reaction is free to modify the input. If this reactor is the only recipient of the array or the last recipient of the array, then this will not copy of the array but rather use the original array. Otherwise, it will use a copy. By default, the assignment operator (`=`) is used to copy the data. However, the sender can also specify the copy constructor to be used by calling `lf_set_copy_constructor` on the output port.
 
 The above `ArrayScale` reactor modifies the array and then forwards it to its output port using the `lf_set_token()` macro. That macro further delegates to downstream reactors the responsibility for freeing dynamically allocated memory once all readers have completed their work.
 
@@ -1096,25 +1110,8 @@ In all of the following, <out> is the name of the output and <value> is the valu
 
 > `lf_set(<out>, <value>);`
 
-Set the specified output (or input of a contained reactor) to the specified value. This version is used for primitive type such as `int`, `double`, etc. as well as the built-in types `bool` and `string` (but only if the string is a statically allocated constant; otherwise, see `SET_NEW_ARRAY`). It can also be used for structs with a type defined by a `typedef` so that the type designating string does not end in '\*'. The value is copied and therefore the variable carrying the value can be subsequently modified without changing the output.
+Set the specified output (or input of a contained reactor) to the specified value using shallow copy.
 
-> `SET_ARRAY(<out>, <value>, <element_size>, <length>);`
-
-This version is used for outputs with a type declaration ending with `[]` or `*`, such as `int[]`. This version is for use when the _value_ to be sent is in dynamically allocated memory that will need to be freed downstream. The allocated memory will be automatically freed when all recipients of the outputs are done with it. Since C does not encode array sizes as part of the array, the _length_ and _element_size_ must be given (the latter is the size of each element in bytes). See [SetArray.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetArray.lf).
-
-> `SET_NEW(<out>);`
-
-This version is used for outputs with a type declaration ending with `*` (see example below). This sets the `out` variable to point to newly allocated memory for storing the specified output type. After calling this function, the reaction should populate that memory with the content it intends to send to downstream reactors. This macro is equivalent to `SET_NEW_ARRAY(out, 1)`. See [StructPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructPrint.lf)
-
-> `SET_NEW_ARRAY(<out>, <length>);`
-
-This version is used for outputs with a type declaration ending with `[]` or `*`. This sets the _out_ variable to point to newly allocated memory sufficient to hold an array of the specified length containing the output type in each element. The caller should subsequently populate the array with the contents that it intends to send to downstream reactors. See [ArrayPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayPrint.lf).
-
-**Dynamically allocated strings:** If an output is to be a dynamically allocated string, as opposed to a static string constant, then you can use `SET_NEW_ARRAY` to allocate the memory, and the memory will be automatically freed downstream after the all users have read the string. To do this, set the output type to `char[]` or `char*` rather than `string` and call `SET_NEW_ARRAY` with the desired length. After this, _out_ will point to a char array of the required length. You can then populate it with your desired string, e.g. using `snprintf()`. See [DistributedToken.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/DistributedToken.lf)
-
-> `SET_PRESENT(<out>);`
-
-This version just sets the `<out>->is_present` variable corresponding to the specified output to true. This is normally used with array outputs with fixed sizes and statically allocated structs. In these cases, the values in the output are normally written directly to the array or struct. See [ArrayAsType.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsType.lf)
 
 > `lf_set_token(<out>, <value>);`
 
@@ -1133,86 +1130,20 @@ This version is used for outputs with a type declaration ending with `*` (any po
     }
 ```
 
+> `lf_set_destructor(<out>, <destructor>);`
+
+Specify the destructor `destructor` used to deallocate any dynamic data set on the output port `out`.
+
+
+> `lf_set_copy_constructor(<out>, <copy_constructor>);`
+
+Specify the copy constructor `copy_constructor` used to copy construct any dynamic data set on the output port `out` if the receiving port is $mutable$.
+
+
 Here, the first reaction schedules an integer-valued action to trigger after 200 microseconds. As explained below, action payloads are carried by tokens. The second reaction grabs the token rather than the value using the syntax `a->token` (the name of the action followed by `->token`). It then forwards the token to the output. The output data type is `int*` not `int` because the token carries a pointer to dynamically allocated memory that contains the value. All inputs and outputs with types ending in `*` or `[]` are carried by tokens.
 
 All of the `lf_set` macros will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also all set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
 
-### Dynamically Allocated Structs
-
-The `SET_NEW` and `lf_set_token` macros can be used to send `structs` of arbitrary complexity. For example:
-
-```lf-c
-reactor StructPrint {
-    preamble {=
-        typedef struct hello_t {
-            char* name;
-            int value;
-        } hello_t;
-    =}
-    output out:hello_t*;
-    reaction(startup) -> out {=
-        // Dynamically allocate an output struct.
-        SET_NEW(out);
-        // Above allocates a struct, which then must be populated.
-        out->value->name = "Earth";
-        out->value->value = 42;
-    =}
-}
-```
-
-The $preamble$ declares a struct type `hello_t` with two fields, and the `SET_NEW` macro allocates memory to contain such a struct. The subsequent code populates that memory. A reactor receiving this struct might look like this:
-
-```lf-c
-reactor Print() {
-    input in:hello_t*;
-    reaction(in) {=
-        printf("Received: name = %s, value = %d\n",
-            in->value->name, in->value->value
-        );
-    =}
-}
-```
-
-Just as with arrays, an input with a pointer type can be declared $mutable$, in which case it is safe to modify the fields and forward the struct.
-
-Occasionally, you will want an input or output type to be a pointer, but you don't want the automatic memory allocation and deallocation. A simple example is a string type, which in C is `char*`. Consider the following (erroneous) reactor:
-
-```lf-c
-reactor Erroneous {
-    output out:char*;
-    reaction(startup) -> out {=
-        lf_set(out, "Hello World");
-    =}
-}
-```
-
-An output data type that ends with `*` signals to Lingua Franca that the message is dynamically allocated and must be freed downstream after all recipients are done with it. But the `"Hello World"` string here is statically allocated, so an error will occur when the last downstream reactor to use this message attempts to free the allocated memory. To avoid this for strings, you can use the `string` type, defined in `reactor.h`, as follows:
-
-```lf-c
-reactor Fixed {
-    output out:string;
-    reaction(startup) -> out {=
-        lf_set(out, "Hello World");
-    =}
-}
-```
-
-The `string` type is equivalent to `char*`, but since it doesn't end with `*`, it does not signal to Lingua Franca that the type is dynamically allocated. Lingua Franca only handles allocation and deallocation for types that are specified literally with a final `*` in the type name. The same trick can be used for any type where you don't want automatic allocation and deallocation. E.g., the [SendsPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SendsPointerTest.lf) example looks like this:
-
-```lf-c
-reactor SendsPointer  {
-    preamble {=
-        typedef int* int_pointer;
-    =}
-    output out:int_pointer;
-    reaction(startup) -> out {=
-        static int my_constant = 42;
-        lf_set(out, &my_constant;)
-    =}
-}
-```
-
-The above technique can be used to abuse the reactor model of computation by communicating pointers to shared variables. This is generally a bad idea unless those shared variables are immutable. The result will likely be nondeterministic. Also, communicating pointers across machines that do not share memory will not work at all.
 
 </div>
 
