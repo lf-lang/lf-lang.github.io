@@ -1437,17 +1437,16 @@ Lingua Franca uses a superdense model of time. A reaction is invoked at a logica
 
 The time structs and functions for working with time are defined in [tag.h](https://github.com/lf-lang/reactor-c/blob/main/core/tag.h). The most useful functions are:
 
-- `tag_t get_current_tag()`: Get the current tag at which this reaction has been invoked.
-- `instant_t get_logical_time()`: Get the current logical time (the first part of the current tag).
-- `microstep_t get_microstep() `: Get the current microstep (the second part of the current tag).
-- `interval_t lf_time(LF_ELAPSED_LOGICAL)`: Get the logical time elapsed since program start.
-- `int lf_compare_tags(tag_t, tag_t)`: Compare two tags, returning -1, 0, or 1 for less than, equal, and greater than.
+- `tag_t lf_tag()`: Get the current tag at which this reaction has been invoked.
+- `instant_t lf_time_logical()`: Get the current logical time (the first part of the current tag).
+- `interval_t lf_time_logical_elapsed()`: Get the logical time elapsed since program start.
+- `int lf_tag_compare(tag_t, tag_t)`: Compare two tags, returning -1, 0, or 1 for less than, equal, and greater than.
 
 There are also some useful functions for accessing physical time:
 
-- `instant_t get_physical_time()`: Get the current physical time.
-- `instant_t get_elapsed_physical_time()`: Get the physical time elapsed since program start.
-- `instant_t get_start_time()`: Get the starting physical and logical time.
+- `instant_t lf_time_physical()`: Get the current physical time.
+- `instant_t lf_time_physical_elapsed()`: Get the physical time elapsed since program start.
+- `instant_t lf_time_start()`: Get the starting physical and logical time.
 
 The last of these is both a physical and logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
 
@@ -1457,7 +1456,7 @@ A reaction can examine the current logical time (which is constant during the ex
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        instant_t logical = get_logical_time();
+        instant_t logical = lf_time_logical();
         printf("Logical time is %lld.\n", logical);
     =}
 }
@@ -1482,7 +1481,7 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        interval_t elapsed = lf_time(LF_ELAPSED_LOGICAL);
+        interval_t elapsed = lf_time_logical_elapsed();
         printf("Elapsed logical time is %lld.\n", elapsed);
     =}
 }
@@ -1505,7 +1504,7 @@ You can also get physical time, which comes from your platform's real-time clock
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        instant_t physical = get_physical_time();
+        instant_t physical = lf_time_physical();
         printf("Physical time is %lld.\n", physical);
     =}
 }
@@ -1528,7 +1527,7 @@ Finally, you can get elapsed physical time:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        instant_t elapsed_physical = get_elapsed_physical_time();
+        instant_t elapsed_physical = lf_time_physical_elapsed();
         printf("Elapsed physical time is %lld.\n", elapsed_physical);
     =}
 }
@@ -1680,19 +1679,18 @@ In the Python target, similar to the C target, the value of a time instant or in
 
 The functions for working with time and tags are defined in [pythontarget.c](https://github.com/lf-lang/reactor-c-py/blob/main/lib/pythontarget.c#L961). The most useful functions are:
 
-- `get_current_tag() -> Tag`: Returns a Tag instance of the current tag at which this reaction has been invoked.
-- `get_logical_time() -> int`: Get the current logical time (the first part of the current tag).
-- `get_microstep() -> unsigned int`: Get the current microstep (the second part of the current tag).
-- `lf.time.elapsed_logical() -> int`: Get the logical time elapsed since program start.
-- `compare_tags(Tag, Tag) -> int`: Compare two `Tag` instances, returning -1, 0, or 1 for less than, equal, and greater than. `Tag`s can also be compared using rich comparators (ex. `<`, `>`, `==`), which returns `True` or `False`.
+- `lf.tag() -> Tag`: Returns a Tag instance of the current tag at which this reaction has been invoked.
+- `lf.time.logical() -> int`: Get the current logical time (the first part of the current tag).
+- `lf.time.logical_elapsed() -> int`: Get the logical time elapsed since program start.
+- `lf.tag_compare(Tag, Tag) -> int`: Compare two `Tag` instances, returning -1, 0, or 1 for less than, equal, and greater than. `Tag`s can also be compared using rich comparators (ex. `<`, `>`, `==`), which returns `True` or `False`.
 
 `Tag`s can be initialized using `Tag(time=some_number, microstep=some_other_number)`.
 
 There are also some useful functions for accessing physical time:
 
-- `get_physical_time() -> int`: Get the current physical time.
-- `get_elapsed_physical_time() -> int`: Get the physical time elapsed since program start.
-- `get_start_time() -> int`: Get the starting physical and logical time.
+- `lf.time.physical() -> int`: Get the current physical time.
+- `lf.time.physical_elapsed() -> int`: Get the physical time elapsed since program start.
+- `lf.time.start() -> int`: Get the starting physical and logical time.
 
 The last of these is both a physical and logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
 
@@ -1702,7 +1700,7 @@ A reaction can examine the current logical time (which is constant during the ex
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        logical = get_logical_time()
+        logical = lf.time.logical()
         print("Logical time is ", logical)
     =}
 }
@@ -1727,7 +1725,7 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        elapsed = lf.time.elapsed_logical()
+        elapsed = lf.time.logical_elapsed()
         print("Elapsed logical time is ", elapsed)
     =}
 }
@@ -1750,7 +1748,7 @@ You can also get physical time, which comes from your platform's real-time clock
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        physical = get_physical_time()
+        physical = lf.time.physical()
         print("Physical time is ", physical)
     =}
 }
@@ -1773,7 +1771,7 @@ Finally, you can get elapsed physical time:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        elapsed_physical = get_elapsed_physical_time()
+        elapsed_physical = lf.time.physical_elapsed()
         print("Elapsed physical time is ", elapsed_physical)
     =}
 }
