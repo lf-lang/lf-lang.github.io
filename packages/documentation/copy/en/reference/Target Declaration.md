@@ -528,7 +528,7 @@ The $target-language$ target does not support the `no-compile` target option.
 
 </div>
 
-<div class="lf-ts lf-rs warning">
+<div class="lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
 
@@ -562,13 +562,13 @@ This parameter takes value `true` or `false` (the default). If this is set to tr
 
 ## protobufs
 
-<div class="lf-cpp">
+<div class="lf-cpp lf-ts">
 
 The $target-language$ target does not support the `protobufs` target option.
 
 </div>
 
-<div class="lf-ts lf-rs warning">
+<div class="lf-rs warning">
 
 **FIXME:** Does the $target-language$ target support this?
 
