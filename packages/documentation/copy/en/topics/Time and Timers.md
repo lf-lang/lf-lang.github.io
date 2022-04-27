@@ -235,7 +235,7 @@ Each target provides a built-in function for retrieving the logical time at whic
 <span class="lf-c">`get_logical_time()`</span>
 <span class="lf-cpp warning">FIXME</span>
 <span class="lf-py warning">FIXME</span>
-<span class="lf-ts warning">FIXME</span>
+<span class="lf-ts">util.getCurrentLogicalTime()</span>
 <span class="lf-rs warning">FIXME</span>.
 On most platforms (with the exception of some embedded platforms), the returned value is a 64-bit number representing the number of nanoseconds that have elapsed since January 1, 1970. Executing the above displays something like the following:
 
