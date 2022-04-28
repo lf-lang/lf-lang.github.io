@@ -75,7 +75,7 @@ const handbookPages = [
     chronological: true,
     items: [
       { file: "reference/Expressions.md"},
-      { file: "reference/Target Language Reference.md" },
+      { file: "reference/Target Language Details.md" },
       { file: "reference/Target Declaration.md" },
       { file: "reference/Tracing.md" },
     ],

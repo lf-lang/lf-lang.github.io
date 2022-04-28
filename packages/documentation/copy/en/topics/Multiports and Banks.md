@@ -836,7 +836,13 @@ Note that `c.size()` can be used to get the width of the bank `c`.
 
 </div>
 
-<div class="lf-ts lf-rs warning">
+<div class="lf-ts">
+
+Note that that bank instance `c` in TypeScript is an array, so `c.length` is the width of the bank, and the bank members are referenced by indexing the array, as in `c[i]`.
+
+</div>
+
+<div class="lf-rs warning">
 
 FIXME: How to get the width of the bank in target code?
 

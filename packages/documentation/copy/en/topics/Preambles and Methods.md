@@ -184,7 +184,7 @@ Your platform is Linux
 
 By putting import in the $preamble$, the module becomes available in all reactions of this reactor using the `self` modifier.
 
-**Note:** Preambles will be put in the generated Python class for the given reactor, and thus is part of the instance of the reactor. This means that anything you put in the preamble will be specific to a particular reactor instance and cannot be used to share information between different instantiations of the reactor (this is a feature, not a bug, because it helps ensure determinacy). For more information about implementation details of the Python target, see [Implementation Details](/docs/handbook/target-language-reference#python-target-implementation-details).
+**Note:** Preambles will be put in the generated Python class for the given reactor, and thus is part of the instance of the reactor. This means that anything you put in the preamble will be specific to a particular reactor instance and cannot be used to share information between different instantiations of the reactor (this is a feature, not a bug, because it helps ensure determinacy). For more information about implementation details of the Python target, see [Implementation Details](/docs/handbook/target-languate-details#python-target-implementation-details).
 
 Alternatively, you can define a $preamble$ outside any reactor definition. Such a $preamble$ can be used for functions such as import or to define a global function. The following example shows importing the [hello](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/include/hello.py) module:
 

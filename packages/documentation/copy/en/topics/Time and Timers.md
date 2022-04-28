@@ -20,7 +20,7 @@ In Lingua Franca, $time$ is a data type.
 A parameter, state variable, port, or action may have type $time$.
 <span class="lf-c">In the C target, time values internally have type `instant_t` or `interval_t`,
 both of which are (usually) equivalent to the C type `long long`.</span>
-<span class="lf-cpp">In the Cpp target, time values internally have the type `std::chrono::nanoseconds`. For details, see the [Target Language Reference](/docs/handbook/target-language-reference).</span>
+<span class="lf-cpp">In the Cpp target, time values internally have the type `std::chrono::nanoseconds`. For details, see the [Target Language Details](/docs/handbook/target-languate-details).</span>
 <span class="lf-rs warning">In the Rust target, time values internally have type FIXME.</span>
 
 </div>
@@ -237,7 +237,7 @@ Each target provides a built-in function for retrieving the logical time at whic
 <span class="lf-c">`get_logical_time()`</span>
 <span class="lf-cpp warning">FIXME</span>
 <span class="lf-py warning">FIXME</span>
-<span class="lf-ts warning">FIXME</span>
+<span class="lf-ts">util.getCurrentLogicalTime()</span>
 <span class="lf-rs warning">FIXME</span>.
 On most platforms (with the exception of some embedded platforms), the returned value is a 64-bit number representing the number of nanoseconds that have elapsed since January 1, 1970. Executing the above displays something like the following:
 
@@ -322,7 +322,7 @@ main reactor TimeElapsed {
 
 $end(TimeElapsed)$
 
-See the [Target Language Reference](/docs/handbook/target-language-reference) for the full set of functions provided for accessing time values.
+See the [Target Language Details](/docs/handbook/target-languate-details) for the full set of functions provided for accessing time values.
 
 Executing this program will produce something like this:
 

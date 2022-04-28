@@ -1,7 +1,7 @@
 ---
-title: "Target Language Reference"
+title: "Target Language Details"
 layout: docs
-permalink: /docs/handbook/target-language-reference
+permalink: /docs/handbook/target-language-details
 oneline: "Detailed reference for each target langauge."
 preamble: >
 ---
@@ -2280,7 +2280,7 @@ is equivalent to
 In the `Delay` reactor, the reaction to the input `_in` declares as its effect
 the action `a`. This declaration makes it possible for the reaction to schedule
 a future triggering of `a` using the
-[`a.schedule()`](/docs/handbook/target-language-reference#schedule-functions)
+[`a.schedule()`](/docs/handbook/target-languate-details#schedule-functions)
 method.
 
 The first reaction declares that it is triggered by `a` and has effect `out`. To

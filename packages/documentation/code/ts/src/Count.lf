@@ -1,0 +1,9 @@
+target TypeScript
+reactor Count {
+    state count:number(0)
+    output y:number
+    timer t(0, 100 msec)
+    reaction(t) -> y {=
+        y = count++
+    =}
+}

@@ -7,7 +7,7 @@ preamble: >
 ---
 
 $page-showing-target$
-See the [requirements](target-language-reference#requirements) for using this target.
+See the [requirements](target-languate-details#requirements) for using this target.
 
 ## Minimal Example
 

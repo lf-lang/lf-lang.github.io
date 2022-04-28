@@ -138,13 +138,21 @@ main reactor {
 }
 ```
 
-See the [Python reactor documentation](/docs/handbook/target-language-reference) for details and alternative syntaxes.
+See the [Python reactor documentation](/docs/handbook/target-languate-details) for details and alternative syntaxes.
 
 </div>
 
-<div class="lf-ts warning">
+<div class="lf-ts">
 
-FIXME: TS
+In TypeScript, a parameter or state variable may be assigned an array expression as its initial value, as in the following example:
+
+```lf-ts
+reactor Foo(param:{=Array<number>=}({= [1, 2, 3] =})) {
+    state x:{=Array<number>=}({= [0.1, 0.2, 0.3] =});
+}
+```
+
+See the [TypeScript reactor documentation](/docs/handbook/target-language-reference) for details and alternative syntaxes.
 
 </div>
 
