@@ -123,15 +123,15 @@ $end(Schedule)$
 
 <img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Schedule.svg" width="200"/>
 
-Here, the delay is specified in the call to `schedule()` within the target language code. Notice that in the diagram, a logical action is shown as a triangle with an **L**. Logical actions are always scheduled within a reaction of the reactor that declares the action.
+Here, the delay is specified in the call to schedule within the target language code. Notice that in the diagram, a logical action is shown as a triangle with an **L**. Logical actions are always scheduled within a reaction of the reactor that declares the action.
 
-The time argument to the `schedule()` function is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](/docs/handbook/superdense-time).
+The time argument is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](/docs/handbook/superdense-time).
 
 <div class="lf-c">
 
 The arguments to the `lf_schedule()` function are the action named `a` and a time. The action `a` has to be declared as an effect of the reaction in order to reference it in the call to `lf_schedule()`. If you fail to declare it as an effect (after the `->` in the reaction signature), then you will get an error message.
 
-The time argument to the `lf_schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `long long`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
+The time argument to the `lf_schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `int64_t`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
 
 An action may have a data type, in which case, a variant of the `lf_schedule()` function can be used to specify a **payload**, a data value that is carried from where the `lf_schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](/docs/handbook/target-language-details).
 
@@ -145,9 +145,15 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 
 <div class="lf-py">
 
-A collection of convenience functions is provided like the `MSEC` function above to specify time values in a more readable way. The provided functions are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
+The arguments to the `a.schedule()` method is a time. The action `a` has to be declared as an effect of the reaction in order to reference it in reaction. If you fail to declare it as an effect (after the `->` in the reaction signature), then you will get a runtime error message.
 
-An action may carry data, in which case, the **payload** data value is just given as a second argument to the `schedule()` function. See the [Target Language Details](/docs/handbook/target-languate-details).
+The time argument to the `a.schedule()` method expects an integer. A collection
+of convenience functions is provided like the `MSEC` function above to specify
+time values in a more readable way. The provided functions are `NSEC`, `USEC`
+(for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may
+also use the plural of any of these, e.g. `WEEKS(2)`.
+
+An action may carry data, in which case, the **payload** data value is just given as a second argument to the `.schedule()` method. See the [Target Language Details](/docs/handbook/target-languate-details).
 
 </div>
 
