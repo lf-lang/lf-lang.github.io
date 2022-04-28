@@ -33,7 +33,28 @@ A minimal federated execution is specified by using the **federated** keyword in
 $start(Federated)$
 
 ```lf-c
-WARNING: No source file found: ../code/c/src/Federated.lf
+ target C;
+
+ reactor Source {
+     output out:string;
+     reaction(startup) -> out {=
+         lf_set(out, "Hello World!");
+         request_stop();
+     =}
+ }
+ reactor Destination {
+     input in:string;
+     reaction(in) {=
+         info_print("Received: %s", in->value);
+     =}
+ }
+ 
+ federated reactor Federated {
+     s = new Source();
+     d = new Destination();
+     s.out -> d.in;
+ }
+ 
 ```
 
 ```lf-cpp
@@ -53,22 +74,6 @@ WARNING: No source file found: ../code/rs/src/Federated.lf
 ```
 
 $end(Federated)$
-
-
-```
-target C;
-reactor Source { ... }
-reactor Destination { ... }
-
-federated reactor HelloDistributed at localhost {
-    reaction(startup) {=
-        info_print("Printing something in top-level federated reactor.");
-    =}
-    s = new Source();      // Reactor s is in federate Source
-    d = new Destination(); // Reactor d is in federate Destination
-    s.out -> d.in;         // This version preserves the timestamp.
-}
-```
 
 The **federated** keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor. When you run the code generator on [test/C/src/federated/HelloDistributed.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/HelloDistributed.lf), the following three programs will appear in the `bin` directory:
 

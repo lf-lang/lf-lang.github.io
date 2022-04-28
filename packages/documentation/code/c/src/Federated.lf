@@ -1,0 +1,22 @@
+ target C;
+
+ reactor Source {
+     output out:string;
+     reaction(startup) -> out {=
+         lf_set(out, "Hello World!");
+         request_stop();
+     =}
+ }
+ reactor Destination {
+     input in:string;
+     reaction(in) {=
+         info_print("Received: %s", in->value);
+     =}
+ }
+ 
+ federated reactor Federated {
+     s = new Source();
+     d = new Destination();
+     s.out -> d.in;
+ }
+ 
