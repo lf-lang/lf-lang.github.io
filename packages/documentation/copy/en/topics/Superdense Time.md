@@ -55,14 +55,15 @@ main reactor {
     logical action a;
     reaction(startup, a) {=
         print(
-            f"{self.count}. Logical time is {get_current_tag().time}. "
-            f"Microstep is {get_current_tag().microstep}."
+            f"{self.count}. Logical time is {lf.tag().time}. "
+            f"Microstep is {lf.tag().microstep}."
         )
         if self.count < 5:
             a.schedule(0)
         self.count += 1
     =}
 }
+
 ```
 
 ```lf-ts
