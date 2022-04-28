@@ -346,7 +346,7 @@ main reactor Schedule {
         schedule(a, MSEC(100));
     =}
     reaction(a) {=
-        printf("Nanoseconds since start: %lld.\n", lf_time(LF_ELAPSED_LOGICAL));
+        printf("Nanoseconds since start: %lld.\n", lf_time_logical_elapsed());
     =}
 }
 ```
@@ -378,7 +378,7 @@ reactor Destination {
     input x:int;
     input y:int;
     reaction(x, y) {=
-        printf("Time since start: %lld.\n", lf_time(LF_ELAPSED_LOGICAL));
+        printf("Time since start: %lld.\n", lf_time_logical_elapsed());
         if (x->is_present) {
             printf("  x is present.\n");
         }

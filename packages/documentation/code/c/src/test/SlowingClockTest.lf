@@ -16,7 +16,7 @@ main reactor(start:time(100 msec), incr:time(100 msec)) {
         lf_schedule(a, self->start);
     =}
     reaction(a) -> a {=
-        instant_t elapsed_logical_time = lf_time(LF_ELAPSED_LOGICAL);
+        instant_t elapsed_logical_time = lf_time_logical_elapsed();
         printf("Logical time since start: \%lld nsec.\n",
             elapsed_logical_time
         );

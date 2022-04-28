@@ -6,7 +6,7 @@ main reactor {
     s = new Overwriting();
     reaction(s.y) {=
         printf("At logical time %lld, s = %d.\n",
-            lf_time(LF_ELAPSED_LOGICAL), s.y->value
+            lf_time_logical_elapsed(), s.y->value
         );
     =}
 }

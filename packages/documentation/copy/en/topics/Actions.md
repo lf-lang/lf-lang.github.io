@@ -47,7 +47,7 @@ reactor Schedule {
         lf_schedule(a, MSEC(200));
     =}
     reaction(a) {=
-        interval_t elapsed_time = lf_time(LF_ELAPSED_LOGICAL);
+        interval_t elapsed_time = lf_time_logical_elapsed();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
     =}
 }
@@ -80,7 +80,7 @@ reactor Schedule {
         a.schedule(MSEC(200))
     =}
     reaction(a) {=
-        elapsed_time = lf.time.elapsed_logical()
+        elapsed_time = lf.time.logical_elapsed()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
     =}
 }
@@ -180,7 +180,7 @@ reactor Physical {
         lf_schedule(a, 0);
     =}
     reaction(a) {=
-        interval_t elapsed_time = lf_time(LF_ELAPSED_LOGICAL);
+        interval_t elapsed_time = lf_time_logical_elapsed();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
     =}
 }
@@ -215,7 +215,7 @@ reactor Physical {
         a.schedule(0)
     =}
     reaction(a) {=
-        elapsed_time = lf.time.elapsed_logical()
+        elapsed_time = lf.time.logical_elapsed()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
     =}
 }
@@ -301,7 +301,7 @@ main reactor {
 	=}
 	
 	reaction(a) {=
-        interval_t elapsed_time = lf_time(LF_ELAPSED_LOGICAL);
+        interval_t elapsed_time = lf_time_logical_elapsed();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
 	=}
 }
@@ -360,7 +360,7 @@ main reactor {
 	=}
 	
 	reaction(a) {=
-        elapsed_time = lf.time.elapsed_logical()
+        elapsed_time = lf.time.logical_elapsed()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
 	=}
 }

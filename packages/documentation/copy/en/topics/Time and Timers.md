@@ -52,7 +52,7 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         lf_schedule(a, self->start);
     =}
     reaction(a) -> a {=
-        instant_t elapsed_logical_time = lf_time(LF_ELAPSED_LOGICAL);
+        instant_t elapsed_logical_time = lf_time_logical_elapsed();
         printf("Logical time since start: \%lld nsec.\n",
             elapsed_logical_time
         );
@@ -92,7 +92,7 @@ main reactor SlowingClock(start(100 msec), incr(100 msec)) {
         a.schedule(self.start)
     =}
     reaction(a) -> a {=
-        elapsed_logical_time = lf.time.elapsed_logical()
+        elapsed_logical_time = lf.time.logical_elapsed()
         print(
             f"Logical time since start: {elapsed_logical_time} nsec."
         )
@@ -175,9 +175,10 @@ target C;
 main reactor Timer {
     timer t(0, 1 sec);
     reaction(t) {=
-        printf("Logical time is %lld.\n", get_logical_time());
+        printf("Logical time is %lld.\n", lf_time_logical());
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -198,9 +199,10 @@ target Python;
 main reactor Timer {
     timer t(0, 1 sec);
     reaction(t) {=
-        print(f"Logical time is {get_logical_time()}.")
+        print(f"Logical time is {lf.time.logical()}.")
     =}
 }
+
 ```
 
 ```lf-ts
@@ -261,7 +263,7 @@ main reactor TimeElapsed {
     reaction(t) {=
         printf(
             "Elapsed logical time is %lld.\n",
-            lf_time(LF_ELAPSED_LOGICAL)
+            lf_time_logical_elapsed()
         );
     =}
 }
@@ -287,7 +289,7 @@ main reactor TimeElapsed {
     timer t(0, 1 sec);
     reaction(t) {=
         print(
-            f"Elapsed logical time is {lf.time.elapsed_logical()}."
+            f"Elapsed logical time is {lf.time.logical_elapsed()}."
         )
     =}
 }
@@ -342,8 +344,8 @@ target C;
 main reactor TimeLag {
     timer t(0, 1 sec);
     reaction(t) {=
-        interval_t t = lf_time(LF_ELAPSED_LOGICAL);
-        interval_t T = get_elapsed_physical_time();
+        interval_t t = lf_time_logical_elapsed();
+        interval_t T = lf_time_physical_elapsed();
         printf(
             "Elapsed logical time: %lld, physical time: %lld, lag: %lld\n",
             t, T, T-t
@@ -374,8 +376,8 @@ target Python;
 main reactor TimeLag {
     timer t(0, 1 sec);
     reaction(t) {=
-        t = lf.time.elapsed_logical()
-        T = get_elapsed_physical_time()
+        t = lf.time.logical_elapsed()
+        T = lf.time.physical_elapsed()
         print(
             f"Elapsed logical time: {t}, physical time: {T}, lag: {T-t}"
         )

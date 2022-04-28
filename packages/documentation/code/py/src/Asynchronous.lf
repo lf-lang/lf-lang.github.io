@@ -19,7 +19,7 @@ main reactor {
 	=}
 	
 	reaction(a) {=
-        elapsed_time = lf.time.elapsed_logical()
+        elapsed_time = lf.time.logical_elapsed()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
 	=}
 }

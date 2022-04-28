@@ -4,8 +4,8 @@ reactor Destination {
     input y;
     reaction(x, y) {=
         print(
-            f"Time since start: {lf.time.elapsed_logical()}, "
-            f"microstep: {get_microstep()}"
+            f"Time since start: {lf.time.logical_elapsed()}, "
+            f"microstep: {lf.tag().microstep}"
         )
         if x.is_present:
             print("  x is present.")

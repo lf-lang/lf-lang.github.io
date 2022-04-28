@@ -4,7 +4,7 @@ main reactor TimeElapsed {
     reaction(t) {=
         printf(
             "Elapsed logical time is %lld.\n",
-            lf_time(LF_ELAPSED_LOGICAL)
+            lf_time_logical_elapsed()
         );
     =}
 }

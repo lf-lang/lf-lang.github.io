@@ -23,7 +23,7 @@ main reactor {
     logical action a;
     reaction(startup, a) -> a {=
         printf("%d. Logical time is %lld. Microstep is %d.\n",
-            self->count, get_logical_time(), get_microstep()
+            self->count, lf_time_logical(), lf_tag().microstep
         );
         if (self->count++ < 5) {
             lf_schedule(a, 0);
@@ -130,7 +130,7 @@ reactor Destination {
     input y:int;
     reaction(x, y) {=
         printf("Time since start: %lld, microstep: %d\n",
-            lf_time(LF_ELAPSED_LOGICAL), get_microstep()
+            lf_time_logical_elapsed(), lf_tag().microstep
         );
         if (x->is_present) {
             printf("  x is present.\n");
@@ -192,8 +192,8 @@ reactor Destination {
     input y;
     reaction(x, y) {=
         print(
-            f"Time since start: {lf.time.elapsed_logical()}, "
-            f"microstep: {get_microstep()}"
+            f"Time since start: {lf.time.logical_elapsed()}, "
+            f"microstep: {lf.tag().microstep}"
         )
         if x.is_present:
             print("  x is present.")

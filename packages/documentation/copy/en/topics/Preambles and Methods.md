@@ -222,7 +222,7 @@ main reactor {
     =}
 
     reaction(a) {=
-        elapsed_time = lf.time.elapsed_logical()
+        elapsed_time = lf.time.logical_elapsed()
         print(f"A time {elapsed_time} nsec after start, received: ", a.value)
     =}
 
