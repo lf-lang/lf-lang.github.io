@@ -4,7 +4,7 @@ preamble {=
 =}
 reactor A(bank_index:int(0), value:int(0)) {
     reaction (startup) {=
-        printf("bank_index: %d, value: %d\n", self->bank_index, self->value);
+        info_print("bank_index: %d, value: %d", self->bank_index, self->value);
     =}
 }
 main reactor {

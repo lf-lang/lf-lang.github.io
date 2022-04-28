@@ -10,19 +10,17 @@ reactor Destination(
     state s:int(0);
     input in:int;
     reaction(in) {=
-        printf("Destination %d received: %d.\n", self->bank_index, in->value);
+        info_print("Destination %d received: %d.", self->bank_index, in->value);
         if (in->value != self->s) {
-            printf("ERROR: Expected %d.\n", self->s);
-            exit(1);
+            error_print_and_exit("Expected %d.", self->s);
         }
         self->s += self->bank_index;
     =}
     reaction(shutdown) {=
         if (self->s == 0 && self->bank_index != 0) {
-            fprintf(stderr, "ERROR: Destination %d received no input!\n", self->bank_index);
-            exit(1);
+            error_print_and_exit("Destination %d received no input!", self->bank_index);
         }
-        printf("Success.\n");
+        info_print("Success.");
     =}
 }
 

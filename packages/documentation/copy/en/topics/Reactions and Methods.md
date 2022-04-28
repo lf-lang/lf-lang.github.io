@@ -28,9 +28,10 @@ main reactor Alignment {
         self->s -= 2;
     =}
     reaction(t4) {=
-        printf("s = %d\n", self->s);
+        info_print("s = %d", self->s);
     =}
 }
+
 ```
 
 ```lf-cpp

@@ -3,14 +3,14 @@ reactor Destination {
     input x:int;
     input y:int;
     reaction(x, y) {=
-        printf("Time since start: %lld, microstep: %d\n",
+        info_print("Time since start: %lld, microstep: %d",
             lf_time_logical_elapsed(), lf_tag().microstep
         );
         if (x->is_present) {
-            printf("  x is present.\n");
+            info_print("  x is present.");
         }
         if (y->is_present) {
-            printf("  y is present.\n");
+            info_print("  y is present.");
         }
     =}
 }

@@ -12,6 +12,6 @@ main reactor {
         lf_nanosleep(MSEC(20));
     =}
     reaction(d.d) {=
-        printf("Deadline reactor produced an output.\n");
+        info_print("Deadline reactor produced an output.");
     =}
 }

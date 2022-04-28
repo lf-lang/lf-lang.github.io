@@ -48,7 +48,7 @@ reactor Schedule {
     =}
     reaction(a) {=
         interval_t elapsed_time = lf_time_logical_elapsed();
-        printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
+        info_print("Action triggered at logical time %lld nsec after start.", elapsed_time);
     =}
 }
 
@@ -181,7 +181,7 @@ reactor Physical {
     =}
     reaction(a) {=
         interval_t elapsed_time = lf_time_logical_elapsed();
-        printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
+        info_print("Action triggered at logical time %lld nsec after start.", elapsed_time);
     =}
 }
 
@@ -302,7 +302,7 @@ main reactor {
 	
 	reaction(a) {=
         interval_t elapsed_time = lf_time_logical_elapsed();
-        printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
+        info_print("Action triggered at logical time %lld nsec after start.", elapsed_time);
 	=}
 }
 

@@ -399,7 +399,7 @@ main reactor StructAsState {
     =}
     state s:hello_t("Earth", 42);
     reaction(startup) {=
-        printf("State s.name=\"%s\", value=%d.\n", self->s.name, self->s.value);
+        info_print("State s.name=\"%s\", value=%d.", self->s.name, self->s.value);
     =}
 }
 ```
@@ -418,10 +418,9 @@ main reactor StructParameter(p:hello_t("Earth", 42)) {
         } hello_t;
     =}
     reaction(startup) {=
-        printf("Parameter p.name=\"%s\", value=%d.\n", self->p.name, self->p.value);
+        info_print("Parameter p.name=\"%s\", value=%d.", self->p.name, self->p.value);
         if (self->p.value != 42) {
-            fprintf(stderr, "FAILED: Expected 42.\n");
-            exit(1);
+            error_print_and_exit("Expected 42.");
         }
     =}
 }
@@ -938,11 +937,12 @@ The $preamble$ code defines a struct datatype. In the reaction to $startup$, the
 For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-arrays) for details.
 
 A reactor receiving the struct message uses the struct as normal in C:
+
 ```lf-c
 reactor Print() {
     input in:hello_t;
     reaction(in) {=
-        printf("Received: name = %s, value = %d\n", in->value.name, in->value.value);
+        info_print("Received: name = %s, value = %d", in->value.name, in->value.value);
     =}
 }
 ```
@@ -954,6 +954,7 @@ The preamble should not be repeated in this reactor definition if the two reacto
 Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
 
 Suppose the data structure of interest, its constructor and destructor are defined as follows:
+
 ```c
 typedef struct int_array_t {
     int* data;
@@ -1112,7 +1113,6 @@ In all of the following, <out> is the name of the output and <value> is the valu
 
 Set the specified output (or input of a contained reactor) to the specified value using shallow copy.
 
-
 > `lf_set_token(<out>, <value>);`
 
 This version is used for outputs with a type declaration ending with `*` (any pointer) or `[]` (any array). The `<value>` argument should be a struct of type `token_t`. This can be the trickiest form to use, but it is rarely necessary for the programmer to create their own (dynamically allocated) instance of `token_t`. Consider the [SetToken.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetToken.lf) example:
@@ -1134,16 +1134,13 @@ This version is used for outputs with a type declaration ending with `*` (any po
 
 Specify the destructor `destructor` used to deallocate any dynamic data set on the output port `out`.
 
-
 > `lf_set_copy_constructor(<out>, <copy_constructor>);`
 
 Specify the copy constructor `copy_constructor` used to copy construct any dynamic data set on the output port `out` if the receiving port is $mutable$.
 
-
 Here, the first reaction schedules an integer-valued action to trigger after 200 microseconds. As explained below, action payloads are carried by tokens. The second reaction grabs the token rather than the value using the syntax `a->token` (the name of the action followed by `->token`). It then forwards the token to the output. The output data type is `int*` not `int` because the token carries a pointer to dynamically allocated memory that contains the value. All inputs and outputs with types ending in `*` or `[]` are carried by tokens.
 
 All of the `lf_set` macros will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also all set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
-
 
 </div>
 
@@ -1457,7 +1454,7 @@ main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
         instant_t logical = lf_time_logical();
-        printf("Logical time is %lld.\n", logical);
+        info_print("Logical time is %lld.", logical);
     =}
 }
 ```
@@ -1482,7 +1479,7 @@ main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
         interval_t elapsed = lf_time_logical_elapsed();
-        printf("Elapsed logical time is %lld.\n", elapsed);
+        info_print("Elapsed logical time is %lld.", elapsed);
     =}
 }
 ```
@@ -1505,7 +1502,7 @@ main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
         instant_t physical = lf_time_physical();
-        printf("Physical time is %lld.\n", physical);
+        info_print("Physical time is %lld.", physical);
     =}
 }
 ```
@@ -1528,7 +1525,7 @@ main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
         instant_t elapsed_physical = lf_time_physical_elapsed();
-        printf("Elapsed physical time is %lld.\n", elapsed_physical);
+        info_print("Elapsed physical time is %lld.", elapsed_physical);
     =}
 }
 ```

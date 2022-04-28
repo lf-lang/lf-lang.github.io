@@ -18,9 +18,9 @@ reactor Deadline {
     input x:int;
     output d:int; // Produced if the deadline is violated.
     reaction(x) -> d {=
-        printf("Normal reaction.\n");
+        info_print("Normal reaction.");
     =} deadline(10 msec) {=
-        printf("Deadline violation detected.\n");
+        info_print("Deadline violation detected.");
         lf_set(d, x->value);
     =}
 }
@@ -97,7 +97,7 @@ main reactor {
         lf_nanosleep(MSEC(20));
     =}
     reaction(d.d) {=
-        printf("Deadline reactor produced an output.\n");
+        info_print("Deadline reactor produced an output.");
     =}
 }
 

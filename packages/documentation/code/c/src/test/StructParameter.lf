@@ -7,10 +7,9 @@ main reactor(p:hello_t("Earth", 42)) {
         } hello_t;
     =}
     reaction(startup) {=
-        printf("Parameter p.name=\"%s\", value=%d.\n", self->p.name, self->p.value);
+        info_print("Parameter p.name=\"%s\", value=%d.", self->p.name, self->p.value);
         if (self->p.value != 42) {
-            fprintf(stderr, "FAILED: Expected 42.\n");
-            exit(1);
+            error_print_and_exit("Expected 42.");
         }
     =}
 }
