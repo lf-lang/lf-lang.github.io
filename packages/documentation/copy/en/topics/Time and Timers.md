@@ -49,15 +49,15 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
     state interval:time(start);
     logical action a;
     reaction(startup) -> a {=
-        schedule(a, self->start);
+        lf_schedule(a, self->start);
     =}
     reaction(a) -> a {=
-        instant_t elapsed_logical_time = get_elapsed_logical_time();
-        printf("Logical time since start: \%lld nsec.\n",
+        instant_t elapsed_logical_time = lf_time_logical_elapsed();
+        info_print("Logical time since start: \%lld nsec.",
             elapsed_logical_time
         );
         self->interval += self->incr;
-        schedule(a, self->interval);
+        lf_schedule(a, self->interval);
     =}
 }
 
@@ -92,7 +92,7 @@ main reactor SlowingClock(start(100 msec), incr(100 msec)) {
         a.schedule(self.start)
     =}
     reaction(a) -> a {=
-        elapsed_logical_time = get_elapsed_logical_time()
+        elapsed_logical_time = lf.time.logical_elapsed()
         print(
             f"Logical time since start: {elapsed_logical_time} nsec."
         )
@@ -175,9 +175,10 @@ target C;
 main reactor Timer {
     timer t(0, 1 sec);
     reaction(t) {=
-        printf("Logical time is %lld.\n", get_logical_time());
+        info_print("Logical time is %lld.", lf_time_logical());
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -198,9 +199,10 @@ target Python;
 main reactor Timer {
     timer t(0, 1 sec);
     reaction(t) {=
-        print(f"Logical time is {get_logical_time()}.")
+        print(f"Logical time is {lf.time.logical()}.")
     =}
 }
+
 ```
 
 ```lf-ts
@@ -259,12 +261,13 @@ target C;
 main reactor TimeElapsed {
     timer t(0, 1 sec);
     reaction(t) {=
-        printf(
-            "Elapsed logical time is %lld.\n",
-            get_elapsed_logical_time()
+        info_print(
+            "Elapsed logical time is %lld.",
+            lf_time_logical_elapsed()
         );
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -286,10 +289,11 @@ main reactor TimeElapsed {
     timer t(0, 1 sec);
     reaction(t) {=
         print(
-            f"Elapsed logical time is {get_elapsed_logical_time()}."
+            f"Elapsed logical time is {lf.time.logical_elapsed()}."
         )
     =}
 }
+
 ```
 
 ```lf-ts
@@ -340,14 +344,15 @@ target C;
 main reactor TimeLag {
     timer t(0, 1 sec);
     reaction(t) {=
-        interval_t t = get_elapsed_logical_time();
-        interval_t T = get_elapsed_physical_time();
-        printf(
-            "Elapsed logical time: %lld, physical time: %lld, lag: %lld\n",
+        interval_t t = lf_time_logical_elapsed();
+        interval_t T = lf_time_physical_elapsed();
+        info_print(
+            "Elapsed logical time: %lld, physical time: %lld, lag: %lld",
             t, T, T-t
         );
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -371,13 +376,14 @@ target Python;
 main reactor TimeLag {
     timer t(0, 1 sec);
     reaction(t) {=
-        t = get_elapsed_logical_time()
-        T = get_elapsed_physical_time()
+        t = lf.time.logical_elapsed()
+        T = lf.time.physical_elapsed()
         print(
             f"Elapsed logical time: {t}, physical time: {T}, lag: {T-t}"
         )
     =}
 }
+
 ```
 
 ```lf-ts
@@ -489,25 +495,24 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     state inputs_received:int(0);
     input x:int;
     reaction(x) {=
-        printf("Received %d.\n", x->value);
+        info_print("Received %d.", x->value);
         if (x->value != self->count) {
-            printf("ERROR: Expected %d.\n", self->count);
-            exit(1);
+            error_print_and_exit("Expected %d.", self->count);
         }
         self->count += self->stride;
         self->inputs_received++;
     =}
     reaction(shutdown) {=
-        printf("Shutdown invoked.\n");
+        info_print("Shutdown invoked.");
         if (self->inputs_received != self->num_inputs) {
-            printf("ERROR: Expected to receive %d inputs, but got %d.\n",
+            error_print_and_exit("Expected to receive %d inputs, but got %d.",
                 self->num_inputs,
                 self->inputs_received
             );
-            exit(2);
         }
     =}
 }
+
 ```
 
 ```lf-cpp

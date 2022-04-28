@@ -69,7 +69,7 @@ reactor Work {
     	} else {
     		ret = in2 + in1;
     	}
-        SET(out, ret);
+        lf_set(out, ret);
     =}
 }
 ```

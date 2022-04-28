@@ -22,14 +22,15 @@ main reactor {
     state count:int(1);
     logical action a;
     reaction(startup, a) -> a {=
-        printf("%d. Logical time is %lld. Microstep is %d.\n",
-            self->count, get_logical_time(), get_microstep()
+        info_print("%d: Logical time is %lld. Microstep is %d.",
+            self->count, lf_tag().time, lf_tag().microstep
         );
         if (self->count++ < 5) {
-            schedule(a, 0);
+            lf_schedule(a, 0);
         }
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -54,14 +55,15 @@ main reactor {
     logical action a;
     reaction(startup, a) {=
         print(
-            f"{self.count}. Logical time is {get_current_tag().time}. "
-            f"Microstep is {get_current_tag().microstep}."
+            f"{self.count}. Logical time is {lf.tag().time}. "
+            f"Microstep is {lf.tag().microstep}."
         )
         if self.count < 5:
             a.schedule(0)
         self.count += 1
     =}
 }
+
 ```
 
 ```lf-ts
@@ -128,14 +130,14 @@ reactor Destination {
     input x:int;
     input y:int;
     reaction(x, y) {=
-        printf("Time since start: %lld, microstep: %d\n",
-            get_elapsed_logical_time(), get_microstep()
+        info_print("Time since start: %lld, microstep: %d",
+            lf_time_logical_elapsed(), lf_tag().microstep
         );
         if (x->is_present) {
-            printf("  x is present.\n");
+            info_print("  x is present.");
         }
         if (y->is_present) {
-            printf("  y is present.\n");
+            info_print("  y is present.");
         }
     =}
 }
@@ -143,11 +145,11 @@ main reactor {
     logical action repeat;
     d = new Destination();
     reaction(startup) -> d.x, repeat {=
-        SET(d.x, 1);
-        schedule(repeat, 0);
+        lf_set(d.x, 1);
+        lf_schedule(repeat, 0);
     =}
     reaction(repeat) -> d.y {=
-        SET(d.y, 1);
+        lf_set(d.y, 1);
     =}
 }
 
@@ -191,8 +193,8 @@ reactor Destination {
     input y;
     reaction(x, y) {=
         print(
-            f"Time since start: {get_elapsed_logical_time()}, "
-            f"microstep: {get_microstep()}"
+            f"Time since start: {lf.time.logical_elapsed()}, "
+            f"microstep: {lf.tag().microstep}"
         )
         if x.is_present:
             print("  x is present.")
@@ -290,7 +292,7 @@ Time since start: 0, microstep: 1
   y is present.
 ```
 
-The time reported by `get_elapsed_logical_time()` has not advanced in the second reaction, but the fact that `x` is not present in the second reaction proves that the first reaction and the second are not logically simultaneous. The second occurs one microstep later.
+The reported elapsed logical time has not advanced in the second reaction, but the fact that `x` is not present in the second reaction proves that the first reaction and the second are not logically simultaneous. The second occurs one microstep later.
 
 ## Alignment of Logical and Physical Times
 

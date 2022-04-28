@@ -41,9 +41,10 @@ reactor Double {
     input x:int;
     output y:int;
     reaction(x) -> y {=
-        SET(y, x->value * 2);
+        lf_set(y, x->value * 2);
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -124,9 +125,10 @@ reactor Destination {
         if (y->is_present) {
             sum += y->value;
         }
-        printf("Received %d.\n", sum);
+        info_print("Received %d.", sum);
     =}
 }
+
 ```
 
 ```lf-cpp

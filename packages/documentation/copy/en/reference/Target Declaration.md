@@ -519,7 +519,6 @@ This parameter takes as an argument one of `ERROR`, `WARN`, `INF`, or `DEBUG` to
 
 The `logging` option is one of `ERROR`, `WARN`, `INFO`, `LOG` or `DEBUG`. It specifies the level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message, where `ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`. The default value is `INFO`, which means that messages tagged `LOG` and `DEBUG` will not print. Internally this is handled by the [ulog module](https://www.npmjs.com/package/ulog).
 
-
 ## no-compile
 
 <div class="lf-ts">
@@ -618,7 +617,7 @@ The $target-language$ target does not support the `threading` target option.
 
 <div class="lf-c">
 
-If threading is disabled (by setting `threading` to `false`), then no thread library is used, and the `schedule()` function is not thread safe. This setting is incompatible with asynchronously scheduling any physical actions and hence this parameter will be ignored for programs that have physical actions.
+If threading is disabled (by setting `threading` to `false`), then no thread library is used, and the `lf_schedule()` function is not thread safe. This setting is incompatible with asynchronously scheduling any physical actions and hence this parameter will be ignored for programs that have physical actions.
 See [workers](#workers).
 
 </div>

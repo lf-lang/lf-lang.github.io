@@ -18,12 +18,13 @@ reactor Deadline {
     input x:int;
     output d:int; // Produced if the deadline is violated.
     reaction(x) -> d {=
-        printf("Normal reaction.\n");
+        info_print("Normal reaction.");
     =} deadline(10 msec) {=
-        printf("Deadline violation detected.\n");
-        SET(d, x->value);
+        info_print("Deadline violation detected.");
+        lf_set(d, x->value);
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -88,17 +89,18 @@ main reactor {
     logical action a;
     d = new Deadline();
     reaction(startup) -> d.x, a {=
-        SET(d.x, 0);
-        schedule(a, 0);
+        lf_set(d.x, 0);
+        lf_schedule(a, 0);
     =}
     reaction(a) -> d.x {=
-        SET(d.x, 0);
+        lf_set(d.x, 0);
         lf_nanosleep(MSEC(20));
     =}
     reaction(d.d) {=
-        printf("Deadline reactor produced an output.\n");
+        info_print("Deadline reactor produced an output.");
     =}
 }
+
 ```
 
 ```lf-cpp

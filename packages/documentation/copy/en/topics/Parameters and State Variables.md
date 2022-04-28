@@ -71,9 +71,10 @@ reactor Scale(factor:int(2)) {
     input x:int;
     output y:int;
     reaction(x) -> y {=
-        SET(y, x->value * self->factor);
+        lf_set(y, x->value * self->factor);
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -164,7 +165,7 @@ reactor Count {
     output y:int;
     timer t(0, 100 msec);
     reaction(t) -> y {=
-        SET(y, self->count++);
+        lf_set(y, self->count++);
     =}
 }
 

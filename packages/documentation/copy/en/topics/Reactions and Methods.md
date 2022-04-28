@@ -28,9 +28,10 @@ main reactor Alignment {
         self->s -= 2;
     =}
     reaction(t4) {=
-        printf("s = %d\n", self->s);
+        info_print("s = %d", self->s);
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -139,13 +140,14 @@ reactor Overwriting {
     timer t2(200 msec, 200 msec);
     reaction(t1) -> y {=
         self->s += 1;
-        SET(y, self->s);
+        lf_set(y, self->s);
     =}
     reaction(t2) -> y {=
         self->s -= 2;
-        SET(y, self->s);
+        lf_set(y, self->s);
     =}
 }
+
 ```
 
 ```lf-cpp

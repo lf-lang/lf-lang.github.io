@@ -9,13 +9,13 @@ reactor A {
     input a:int;
     output out:int;
     reaction(a) -> out {=
-        SET(out, a->value);
+        lf_set(out, a->value);
     =}
 }
 reactor B extends A {
     input b:int;
     reaction(a, b) -> out {=
-        SET(out, a->value + b->value);
+        lf_set(out, a->value + b->value);
     =}
 }
 

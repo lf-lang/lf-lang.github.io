@@ -42,7 +42,7 @@ reactor Source {
     output[4] out:int;
     reaction(startup) -> out {=
         for(int i = 0; i < out_width; i++) {
-            SET(out[i], i);
+            lf_set(out[i], i);
         }
     =}
 }
@@ -53,7 +53,7 @@ reactor Destination {
         for (int i = 0; i < in_width; i++) {
             if (in[i]->is_present) sum += in[i]->value;
         }
-        printf("Sum of received: %d.\n", sum);
+        info_print("Sum of received: %d.", sum);
     =}
 }
 main reactor {
@@ -286,10 +286,11 @@ reactor MultiportSource(
     output out:int;
     state s:int(0);
     reaction(t) -> out {=
-        SET(out, self->s);
+        lf_set(out, self->s);
         self->s += self->bank_index;
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -386,7 +387,7 @@ preamble {=
 =}
 reactor A(bank_index:int(0), value:int(0)) {
     reaction (startup) {=
-        printf("bank_index: %d, value: %d\n", self->bank_index, self->value);
+        info_print("bank_index: %d, value: %d", self->bank_index, self->value);
     =}
 }
 main reactor {
@@ -425,7 +426,6 @@ WARNING: No source file found: ../code/rs/src/BankIndex.lf
 
 $end(BankIndex)$
 
-
 The global `table` defined in the $preamble$ is used to initialize the `value` parameter of each bank member. The result of running this is something like:
 
 ```
@@ -449,7 +449,7 @@ reactor Child (
     bank_index:int(0)
 ) {
     reaction(startup) {=
-        printf("My bank index: %d.\n", self->bank_index);
+        info_print("My bank index: %d.", self->bank_index);
     =}
 }
 reactor Parent (
@@ -571,8 +571,8 @@ reactor Child (
     parent_bank_index:int(0)
 ) {
     reaction(startup) {=
-        printf(
-            "My bank index: %d. My parent's bank index: %d.\n",
+        info_print(
+            "My bank index: %d. My parent's bank index: %d.",
             self->bank_index, self->parent_bank_index
         );
     =}
@@ -585,6 +585,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-cpp
@@ -704,7 +705,7 @@ reactor Child (
 ) {
     output out:int;
     reaction(startup) -> out {=
-        SET(out, self->parent_bank_index * 2 + self->bank_index);
+        lf_set(out, self->parent_bank_index * 2 + self->bank_index);
     =}
 }
 reactor Parent (
@@ -713,7 +714,7 @@ reactor Parent (
     c = new[2] Child(parent_bank_index = bank_index);
     reaction(c.out) {=
         for (int i=0; i < c_width; i++) {
-            printf("Received %d from child %d.\n", c[i].out->value, i);
+            info_print("Received %d from child %d.", c[i].out->value, i);
         }
     =}
 }
@@ -859,7 +860,7 @@ reactor Source {
     output[3] out:int;
     reaction(startup) -> out {=
         for(int i = 0; i < out_width; i++) {
-            SET(out[i], i);
+            lf_set(out[i], i);
         }
     =}
 }
@@ -868,7 +869,7 @@ reactor Destination(
 ) {
     input in:int;
     reaction(in) {=
-        printf("Destination %d received %d.\n", self->bank_index, in->value);
+        info_print("Destination %d received %d.", self->bank_index, in->value);
     =}
 }
 
@@ -1049,14 +1050,14 @@ reactor Node(
     output[num_nodes] out: int;
 
     reaction (startup) -> out {=
-        SET(out[1], 42);
-        printf("Bank index %d sent 42 on channel 1.\n", self->bank_index);
+        lf_set(out[1], 42);
+        info_print("Bank index %d sent 42 on channel 1.", self->bank_index);
     =}
 
     reaction (in) {=
         for (int i = 0; i < in_width; i++) {
             if (in[i]->is_present) {
-                printf("Bank index %d received %d on channel %d.\n",
+                info_print("Bank index %d received %d on channel %d.",
                     self->bank_index, in[i]->value, i
                 );
             }

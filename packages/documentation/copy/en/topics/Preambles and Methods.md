@@ -25,7 +25,7 @@ main reactor {
     reaction(t) {=
         char* s = "42";
         int i = atoi(s);
-        printf("Converted string %s to int %d.\n", s, i);
+        info_print("Converted string %s to int %d.", s, i);
     =}
 }
 ```
@@ -49,7 +49,7 @@ main reactor {
     =}
     timer t;
     reaction(t) {=
-        printf("42 plus 42 is %d.\n", add_42(42));
+        info_print("42 plus 42 is %d.", add_42(42));
     =}
 }
 ```
@@ -222,7 +222,7 @@ main reactor {
     =}
 
     reaction(a) {=
-        elapsed_time = get_elapsed_logical_time()
+        elapsed_time = lf.time.logical_elapsed()
         print(f"A time {elapsed_time} nsec after start, received: ", a.value)
     =}
 

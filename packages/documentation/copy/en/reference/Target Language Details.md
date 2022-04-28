@@ -17,7 +17,7 @@ $page-showing-target$
 
 <div class="lf-c">
 
-In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on MacOS, Linux, Windows, and at least one bare-iron embedded platforms. The single-threaded version (which you get by setting the [`threading` target parameter](/docs/handbook/target-declaration#threading) to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the Posix thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
+In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on macOS, Linux, Windows, and at least one bare-iron embedded platform. The single-threaded version (which you get by setting the [`threading` target parameter](/docs/handbook/target-declaration#threading) to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the POSIX thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
 
 Note that C is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Here, we provide some guidelines for a style for writing reactors that will be safe.
 
@@ -27,7 +27,7 @@ Note that C is not a safe language. There are many ways that a programmer can ci
 
 <div class="lf-cpp">
 
-In the C++ reactor target for Lingua Franca, reactions are written in C++ and the code generator generates a standalone C++ program that can be compiled and run on all major platforms. Our continous integration ensures compatibility with Windows, MacOS and Linux.
+In the C++ reactor target for Lingua Franca, reactions are written in C++ and the code generator generates a standalone C++ program that can be compiled and run on all major platforms. Our continous integration ensures compatibility with Windows, macOS, and Linux.
 The C++ target solely depends on a working C++ build system including a recent C++ compiler (supporting C++17) and [CMake](https://cmake.org/) (>= 3.5). It relies on the [reactor-cpp](https://github.com/lf-lang/reactor-cpp) runtime, which is automatically fetched and compiled in the background by the Lingua Franca compiler.
 
 Note that C++ is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Note, however, that the C++ reactor library is designed to prevent common errors and to encourage a safe modern C++ style. Here, we introduce the specifics of writing Reactor programs in C++ and present some guidelines for a style that will be safe.
@@ -36,7 +36,7 @@ Note that C++ is not a safe language. There are many ways that a programmer can 
 
 <div class="lf-py">
 
-In the Python reactor target for Lingua Franca, reactions are written in Python. The user-written reactors are then generated into a Python 3 script that can be executed on several platforms. The Python target has been tested on Linux, macOS, and Windows. To facilitate efficient and fast execution of Python code, the generated program relies on a C extension to facilitate Lingua Franca API such as `set` and `schedule`. To learn more about the structure of the generated Python program, see [Implementation Details](#python-target-implementation-details).
+In the Python reactor target for Lingua Franca, reactions are written in Python. The user-written reactors are then generated into a Python 3 script that can be executed on several platforms. The Python target has been tested on Linux, macOS, and Windows. To facilitate efficient and fast execution of Python code, the generated program relies on a C extension to facilitate Lingua Franca API such as `set` and `schedule`. To learn more about the structure of the generated Python program see [Implementation Details](#python-target-implementation-details).
 
 Python reactors can bring the vast library of scientific modules that exist for Python into a Lingua Franca program. Moreover, since the Python reactor target is based on a fast and efficient C runtime library, Lingua Franca programs can execute much faster than native equivalent Python programs in many cases. Finally, interoperability with C reactors is planned for the future.
 
@@ -197,7 +197,10 @@ Note that for all LF statements, the final semicolon is optional, but if you are
 
 For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-specification).
 
-The second form, `CCpp`, is used when you wish to use a C++ compiler to compile the generated code, thereby allowing your C reactors to call C++ code. The C target uses a C compiler by default, and will fail to compile mixed C/C++ language programs. As a remedy, the `CCpp` target uses the C runtime but employs a C++ compiler to compile your program. To use it, simply replace `target C` with `target CCpp`.
+The second form, `CCpp`, is used when you wish to use a C++ compiler to compile
+the generated code, thereby allowing your C reactors to call C++ code.
+
+<!-- The C target uses a C compiler by default, and will fail to compile mixed C/C++ language programs. As a remedy, the `CCpp` target uses the C runtime but employs a C++ compiler to compile your program. To use it, simply replace `target C` with `target CCpp`. -->
 
 Here is a minimal example of a program written in the `CCpp` target, taken from [HelloWorldCCPP.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/HelloWorldCCPP.lf):
 
@@ -218,7 +221,7 @@ main reactor {
 
 **Note:** Unless some feature in the C target is needed, we recommend using the [Cpp target](/docs/handbook/cpp-reactors) that uses a runtime that is written natively in C++.
 
-**Note:** A `.lf` file that uses the `CCpp` target cannot and should not be imported to an `.lf` file that uses the `C` target. Although these two targets use essentially the same runtime, such a scenario can cause unintended compiler errors.
+**Note:** A `.lf` file that uses the `CCpp` target cannot and should not be imported to a `.lf` file that uses the `C` target. Although these two targets use essentially the same runtime, such a scenario can cause unintended compile errors.
 
 </div>
 
@@ -293,7 +296,7 @@ reactor Count(stride:int(1)) {
     output y:int;
     timer t(0, 100 msec);
     reaction(t) -> y {=
-        SET(y, self->count);
+        lf_set(y, self->count);
         self->count += self->stride;
     =}
 }
@@ -316,7 +319,7 @@ reactor FlawedCount {
     output y:int;
     timer t(0, 100 msec);
     reaction(t) -> y {=
-        SET(y, count++);
+        lf_set(y, count++);
     =}
 }
 ```
@@ -333,10 +336,10 @@ reactor Source(sequence:int[](0, 1, 2), n_sequence:int(3)) {
     state count:int(0);
     logical action next;
     reaction(startup, next) -> out, next {=
-        SET(out, self->sequence[self->count]);
+        lf_set(out, self->sequence[self->count]);
         self->count++;
         if (self->count < self->n_sequence) {
-            schedule(next, 0);
+            lf_schedule(next, 0);
         }
     =}
 }
@@ -368,7 +371,7 @@ reactor MovingAverage {
         for (int i = 0; i < 3; i++) {
             sum += self->delay_line[i];
         }
-        SET(out, sum/4.0);
+        lf_set(out, sum/4.0);
 
         // Insert the input in the delay line.
         self->delay_line[self->index] = in->value;
@@ -399,7 +402,7 @@ main reactor StructAsState {
     =}
     state s:hello_t("Earth", 42);
     reaction(startup) {=
-        printf("State s.name=\"%s\", value=%d.\n", self->s.name, self->s.value);
+        info_print("State s.name=\"%s\", value=%d.", self->s.name, self->s.value);
     =}
 }
 ```
@@ -418,10 +421,9 @@ main reactor StructParameter(p:hello_t("Earth", 42)) {
         } hello_t;
     =}
     reaction(startup) {=
-        printf("Parameter p.name=\"%s\", value=%d.\n", self->p.name, self->p.value);
+        info_print("Parameter p.name=\"%s\", value=%d.", self->p.name, self->p.value);
         if (self->p.value != 42) {
-            fprintf(stderr, "FAILED: Expected 42.\n");
-            exit(1);
+            error_print_and_exit("Expected 42.");
         }
     =}
 }
@@ -886,9 +888,7 @@ s = new Source(sequence={= new Array<number() =});
 
 In the body of a reaction in the C target, the value of an input is obtained using the syntax `name->value`, where `name` is the name of the input port. See, for example, the `Destination` reactor in [Triggers, Effects, and Uses](/docs/handbook/inputs-and-outputs#triggers-effects-and-uses).
 
-To set the value of outputs, use one of several variants of the `SET` macro. See, for example, the `Double` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).)
-
-There are several variants of the `SET` macro, and the one you should use depends on the type of the output. The simple version `SET` works for all primitive C type (int, double, etc.) as well as the `bool` and `string` types that Lingua Franca defines. For the other variants, see [Sending and Receiving Arrays and Structs](#Sending-and-Receiving-Arrays-and-Structs) below.
+To set the value of outputs, use `lf_set`. See, for example, the `Double` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).)
 
 An output may even be set in different reactions of the same reactor at the same tag. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name->is_present` to determine whether the output has been set. For example, the following reactor (the test case [TestForPreviousOutput](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/TestForPreviousOutput.lf)) will always produce the output 42:
 
@@ -900,14 +900,14 @@ reactor TestForPreviousOutput {
         srand(time(0));
         // Randomly produce an output or not.
         if (rand() % 2) {
-            SET(out, 21);
+            lf_set(out, 21);
         }
     =}
     reaction(startup) -> out {=
         if (out->is_present) {
-            SET(out, 2 * out->value);
+            lf_set(out, 2 * out->value);
         } else {
-            SET(out, 42);
+            lf_set(out, 42);
         }
     =}
 }
@@ -915,9 +915,9 @@ reactor TestForPreviousOutput {
 
 The first reaction may or may not set the output to 21. The second reaction doubles the output if it has been previously produced and otherwise produces 42.
 
-### Sending and Receiving Arrays and Structs
+### Sending and Receiving Data
 
-You can define your own datatypes in C and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsType.lf) example:
+You can define your own data types in C and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsType.lf) example:
 
 ```lf-c
 reactor StructAsType {
@@ -930,24 +930,14 @@ reactor StructAsType {
     output out:hello_t;
     reaction(startup) -> out {=
         struct hello_t temp = {"Earth", 42};
-        SET(out, temp);
+        lf_set(out, temp);
     =}
 }
 ```
 
-The $preamble$ code defines a struct datatype. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `SET` macro.
+The $preamble$ code defines a struct datatype. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `lf_set` macro.
 
-For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can instead write directly to the fields of the struct. For example, the above reaction could be rewritten as follows (see [StructAsTypeDirect](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsTypeDirect.lf)):
-
-```lf-c
-    reaction(startup) -> out {=
-        out->value.name = "Earth";
-        out->value.value = 42;
-        SET_PRESENT(out);
-    =}
-```
-
-The final call to `SET_PRESENT` is necessary to inform downstream reactors that the struct has a new value. (This is a macro that simply does `out->is_present = true`). Note that in subsequent reactions, the values of the struct persist. Hence, this technique can be very efficient if a large struct is modified only slightly in each of a sequence of reactions.
+For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-arrays) for details.
 
 A reactor receiving the struct message uses the struct as normal in C:
 
@@ -955,82 +945,115 @@ A reactor receiving the struct message uses the struct as normal in C:
 reactor Print() {
     input in:hello_t;
     reaction(in) {=
-        printf("Received: name = %s, value = %d\n", in->value.name, in->value.value);
+        info_print("Received: name = %s, value = %d", in->value.name, in->value.value);
     =}
 }
 ```
 
-The preamble should not be repeated in this reactor definition if the two reactors are defined together because this will trigger an error when the compiler thinks that hello_t is being redefined.
+The preamble should not be repeated in this reactor definition if the two reactors are defined together because this will trigger an error when the compiler thinks that `hello_t` is being redefined.
 
-Arrays that have fixed sizes are handled similarly. Consider the [ArrayAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsType.lf) example:
+### Dynamically Allocated Data
+
+Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
+
+Suppose the data structure of interest, its constructor and destructor are defined as follows:
+
+```c
+typedef struct int_array_t {
+    int* data;
+    size_t length;
+} int_array_t;
+
+int_array_t* int_array_constructor(size_t length) {
+    int_array_t* val = (int_array_t*) malloc(sizeof(int_array_t));
+    val->data = (int*) calloc(length, sizeof(int));
+    val->length = length;
+    return val;
+}
+
+void int_array_destructor(void* arr) {
+    free(((int_array_t*) arr)->data);
+    free(arr);
+}
+```
+
+Then, the sender reactor would use `lf_set_destructor` to specify how the memory set on an output port should be freed:
 
 ```lf-c
-reactor ArrayAsType {
-    output out:int[3];
+reactor Source {
+    output out:int_array_t*;
     reaction(startup) -> out {=
-        out[0] = 0;
-        out[1] = 1;
-        out[2] = 2;
-        SET_PRESENT(out);
+        lf_set_destructor(out, int_array_destructor);
+        int_array_t* array =  int_array_constructor(2);
+        for (size_t i = 0; i < array->length; i++) {
+            array->data[i] = i;
+        }
+        lf_set(out, array);
     =}
 }
 ```
-
-Here, the output is declared to have type `int[3]`, an array of three integers. The startup reaction above writes to the array and then calls `SET_PRESENT` to indicate an updated value. Again, the values in the array will persist across reactions.
 
 A reactor receiving this array is straightforward. It just references the array elements as usual in C, as illustrated by this example:
 
 ```lf-c
 reactor Print() {
-    input in:int[3];
+    input in:int_array_t*;
     reaction(in) {=
         printf("Received: [");
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < in->value->length; i++) {
             if (i > 0) printf(", ");
-            printf("%d", in->value[i]);
+            printf("%d", in->value->data[i]);
         }
         printf("]\n");
     =}
 }
 ```
 
-### Dynamically Allocated Arrays
+The deallocation of memory for the data will occur automatically after the last reactor that receives a pointer to the data has finished using it, using the destructor specified by `lf_set_destructor` or `free` if none specified.
 
-For arrays where the size is variable, it may be necessary to dynamically allocate memory. But when should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can pass a pointer to a dynamically allocated object as illustrated in the [ArrayPrint](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayPrint.lf) example:
+Occasionally, you will want an input or output type to be a pointer, but you don't want the automatic memory allocation and deallocation. A simple example is a string type, which in C is `char*`. Consider the following (erroneous) reactor:
 
 ```lf-c
-reactor ArrayPrint {
-    output out:int[];
+reactor Erroneous {
+    output out:char*;
     reaction(startup) -> out {=
-        // Dynamically allocate an output array of length 3.
-        SET_NEW_ARRAY(out, 3);
-        // Above allocates the array, which then must be populated.
-        out[0] = 0;
-        out[1] = 1;
-        out[2] = 2;
+        lf_set(out, "Hello World");
     =}
 }
 ```
 
-This declares the output datatype to be `int[]` (or, equivalently, `int*`), an array of integers of unspecified size. To produce the array in a reaction, it uses the library function `SET_NEW_ARRAY` to allocate an array of length 3 and sets the output to send that array. The reaction then populates the array with data. The deallocation of the memory for the array will occur automatically after the last reactor that receives a pointer to the array has finished using it.
-
-A reactor receiving the array looks like this:
+An output data type that ends with `*` signals to Lingua Franca that the message
+is dynamically allocated and must be freed downstream after all recipients are
+done with it. But the `"Hello World"` string here is statically allocated, so an
+error will occur when the last downstream reactor to use this message attempts
+to free the allocated memory. To avoid this for strings, you can use a special
+`string` type as follows:
 
 ```lf-c
-reactor Print {
-    input in:int[];
-    reaction(in) {=
-        printf("Received: [");
-        for (int i = 0; i < in->length; i++) {
-            if (i > 0) printf(", ");
-            printf("%d", in->value[i]);
-        }
-        printf("]\n");
+reactor Fixed {
+    output out:string;
+    reaction(startup) -> out {=
+        lf_set(out, "Hello World");
     =}
 }
 ```
 
-In the body of the reaction, `in->value` is a pointer to first element of the array, so it can be indexed as usual with arrays in C, `in->value[i]`. Moreover, a variable `in->length` is bound to the length of the array.
+The `string` type is equivalent to `char*`, but since it doesn't end with `*`, it does not signal to Lingua Franca that the type is dynamically allocated. Lingua Franca only handles allocation and deallocation for types that are specified literally with a final `*` in the type name. The same trick can be used for any type where you don't want automatic allocation and deallocation. E.g., the [SendsPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SendsPointerTest.lf) example looks like this:
+
+```lf-c
+reactor SendsPointer  {
+    preamble {=
+        typedef int* int_pointer;
+    =}
+    output out:int_pointer;
+    reaction(startup) -> out {=
+        static int my_constant = 42;
+        lf_set(out, &my_constant;)
+    =}
+}
+```
+
+The above technique can be used to abuse the reactor model of computation by communicating pointers to shared variables. This is generally a bad idea unless those shared variables are immutable. The result will likely be nondeterministic. Also, communicating pointers across machines that do not share memory will not work at all.
 
 ### Mutable Inputs
 
@@ -1044,14 +1067,20 @@ reactor ArrayScale(scale:int(2)) {
         for(int i = 0; i < in->length; i++) {
             in->value[i] *= self->scale;
         }
-        SET_TOKEN(out, in->token);
+        lf_set_token(out, in->token);
     =}
 }
 ```
 
-Here, the input is declared $mutable$, which means that any reaction is free to modify the input. If this reactor is the only recipient of the array or the last recipient of the array, then this will not copy of the array but rather use the original array. Otherwise, it will use a copy.
+Here, the input is declared $mutable$, which means that any reaction is free to
+modify the input. If this reactor is the only recipient of the array or the last
+recipient of the array, then this will not make a copy of the array but rather use
+the original array. Otherwise, it will use a copy. By default, the assignment
+operator (`=`) is used to copy the data. However, the sender can also specify
+a copy constructor to be used by calling `lf_set_copy_constructor` on the
+output port.
 
-The above `ArrayScale` reactor modifies the array and then forwards it to its output port using the `SET_TOKEN()` macro. That macro further delegates to downstream reactors the responsibility for freeing dynamically allocated memory once all readers have completed their work.
+The above `ArrayScale` reactor modifies the array and then forwards it to its output port using the `lf_set_token()` macro. That macro further delegates to downstream reactors the responsibility for freeing dynamically allocated memory once all readers have completed their work.
 
 If the above code were not to forward the array, then the dynamically allocated memory will be automatically freed when this reactor is done with it.
 
@@ -1081,11 +1110,11 @@ reactor DelayString(delay:time(100 msec)) {
     output out:string;
     logical action a:string;
     reaction(a) -> out {=
-        SET(out, a->value);
+        lf_set(out, a->value);
     =}
     reaction(in) -> a {=
         // The following copies the char*, not the string.
-        schedule_copy(a, self->delay, &(in->value), 1);
+        lf_schedule_copy(a, self->delay, &(in->value), 1);
     =}
 }
 ```
@@ -1094,125 +1123,48 @@ reactor DelayString(delay:time(100 msec)) {
 
 In all of the following, <out> is the name of the output and <value> is the value to be sent.
 
-> `SET(<out>, <value>);`
+> `lf_set(<out>, <value>);`
 
-Set the specified output (or input of a contained reactor) to the specified value. This version is used for primitive type such as `int`, `double`, etc. as well as the built-in types `bool` and `string` (but only if the string is a statically allocated constant; otherwise, see `SET_NEW_ARRAY`). It can also be used for structs with a type defined by a `typedef` so that the type designating string does not end in '\*'. The value is copied and therefore the variable carrying the value can be subsequently modified without changing the output.
+Set the specified output (or input of a contained reactor) to the specified
+value using shallow copy. `lf_set` can be used with all supported data types
+(including type declarations that end with `*` or `[]`).
 
-> `SET_ARRAY(<out>, <value>, <element_size>, <length>);`
+> `lf_set_token(<out>, <value>);`
 
-This version is used for outputs with a type declaration ending with `[]` or `*`, such as `int[]`. This version is for use when the _value_ to be sent is in dynamically allocated memory that will need to be freed downstream. The allocated memory will be automatically freed when all recipients of the outputs are done with it. Since C does not encode array sizes as part of the array, the _length_ and _element_size_ must be given (the latter is the size of each element in bytes). See [SetArray.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetArray.lf).
+This version is used to directly set the underlying reference-counted token in
+outputs with a type declaration ending with `*` (any pointer) or `[]` (any
+array). The `<value>` argument should be a struct of type `token_t`. It should
+be rarely necessary to have the need to create your own (dynamically allocated)
+instance of `token_t`. Hence, use `lf_set_token` with caution.
 
-> `SET_NEW(<out>);`
-
-This version is used for outputs with a type declaration ending with `*` (see example below). This sets the `out` variable to point to newly allocated memory for storing the specified output type. After calling this function, the reaction should populate that memory with the content it intends to send to downstream reactors. This macro is equivalent to `SET_NEW_ARRAY(out, 1)`. See [StructPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructPrint.lf)
-
-> `SET_NEW_ARRAY(<out>, <length>);`
-
-This version is used for outputs with a type declaration ending with `[]` or `*`. This sets the _out_ variable to point to newly allocated memory sufficient to hold an array of the specified length containing the output type in each element. The caller should subsequently populate the array with the contents that it intends to send to downstream reactors. See [ArrayPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayPrint.lf).
-
-**Dynamically allocated strings:** If an output is to be a dynamically allocated string, as opposed to a static string constant, then you can use `SET_NEW_ARRAY` to allocate the memory, and the memory will be automatically freed downstream after the all users have read the string. To do this, set the output type to `char[]` or `char*` rather than `string` and call `SET_NEW_ARRAY` with the desired length. After this, _out_ will point to a char array of the required length. You can then populate it with your desired string, e.g. using `snprintf()`. See [DistributedToken.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/DistributedToken.lf)
-
-> `SET_PRESENT(<out>);`
-
-This version just sets the `<out>->is_present` variable corresponding to the specified output to true. This is normally used with array outputs with fixed sizes and statically allocated structs. In these cases, the values in the output are normally written directly to the array or struct. See [ArrayAsType.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsType.lf)
-
-> `SET_TOKEN(<out>, <value>);`
-
-This version is used for outputs with a type declaration ending with `*` (any pointer) or `[]` (any array). The `<value>` argument should be a struct of type `token_t`. This can be the trickiest form to use, but it is rarely necessary for the programmer to create their own (dynamically allocated) instance of `token_t`. Consider the [SetToken.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetToken.lf) example:
+Consider the
+[SetToken.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetToken.lf)
+example:
 
 ```lf-c
     reactor Source {
         output out:int*;
         logical action a:int;
         reaction(startup) -> a {=
-            schedule_int(a, MSEC(200), 42);
+            lf_schedule_int(a, MSEC(200), 42);
         =}
         reaction(a) -> out {=
-            SET_TOKEN(out, a->token);
+            lf_set_token(out, a->token);
         =}
     }
 ```
 
 Here, the first reaction schedules an integer-valued action to trigger after 200 microseconds. As explained below, action payloads are carried by tokens. The second reaction grabs the token rather than the value using the syntax `a->token` (the name of the action followed by `->token`). It then forwards the token to the output. The output data type is `int*` not `int` because the token carries a pointer to dynamically allocated memory that contains the value. All inputs and outputs with types ending in `*` or `[]` are carried by tokens.
 
-All of the `SET` macros will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also all set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
+> `lf_set_destructor(<out>, <destructor>);`
 
-### Dynamically Allocated Structs
+Specify the destructor `destructor` used to deallocate any dynamic data set on the output port `out`.
 
-The `SET_NEW` and `SET_TOKEN` macros can be used to send `structs` of arbitrary complexity. For example:
+> `lf_set_copy_constructor(<out>, <copy_constructor>);`
 
-```lf-c
-reactor StructPrint {
-    preamble {=
-        typedef struct hello_t {
-            char* name;
-            int value;
-        } hello_t;
-    =}
-    output out:hello_t*;
-    reaction(startup) -> out {=
-        // Dynamically allocate an output struct.
-        SET_NEW(out);
-        // Above allocates a struct, which then must be populated.
-        out->value->name = "Earth";
-        out->value->value = 42;
-    =}
-}
-```
+Specify the `copy_constructor` used to copy construct any dynamic data set on the output port `out` if the receiving port is $mutable$.
 
-The $preamble$ declares a struct type `hello_t` with two fields, and the `SET_NEW` macro allocates memory to contain such a struct. The subsequent code populates that memory. A reactor receiving this struct might look like this:
-
-```lf-c
-reactor Print() {
-    input in:hello_t*;
-    reaction(in) {=
-        printf("Received: name = %s, value = %d\n",
-            in->value->name, in->value->value
-        );
-    =}
-}
-```
-
-Just as with arrays, an input with a pointer type can be declared $mutable$, in which case it is safe to modify the fields and forward the struct.
-
-Occasionally, you will want an input or output type to be a pointer, but you don't want the automatic memory allocation and deallocation. A simple example is a string type, which in C is `char*`. Consider the following (erroneous) reactor:
-
-```lf-c
-reactor Erroneous {
-    output out:char*;
-    reaction(startup) -> out {=
-        SET(out, "Hello World");
-    =}
-}
-```
-
-An output data type that ends with `*` signals to Lingua Franca that the message is dynamically allocated and must be freed downstream after all recipients are done with it. But the `"Hello World"` string here is statically allocated, so an error will occur when the last downstream reactor to use this message attempts to free the allocated memory. To avoid this for strings, you can use the `string` type, defined in `reactor.h`, as follows:
-
-```lf-c
-reactor Fixed {
-    output out:string;
-    reaction(startup) -> out {=
-        SET(out, "Hello World");
-    =}
-}
-```
-
-The `string` type is equivalent to `char*`, but since it doesn't end with `*`, it does not signal to Lingua Franca that the type is dynamically allocated. Lingua Franca only handles allocation and deallocation for types that are specified literally with a final `*` in the type name. The same trick can be used for any type where you don't want automatic allocation and deallocation. E.g., the [SendsPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SendsPointerTest.lf) example looks like this:
-
-```lf-c
-reactor SendsPointer  {
-    preamble {=
-        typedef int* int_pointer;
-    =}
-    output out:int_pointer;
-    reaction(startup) -> out {=
-        static int my_constant = 42;
-        SET(out, &my_constant;)
-    =}
-}
-```
-
-The above technique can be used to abuse the reactor model of computation by communicating pointers to shared variables. This is generally a bad idea unless those shared variables are immutable. The result will likely be nondeterministic. Also, communicating pointers across machines that do not share memory will not work at all.
+`lf_set` (and `lf_set_token`) will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
 
 </div>
 
@@ -1303,7 +1255,12 @@ Currently `get_mutable_copy()` always copies the contained value to safely creat
 
 <div class="lf-py">
 
-In the body of a reaction in the Python target, the value of an input is obtained using the syntax `name.value`, where `name` is the name of the input port. To determine whether an input is present, use `name.is_present`. To produce an output, use the syntax `name.set(value)`. The `value` can be any valid Python object. For simple examples, see [Inputs and Outputs](/docs/handbook/inputs-and-outputs).
+In the body of a reaction in the Python target, the value of an input is
+obtained using the syntax `name.value`, where `name` is the name of the input
+port. To determine whether an input is present, use `name.is_present`. To
+produce an output, use the syntax `name.set(value)`. The `value` can be any
+valid Python object. For simple examples, see [Inputs and
+Outputs](/docs/handbook/inputs-and-outputs).
 
 ### Sending and Receiving Objects
 
@@ -1337,25 +1294,16 @@ class hello:
 
 In the reaction to **startup**, the reactor has created an instance object of this class (as local variable named `temp`) and passed it downstream using the `set` method on output port `out`.
 
-Alternatively, you can forego the variable and pass an instance object of the class directly to the port value, as is used in the [StructAsTypeDirect](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/StructAsTypeDirect.lf) example:
+The `set` method is defined as follows:
 
-```lf-py
-reactor Source {
-    output out;
-    reaction(startup) -> out {=
-        out.value = hello.hello()
-        out.value.name = "Earth"
-        out.value.value = 42
-        out.set(out.value)
-    =}
-}
-```
+> `<port>.set(<value>)`: Set the specified output port (or input of a contained
+> reactor) to the specified value. This value can be any Python object
+> (including `None` and objects of type `Any`). The value is
+> copied and therefore the variable carrying the value can be subsequently
+> modified without changing the output.
 
-The call to the `set` method is necessary to inform downstream reactors that the class object has a new value. In short, the `set` method is defined as follows:
-
-> `<port>.set(<value>)`: Set the specified output port (or input of a contained reactor) to the specified value. This value can be any Python object (including `None` and objects of type `Any`). The value is copied and therefore the variable carrying the value can be subsequently modified without changing the output.
-
-A reactor receiving the class object message can take advantage of Python's duck typing and directly access the object:
+A reactor receiving the class object message can subsequently access the object
+using `<port>.value`:
 
 ```lf-py
 reactor Print(expected(42)) {
@@ -1500,23 +1448,22 @@ The **preamble** code defines a custom union type of `string` and `null`.
 
 In the C target, the value of a time instant or interval is an integer specifying a number of nanoseconds. An instant is the number of nanoseconds that have elapsed since January 1, 1970. An interval is the difference between two instants. When an LF program starts executing, logical time is (normally) set to the instant provided by the operating system. (On some embedded platforms without real-time clocks, it will be set instead to zero.)
 
-Time in the C target is a `long long`, which is (normally) a 64 bit signed number. Since a 64-bit number has a limited range, this measure of time instants will overflow in approximately the year 2262. For better code clarity, two types are defined in [tag.h](https://github.com/lf-lang/reactor-c/blob/main/core/tag.h), `instant_t` and `interval_t`, which you can use for time instants and intervals respectively. These are both equivalent to `long long`, but using those types will insulate your code against changes and platform-specific customizations.
+Time in the C target is a `int64_t`, which is a 64-bit signed number. Since a 64-bit number has a limited range, this measure of time instants will overflow in approximately the year 2262. For better code clarity, two types are defined in [tag.h](https://github.com/lf-lang/reactor-c/blob/main/core/tag.h), `instant_t` and `interval_t`, which you can use for time instants and intervals respectively. These are both equivalent to `int64_t`, but using those types will insulate your code against changes and platform-specific customizations.
 
-Lingua Franca uses a superdense model of time. A reaction is invoked at a logical **tag**, a struct consists of a `time` value (an `instant_t`, which is a `long long`) and a `microstep` value (a `microstep_t`, which is an unsigned `int`). The tag is guaranteed to not increase during the execution of a reaction. Outputs produced by a reaction have the same tag as the inputs, actions, or timers that trigger the reaction, and hence are **logically simultaneous**.
+Lingua Franca uses a superdense model of time. A reaction is invoked at a logical **tag**, a struct consisting of a `time` value (an `instant_t`, which is a `int64_t`) and a `microstep` value (a `microstep_t`, which is an `uint32_t`). The tag is guaranteed to not increase during the execution of a reaction. Outputs produced by a reaction have the same tag as the inputs, actions, or timers that trigger the reaction, and hence are **logically simultaneous**.
 
 The time structs and functions for working with time are defined in [tag.h](https://github.com/lf-lang/reactor-c/blob/main/core/tag.h). The most useful functions are:
 
-- `tag_t get_current_tag()`: Get the current tag at which this reaction has been invoked.
-- `instant_t get_logical_time()`: Get the current logical time (the first part of the current tag).
-- `microstep_t get_microstep() `: Get the current microstep (the second part of the current tag).
-- `interval_t get_elapsed_logical_time()`: Get the logical time elapsed since program start.
-- `int compare_tags(tag_t, tag_t)`: Compare two tags, returning -1, 0, or 1 for less than, equal, and greater than.
+- `tag_t lf_tag()`: Get the current tag at which this reaction has been invoked.
+- `int lf_tag_compare(tag_t, tag_t)`: Compare two tags, returning -1, 0, or 1 for less than, equal, and greater than.
+- `instant_t lf_time_logical()`: Get the current logical time (the first part of the current tag).
+- `interval_t lf_time_logical_elapsed()`: Get the logical time elapsed since program start.
 
 There are also some useful functions for accessing physical time:
 
-- `instant_t get_physical_time()`: Get the current physical time.
-- `instant_t get_elapsed_physical_time()`: Get the physical time elapsed since program start.
-- `instant_t get_start_time()`: Get the starting physical and logical time.
+- `instant_t lf_time_physical()`: Get the current physical time.
+- `instant_t lf_time_physical_elapsed()`: Get the physical time elapsed since program start.
+- `instant_t lf_time_start()`: Get the starting physical and logical time.
 
 The last of these is both a physical and logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
 
@@ -1526,8 +1473,8 @@ A reaction can examine the current logical time (which is constant during the ex
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        instant_t logical = get_logical_time();
-        printf("Logical time is %lld.\n", logical);
+        instant_t logical = lf_time_logical();
+        info_print("Logical time is %ld.", logical);
     =}
 }
 ```
@@ -1551,8 +1498,8 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        interval_t elapsed = get_elapsed_logical_time();
-        printf("Elapsed logical time is %lld.\n", elapsed);
+        interval_t elapsed = lf_time_logical_elapsed();
+        info_print("Elapsed logical time is %ld.", elapsed);
     =}
 }
 ```
@@ -1574,8 +1521,8 @@ You can also get physical time, which comes from your platform's real-time clock
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        instant_t physical = get_physical_time();
-        printf("Physical time is %lld.\n", physical);
+        instant_t physical = lf_time_physical();
+        info_print("Physical time is %ld.", physical);
     =}
 }
 ```
@@ -1597,8 +1544,8 @@ Finally, you can get elapsed physical time:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        instant_t elapsed_physical = get_elapsed_physical_time();
-        printf("Elapsed physical time is %lld.\n", elapsed_physical);
+        instant_t elapsed_physical = lf_time_physical_elapsed();
+        info_print("Elapsed physical time is %ld.", elapsed_physical);
     =}
 }
 ```
@@ -1612,7 +1559,7 @@ Elapsed physical time is 2004761000.
 ...
 ```
 
-Notice that these numbers are increasing by _roughly_ one second each time. If you set the `fast` target parameter to `true`, then physical time will elapse much faster than logical time.
+Notice that these numbers are increasing by _roughly_ one second each time. If you set the `fast` target parameter to `true`, then logical time will elapse much faster than physical time.
 
 Working with nanoseconds in C code can be tedious if you are interested in longer durations. For convenience, a set of macros are available to the C programmer to convert time units into the required nanoseconds. For example, you can specify 200 msec in C code as `MSEC(200)` or two weeks as `WEEKS(2)`. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these. Examples are given in the next section.
 
@@ -1745,25 +1692,27 @@ which prints:
 
 Timers are specified exactly as in the [Time and Timers](/docs/handbook/time-and-timers). When working with time in the Python code body of a reaction, however, you will need to know a bit about its internal representation.
 
-In the Python target, similar to the C target, the value of a time instant or interval is an integer specifying a number of nanoseconds. An instant is the number of nanoseconds that have elapsed since January 1, 1970. An interval is the difference between two instants. When an LF program starts executing, logical time is (normally) set to the instant provided by the operating system (on some embedded platforms without real-time clocks, it will be set to zero instead).
+In the Python target, similar to the C target, the value of a time instant or
+interval is an integer specifying a number of nanoseconds. An instant is the
+number of nanoseconds that have elapsed since January 1, 1970. An interval is
+the difference between two instants.
 
-The functions for working with time and tags are defined in [pythontarget.c](https://github.com/lf-lang/reactor-c-py/blob/main/lib/pythontarget.c#L961). The most useful functions are:
+The functions for working with time and tags are:
 
-- `get_current_tag() -> Tag`: Returns a Tag instance of the current tag at which this reaction has been invoked.
-- `get_logical_time() -> int`: Get the current logical time (the first part of the current tag).
-- `get_microstep() -> unsigned int`: Get the current microstep (the second part of the current tag).
-- `get_elapsed_logical_time() -> int`: Get the logical time elapsed since program start.
-- `compare_tags(Tag, Tag) -> int`: Compare two `Tag` instances, returning -1, 0, or 1 for less than, equal, and greater than. `Tag`s can also be compared using rich comparators (ex. `<`, `>`, `==`), which returns `True` or `False`.
+- `lf.tag() -> Tag`: Returns a Tag instance of the current tag at which this reaction has been invoked.
+- `lf.tag_compare(Tag, Tag) -> int`: Compare two `Tag` instances, returning -1, 0, or 1 for less than, equal, and greater than. `Tag`s can also be compared using rich comparators (ex. `<`, `>`, `==`), which returns `True` or `False`.
+- `lf.time.logical() -> int`: Get the current logical time (the first part of the current tag).
+- `lf.time.logical_elapsed() -> int`: Get the logical time elapsed since program start.
 
 `Tag`s can be initialized using `Tag(time=some_number, microstep=some_other_number)`.
 
 There are also some useful functions for accessing physical time:
 
-- `get_physical_time() -> int`: Get the current physical time.
-- `get_elapsed_physical_time() -> int`: Get the physical time elapsed since program start.
-- `get_start_time() -> int`: Get the starting physical and logical time.
+- `lf.time.physical() -> int`: Get the current physical time.
+- `lf.time.physical_elapsed() -> int`: Get the physical time elapsed since program start.
+- `lf.time.start() -> int`: Get the starting physical and logical time.
 
-The last of these is both a physical and logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
+The last of these is both a physical and a logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
 
 A reaction can examine the current logical time (which is constant during the execution of the reaction). For example, consider the [GetTime.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/GetTime.lf) example:
 
@@ -1771,7 +1720,7 @@ A reaction can examine the current logical time (which is constant during the ex
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        logical = get_logical_time()
+        logical = lf.time.logical()
         print("Logical time is ", logical)
     =}
 }
@@ -1796,7 +1745,7 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        elapsed = get_elapsed_logical_time()
+        elapsed = lf.time.logical_elapsed()
         print("Elapsed logical time is ", elapsed)
     =}
 }
@@ -1819,7 +1768,7 @@ You can also get physical time, which comes from your platform's real-time clock
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        physical = get_physical_time()
+        physical = lf.time.physical()
         print("Physical time is ", physical)
     =}
 }
@@ -1842,7 +1791,7 @@ Finally, you can get elapsed physical time:
 main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
-        elapsed_physical = get_elapsed_physical_time()
+        elapsed_physical = lf.time.physical_elapsed()
         print("Elapsed physical time is ", elapsed_physical)
     =}
 }
@@ -1859,7 +1808,7 @@ Elapsed physical time is  2000178600
 ...
 ```
 
-Notice that these numbers are increasing by roughly one second each time. If you set the `fast` target parameter to `true`, then physical time will elapse much faster than logical time.
+Notice that these numbers are increasing by roughly one second each time. If you set the `fast` target parameter to `true`, then logical time will elapse much faster than physical time.
 
 Working with nanoseconds in the Python code can be tedious if you are interested in longer durations. For convenience, a set of functions are available to the Python programmer to convert time units into the required nanoseconds. For example, you can specify 200 msec in Python code as `MSEC(200)` or two weeks as `WEEKS(2)`. The provided functions are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these. Examples are given in the next section.
 
@@ -2100,10 +2049,10 @@ reactor DelayInt(delay:time(100 msec)) {
     output out:int;
     logical action d:int;
     reaction(d) -> out {=
-        SET(out, d->value);
+        lf_set(out, d->value);
     =}
     reaction(in) -> d {=
-        schedule_int(d, self->delay, in->value);
+        lf_schedule_int(d, self->delay, in->value);
     =}
 }
 ```
@@ -2124,7 +2073,7 @@ is equivalent to
 
 (except that our `DelayInt` reactor will only work with data type `int`).
 
-In the `Delay` reactor, the action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **schedule** function, namely **schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
+In the `Delay` reactor, the action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **lf_schedule** function, namely **lf_schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
 
 The first reaction declares that it is triggered by `d` and has effect `out`. To
 read the value, it uses the `d->value` variable. Because this reaction is first,
@@ -2139,7 +2088,7 @@ If you are not sure whether an action carries a value, you can test for it as fo
 ```lf-c
     reaction(d) -> out {=
         if (d->has_value) {
-            SET(out, d->value);
+            lf_set(out, d->value);
         }
     =}
 ```
@@ -2154,12 +2103,12 @@ reactor CountSelf(delay:time(100 msec)) {
     output out:int;
     logical action a:int;
     reaction(startup) -> a, out {=
-        SET(out, 0);
-        schedule_int(a, self->delay, 1);
+        lf_set(out, 0);
+        lf_schedule_int(a, self->delay, 1);
     =}
     reaction(a) -> a, out {=
-        SET(out, a->value);
-        schedule_int(a, self->delay, a->value + 1);
+        lf_set(out, a->value);
+        lf_schedule_int(a, self->delay, a->value + 1);
     =}
 }
 ```
@@ -2465,19 +2414,19 @@ reaction(a) -> out, a {=
 
 <div class="lf-c">
 
-Actions with values can be rather tricky to use because the value must usually be carried in dynamically allocated memory. It will not work for value to refer to a state variable of the reactor because that state variable will likely have changed value by the time the reactions to the action are invoked. Several variants of the `schedule` function are provided to make it easier to pass values across time in varying circumstances.
+Actions with values can be rather tricky to use because the value must usually be carried in dynamically allocated memory. It will not work for value to refer to a state variable of the reactor because that state variable will likely have changed value by the time the reactions to the action are invoked. Several variants of the `lf_schedule` function are provided to make it easier to pass values across time in varying circumstances.
 
-> `schedule(<action>, <offset>);`
+> `lf_schedule(<action>, <offset>);`
 
 This is the simplest version as it carries no value. The action need not have a data type.
 
-> `schedule_int(<action>, <offset>, <value>);`
+> `lf_schedule_int(<action>, <offset>, <value>);`
 
 This version carries an `int` value. The datatype of the action is required to be `int`.
 
-> `schedule_token(<action>, <offset>, <value>);`
+> `lf_schedule_token(<action>, <offset>, <value>);`
 
-This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `schedule_token()` (see [Dynamically Allocated Structs](#Dynamically-Allocated-Structs) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any datatype carried by a token:
+This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `lf_schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Structs](#Dynamically-Allocated-Structs) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any datatype carried by a token:
 
 ```lf-c
 reactor DelayPointer(delay:time(100 msec)) {
@@ -2485,23 +2434,23 @@ reactor DelayPointer(delay:time(100 msec)) {
     output out:void*;
     logical action a:void*;
     reaction(a) -> out {=
-        // Using SET_TOKEN delegates responsibility for
+        // Using lf_set_token delegates responsibility for
         // freeing the allocated memory downstream.
-        SET_TOKEN(out, a->token);
+        lf_set_token(out, a->token);
     =}
     reaction(in) -> a {=
         // Schedule the actual token from the input rather than
         // a new token with a copy of the input value.
-        schedule_token(a, self->delay, in->token);
+        lf_schedule_token(a, self->delay, in->token);
     =}
 }
 ```
 
-> `schedule_value**(<action>, <offset>, <value>, <length>);`
+> `lf_schedule_value**(<action>, <offset>, <value>, <length>);`
 
 This version is used to send into the future a value that has been dynamically allocated malloc. It will be automatically freed when it is no longer needed. The _value_ argument is a pointer to the memory containing the value. The _length_ argument should be 1 if it is a not an array and the array length otherwise. This length will be needed downstream to interpret the data correctly. See [ScheduleValue.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ScheduleValue.lf).
 
-> `schedule_copy(<action>, <offset>, <value>, <length>);`
+> `lf_schedule_copy(<action>, <offset>, <value>, <length>);`
 
 This version is for sending a copy of some data pointed to by the `<value>` argument. The data is assumed to be a scalar or array of type matching the `<action>` type. The `<length>` argument should be 1 if it is a not an array and the array length otherwise. This length will be needed downstream to interpret the data correctly.
 
@@ -2513,11 +2462,11 @@ reactor DelayString(delay:time(100 msec)) {
     output out:string;
     logical action a:string;
     reaction(a) -> out {=
-        SET(out, a->value);
+        lf_set(out, a->value);
     =}
     reaction(in) -> a {=
         // The following copies the char*, not the string.
-        schedule_copy(a, self->delay, &(in->value), 1);
+        lf_schedule_copy(a, self->delay, &(in->value), 1);
     =}
 }
 ```
@@ -2577,9 +2526,19 @@ containing `"Hello"`.
 
 ## Stopping Execution
 
-<div class="lf-c lf-py">
+<div class="lf-c">
 
-A reaction may request that the execution stop after all events with the current timestamp have been processed by calling the built-in function `request_stop()`, which takes no arguments. In a non-federated execution, the actual last tag of the program will be one microstep later than the tag at which `request_stop()` was called. For example, if the current tag is `(2 seconds, 0)`, the last (stop) tag will be `(2 seconds, 1)`. In a federated execution, however, the stop time will likely be larger than the current logical time. All federates are assured of stopping at the same logical time.
+A reaction may request that the execution stop after all events with the current timestamp have been processed by calling the built-in method `request_stop()`, which takes no arguments. In a non-federated execution, the actual last tag of the program will be one microstep later than the tag at which `request_stop()` was called. For example, if the current tag is `(2 seconds, 0)`, the last (stop) tag will be `(2 seconds, 1)`. In a federated execution, however, the stop time will likely be larger than the current logical time. All federates are assured of stopping at the same logical time.
+
+> The [timeout](/docs/handbook/termination#timeout) target property will take precedence over this function. For example, if a program has a timeout of `2 seconds` and `request_stop()` is called at the `(2 seconds, 0)` tag, the last tag will still be `(2 seconds, 0)`.
+
+</div>
+
+<div class="lf-py">
+
+A reaction may request that the execution stop after all events with the current timestamp have been processed by calling the built-in method `lf.request_stop()`, which takes no arguments. In a non-federated execution, the actual last tag of the program will be one microstep later than the tag at which `lf.request_stop()` was called. For example, if the current tag is `(2 seconds, 0)`, the last (stop) tag will be `(2 seconds, 1)`. In a federated execution, however, the stop time will likely be larger than the current logical time. All federates are assured of stopping at the same logical time.
+
+> The [timeout](/docs/handbook/termination#timeout) target property will take precedence over this function. For example, if a program has a timeout of `2 seconds` and `request_stop()` is called at the `(2 seconds, 0)` tag, the last tag will still be `(2 seconds, 0)`.
 
 </div>
 
@@ -2587,14 +2546,6 @@ A reaction may request that the execution stop after all events with the current
 
 A reaction may request that the execution stops after all events with the current timestamp have been processed by calling `environment()->sync_shutdown()`. There is also a method `environment()->async_shutdown()`
 which may be invoked from outside an reaction, like an external thread.
-
-</div>
-
-<div class="lf-py">
-
-A reaction may request that the execution stop after all events with the current timestamp have been processed by calling the built-in function `request_stop()`, which takes no arguments. In a non-federated execution, the actual last tag of the program will be one microstep later than the tag at which `request_stop()` was called. For example, if the current tag is `(2 seconds, 0)`, the last (stop) tag will be `(2 seconds, 1)`.
-
-> The [timeout](/docs/handbook/termination#timeout) target specification will take precedence over this function. For example, if a program has a timeout of `2 seconds` and `request_stop()` is called at the `(2 seconds, 0)` tag, the last tag will still be `(2 seconds, 0)`.
 
 </div>
 
@@ -2719,7 +2670,7 @@ The strategy is to have two queues of pending accessor invocations, one that is 
 
 3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` command-line argument is given). Then advance logical time to match that earliest timestamp.
 
-4. Execute reactions in order of priority from the reaction queue. These reactions may produce outputs, which results in more events getting put on the reaction queue. Those reactions are assured of having lower priority than the reaction that is executing. If a reaction calls `schedule()`, an event will be put on the event queue, not the reaction queue.
+4. Execute reactions in order of priority from the reaction queue. These reactions may produce outputs, which results in more events getting put on the reaction queue. Those reactions are assured of having lower priority than the reaction that is executing. If a reaction calls `lf_schedule()`, an event will be put on the event queue, not the reaction queue.
 
 5. When the reaction queue is empty, go to 2.
 

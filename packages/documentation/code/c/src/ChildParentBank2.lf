@@ -5,7 +5,7 @@ reactor Child (
 ) {
     output out:int;
     reaction(startup) -> out {=
-        SET(out, self->parent_bank_index * 2 + self->bank_index);
+        lf_set(out, self->parent_bank_index * 2 + self->bank_index);
     =}
 }
 reactor Parent (
@@ -14,7 +14,7 @@ reactor Parent (
     c = new[2] Child(parent_bank_index = bank_index);
     reaction(c.out) {=
         for (int i=0; i < c_width; i++) {
-            printf("Received %d from child %d.\n", c[i].out->value, i);
+            info_print("Received %d from child %d.", c[i].out->value, i);
         }
     =}
 }

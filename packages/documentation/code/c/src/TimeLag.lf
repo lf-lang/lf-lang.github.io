@@ -2,10 +2,10 @@ target C;
 main reactor TimeLag {
     timer t(0, 1 sec);
     reaction(t) {=
-        interval_t t = get_elapsed_logical_time();
-        interval_t T = get_elapsed_physical_time();
-        printf(
-            "Elapsed logical time: %lld, physical time: %lld, lag: %lld\n",
+        interval_t t = lf_time_logical_elapsed();
+        interval_t T = lf_time_physical_elapsed();
+        info_print(
+            "Elapsed logical time: %lld, physical time: %lld, lag: %lld",
             t, T, T-t
         );
     =}

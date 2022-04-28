@@ -2,8 +2,8 @@ target Python;
 main reactor TimeLag {
     timer t(0, 1 sec);
     reaction(t) {=
-        t = get_elapsed_logical_time()
-        T = get_elapsed_physical_time()
+        t = lf.time.logical_elapsed()
+        T = lf.time.physical_elapsed()
         print(
             f"Elapsed logical time: {t}, physical time: {T}, lag: {T-t}"
         )

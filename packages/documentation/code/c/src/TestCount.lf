@@ -4,22 +4,20 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     state inputs_received:int(0);
     input x:int;
     reaction(x) {=
-        printf("Received %d.\n", x->value);
+        info_print("Received %d.", x->value);
         if (x->value != self->count) {
-            printf("ERROR: Expected %d.\n", self->count);
-            exit(1);
+            error_print_and_exit("Expected %d.", self->count);
         }
         self->count += self->stride;
         self->inputs_received++;
     =}
     reaction(shutdown) {=
-        printf("Shutdown invoked.\n");
+        info_print("Shutdown invoked.");
         if (self->inputs_received != self->num_inputs) {
-            printf("ERROR: Expected to receive %d inputs, but got %d.\n",
+            error_print_and_exit("Expected to receive %d inputs, but got %d.",
                 self->num_inputs,
                 self->inputs_received
             );
-            exit(2);
         }
     =}
 }
