@@ -30,6 +30,31 @@ Other than the RTI, if there are _n_ federates, then the code generator will gen
 
 A minimal federated execution is specified by using the **federated** keyword instead of **main** for the main federate. An example is given in [example/C/Federated/HelloWorld/HelloWorld.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorld.lf), which looks like this:
 
+$start(Federated)$
+
+```lf-c
+WARNING: No source file found: ../code/c/src/Federated.lf
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/Federated.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/Federated.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/Federated.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/Federated.lf
+```
+
+$end(Federated)$
+
+
 ```
 target C;
 reactor MessageGenerator { ... }
