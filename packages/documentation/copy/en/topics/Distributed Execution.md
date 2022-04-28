@@ -28,7 +28,7 @@ Other than the RTI, if there are _n_ federates, then the code generator will gen
 
 ## Minimal Example
 
-A minimal federated execution is specified by using the **federated** keyword instead of **main** for the main federate. An example is given in [example/C/Federated/HelloWorld/HelloWorld.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorld.lf), which looks like this:
+A minimal federated execution is specified by using the **federated** keyword instead of **main** for the main federate. An example is given below:
 
 $start(Federated)$
 
@@ -75,20 +75,15 @@ WARNING: No source file found: ../code/rs/src/Federated.lf
 
 $end(Federated)$
 
-The **federated** keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor. When you run the code generator on [test/C/src/federated/HelloDistributed.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/HelloDistributed.lf), the following three programs will appear in the `bin` directory:
+The **federated** keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor. When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/c/src/Federated.lf), the following three programs will appear in the `bin` directory:
 
-- HelloDistributed
-- HelloDistributed_s
-- HelloDistributed_d
+- Federated
+- Federated_s
+- Federated_d
 
-The root name, _HelloDistributed_, is the name of the .lf file from which these are generated. The suffixes "\_source" and "\_print" come from the names of the top-level instances. There will always be one federate for each top-level reactor instance.
+The root name, _Federated_, is the name of the .lf file from which these are generated. The suffixes "\_s" and "\_d" come from the names of the top-level instances. There will always be one federate for each top-level reactor instance.
 
-To run the program, you can simply run `bin/HelloDistributed`, which is a `bash` script that launches the other three programs. Alternatively, you can manually execute the RTI and the federate programs by starting them on the command line in any order.
-<!-- 
-In addition, one more `bash` shell scripts may be generated:
-
-- HelloDistributed.sh
--->
+To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the other three programs. Alternatively, you can manually execute the RTI and the federate programs by starting them on the command line in any order.
 
 This script is generated if any of the two federates, or the RTI are specified to be run on a remote machine (see below for how to do that). This script will copy the source files for the relevant program (but not the RTI) to the remote machine and compile them there. The RTI needs to be separately installed on the remote machine.
 
