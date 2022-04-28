@@ -96,7 +96,10 @@ WARNING: No source file found: ../code/rs/src/Federated.lf
 
 $end(Federated)$
 
-The **federated** keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor. When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/c/src/Federated.lf), the following three programs will appear in the `bin` directory:
+The **federated** keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor. 
+
+<div class="lf-c">
+When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/c/src/Federated.lf), the following three programs will appear in the `bin` directory:
 
 - Federated
 - Federated_s
@@ -104,9 +107,35 @@ The **federated** keyword tells the code generator that the program is to be spl
 
 The root name, _Federated_, is the name of the .lf file from which these are generated. The suffixes "\_s" and "\_d" come from the names of the top-level instances. There will always be one federate for each top-level reactor instance.
 
-To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the other three programs. Alternatively, you can manually execute the RTI and the federate programs by starting them on the command line in any order.
+To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s` and `Federated_d`. Alternatively, you can manually execute the RTI followed the two federate programs by starting them on the command line in any order.
 
-This script is generated if any of the two federates, or the RTI are specified to be run on a remote machine (see below for how to do that). This script will copy the source files for the relevant program (but not the RTI) to the remote machine and compile them there. The RTI needs to be separately installed on the remote machine.
+<!-- This script is generated if any of the two federates, or the RTI are specified to be run on a remote machine (see below for how to do that). This script will copy the source files for the relevant program (but not the RTI) to the remote machine and compile them there. The RTI needs to be separately installed on the remote machine. -->
+
+</div>
+
+<div class="lf-py">
+
+```diff
+WARNING: Add Python-specific explanation.
+```
+
+</div>
+
+<div class="lf-ts">
+When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/ts/src/Federated.lf), the following programs will appear in the `bin` and `src-gen/dist` directories:
+
+- bin/Fedeated
+- src-gen/dist/Fedeated/Federated_s.js
+- src-gen/dist/Fedeated/Federated_d.js
+
+To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s.js` and `Federated_d.js`. Alternatively, you can manually execute the RTI followed the two federate programs by running the following `node` commands in separate terminals.
+
+- `node src-gen/dist/Fedeated/Federated_s.js`
+- `node src-gen/dist/Fedeated/Federated_d.js`
+
+The instructions to run each federate will also show up in the logs when you code-generate on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/ts/src/Federated.lf). 
+
+</div>
 
 ## Coordinated Start
 
