@@ -36,7 +36,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**protobufs**](#protobufs): An array of .proto files that are to be compiled and included in the generated code.
 - [**runtime-version**](#runtime-version): Specify which version of the runtime system to use.
 - [**threading**](#threading): Whether to use multiple threads.
-- [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [[Termination]].
+- [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](/docs/handbook/termination).
 - [**workers**](#workers): If using multiple threads, how many worker threads to create.
 
 Not all targets support all target parameters. The full set of target parameters supported by the $target-language$ target is:
