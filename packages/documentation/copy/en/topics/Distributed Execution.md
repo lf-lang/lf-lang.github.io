@@ -66,7 +66,28 @@ WARNING: No source file found: ../code/py/src/Federated.lf
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Federated.lf
+target TypeScript;
+
+reactor Source {
+    output out:string;
+    reaction(startup) -> out {=
+        out = "Hello World!";
+        util.requestStop();
+    =}
+}
+reactor Destination {
+    input inp:string;
+    reaction(inp) {=
+        console.log(`Received: $inp`);
+    =}
+}
+
+federated reactor Federated {
+    s = new Source();
+    d = new Destination();
+    s.out -> d.inp;
+}
+
 ```
 
 ```lf-rs
