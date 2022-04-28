@@ -136,9 +136,16 @@ To run the program, you can simply run `bin/Federated`, which is a `bash` script
 
 <div class="lf-py">
 
-```diff
-WARNING: Add Python-specific explanation.
-```
+When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/py/src/Federated.lf), the following programs will appear in the `bin` and `src-gen` directories:
+
+- bin/Fedeated
+- src-gen/Federated/s/Federated_s.py
+- src-gen/Federated/d/Federated_d.py
+
+To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s.py` and `Federated_d.py`. Alternatively, you can manually execute the RTI followed the two federate programs by running the following `python3` commands in separate terminals.
+
+- `python3 src-gen/Federated/s/Federated_s.py`
+- `python3 src-gen/Federated/d/Federated_d.py`
 
 </div>
 
