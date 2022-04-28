@@ -145,7 +145,10 @@ An action may have a data type, in which case, a variant of the `schedule()` fun
 
 <div class="lf-py">
 
-The arguments to the `a.schedule()` method is a time. The action `a` has to be declared as an effect of the reaction in order to reference it in reaction. If you fail to declare it as an effect (after the `->` in the reaction signature), then you will get a runtime error message.
+The arguments to the `a.schedule()` method is a time. The action `a` has to be
+declared as an effect of the reaction in order to reference it in the body of
+the reaction. If you fail to declare it as an effect (after the `->` in the
+reaction signature), then you will get a runtime error message.
 
 The time argument to the `a.schedule()` method expects an integer. A collection
 of convenience functions is provided like the `MSEC` function above to specify
