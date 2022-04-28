@@ -1,7 +1,5 @@
 # Handled by @oss-docs/sync
 copy/*
 !copy/en
-code/c/bin
-code/c/src-gen
-code/ts/bin
-code/ts/src-gen
+code/*/bin
+code/*/src-gen
