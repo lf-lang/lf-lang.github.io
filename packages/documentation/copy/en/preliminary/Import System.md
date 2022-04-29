@@ -5,7 +5,6 @@ permalink: /docs/handbook/import-system
 oneline: "Import System (preliminary)"
 preamble: >
 ---
-
 _The following topics are meant as collections of design ideas, with the purpose of refining them into concrete design proposals._
 
 # Current Implementation of Imports
@@ -19,7 +18,6 @@ This can be useful if the `.lf` file is located in the same directory as the fil
 However, several shortcomings exist in this current system which we shall discuss next.
 
 ## Duplicate Reactor Names
-
 Reactors with the same name can cause issues. For example:
 
 ```
@@ -32,36 +30,32 @@ There is no way for the LF program to distinguish between the two `Puppy` reacto
 **Note.** With a relatively trivial extension to the current LF import mechanism, it is possible to detect duplicates, but there is no way to circumvent them in the current LF program (i.e., the original names might have to be changed).
 
 ## Selective Importing
-
 Selective importing is not possible. For example, using
-
+    
 ```
 import CatsAndPuppies.lf
 ```
-
+ 
 will import all the reactors contained in the `.lf` file. It would be desirable to selectively import a subset of reactors in another `.lf` file.
 
 ## Qualified Paths
-
 Currently, there is no elegant way of importing modules that are not in the same directory.
 
 ## Renaming
-
 All the reactors imported will have the name originally given to them by the original programmer. It might make sense to rename them for the current LF program.
 
 ## Packages
-
 With the current import solution that only uses files, implementing packages in Lingua Franca is not feasible.
 
-# Proposed Solution
 
+# Proposed Solution
 With inspirations from Python, we propose the following import mechanism:
 
 ```
-"import" LF_Trunc_File/module ("," LF_Trunc_File/module)*
+"import" LF_Trunc_File/module ("," LF_Trunc_File/module)* 
               | "from" LFTruncFile/module "import" reactor ["as" name]
                 ("," reactor ["as" name] )*
-              | "from" LF_Trunc_File/module "import" "*"
+              | "from" LF_Trunc_File/module "import" "*" 
 ```
 
 Before discussing some examples, let's discuss `LF_Trunc_File/module`. First and foremost, `LF_Truc_File` stands for Lingua Franca Truncated File, which is a `name.lf` file with the `.lf` removed. Therefore, the legacy support for import can be carried over as:
@@ -85,11 +79,11 @@ With that in mind, let's discuss some examples on how this might work next.
 The content of the `HelloWorld.lf` example is as follows:
 
 ```
-target C;
+target C; 
 reactor SayHello {
     timer t;
     reaction(t) {=
-        info_print("Hello World.");
+        printf("Hello World.\n");
     =}
 }
 main reactor HelloWorldTest {
@@ -98,9 +92,8 @@ main reactor HelloWorldTest {
 ```
 
 Let us create a `Greetings.lf` program based on HelloWorld.
-
 ```
-target C;
+target C; 
 import HelloWorld
 
 main reactor Greetings {
@@ -111,9 +104,8 @@ main reactor Greetings {
 To generate code for `Greetings.lf`, Lingua Franca first searches for a `HelloWorld.lf` file in the same directory as `Greetings.lf`. If not found, it will look for a `HelloWorld.LFM` in the known paths. If none is found, an error is raised.
 
 Now we can demonstrate selective import. For example:
-
 ```
-target C;
+target C; 
 from HelloWorld import SayHello
 
 main reactor Greetings {
@@ -122,9 +114,8 @@ main reactor Greetings {
 ```
 
 Finally, renaming can be done by using the `as` predicate:
-
 ```
-target C;
+target C; 
 from HelloWorld import SayHello as SayGreetings
 
 main reactor Greetings {

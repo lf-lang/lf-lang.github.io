@@ -19,10 +19,9 @@ $start(HelloWorld)$
 target C;
 main reactor {
     reaction(startup) {=
-        info_print("Hello World.");
+        printf("Hello World.\n");
     =}
 }
-
 ```
 
 ```lf-cpp

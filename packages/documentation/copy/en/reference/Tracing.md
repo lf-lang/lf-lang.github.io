@@ -161,7 +161,8 @@ Users can add their own tracepoints in order to provide low-overhead recording o
 ```
     reaction(startup) {=
         if (!register_user_trace_event("Description of event")) {
-            error_print_and_exit("Failed to register trace event.");
+            fprintf(stderr, "ERROR: Failed to register trace event.\n");
+            exit(1);
         }
     =}
 ```

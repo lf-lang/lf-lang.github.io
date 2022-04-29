@@ -12,7 +12,7 @@ reactor Destination(
 ) {
     input in:int;
     reaction(in) {=
-        info_print("Destination %d received %d.", self->bank_index, in->value);
+        printf("Destination %d received %d.\n", self->bank_index, in->value);
     =}
 }
 

@@ -53,7 +53,7 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
     =}
     reaction(a) -> a {=
         instant_t elapsed_logical_time = lf_time_logical_elapsed();
-        info_print("Logical time since start: \%lld nsec.",
+        printf("Logical time since start: \%lld nsec.\n",
             elapsed_logical_time
         );
         self->interval += self->incr;
@@ -175,7 +175,7 @@ target C;
 main reactor Timer {
     timer t(0, 1 sec);
     reaction(t) {=
-        info_print("Logical time is %lld.", lf_time_logical());
+        printf("Logical time is %lld.\n", lf_time_logical());
     =}
 }
 
@@ -261,8 +261,8 @@ target C;
 main reactor TimeElapsed {
     timer t(0, 1 sec);
     reaction(t) {=
-        info_print(
-            "Elapsed logical time is %lld.",
+        printf(
+            "Elapsed logical time is %lld.\n",
             lf_time_logical_elapsed()
         );
     =}
@@ -346,8 +346,8 @@ main reactor TimeLag {
     reaction(t) {=
         interval_t t = lf_time_logical_elapsed();
         interval_t T = lf_time_physical_elapsed();
-        info_print(
-            "Elapsed logical time: %lld, physical time: %lld, lag: %lld",
+        printf(
+            "Elapsed logical time: %lld, physical time: %lld, lag: %lld\n",
             t, T, T-t
         );
     =}
@@ -495,24 +495,25 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     state inputs_received:int(0);
     input x:int;
     reaction(x) {=
-        info_print("Received %d.", x->value);
+        printf("Received %d.\n", x->value);
         if (x->value != self->count) {
-            error_print_and_exit("Expected %d.", self->count);
+            printf("ERROR: Expected %d.\n", self->count);
+            exit(1);
         }
         self->count += self->stride;
         self->inputs_received++;
     =}
     reaction(shutdown) {=
-        info_print("Shutdown invoked.");
+        printf("Shutdown invoked.\n");
         if (self->inputs_received != self->num_inputs) {
-            error_print_and_exit("Expected to receive %d inputs, but got %d.",
+            printf("ERROR: Expected to receive %d inputs, but got %d.\n",
                 self->num_inputs,
                 self->inputs_received
             );
+            exit(2);
         }
     =}
 }
-
 ```
 
 ```lf-cpp

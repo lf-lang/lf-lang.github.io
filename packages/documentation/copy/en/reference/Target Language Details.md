@@ -402,7 +402,7 @@ main reactor StructAsState {
     =}
     state s:hello_t("Earth", 42);
     reaction(startup) {=
-        info_print("State s.name=\"%s\", value=%d.", self->s.name, self->s.value);
+        printf("State s.name=\"%s\", value=%d.\n", self->s.name, self->s.value);
     =}
 }
 ```
@@ -421,9 +421,10 @@ main reactor StructParameter(p:hello_t("Earth", 42)) {
         } hello_t;
     =}
     reaction(startup) {=
-        info_print("Parameter p.name=\"%s\", value=%d.", self->p.name, self->p.value);
+        printf("Parameter p.name=\"%s\", value=%d.\n", self->p.name, self->p.value);
         if (self->p.value != 42) {
-            error_print_and_exit("Expected 42.");
+            fprintf(stderr, "FAILED: Expected 42.\n");
+            exit(1);
         }
     =}
 }
@@ -940,12 +941,11 @@ The $preamble$ code defines a struct datatype. In the reaction to $startup$, the
 For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-arrays) for details.
 
 A reactor receiving the struct message uses the struct as normal in C:
-
 ```lf-c
 reactor Print() {
     input in:hello_t;
     reaction(in) {=
-        info_print("Received: name = %s, value = %d", in->value.name, in->value.value);
+        printf("Received: name = %s, value = %d\n", in->value.name, in->value.value);
     =}
 }
 ```
@@ -957,7 +957,6 @@ The preamble should not be repeated in this reactor definition if the two reacto
 Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
 
 Suppose the data structure of interest, its constructor and destructor are defined as follows:
-
 ```c
 typedef struct int_array_t {
     int* data;
@@ -1129,6 +1128,7 @@ Set the specified output (or input of a contained reactor) to the specified
 value using shallow copy. `lf_set` can be used with all supported data types
 (including type declarations that end with `*` or `[]`).
 
+
 > `lf_set_token(<out>, <value>);`
 
 This version is used to directly set the underlying reference-counted token in
@@ -1160,11 +1160,13 @@ Here, the first reaction schedules an integer-valued action to trigger after 200
 
 Specify the destructor `destructor` used to deallocate any dynamic data set on the output port `out`.
 
+
 > `lf_set_copy_constructor(<out>, <copy_constructor>);`
 
 Specify the `copy_constructor` used to copy construct any dynamic data set on the output port `out` if the receiving port is $mutable$.
 
 `lf_set` (and `lf_set_token`) will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
+
 
 </div>
 
@@ -1474,7 +1476,7 @@ main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
         instant_t logical = lf_time_logical();
-        info_print("Logical time is %ld.", logical);
+        printf("Logical time is %ld.\n", logical);
     =}
 }
 ```
@@ -1499,7 +1501,7 @@ main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
         interval_t elapsed = lf_time_logical_elapsed();
-        info_print("Elapsed logical time is %ld.", elapsed);
+        printf("Elapsed logical time is %ld.\n", elapsed);
     =}
 }
 ```
@@ -1522,7 +1524,7 @@ main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
         instant_t physical = lf_time_physical();
-        info_print("Physical time is %ld.", physical);
+        printf("Physical time is %ld.\n", physical);
     =}
 }
 ```
@@ -1545,7 +1547,7 @@ main reactor GetTime {
     timer t(0, 1 sec);
     reaction(t) {=
         instant_t elapsed_physical = lf_time_physical_elapsed();
-        info_print("Elapsed physical time is %ld.", elapsed_physical);
+        printf("Elapsed physical time is %ld.\n", elapsed_physical);
     =}
 }
 ```

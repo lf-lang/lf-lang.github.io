@@ -5,7 +5,7 @@ import Overwriting from "../Overwriting.lf";
 main reactor {
     s = new Overwriting();
     reaction(s.y) {=
-        info_print("At logical time %lld, s = %d.",
+        printf("At logical time %lld, s = %d.\n",
             lf_time_logical_elapsed(), s.y->value
         );
     =}

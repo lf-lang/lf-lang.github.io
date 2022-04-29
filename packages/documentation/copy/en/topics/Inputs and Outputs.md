@@ -125,10 +125,9 @@ reactor Destination {
         if (y->is_present) {
             sum += y->value;
         }
-        info_print("Received %d.", sum);
+        printf("Received %d.\n", sum);
     =}
 }
-
 ```
 
 ```lf-cpp

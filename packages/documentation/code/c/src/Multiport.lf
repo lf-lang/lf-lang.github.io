@@ -14,7 +14,7 @@ reactor Destination {
         for (int i = 0; i < in_width; i++) {
             if (in[i]->is_present) sum += in[i]->value;
         }
-        info_print("Sum of received: %d.", sum);
+        printf("Sum of received: %d.\n", sum);
     =}
 }
 main reactor {

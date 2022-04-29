@@ -4,8 +4,8 @@ reactor Child (
     parent_bank_index:int(0)
 ) {
     reaction(startup) {=
-        info_print(
-            "My bank index: %d. My parent's bank index: %d.",
+        printf(
+            "My bank index: %d. My parent's bank index: %d.\n",
             self->bank_index, self->parent_bank_index
         );
     =}

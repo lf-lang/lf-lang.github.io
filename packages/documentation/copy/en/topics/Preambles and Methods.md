@@ -25,7 +25,7 @@ main reactor {
     reaction(t) {=
         char* s = "42";
         int i = atoi(s);
-        info_print("Converted string %s to int %d.", s, i);
+        printf("Converted string %s to int %d.\n", s, i);
     =}
 }
 ```
@@ -49,7 +49,7 @@ main reactor {
     =}
     timer t;
     reaction(t) {=
-        info_print("42 plus 42 is %d.", add_42(42));
+        printf("42 plus 42 is %d.\n", add_42(42));
     =}
 }
 ```
