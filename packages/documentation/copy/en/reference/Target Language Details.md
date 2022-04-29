@@ -66,7 +66,7 @@ In terms of raw performance on CPU intensive operations, TypeScript reactors are
 
 In the Rust reactor target for Lingua Franca, reactions are written in Rust and the code generator generates a standalone Rust program that can be compiled and run on platforms supported by rustc. The program depends on a runtime library distributed as the crate [reactor_rt](https://github.com/lf-lang/reactor-rust), and depends on the Rust standard library.
 
-Documentation for the runtime API is available here: https://lf-lang.org/reactor-rust/
+Documentation for the runtime API is available here: https://lf-lang.github.io/reactor-rust/
 
 LF-Rust generates a Cargo project per compiled main reactor. This specification assumes in some places that the user is somewhat familiar with how Cargo works.
 If you're not, here's a primer:
@@ -2546,7 +2546,7 @@ containing `"Hello"`.
 
 <div class="lf-rs">
 
-Within a reaction, actions may be scheduled using the [`schedule`](https://lf-lang.org/reactor-rust/reactor_rt/struct.ReactionCtx.html#method.schedule) function:
+Within a reaction, actions may be scheduled using the [`schedule`](https://lf-lang.github.io/reactor-rust/reactor_rt/struct.ReactionCtx.html#method.schedule) function:
 
 ```rust
 // schedule without additional delay
@@ -3226,7 +3226,7 @@ cargo-dependencies: {
 ```
 
 The dependency is always included, with defaults picked by LFC. The location information (_path_/_git_/_version_ key) is optional.
-See [reactor_rt](https://lf-lang.org/reactor-rust/reactor_rt/index.html) for the supported features.
+See [reactor_rt](https://lf-lang.github.io/reactor-rust/reactor_rt/index.html) for the supported features.
 
 #### Linking support files
 
@@ -3399,7 +3399,7 @@ Port bank of type `T`
 
 Undeclared dependencies, and dependencies on timers and `startup` or `shutdown`, do not generate a parameter.
 
-The [`ReactionCtx`](https://lf-lang.org/reactor-rust/reactor_rt/struct.ReactionCtx.html) object is a mediator to manipulate all those dependency objects. It has methods to set ports, schedule actions, retrieve the current logical time, etc.
+The [`ReactionCtx`](https://lf-lang.github.io/reactor-rust/reactor_rt/struct.ReactionCtx.html) object is a mediator to manipulate all those dependency objects. It has methods to set ports, schedule actions, retrieve the current logical time, etc.
 
 For instance:
 
