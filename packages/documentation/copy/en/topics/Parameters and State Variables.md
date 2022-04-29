@@ -201,7 +201,16 @@ reactor Count {
 ```
 
 ```lf-ts
-WARNING: No source file found: ../code/ts/src/Count.lf
+target TypeScript
+reactor Count {
+    state count:number(0)
+    output y:number
+    timer t(0, 100 msec)
+    reaction(t) -> y {=
+        y = count++
+    =}
+}
+
 ```
 
 ```lf-rs
