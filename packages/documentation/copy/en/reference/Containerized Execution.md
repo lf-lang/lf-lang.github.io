@@ -2,7 +2,7 @@
 title: "Containerized Execution"
 layout: docs
 permalink: /docs/handbook/containerized-execution
-oneline: "Containerized Execution (preliminary)"
+oneline: "Containerized Execution using Docker"
 preamble: >
 ---
 For the `C` target at least, the Lingua Franca code generator is able to generate a Dockerfile when it generates the C source files. To enable this, include the `docker` property in your target specification, as follows:

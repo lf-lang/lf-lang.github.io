@@ -78,6 +78,7 @@ const handbookPages = [
       { file: "reference/Target Language Details.md" },
       { file: "reference/Target Declaration.md" },
       { file: "reference/Tracing.md" },
+      { file: "reference/Containerized Execution.md" },
     ],
   },
   {
@@ -93,29 +94,6 @@ const handbookPages = [
       { file: "developer/Running Benchmarks.md" },
     ]
   },
-  {
-    title: "Preliminary Development",
-    summary: "Capabilities under development",
-    items: [
-      { file: "preliminary/Containerized Execution.md" },
-      { file: "preliminary/Generic Types, Interfaces, and Inheritance.md" },
-      { file: "preliminary/Target-Supported Features.md" },
-      { file: "preliminary/Reactors on Patmos.md" },
-    ],
-  },
-  {
-    title: "Less Developed Topics",
-    summary: "Less mature topics in progress",
-    items: [
-      { file: "less-developed/Logical Execution Time.md" },
-      { file: "less-developed/Tools.md" },
-      { file: "less-developed/Timing Analysis.md" },
-      { file: "less-developed/Related Work.md" },
-      { file: "less-developed/Future Proof Package and Import System.md" },
-      { file: "less-developed/RFC Modal Models (first draft).md" },
-    ],
-  },
-  
 ]
 
 const copyPath = join(__dirname, "..", "copy");

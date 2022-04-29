@@ -191,7 +191,7 @@ The preservation of timestamps across federates implies some constraints (see [p
 
 ## Containerized Execution
 
-See [containerized execution](/docs/handbook/containerized-execution).
+See [ution](/docs/handbook/containerized-execution).
 
 FIXME: [Here](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/docker/federated/DistributedCountContainerized.lf) is an test that imports an [existing](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/DistributedCount.lf) federated test with the addition of a docker: true flag in the target property of the test. This test will automatically run in multiple Docker containers (one for the RTI and one for each federate) in our CI.
 

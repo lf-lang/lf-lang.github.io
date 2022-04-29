@@ -204,6 +204,12 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/tracing",
           oneline: "Tracing (preliminary)",
         },
+        {
+          title: "Containerized Execution",
+          id: "3-containerized-execution",
+          permalink: "/docs/handbook/containerized-execution",
+          oneline: "Containerized Execution using Docker",
+        },
       ],
     },
     {
@@ -249,84 +255,6 @@ export function getDocumentationNavForLanguage(
           id: "4-running-benchmarks",
           permalink: "/docs/handbook/running-benchmarks",
           oneline: "Running Benchmarks.",
-        },
-      ],
-    },
-    {
-      title: "Preliminary Development",
-      oneline: "Capabilities under development",
-      id: "preliminary-development",
-      chronological: false,
-
-      items: [
-        {
-          title: "Containerized Execution",
-          id: "5-containerized-execution",
-          permalink: "/docs/handbook/containerized-execution",
-          oneline: "Containerized Execution (preliminary)",
-        },
-        {
-          title: "Generic Types, Interfaces, and Inheritance",
-          id: "5-generic-types,-interfaces,-and-inheritance",
-          permalink: "/docs/handbook/generic-types-interfaces-inheritance",
-          oneline: "Generic Types, Interfaces, and Inheritance (preliminary)",
-        },
-        {
-          title: "Target-Supported Features",
-          id: "5-target-supported-features",
-          permalink: "/docs/handbook/features",
-          oneline: "Which features are supported by which target?",
-        },
-        {
-          title: "Reactors on Patmos",
-          id: "5-reactors-on-patmos",
-          permalink: "/docs/handbook/reactors-on-patmos",
-          oneline: "Reactors on Patmos (preliminary)",
-        },
-      ],
-    },
-    {
-      title: "Less Developed Topics",
-      oneline: "Less mature topics in progress",
-      id: "less-developed-topics",
-      chronological: false,
-
-      items: [
-        {
-          title: "Logical Execution Time",
-          id: "6-logical-execution-time",
-          permalink: "/docs/handbook/logical-execution-time",
-          oneline: "Reactions that take non-zero logical time to execute.",
-        },
-        {
-          title: "Tools",
-          id: "6-tools",
-          permalink: "/docs/handbook/tools",
-          oneline: "LF Tools.",
-        },
-        {
-          title: "Timing Analysis",
-          id: "6-timing-analysis",
-          permalink: "/docs/handbook/timing-analysis",
-          oneline: "Timing Analysis.",
-        },
-        {
-          title: "Related Work",
-          id: "6-related-work",
-          permalink: "/docs/handbook/related-work",
-          oneline: "Related Work",
-        },
-        {
-          title: "Future Proof Package/Import System",
-          id: "6-future-proof-package/import-system",
-          permalink: "/docs/handbook/proof-import",
-          oneline: "A future proof package and import system",
-        },
-        {
-          title: "RFC: Modal Models (Draft I)",
-          id: "6-rfc:-modal-models-(draft-i)",
-          permalink: "/docs/handbook/rfc-modal",
-          oneline: "RFC: Modal Models (first draft)",
         },
       ],
     },
