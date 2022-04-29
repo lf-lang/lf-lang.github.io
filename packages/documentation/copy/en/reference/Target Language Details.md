@@ -170,13 +170,17 @@ The C++ target does not yet implement:
 
 <div class="lf-ts">
 
-<span class="warning">FIXME</span>
+- The $federated$ implementation in the TypeScript target is still quite preliminary.
+
+- The TypeScript target does not yet implement methods.
 
 </div>
 
 <div class="lf-rs">
 
-<span class="warning">FIXME</span>
+The Rust target does not yet implement:
+
+- $federated$
 
 </div>
 
@@ -877,7 +881,7 @@ s = new Source(sequence={= new Array<number() =});
 
 <div class="lf-rs">
 
-<span class="warning">FIXME: Get from below</span>
+Parameters and state variables in Rust are accessed on the `self` structure, as shown in [Parameter Declaration](/docs/handbook/parameters-and-state-variables#parameter-declaration).
 
 </div>
 
@@ -1438,7 +1442,7 @@ The **preamble** code defines a custom union type of `string` and `null`.
 
 <div class="lf-rs">
 
-<span class="warning">FIXME: Get from below</span>
+Inputs and outputs in the Rust target are accessed using the `set` and `get` methods of the `ctx` objects, as shown in [Inputs and Outputs](/docs/handbook/inputs-and-outputs).
 
 </div>
 
@@ -2031,7 +2035,7 @@ enum TimeUnit {
 
 <div class="lf-rs">
 
-<span class="warning">FIXME: Get from below</span>
+<span class="warning">FIXME: details needed here on time in Rust.</span>
 
 </div>
 
@@ -2406,7 +2410,29 @@ reaction(a) -> out, a {=
 
 <div class="lf-rs">
 
-<span class="warning">FIXME: Get from below</span>
+Actions may carry values if they mention a data type, for instance:
+
+```rust
+logical action act: u32;
+```
+
+Within a reaction, you can schedule that action with a value like so
+
+```rust
+ctx.schedule_with_v(act, Asap, 30);
+```
+
+you can get the value from another reaction like so:
+
+```rust
+if let Some(value) = ctx.get_action(act) {
+  // a value is present at this tag
+} else {
+  // value was not specified
+}
+```
+
+If an action does not mention a data type, the type defaults to `()`.
 
 </div>
 
@@ -2520,7 +2546,16 @@ containing `"Hello"`.
 
 <div class="lf-rs">
 
-<span class="warning">FIXME: Get from below</span>
+Within a reaction, actions may be scheduled using the [`schedule`](https://lf-lang.org/reactor-rust/reactor_rt/struct.ReactionCtx.html#method.schedule) function:
+
+```rust
+// schedule without additional delay
+ctx.schedule(act, Asap);
+// schedule with an additional delay
+ctx.schedule(act, after!(20 ms));
+// that's shorthand for
+ctx.schedule(act, After(Duration.of_millis(20)));
+```
 
 </div>
 
@@ -2559,7 +2594,7 @@ A reaction may request that the execution stop by calling the function `util.req
 
 <div class="lf-rs">
 
-<span class="warning">FIXME: Get from below</span>
+<span class="warning">FIXME: Details needed here.</span>
 
 </div>
 
@@ -2620,13 +2655,23 @@ The Python supports the [logging](/docs/handbook/target-declaration#logging) tar
 
 <div class="lf-ts">
 
-<span class="warning">FIXME: Get from below</span>
+<span class="warning">FIXME: Details needed here.</span>
 
 </div>
 
 <div class="lf-rs">
 
-<span class="warning">FIXME: Get from below</span>
+
+The executable reacts to the environment variable `RUST_LOG`, which sets the logging level of the application. Possible values are
+`off`, `error`, `warn`, `info`, `debug`, `trace`
+
+Error and warning logs are on by default. Enabling a level enables all greater levels (ie, `RUST_LOG=info` also enables `warn` and `error`, but not `trace` or `debug`).
+
+Logging can also be turned on with the `--log-level` CLI option, if the application features a [CLI](#cli).
+
+Note that the `logging` target property is ignored, as its levels do not match the Rust standard levels we use (those of the [`log` crate](https://docs.rs/log/)).
+
+Note that when building with a release profile (i.e., target property `build-type` is not `Debug`), all log statements with level `debug` and `trace` are removed from the executable, and cannot be turned on at runtime. A warning is produced by the executable if you try to use these levels explicitly.
 
 </div>
 
@@ -3049,20 +3094,6 @@ to navigate the docs.
 
 <div class="lf-rs">
 
-<span class="warning">FIXME: Get from below</span>
-
-</div>
-
-[comment]: <> (================= END =====================)
-
-[comment]: <> (================= NEW LANGUAGE =====================)
-
-</div>
-
-[comment]: <> (================= FIXME: Fold what's below into above sections =====================)
-
-<div class="lf-rs">
-
 ### Target properties summary
 
 Target properties may be mentioned like so:
@@ -3111,18 +3142,6 @@ The generated executable may feature a command-line interface (CLI), if it uses 
 
 When the `cli` feature is disabled, the parameters of the main reactor will each assume their default value.
 
-#### Logging levels
-
-The executable reacts to the environment variable `RUST_LOG`, which sets the logging level of the application. Possible values are
-`off`, `error`, `warn`, `info`, `debug`, `trace`
-
-Error and warning logs are on by default. Enabling a level enables all greater levels (ie, `RUST_LOG=info` also enables `warn` and `error`, but not `trace` or `debug`).
-
-Logging can also be turned on with the `--log-level` CLI option, if the application features a [CLI](#cli).
-
-Note that the `logging` target property is ignored, as its levels do not match the Rust standard levels we use (those of the [`log` crate](https://docs.rs/log/)).
-
-Note that when building with a release profile (i.e., target property `build-type` is not `Debug`), all log statements with level `debug` and `trace` are removed from the executable, and cannot be turned on at runtime. A warning is produced by the executable if you try to use these levels explicitly.
 
 ### File layout
 
@@ -3424,42 +3443,5 @@ reactor Source {
 In this example, the context object `ctx` is used to set a port to a value. The port is in scope as `out`.
 
 > :warning: TODO when the runtime crate is public link to the docs, they should be the most exhaustive documentation.
-
-#### Actions
-
-Within a reaction, actions may be scheduled using the [`schedule`](https://lf-lang.org/reactor-rust/reactor_rt/struct.ReactionCtx.html#method.schedule) function:
-
-```rust
-// schedule without additional delay
-ctx.schedule(act, Asap);
-// schedule with an additional delay
-ctx.schedule(act, after!(20 ms));
-// that's shorthand for
-ctx.schedule(act, After(Duration.of_millis(20)));
-```
-
-Actions may carry values if they mention a data type, for instance:
-
-```rust
-logical action act: u32;
-```
-
-Within a reaction, you can schedule that action with a value like so
-
-```rust
-ctx.schedule_with_v(act, Asap, 30);
-```
-
-you can get the value from another reaction like so:
-
-```rust
-if let Some(value) = ctx.get_action(act) {
-  // a value is present at this tag
-} else {
-  // value was not specified
-}
-```
-
-If an action does not mention a data type, the type is defaulted to `()`.
 
 </div>

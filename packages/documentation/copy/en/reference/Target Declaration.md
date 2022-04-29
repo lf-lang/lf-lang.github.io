@@ -22,6 +22,8 @@ A target specification may have optional parameters, the names and values of whi
 
 - [**build**](#build): A command to execute after code generation instead of the default compile command.
 - [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
+- [**cargo-dependencies**](#cargo-dependencies): (Rust only) FIXME
+- [**cargo-features**](#cargo-features): (Rust only) List of string names for features to include.
 - [**cmake**](#cmake): Whether to use cmake for building.
 - [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
@@ -99,7 +101,11 @@ target TypeScript {
 ```
 
 ```lf-rs
-FIXME
+target Rust {
+    build-type: <Debug, Release, RelWithDebInfo, or RelMinSize>,
+    cargo-features: <array of strings>,
+    cargo-dependencies: <list of key-value pairs>,
+}
 ```
 
 <div class="lf-c">
