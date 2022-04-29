@@ -22,7 +22,7 @@ A target specification may have optional parameters, the names and values of whi
 
 - [**build**](#build): A command to execute after code generation instead of the default compile command.
 - [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
-- [**cargo-dependencies**](#cargo-dependencies): (Rust only) FIXME
+- [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
 - [**cargo-features**](#cargo-features): (Rust only) List of string names for features to include.
 - [**cmake**](#cmake): Whether to use cmake for building.
 - [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
