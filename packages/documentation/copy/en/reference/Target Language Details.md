@@ -2667,7 +2667,7 @@ The executable reacts to the environment variable `RUST_LOG`, which sets the log
 
 Error and warning logs are on by default. Enabling a level enables all greater levels (ie, `RUST_LOG=info` also enables `warn` and `error`, but not `trace` or `debug`).
 
-Logging can also be turned on with the `--log-level` CLI option, if the application features a [CLI](#cli).
+Logging can also be turned on with the `--log-level` CLI option, if the application features a [CLI](/docs/handbook/target-declaration#command-line-arguments).
 
 Note that the `logging` target property is ignored, as its levels do not match the Rust standard levels we use (those of the [`log` crate](https://docs.rs/log/)).
 
@@ -3094,7 +3094,7 @@ to navigate the docs.
 
 <div class="lf-rs">
 
-### Target properties summary
+### Target Properties
 
 Target properties may be mentioned like so:
 
@@ -3109,39 +3109,11 @@ target Rust {
 }
 ```
 
-The full list of supported target properties:
+See [Target Declaration](/docs/handbook/target-declaration) for the full list of supported target properties.
 
-- `build-type: [Debug | Release | RelWithDebInfo | RelMinSize]` - profile to use for the cargo build command. This property uses the CMake names: `Debug` corresponds to Cargo's `dev` profile, and `Release` is self-explanatory. The other two profiles are mapped to custom Cargo profiles, and are special cases of `Release`.
-- `cargo-features: <string array>` - list of features of the generated crate. Supported are:
-  - "cli" - enable [command-line argument parsing](#cli)
-- `cargo-dependencies: { ... }` - list of dependencies to include in the generated Cargo.toml file. The value of this parameter is a map of package name to _dependency-spec_ (see [Specifying dependencies](#specifying-dependencies)).
-- `export-dependency-graph: [true|false]` - dump the dependency graph to a file in DOT format before starting the execution. If a [CLI](#cli) is generated, the target property is ignored, and the user should instead use the `--export-graph` flag of the generated program.
-- `rust-include: <string array>` - includes a set of Rust modules in the generated project. See [Linking support files](#linking-support-files).
-- `single-file-project: [true|false]` - enables [single-file project layout](#single-file-layout)
-- `timeout: <time value>` - timeout for the execution. The program will shutdown the specified amount of (logical) time after the start of its execution.
-- `keepalive: [true|false]` - supported for compatiblity with standard parameters but is ignored in the Rust target. The runtime framework is smart enough to stay put when some threads may push asynchronous events, and only shutdown when we know the event queue will remain empty forever.
+### The Executable
 
-Note that the `logging` target property is ignored by the Rust target, as the levels used are incompatible with the Rust standard levels. See [Logging levels](#logging-levels).
-
-### The executable
-
-The executable name is the name of the main reactor _transformed to snake_case_: `main reactor RustProgram` will generate `rust_program`.
-
-#### CLI
-
-The generated executable may feature a command-line interface (CLI), if it uses the `cargo-features: ["cli"]` target property. When that feature is enabled:
-
-- some target properties become settable at runtime:
-  - `--timeout <time value>`: override the default timeout mentioned as a target property. The syntax for times is just like the LF one (eg `1msec`, `"2 seconds"`).
-  - `--threads <number>`: override the default thread count mentioned as a target property. This option is **ignored** unless the runtime crate has been built with the feature `parallel-runtime`.
-  - `--export-graph`: export the dependency graph (corresponds to `export-dependency-graph` target property). This is a flag, ie, absent means false, present means true. This means the value of the target property is ignored and not used as default.
-  - `--log-level`: corresponds to the `logging` target property, but note that the levels have different meanings, and the target property is ignored. See [Logging levels](#logging-levels).
-- parameters of the main reactor are translated to CLI parameters.
-  - Each LF parameter named `param` corresponds to a CLI parameter named `--main-param`. Underscores in the LF parameter name are replaced by hyphens.
-  - The type of each parameters must implement the trait [`FromStr`](https://doc.rust-lang.org/std/str/trait.FromStr.html).
-
-When the `cli` feature is disabled, the parameters of the main reactor will each assume their default value.
-
+The executable name is the name of the main reactor _transformed to snake_case_: `main reactor RustProgram` will generate `rust_program`. See [Command-Line Arguments](/docs/handbook/target-declaration#command-line-arguments) for details.
 
 ### File layout
 
