@@ -19,7 +19,7 @@ const useLinguaFrancaLinks = [
   },
   {
     title: "Download",
-    url: "/download",
+    url: "/docs/handbook/download",
   },
   {
     title: "Why Lingua Franca",
