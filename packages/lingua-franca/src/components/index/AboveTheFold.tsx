@@ -40,6 +40,7 @@ export const AboveTheFold = () => {
       <Col>
         <h1>{i("index_2_headline", { bold: (...chunk) => <strong>{chunk}</strong> })}</h1>
         <p>{i("index_2_summary")}</p>
+        <p>{i("index_2_detail")}</p>
 
         <div className="call-to-action" style={{ justifyContent: "left" }}>
           <FluidButton

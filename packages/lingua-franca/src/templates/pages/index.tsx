@@ -66,7 +66,7 @@ const Index: React.FC<Props> = (props) => {
 
 
   return (
-    <Layout title="Lingua Franca" description="TypeScript extends JavaScript by adding types to the language. TypeScript speeds up your development experience by catching errors and providing fixes before you even run your code." lang={props.pageContext.lang} suppressCustomization suppressDocRecommendations>
+    <Layout title="Lingua Franca" description="Lingua Franca augments existing languages with a coordination layer that provides deterministic reactive concurrency and makes it easy to express timed behaviors." lang={props.pageContext.lang} suppressCustomization suppressDocRecommendations>
 
       <div id="index-2">
         <Section color="blue" className="headline">
