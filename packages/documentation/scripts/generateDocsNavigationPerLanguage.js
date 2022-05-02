@@ -39,7 +39,7 @@ const handbookPages = [
   },
   {
     title: "Writing Reactors",
-    summary: "Introduction to writing reactors.",
+    summary: "Introduction to writing reactors:",
     chronological: true,
     items: [
       { file: "topics/A First Reactor.md" },

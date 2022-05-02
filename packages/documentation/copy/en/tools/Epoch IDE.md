@@ -12,6 +12,7 @@ This page shows how to install and run the Epoch integrated development environm
 
 Download the appropriate `epoch_ide_...` file for your platform from:
 
+- [Version 0.2.0](https://github.com/lf-lang/lingua-franca/releases/tag/v0.2.0) (the most recent release)
 - [Nightly build](https://github.com/lf-lang/lingua-franca/releases/tag/nightly) (the most recent version, under development)
 
 ## Set Up Epoch in MacOS
@@ -44,8 +45,27 @@ If you instead start Epoch by double clicking on its icon, then when you compile
 
 ## Set Up Epoch in Linux
 
-**FIXME**
+**First**: Uncompress the download (shown assuming the 0.2.0 version):
+
+```
+tar xvf epoch_ide_0.2.0-linux.gtk.x86_64.tar.gz
+```
+
+**Second**: Find and execute the IDE:
+
+```
+cd epoch_ide_0.2.0-linux.gtk.x86_64
+./epoch
+```
+
+You can move this executable to a more convenient place, ideally somewhere in your `PATH`.
 
 ## Set Up Epoch in Windows
 
-**FIXME**
+**First**: In a terminal,
+
+```
+unzip epoch_ide_0.2.0-win32.win32.x86_64.zip
+cd epoch_ide_0.2.0-win32.win32.x86_64
+.\epoch
+```

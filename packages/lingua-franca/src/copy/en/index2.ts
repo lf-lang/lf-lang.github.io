@@ -23,13 +23,13 @@ export const indexCopy = {
   index_2_what_is: "What is Lingua Franca?",
   
   index_2_what_is_lf: "Reactors",
-  index_2_what_is_lf_copy: `Reactor Description here`,
+  index_2_what_is_lf_copy: `Reactor are concurrent software components with inputs, outputs, and local state.`,
   
   index_2_trust: "Concurrency",
-  index_2_trust_copy: `Concurrency description here`,
+  index_2_trust_copy: `Reactions are concurrent unless there is an explicit dependency between them.`,
   
   index_2_scale: "Determinism",
-  index_2_scale_copy: `determinism description here`,
+  index_2_scale_copy: `Lingua Franca programs are deterministic by default.`,
 
   // Links for getting started (this shows up twice)
   index_2_started_title: "Get Started",
