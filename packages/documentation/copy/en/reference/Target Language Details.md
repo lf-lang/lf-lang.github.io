@@ -945,6 +945,7 @@ The $preamble$ code defines a struct datatype. In the reaction to $startup$, the
 For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-arrays) for details.
 
 A reactor receiving the struct message uses the struct as normal in C:
+
 ```lf-c
 reactor Print() {
     input in:hello_t;
@@ -961,6 +962,7 @@ The preamble should not be repeated in this reactor definition if the two reacto
 Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
 
 Suppose the data structure of interest, its constructor and destructor are defined as follows:
+
 ```c
 typedef struct int_array_t {
     int* data;
@@ -1132,7 +1134,6 @@ Set the specified output (or input of a contained reactor) to the specified
 value using shallow copy. `lf_set` can be used with all supported data types
 (including type declarations that end with `*` or `[]`).
 
-
 > `lf_set_token(<out>, <value>);`
 
 This version is used to directly set the underlying reference-counted token in
@@ -1164,13 +1165,11 @@ Here, the first reaction schedules an integer-valued action to trigger after 200
 
 Specify the destructor `destructor` used to deallocate any dynamic data set on the output port `out`.
 
-
 > `lf_set_copy_constructor(<out>, <copy_constructor>);`
 
 Specify the `copy_constructor` used to copy construct any dynamic data set on the output port `out` if the receiving port is $mutable$.
 
 `lf_set` (and `lf_set_token`) will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
-
 
 </div>
 
@@ -2606,21 +2605,21 @@ A reaction may request that the execution stop by calling the function `util.req
 
 A suite of useful functions is provided in [util.h](https://github.com/lf-lang/reactor-c/blob/main/core/utils/util.h) for producing messages to be made visible when the generated program is run. Of course, you can always use `printf`, but this is not a good choice for logging or debug information, and it is not a good choice when output needs to be redirected to a window or some other user interface (see for example the [sensor simulator](https://github.com/lf-lang/reactor-c/blob/main/util/sensor_simulator.h)). Also, in federated execution, these functions identify which federate is producing the message. The functions are listed below. The arguments for all of these are identical to `printf` with the exception that a trailing newline is automatically added and therefore need not be included in the format string.
 
-- `DEBUG_PRINT(format, ...)`: Use this for verbose messages that are only needed during debugging. Nothing is printed unless the [target](/docs/handbook/target-specification#logging) parameter `logging` is set to `debug`. THe overhead is minimized when nothing is to be printed.
+- `LF_PRINT_DEBUG(format, ...)`: Use this for verbose messages that are only needed during debugging. Nothing is printed unless the [target](/docs/handbook/target-specification#logging) parameter `logging` is set to `debug`. THe overhead is minimized when nothing is to be printed.
 
-- `LOG_PRINT(format, ...)`: Use this for messages that are useful logs of the execution. Nothing is printed unless the [target parameter `logging`](/docs/handbook/target-specification#logging) is set to `log` or `debug`. This is a macro so that overhead is minimized when nothing is to be printed.
+- `LF_PRINT_LOG(format, ...)`: Use this for messages that are useful logs of the execution. Nothing is printed unless the [target parameter `logging`](/docs/handbook/target-specification#logging) is set to `log` or `debug`. This is a macro so that overhead is minimized when nothing is to be printed.
 
-- `info_print(format, ...)`: Use this for messages that should normally be printed but may need to be redirected to a user interface such as a window or terminal (see `register_print_function` below). These messages can be suppressed by setting the [logging target property](/docs/handbook/target-specification#logging) to `warn` or `error`.
+- `lf_print(format, ...)`: Use this for messages that should normally be printed but may need to be redirected to a user interface such as a window or terminal (see `register_print_function` below). These messages can be suppressed by setting the [logging target property](/docs/handbook/target-specification#logging) to `warn` or `error`.
 
-- `warning_print(format, ...)`: Use this for warning messages. These messages can be suppressed by setting the [logging target property](/docs/handbook/target-specification#logging) to `error`.
+- `lf_print_warning(format, ...)`: Use this for warning messages. These messages can be suppressed by setting the [logging target property](/docs/handbook/target-specification#logging) to `error`.
 
-- `error_print(format, ...)`: Use this for error messages. These messages are not suppressed by any [logging target property](/docs/handbook/target-specification#logging).
+- `lf_print_error(format, ...)`: Use this for error messages. These messages are not suppressed by any [logging target property](/docs/handbook/target-specification#logging).
 
-- `error_print_and_exit(format, ...)`: Use this for catastrophic errors.
+- `lf_print_error_and_exit(format, ...)`: Use this for catastrophic errors.
 
 In addition, a utility function is provided to register a function to redirect printed outputs:
 
-- `register_print_function(function)`: Register a function that will be used instead of `printf` to print messages generated by any of the above functions. The function should accept the same arguments as `printf`.
+- `lf_register_print_function(function)`: Register a function that will be used instead of `printf` to print messages generated by any of the above functions. The function should accept the same arguments as `printf`.
 
 </div>
 
@@ -2660,7 +2659,6 @@ The Python supports the [logging](/docs/handbook/target-declaration#logging) tar
 </div>
 
 <div class="lf-rs">
-
 
 The executable reacts to the environment variable `RUST_LOG`, which sets the logging level of the application. Possible values are
 `off`, `error`, `warn`, `info`, `debug`, `trace`
