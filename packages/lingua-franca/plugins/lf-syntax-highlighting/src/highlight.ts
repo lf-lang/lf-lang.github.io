@@ -39,7 +39,7 @@ const registry = new vsctm.Registry({
         const data: any = await readFile(grammarFile)
         return vsctm.parseRawGrammar(data.toString(), grammarFile)
       }
-      console.error(`Unknown scope name: ${scopeName}`)
+      console.warn(`Unknown scope name: ${scopeName}`)
       return Promise.resolve(null)
     }
 });
@@ -60,7 +60,7 @@ function implicitRuleStackFor(
   if (!lang) return null
   if (lang.trim() === "lf") return null
   if (!lang.includes("lf")) return null
-  if (code.includes("target")) return null
+  if (/target\s+(C|CCpp|Cpp|Python|Rust|TypeScript)/g.test(code)) return null
   let languageName: string | null = null
   if (!lang.includes("-")) {
     console.error(
