@@ -233,10 +233,10 @@ export function getDocumentationNavForLanguage(
           oneline: "Contribute to Lingua Franca.",
         },
         {
-          title: "Downloading",
-          id: "4-downloading",
+          title: "Downloading and Building",
+          id: "4-downloading-and-building",
           permalink: "/docs/handbook/download",
-          oneline: "Quick start with Lingua Franca.",
+          oneline: "Downloading and Building Lingua Franca.",
         },
         {
           title: "Developer Eclipse setup with Oomph",

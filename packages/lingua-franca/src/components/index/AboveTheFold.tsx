@@ -45,7 +45,7 @@ export const AboveTheFold = () => {
           <FluidButton
             title={i("index_2_cta_install")}
             subtitle={i("index_2_cta_install_subtitle")}
-            href="/docs/handbook/download"
+            href="/download"
             icon={
               <svg width="21" height="5" viewBox="0 0 21 5" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <rect x="0.5" y="0.5" width="4" height="4" stroke="black" />
@@ -67,7 +67,7 @@ export const AboveTheFold = () => {
           <FluidButton
             title={i("index_2_cta_download")}
             subtitle={i("index_2_cta_download_subtitle")}
-            href="/docs/handbook/download"
+            href="/download"
             onClick={() => event("Home Page CTA Exited", { link: "download" })}
             icon={
               <svg width="15" height="27" viewBox="0 0 15 27" fill="none" xmlns="http://www.w3.org/2000/svg">

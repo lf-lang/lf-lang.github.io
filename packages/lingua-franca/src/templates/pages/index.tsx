@@ -98,7 +98,7 @@ const Index: React.FC<Props> = (props) => {
                     <GetStarted href="docs/handbook/overview" classes="tall handbook" title="index_2_started_handbook" subtitle="index_2_started_handbook_blurb" />
                 </Col>
                 <Col key='download'>
-                    <GetStarted href="docs/handbook/download" classes="tall download" title="nav_download" subtitle="index_2_install" />
+                    <GetStarted href="/download" classes="tall download" title="nav_download" subtitle="index_2_install" />
                 </Col>
             </Row>
         </Section>
