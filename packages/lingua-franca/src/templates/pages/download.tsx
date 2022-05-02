@@ -25,7 +25,7 @@ const Index: React.FC<Props> = (props) => {
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Linux and macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.tar.gz">lfc 0.2.0 for Linux</a> and run:
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.tar.gz">lfc 0.2.0 for Linux/Mac</a> and run:
       <p><code>tar xvf lfc_0.2.0.tar.gz</code></p>
       <p><code>./lfc_0.2.0/bin/lfc --version</code></p>
         </div>
