@@ -16,17 +16,73 @@ const Col2 = (props: { children: any, className?: string }) => <div className={[
 
 const contributors = [
   {
+    name: "Soroush Bateni",
+    url: "https://personal.utdallas.edu/~soroush/",
+    image: "https://avatars.githubusercontent.com/u/4221770?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Postdocural researcher at UC Berkeley."
+  },
+  {
+    name: "Peter Donovan",
+    image: "https://avatars.githubusercontent.com/u/33707478?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Student Assistant at UC Berkeley.",
+  },
+  {
+    name: "Clément Fournier",
+    image: "https://avatars.githubusercontent.com/u/24524930?v=4",
+    country: "🇩🇪",
+    continentish: "Europe",
+    blurb: "Master student at TU Dresden.",
+  },
+  {
     name: "Edward A. Lee",
     url: "http://people.eecs.berkeley.edu/~eal/",
+    image: "https://avatars.githubusercontent.com/u/8513334?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Professor in the Graduate School at UC Berkeley."
+  },
+  {
+    name: "Hokeun Kim",
+    url: "https://hokeun.github.io/",
+    image: "https://avatars.githubusercontent.com/u/2585943?v=4",
+    country: "🇰🇷",
+    continentish: "East Asia",
+    blurb: "Assistant Professor at Hanyang University.",
   },
   {
     name: "Marten Lohstroh",
     url: "http://people.eecs.berkeley.edu/~marten/",
     image: "https://avatars.githubusercontent.com/u/19938940?v=4",
     twitter: "https://twitter.com/martenlohstroh",
-    country: "🇳🇱",
+    country: "🇺🇸",
     continentish: "North America",
-    blurb: "This is a test blurb.",
+    blurb: "Postdoctoral researcher at UC Berkeley.",
+  },
+  {
+    name: "Christian Menard",
+    url: "https://cfaed.tu-dresden.de/investigators-institutions/compiler-construction/ccc-staff/christian-menard",
+    image: "https://avatars.githubusercontent.com/u/6460123?v=4",
+    country: "🇩🇪",
+    continentish: "Europe",
+    blurb: "Graduate Student at TU Dresden.",
+  },
+  {
+    name: "Hou Seng (Steven) Wong",
+    image: "https://avatars.githubusercontent.com/u/46389172?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Student assistant at UC Berkeley.",
+  },
+  {
+    name: "Alexander Schulz-Rosengarten",
+    image: "https://avatars.githubusercontent.com/u/25612037?v=4",
+    country: "🇩🇪",
+    continentish: "Europe",
+    blurb: "Graduate student at Kiel University.",
   },
 ]
 

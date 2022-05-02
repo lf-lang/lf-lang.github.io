@@ -38,7 +38,7 @@ const contributors = [
     url: "http://people.eecs.berkeley.edu/~marten/",
     image: "https://avatars.githubusercontent.com/u/19938940?v=4",
     twitter: "https://twitter.com/martenlohstroh",
-    country: "🇳🇱",
+    country: "🇺🇸",
     continentish: "North America",
     blurb: "This is a test blurb.",
   },

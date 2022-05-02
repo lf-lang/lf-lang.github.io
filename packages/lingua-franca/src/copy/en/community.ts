@@ -5,7 +5,7 @@ export const comCopy = {
   com_headline: "Connect with us", // FIXME: I think this is not used anywhere
   com_connect_online: "Online",
   com_connect_online_description:
-    " Tell us what’s working well, what you want to see added or improved, and find out about new updates.",
+    "Tap into our online resources to learn more about Lingua Franca, provide feedback, connect with our developers, and find out about new updates.",
   com_online_publications_desc:
     "View our publications and presentations",
   com_online_publications_tag: "",
