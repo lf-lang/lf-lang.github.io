@@ -153,7 +153,8 @@ export const Comm: React.FC<Props> = props => {
                   <h5 className="community-callout-headline">{name}</h5>
                   <h6 className="blurb">{blurb}</h6>
                   <div className="text">{country}<br />
-                    <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a>
+                    {" "}{url? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a> 
+                    : null}
                     {" "}{twitter ? <a rel="noopener" target="blank" href={twitter} title={"Twitter page for " + name}>Twitter</a> : null}
                   </div>
                 </div>
