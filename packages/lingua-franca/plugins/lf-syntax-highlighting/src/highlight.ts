@@ -4,6 +4,10 @@ import * as vsctm from "vscode-textmate"
 import { Config } from "./config"
 import * as oniguruma from "vscode-oniguruma"
 
+/**
+ * Return a Promise that gives the contents of a file.
+ * @param p A path to the file relative to the location of this script.
+ */
 function readFile(p: string) {
     return new Promise((resolve, reject) => {
       return fs.readFile(
@@ -40,6 +44,14 @@ const registry = new vsctm.Registry({
     }
 });
 
+/**
+ * Initialize the syntax highlighter based on any implicit code (e.g., the target declaration) that
+ * may have been omitted from the user-visible text.
+ * @param lang The language of the code to be highlighted.
+ * @param code The code to be highlighted.
+ * @param grammar The set of grammar rules to use for highlighting.
+ * @returns The implicit initial state of the syntax highlighter.
+ */
 function implicitRuleStackFor(
   lang: string | undefined,
   code: string,
@@ -71,6 +83,11 @@ function implicitRuleStackFor(
   return ruleStack
 }
 
+/**
+ * Replace literal text with its corresponding escaped HTML representation.
+ * @param code Code to be escaped.
+ * @returns The HTML representation of the given code.
+ */
 function escapeHtml(code: string): string {
   return code
     .replace(/&/g, "&amp;")
@@ -80,6 +97,13 @@ function escapeHtml(code: string): string {
     .replace(/'/g, "&#039;")
 }
 
+/**
+ * Annotate the given code using HTML.
+ * @param code A block of code.
+ * @param grammar The grammar rules with which to annotate the code.
+ * @param lang The language of the code block.
+ * @returns The HTML representation of the annotated code block.
+ */
 function annotateCode(code: string, grammar: vsctm.IGrammar | undefined, lang: string): string {
   if (!grammar) return escapeHtml(code)
   let prevState: vsctm.StackElement | null = implicitRuleStackFor(lang, code, grammar)
@@ -112,6 +136,12 @@ type Node = {
   value: string
 }
 
+/**
+ * Visit and transform a Markdown AST.
+ * @param ast A Markdown AST.
+ * @param type The type of the nodes that should be transformed.
+ * @param transform The function with which to transform the selected nodes.
+ */
 function visit(ast: Node, type: string, transform: (node: Node) => void) {
   if (!ast) return;
   if (ast.type == type) transform(ast);
@@ -121,6 +151,12 @@ function visit(ast: Node, type: string, transform: (node: Node) => void) {
   }
 }
 
+/**
+ * Annotate the code blocks appearing in the given Markdown AST.
+ * @param param0 The Markdown AST to transform.
+ * @param pluginOptions Options passed to the highlighting plugin.
+ * @returns The transformed AST.
+ */
 export const processAST = async ({ markdownAST }, pluginOptions) => {
   const grammars: Map<string, vsctm.IGrammar> = new Map()
   for (const language of Config.languages) {
