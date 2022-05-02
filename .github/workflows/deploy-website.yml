@@ -25,6 +25,7 @@ jobs:
       # Builds the modules, and boostraps the other modules
       - name: Build website
         run: |
+          export YARN_ENABLE_IMMUTABLE_INSTALLS=false
           yarn install
           yarn bootstrap
           yarn build
