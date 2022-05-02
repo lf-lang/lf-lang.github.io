@@ -1,7 +1,6 @@
-// This stylesheet is closely based on VS Code's "Quiet Light" theme.
+// This stylesheet is closely based on VS Code's "Quiet Light" theme and VS Code's "Dark+" theme.
 
 pre.source-lf {
-
   overflow-x: auto;
   font-size: 0.8rem;
 
@@ -29,7 +28,9 @@ pre.source-lf {
     color: #9c5d27;
   }
 
-  [class*=entity-name-function] {
+  [class*=entity-name-function],
+  [class*=function-builtin],
+  [class*=function-call-generic] {
     color: #aa3731;
     font-weight: bold;
   }
@@ -51,5 +52,61 @@ pre.source-lf {
 
   [class*=variable] {
     color: #7a3e9d;
+  }
+}
+
+.dark-theme pre.source-lf {
+  [class*=keyword] {
+    color: #C586C0;
+  }
+
+  [class*=storage-modifier],
+  [class*=constant-language] {
+    color: #569CD6;
+  }
+
+  [class*=keyword-operator],
+  [class*=punctuation] {
+    color: #D4D4D4;
+  }
+
+
+  [class*=constant-character-escape] {
+    color: #D7BA7D;
+  }
+
+  [class*=comment] {
+    color: #6A9955;
+  }
+
+  [class*=constant-numeric],
+  [class*=variable-language] {
+    color: #B5CEA8;
+  }
+
+  [class*=entity-name-function],
+  [class*=function-builtin],
+  [class*=function-call-generic] {
+    color: #DCDCAA;
+    font-weight: normal;
+  }
+
+  [class*=entity-name-type],
+  [class*=entity-name-scope-resolution],
+  [class*=storage-type] {
+    color: #4EC9B0;
+    font-weight: normal;
+  }
+
+  [class*=keyword-operator-new] {
+    color: #569CD6;
+  }
+
+  [class*=string] {
+    color: #CE9178;
+  }
+
+  [class*=variable] {
+    color: #9CDCFE;
   }
 }
