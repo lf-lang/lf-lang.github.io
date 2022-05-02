@@ -48,7 +48,7 @@ export function getDocumentationNavForLanguage(
     },
     {
       title: "Writing Reactors",
-      oneline: "Introduction to writing reactors.",
+      oneline: "Introduction to writing reactors:",
       id: "writing-reactors",
       chronological: true,
 
