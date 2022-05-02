@@ -40,7 +40,7 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
       <h2>Epoch IDE</h2>
-      <p>Epoch can be installed in any directory. It is convenient to add the installation directory to your <code>PATH</code>. On a Mac, you can drag it to the Applications folder and open it from anywhere using <code>open -a epoch</code></p>
+      <p>Epoch can be installed in any directory. It is convenient to add the installation directory to your <code>PATH</code>. On a Mac, you can drag <code>epoch.app</code> to the Applications folder and open it from anywhere using <code>open -a epoch</code></p>
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Linux</h3>
@@ -55,7 +55,7 @@ const Index: React.FC<Props> = (props) => {
       <p><code>tar xvf epoch_ide_0.2.0-macosx.cocoa.x86_64.tar.gz</code></p>
       <p><code>cd epoch_ide_0.2.0-macosx.cocoa.x86_64</code></p>
       <p><code>xattr -cr epoch.app</code></p>
-      <p><code>open -a epoch.app</code></p>
+      <p><code>open epoch.app</code></p>
         </div>
 
         <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
