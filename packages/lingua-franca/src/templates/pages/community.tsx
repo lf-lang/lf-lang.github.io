@@ -38,20 +38,20 @@ const contributors = [
     blurb: "Master student at TU Dresden.",
   },
   {
-    name: "Edward A. Lee",
-    url: "http://people.eecs.berkeley.edu/~eal/",
-    image: "https://avatars.githubusercontent.com/u/8513334?v=4",
-    country: "🇺🇸",
-    continentish: "North America",
-    blurb: "Professor in the Graduate School at UC Berkeley."
-  },
-  {
     name: "Hokeun Kim",
     url: "https://hokeun.github.io/",
     image: "https://avatars.githubusercontent.com/u/2585943?v=4",
     country: "🇰🇷",
     continentish: "East Asia",
     blurb: "Assistant Professor at Hanyang University.",
+  },
+  {
+    name: "Edward A. Lee",
+    url: "http://people.eecs.berkeley.edu/~eal/",
+    image: "https://avatars.githubusercontent.com/u/8513334?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Professor in the Graduate School at UC Berkeley."
   },
   {
     name: "Marten Lohstroh",
