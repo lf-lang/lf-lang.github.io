@@ -138,7 +138,7 @@ export const processAST = async ({ markdownAST }, pluginOptions) => {
     const lang: string = (node.hasOwnProperty("lang") && node["lang"]) ? node["lang"] : "text"
     const key: string | undefined = lang.includes("lf") ? "lf" : lang.toLowerCase()
     const annotated = annotateCode(node.value, grammars.get(key), lang)
-    node.value = `<pre class="source-lf">${annotated}</pre>`
+    node.value = `<pre class="source-lf language-${lang}">${annotated}</pre>`
   })
   return markdownAST
 }
