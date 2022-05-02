@@ -40,7 +40,7 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
       <h2>Epoch IDE</h2>
-      <p>Epoch can be installed in any directory. It is most convenient to add the installation directory to your <code>PATH</code>.</p>
+      <p>Epoch can be installed in any directory. It is convenient to add the installation directory to your <code>PATH</code>. On a Mac, you can drag it to the Applications folder and open it from anywhere using <code>open -a epoch</code></p>
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Linux</h3>
