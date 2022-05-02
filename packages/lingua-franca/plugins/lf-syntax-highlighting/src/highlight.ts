@@ -94,7 +94,7 @@ function annotateCode(code: string, grammar: vsctm.IGrammar | undefined, lang: s
     let lengthAppended = 0
     for (const token of result.tokens) {
       annotatedLine += escapeHtml(line.substring(lengthAppended, token.startIndex))
-      annotatedLine += `<span class="${token.scopes.join(" ").replace(/\./g, " ")}">${
+      annotatedLine += `<span class="${token.scopes.join(" ").replace(/\./g, "-")}">${
         escapeHtml(line.substring(token.startIndex, token.endIndex))
       }</span>`
       lengthAppended = token.endIndex
@@ -137,7 +137,7 @@ export const processAST = async ({ markdownAST }, pluginOptions) => {
     const lang: string = (node.hasOwnProperty("lang") && node["lang"]) ? node["lang"] : "text"
     const key: string | undefined = lang.includes("lf") ? "lf" : lang.toLowerCase()
     const annotated = annotateCode(node.value, grammars.get(key), lang)
-    node.value = `<pre>${annotated}</pre>`
+    node.value = `<pre class="source-lf">${annotated}</pre>`
   })
   return markdownAST
 }

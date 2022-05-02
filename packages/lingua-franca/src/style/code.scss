@@ -1,54 +1,55 @@
 // This stylesheet is closely based on VS Code's "Quiet Light" theme.
 
-.keyword {
-  color: #4b69c6;
-}
+pre.source-lf {
 
-.keyword.control,
-.storage.modifier {
-  color: #4b69c6;
-}
-
-.keyword.operator,
-.constant.character.escape,
-.punctuation {
-  color: #777777;
-}
-
-.comment {
-  color: #aaaaaa;
-}
-
-.constant,
-.variable.language {
-  color: #9c5d27;
-}
-
-.entity.name.function {
-  color: #aa3731;
-  font-weight: bold;
-}
-
-.entity.name.type,
-.entity.name.scope-resolution,
-.storage.type {
-  color: #7a3e9d;
-  font-weight: bold;
-}
-
-.keyword.operator.new {
-  color: #777777;
-}
-
-pre {
   overflow-x: auto;
   font-size: 0.8rem;
-}
 
-.string {
-  color: #448c27;
-}
+  [class*=keyword] {
+    color: #4b69c6;
+  }
 
-.variable {
-  color: #7a3e9d;
+  [class*=keyword-control],
+  [class*=storage-modifier] {
+    color: #4b69c6;
+  }
+
+  [class*=keyword-operator],
+  [class*=constant-character-escape],
+  [class*=punctuation] {
+    color: #777777;
+  }
+
+  [class*=comment] {
+    color: #aaaaaa;
+  }
+
+  [class*=constant],
+  [class*=variable-language] {
+    color: #9c5d27;
+  }
+
+  [class*=entity-name-function] {
+    color: #aa3731;
+    font-weight: bold;
+  }
+
+  [class*=entity-name-type],
+  [class*=entity-name-scope-resolution],
+  [class*=storage-type] {
+    color: #7a3e9d;
+    font-weight: bold;
+  }
+
+  [class*=keyword-operator-new] {
+    color: #777777;
+  }
+
+  [class*=string] {
+    color: #448c27;
+  }
+
+  [class*=variable] {
+    color: #7a3e9d;
+  }
 }
