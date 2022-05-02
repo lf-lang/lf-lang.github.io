@@ -142,7 +142,7 @@ export const Comm: React.FC<Props> = props => {
       </div>
 
       <div className="raised main-content-block container community">
-        <h3 className="centered-highlight">Contributors</h3>
+        <h3 className="centered-highlight">Key Contributors</h3>
         <div className="events">
 
           <div className="callouts">
