@@ -45,22 +45,22 @@ export const QuickJump = (props: Props) => {
       </div>
 
       <div className="item raised">
-        <h4>Individual Reactors</h4>
+        <h4>Write your first reactor</h4>
         <ul>
           <li>
-            <IntlLink to="/docs/handbook/write-reactor-c">Reactor C</IntlLink>
+            <IntlLink to="/docs/handbook/a-first-reactor?targetSelector=lf-c">C</IntlLink>
           </li>
           <li>
-            <IntlLink to="/docs/handbook/write-reactor-c++">Reactor C++</IntlLink>
+            <IntlLink to="/docs/handbook/a-first-reactor?targetSelector=lf-cpp">C++</IntlLink>
           </li>
           <li>
-            <IntlLink to="/docs/handbook/write-reactor-py">Reactor Python</IntlLink>
+            <IntlLink to="/docs/handbook/a-first-reactor?targetSelector=lf-py">Python</IntlLink>
           </li>
           <li>
-            <IntlLink to="/docs/handbook/write-reactor-ts">Reactor TypeScript</IntlLink>
+            <IntlLink to="/docs/handbook/a-first-reactor?targetSelector=lf-ts">TypeScript</IntlLink>
           </li>
           <li>
-            <IntlLink to="/docs/handbook/write-reactor-rust">Reactor Rust</IntlLink>
+            <IntlLink to="/docs/handbook/a-first-reactor?targetSelector=lf-rs">Rust</IntlLink>
           </li>
         </ul>
       </div>

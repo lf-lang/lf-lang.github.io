@@ -14,56 +14,117 @@ const Index: React.FC<Props> = (props) => {
 
   return <Layout title="How to set up Lingua Franca" description="Use Lingua Franca" lang={props.pageContext.lang}>
     <div className="raised main-content-block">
-      <h1>Using Lingua Franca</h1>
-      <p>To get started with Lingua Franca immediately, download Epoch (our IDE) and/or lfc (our command-line compiler) from one of the following releases:</p>
-      <ul>
-            <li>
-              <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">Nightly Build</a>
-            </li>
-            <li>
-            <a href="https://github.com/lf-lang/lingua-franca/releases/tag/v0.1.0-alpha">Version 0.1.0-alpha</a>
-            </li>
-      </ul>
-      <p>IMPORTANT NOTE: MacOS will report that lflang.app is broken because it was not signed. To execute it, please run</p>
-      <p><code>xattr -cr epoch.app</code></p>
-      <p>first on the command line. Eventually, we will provide a signed download.</p>
-      <p>If you plan to just use the command-line compiler, you may want a language plugin for Vim and Neovim. See the installation instructions.</p>
+      <h1>Download and Install Lingua Franca</h1>
+      <p>The easiest way to get started with Lingua Franca is to install our Visual Studio Code extension from the <a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a> or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>. We also provide a command-line Lingua Franca compiler and an Eclipse-based IDE called Epoch.
+      </p>
     </div>
 
     <div className="raised main-content-block">
-      <h2>Working from the Git Repository</h2>
-      <p>If you plan to contribute to Lingua Franca, or if you want to keep up to date as the project evolves, you will need to work from the git repository on GitHub. There are several ways to do this:</p>
-
+      <h2>Lingua Franca Compiler (command-line)</h2>
+      <p>Our command line compiler can be installed in any directory. It is most convenient to add the <code>bin</code> directory to your <code>PATH</code>.</p>
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Recommended</h3>
-          <h4>Oomph setup for Eclipse:</h4> 
-          <p>Follow the Developer Eclipse setup with Oomph instructions.</p>
+          <h3>Linux and macOS</h3>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.tar.gz">lfc 0.2.0 for Linux</a> and run:
+      <p><code>tar xvf lfc_0.2.0.tar.gz</code></p>
+      <p><code>./lfc_0.2.0/bin/lfc --version</code></p>
+        </div>
+        <div style={{padding: "1rem", flex: 1, minWidth: "240px" }}>
+          <h3>Windows</h3>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.zip">lfc 0.2.0 for Windows</a> and run:
+      <p><code>unzip lfc_0.2.0.zip</code></p>
+      <p><code>.\lfc_0.2.0\bin\lfc.ps1 --version</code></p>
+        </div>
+      </section>
+    </div>
+
+    <div className="raised main-content-block">
+      <h2>Epoch IDE</h2>
+      <p>Epoch can be installed in any directory. It is most convenient to add the installation directory to your <code>PATH</code>.</p>
+      <section style={{ display: "flex", flexWrap: "wrap" }}>
+        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
+          <h3>Linux</h3>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/epoch_ide_0.2.0-linux.gtk.x86_64.tar.gz">Epoch IDE 0.2.0 for Linux</a> and run:
+      <p><code>tar xvf epoch_ide_0.2.0-linux.gtk.x86_64.tar.gz</code></p>
+      <p><code>cd epoch_ide_0.2.0-linux.gtk.x86_64</code></p>
+      <p><code>./epoch</code></p>
         </div>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Clone and Build</h3>
-          <p>You can Clone the Repository and build manually using gradle or maven.</p>
-          <ul>
-            <li>
-            Gradle: <code>./gradlew assemble</code> (the build also performs tests, which takes a long time)
-            </li>
-            <li style={{ marginTop: "20px" }}>
-            Maven: <code>mvn compile</code> (you need to install Maven first)
-            </li>
-          </ul>
+          <h3>macOS</h3>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/epoch_ide_0.2.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.2.0 for macOS</a> and run:
+      <p><code>tar xvf epoch_ide_0.2.0-macosx.cocoa.x86_64.tar.gz</code></p>
+      <p><code>cd epoch_ide_0.2.0-macosx.cocoa.x86_64</code></p>
+      <p><code>xattr -cr epoch.app</code></p>
+      <p><code>open -a epoch.app</code></p>
         </div>
 
         <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Kotlin</h3>
-          <p>Some of code generator components are written in Kotlin, which is not supported by Eclipse.</p>
-          <p>If you want a Kotlin-friendly developer environment using IntelliJ, you can follow the Developer IntelliJ Setup (for Kotlin) instructions to set it up.</p> 
-          <p>To build the Lingua Franca IDE (Epoch) with Kotlin-based code generators enabled (which is not possible with the Eclipse setup), please see the instructions in Running Lingua Franca IDE (Epoch) with Kotlin based Code Generators Enabled (without Eclipse Environment).</p>
+          <h3>Windows</h3>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/epoch_ide_0.2.0-win32.win32.x86_64.zip">Epoch IDE 0.2.0 for Windows</a> and run:
+      <p><code>unzip epoch_ide_0.2.0-win32.win32.x86_64.zip</code></p>
+      <p><code>cd epoch_ide_0.2.0-win32.win32.x86_64</code></p>
+      <p><code>.\epoch</code></p>
          </div>
       </section>
     </div>
-    <QuickJump title="Learning Resources" lang={props.pageContext.lang} />
+
+    <div className="raised main-content-block">
+      <h2>Development Setup</h2>
+      <p>If you'd like to contribute to Lingua Franca and build our toolchain on your own, you will need to check out our <a href="https://repo.lf-lang.org/">GitHub repository</a>. The toolchain can built using Gradle or Maven, which have integrations with most IDEs. For Eclipse users, we provide an Oomph setup.</p>
+
+      <section style={{ display: "flex", flexWrap: "wrap" }}>
+        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
+          <h3>Cloning our repository</h3>
+          <ul>
+          <li>If you have public-key authentication set up:
+          <p><code>git clone git@github.com:lf-lang/lingua-franca.git</code></p>
+          </li>
+          <li>If you prefer to clone using the web URL:
+          <p><code>git clone https://github.com/lf-lang/lingua-franca.git</code></p>
+          </li>
+          </ul>
+          
+        </div>
+        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
+          <h3>Building from the command line</h3>
+          <ul>
+            <li>Gradle: 
+                <p><code>./gradlew assemble</code> (the build also performs tests, which takes a long time)</p>
+            </li>
+            <li style={{ marginTop: "20px" }}>
+            Maven:
+            <p><code>mvn compile</code> (you need to install Maven first)</p>
+            </li>
+          </ul>
+        </div>
+        
+        <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
+          <h3>Oomph setup for Eclipse</h3>
+          <ul>
+              <li>Download the <a href="https://www.eclipse.org/downloads/index.php">Eclipse installer</a>.</li>
+              <li>
+              Click the Hamburger button at the top right corner and switch to "Advanced Mode".
+              </li>
+              <li>
+              Select "Eclipse IDE for Java and DSL developers".
+              </li>
+              <li>
+              Continue reading <a href="https://github.com/lf-lang/lingua-franca/wiki/Developer-Eclipse-Setup-with-Oomph">here...</a>
+              </li>
+          </ul>
+         </div>
+      </section>
+    </div>
+    
 
   </Layout>
 }
 
 export default (props: Props) => <Intl locale={props.pageContext.lang}><Index {...props} /></Intl>
+
+/*
+<QuickJump title="Learning Resources" lang={props.pageContext.lang} />
+ <p>Some of code generator components are written in Kotlin, which is not supported by Eclipse.</p>
+          <p>If you want a Kotlin-friendly developer environment using IntelliJ, you can follow the Developer IntelliJ Setup (for Kotlin) instructions to set it up.</p> 
+          <p>To build the Lingua Franca IDE (Epoch) with Kotlin-based code generators enabled (which is not possible with the Eclipse setup), please see the instructions in Running Lingua Franca IDE (Epoch) with Kotlin based Code Generators Enabled (without Eclipse Environment).</p>
+ */
