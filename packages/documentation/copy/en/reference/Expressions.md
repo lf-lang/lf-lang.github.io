@@ -42,15 +42,13 @@ The most basic expression forms, which are supported by all target languages, ar
 <div class="lf-c">
 
 For instance, to have a 2-dimensional array as a parameter in C:
-
 ```
 reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
     ...
 }
 ```
 
-Both `int[][]` and `{{1}, {2}}` are C fragments here, not LF.
-
+Both `int[][]` and `{ {1}, {2} }` are C fragments here, not LF.
 </div>
 
 <div class="lf-py">
