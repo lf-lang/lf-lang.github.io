@@ -46,6 +46,7 @@ function implicitRuleStackFor(
   grammar: vsctm.IGrammar
 ): vsctm.StackElement | null {
   if (!lang) return null
+  if (lang.trim() === "lf") return null
   if (!lang.includes("lf")) return null
   if (code.includes("target")) return null
   let languageName: string | null = null
