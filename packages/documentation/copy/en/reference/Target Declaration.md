@@ -337,7 +337,7 @@ See [`AsyncCallback.lf`](https://github.com/lf-lang/lingua-franca/blob/master/te
 
 ## compiler
 
-<div class="lf-ts lf-py lf-rs lf-cpp">
+<div class="lf-ts lf-py lf-rs">
 
 The $target-language$ target does not support the `compiler` target option.
 
@@ -345,7 +345,7 @@ The $target-language$ target does not support the `compiler` target option.
 
 <div class="lf-c">
 
-This parameter is a string giving the name of the target language compiler to use.
+This parameter is a string giving the name of the C compiler to use.
 It is used only when [cmake](#cmake) is set to `false`. For example:
 
 ```lf-c
@@ -356,6 +356,14 @@ target C {
 ```
 
 The `compiler` option here specifies to use `cc` rather than `gcc`.
+
+</div>
+
+<div class="lf-cpp">
+
+This parameter is a string giving the name of the C++ compiler to use. Normally
+CMake selects the best compiler for your system, but you can use this parameter
+to point it to your preferred C++ compiler.
 
 </div>
 
