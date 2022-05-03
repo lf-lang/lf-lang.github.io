@@ -27,6 +27,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**cmake**](#cmake): Whether to use cmake for building.
 - [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
+- [**docker**](#docker): A boolean to generate a Dockerfile.
 - [**external-runtime-path**](#external-runtime-path): Specify a pre-compiled external runtime library located to link to instead of the default.
 - [**export-dependency-graph**](#export-dependency-graph): To export the reaction dependency graph as a dot graph (for debugging).
 - [**fast**](#fast): A boolean specifying to execute as fast as possible without waiting for physical time to match logical time.
@@ -52,6 +53,7 @@ target C {
     cmake: <true or false>,
     cmake-include: <string or list of strings>,
     compiler: <string>,
+    docker: <true or false>,
     fast: <true or false>,
     files: <string or list of strings>,
     flags: <string or list of strings>,
@@ -82,6 +84,7 @@ target Cpp {
 
 ```lf-py
 target Python {
+    docker: <true or false>,
     fast: <true or false>,
     files: <string or list of strings>,
     logging: <error, warning, info, log, debug>,
@@ -95,6 +98,7 @@ target Python {
 
 ```lf-ts
 target TypeScript {
+    docker: <true or false>,
     fast: <true or false>,
     logging: <ERROR, WARN, INFO, LOG, or DEBUG>,
     timeout: <time>,
@@ -379,6 +383,24 @@ The `compiler` option here specifies to use `cc` rather than `gcc`.
 This parameter is a string giving the name of the C++ compiler to use. Normally
 CMake selects the best compiler for your system, but you can use this parameter
 to point it to your preferred C++ compiler.
+
+</div>
+
+
+## docker
+<div class="lf-c lf-py lf-ts">
+
+This option takes a boolean argument. 
+
+If true, a docker file will be generated in the unfederated case. 
+
+In the federated case, a docker file for each federate will be generated. A docker-compose file will also be generated for the top-level federated reactor.
+
+</div>
+
+<div class="lf-cpp lf-rs">
+
+The $target-language$ target does not support the `docker` target option.
 
 </div>
 
