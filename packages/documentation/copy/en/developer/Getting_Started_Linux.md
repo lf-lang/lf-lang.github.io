@@ -1,7 +1,7 @@
 ---
 title: Getting started on Linux 
 layout: docs
-permalink: /docs/handbook/download
+permalink: /docs/handbook/getting-started-linux
 oneline: "Quick start with Lingua Franca on Linux"
 preamble: >
 ---
@@ -14,7 +14,7 @@ preamble: >
 
 Sadly there are currently no packaged version of the lingua-franca compiler in debian distributions so there is
 really only the manual way. But we offer prebuild binaries [here](https://github.com/lf-lang/lingua-franca/releases). 
-Please note that you need a modern version of java 11 or greater.
+Please note that you need a modern version of java 17 or greater.
 
 If you want to compile the lingua-franca compiler from scratch there is a [guide](Downloading\ and\ Building.md) for that. 
 
