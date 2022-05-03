@@ -13,6 +13,7 @@ For switching to Node Version 16, consult this [repo](https://github.com/nvm-sh/
 With set up done on your local machine, clone this repo and run the following commands.
 
 ```sh
+git submodule update --init
 yarn install
 code .
 
