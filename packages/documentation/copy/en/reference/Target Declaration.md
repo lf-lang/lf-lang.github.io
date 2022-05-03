@@ -68,11 +68,10 @@ target C {
 target Cpp {
     build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
     cmake-include: <string or list of strings>,
-    compiler: <string>,
     external-runtime-path: <string>,
     export-dependency-graph <true or false>,
     fast: <true or false>,
-    logging: <ERROR, WARN, INF, or DEBUG>,
+    logging: <error, warning, info, log, debug>,
     no-compile: <true or false>,
     no-runtime-validation: <true or false>,
     runtime-version: <string>,
