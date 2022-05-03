@@ -139,7 +139,7 @@ An action may have a data type, in which case, a variant of the `lf_schedule()` 
 
 <div class="lf-cpp">
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](/docs/handbook/target-languate-details).
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](/docs/handbook/target-language-details).
 
 </div>
 
@@ -156,13 +156,13 @@ time values in a more readable way. The provided functions are `NSEC`, `USEC`
 (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may
 also use the plural of any of these, e.g. `WEEKS(2)`.
 
-An action may carry data, in which case, the **payload** data value is just given as a second argument to the `.schedule()` method. See the [Target Language Details](/docs/handbook/target-languate-details).
+An action may carry data, in which case, the **payload** data value is just given as a second argument to the `.schedule()` method. See the [Target Language Details](/docs/handbook/target-language-details).
 
 </div>
 
 <div class="lf-ts">
 
-The `schedule()` method of an action takes two arguments, a `TimeValue` and an (optional) payload. If a payload is given and a type is given for the action, then the type of the payload must match the type of the action. See the [Target Language Details](/docs/handbook/target-languate-details) for details.
+The `schedule()` method of an action takes two arguments, a `TimeValue` and an (optional) payload. If a payload is given and a type is given for the action, then the type of the payload must match the type of the action. See the [Target Language Details](/docs/handbook/target-language-details) for details.
 
 </div>
 
@@ -170,7 +170,7 @@ The `schedule()` method of an action takes two arguments, a `TimeValue` and an (
 
 <span class="warning">FIXME</span>
 
-An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](/docs/handbook/target-languate-details).
+An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](/docs/handbook/target-language-details).
 
 </div>
 
@@ -292,7 +292,7 @@ $start(Asynchronous)$
 ```lf-c
 target C;
 main reactor {
-	preamble {=				
+	preamble {=
 		// Schedule an event roughly every 200 msec.
 		void* external(void* a) {
             while (true) {
@@ -301,14 +301,14 @@ main reactor {
 			}
 		}
 	=}
-	state thread_id:lf_thread_t(0);	
+	state thread_id:lf_thread_t(0);
     physical action a(100 msec):int;
-  
+
 	reaction(startup) -> a {=
 		// Start a thread to schedule physical actions.
 		lf_thread_create(&self->thread_id, &external, a);
 	=}
-	
+
 	reaction(a) {=
         interval_t elapsed_time = lf_time_logical_elapsed();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
@@ -324,9 +324,9 @@ main reactor {
         #include <thread>
 	=}
 
-	state thread: std::thread;	
+	state thread: std::thread;
     physical action a:int;
-  
+
 	reaction(startup) -> a {=
 		// Start a thread to schedule physical actions.
         thread = std::thread([&]{
@@ -334,11 +334,11 @@ main reactor {
                 std::this_thread::sleep_for(200ms);
                 // the value that we give it really doesn't matter
                 // but we the action should is scheduled for 100ms into the future
-    			a.schedule(0, 100ms); 	
+    			a.schedule(0, 100ms);
             }
         });
 	=}
-	
+
 	reaction(a) {=
         auto elapsed_time = get_physical_time();
         std::cout << "Action triggered at logical time" << elapsed_time <<"nsec after start." << std::endl;
@@ -350,24 +350,24 @@ main reactor {
 ```lf-py
 target Python;
 main reactor {
-	preamble {=	
+	preamble {=
 		import time
-		import threading			
+		import threading
 		# Schedule an event roughly every 200 msec.
 		def external(self, a):
 			while (True):
 				self.time.sleep(0.2)
 				a.schedule(0)
 	=}
-	state thread;	
+	state thread;
     physical action a(100 msec);
-  
+
 	reaction(startup) -> a {=
 		# Start a thread to schedule physical actions.
 		self.thread = self.threading.Thread(target=self.external, args=(a,))
 		self.thread.start()
 	=}
-	
+
 	reaction(a) {=
         elapsed_time = lf.time.logical_elapsed()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
@@ -381,14 +381,14 @@ target TypeScript
 main reactor {
 
     physical action a(100 msec):number;
-  
+
 	reaction(startup) -> a {=
 		// Have asynchronous callback schedule physical action.
 		setTimeout(() => {
             actions.a.schedule(TimeValue.zero(), 0)
         }, 200)
 	=}
-	
+
 	reaction(a) {=
         console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} nsec after start.`)
 	=}

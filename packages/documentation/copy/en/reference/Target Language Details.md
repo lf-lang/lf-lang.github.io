@@ -21,7 +21,7 @@ In the C reactor target for Lingua Franca, reactions are written in C and the co
 
 Note that C is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Here, we provide some guidelines for a style for writing reactors that will be safe.
 
-**NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special [CCpp target](#the-ccpp-target) that automatically uses a C++ compiler by default. Alternatively, you might want to use the [Cpp target](/docs/handbook/cpp-reactors).
+**NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special [CCpp target](#the-ccpp-target) that automatically uses a C++ compiler by default. Alternatively, you might want to use the Cpp target.
 
 </div>
 
@@ -199,7 +199,7 @@ To have Lingua Franca generate C code, start your `.lf` file with one of the fol
 
 Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C, you may want to include the final semicolon for uniformity.
 
-For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-specification).
+For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-declaration).
 
 The second form, `CCpp`, is used when you wish to use a C++ compiler to compile
 the generated code, thereby allowing your C reactors to call C++ code.
@@ -223,7 +223,7 @@ main reactor {
 }
 ```
 
-**Note:** Unless some feature in the C target is needed, we recommend using the [Cpp target](/docs/handbook/cpp-reactors) that uses a runtime that is written natively in C++.
+**Note:** Unless some feature in the C target is needed, we recommend using the Cpp target that uses a runtime that is written natively in C++.
 
 **Note:** A `.lf` file that uses the `CCpp` target cannot and should not be imported to a `.lf` file that uses the `C` target. Although these two targets use essentially the same runtime, such a scenario can cause unintended compile errors.
 
@@ -239,7 +239,7 @@ To have Lingua Franca generate C++ code, start your `.lf` file with the followin
 
 Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C++, you may want to include the final semicolon for uniformity.
 
-For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-specification).
+For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-declaration).
 
 </div>
 
@@ -253,7 +253,7 @@ To have Lingua Franca generate Python code, start your `.lf` file with the follo
 
 Note that for all LF statements, a final semicolon is optional, but if you are writing your code in Python, you may want to omit the final semicolon for uniformity.
 
-For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-specification).
+For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-declaration).
 
 </div>
 
@@ -2124,7 +2124,7 @@ Of course, to produce a counting sequence, it would be more efficient to use a s
 
 <div class="lf-cpp">
 
-The C++ provides a simple interface for scheduling actions via a `schedule()` method. Actions are described in the [Language Specification](language-specification#action-declaration) document. Consider the [Schedule](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Schedule.lf) reactor:
+The C++ provides a simple interface for scheduling actions via a `schedule()` method. Actions are described in the [Actions](/docs/handbook/actions) document. Consider the [Schedule](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Schedule.lf) reactor:
 
 ```lf-cpp
 reactor Schedule {
@@ -2149,7 +2149,7 @@ Physical actions work exactly as described in the [Physical Actions](/docs/handb
 
 ### Zero-Delay Actions
 
-If the specified delay in a `schedule()` is omitted or is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` in one of the following ways:
+If the specified delay in a `schedule()` is omitted or is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](/docs/handbook/superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` in one of the following ways:
 
 ```lf-cpp
 a.schedule();
@@ -2161,13 +2161,13 @@ then when the reaction to `a` is triggered, the input `x` will be absent (it was
 
 As discussed above the he metric time is visible to the rogrammer and can be obtained in a reaction using either `get_elapsed_logical_time()` or `get_logical_time()`.
 
-As described in the [Language Specification](language-specification#action-declaration) document, action declarations can have a _min_delay_ parameter. This modifies the timestamp further. Also, the action declaration may be **physical** rather than **logical**, in which case, the assigned timestamp will depend on the physical clock of the executing platform.
+As described in the [Action](/docs/handbook/actions) document, action declarations can have a _min_delay_ parameter. This modifies the timestamp further. Also, the action declaration may be **physical** rather than **logical**, in which case, the assigned timestamp will depend on the physical clock of the executing platform.
 
 ### Actions With Values
 
 If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
 
-Recall from the [Contained Reactors](language-specification#Contained-Reactors) section in the Language Specification document that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/tud-ccc/reactor-cpp/blob/master/include/reactor-cpp/logical_time.hh) example:
+Recall from the [Composing Reactors](/docs/handbook/composing-reactors#connections-with-logical-delays) section that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/tud-ccc/reactor-cpp/blob/master/include/reactor-cpp/logical_time.hh) example:
 
 ```lf-cpp
 reactor Delay(delay:time(100 msec)) {
@@ -2285,7 +2285,7 @@ is equivalent to
 In the `Delay` reactor, the reaction to the input `_in` declares as its effect
 the action `a`. This declaration makes it possible for the reaction to schedule
 a future triggering of `a` using the
-[`a.schedule()`](/docs/handbook/target-languate-details#schedule-functions)
+[`a.schedule()`](/docs/handbook/target-language-details#schedule-functions)
 method.
 
 The first reaction declares that it is triggered by `a` and has effect `out`. To
@@ -2358,7 +2358,7 @@ When this reactor receives an input `x`, it calls `schedule()` on the action `a`
 
 ### Zero-Delay Actions
 
-If the specified delay in a `schedule()` call is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](language-specification#superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` as follows:
+If the specified delay in a `schedule()` call is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](/docs/handbook/superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` as follows:
 
 ```lf-ts
 actions.a.schedule(0);
@@ -2605,15 +2605,15 @@ A reaction may request that the execution stop by calling the function `util.req
 
 A suite of useful functions is provided in [util.h](https://github.com/lf-lang/reactor-c/blob/main/core/utils/util.h) for producing messages to be made visible when the generated program is run. Of course, you can always use `printf`, but this is not a good choice for logging or debug information, and it is not a good choice when output needs to be redirected to a window or some other user interface (see for example the [sensor simulator](https://github.com/lf-lang/reactor-c/blob/main/util/sensor_simulator.h)). Also, in federated execution, these functions identify which federate is producing the message. The functions are listed below. The arguments for all of these are identical to `printf` with the exception that a trailing newline is automatically added and therefore need not be included in the format string.
 
-- `LF_PRINT_DEBUG(format, ...)`: Use this for verbose messages that are only needed during debugging. Nothing is printed unless the [target](/docs/handbook/target-specification#logging) parameter `logging` is set to `debug`. THe overhead is minimized when nothing is to be printed.
+- `LF_PRINT_DEBUG(format, ...)`: Use this for verbose messages that are only needed during debugging. Nothing is printed unless the [target](/docs/handbook/target-declaration#logging) parameter `logging` is set to `debug`. THe overhead is minimized when nothing is to be printed.
 
-- `LF_PRINT_LOG(format, ...)`: Use this for messages that are useful logs of the execution. Nothing is printed unless the [target parameter `logging`](/docs/handbook/target-specification#logging) is set to `log` or `debug`. This is a macro so that overhead is minimized when nothing is to be printed.
+- `LF_PRINT_LOG(format, ...)`: Use this for messages that are useful logs of the execution. Nothing is printed unless the [target parameter `logging`](/docs/handbook/target-declaration#logging) is set to `log` or `debug`. This is a macro so that overhead is minimized when nothing is to be printed.
 
-- `lf_print(format, ...)`: Use this for messages that should normally be printed but may need to be redirected to a user interface such as a window or terminal (see `register_print_function` below). These messages can be suppressed by setting the [logging target property](/docs/handbook/target-specification#logging) to `warn` or `error`.
+- `lf_print(format, ...)`: Use this for messages that should normally be printed but may need to be redirected to a user interface such as a window or terminal (see `register_print_function` below). These messages can be suppressed by setting the [logging target property](/docs/handbook/target-declaration#logging) to `warn` or `error`.
 
-- `lf_print_warning(format, ...)`: Use this for warning messages. These messages can be suppressed by setting the [logging target property](/docs/handbook/target-specification#logging) to `error`.
+- `lf_print_warning(format, ...)`: Use this for warning messages. These messages can be suppressed by setting the [logging target property](/docs/handbook/target-declaration#logging) to `error`.
 
-- `lf_print_error(format, ...)`: Use this for error messages. These messages are not suppressed by any [logging target property](/docs/handbook/target-specification#logging).
+- `lf_print_error(format, ...)`: Use this for error messages. These messages are not suppressed by any [logging target property](/docs/handbook/target-declaration#logging).
 
 - `lf_print_error_and_exit(format, ...)`: Use this for catastrophic errors.
 
@@ -2732,7 +2732,7 @@ The same two header files provide the interfaces:
 - reactor.h
 - pqueue.h
 
-The default number of worker threads is given by the `workers` argument in the [target](/docs/handbook/target-specification#threading) statement.
+The default number of worker threads is given by the `workers` argument in the [target](/docs/handbook/target-declaration#threading) statement.
 This can be overridden with the `--workers` [command-line argument](#command-line-arguments).
 By default, the number of workers will match the number of cores on the execution platform.
 
@@ -2753,7 +2753,7 @@ Unlike the C target, the Cpp target implements more of the analysis and setup of
 
 <div class="lf-py">
 
-The Python target is built on top of the C runtime to enable maximum efficiency where possible. It uses the single-threaded C runtime by default but will switch to the multi-threaded C runtime if a physical action is detected. The [threading](/docs/handbook/target-specification#threading) target property can be used to override this behavior.
+The Python target is built on top of the C runtime to enable maximum efficiency where possible. It uses the single-threaded C runtime by default but will switch to the multi-threaded C runtime if a physical action is detected. The [threading](/docs/handbook/target-declaration#threading) target property can be used to override this behavior.
 
 Running [lfc](/docs/handbook/command-line-tools) on a `XXX.lf` program that uses the Python target specification on a
 Linux machine will create the following files (other operating systems will have

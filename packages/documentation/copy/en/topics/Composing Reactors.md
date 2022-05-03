@@ -126,7 +126,7 @@ An instance is created with the syntax:
     <instance_name> = new <class_name>(<parameters>)
 ```
 
-A bank with several instances can be created in one such statement, as explained in the [banks of reactors documentation](/docs/handbook/multiports-banks#banks-of-reactors).
+A bank with several instances can be created in one such statement, as explained in the [banks of reactors documentation](/docs/handbook/multiports-and-banks#banks-of-reactors).
 
 The `<parameters>` argument is a comma-separated list of assignments:
 
@@ -193,6 +193,7 @@ main reactor {
     a.y -> b2.x
 }
 ```
+
 </div>
 
 <img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Multicast.svg" width="250"/>

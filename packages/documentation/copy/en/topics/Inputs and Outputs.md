@@ -99,12 +99,12 @@ reactor Double {
 
 $end(Double)$
 
-Notice how the input value is accessed and how the output value is set. This is done differently for each target language. See the [Target Language Details](/docs/handbook/target-languate-details) for detailed documentation of these mechanisms.
+Notice how the input value is accessed and how the output value is set. This is done differently for each target language. See the [Target Language Details](/docs/handbook/target-language-details) for detailed documentation of these mechanisms.
 Setting an output within a reaction will trigger downstream reactions at the same [Logical Time](/docs/handbook/time-and-timers#logical-time) that the reaction is invoked (or, more precisely, at the same [tag](/docs/handbook/superdense-time#tag-vs-time)). If a particular output port is set more than once at any tag, the last set value will be the one that downstream reactions see. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
 
 <div class="lf-c lf-cpp lf-ts lf-rs">
 
-The **type** of a port is a type in the target language plus the special type $time$. A type may also be specified using a **code block**, delimited by the same delimeters `{= ... =}` that separate target language code from Lingua Franca code in reactions. Any valid target-language type designator can be given within these delimiters. See [Lingua Franca Types](/docs/handbook/lingua-franca-types) for details.
+The **type** of a port is a type in the target language plus the special type $time$. A type may also be specified using a **code block**, delimited by the same delimeters `{= ... =}` that separate target language code from Lingua Franca code in reactions. Any valid target-language type designator can be given within these delimiters.
 
 </div>
 
@@ -145,7 +145,7 @@ reactor Destination {
             sum += *y.get();
         }
 
-        std::cout << "Received: " << sum << std::endl; 
+        std::cout << "Received: " << sum << std::endl;
     =}
 }
 
@@ -223,11 +223,11 @@ reaction (<triggers>) <uses> -> <effects> {=
 =}
 ```
 
-The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](/docs/handbook/hierarchy), [timers, actions](/docs/handbook/timers-and-actions), or the special events $startup$ and $shutdown$. There must be at least one trigger for each reaction. A reaction with a $startup$ trigger is invoked when the program begins executing, and a reaction with a $shutdown$ trigger is invoked at the end of execution.
+The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), [timers](/docs/handbook/time-and-timers#timers), [actions](/docs/handbook/actions), or the special events $startup$ and $shutdown$. There must be at least one trigger for each reaction. A reaction with a $startup$ trigger is invoked when the program begins executing, and a reaction with a $shutdown$ trigger is invoked at the end of execution.
 
-The **uses** field, which is optional, specifies input ports (or [output ports of contained reactors](/docs/handbook/hierarchy)) that do not trigger execution of the reaction but may be read by the reaction.
+The **uses** field, which is optional, specifies input ports (or [output ports of contained reactors](/docs/handbook/composing-reactors#hierarchy)) that do not trigger execution of the reaction but may be read by the reaction.
 
-The **effects** field, which is also optional, is a comma-separated lists of output ports ports, [input ports of contained reactors](/docs/handbook/hierarchy), or [actions](/docs/handbook/timers-and-actions).
+The **effects** field, which is also optional, is a comma-separated lists of output ports ports, [input ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), or [actions](/docs/handbook/timers-and-actions).
 
 ## Setting an Output Multiple Times
 

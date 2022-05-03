@@ -42,6 +42,7 @@ The most basic expression forms, which are supported by all target languages, ar
 <div class="lf-c">
 
 For instance, to have a 2-dimensional array as a parameter in C:
+
 ```
 reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
     ...
@@ -49,6 +50,7 @@ reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
 ```
 
 Both `int[][]` and `{ {1}, {2} }` are C fragments here, not LF.
+
 </div>
 
 <div class="lf-py">
@@ -88,7 +90,7 @@ main reactor {
 }
 ```
 
-See the [C reactor documentation](/docs/handbook/c-reactors) for details and alternative syntaxes.
+See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
 
 </div>
 
@@ -100,7 +102,7 @@ In C++, initial values for a parameter or state can be used to pass arguments to
     state x: int[](1,2);
 ```
 
-Here, the type `int[]` is translated by the code generator into `std::vector` and the `(1,2)` to constructor arguments, as in `new std::vector(1,2)`. See the [C++ reactor documentation](/docs/handbook/cpp-reactors#using-state-variables) for details and alternative syntaxes.
+Here, the type `int[]` is translated by the code generator into `std::vector` and the `(1,2)` to constructor arguments, as in `new std::vector(1,2)`. See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
 
 </div>
 
@@ -136,7 +138,7 @@ main reactor {
 }
 ```
 
-See the [Python reactor documentation](/docs/handbook/target-languate-details) for details and alternative syntaxes.
+See the [Python reactor documentation](/docs/handbook/target-) for details and alternative syntaxes.
 
 </div>
 
@@ -150,7 +152,7 @@ reactor Foo(param:{=Array<number>=}({= [1, 2, 3] =})) {
 }
 ```
 
-See the [TypeScript reactor documentation](/docs/handbook/target-language-reference) for details and alternative syntaxes.
+See the [TypeScript reactor documentation](/docs/handbook/target-language-details) for details and alternative syntaxes.
 
 </div>
 
