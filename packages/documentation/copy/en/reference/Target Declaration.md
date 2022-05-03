@@ -237,6 +237,21 @@ This defaults to `Release`.
 
 This is a list of dependencies to include in the generated Cargo.toml file. The value of this parameter is a map of package name to _dependency-spec_.
 
+Here is an example for defining dependencies:
+```lf-rs
+target Rust {
+    cargo-dependencies: {
+        fxhash: {
+            version: "0.2.1",
+        },
+        rand: {
+            version: "0.8",
+            features: ["small_rng"],
+        },
+    }
+};
+```
+
 ## cargo-features
 
 This is a list of features of the generated crate. Supported are:
@@ -369,7 +384,7 @@ to point it to your preferred C++ compiler.
 
 ## external-runtime-path
 
-<div class="lf-c lf-py lf-ts lf-rs">
+<div class="lf-c lf-py lf-ts">
 
 The $target-language$ target does not support the `external-runtime-path` target option.
 
@@ -378,6 +393,12 @@ The $target-language$ target does not support the `external-runtime-path` target
 <div class="lf-cpp">
 
 This option takes a string argument given a path to a pre-compiled external runtime library to use instead of the default one.
+
+</div>
+
+<div class="lf-rs">
+
+This option takes a path as string argument to a folder containing an alternative runtime crate to use instead of the default one.
 
 </div>
 
@@ -599,7 +620,7 @@ If true, enables [single-file project layout](#single-file-layout).
 
 ## threading
 
-<div class="lf-cpp lf-ts lf-rs">
+<div class="lf-cpp lf-ts">
 
 The $target-language$ target does not support the `threading` target option.
 
@@ -618,13 +639,21 @@ The Python target uses the single threaded C runtime by default but will switch 
 
 </div>
 
+<div class="lf-rs">
+
+Boolean flag (either `true` (default) or `false`) that controls if the project is to be compiled with support for multi-threading.
+
+See [workers](#workers).
+
+</div>
+
 ## timeout
 
 A time value (with units) specifying the logical stop time of execution. See [Termination](/docs/handbook/termination).
 
 ## workers
 
-<div class="lf-ts lf-rs">
+<div class="lf-ts">
 
 The $target-language$ target does not support the `workers` target option.
 
@@ -652,6 +681,12 @@ This parameter takes a non-negative integer and specifies the number of worker t
 
 </div>
 
+<div class="lf-rs">
+
+This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. With value `0` (the default), the runtime engine is free to choose the number of worker threads to use and the number of worker threads may vary over time.
+
+</div>
+
 # Command-Line Arguments
 
 <div class="lf-rs">
@@ -660,7 +695,7 @@ The generated executable may feature a command-line interface (CLI), if it uses 
 
 - some target properties become settable at runtime:
   - `--timeout <time value>`: override the default timeout mentioned as a target property. The syntax for times is just like the LF one (eg `1msec`, `"2 seconds"`).
-  - `--threads <number>`: override the default thread count mentioned as a target property. This option is **ignored** unless the runtime crate has been built with the feature `parallel-runtime`.
+  - `--workers <number>`: override the default worker count mentioned as a target property. This option is **ignored** unless the runtime crate has been built with the feature `parallel-runtime`.
   - `--export-graph`: export the dependency graph (corresponds to `export-dependency-graph` target property). This is a flag, ie, absent means false, present means true. This means the value of the target property is ignored and not used as default.
   - `--log-level`: corresponds to the `logging` target property, but note that the levels have different meanings, and the target property is ignored. See [Logging levels](#logging-levels).
 - parameters of the main reactor are translated to CLI parameters.
