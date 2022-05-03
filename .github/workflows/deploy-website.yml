@@ -14,6 +14,7 @@ jobs:
         with:
           # Fetch the full history, to build attribution.json
           fetch-depth: 0
+          submodules: recursive
       - uses: actions/setup-node@v2
         with:
           node-version: "16.x"
@@ -24,6 +25,7 @@ jobs:
       # Builds the modules, and boostraps the other modules
       - name: Build website
         run: |
+          export YARN_ENABLE_IMMUTABLE_INSTALLS=false
           yarn install
           yarn bootstrap
           yarn build

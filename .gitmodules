@@ -1,0 +1,15 @@
+[submodule "packages/lingua-franca/plugins/lf-syntax-highlighting/syntaxes/better-cpp-syntax"]
+	path = packages/lingua-franca/plugins/lf-syntax-highlighting/syntaxes/better-cpp-syntax
+	url = https://github.com/jeff-hykin/better-cpp-syntax.git
+[submodule "packages/lingua-franca/plugins/lf-syntax-highlighting/syntaxes/vscode-rust"]
+	path = packages/lingua-franca/plugins/lf-syntax-highlighting/syntaxes/vscode-rust
+	url = https://github.com/rust-lang/vscode-rust.git
+[submodule "packages/lingua-franca/plugins/lf-syntax-highlighting/syntaxes/TypeScript-TmLanguage"]
+	path = packages/lingua-franca/plugins/lf-syntax-highlighting/syntaxes/TypeScript-TmLanguage
+	url = https://github.com/microsoft/TypeScript-TmLanguage.git
+[submodule "packages/lingua-franca/plugins/lf-syntax-highlighting/syntaxes/MagicPython"]
+	path = packages/lingua-franca/plugins/lf-syntax-highlighting/syntaxes/MagicPython
+	url = https://github.com/MagicStack/MagicPython.git
+[submodule "packages/lingua-franca/plugins/lf-syntax-highlighting/vscode-lingua-franca"]
+    path = packages/lingua-franca/plugins/lf-syntax-highlighting/vscode-lingua-franca
+    url = https://github.com/lf-lang/vscode-lingua-franca.git
