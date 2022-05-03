@@ -58,7 +58,7 @@ const Index: React.FC<Props> = (props) => {
 </li>
 <li><p><a href="https://www.youtube.com/watch?v=6YBtnBO7wdg">Video recording</a> of talk by Marten Lohstroh on Making Mainstream Programming Languages Deterministic Again, at 27th International Open Workshop on Synchronous Programming (Synchron), November 25-27, 2020</p>
 </li>
-<li><p>Marten Lohstroh, Christian Menard, Alexander Schulz-Rosengarten, Matthew Weber, Jeronimo Castrillon, Edward A. Lee, &quot;<a href="https://people.eecs.berkeley.edu/~marten/pdf/Lohstroh_etAl_FDL20.pdf">A Language for Deterministic Coordination Across Multiple Timelines</a>,&quot; (Slides only) Forum on Design Languages (FDL), Kiel, Germany, September, 2020.</p>
+<li><p>Marten Lohstroh, Christian Menard, Alexander Schulz-Rosengarten, Matthew Weber, Jeronimo Castrillon, Edward A. Lee, &quot;<a href="assets/slides/Lohstroh_etAl_FDL20.pdf">A Language for Deterministic Coordination Across Multiple Timelines</a>,&quot; (Slides only) Forum on Design Languages (FDL), Kiel, Germany, September, 2020.</p>
 </li>
 <li><p><a href="https://www.youtube.com/watch?v=DkUjmbUU1zc">Video recording</a> of a presentation by Christian Menard, Achieving Determinism in Adaptive AUTOSAR, at virtual 23rd DATE conference 2020.</p>
 </li>

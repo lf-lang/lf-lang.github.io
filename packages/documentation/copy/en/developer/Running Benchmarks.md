@@ -91,7 +91,7 @@ make
 The CAF benchmarks are used in these two publications:
 
 - ["Reducing Message Latency and CPU Utilization in the CAF Actor Framework"](https://www.researchgate.net/publication/322519252_Reducing_Message_Latency_and_CPU_Utilization_in_the_CAF_Actor_Framework)
-- ["Improving the Performance of Actors on Multi-cores with Parallel Patterns"](https://link.springer.com/article/10.1007/s10766-020-00663-1])
+- ["Improving the Performance of Actors on Multi-cores with Parallel Patterns"](https://link.springer.com/article/10.1007/s10766-020-00663-1)
 
 ## Running a benchmark
 

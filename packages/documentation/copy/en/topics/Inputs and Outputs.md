@@ -227,7 +227,7 @@ The **triggers** field can be a comma-separated list of input ports, [output por
 
 The **uses** field, which is optional, specifies input ports (or [output ports of contained reactors](/docs/handbook/composing-reactors#hierarchy)) that do not trigger execution of the reaction but may be read by the reaction.
 
-The **effects** field, which is also optional, is a comma-separated lists of output ports ports, [input ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), or [actions](/docs/handbook/timers-and-actions).
+The **effects** field, which is also optional, is a comma-separated lists of output ports ports, [input ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), or [actions](/docs/handbook/actions).
 
 ## Setting an Output Multiple Times
 

@@ -138,7 +138,7 @@ main reactor {
 }
 ```
 
-See the [Python reactor documentation](/docs/handbook/target-) for details and alternative syntaxes.
+See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
 
 </div>
 

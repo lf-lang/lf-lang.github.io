@@ -324,7 +324,7 @@ The `cmake-include` parameter works in conjunction with the $import$ statement. 
 
 <div class="lf-c">
 
-[CMakeInclude.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/CMakeInclude.lf) is an example that uses this feature. A more sophisticated example of the usage of this target parameter can be found in [Rhythm.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/src/Rhythm/Rhythm.lf). A distributed version can be found in [DistributedCMakeInclude.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/DistributedCMakeInclude.lf) is a test that uses this feature.
+[CMakeInclude.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/CMakeInclude.lf) is an example that uses this feature. A more sophisticated example of the usage of this target parameter can be found in [Rhythm.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/Rhythm/Rhythm.lf). A distributed version can be found in [DistributedCMakeInclude.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/DistributedCMakeInclude.lf) is a test that uses this feature.
 
 **Note**: For [federated execution](/docs/handbook/distributed-execution), both `cmake-include` and [files](#files) are kept separate for each federate as much as possible. This means that if one federate is imported, or uses an imported reactor that other federates don't use, it will only have access to `cmake-include`s and `files` defined in the main `.lf` file, plus the selectively imported `.lf` files. [DistributedCMakeIncludeSeparateCompile.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/DistributedCMakeIncludeSeparateCompile.lf) is a test that demonstrates this feature.
 
@@ -332,7 +332,7 @@ The `cmake-include` parameter works in conjunction with the $import$ statement. 
 
 <div class="lf-cpp">
 
-See [`AsyncCallback.lf`](https://github.com/lf-lang/lingua-franca/blob/master/xtext/org.icyphy.linguafranca/src/test/Cpp/AsyncCallback.lf) for an example.
+See [`AsyncCallback.lf`](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/concurrent/AsyncCallback.lf) for an example.
 
 </div>
 
@@ -478,7 +478,7 @@ where `path` is the full path to the directory containing these files. This can 
 
 </div>
 
-Moreover, the `files` target specification works in conjunction with the $import$ statement. If a `.lf` file is imported and has designated supporting files using the `files` target parameter, those files will be resolved relative to that `.lf` file and copied to the directory that contains the generated sources. This is done to make code that imports other `.lf` files more modular. [Rhythm.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/src/Rhythm/Rhythm.lf) is an example that demonstrates most of these features.
+Moreover, the `files` target specification works in conjunction with the $import$ statement. If a `.lf` file is imported and has designated supporting files using the `files` target parameter, those files will be resolved relative to that `.lf` file and copied to the directory that contains the generated sources. This is done to make code that imports other `.lf` files more modular. [Rhythm.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/Rhythm/Rhythm.lf) is an example that demonstrates most of these features.
 
 </div>
 

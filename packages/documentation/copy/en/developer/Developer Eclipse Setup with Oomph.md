@@ -9,7 +9,7 @@ preamble: >
 ## Prerequisites
 
 - Java 11 or up ([download from Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html))
-- Each target language may have additional requirements. The [latest release](Downloading-and-Building) will provide the best guide.
+- Each target language may have additional requirements. The [latest release](/download) will provide the best guide.
 
 ## Oomph Setup
 
@@ -45,7 +45,7 @@ mv ~/.p2 ~/.p2.bak
 8. Now you can further configure where and how your development Eclipse should be created. Check "Show all variables" to enable all possible configuration options. You can hover over the field labels to get a more detailed explanation of their effects.
 
 - If you already have cloned the LF repository and you want Eclipse to use this location instead of cloning it into the new IDE environment, you should adjust the "Git clone location rule".
-- Preferably, you have a Github account with an SSH key uploaded to Github. Otherwise, you should adjust the "Lingua Franca Github repository" entry to use the https option in the pulldown menu. See [adding an SSH key to your Github account](https://docs.github.com/en/github/authenticating-to-github/adding-a-new-ssh-key-to-your-github-account).
+- Preferably, you have a Github account with an SSH key uploaded to Github. Otherwise, you should adjust the "Lingua Franca Github repository" entry to use the https option in the pulldown menu. See [adding an SSH key to your Github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 - If the "JRE 11 location" is empty, you need to install and/or locate a JDK that has at least version 11.
   ![](../../../../../img/oomph/project_configuration.png)
 
@@ -108,7 +108,7 @@ Hello World.
 
 This should print "Hello World".
 
-We strongly recommend browsing the system tests, which provide a concise overview of the capabilities of Lingua Franca. You can set up a project in the IDE for this using [these instructions](Regression-Tests#adding-and-editing-tests-in-eclipse).
+We strongly recommend browsing the system tests, which provide a concise overview of the capabilities of Lingua Franca. You can set up a project in the IDE for this using [these instructions](/docs/handbook/regression-tests#browsing-and-editing-examples-in-the-lf-ide).
 
 ## Working on the Lingua-Franca Compiler
 

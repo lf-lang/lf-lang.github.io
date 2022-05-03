@@ -442,7 +442,7 @@ Reactor parameters internally declared as `const` by the code generator and init
 
 ### Array-Valued Parameters
 
-Also parameters can have fixed- or variable-sized array values. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
+Also parameters can have fixed- or variable-sized array values. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
 
 ```lf-cpp
 reactor Source(sequence:int[]{0, 1, 2}) {
@@ -1342,7 +1342,7 @@ In the body of a reaction in the TypeScript target, inputs are simply referred t
 
 **WARNING** Be sure to use the `===` or `!==` operator and not `==` or `!=` to test against `undefined`. In JavaScript/TypeScript the comparison `undefined == null` yields the value `true`. It may also be tempting to rely upon the falsy evaluation of `undefined` within an `if` statement, but this may introduce bugs. For example a reaction that tests the presence of input `x` with `if (x) { ... }` will not correctly identify potentially valid present values such as `0`, `false`, or `""`.
 
-For example, the `Determinism.lf` test case in the [test directory](https://github.com/lf-lang/lingua-franca/tree/master/xtext/org.icyphy.linguafranca/src/test/TS) includes the following reactor:
+For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/TypeScript/src/Determinism.lf) test case includes the following reactor:
 
 ```lf-ts
 reactor Destination {
@@ -2738,7 +2738,7 @@ By default, the number of workers will match the number of cores on the executio
 
 Upon initialization, the main thread will create the specified number of worker threads.
 A good choice is for this number to match the number of available cores.
-Execution proceeds in a manner similar to the [single threaded implementation](single-threaded-implementation)
+Execution proceeds in a manner similar to the [single threaded implementation](#single-threaded-implementation)
 except that the worker threads concurrently draw reactions from the reaction queue.
 The execution algorithm ensures that no reaction executes until all reactions that it depends on that are also
 on the reaction queue have executed at the current logical time.

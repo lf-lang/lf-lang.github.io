@@ -317,7 +317,7 @@ Methods are not currently implemented in the $target-language$ target.
 Sometimes reactors need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to
 be implemented in a single reaction. In such cases, methods can be defined within reactors to facilitate code reuse and enable a better structuring of the
 reactor's functionality. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction
-bodies or from other methods. Consdider the [Method](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/target/Method.lf) example:
+bodies or from other methods. Consdider the [Method](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/target/Methods.lf) example:
 
 ```lf-cpp
 main reactor {
