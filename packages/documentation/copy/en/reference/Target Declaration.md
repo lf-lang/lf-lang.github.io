@@ -207,7 +207,7 @@ The $target-language$ target does not currently support the `build-type` target 
 
 <div class="lf-rs">
 
-This parameter works with cargo build command to specify how to compile the code. The following options are supported:
+This parameter works with `cargo` to specify how to compile the code. The following options are supported:
 
 - `Release`: Optimization is turned on and debug information is missing.
 - `Debug`: Debug information is included in the executable.
@@ -227,7 +227,7 @@ This parameter works with `cmake` to specify how to compile the code. The follow
 - `RelWithDebInfo`: Optimization with debug information.
 - `MinSizeRel`: Optimize for smallest size.
 
-This defaults to Release.
+This defaults to `Release`.
 
 </div>
 
@@ -337,7 +337,7 @@ See [`AsyncCallback.lf`](https://github.com/lf-lang/lingua-franca/blob/master/te
 
 ## compiler
 
-<div class="lf-ts lf-py lf-rs">
+<div class="lf-ts lf-py lf-rs lf-cpp">
 
 The $target-language$ target does not support the `compiler` target option.
 
@@ -356,22 +356,6 @@ target C {
 ```
 
 The `compiler` option here specifies to use `cc` rather than `gcc`.
-
-</div>
-
-<div class="lf-cpp">
-
-<span class="warning">**FIXME**: does this work as stated?</span>
-This parameter is a string giving the name of the target language compiler to use.
-For example:
-
-```lf-cpp
-target Cpp {
-    compiler: "c++",
-};
-```
-
-The `compiler` option here specifies to use `c++` rather than the default `g++`.
 
 </div>
 
