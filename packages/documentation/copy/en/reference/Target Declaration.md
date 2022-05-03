@@ -509,7 +509,7 @@ The C and Python targets also support [tracing](/docs/handbook/tracing), which o
 
 <div class="lf-cpp">
 
-This parameter takes as an argument one of `ERROR`, `WARN`, `INF`, or `DEBUG` to specify the level of diagnostic messages about execution to print to the console when the generated program runs. A message will print if this parameter is greater than or equal to the level of the message, where `ERROR` < `WARN` < `INFO` < `DEBUG`.
+The `logging` option is one of `error`, `warn`, `info`, `log` or `debug`. It specifies the level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message, where `error` < `warn` < `info` < `log` < `debug`. The default value is `info`, which means that messages log or debug messages will not print.
 
 </div>
 
