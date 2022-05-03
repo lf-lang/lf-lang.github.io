@@ -390,7 +390,7 @@ to point it to your preferred C++ compiler.
 ## docker
 <div class="lf-c lf-py lf-ts">
 
-This option takes a boolean argument. 
+This option takes a boolean argument (default is `false`). 
 
 If true, a docker file will be generated in the unfederated case. 
 
