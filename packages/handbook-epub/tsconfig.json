@@ -1,12 +1,12 @@
 {
     "compilerOptions": {
         "noImplicitAny": false,
-        "module": "ES2022",
+        "module": "commonjs",
         "moduleResolution": "node",
         "typeRoots": [
             "./node_modules/@types"
         ],
-        "outDir": "ts-out",
+        "outDir": "src-gen",
         "esModuleInterop": true,
         "allowJs": true
     },

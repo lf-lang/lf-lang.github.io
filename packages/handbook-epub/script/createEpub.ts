@@ -4,13 +4,11 @@
    env CI=213 yarn workspace handbook-epub build
 */
 
-const { createReadStream } = jetpack;
 import Streampub from "@orta/streampub";
 
 import { copyFileSync, mkdirSync } from "fs";
 import { join } from "path";
 import jetpack from "fs-jetpack";
-const { exists } = jetpack;
 import {
   generateV2Markdowns,
   getGitSHA,
@@ -18,12 +16,7 @@ import {
   replaceAllInString,
 } from "./setupPages.js";
 import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation.js";
-
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(dirname(dirname(__filename)));
+import { epubOutputPath, websiteEpubOutputPath } from "./config.js"
 
 // Reference: https://github.com/AABoyles/LessWrong-Portable/blob/master/build.js
 
@@ -44,10 +37,7 @@ const bookMetadata = {
   ibooksSpecifiedFonts: true,
 };
 
-const dist = join(__dirname, "..", "dist");
-if (!exists(dist)) mkdirSync(dist);
-
-const epubPath = join(dist, "handbook.epub");
+if (!jetpack.exists(epubOutputPath)) mkdirSync(epubOutputPath);
 
 const startEpub = async () => {
   const handbookNavigation = getDocumentationNavForLanguage("en");
@@ -56,15 +46,15 @@ const startEpub = async () => {
   const handbook = handbookNavigation.find((i) => i.title === "Writing Reactors");
   const epub = new Streampub(bookMetadata);
 
-  epub.pipe(jetpack.createWriteStream(epubPath));
+  epub.pipe(jetpack.createWriteStream(epubOutputPath));
 
   // Add the cover
-  epub.write(Streampub.newCoverImage(createReadStream("./assets/cover.jpg")));
-  epub.write(Streampub.newFile("Lingua_Franca.png", createReadStream("./assets/Lingua_Franca.png")));
+  epub.write(Streampub.newCoverImage(jetpack.createReadStream("./assets/cover.jpg")));
+  epub.write(Streampub.newFile("Lingua_Franca.png", jetpack.createReadStream("./assets/Lingua_Franca.png")));
 
   // Import CSS
   epub.write(
-    Streampub.newFile("style.css", createReadStream("./assets/ebook-style.css"))
+    Streampub.newFile("style.css", jetpack.createReadStream("./assets/ebook-style.css"))
   );
 
   const intro = jetpack.read("./assets/intro.xhtml");
@@ -119,9 +109,5 @@ startEpub();
 // The epub generation is async-y, so just wait till everything is
 // done to move over the file into the website's static assets.
 process.once("exit", () => {
-  copyFileSync(
-    epubPath,
-    // prettier-ignore
-    join(__dirname, "../../lingua-franca/static/assets/lingua-franca-handbook.epub")
-  );
+  copyFileSync(epubOutputPath, websiteEpubOutputPath);
 });

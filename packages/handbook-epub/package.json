@@ -3,10 +3,10 @@
   "private": true,
   "license": "MIT",
   "version": "1.0.0",
-  "type": "module",
+  "type": "commonjs",
   "scripts": {
     "bootstrap": "echo 'NOOP'",
-    "build": "tsc && node ts-out/handbook-epub/script/createEpub.js && node ts-out/handbook-epub/script/createPDF.js --experimental-modules",
+    "build": "tsc && node src-gen/handbook-epub/script/createEpub.js && node src-gen/handbook-epub/script/createPDF.js --experimental-modules",
     "test": "echo 'NOOP'"
   },
   "prettier": {

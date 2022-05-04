@@ -4,7 +4,7 @@ import { Layout } from "../components/layout"
 import { Sidebar, SidebarToggleButton } from "../components/layout/Sidebar"
 import { getDocumentationNavForLanguage } from "../lib/documentationNavigation"
 import { Intl } from "../components/Intl"
-import * as lf from "../../../documentation/scripts/linguaFrancaUtils.cjs";
+import * as lf from "../../../documentation/scripts/linguaFrancaUtils";
 
 // This dependency is used in gatsby-remark-autolink-headers to generate the slugs
 import slugger from "github-slugger"

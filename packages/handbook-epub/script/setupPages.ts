@@ -12,15 +12,12 @@ import { readFileSync, lstatSync } from "fs";
 import remark from "remark";
 import grayMatter from "gray-matter";
 const { read: readMarkdownFile } = grayMatter;
-import * as lf from "../../documentation/scripts/linguaFrancaUtils.cjs";
+import * as lf from "../../documentation/scripts/linguaFrancaUtils.js";
+import { gitRoot, handbookPath } from "./config.js"
 
 import processAST from "lf-syntax-highlighting";
 
-import { fileURLToPath } from 'url';
 import { join, dirname } from 'path';
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(dirname(dirname(__filename)));
 
 // Reference: https://github.com/AABoyles/LessWrong-Portable/blob/master/build.js
 
@@ -30,7 +27,6 @@ export const generateV2Markdowns = () => {
   // Grab all the md + yml info from the handbook files on disk
   // and add them to ^
   // prettier-ignore
-  const handbookPath = join( __dirname, "..", "..", "documentation", "copy", "en", "topics");
 
   recursiveReadDirSync(handbookPath).forEach((path) => {
     if (lstatSync(path).isDirectory() || !path.endsWith("md")) {
@@ -70,7 +66,6 @@ export function replaceAllInString(_str: string, obj: any) {
 }
 
 export const getGitSHA = () => {
-  const gitRoot = join(__dirname, "..", "..", "..", ".git");
   const rev = readFileSync(join(gitRoot, "HEAD"), "utf8").trim();
   if (rev.indexOf(":") === -1) {
     return rev;
@@ -78,4 +73,3 @@ export const getGitSHA = () => {
     return readFileSync(join(gitRoot, rev.substring(5)), "utf8");
   }
 };
-

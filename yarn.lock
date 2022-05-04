@@ -14968,19 +14968,19 @@ __metadata:
 
 "lf-syntax-highlighting@file:../lingua-franca/plugins/lf-syntax-highlighting::locator=handbook-epub%40workspace%3Apackages%2Fhandbook-epub":
   version: 1.0.0
-  resolution: "lf-syntax-highlighting@file:../lingua-franca/plugins/lf-syntax-highlighting#../lingua-franca/plugins/lf-syntax-highlighting::hash=245314&locator=handbook-epub%40workspace%3Apackages%2Fhandbook-epub"
+  resolution: "lf-syntax-highlighting@file:../lingua-franca/plugins/lf-syntax-highlighting#../lingua-franca/plugins/lf-syntax-highlighting::hash=f09515&locator=handbook-epub%40workspace%3Apackages%2Fhandbook-epub"
   dependencies:
     vscode-textmate: ^6.0.0
-  checksum: 36068005d3cfa9933418eaf04e14e50166c9eca6088a883f03a617470224f43d06f2c5f9cb7472ddf002bd16afb946d71efb48ffff1cdacdd62e4b1d09fc3650
+  checksum: 2e3aa52c90ee5254db92d5c2631aa2647115f855c8e93e64f89884ef139e84127cf2ce15c2c38a12abb09dd802839ea77f790ebfca0cf739ead0eec3bb4e1b0a
   languageName: node
   linkType: hard
 
 "lf-syntax-highlighting@file:plugins/lf-syntax-highlighting::locator=lingua-franca%40workspace%3Apackages%2Flingua-franca":
   version: 1.0.0
-  resolution: "lf-syntax-highlighting@file:plugins/lf-syntax-highlighting#plugins/lf-syntax-highlighting::hash=245314&locator=lingua-franca%40workspace%3Apackages%2Flingua-franca"
+  resolution: "lf-syntax-highlighting@file:plugins/lf-syntax-highlighting#plugins/lf-syntax-highlighting::hash=f09515&locator=lingua-franca%40workspace%3Apackages%2Flingua-franca"
   dependencies:
     vscode-textmate: ^6.0.0
-  checksum: 36068005d3cfa9933418eaf04e14e50166c9eca6088a883f03a617470224f43d06f2c5f9cb7472ddf002bd16afb946d71efb48ffff1cdacdd62e4b1d09fc3650
+  checksum: 2e3aa52c90ee5254db92d5c2631aa2647115f855c8e93e64f89884ef139e84127cf2ce15c2c38a12abb09dd802839ea77f790ebfca0cf739ead0eec3bb4e1b0a
   languageName: node
   linkType: hard
 
