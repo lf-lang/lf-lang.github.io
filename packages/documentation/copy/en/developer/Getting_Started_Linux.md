@@ -16,7 +16,7 @@ Sadly there are currently no packaged version of the lingua-franca compiler in d
 really only the manual way. But we offer prebuild binaries [here](https://github.com/lf-lang/lingua-franca/releases). 
 Please note that you need a modern version of java 17 or greater.
 
-If you want to compile the lingua-franca compiler from scratch there is a [guide](Downloading\ and\ Building.md) for that. 
+If you want to compile the lingua-franca compiler from scratch there is a [guide](/docs/handbook/download) for that. 
 
 ```
     wget https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.tar.gz
@@ -37,8 +37,7 @@ There are packaged version of [lfc](https://aur.archlinux.org/packages/lfc-bin) 
 
 ### Nixos
 
-For nixos users there is a already a package since the **22.05** release. Because this is a very fast developing project
-the version is nixpkgs is always lacking behind a little bit.
+For nixos users there is a already a package since the **nixos-22.05** release. Lingua-franca developes quite rapidly so the version packaged for nixpkgs may lack behind.
 
 ```
     nix-shell -p lingua-franca
@@ -49,16 +48,9 @@ If you want to use the cpp-target and are using nix there is already great tooli
 
 ## Development
 
-
-### Vim
-
-There is an simple Vim syntax highlighting [plugin](https://github.com/lf-lang/lingua-franca.vim).
-This vim plugin can also be found inside the nixpkgs (`vimPlugins.lingua-franca-vim`).
-
-
 ### Integrated Development Environments
 
-Lingua-Franca has integration's into two big ides [epoch](../tools/Epoch IDE.md)(modified version of eclipse) or a [vs-code plugin](../tools/Code\ Extension.md). 
+Lingua-Franca has integration's into two big ides [epoch](/docs/handbook/epoch-ide)(modified version of eclipse) or a [vs-code plugin](/docs/handbook/code-extension). 
 
 
 
