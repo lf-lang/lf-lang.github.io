@@ -774,8 +774,8 @@ If provided, a command line argument will override whatever value the correspond
 
 Command line options are parsed by the [command-line-arguments](https://github.com/75lb/command-line-args) module with [these rules](https://github.com/75lb/command-line-args/wiki/Notation-rules). For example
 
-```
-$ node <LF_file_name>/dist/<LF_file_name>.js -f false --keepalive=true -o '4 sec' -l INFO
+```sh
+node <LF_file_name>/dist/<LF_file_name>.js -f false --keepalive=true -o '4 sec' -l INFO
 ```
 
 is a valid setting.
@@ -790,7 +790,7 @@ Note: Custom arguments may not have the same names as standard arguments like `t
 
 For example this reactor has a custom command line argument named `customArg` of type `number` and default value `2`:
 
-```
+```lf-ts
 target TypeScript;
 main reactor clArg(customArg:number(2)) {
     reaction (startup) {=
@@ -801,19 +801,19 @@ main reactor clArg(customArg:number(2)) {
 
 If this reactor is compiled from the file `simpleCLArgs.lf`, executing
 
-```
+```sh
 node simpleCLArgs/dist/simpleCLArgs.js
 ```
 
 outputs the default value `2`. But running
 
-```
+```sh
 node simpleCLArgs/dist/simpleCLArgs.js --customArg=42
 ```
 
 outputs `42`. Additionally, we can view documentation for the custom command line argument with the `--help` command.
 
-```
+```sh
 node simpleCLArgs/dist/simpleCLArgs.js -h
 ```
 
@@ -829,7 +829,7 @@ The program will generate the standard usage guide, but also
 
 Main reactor parameters that are not typed `string`, `number`, `boolean`, or `time` will not create custom command-line arguments. However, that doesn't mean it is impossible to obtain other types from the command line, just use a `string` and specify how the parsing is done yourself. See below for an example of a reactor that parses a custom command-line argument of type `string` into a state variable of type `Array<number>` using `JSON.parse` and a [user-defined type guard](https://www.typescriptlang.org/docs/handbook/advanced-types.html#user-defined-type-guards).
 
-```
+```lf-ts
 target TypeScript;
 main reactor customType(arrayArg:string("")) {
     preamble {=
