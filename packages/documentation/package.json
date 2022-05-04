@@ -6,8 +6,8 @@
   "scripts": {
     "build": "echo 'NOOP'",
     "test": "echo 'NOOP'",
-    "create-handbook-nav": "node ./scripts/generateTypesForFilesInDocs && node ./scripts/generateDocsNavigationPerLanguage.js",
-    "bootstrap": "yarn create-handbook-nav && node ./scripts/generateAttribution.js"
+    "create-handbook-nav": "node ./scripts/generateTypesForFilesInDocs.cjs && node ./scripts/generateDocsNavigationPerLanguage.cjs",
+    "bootstrap": "yarn create-handbook-nav && node ./scripts/generateAttribution.cjs"
   },
   "prettier": {
     "semi": true

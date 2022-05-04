@@ -1,17 +1,22 @@
 #!/usr/bin/env ts-node
 
-import { join } from "path";
 import { writeFileSync, copyFileSync } from "fs";
 import {
   generateV2Markdowns,
   getGitSHA,
   getHTML,
   replaceAllInString,
-} from "./setupPages";
-import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation";
-const { chromium } = require("playwright");
-const sass = require("sass");
+} from "./setupPages.js";
+import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation.js";
+import { chromium } from "playwright";
+import sass from "sass";
 import { language } from "gray-matter";
+
+import { fileURLToPath } from 'url';
+import { join, dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(dirname(dirname(__filename)));
 
 const markdowns = generateV2Markdowns();
 

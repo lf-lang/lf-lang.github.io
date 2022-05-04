@@ -3,17 +3,24 @@
 /* With twoslash
    env CI=213 yarn workspace handbook-epub build
 */
-const toHAST = require(`mdast-util-to-hast`);
-const hastToHTML = require(`hast-util-to-html`);
-const {
-  recursiveReadDirSync,
-} = require("../../lingua-franca/lib/utils/recursiveReadDirSync");
+import toHAST from "mdast-util-to-hast";
+import hastToHTML from "hast-util-to-html";
+import rrds from "../../lingua-franca/lib/utils/recursiveReadDirSync.cjs";
+const { recursiveReadDirSync } = rrds;
 
 import { readFileSync, lstatSync } from "fs";
-const remark = require("remark");
-import { join } from "path";
-import { read as readMarkdownFile } from "gray-matter";
-var lf = require("../../documentation/scripts/linguaFrancaUtils");
+import remark from "remark";
+import grayMatter from "gray-matter";
+const { read: readMarkdownFile } = grayMatter;
+import * as lf from "../../documentation/scripts/linguaFrancaUtils.cjs";
+
+import processAST from "lf-syntax-highlighting";
+
+import { fileURLToPath } from 'url';
+import { join, dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(dirname(dirname(__filename)));
 
 // Reference: https://github.com/AABoyles/LessWrong-Portable/blob/master/build.js
 
@@ -26,16 +33,15 @@ export const generateV2Markdowns = () => {
   const handbookPath = join( __dirname, "..", "..", "documentation", "copy", "en", "topics");
 
   recursiveReadDirSync(handbookPath).forEach((path) => {
-    const filePath = join(__dirname, "..", "..", path);
-    if (lstatSync(filePath).isDirectory() || !filePath.endsWith("md")) {
+    if (lstatSync(path).isDirectory() || !path.endsWith("md")) {
       return;
     }
 
-    var md = readMarkdownFile(filePath);
+    var md = readMarkdownFile(path);
     // prettier-ignore
     if (!md.data.permalink) {
       throw new Error(
-        `${filePath} in the handbook did not have a permalink in the yml header`,
+        `${path} in the handbook did not have a permalink in the yml header`,
       );
     }
     const id = md.data.permalink;
@@ -47,8 +53,8 @@ export const generateV2Markdowns = () => {
 
 // NOTE: This is used for generating PDF and epub, but not HTML that is displayed.
 export const getHTML = async (code: string, settings?: any) => {
-  const markdownAST: Node = remark().parse(code);
-
+  let markdownAST = remark().parse(code);
+  markdownAST = await processAST({markdownAST});
   const hAST = toHAST(markdownAST, { allowDangerousHtml: true });
   const html = hastToHTML(hAST, { allowDangerousHtml: true });
   return lf.postProcessHTML(html);

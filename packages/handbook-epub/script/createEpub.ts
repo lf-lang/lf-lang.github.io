@@ -4,20 +4,26 @@
    env CI=213 yarn workspace handbook-epub build
 */
 
-const jetpack = require("fs-jetpack");
 const { createReadStream } = jetpack;
-const Streampub = require("@orta/streampub");
+import Streampub from "@orta/streampub";
 
 import { copyFileSync, mkdirSync } from "fs";
 import { join } from "path";
-import { exists } from "fs-jetpack";
+import jetpack from "fs-jetpack";
+const { exists } = jetpack;
 import {
   generateV2Markdowns,
   getGitSHA,
   getHTML,
   replaceAllInString,
-} from "./setupPages";
-import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation";
+} from "./setupPages.js";
+import { getDocumentationNavForLanguage } from "../../lingua-franca/src/lib/documentationNavigation.js";
+
+import { fileURLToPath } from 'url';
+import { dirname } from 'path';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(dirname(dirname(__filename)));
 
 // Reference: https://github.com/AABoyles/LessWrong-Portable/blob/master/build.js
 
