@@ -7,7 +7,12 @@ preamble: >
 ---
 
 The IntelliJ environment allows running Kotlin-based code generators (e.g., Cpp code generator), which is currently impossible for the Eclipse environment.
-IntelliJ also provides a debugger UI useful for debugging the code generation routines.
+Like Eclipse, IntelliJ provides a debugger UI useful for debugging the code generation routines.
+
+## Prerequisites
+
+- Java 17 or up ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
+- Each target language may have additional requirements. See the [Target Language Details](/docs/handbook/target-language-details#requirements) page and select your target language.
 
 ## IntelliJ Installation
 

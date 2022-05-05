@@ -1,5 +1,5 @@
 ---
-title: Developer Eclipse setup with Oomph
+title: Developer Eclipse Setup
 layout: docs
 permalink: /docs/handbook/eclipse-oomph
 oneline: "Developer Eclipse setup with Oomph."
@@ -8,8 +8,10 @@ preamble: >
 
 ## Prerequisites
 
-- Java 11 or up ([download from Oracle](https://www.oracle.com/java/technologies/javase-jdk11-downloads.html))
-- Each target language may have additional requirements. The [latest release](/download) will provide the best guide.
+- Java 17 or up ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
+- Each target language may have additional requirements. See the [Target Language Details](/docs/handbook/target-language-details#requirements) page and select your target language.
+
+**Note:** Eclipse does not currently support Kotlin, the language used for some of the target code generators. If you plan to develop Kotlin code, we recomments [using IntelliJ](/docs/handbook/intellij-kotlin) instead of Eclipse.
 
 ## Oomph Setup
 

@@ -15,32 +15,26 @@ const Index: React.FC<Props> = (props) => {
   return <Layout title="How to set up Lingua Franca" description="Use Lingua Franca" lang={props.pageContext.lang}>
     <div className="raised main-content-block">
       <h1>Download and Install Lingua Franca</h1>
-      <p>The easiest way to get started with Lingua Franca is to install our Visual Studio Code extension from the <a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a> or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>. We also provide a command-line Lingua Franca compiler and an Eclipse-based IDE called Epoch.
+      <p>
+        All Lingua Franca tools require Java 17 or up (<a href="https://www.oracle.com/java/technologies/downloads/">download from Oracle</a>).
+        Each target language may have additional requirements. See the <a href="/docs/handbook/target-language-details#requirements">Target Language Details</a>) page and select your target language.
+      </p>
+      <p>The easiest way to get started with Lingua Franca is to install our Visual Studio Code extension from the 
+        <a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a>
+        or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>. 
+        This will give you the latest release of the Lingua Franca compiler.
+        We also provide an Eclipse-based IDE called Epoch and a command-line Lingua Franca compiler.
+        If you want the latest development version, you should download Epoch or the command-line tools from the <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">nightly build</a>.
       </p>
     </div>
 
     <div className="raised main-content-block">
-      <h2>Lingua Franca Compiler (command-line)</h2>
-      <p>Our command line compiler can be installed in any directory. It is most convenient to add the <code>bin</code> directory to your <code>PATH</code>.</p>
-      <section style={{ display: "flex", flexWrap: "wrap" }}>
-        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Linux and macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.tar.gz">lfc 0.2.0 for Linux/Mac</a> and run:
-      <p><code>tar xvf lfc_0.2.0.tar.gz</code></p>
-      <p><code>./lfc_0.2.0/bin/lfc --version</code></p>
-        </div>
-        <div style={{padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Windows</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.zip">lfc 0.2.0 for Windows</a> and run:
-      <p><code>unzip lfc_0.2.0.zip</code></p>
-      <p><code>.\lfc_0.2.0\bin\lfc.ps1 --version</code></p>
-        </div>
-      </section>
-    </div>
-
-    <div className="raised main-content-block">
       <h2>Epoch IDE</h2>
-      <p>Epoch can be installed in any directory. It is convenient to add the installation directory to your <code>PATH</code>. On a Mac, you can drag <code>epoch.app</code> to the Applications folder and open it from anywhere using <code>open -a epoch</code></p>
+      <p>Epoch can be installed in any directory. 
+        It is convenient to add the installation directory to your <code>PATH</code>. 
+        On a Mac, you can drag <code>epoch.app</code> to the Applications folder and open it from anywhere using <code>open -a epoch</code>.
+        To download the current development version of Epoch, replace the following tar and zip files with those from the <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">nightly build</a>.
+      </p>
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Linux</h3>
@@ -65,6 +59,28 @@ const Index: React.FC<Props> = (props) => {
       <p><code>cd epoch_ide_0.2.0-win32.win32.x86_64</code></p>
       <p><code>.\epoch</code></p>
          </div>
+      </section>
+    </div>
+
+    <div className="raised main-content-block">
+      <h2>Lingua Franca Compiler (command-line)</h2>
+      <p>Our command line compiler can be installed in any directory. 
+        It is most convenient to add the <code>bin</code> directory to your <code>PATH</code>.
+        To download the current development version of the command-line tools, replace the following tar and zip files with those from the <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">nightly build</a>.
+      </p>
+      <section style={{ display: "flex", flexWrap: "wrap" }}>
+        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
+          <h3>Linux and macOS</h3>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.tar.gz">lfc 0.2.0 for Linux/Mac</a> and run:
+      <p><code>tar xvf lfc_0.2.0.tar.gz</code></p>
+      <p><code>./lfc_0.2.0/bin/lfc --version</code></p>
+        </div>
+        <div style={{padding: "1rem", flex: 1, minWidth: "240px" }}>
+          <h3>Windows</h3>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.zip">lfc 0.2.0 for Windows</a> and run:
+      <p><code>unzip lfc_0.2.0.zip</code></p>
+      <p><code>.\lfc_0.2.0\bin\lfc.ps1 --version</code></p>
+        </div>
       </section>
     </div>
 
@@ -109,7 +125,7 @@ const Index: React.FC<Props> = (props) => {
               Select "Eclipse IDE for Java and DSL developers".
               </li>
               <li>
-              Continue reading <a href="https://github.com/lf-lang/lingua-franca/wiki/Developer-Eclipse-Setup-with-Oomph">here...</a>
+              Continue reading <a href="/docs/handbook/eclipse-oomph">here...</a>
               </li>
           </ul>
          </div>
