@@ -2473,7 +2473,7 @@ reactor DelayPointer(delay:time(100 msec)) {
 }
 ```
 
-> `lf_schedule_value**(<action>, <offset>, <value>, <length>);`
+> `lf_schedule_value(<action>, <offset>, <value>, <length>);`
 
 This version is used to send into the future a value that has been dynamically allocated malloc. It will be automatically freed when it is no longer needed. The _value_ argument is a pointer to the memory containing the value. The _length_ argument should be 1 if it is a not an array and the array length otherwise. This length will be needed downstream to interpret the data correctly. See [ScheduleValue.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ScheduleValue.lf).
 
