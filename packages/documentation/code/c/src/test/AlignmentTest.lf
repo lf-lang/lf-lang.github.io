@@ -14,7 +14,7 @@ main reactor {
     =}
     reaction(t4) {=
         if (self->s != 0) {
-            error_print_and_exit("Value should be 0!");
+            lf_print_error_and_exit("Value should be 0!");
         }
     =}
 }

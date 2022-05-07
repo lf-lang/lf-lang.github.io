@@ -4,7 +4,7 @@ main reactor {
     s = new Overwriting();
     reaction(s.y) {=
         if (s.y->value != 0 && s.y->value != 1) {
-            error_print_and_exit("Outputs should only be 0 or 1!");
+            lf_print_error_and_exit("Outputs should only be 0 or 1!");
         }
     =}
 }
