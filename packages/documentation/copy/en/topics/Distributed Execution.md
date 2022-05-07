@@ -26,6 +26,21 @@ There is always one federate named **RTI**, for **runtime infrastructure** that 
 
 Other than the RTI, if there are _n_ federates, then the code generator will generate _n_ separate programs with names of the form _Name_Federate_, where _Name_ is the name of the top-level Lingua Franca file (without the .lf extension) and _Federate_ is the name of the federate reactor. The code generator also produces a shell script that lauches all the federates and the RTI and a second shell script that distributes the generated code for the federates (not the RTI) to the specified machines and compiles the code on that machine.
 
+## Installation
+
+Federated execution requires installation of a separate stand-alone program called the Runtime Infrastructure or **RTI**. At the current time, the only way to install this is from source files:
+
+```shell
+git clone https://github.com/lf-lang/reactor-c.git
+cd reactor-c/core/federated/RTI/
+mkdir build && cd build
+cmake ../
+make
+sudo make install
+```
+
+The above will create a program called `RTI` and install it at `/usr/local/bin/RTI`. Once this program is available in your path, you can compile and execute federated Lingua Franca programs using [Epoch, VS Code, or the command-line tools](/download).
+
 ## Minimal Example
 
 A minimal federated execution is specified by using the **federated** keyword instead of **main** for the main federate. An example is given below:
@@ -48,13 +63,13 @@ $start(Federated)$
          info_print("Received: %s", in->value);
      =}
  }
- 
+
  federated reactor Federated {
      s = new Source();
      d = new Destination();
      s.out -> d.in;
  }
- 
+
 ```
 
 ```lf-cpp
@@ -77,7 +92,7 @@ reactor Destination {
         print(f"Received {_in.value}")
     =}
 }
- 
+
 federated reactor Federated {
     s = new Source();
     d = new Destination();
@@ -117,7 +132,7 @@ WARNING: No source file found: ../code/rs/src/Federated.lf
 
 $end(Federated)$
 
-The **federated** keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor. 
+The **federated** keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor.
 
 <div class="lf-c">
 When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/c/src/Federated.lf), the following three programs will appear in the `bin` directory:
@@ -161,7 +176,7 @@ To run the program, you can simply run `bin/Federated`, which is a `bash` script
 - `node src-gen/dist/Fedeated/Federated_s.js`
 - `node src-gen/dist/Fedeated/Federated_d.js`
 
-The instructions to run each federate will also show up in the logs when you code-generate on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/ts/src/Federated.lf). 
+The instructions to run each federate will also show up in the logs when you code-generate on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/ts/src/Federated.lf).
 
 </div>
 
