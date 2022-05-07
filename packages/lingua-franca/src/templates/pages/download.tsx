@@ -46,10 +46,9 @@ const Index: React.FC<Props> = (props) => {
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>macOS</h3>
           Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/epoch_ide_0.2.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.2.0 for macOS</a> and run:
-      <p><code>tar xvf epoch_ide_0.2.0-macosx.cocoa.x86_64.tar.gz</code></p>
-      <p><code>cd epoch_ide_0.2.0-macosx.cocoa.x86_64</code></p>
-      <p><code>xattr -cr epoch.app</code></p>
-      <p><code>open epoch.app</code></p>
+      <p><code>open epoch_ide_0.2.0-macosx.cocoa.x86_64.tar</code></p>
+      <p><code>xattr -cr Epoch.app</code></p>
+      <p><code>open -a Epoch</code></p>
         </div>
 
         <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
