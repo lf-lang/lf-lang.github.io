@@ -2,6 +2,8 @@
 @import "./fonts.scss";
 
 .dark-theme {
+  --lf-keyword: #{$lf-keyword-on-dark};
+  --lf-target-selector: #{$lf-target-selector-on-dark};
   --background-color: #{$ts-dark-bg-color};
   --text-color: #fff;
   --border-color: #444;
@@ -34,6 +36,8 @@
 html,
 html.light-theme {
   // light theme
+  --lf-keyword: #{$lf-keyword-on-light};
+  --lf-target-selector: #{$lf-target-selector-on-light};
   --background-color: #{$ts-light-bg-sandy-color};
   --pure-background: white;
   --text-color: #333;
@@ -171,7 +175,7 @@ html.font-open-dyslexic {
 
   /* LF keywords are defined in gatsby-config.js. */
   .lf_keywords {
-    color: $lf-keyword-on-light !important;
+    color: var(--lf-keyword) !important;
     font-weight: bold;
   }
   .web-page-error {
@@ -181,7 +185,7 @@ html.font-open-dyslexic {
 }
 /* Spans marked with class "lf" are treated as keywords. */
 .lf {
-  color: $lf-keyword-on-light !important;
+  color: var(--lf-keyword) !important;
   font-weight: bold;
 }
 

@@ -6,6 +6,7 @@ pre.source-lf {
 
   [class*=keyword] {
     color: #4b69c6;
+    font-weight: bold;
   }
 
   [class*=keyword-control],
@@ -25,20 +26,20 @@ pre.source-lf {
 
   [class*=constant],
   [class*=variable-language] {
-    color: #9c5d27;
+    color: #307041;
   }
 
   [class*=entity-name-function],
   [class*=function-builtin],
   [class*=function-call-generic] {
-    color: #aa3731;
+    color: #57a5c9;
     font-weight: bold;
   }
 
   [class*=entity-name-type],
   [class*=entity-name-scope-resolution],
   [class*=storage-type] {
-    color: #7a3e9d;
+    color: #308c48;
     font-weight: bold;
   }
 
@@ -47,32 +48,40 @@ pre.source-lf {
   }
 
   [class*=string] {
-    color: #448c27;
+    color: #69b64b;
   }
 
   [class*=variable] {
-    color: #7a3e9d;
+    color: #0034df;
+  }
+
+  // For LF highlighting, dark and light colors are given as variables
+  // defined in main.scss. Unfortunately, it seems this has to be repeated
+  // anyway below within the dark theme.
+  [class*=keyword-control-lflang],        // target, reaction
+  [class*=keyword-control-import-lflang], // import, not in target code
+  [class*=keyword-operator-new-lflang],   // new, not in target code
+  [class*=storage-modifier-lflang] {      // input, output, etc.
+    color: var(--lf-keyword);
+    font-weight: bold;
   }
 }
 
 .dark-theme pre.source-lf {
   [class*=keyword] {
-    color: #C586C0;
+    color: #6f87ff;
+    font-weight: bold;
   }
 
   [class*=storage-modifier],
   [class*=constant-language] {
-    color: #569CD6;
+    color: #6f87ff;
   }
 
   [class*=keyword-operator],
+  [class*=constant-character-escape],
   [class*=punctuation] {
     color: #D4D4D4;
-  }
-
-
-  [class*=constant-character-escape] {
-    color: #D7BA7D;
   }
 
   [class*=comment] {
@@ -87,7 +96,7 @@ pre.source-lf {
   [class*=entity-name-function],
   [class*=function-builtin],
   [class*=function-call-generic] {
-    color: #DCDCAA;
+    color: #d1d169;
     font-weight: normal;
   }
 
@@ -103,10 +112,19 @@ pre.source-lf {
   }
 
   [class*=string] {
-    color: #CE9178;
+    color: #69b64b;
   }
 
   [class*=variable] {
     color: #9CDCFE;
+  }
+
+  // Repeated from above.
+  [class*=keyword-control-lflang],        // target, reaction
+  [class*=keyword-control-import-lflang], // import, not in target code
+  [class*=keyword-operator-new-lflang],   // new, not in target code
+  [class*=storage-modifier-lflang] {      // input, output, etc.
+    color: var(--lf-keyword);
+    font-weight: bold;
   }
 }

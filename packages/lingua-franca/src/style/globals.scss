@@ -1,8 +1,11 @@
 // The CSS Vars live in main.scss
 
 // Lingua Franca specific:
-$lf-keyword-on-dark: rgb(247, 148, 30);
+// Too glaring: $lf-keyword-on-dark: rgb(247, 148, 30);
+$lf-keyword-on-dark: rgb(196, 130, 14);
 $lf-keyword-on-light: rgb(196, 130, 14);
+$lf-target-selector-on-light: rgb(247, 148, 30);
+$lf-target-selector-on-dark: rgb(196, 130, 14);
 
 // General:
 $ts-main-blue-color: #3178c6;
