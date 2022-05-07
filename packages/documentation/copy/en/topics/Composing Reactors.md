@@ -211,10 +211,10 @@ The enclosing `( ... )+` means to repeat the enclosed comma-separated list of so
 An import statement has the form:
 
 ```lf
-    import <reactor class> as <alias2> from "<path>"
+    import <classname> as <alias> from "<path>"
 ```
 
-where `<reactor class>` and `<alias>` can be a comma-separated list to import multiple reactors from the same file. The `<path>` specifies another `.lf` file relative to the location of the current file. The `as <alias>` portion is optional and specifies alternative class names to use in the $new$ statements.
+where `<classname>` and `<alias>` can be a comma-separated list to import multiple reactors from the same file. The `<path>` specifies another `.lf` file relative to the location of the current file. The `as <alias>` portion is optional and specifies alternative class names to use in the $new$ statements.
 
 ## Hierarchy
 
