@@ -28,7 +28,9 @@ nav#sidebar {
 
       // The target language chooser
       button#targetChooser {
-        background-color: rgb(247, 148, 30) !important; /* LF orange */
+        // Following is too glaring:
+        // background-color: rgb(247, 148, 30) !important; /* LF orange */
+        background-color: var(--lf-target-selector) !important; /* LF orange */
       }
 
       // The top level navigation items
