@@ -8,7 +8,23 @@ preamble: >
 
 $page-showing-target$
 
-Lingua Franca includes a notion of a **deadline**, which is a constraint on the relation between logical time and physical time. Specifically, a program may specify that the invocation of a reaction must occur within some _physical_ time interval of the _logical_ time of the message. If a reaction is invoked at logical time 12 noon, for example, and the reaction has a deadline of one hour, then the reaction is required to be invoked before the physical-time clock of the execution platform reaches 1 PM. If the deadline is violated, then the specified deadline handler is invoked instead of the reaction. For example:
+Lingua Franca includes a notion of a **deadline**, which is a constraint on the relation between logical time and physical time. Specifically, a program may specify that the invocation of a reaction must occur within some _physical_ time interval of the _logical_ time of the message. If a reaction is invoked at logical time 12 noon, for example, and the reaction has a deadline of one hour, then the reaction is required to be invoked before the physical-time clock of the execution platform reaches 1 PM. If the deadline is violated, then the specified deadline handler is invoked instead of the reaction.
+
+## Purposes for Deadlines
+
+A deadline in an LF program serves two purposes. First, it can guide scheduling in that a scheduler may prioritize reactions with deadlines over those without or those with longer deadlines. For this purpose, if a reaction has a deadline, then all upstream reactions on which it depends (without logical delay) inherit its deadline. Hence, those upstream reactions will also be given higher priority.
+
+Second, the deadline mechanism provides a **fault handler**, a section of code to invoke when the deadline requirement is violated. Because invocation of the fault handler depends on factors beyond the control of the LF program, an LF program with deadlines becomes **nondeterministic**. The behavior of the program depends on the exact timing of the execution.
+
+There remains the question of when the fault handler should be invoked. By default, dealines in LF are **lazy**, meaning that the fault handler is invoked at the logical time of the event triggering the reaction whose deadline is missed. Specifically, the possible violation of a deadline is not checked until the reaction with the deadline is ready to execute. Only then is the determination made whether to invoke the regular reaction or the fault handler.
+
+An alternative is an **eager deadline**, where a fault handler is invoked as soon as possible after a deadline violation becomes inevitable. With an eager deadline, if an event with tag (_t_, _m_) triggers a reaction with deadline _D_, then as soon as the runtime system detects that physical time _T_ > _t_ + _D_, the fault handler becomes enabled. This can occur at a logical time _earlier_ than _t_. Hence, a fault handler may be invoked at a logical time earlier than that of the event that triggered the fault.
+
+**Note:** As of this writing, eager deadlines are not implemented in any LF target language, so all deadlines are lazy.
+
+## Lazy Deadline
+
+A lazy deadline is specified as follows:
 
 $start(Deadline)$
 
@@ -191,3 +207,77 @@ Deadline reactor produced an output.
 The first reaction of the `Deadline` reactor does not violate the deadline, but the second does. Notice that the sleep in the $main$ reactor occurs _after_ setting the output, but because of the deterministic semantics of LF, this does not matter. The actual value of an output cannot be known until every reaction that sets that output _completes_ its execution. Since this reaction takes at least 20 msec to complete, the deadline is assured of being violated.
 
 Notice that the deadline is annotated in the diagram with a small clock symbol.
+
+## Deadline Violations During Execution
+
+Whether a deadline violation occurs is checked only _before_ invoking the reaction with a deadline. What if the reaction itself runs for long enough that the deadline gets violated _during_ the reaction execution? For this purpose, a target-language function is provided to check whether a deadline is violated during execution of a reaction with a deadline.
+
+<div class="lf-py lf-ts lf-cpp lf-rs">
+
+**NOTE**: As of this writing, this function is only implemented in the C target.
+
+</div>
+
+Consider this example:
+
+$start(CheckDeadline)$
+
+```lf-c
+target C;
+
+reactor Count {
+    output out:int;
+    reaction(startup) -> out {=
+        int count = 0;
+        while (!lf_check_deadline(self, true)) {
+            count++;
+        }
+        lf_set(out, count);
+    =} deadline (3 msec) {=
+        printf("Stopped counting.\n");
+    =}
+}
+
+main reactor {
+    c = new Count();
+    reaction(c.out) {=
+        printf("Counted to %d\n", c.out->value);
+    =}
+}
+
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/CheckDeadline.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/CheckDeadline.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/CheckDeadline.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/CheckDeadline.lf
+```
+
+$end(CheckDeadline)$
+
+<div class="lf-c">
+
+The `Count` reactor has a single reaction with a deadline of `3 msec`.
+If the deadline is not already violated when this reaction becomes enabled (at startup), then the reaction begins executing a loop. In each iteration of the loop, it calls `lf_check_deadline(self, true)`, which returns `true` if the deadline has been violated and `false` otherwise. Hence, this reaction will increment the `count` variable as many times as possible before the deadline is violated and, at
+that point, will exit the loop and produce on the output the count. Running this program will produce something like this:
+
+```
+Stopped counting.
+Counted to 20257
+```
+
+This is a (rather trivial) example of an **anytime computation**. Such computations proceed to improve results until time runs out and then produce the most improved result.
+
+The arguments to the `lf_check_deadline` are the `self` struct and a boolean that indicates whether the deadline violation handler should be invoked upon detecting a deadline violation. Because the argument is `true` above, the handler is invoked and `Stopped counting` is printed.
+
+</div>
