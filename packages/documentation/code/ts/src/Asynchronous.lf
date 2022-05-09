@@ -3,14 +3,14 @@ main reactor {
 
     physical action a(100 msec):number;
   
-	reaction(startup) -> a {=
-		// Have asynchronous callback schedule physical action.
-		setTimeout(() => {
+    reaction(startup) -> a {=
+        // Have asynchronous callback schedule physical action.
+        setTimeout(() => {
             actions.a.schedule(TimeValue.zero(), 0)
         }, 200)
-	=}
-	
-	reaction(a) {=
+    =}
+
+    reaction(a) {=
         console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} nsec after start.`)
-	=}
+    =}
 }
