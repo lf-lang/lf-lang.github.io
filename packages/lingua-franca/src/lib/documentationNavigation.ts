@@ -239,8 +239,8 @@ export function getDocumentationNavForLanguage(
           oneline: "Quick start with Lingua Franca.",
         },
         {
-          title: "Developer Eclipse setup with Oomph",
-          id: "4-developer-eclipse-setup-with-oomph",
+          title: "Developer Eclipse Setup",
+          id: "4-developer-eclipse-setup",
           permalink: "/docs/handbook/eclipse-oomph",
           oneline: "Developer Eclipse setup with Oomph.",
         },
