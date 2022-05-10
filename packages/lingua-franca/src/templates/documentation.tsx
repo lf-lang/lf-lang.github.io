@@ -83,7 +83,7 @@ const HandbookTemplate: React.FC<Props> = (props) => {
   if (!post.html) throw new Error(`No html found for the file with props: ${props}`)
 
   const selectedID = props.pageContext.id || "NO-ID"
-  const sidebarHeaders = post.headings?.filter(h => (h?.depth || 0) <= 3) || []
+  const sidebarHeaders = post.headings?.filter(h => (h?.depth || 0) <= 2) || []
   const showSidebar = !post.frontmatter.disable_toc
   const showExperimental = post.frontmatter.experimental
   const showSidebarHeadings = post.headings && sidebarHeaders.length <= 30 && sidebarHeaders.length > 0
