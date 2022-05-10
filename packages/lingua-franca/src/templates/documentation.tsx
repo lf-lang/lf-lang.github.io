@@ -86,7 +86,7 @@ const HandbookTemplate: React.FC<Props> = (props) => {
   const sidebarHeaders = post.headings?.filter(h => (h?.depth || 0) <= 3) || []
   const showSidebar = !post.frontmatter.disable_toc
   const showExperimental = post.frontmatter.experimental
-  const showSidebarHeadings = post.headings && sidebarHeaders.length <= 30
+  const showSidebarHeadings = post.headings && sidebarHeaders.length <= 30 && sidebarHeaders.length > 0
   const navigation = getDocumentationNavForLanguage(props.pageContext.lang)
   const isHandbook = post.frontmatter.handbook
   const prefix = isHandbook ? "Handbook" : "Documentation"
