@@ -18,18 +18,28 @@ const Index: React.FC<Props> = (props) => {
       <p>
         All Lingua Franca tools require Java 17 or up (<a href="https://www.oracle.com/java/technologies/downloads/">download from Oracle</a>).
         Each target language may have additional requirements. See the <a href="/docs/handbook/target-language-details#requirements">Target Language Details</a>) page and select your target language.
+        The alternatives:
+        <ul>
+          <li><a href="#vscode">Use the Visual Studio Code extension</a></li>
+          <li><a href="#download-epoch">Download Epoch, the Eclipse-based IDE</a></li>
+          <li><a href="#download-cl">Download the command-line tools</a></li>
+          <li><a href="#developer">Developer setup, if you will be contributing to Lingua Franca</a></li>
+          <li><a href="https://vm.lf-lang.org/">Download an Ubuntu virtual machine with Epoch preinstalled</a></li>
+        </ul>
       </p>
+    </div>
+    <div className="raised main-content-block">
+    <h2 id="vscode">Visual Studio Code</h2>
       <p>The easiest way to get started with Lingua Franca is to install our Visual Studio Code extension from the 
         <a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a>
-        or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>. 
-        This will give you the latest release of the Lingua Franca compiler.
-        We also provide an Eclipse-based IDE called Epoch and a command-line Lingua Franca compiler.
-        If you want the latest development version, you should download Epoch or the command-line tools from the <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">nightly build</a>.
+        or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
+        To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter `ext install lf-lang.vscode-lingua-franca`.
+        See <a href="/docs/handbook/code-extension">more details</a>.
       </p>
     </div>
 
     <div className="raised main-content-block">
-      <h2>Epoch IDE</h2>
+      <h2 id="download-epoch">Epoch IDE</h2>
       <p>Epoch can be installed in any directory. 
         It is convenient to add the installation directory to your <code>PATH</code>. 
         On a Mac, you can drag <code>epoch.app</code> to the Applications folder and open it from anywhere using <code>open -a epoch</code>.
@@ -59,10 +69,11 @@ const Index: React.FC<Props> = (props) => {
       <p><code>.\epoch</code></p>
          </div>
       </section>
+      See <a href="/docs/handbook/epoch-ide">more details</a>.
     </div>
 
     <div className="raised main-content-block">
-      <h2>Lingua Franca Compiler (command-line)</h2>
+      <h2 id="download-cl">Lingua Franca Compiler (command-line)</h2>
       <p>Our command line compiler can be installed in any directory. 
         It is most convenient to add the <code>bin</code> directory to your <code>PATH</code>.
         To download the current development version of the command-line tools, replace the following tar and zip files with those from the <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">nightly build</a>.
@@ -81,10 +92,11 @@ const Index: React.FC<Props> = (props) => {
       <p><code>.\lfc_0.2.0\bin\lfc.ps1 --version</code></p>
         </div>
       </section>
+      See <a href="/docs/handbook/command-line-tools">more details</a>.
     </div>
 
     <div className="raised main-content-block">
-      <h2>Development Setup</h2>
+      <h2 id="developer">Developer Setup</h2>
       <p>If you'd like to contribute to Lingua Franca and build our toolchain on your own, you will need to check out our <a href="https://repo.lf-lang.org/">GitHub repository</a>. The toolchain can built using Gradle or Maven, which have integrations with most IDEs. For Eclipse users, we provide an Oomph setup.</p>
 
       <section style={{ display: "flex", flexWrap: "wrap" }}>
