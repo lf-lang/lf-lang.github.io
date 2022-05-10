@@ -3,6 +3,8 @@
 pre.source-lf {
   overflow-x: auto;
   font-size: 0.8rem;
+  background-color: var(--inline-code-background-color);
+  padding: 10px;
 
   [class*=keyword] {
     color: #4b69c6;

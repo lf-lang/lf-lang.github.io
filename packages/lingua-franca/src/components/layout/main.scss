@@ -8,7 +8,7 @@
   --text-color: #fff;
   --border-color: #444;
   --background-minor-highlight-color: #343434;
-  --inline-code-background-color: rgb(58, 58, 92, 0.7);
+  --inline-code-background-color: #{$ts-dark-bg-color};
   --inline-code-color: #fff;
   --link-color: #{$ts-main-blue-lightest-color};
   --pure-background: black;
