@@ -14,19 +14,15 @@ preamble: >
 
 <div class="lf-c lf-py lf-ts">
 
-```diff
-! The information in this page is outdated, and will be updated soon.
-```
+$page-showing-target$
 
-**NOTE:** This describes a highly preliminary capability to map pieces of a Lingua Franca program to different machines. This capability is very much under development. This capability has been tested on MacOS and Linux, but not yet on Windows. Volunteer to do that and update these instructions?
+**NOTE:** Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on MacOS and Linux, and there are no plans currently to support Windows systems.
 
-A Lingua Franca program can be separated into separate programs called **federates** that communicate with one another. The federates will execute in separate processes and even on separate machines. They can be distributed across networks and can even be written in different target languages.
+A distributed Lingua Franca program is called a **federation**. Each reactor within the main reactor is called a **federate**. The LF compiler generates a separate program for each federate and synthesizes the code for the federates to communicate. The federates can be distributed across networks and eventually will be able to be written in different target languages, although this is not yet supported.
 
-There is always one federate named **RTI**, for **runtime infrastructure** that coordinates startup and shutdown and may, if the implementation is centralized, mediate communication. The RTI needs to be compiled and installed separately on the system before any federation can execute. The instruction on how to do so can be found [here](https://github.com/lf-lang/lingua-franca/blob/master/org.lflang/src/lib/core/federated/RTI/README.md).
+In addition to the federates, there is a program called the **RTI**, for **runtime infrastructure**. that coordinates startup and shutdown and may, if the coordination is centralized, mediate communication. The RTI needs to be compiled and installed separately on the system before any federation can execute.
 
-Other than the RTI, if there are _n_ federates, then the code generator will generate _n_ separate programs with names of the form _Name_Federate_, where _Name_ is the name of the top-level Lingua Franca file (without the .lf extension) and _Federate_ is the name of the federate reactor. The code generator also produces a shell script that lauches all the federates and the RTI and a second shell script that distributes the generated code for the federates (not the RTI) to the specified machines and compiles the code on that machine.
-
-## Installation
+## Installation of the RTI
 
 Federated execution requires installation of a separate stand-alone program called the Runtime Infrastructure or **RTI**. At the current time, the only way to install this is from source files:
 
@@ -39,11 +35,11 @@ make
 sudo make install
 ```
 
-The above will create a program called `RTI` and install it at `/usr/local/bin/RTI`. Once this program is available in your path, you can compile and execute federated Lingua Franca programs using [Epoch, VS Code, or the command-line tools](/download).
+The above will create a program called `RTI` and install it at `/usr/local/bin/RTI`. Once this program is available in your path, you can compile and execute federated Lingua Franca programs using [Epoch, VS Code, or the command-line tools](/download). For more details, see the [README file](https://github.com/lf-lang/reactor-c/blob/main/core/federated/RTI/README.md).
 
 ## Minimal Example
 
-A minimal federated execution is specified by using the **federated** keyword instead of **main** for the main federate. An example is given below:
+A minimal federated execution is specified by using the $federated$ keyword instead of $main$ for the main federate. An example is given below:
 
 $start(Federated)$
 
@@ -132,7 +128,7 @@ WARNING: No source file found: ../code/rs/src/Federated.lf
 
 $end(Federated)$
 
-The **federated** keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor.
+The $federated$ keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor.
 
 <div class="lf-c">
 When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/c/src/Federated.lf), the following three programs will appear in the `bin` directory:
