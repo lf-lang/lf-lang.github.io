@@ -101,7 +101,7 @@ federated reactor Federated {
 
 ```lf-ts
 target TypeScript {
-    timeout: 0 msec
+    timeout: 1 msec
 }
 
 reactor Source {
@@ -113,7 +113,7 @@ reactor Source {
 reactor Destination {
     input inp:string;
     reaction(inp) {=
-        console.log(`Received: $inp`);
+        console.log("Received: " + inp);
     =}
 }
 
