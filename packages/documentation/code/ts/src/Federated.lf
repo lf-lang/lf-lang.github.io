@@ -1,10 +1,11 @@
-target TypeScript;
+target TypeScript {
+    timeout: 0 msec
+}
 
 reactor Source {
     output out:string;
     reaction(startup) -> out {=
         out = "Hello World!";
-        util.requestStop();
     =}
 }
 reactor Destination {

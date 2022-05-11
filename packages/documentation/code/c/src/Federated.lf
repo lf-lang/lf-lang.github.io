@@ -1,16 +1,17 @@
- target C;
+ target C {
+    timeout: 0 msec
+}
 
  reactor Source {
      output out:string;
      reaction(startup) -> out {=
          lf_set(out, "Hello World!");
-         request_stop();
      =}
  }
  reactor Destination {
      input in:string;
      reaction(in) {=
-         info_print("Received: %s", in->value);
+         lf_print("Received: %s", in->value);
      =}
  }
  

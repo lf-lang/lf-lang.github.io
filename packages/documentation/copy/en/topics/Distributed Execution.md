@@ -44,28 +44,29 @@ A minimal federated execution is specified by using the $federated$ keyword inst
 $start(Federated)$
 
 ```lf-c
- target C;
+ target C {
+    timeout: 0 msec
+}
 
  reactor Source {
      output out:string;
      reaction(startup) -> out {=
          lf_set(out, "Hello World!");
-         request_stop();
      =}
  }
  reactor Destination {
      input in:string;
      reaction(in) {=
-         info_print("Received: %s", in->value);
+         lf_print("Received: %s", in->value);
      =}
  }
-
+ 
  federated reactor Federated {
      s = new Source();
      d = new Destination();
      s.out -> d.in;
  }
-
+ 
 ```
 
 ```lf-cpp
@@ -73,13 +74,14 @@ WARNING: No source file found: ../code/cpp/src/Federated.lf
 ```
 
 ```lf-py
-target Python;
+target Python {
+    timeout: 0 msec
+}
 
 reactor Source {
     output out;
     reaction(startup) -> out {=
         out.set("Hello World!")
-        request_stop()
     =}
 }
 reactor Destination {
@@ -88,7 +90,7 @@ reactor Destination {
         print(f"Received {_in.value}")
     =}
 }
-
+ 
 federated reactor Federated {
     s = new Source();
     d = new Destination();
@@ -98,13 +100,14 @@ federated reactor Federated {
 ```
 
 ```lf-ts
-target TypeScript;
+target TypeScript {
+    timeout: 0 msec
+}
 
 reactor Source {
     output out:string;
     reaction(startup) -> out {=
         out = "Hello World!";
-        util.requestStop();
     =}
 }
 reactor Destination {
@@ -130,49 +133,102 @@ $end(Federated)$
 
 The $federated$ keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor.
 
+When you run the code generator on `src/Federated.lf` containing the above code, the following three programs will appear:
+
 <div class="lf-c">
-When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/c/src/Federated.lf), the following three programs will appear in the `bin` directory:
 
-- Federated
-- Federated_s
-- Federated_d
-
-The root name, _Federated_, is the name of the .lf file from which these are generated. The suffixes "\_s" and "\_d" come from the names of the top-level instances. There will always be one federate for each top-level reactor instance.
-
-To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s` and `Federated_d`. Alternatively, you can manually execute the RTI followed the two federate programs by starting them on the command line in any order.
-
-<!-- This script is generated if any of the two federates, or the RTI are specified to be run on a remote machine (see below for how to do that). This script will copy the source files for the relevant program (but not the RTI) to the remote machine and compile them there. The RTI needs to be separately installed on the remote machine. -->
+```
+bin/Federated
+bin/Federated_s
+bin/Federated_d
+```
 
 </div>
 
 <div class="lf-py">
 
-When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/py/src/Federated.lf), the following programs will appear in the `bin` and `src-gen` directories:
-
-- bin/Fedeated
-- src-gen/Federated/s/Federated_s.py
-- src-gen/Federated/d/Federated_d.py
-
-To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s.py` and `Federated_d.py`. Alternatively, you can manually execute the RTI followed the two federate programs by running the following `python3` commands in separate terminals.
-
-- `python3 src-gen/Federated/s/Federated_s.py`
-- `python3 src-gen/Federated/d/Federated_d.py`
+```
+bin/Federated
+src-gen/Federated/s/Federated_s.py
+src-gen/Federated/d/Federated_d.py
+```
 
 </div>
 
 <div class="lf-ts">
-When you run the code generator on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/ts/src/Federated.lf), the following programs will appear in the `bin` and `src-gen/dist` directories:
 
-- bin/Fedeated
-- src-gen/dist/Fedeated/Federated_s.js
-- src-gen/dist/Fedeated/Federated_d.js
+```
+bin/Federated
+src-gen/dist/Federated/Federated_s.js
+src-gen/dist/Federated/Federated_d.js
+```
 
-To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s.js` and `Federated_d.js`. Alternatively, you can manually execute the RTI followed the two federate programs by running the following `node` commands in separate terminals.
+</div>
 
-- `node src-gen/dist/Fedeated/Federated_s.js`
-- `node src-gen/dist/Fedeated/Federated_d.js`
+The root name, `Federated`, is the name of the .lf file from which these are generated (and the name of the main reactor, which is required to match if it is specified). The suffixes "\_s" and "\_d" come from the names of the top-level instances. There will always be one federate for each top-level reactor instance.
 
-The instructions to run each federate will also show up in the logs when you code-generate on [Federated.lf](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/code/ts/src/Federated.lf).
+To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s` and `Federated_d`.
+Alternatively, you can manually execute the RTI followed by the two federate programs by starting them on the command line. It is best to use three separate terminal windows (so that outputs from the three programs do not get jumbled together) to execute the following commands:
+
+<div class="lf-c">
+
+```
+RTI -n 2
+bin/Federated_s
+bin/Federated_d
+```
+
+</div>
+
+<div class="lf-py">
+
+```
+RTI -n 2
+python3 src-gen/Federated/s/Federated_s.py
+python3 src-gen/Federated/d/Federated_d.py
+```
+
+<span class="warning">**NOTE**: As of this writing, the script is not working for the Python target. You have to manually run the programs manually.</span>
+
+</div>
+
+<div class="lf-ts">
+
+```
+RTI -n 2
+node src-gen/Federated/dist/Federated_s.js
+node src-gen/Federated/dist/Federated_d.js
+```
+
+</div>
+
+The `-n` argument to the `RTI` specifies that there it should expect two federates to join the federation.
+
+Upon running the program, you will see information printed about the starting and ending of the federation, and buried in the output will be this line:
+
+<div class="lf-c">
+
+```
+Federate 1: Received: Hello World!
+```
+
+The prefix `Federate 1` is automatically added by the built-in `lf_print` function to help disambiguate the outputs from multiple concurrent federates.
+
+</div>
+
+<div class="lf-py">
+
+```
+Received: Hello World!
+```
+
+</div>
+
+<div class="lf-ts">
+
+```
+Received: Hello World!
+```
 
 </div>
 

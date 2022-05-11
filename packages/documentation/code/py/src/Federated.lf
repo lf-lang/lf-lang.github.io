@@ -1,10 +1,11 @@
-target Python;
+target Python {
+    timeout: 0 msec
+}
 
 reactor Source {
     output out;
     reaction(startup) -> out {=
         out.set("Hello World!")
-        request_stop()
     =}
 }
 reactor Destination {
