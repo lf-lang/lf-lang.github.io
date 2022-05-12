@@ -114,6 +114,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Superdense time in Lingua Franca.",
         },
         {
+          title: "Modal Reactors",
+          id: "1-modal-reactors",
+          permalink: "/docs/handbook/modal-models",
+          oneline: "Modal Reactors",
+        },
+        {
           title: "Deadlines",
           id: "1-deadlines",
           permalink: "/docs/handbook/deadlines",
