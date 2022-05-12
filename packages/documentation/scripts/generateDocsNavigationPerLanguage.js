@@ -52,6 +52,7 @@ const handbookPages = [
       { file: "topics/Extending Reactors.md" },
       { file: "topics/Actions.md" },
       { file: "topics/Superdense Time.md" },
+      { file: "topics/Modal Models.md" },
       { file: "topics/Deadlines.md" },
       { file: "topics/Multiports and Banks.md" },
       { file: "topics/Preambles and Methods.md" },
