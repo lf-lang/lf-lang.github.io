@@ -115,7 +115,7 @@ This also applies to indirectly nested reactors within modes and connections wit
 
 <img alt="Illustration of local time (model)" src="../../../../../img/modal_models/local_time.svg" width="400"/>
 
-The given LF model illustrates the different characteristics of local time affecting timers and actions in the presence of the two transition types.
+The above LF model illustrates the different characteristics of local time affecting timers and actions in the presence of the two transition types.
 
 It consists of two modes `One` (the initial mode) and `Two`, both in the `Modal` reactor.
 The `next` input toggles between these modes and is controlled by a reaction at the top level that is triggered by the timer `T`.
@@ -128,7 +128,7 @@ The main difference between the modes is that `One` is entered via a history tra
 
 <img alt="Illustration of local time (trace)" src="../../../../../img/modal_models/local_time_trace.svg" width="600"/>
 
-This is the execution trace of the first 4 seconds of this program.
+Above is the execution trace of the first 4 seconds of this program.
 Below the timeline is the currently active mode and above the timeline are the model elements that are executed at certain points in time, together with indicating triggering and their relation through time.
 For example, at 100 msec, the initial offset of timer `T1` elapses, which leads to the scheduling of the logical action in this mode.
 The action triggers the reaction 500 msec later, at 600 msec, and thus causes an output.
@@ -138,7 +138,7 @@ In contrast, when mode `Two` is re-entered via a reset transition, at time 3000 
 
 <img alt="Illustration of local time (plot)" src="../../../../../img/modal_models/local_time_plot.svg" width="300"/>
 
-This plot illustrates the relation between global time in the environment and the localized time for each timer in the model.
+The above plot illustrates the relation between global time in the environment and the localized time for each timer in the model.
 Since the top-level reactor `TimingExample` is not enclosed by any mode, its time always corresponds to the global time.
 Mode `One` is the initial mode and hence progresses in sync with `TimingExample` for the first second.
 During inactivity of mode One the timer is suspended and does not advance in time.
@@ -155,7 +155,7 @@ These are commonly used for managing memory for state variables, handling connec
 If reactions to these triggers are located inside modes they are subject to a special execution regime.
 
 First, `startup` reactions are invoked at most once at the first activation of a mode.
-Second, `shutdown` reactions are executed when the reactor shuts down, ***irrespective*** of mode activity, but we only if the enclosing modes have been activate at least once.
+Second, `shutdown` reactions are executed when the reactor shuts down, ***irrespective*** of mode activity, but only if the enclosing modes have been activated at least once.
 Hence, every startup has a corresponding shutdown.
 Third, as mentioned before, the new `reset` trigger for reactions can be used, if a startup behavior should be re-executed if a mode is entered with a reset transition.
 
@@ -163,7 +163,7 @@ Note that this may have unexpected consequences:
 
 * Startup behavior inside modes may occur during execution and not only at program start.
 * Multiple shutdown reactions may be executed, bypassing mutual exclusion of modes.
-* Reactors that are design without consideration of modes and use only `startup` (not `reset`) to trigger an execution chain, may not work in modes and cease to function if re-entered with a reset.
+* Reactors that are designed without consideration of modes and use only `startup` (not `reset`) to trigger an execution chain, may not work in modes and cease to function if re-entered with a reset.
 
 Even in the presence of these oddities, we currently consider this behavior the best fitting compromise.
 
