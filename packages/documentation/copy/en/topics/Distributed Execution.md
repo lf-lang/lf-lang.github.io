@@ -300,17 +300,17 @@ This technique has also been implemented in Google Spanner, a globally distribut
 
 By default, the STP is zero. This will work fine under the assumption that **every** logical connection between federates has a sufficiently large `after` clause. That is, the value of the logical delay must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, the network latency bound _L_, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a **deadline**. See for example [example/C/Federated/HelloWorld/HelloWorldDecentralized.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralized.lf).
 
-Of course, this assumption can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation that is called a `tardy` handlers as done in [example/C/Federated/HelloWorld/HelloWorldDecentralized.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralized.lf).(example/C/Federated/HelloWorld/HelloWorldDecentralized.lf). The pattern is:
+Of course, this assumption can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation that is called a `STP` handlers as done in [example/C/Federated/HelloWorld/HelloWorldDecentralized.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralized.lf).(example/C/Federated/HelloWorld/HelloWorldDecentralized.lf). The pattern is:
 
 ```
 reaction(in) {=
     // User code
-=} tardy {=
+=} STP {=
     // Error handling code
 =}
 ```
 
-If the timestamp at which this reaction is to be invoked (the value returned by `get_current_tag`) cannot match the timestamp of an incoming message `in` (because the current tag has already advanced beyond the intended tag of `in`), then the `tardy` handler will be invoked instead of the normal reaction. Within the body of the tardy handler, the code can access the intended tag of `in` using `in->intended_tag`, which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly. If no tardy handler is provided at any reaction triggered by an input from another federate, then the normal reaction will be invoked at the earliest feasible logical time greater than or equal to the intended logical time of the message.
+If the timestamp at which this reaction is to be invoked (the value returned by `get_current_tag`) cannot match the timestamp of an incoming message `in` (because the current tag has already advanced beyond the intended tag of `in`), then the `STP` handler will be invoked instead of the normal reaction. Within the body of the STP handler, the code can access the intended tag of `in` using `in->intended_tag`, which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly. If no STP handler is provided at any reaction triggered by an input from another federate, then the normal reaction will be invoked at the earliest feasible logical time greater than or equal to the intended logical time of the message.
 
 One option available to the code is to increase the STP. This can be done simply by equipping a federate with a parameter of type **time** named `STP`. See for example [example/C/Federated/HelloWorld/HelloWorldDecentralizedSTP.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralizedSTP.lf). This can be done as follows:
 
