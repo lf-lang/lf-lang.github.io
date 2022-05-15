@@ -1,23 +1,23 @@
- target C {
-    timeout: 0 msec
+target C;
+
+reactor Count {
+    output out:int;
+    state c:int(0);
+    timer t(0, 1 sec);
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+}
+reactor Print {
+    input in:int;
+    reaction(in) {=
+        lf_print("***** Received: %d", in->value);
+    =}
 }
 
- reactor Source {
-     output out:string;
-     reaction(startup) -> out {=
-         lf_set(out, "Hello World!");
-     =}
- }
- reactor Destination {
-     input in:string;
-     reaction(in) {=
-         lf_print("Received: %s", in->value);
-     =}
- }
- 
- federated reactor Federated {
-     s = new Source();
-     d = new Destination();
-     s.out -> d.in;
- }
+federated reactor {
+    c = new Count();
+    p = new Print();
+    c.out -> p.in;
+}
  

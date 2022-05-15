@@ -16,6 +16,8 @@ preamble: >
 
 $page-showing-target$
 
+**NOTE:** This page is out of date. It will be updated soon.
+
 **NOTE:** Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on MacOS and Linux, and there are no plans currently to support Windows systems.
 
 A distributed Lingua Franca program is called a **federation**. Each reactor within the main reactor is called a **federate**. The LF compiler generates a separate program for each federate and synthesizes the code for the federates to communicate. The federates can be distributed across networks and eventually will be able to be written in different target languages, although this is not yet supported.
@@ -60,13 +62,13 @@ $start(Federated)$
          lf_print("Received: %s", in->value);
      =}
  }
- 
+
  federated reactor Federated {
      s = new Source();
      d = new Destination();
      s.out -> d.in;
  }
- 
+
 ```
 
 ```lf-cpp
@@ -90,7 +92,7 @@ reactor Destination {
         print(f"Received {_in.value}")
     =}
 }
- 
+
 federated reactor Federated {
     s = new Source();
     d = new Destination();
