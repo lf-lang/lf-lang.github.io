@@ -16,13 +16,14 @@ preamble: >
 
 $page-showing-target$
 
-**NOTE:** This page is out of date. It will be updated soon.
-
 **NOTE:** Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on MacOS and Linux, and there are no plans currently to support Windows systems.
 
 A distributed Lingua Franca program is called a **federation**. Each reactor within the main reactor is called a **federate**. The LF compiler generates a separate program for each federate and synthesizes the code for the federates to communicate. The federates can be distributed across networks and eventually will be able to be written in different target languages, although this is not yet supported.
 
 In addition to the federates, there is a program called the **RTI**, for **runtime infrastructure**. that coordinates startup and shutdown and may, if the coordination is centralized, mediate communication. The RTI needs to be compiled and installed separately on the system before any federation can execute.
+
+It is possible to encapsulate federates in Docker containers for deployment.
+See [containerized execution](/docs/handbook/containerized-execution).
 
 ## Installation of the RTI
 
@@ -46,28 +47,28 @@ A minimal federated execution is specified by using the $federated$ keyword inst
 $start(Federated)$
 
 ```lf-c
- target C {
-    timeout: 0 msec
+target C;
+
+reactor Count {
+    output out:int;
+    state c:int(0);
+    timer t(0, 1 sec);
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+}
+reactor Print {
+    input in:int;
+    reaction(in) {=
+        lf_print("***** Received: %d", in->value);
+    =}
 }
 
- reactor Source {
-     output out:string;
-     reaction(startup) -> out {=
-         lf_set(out, "Hello World!");
-     =}
- }
- reactor Destination {
-     input in:string;
-     reaction(in) {=
-         lf_print("Received: %s", in->value);
-     =}
- }
-
- federated reactor Federated {
-     s = new Source();
-     d = new Destination();
-     s.out -> d.in;
- }
+federated reactor {
+    c = new Count();
+    p = new Print();
+    c.out -> p.in;
+}
 
 ```
 
@@ -89,7 +90,7 @@ reactor Source {
 reactor Destination {
     input _in;
     reaction(_in) {=
-        print(f"Received {_in.value}")
+        print(f"****** Received {_in.value}")
     =}
 }
 
@@ -103,6 +104,7 @@ federated reactor Federated {
 
 ```lf-ts
 target TypeScript {
+    // FIXME: This should work with timeout: 0 msec.
     timeout: 1 msec
 }
 
@@ -234,6 +236,43 @@ Received: Hello World!
 
 </div>
 
+## Federation ID
+
+You may have several federations running on the same machine(s) or even several instances of the same federation. In this case, it is necessary to distinguish between the federations. To accomplish this, you can pass a `-i` or `--id` parameter to the RTI and its federates with an identifier that is unique to the particular federation. For example,
+
+<div class="lf-c">
+
+```
+RTI -n 2 -i myFederation
+bin/Federated_s -i myFederation
+bin/Federated_d -i myFederation
+```
+
+</div>
+
+<div class="lf-py">
+
+```
+RTI -n 2 -i myFederation
+python3 src-gen/Federated/s/Federated_s.py -i myFederation
+python3 src-gen/Federated/d/Federated_d.py -i myFederation
+```
+
+</div>
+
+<div class="lf-ts">
+
+```
+RTI -n 2 -i myFederation
+node src-gen/Federated/dist/Federated_s.js -i myFederation
+node src-gen/Federated/dist/Federated_d.js -i myFederation
+```
+
+</div>
+
+Each federate must have the same ID as the RTI in order to join the federation.
+The `bash` script that executes each of the components of the federation automatically generates a unique federation ID each time you run it.
+
 ## Coordinated Start
 
 When the above programs execute, each federate registers with the RTI. When all expected federates have registered, the RTI broadcasts to the federates the logical time at which they should start execution. Hence, all federates start at the same logical time.
@@ -251,32 +290,26 @@ Coordinating the shutdown of a distributed program is discussed in [Termination]
 When one federate sends data to another, by default, the timestamp at the receiver will match the timestamp at the sender. You can also specify a logical delay on the communication using the **after** keyword. For example, if we had instead specified
 
 ```
-	source.out -> print.in after 200 msec;
+	s.out -> p.in after 200 msec;
 ```
 
-then the timestamp at the receiving end will be incremented by 200 msec compared to the timestamp at the sender (see [example/C/Federated/HelloWorld/HelloWorldAfter.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldAfter.lf)).
+then the timestamp at the receiving end will be incremented by 200 msec compared to the timestamp at the sender<span class="lf-c"> (see [example/C/Federated/HelloWorld/HelloWorldAfter.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/DistributedHelloWorld/HelloWorldAfter.lf))</span>.
 
-The preservation of timestamps across federates implies some constraints (see [physical connections](#physical-connections) below for a way to avoid these constraints). How these constraints are managed depends on whether you choose **centralized** or **decentralized** coordination.
-
-## Containerized Execution
-
-See [ution](/docs/handbook/containerized-execution).
-
-FIXME: [Here](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/docker/federated/DistributedCountContainerized.lf) is an test that imports an [existing](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/DistributedCount.lf) federated test with the addition of a docker: true flag in the target property of the test. This test will automatically run in multiple Docker containers (one for the RTI and one for each federate) in our CI.
+The preservation of timestamps across federates implies some constraints (unless you use [physical connections](#physical-connections)). How these constraints are managed depends on whether you choose **centralized** or **decentralized** coordination.
 
 ## Centralized Coordination
 
-In the **centralized** mode of coordination (the default), the RTI regulates the advancement of time in each of the federates in order to ensure that the logical time semantics of Lingua Franca is respected. If the `print` federate has an event with timestamp _t_ that it wants to react to (it is the earliest event in its event queue or it is a **physical action** that just triggered), then it needs to get the OK from the RTI to advance its logical time to _t_. The RTI grants this time advance only when it can assure that `print` has received all messages that it will ever receive with timestamps _t_ or less.
+In the **centralized** mode of coordination (the default), the RTI regulates the advancement of time in each of the federates in order to ensure that the logical time semantics of Lingua Franca is respected. If the `p` federate above has an event with timestamp _t_ that it wants to react to (it is the earliest event in its event queue), then it needs to get the OK from the RTI to advance its logical time to _t_. The RTI grants this time advance only when it can assure that `p` has received all messages that it will ever receive with timestamps _t_ or less.
 
-First, note that, by default, logical time on each federate never advances ahead of physical time, as reported by its local physical clock. Consider the consequences for the above connection. Suppose the timestamp of the message sent by `source` is _t_. This message cannot be sent before the local clock at `source` reaches _t_ and also cannot be sent before the RTI grants to `source` a time advance to _t_. Since `source` has no federates upstream of it, the RTI will always grant it such a time advance.
+First, note that, by default, logical time on each federate never advances ahead of physical time, as reported by its local physical clock. Consider the consequences for the above connection. Suppose the timestamp of the message sent by `s` is _t_. This message cannot be sent before the local clock at `s` reaches _t_ and also cannot be sent before the RTI grants to `s` a time advance to _t_. Since `s` has no federates upstream of it, the RTI will always grant it such a time advance (in fact, it does not even wait for a response from the RTI).
 
-Suppose that the communication latency is _L_. That is, it takes _L_ time units (in physical time) for a message to traverse the network. Then the `print` federate will not see the message from `source` before physical time _t_ + _L_, where this physical time is measured by the physical clock on `source`'s host. If that clock differs from the clock on `print`'s host by _E_, then `print` will see the message at physical time _t_ + _E_ + _L_, as measured by its own clock. Let the value of the **after** specification (200 msec above) be _a_. Then the timestamp of the received message is _t_ + _a_. The relationship between logical and physical times at the receiving end (the `print` federate), therefore, will depend on the relationship between _a_ and _E_ + _L_. If, for example, _E_ + _L_ > _a_, then federate `print` will lag behind physical time by at least _E_ + _L_ - _a_.
+Suppose that the communication latency is _L_. That is, it takes _L_ time units (in physical time) for a message to traverse the network. Then the `p` federate will not see the message from `s` before physical time _t_ + _L_, where this physical time is measured by the physical clock on `s`'s host. If that clock differs from the clock on `p`'s host by _E_, then `p` will see the message at physical time _t_ + _E_ + _L_, as measured by its own clock. Let the value of the **after** specification (200 msec above) be _a_. Then the timestamp of the received message is _t_ + _a_. The relationship between logical and physical times at the receiving end (the `p` federate), therefore, will depend on the relationship between _a_ and _E_ + _L_. If, for example, _E_ + _L_ > _a_, then federate `p` will lag behind physical time by at least _E_ + _L_ - _a_.
 
-Assume the RTI has granted a time advance to _t_ to federate `source`. Hence, `source` is able to send a message with timestamp _t_. The RTI now cannot grant any time advance to `print` that is greater than or equal to _t_ + _a_ until the message has been delivered to `print`. In centralized coordination, all messages flow through the RTI, so the RTI will deliver the time advance grant (**TAG**) to `print` only after it has delivered the message.
+Assume the RTI has granted a time advance to _t_ to federate `s`. Hence, `s` is able to send a message with timestamp _t_. The RTI now cannot grant any time advance to `p` that is greater than or equal to _t_ + _a_ until the message has been delivered to `p`. In centralized coordination, all messages flow through the RTI, so the RTI will deliver a **Tag Advance Grant** (**TAG**) message to `p` only after it has delivered the message.
 
-If _a_ > _E_ + _L_, then the existence of this communication does not cause `print`'s logical time to lag behind physical time. This means that if a **physical action** appears at `print`, the RTI will be able to immediately grant a time advance to `print` to the timestamp of that physical action. However, if _a_ < _E_ + _L_, then the RTI will delay granting a time advance to `print` by at least _E_ + _L_ - _a_. Hence, _E_ + _L_ - _a_ represents an additional latency in the processing of physical actions! This latency could present a problem for meeting deadlines. For this reason, if there are physical actions or deadlines at a federate that receives network messages, it is desirable to set **after** on the connection to that federate to be larger than any expected _E_ + _L_. This way, there is no additional latency to processing physical actions at this federate and no additional risk of missing deadlines.
+If _a_ > _E_ + _L_, then the existence of this communication does not cause `p`'s logical time to lag behind physical time. This means that if we were to modify `p` to have a **physical action**, the RTI will be able to immediately grant a **TAG** to `p` to advance the timestamp of that physical action. However, if _a_ < _E_ + _L_, then the RTI will delay granting a time advance to `p` by at least _E_ + _L_ - _a_. Hence, _E_ + _L_ - _a_ represents an additional latency in the processing of physical actions! This latency could present a problem for meeting deadlines. For this reason, if there are physical actions or deadlines at a federate that receives network messages, it is desirable to have $after$ delays on the connection to that federate larger than any expected _E_ + _L_. This way, there is no additional latency to processing physical actions at this federate and no additional risk of missing deadlines.
 
-If, in addition, the physical clocks on the hosts are allowed to drift with respect to one another, then _E_ can grow without bound, and hence the lag between logical time and physical time in processing events can grow without bound. This is mitigated either by hosts that themselves realize some clock synchronization algorithm, such as [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) or [PTP](https://en.wikipedia.org/wiki/Precision_Time_Protocol), or by utilizing Lingua Franca's own built in [clock synchronization](#clock-synchronization). If the federates lack physical actions and deadlines, however, then unsynchronized clocks present no problem if you are using centralized coordination.
+If, in addition, the physical clocks on the hosts are allowed to drift with respect to one another, then _E_ can grow without bound, and hence the lag between logical time and physical time in processing events can grow without bound. This is mitigated either by hosts that themselves realize some clock synchronization algorithm, such as [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) or [PTP](https://en.wikipedia.org/wiki/Precision_Time_Protocol), or by utilizing Lingua Franca's own built in [clock synchronization](#clock-synchronization). If the federates lack physical actions and deadlines, however, then unsynchronized clocks present no semantic problem if you are using centralized coordination. However, because of logical time chases physical time, federates will slow to match the slowest clock of federates upstream of them.
 
 With centralized coordination, all messages (except those on [physical connections](#physical-connections)) go through the RTI. This can create a bottleneck and a single point of failure. To avoid this bottleneck, you can use decentralized coordination.
 
@@ -288,19 +321,27 @@ The default coordination between mechanisms is **centralized**, equivalent to sp
    coordination: centralized
 ```
 
-Centralized coordination works as described above, where the advancement of time at each federate is regulated by the RTI. In order for the RTI to be able to safely grant a time advance to a federate, it is also necessary for all messages to that federate to go through the RTI. The RTI, therefore, can easily become a bottleneck.
-
-An alternative is **decentralized** coordination, which uses a technique called [PTIDES](https://ptolemy.berkeley.edu/publications/papers/07/RTAS/):
+An alternative is **decentralized** coordination, which extends a technique realized in [PTIDES](https://ptolemy.berkeley.edu/publications/papers/07/RTAS/) and [Google Spanner](https://dl.acm.org/doi/10.1145/2491245), a globally distributed database system:
 
 ```
    coordination: decentralized
 ```
 
-This technique has also been implemented in Google Spanner, a globally distributed database system. In decentralized coordination, each federate has a **safe-to-process** (**STP**) offset. In decentralized coordination, when one federate communicates with another, it does so directly through a dedicated socket without going through the RTI. Moreover, it does not consult the RTI to advance logical time. Instead, it can advance its logical time to _t_ when its physical clock matches or exceeds _t_ + STP.
+With decentralized coordination, the RTI coordinates startup, shutdown, and clock synchronization, but is otherwise not involved in the execution of the distributed program.
 
-By default, the STP is zero. This will work fine under the assumption that **every** logical connection between federates has a sufficiently large `after` clause. That is, the value of the logical delay must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, the network latency bound _L_, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a **deadline**. See for example [examples-lingua-franca/C/src/DistributedHelloWorld/HelloWorldDecentralized.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/DistributedHelloWorld/HelloWorldDecentralized.lf).
+In decentralized coordination, each federate and some reactions have a **safe-to-process** (**STP**) offset. When one federate communicates with another, it does so directly through a dedicated socket without going through the RTI. Moreover, it does not consult the RTI to advance logical time. Instead, it can advance its logical time to _t_ when its physical clock matches or exceeds _t_ + STP.
 
-Of course, this assumption can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation that is called a `STP` handlers as done in [examples-lingua-franca/C/src/DistributedHelloWorld/HelloWorldDecentralizedSTP.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/DistributedHelloWorld/HelloWorldDecentralizedSTP.lf). The pattern is:
+By default, the STP is zero. An STP of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large $after$ clause, or the federate has only one upstream federate sending it messages and it has no local timers or actions. The value of the $after$ delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a $deadline$.
+
+<div class="lf-c">
+
+The STP offset of a federate may be set simply by creating a parameter named `STP_offset` (not case sensitive) and giving it a time value.
+See for example [HelloWorldDecentralizedSTP.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/DistributedHelloWorld/HelloWorldDecentralizedSTP.lf) and
+[LoopDistributedDecentralized.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/LoopDistributedDecentralized.lf)
+
+</div>
+
+Of course, the assumptions about network latency, etc., can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation by providing an STP violation handler<span class="lf-c">, as done in [HelloWorldDecentralized.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralized.lf).</span>. The pattern is:
 
 ```
 reaction(in) {=
@@ -310,9 +351,11 @@ reaction(in) {=
 =}
 ```
 
-If the timestamp at which this reaction is to be invoked (the value returned by `get_current_tag`) cannot match the timestamp of an incoming message `in` (because the current tag has already advanced beyond the intended tag of `in`), then the `STP` handler will be invoked instead of the normal reaction. Within the body of the STP handler, the code can access the intended tag of `in` using `in->intended_tag`, which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly. If no STP handler is provided at any reaction triggered by an input from another federate, then the normal reaction will be invoked at the earliest feasible logical time greater than or equal to the intended logical time of the message.
+If the tag at which this reaction is to be invoked (the value returned by `get_current_tag`) exceeds the tag of an incoming message `in` (the current tag has already advanced beyond the intended tag of `in`), then the `STP` handler will be invoked instead of the normal reaction. Within the body of the STP handler, the code can access the intended tag of `in` using `in->intended_tag`, which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly.
 
-One option available to the code is to increase the STP. This can be done simply by equipping a federate with a parameter of type **time** named `STP`. See for example [example/C/Federated/HelloWorld/HelloWorldDecentralizedSTP.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralizedSTP.lf). This can be done as follows:
+If no STP handler is provided at any reaction triggered by an input from another federate, then the normal reaction will be invoked at the earliest feasible logical time greater than or equal to the intended logical time of the message. **NOTE:** This behavior is likely to be replaced with some sort of exception being triggered.
+
+One option available to the programmer is to dynamically increase the STP during run time. This can be done simply by equipping a federate with a parameter of type **time** named `STP`. See for example [example/C/Federated/HelloWorld/HelloWorldDecentralizedSTP.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralizedSTP.lf). This can be done as follows:
 
 ```
 import PrintMessageWithDetector from "HelloWorldDecentralized.lf"
