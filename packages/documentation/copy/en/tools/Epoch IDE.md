@@ -13,7 +13,7 @@ This page shows how to install and run the Epoch integrated development environm
 Download the appropriate `epoch_ide_...` file for your platform from:
 
 - [Version 0.2.0](https://github.com/lf-lang/lingua-franca/releases/tag/v0.2.0) (the most recent release)
-- [Nightly build](https://github.com/lf-lang/lingua-franca/releases/tag/nightly) (the most recent version, under development)
+- [Nightly build](https://github.com/lf-lang/lingua-franca/releases/tag/nightly) (the latest prerelease, unstable)
 
 ## Set Up Epoch in MacOS
 
