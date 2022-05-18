@@ -145,7 +145,7 @@ reactor Destination {
             sum += *y.get();
         }
 
-        std::cout << "Received: " << sum << std::endl;
+        std::cout << "Received: " << sum << std::endl; 
     =}
 }
 

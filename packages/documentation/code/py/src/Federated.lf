@@ -1,22 +1,27 @@
-target Python {
-    timeout: 0 msec
+target Python
+
+reactor Count {
+    output out
+    state c(0)
+    timer t(0, 1 sec)
+    reaction(t) -> out {=
+        out.set(self.c)
+        self.c += 1
+    =}
+}
+reactor Print {
+    input inp
+    reaction(inp) {=
+        print(
+            f"Received: {inp.value} "
+            f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
+        )
+    =}
 }
 
-reactor Source {
-    output out;
-    reaction(startup) -> out {=
-        out.set("Hello World!")
-    =}
-}
-reactor Destination {
-    input _in;
-    reaction(_in) {=
-        print(f"****** Received {_in.value}")
-    =}
+federated reactor {
+    c = new Count();
+    p = new Print();
+    c.out -> p.inp;
 }
  
-federated reactor Federated {
-    s = new Source();
-    d = new Destination();
-    s.out -> d._in;
-}
