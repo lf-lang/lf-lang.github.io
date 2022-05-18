@@ -3,7 +3,7 @@ target C {
     coordination: decentralized
 }
 import Count from "Federated.lf"
-reactor PrintTimer(STP_offset:time(10 usec)) {
+reactor PrintTimer {
     timer t(0, 1 sec);
     input in:int;
     reaction(in) {=
@@ -26,5 +26,5 @@ reactor PrintTimer(STP_offset:time(10 usec)) {
 federated reactor {
     c = new Count();
     p = new PrintTimer();
-    c.out -> p.in;
+    c.out -> p.in after 10 msec;
 }

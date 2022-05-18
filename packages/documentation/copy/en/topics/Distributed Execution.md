@@ -293,7 +293,7 @@ When one federate sends data to another, by default, the timestamp at the receiv
 	s.out -> p.in after 200 msec;
 ```
 
-then the timestamp at the receiving end will be incremented by 200 msec compared to the timestamp at the sender<span class="lf-c"> (see [example/C/Federated/HelloWorld/HelloWorldAfter.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/DistributedHelloWorld/HelloWorldAfter.lf))</span>.
+then the timestamp at the receiving end will be incremented by 200 msec compared to the timestamp at the sender.
 
 The preservation of timestamps across federates implies some constraints (unless you use [physical connections](#physical-connections)). How these constraints are managed depends on whether you choose **centralized** or **decentralized** coordination.
 
@@ -331,59 +331,41 @@ With decentralized coordination, the RTI coordinates startup, shutdown, and cloc
 
 In decentralized coordination, each federate and some reactions have a **safe-to-process** (**STP**) offset. When one federate communicates with another, it does so directly through a dedicated socket without going through the RTI. Moreover, it does not consult the RTI to advance logical time. Instead, it can advance its logical time to _t_ when its physical clock matches or exceeds _t_ + STP.
 
-By default, the STP is zero. An STP of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large $after$ clause, or the federate has only one upstream federate sending it messages and it has no local timers or actions. The value of the $after$ delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a $deadline$.
+By default, the STP is zero. An STP of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large $after$ clause, or the federate has only one upstream federate sending it messages and it has no local timers or actions. The value of the $after$ delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a $deadline$. For example:
 
-<div class="lf-c">
+$insert(DecentralizedTimerAfter)$
 
-The STP offset of a federate may be set simply by creating a parameter named `STP_offset` (not case sensitive) and giving it a time value.
-See for example [HelloWorldDecentralizedSTP.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/DistributedHelloWorld/HelloWorldDecentralizedSTP.lf) and
-[LoopDistributedDecentralized.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/LoopDistributedDecentralized.lf)
+This example inherits from the Federated example above.
+In this example, as long as the messages from federate `c` arrive at federate `p` within 10 msec, all messages will be processed in tag order, as with an unfederated program.
 
-</div>
+An alternative to the $after$ delays is to add an STP offset to downstream federates, as in the following example:
 
-Of course, the assumptions about network latency, etc., can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation by providing an STP violation handler<span class="lf-c">, as done in [HelloWorldDecentralized.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralized.lf).</span>. The pattern is:
+$insert(DecentralizedTimerSTP)$
+
+Here, a parameter named `STP_offset` (not case sensitive) gives a time value, and the federate waits this specified amount of time (physical time) beyond a logical time _t_ before advancing its logical time to _t_. In the above example, reactions to the timer events will be delayed by the amount specified by the `STP_offset` parameter. Just as with the use of $after$, if the `STP_offset` exceeds the sum of network latency, clock synchronization error, and execution times, then all events will be processed in tag order.
+
+Of course, the assumptions about network latency, etc., can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation by providing an STP violation handler. The pattern is:
 
 ```
 reaction(in) {=
     // User code
-=} STP (30 msec) {=
+=} STP (0) {=
     // Error handling code
 =}
 ```
 
-If the tag at which this reaction is to be invoked (the value returned by `get_current_tag`) exceeds the tag of an incoming message `in` (the current tag has already advanced beyond the intended tag of `in`), then the `STP` handler will be invoked instead of the normal reaction. Within the body of the STP handler, the code can access the intended tag of `in` using `in->intended_tag`, which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly.
+If the tag at which this reaction is to be invoked (the value returned by `lf_tag()`) exceeds the tag of an incoming message `in` (the current tag has already advanced beyond the intended tag of `in`), then the `STP` violation handler will be invoked instead of the normal reaction. Within the body of the STP handler, the code can access the intended tag of `in` using `in->intended_tag`, which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly. For example:
 
-If no STP handler is provided at any reaction triggered by an input from another federate, then the normal reaction will be invoked at the earliest feasible logical time greater than or equal to the intended logical time of the message. **NOTE:** This behavior is likely to be replaced with some sort of exception being triggered.
+$insert(DecentralizedTimerAfterHandler)$
 
-One option available to the programmer is to dynamically increase the STP during run time. This can be done simply by equipping a federate with a parameter of type **time** named `STP`. See for example [example/C/Federated/HelloWorld/HelloWorldDecentralizedSTP.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldDecentralizedSTP.lf). This can be done as follows:
-
-```
-import PrintMessageWithDetector from "HelloWorldDecentralized.lf"
-reactor PrintMessageWithSTP(STP:time(10 msec)) extends PrintMessageWithDetector {}
-```
-
-Notice that the only override in `PrintMessageWithSTP` is the addition of an `STP` parameter.
-
-The LF API provides two functions that can be used to dynamically adjust the STP:
+For more advanced users, the LF API provides two functions that can be used to dynamically adjust the STP:
 
 ```
-interval_t get_stp_offset();
-void set_stp_offset(interval_t offset);
+interval_t lf_get_stp_offset();
+void lf_set_stp_offset(interval_t offset);
 ```
 
 Using these functions, however, is a pretty advanced operation.
-
-**FIXME:** The discussion of cycles in the remainder of this section needs to be revisited with pointers to newer examples.
-
-Now suppose that if there are cycles in the communication between federates. For example, in addition to the above connection, suppose we also have a connection going in the opposite direction:
-
-```
-	print.out -> count.in after 100 msec;
-```
-
-Now we potentially have a very big problem. The physical clock at `print` has to lag behind physical time by at least _E_ + _L_ - 200 msec, and the physical clock at `count` has to lag behind physical time by at least _E_ + _L_ - 100 msec. The latter of these means that `count` cannot send a message with timestamp _t_ until its local clock exceeds _t_ + _E_ + _L_ - 100 msec. If _E_ + _L_ - 100 msec > 0, then this additional lag increases the required lag at `print`, which will need to lag behind physical time now by _E_ + _L_ - 100 msec + _E_ + _L_ - 200 msec. If this number is positive, then the lag required at `count` will have to be again increased, which will then cause this number to again increase, and so on until the required lag is infinite at both federates. Thus, a cycle between two federates is **infeasible** if 2*E* + 2*L* - _a_<sub>1</sub> - _a_<sub>2</sub> > 0, where _a_<sub>1</sub> and _a_<sub>2</sub> are the **after** values of the two connections. More generally, the sum of _E_ + _L_ - _a_<sub>i</sub> over all connections _i_ in a cycle must be less than or equal to zero. Otherwise, decentralized coordination will fail and finite STP will lead to tardy messages. Centralized coordination can be used instead if the program really must be this way.
-
-The bottom line is that if there are cycles in your federation and/or you have physical actions in federates that receive network messages, it is wise to specify **after** to be larger than the sum of the greatest expect clock synchronization error _E_ and the greatest expected network latency _L_.
 
 ## Physical Connections
 
