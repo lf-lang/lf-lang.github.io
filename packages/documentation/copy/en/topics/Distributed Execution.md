@@ -71,7 +71,7 @@ federated reactor {
     p = new Print();
     c.out -> p.in;
 }
-
+ 
 ```
 
 ```lf-cpp
@@ -79,29 +79,33 @@ WARNING: No source file found: ../code/cpp/src/Federated.lf
 ```
 
 ```lf-py
-target Python {
-    timeout: 0 msec
-}
+target Python
 
-reactor Source {
-    output out;
-    reaction(startup) -> out {=
-        out.set("Hello World!")
+reactor Count {
+    output out
+    state c(0)
+    timer t(0, 1 sec)
+    reaction(t) -> out {=
+        out.set(self.c)
+        self.c += 1
     =}
 }
-reactor Destination {
-    input _in;
-    reaction(_in) {=
-        print(f"****** Received {_in.value}")
+reactor Print {
+    input inp
+    reaction(inp) {=
+        print(
+            f"Received: {inp.value} "
+            f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
+        )
     =}
 }
 
-federated reactor Federated {
-    s = new Source();
-    d = new Destination();
-    s.out -> d._in;
+federated reactor {
+    c = new Count();
+    p = new Print();
+    c.out -> p.inp;
 }
-
+ 
 ```
 
 ```lf-ts
@@ -346,7 +350,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -364,7 +368,26 @@ WARNING: No source file found: ../code/cpp/src/DecentralizedTimerAfter.lf
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/DecentralizedTimerAfter.lf
+target Python {
+    timeout: 5 sec,
+    coordination: decentralized
+}
+import Count, Print from "Federated.lf"
+reactor PrintTimer extends Print {
+    timer t(0, 1 sec)
+    reaction(t) {=
+        print(
+            f"Timer ticked at "
+            f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
+        )
+    =}
+}
+federated reactor {
+    c = new Count()
+    p = new PrintTimer()
+    c.out -> p.inp after 10 msec
+}
+
 ```
 
 ```lf-ts
@@ -393,7 +416,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer(STP_offset:time(10 msec)) extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -411,7 +434,26 @@ WARNING: No source file found: ../code/cpp/src/DecentralizedTimerSTP.lf
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/DecentralizedTimerSTP.lf
+target Python {
+    timeout: 5 sec,
+    coordination: decentralized
+}
+import Count, Print from "Federated.lf"
+reactor PrintTimer(STP_offset(10 msec)) extends Print {
+    timer t(0, 1 sec)
+    reaction(t) {=
+        print(
+            "Timer ticked at "
+            f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
+        )
+    =}
+}
+federated reactor {
+    c = new Count();
+    p = new PrintTimer();
+    c.out -> p.inp;
+}
+
 ```
 
 ```lf-ts
@@ -461,7 +503,7 @@ reactor PrintTimer {
         );
     =}
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -479,7 +521,40 @@ WARNING: No source file found: ../code/cpp/src/DecentralizedTimerAfterHandler.lf
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/DecentralizedTimerAfterHandler.lf
+target Python {
+    timeout: 5 sec,
+    coordination: decentralized
+}
+import Count from "Federated.lf"
+reactor PrintTimer {
+    timer t(0, 1 sec)
+    input inp
+    reaction(inp) {=
+        print(
+            f"Received: {inp.value} "
+            f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
+        )
+    =} STP(0) {=
+        print(
+            "****** STP violation handler invoked at "
+            f"({lf.time.logical_elapsed()}, {lf.tag().microstep}). "
+            "Intended tag was "
+            f"({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep})."
+        )
+    =}
+    reaction(t) {=
+        print(
+            "Timer ticked at "
+            f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
+        )
+    =}
+}
+federated reactor {
+    c = new Count();
+    p = new PrintTimer();
+    c.out -> p.inp after 10 msec;
+}
+
 ```
 
 ```lf-ts

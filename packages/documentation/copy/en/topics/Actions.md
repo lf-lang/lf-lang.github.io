@@ -292,27 +292,27 @@ $start(Asynchronous)$
 ```lf-c
 target C;
 main reactor {
-	preamble {=
-		// Schedule an event roughly every 200 msec.
-		void* external(void* a) {
+    preamble {=
+        // Schedule an event roughly every 200 msec.
+        void* external(void* a) {
             while (true) {
-    			lf_nanosleep(MSEC(200));
-    			lf_schedule(a, 0);
-			}
-		}
-	=}
-	state thread_id:lf_thread_t(0);
+                lf_nanosleep(MSEC(200));
+                lf_schedule(a, 0);
+            }
+        }
+    =}
+    state thread_id:lf_thread_t(0);
     physical action a(100 msec):int;
+  
+    reaction(startup) -> a {=
+        // Start a thread to schedule physical actions.
+        lf_thread_create(&self->thread_id, &external, a);
+    =}
 
-	reaction(startup) -> a {=
-		// Start a thread to schedule physical actions.
-		lf_thread_create(&self->thread_id, &external, a);
-	=}
-
-	reaction(a) {=
+    reaction(a) {=
         interval_t elapsed_time = lf_time_logical_elapsed();
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
-	=}
+    =}
 }
 
 ```
@@ -320,29 +320,29 @@ main reactor {
 ```lf-cpp
 target Cpp;
 main reactor {
-	private preamble {=
+    private preamble {=
         #include <thread>
-	=}
+    =}
 
-	state thread: std::thread;
+    state thread: std::thread;
     physical action a:int;
-
-	reaction(startup) -> a {=
-		// Start a thread to schedule physical actions.
+  
+    reaction(startup) -> a {=
+        // Start a thread to schedule physical actions.
         thread = std::thread([&]{
             while (true) {
                 std::this_thread::sleep_for(200ms);
                 // the value that we give it really doesn't matter
                 // but we the action should is scheduled for 100ms into the future
-    			a.schedule(0, 100ms);
+                a.schedule(0, 100ms);
             }
         });
-	=}
+    =}
 
-	reaction(a) {=
+    reaction(a) {=
         auto elapsed_time = get_physical_time();
         std::cout << "Action triggered at logical time" << elapsed_time <<"nsec after start." << std::endl;
-	=}
+    =}
 }
 
 ```
@@ -350,28 +350,28 @@ main reactor {
 ```lf-py
 target Python;
 main reactor {
-	preamble {=
-		import time
-		import threading
-		# Schedule an event roughly every 200 msec.
-		def external(self, a):
-			while (True):
-				self.time.sleep(0.2)
-				a.schedule(0)
-	=}
-	state thread;
+    preamble {=
+        import time
+        import threading
+        # Schedule an event roughly every 200 msec.
+        def external(self, a):
+            while (True):
+                self.time.sleep(0.2)
+                a.schedule(0)
+    =}
+    state thread;
     physical action a(100 msec);
+  
+    reaction(startup) -> a {=
+        # Start a thread to schedule physical actions.
+        self.thread = self.threading.Thread(target=self.external, args=(a,))
+        self.thread.start()
+    =}
 
-	reaction(startup) -> a {=
-		# Start a thread to schedule physical actions.
-		self.thread = self.threading.Thread(target=self.external, args=(a,))
-		self.thread.start()
-	=}
-
-	reaction(a) {=
+    reaction(a) {=
         elapsed_time = lf.time.logical_elapsed()
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
-	=}
+    =}
 }
 
 ```
@@ -381,17 +381,17 @@ target TypeScript
 main reactor {
 
     physical action a(100 msec):number;
-
-	reaction(startup) -> a {=
-		// Have asynchronous callback schedule physical action.
-		setTimeout(() => {
+  
+    reaction(startup) -> a {=
+        // Have asynchronous callback schedule physical action.
+        setTimeout(() => {
             actions.a.schedule(TimeValue.zero(), 0)
         }, 200)
-	=}
+    =}
 
-	reaction(a) {=
+    reaction(a) {=
         console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} nsec after start.`)
-	=}
+    =}
 }
 
 ```
@@ -402,21 +402,21 @@ main reactor {
     state start_time:Instant({=Instant::now()=});
     physical action a(100 msec):u32;
 
-	reaction(startup) -> a {=
+    reaction(startup) -> a {=
         let phys_action = a.clone(); // clone to move it into other thread
-		// Start a thread to schedule physical actions.
+        // Start a thread to schedule physical actions.
         ctx.spawn_physical_thread(move |link| {
             loop {
                 std::thread::sleep(Duration::from_millis(200));
                 link.schedule_physical(&phys_action, Asap).unwrap();
             }
         });
-	=}
+    =}
 
-	reaction(a) {=
+    reaction(a) {=
         let elapsed_time = self.start_time.elapsed();
         println!("Action triggered at logical time {} nsecs after start.", elapsed_time.as_nanos());
-	=}
+    =}
 }
 ```
 
