@@ -60,7 +60,9 @@ reactor Count {
 reactor Print {
     input in:int;
     reaction(in) {=
-        lf_print("***** Received: %d", in->value);
+        lf_print("Received: %d at (%lld, %d)", in->value,
+            lf_time_logical_elapsed(), lf_tag().microstep
+        );
     =}
 }
 
@@ -333,14 +335,94 @@ In decentralized coordination, each federate and some reactions have a **safe-to
 
 By default, the STP is zero. An STP of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large $after$ clause, or the federate has only one upstream federate sending it messages and it has no local timers or actions. The value of the $after$ delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a $deadline$. For example:
 
-$insert(DecentralizedTimerAfter)$
+$start(DecentralizedTimerAfter)$
+
+```lf-c
+target C {
+    timeout: 5 sec,
+    coordination: decentralized
+}
+import Count, Print from "Federated.lf"
+reactor PrintTimer extends Print {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        lf_print("Timer ticked at (%lld, %d).",
+            lf_time_logical_elapsed(), lf_tag().microstep
+        );
+    =}
+}
+federated reactor {
+    c = new Count();
+    p = new PrintTimer();
+    c.out -> p.in after 10 msec;
+}
+
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/DecentralizedTimerAfter.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/DecentralizedTimerAfter.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/DecentralizedTimerAfter.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/DecentralizedTimerAfter.lf
+```
+
+$end(DecentralizedTimerAfter)$
 
 This example inherits from the Federated example above.
 In this example, as long as the messages from federate `c` arrive at federate `p` within 10 msec, all messages will be processed in tag order, as with an unfederated program.
 
 An alternative to the $after$ delays is to add an STP offset to downstream federates, as in the following example:
 
-$insert(DecentralizedTimerSTP)$
+$start(DecentralizedTimerSTP)$
+
+```lf-c
+target C {
+    timeout: 5 sec,
+    coordination: decentralized
+}
+import Count, Print from "Federated.lf"
+reactor PrintTimer(STP_offset:time(10 msec)) extends Print {
+    timer t(0, 1 sec);
+    reaction(t) {=
+        lf_print("Timer ticked at (%lld, %d).",
+            lf_time_logical_elapsed(), lf_tag().microstep
+        );
+    =}
+}
+federated reactor {
+    c = new Count();
+    p = new PrintTimer();
+    c.out -> p.in;
+}
+
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/DecentralizedTimerSTP.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/DecentralizedTimerSTP.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/DecentralizedTimerSTP.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/DecentralizedTimerSTP.lf
+```
+
+$end(DecentralizedTimerSTP)$
 
 Here, a parameter named `STP_offset` (not case sensitive) gives a time value, and the federate waits this specified amount of time (physical time) beyond a logical time _t_ before advancing its logical time to _t_. In the above example, reactions to the timer events will be delayed by the amount specified by the `STP_offset` parameter. Just as with the use of $after$, if the `STP_offset` exceeds the sum of network latency, clock synchronization error, and execution times, then all events will be processed in tag order.
 
@@ -356,7 +438,59 @@ reaction(in) {=
 
 If the tag at which this reaction is to be invoked (the value returned by `lf_tag()`) exceeds the tag of an incoming message `in` (the current tag has already advanced beyond the intended tag of `in`), then the `STP` violation handler will be invoked instead of the normal reaction. Within the body of the STP handler, the code can access the intended tag of `in` using `in->intended_tag`, which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly. For example:
 
-$insert(DecentralizedTimerAfterHandler)$
+$start(DecentralizedTimerAfterHandler)$
+
+```lf-c
+target C {
+    timeout: 5 sec,
+    coordination: decentralized
+}
+import Count from "Federated.lf"
+reactor PrintTimer {
+    timer t(0, 1 sec);
+    input in:int;
+    reaction(in) {=
+        lf_print("Received: %d at (%lld, %d)", in->value,
+            lf_time_logical_elapsed(), lf_tag().microstep
+        );
+    =} STP(0) {=
+        lf_print("****** STP violation handler invoked at (%lld, %d). "
+            "Intended tag was (%lld, %d).",
+            lf_time_logical_elapsed(), lf_tag().microstep,
+            in->intended_tag.time - start_time, in->intended_tag.microstep
+        );
+    =}
+    reaction(t) {=
+        lf_print("Timer ticked at (%lld, %d).",
+            lf_time_logical_elapsed(), lf_tag().microstep
+        );
+    =}
+}
+federated reactor {
+    c = new Count();
+    p = new PrintTimer();
+    c.out -> p.in after 10 msec;
+}
+
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/DecentralizedTimerAfterHandler.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/DecentralizedTimerAfterHandler.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/DecentralizedTimerAfterHandler.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/DecentralizedTimerAfterHandler.lf
+```
+
+$end(DecentralizedTimerAfterHandler)$
 
 For more advanced users, the LF API provides two functions that can be used to dynamically adjust the STP:
 
@@ -369,7 +503,7 @@ Using these functions, however, is a pretty advanced operation.
 
 ## Physical Connections
 
-Coordinating the execution of the federates so that timestamps are preserved is tricky. If your application does not require the deterministic execution that results from preserving the timestamps, then you can alternatively specify a **physical connection** as follows (see [example/C/Federated/HelloWorld/HelloWorldPhysical.lf](https://github.com/lf-lang/lingua-franca/blob/master/example/C/Federated/HelloWorld/HelloWorldPhysical.lf):
+Coordinating the execution of the federates so that timestamps are preserved is tricky. If your application does not require the deterministic execution that results from preserving the timestamps, then you can alternatively specify a **physical connection** as follows:
 
 ```
 source.out ~> print.in;
@@ -395,11 +529,11 @@ In order for a federated execution to work, there is some setup required on the 
     sudo systemctl <start|enable> ssh.service
 ```
 
-Enable means to always start the service at startup, whereas start means to just start it this once. On MacOS, open System Preferences from the Apple menu and click on the "Sharing" preference panel. Select the checkbox next to "Remote Login" to enable it. **FIXME**: Windows?
+Enable means to always start the service at startup, whereas start means to just start it this once. On MacOS, open System Preferences from the Apple menu and click on the "Sharing" preference panel. Select the checkbox next to "Remote Login" to enable it.
 
 It will also be much more convenient if the launcher does not have to enter passwords to gain access to the remote machine. This can be accomplished by installing your public key (typically found in `~/.ssh/id_rsa.pub`) in `~/.ssh/authorized_keys` on the remote host.
 
-Second, the RTI must be installed on the remote machine. Instructions about installation of RTI can be found [here](https://github.com/lf-lang/lingua-franca/blob/master/org.lflang/src/lib/core/federated/RTI/README.md).
+Second, the RTI must be installed on the remote machine. See [instructions for installation the RTI](#installation-of-the-rti).
 
 ## Specifying RTI Hosts
 
@@ -427,6 +561,22 @@ federated reactor DistributedCount at 10.0.0.198:8080 { ... }
 
 If you specify a specific port, then it will use that port if it is available and fail otherwise. The above changes this to port 8080.
 
+Note that if the machine uses DHCP to obtain its address, then the generated code may not work in the future since the address of the machine may change in the future.
+
+Address 0.0.0.0: The default host, `localhost` is used if no address is specified. Using `localhost` requires that the generated federates run on the local machine. This is ideal for testing. If you use `0.0.0.0`, then you are also specifying that the local machine (the one performing the code generation) will be the host, but now the process(es) running on this local machine can establish connections with processes on remote machines. The code generator will determine the IP address of the local machine, and any other hosts that need to communicate with reactors on the local host will use the current IP address of that local host at the time of code generation.
+
+## Specifying Federate Hosts
+
+A federate may be mapped to a particular remote machine using a syntax like this:
+
+```
+    count = new Count() at user@host:port/path;
+```
+
+The `port` is ignored in **centralized** mode because all communication is routed through the RTI, but in **decentralized** mode it will specify the port on which a socket server listens for incomming connections from other federates.
+
+If any federate has such a remote designator, then a `Federation_distribute.sh` shell script will be generated. This script will distribute the generated code for the RTI to the remote machine at the specified directory.
+
 You can also specify a user name on the remote machine for cases where the username will not match whoever launches the federation:
 
 ```
@@ -442,26 +592,6 @@ federated reactor DistributedCount at user@host:port/path { ... }
 where `user@`, `:port`, and `/path` are all optional. The `path` specifies the directory on the remote machine (relative to the home directory of the user) where the generated code will be put. The `host` should be an IPv4 address (e.g. `93.184.216.34`), IPv6 address (e.g. `2606:2800:220:1:248:1893:25c8:1946`), or a domain name (e.g. `www.example.com`). It can also be `localhost` or `0.0.0.0`. The host can be remote as long as it is accessible from the machine where the programs will be started.
 
 If `user@` is not given, then it is assumed that the username on the remote host is the same as on the machine that launches the programs. If `:port` is not given, then it defaults to port 15045. If `/path` is not given, then `~user/LinguaFrancaRemote` will be the root directory on the remote machine.
-
-**FIXME**: Not implemented yet: If the IP address or hostname does not match the local machine on which code generation is being done, ...
-
-A `Federation_distribute.sh` shell script will be generated. This script will distribute the generated code for the RTI to the remote machine at the specified directory.
-
-## Specifying Federate Hosts
-
-A federate may be mapped to a particular remote machine using a syntax like this:
-
-```
-    count = new Count() at user@host:port/path;
-```
-
-The `port` is ignored in **centralized** mode because all communication is routed through the RTI, but in **decentralized** mode it will specify the port on which a socket server listens for incomming connections from other federates.
-
-If any federate (or the RTI) has such a remote designator, then a `Federation_distribute.sh` shell script will be generated. This script will distribute the generated code for the RTI to the remote machine at the specified directory.
-
-Note that if the machine uses DHCP to obtain its address, then the generated code may not work in the future since the address of the machine may change in the future.
-
-Address 0.0.0.0: In the above example, `localhost` is used. This is the default if no address is specified. Using `localhost` specifies that the generated programs should establish connections only with processes running on the local machine. This is ideal for testing. If you use `0.0.0.0`, then you are also specifying that the local machine (the one performing the code generation) will be the host, but now the process(es) running on this local machine can establish connections with processes on remote machines. The code generator will determine the IP address of the local machine, and any other hosts that need to communicate with reactors on the local host will use the current IP address of that local host at the time of code generation.
 
 ## Clock Synchronization
 
@@ -506,21 +636,5 @@ The supported options are:
 - `attenuation`: A positive integer specifying a divisor applied to the estimated clock error during runtime clock synchronization when adjusting the clock offset. The default is `10`. Making this number bigger reduces each adjustment to the clock. Making the number equal to `1` means that each round of clock synchronization fully applies its estimated clock synchronization error.
 
 - `trials`: The number of rounds of message exchange with the RTI in each clock synchronization round. This defaults to `10`.
-
-## Future Work
-
-The RTI can also play the role of **auth**, an authentication and authorization server that ensures that only the generated programs can establish connections with each other and that their communication is encrypted, as explained in the [Security](#Security) section below.
-
-Currently, the threads option is same on all federates. We need a mechanism to customize this parameter by federate.
-
-## Security
-
-In addition to generating a program for each host, the code generator could generate configuration files for a program called **auth** designed to run on the first host that is preconfigured to provide authentication and authorization to each of the other generated programs together with encryption keys that are used for communicating between them. The auth program should be started first since non of the other generate programs will be able to authenticate without it.
-
-The auth program, written by Hokeun Kim, comes from https://github.com/iotauth/iotauth and provides "locally centralized, globally distributed" authentication and authorization. Papers describing this work can be found here: [[IoTDI '17](https://dl.acm.org/citation.cfm?id=3054980)], [[FiCloud '16](http://ieeexplore.ieee.org/document/7575852/)] [[IT Professional '17'](https://ieeexplore.ieee.org/document/8057722/)].
-
-## Protobufs
-
-Communication between hosts can only be accomplished on channels where the message types are either language primitives or [Protobufs](Protobufs). All other datatypes will be reject at code generation time.
 
 </div>
