@@ -30,7 +30,7 @@ How to use this depends on whether your application is federated. You will need 
 
 ### Using docker build and docker run
 
-Suppose your LF source file is `Foo.lf`. When you run `lfc` or use the IDE to generate code, a file called `Foo.Dockerfile` will appear in the `src_gen/Foo` directory. You can use this file to build a Docker image as follows. First, navigate into the directory where `Foo.Dockerfile` is located. Then issue the command:
+Suppose your LF source file is `Foo.lf`. When you run `lfc` or use the IDE to generate code, a file called `Foo.Dockerfile` will appear in the `src_gen/Foo` directory.  See [Structure of an LF project](/docs/handbook/a-first-reactor#structure-of-an-lf-project) for details on the different directories of a Lingua Franca project. You can use this Dockerfile to build a Docker image as follows. First, navigate into the directory where `Foo.Dockerfile` is located. Then issue the command:
 
 ```
    docker build -t foo -f Foo.Dockerfile .
