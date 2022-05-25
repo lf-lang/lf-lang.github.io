@@ -97,7 +97,7 @@ In case a mode is entered with the reset behavior:
 * all contained modal reactors are reset to their initial mode (recursively),
 * all contained timers are reset and start again awaiting their initial offset,
 * all contained state variables that are marked for automatic reset are reset to their initial value,
-* the `reset` triggers and runs all associated contained reactions, and
+* any contained reactions triggered by `reset` are executed, and
 * all events (actions, timers, delayed connections) that were previously scheduled from within this mode are discarded.
 
 Note that *contained* refers to all contents defined locally in the mode and in local reactor instances (recursively) that are not ortherwise enclosed in modes of lower levels.
