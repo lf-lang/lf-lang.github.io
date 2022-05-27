@@ -95,12 +95,21 @@ The new mode does not have to be a different one; it is possible for a mode to r
 In case a mode is entered with the reset behavior:
 
 * all contained modal reactors are reset to their initial mode (recursively),
-* all local timers are reset and start again awaiting their initial offset,
-* a newly introduced `reset` trigger activates associated reactions in the mode and all contained reactors (recursively), and
+* all contained timers are reset and start again awaiting their initial offset,
+* all contained state variables that are marked for automatic reset are reset to their initial value,
+* any contained reactions triggered by `reset` are executed, and
 * all events (actions, timers, delayed connections) that were previously scheduled from within this mode are discarded.
 
-Thus, whenever a mode is entered with a reset transition, the subsequent timing behavior is as if the mode was never executed before.
-If there are state variables that need to be reset or reinitialized, then this can be done in a reaction triggered by `reset`.
+Note that *contained* refers to all contents defined locally in the mode and in local reactor instances (recursively) that are not ortherwise enclosed in modes of lower levels.
+
+Whenever a mode is entered with a reset transition, the subsequent timing behavior is as if the mode was never executed before.
+If there are state variables that need to be reset or reinitialized, then this can be done in a reaction triggered by `reset` or by marking the state variable for automatic reset (e.g., 
+<span class="lf-c">`state x:int(0) reset`</span>
+<span class="lf-cpp warning">FIXME</span>
+<span class="lf-py">`state x(0) reset`</span>
+<span class="lf-ts warning">FIXME</span>
+<span class="lf-rs warning">FIXME</span>
+).
 State variables are not reset automatically to their initial conditions because it is idiomatic for reactors to allocate resources or initialize subsystems (e.g., allocate memory or sockets, register an interrupt, or start a server) in reactions triggered by the `startup`, and to store references to these resources in state variables.
 If these were to be automatically reset, those references would be lost.
 
@@ -148,8 +157,6 @@ The reentry via reset at 3000 msec causes the local time to be reset to zero.
 
 ### Startup and Shutdown
 
-**This behavior may be subject to change in the future**
-
 A challenge for modal execution is the handling `startup` and `shutdown` behavior.
 These are commonly used for managing memory for state variables, handling connections to sensors or actuators, or starting/joining external threads.
 If reactions to these triggers are located inside modes they are subject to a special execution regime.
@@ -159,12 +166,10 @@ Second, `shutdown` reactions are executed when the reactor shuts down, ***irresp
 Hence, every startup has a corresponding shutdown.
 Third, as mentioned before, the new `reset` trigger for reactions can be used, if a startup behavior should be re-executed if a mode is entered with a reset transition.
 
-Note that this may have unexpected consequences:
+Note that this may have unexpected implications:
 
 * Startup behavior inside modes may occur during execution and not only at program start.
 * Multiple shutdown reactions may be executed, bypassing mutual exclusion of modes.
 * Reactors that are designed without consideration of modes and use only `startup` (not `reset`) to trigger an execution chain, may not work in modes and cease to function if re-entered with a reset.
-
-Even in the presence of these oddities, we currently consider this behavior the best fitting compromise.
 
 </div>
