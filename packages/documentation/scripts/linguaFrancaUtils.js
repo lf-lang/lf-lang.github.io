@@ -20,7 +20,7 @@ const keywords = [
   "new", 
   "output", 
   "physical", "preamble",
-  "reaction", "reactor", "realtime", 
+  "reaction", "reactor", "realtime", "reset",
   "sec", "secs", "shutdown", "startup", "state",
   "target", "timer", "time", 
   "usec", "usecs", 
