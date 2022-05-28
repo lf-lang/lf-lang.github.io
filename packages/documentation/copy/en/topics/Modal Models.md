@@ -104,9 +104,9 @@ Note that *contained* refers to all contents defined locally in the mode and in 
 
 Whenever a mode is entered with a reset transition, the subsequent timing behavior is as if the mode was never executed before.
 If there are state variables that need to be reset or reinitialized, then this can be done in a reaction triggered by `reset` or by marking the state variable for automatic reset (e.g., 
-<span class="lf-c">`state x:int(0) reset`</span>
+<span class="lf-c">`reset state x:int(0)`</span>
 <span class="lf-cpp warning">FIXME</span>
-<span class="lf-py">`state x(0) reset`</span>
+<span class="lf-py">`reset state x(0)`</span>
 <span class="lf-ts warning">FIXME</span>
 <span class="lf-rs warning">FIXME</span>
 ).
