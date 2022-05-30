@@ -32,7 +32,7 @@ mv ~/.p2 ~/.p2.bak
 4. Click the Hamburger button at the top right corner and switch to "Advanced Mode".
 
 5. Oomph now wants you to select the base Eclipse distribution for your development. We recommend to use "Eclipse IDE for Java and DSL Developers". As product version we recommend to use "Latest Release (...)". \
-   **Important**: Our Xtext only support Java 17 or higher now. Under Java VM, please select Java 17 or higher.\
+   **Important**: Lingua Franca tools require Java 17 or higher. Under Java VM, please select Java 17 or higher.\
    Then press Next to continue with the project section.\
    ![](../../../../../img/oomph/product_selection.png)
 
