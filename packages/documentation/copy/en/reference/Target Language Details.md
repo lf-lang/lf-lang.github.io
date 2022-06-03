@@ -1126,7 +1126,7 @@ reactor DelayString(delay:time(100 msec)) {
 
 ### Macros For Setting Output Values
 
-In all of the following, <out> is the name of the output and <value> is the value to be sent.
+In all of the following, `<out>` is the name of the output and `<value>` is the value to be sent.
 
 > `lf_set(<out>, <value>);`
 
