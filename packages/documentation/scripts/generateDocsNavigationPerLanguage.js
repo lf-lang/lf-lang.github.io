@@ -68,7 +68,8 @@ const handbookPages = [
         { file: "tools/Code Extension.md"},
         { file: "tools/Epoch IDE.md"},
         { file: "tools/Command Line Tools.md" },
-    ],
+        { file: "tools/Troubleshooting.md" },
+      ],
   },
   {
     title: "Reference",

@@ -176,6 +176,12 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/command-line-tools",
           oneline: "Command-line tools for Lingua Franca.",
         },
+        {
+          title: "Troubleshooting",
+          id: "2-troubleshooting",
+          permalink: "/docs/handbook/troubleshooting",
+          oneline: "Troubleshooting page for Lingua Franca tools.",
+        },
       ],
     },
     {
