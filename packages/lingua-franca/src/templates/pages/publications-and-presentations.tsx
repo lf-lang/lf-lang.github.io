@@ -58,7 +58,7 @@ const Index: React.FC<Props> = (props) => {
 </li>
 <li><p><a href="https://www.youtube.com/watch?v=6YBtnBO7wdg">Video recording</a> of talk by Marten Lohstroh on Making Mainstream Programming Languages Deterministic Again, at 27th International Open Workshop on Synchronous Programming (Synchron), November 25-27, 2020</p>
 </li>
-<li><p>Marten Lohstroh, Christian Menard, Alexander Schulz-Rosengarten, Matthew Weber, Jeronimo Castrillon, Edward A. Lee, &quot;<a href="assets/slides/Lohstroh_etAl_FDL20.pdf">A Language for Deterministic Coordination Across Multiple Timelines</a>,&quot; (Slides only) Forum on Design Languages (FDL), Kiel, Germany, September, 2020.</p>
+<li><p>Marten Lohstroh, Christian Menard, Alexander Schulz-Rosengarten, Matthew Weber, Jeronimo Castrillon, Edward A. Lee, &quot;<a href="https://github.com/lf-lang/website-lingua-franca/tree/main/packages/lingua-franca/static/assets/slides/Lohstroh_etAl_FDL20.pdf">A Language for Deterministic Coordination Across Multiple Timelines</a>,&quot; (Slides only) Forum on Design Languages (FDL), Kiel, Germany, September, 2020.</p>
 </li>
 <li><p><a href="https://www.youtube.com/watch?v=DkUjmbUU1zc">Video recording</a> of a presentation by Christian Menard, Achieving Determinism in Adaptive AUTOSAR, at virtual 23rd DATE conference 2020.</p>
 </li>
@@ -66,13 +66,13 @@ const Index: React.FC<Props> = (props) => {
 </li>
 <li><p><a href="https://youtu.be/TsE3vEzZFpI">Video recording</a> of a presentation by Edward A. Lee of two Lingua Franca examples, Reflex Game and Distributed, at &quot;virtual&quot; group lunch on 04-15-20.</p>
 </li>
-<li><p>Marten Lohstroh, I&ntilde;igo Incer Romeo, Andr&eacute;s Goens, Patricia Derler, Jeronimo Castrillon, Edward A. Lee, and Alberto Sangiovanni-Vincentelli, &quot;<a href="assets/slides/Lohstroh_etAl_CyPhy19.pdf">Reactors: A Deterministic Model for Composable Reactive Systems</a>,&quot; (Slides only) Model-Based Design of Cyber Physical Systems (CyPhy&#39;19), Held in conjunction with ESWEEK 2019, New York, NY, Oct. 18. </p>
+<li><p>Marten Lohstroh, I&ntilde;igo Incer Romeo, Andr&eacute;s Goens, Patricia Derler, Jeronimo Castrillon, Edward A. Lee, and Alberto Sangiovanni-Vincentelli, &quot;<a href="https://github.com/lf-lang/website-lingua-franca/tree/main/packages/lingua-franca/static/assets/slides/Lohstroh_etAl_CyPhy19.pdf">Reactors: A Deterministic Model for Composable Reactive Systems</a>,&quot; (Slides only) Model-Based Design of Cyber Physical Systems (CyPhy&#39;19), Held in conjunction with ESWEEK 2019, New York, NY, Oct. 18. </p>
 </li>
-<li><p>Marten Lohstroh, Martin Schoeberl, Mathieu Jan, Edward Wang, Edward A. Lee &quot;<a href="assets/slides/Lohstroh_etAl_EMSOFT19.pdf">Work-in-Progress: Programs with Ironclad Timing Guarantees</a>,&quot; (Slides only) ACM SIGBED International Conference on Embedded Software (EMSOFT), New York, NY, October 14.</p>
+<li><p>Marten Lohstroh, Martin Schoeberl, Mathieu Jan, Edward Wang, Edward A. Lee &quot;<a href="https://github.com/lf-lang/website-lingua-franca/tree/main/packages/lingua-franca/static/assets/slides/Lohstroh_etAl_EMSOFT19.pdf">Work-in-Progress: Programs with Ironclad Timing Guarantees</a>,&quot; (Slides only) ACM SIGBED International Conference on Embedded Software (EMSOFT), New York, NY, October 14.</p>
 </li>
-<li><p>Marten Lohstroh and Edward A. Lee &quot;<a href="assets/slides/Lohstroh_Lee_FDL19.pdf">Deterministic Actors</a>,&quot; (Slides only) Forum on Design Languages (FDL), Southampton, UK, September 3, 2019.</p>
+<li><p>Marten Lohstroh and Edward A. Lee &quot;<a href="https://github.com/lf-lang/website-lingua-franca/tree/main/packages/lingua-franca/static/assets/slides/Lohstroh_Lee_FDL19.pdf">Deterministic Actors</a>,&quot; (Slides only) Forum on Design Languages (FDL), Southampton, UK, September 3, 2019.</p>
 </li>
-<li><p>Edward A. Lee, &quot;<a href="assets/slides/Lee_ActorsRevisited_CyPhy.pdf">Actors Revisited for Predictable Systems</a>,&quot; (Slides only) Model-Based Design of Cyber-Physical Systems (CyPhy), New York, Oct. 17, 2019.</p>
+<li><p>Edward A. Lee, &quot;<a href="https://github.com/lf-lang/website-lingua-franca/tree/main/packages/lingua-franca/static/assets/slides/Lee_ActorsRevisited_CyPhy.pdf">Actors Revisited for Predictable Systems</a>,&quot; (Slides only) Model-Based Design of Cyber-Physical Systems (CyPhy), New York, Oct. 17, 2019.</p>
 </li>
 </ul>
 <h2 id="press-coverage">Press Coverage</h2>

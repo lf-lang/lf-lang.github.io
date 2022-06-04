@@ -86,7 +86,7 @@ You can then run the RTI on this network and assign the RTI a name that the fede
 
 Here, the assigned name is not quite the same as the tag that was specified when building the image (the last argument is the tag of the image to run in a container) because a host name is not allowed to have an underscore in it.
 
-Currently, you will also have to specify this host name in the LF source file so that the federates know where to find the RTI. E.g., in [DistributedCount.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/DistributedCount.lf), change the end of the file to read as follows:
+Currently, you will also have to specify this host name in the LF source file so that the federates know where to find the RTI. E.g., in [DistributedCount.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/DistributedCount.lf), change the end of the file to read as follows:
 
 ```
 federated reactor DistributedCount at distributedcount-rti {

@@ -23,9 +23,9 @@ $ lfc src/MyFile.lf
 ... successful compile ...
 ```
 
-If you then have trouble compiling the same file using [Epoch](/docs/handbook/epoch-ide) or the [Visual Studio Code extension](docs/handbook/code-extension), then those tools are executing in a different environment that may not have the same `PATH` variable and may, for example, fail to find some external program or invoke a different version of that program.
+If you then have trouble compiling the same file using [Epoch](/docs/handbook/epoch-ide) or the [Visual Studio Code extension](/docs/handbook/code-extension), then those tools are executing in a different environment that may not have the same `PATH` variable and may, for example, fail to find some external program or invoke a different version of that program.
 
-On many platforms, one way to ensure that [Epoch](/docs/handbook/epoch-ide) and the [Visual Studio Code extension](docs/handbook/code-extension) use the same environment as the command-line tools is to invoke them on the command line. For example, on a Mac, you can invoke Epoch and Visual Studio Code as follows:
+On many platforms, one way to ensure that [Epoch](/docs/handbook/epoch-ide) and the [Visual Studio Code extension](/docs/handbook/code-extension) use the same environment as the command-line tools is to invoke them on the command line. For example, on a Mac, you can invoke Epoch and Visual Studio Code as follows:
 
 ```
 $ open -a epoch
