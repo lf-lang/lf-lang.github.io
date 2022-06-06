@@ -145,7 +145,7 @@ reactor Destination {
             sum += *y.get();
         }
 
-        std::cout << "Received: " << sum << std::endl; 
+        std::cout << "Received: " << sum << std::endl;
     =}
 }
 
@@ -208,9 +208,9 @@ $end(Destination)$
 
 **NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is target dependent.
 <span class="lf-c">In the C target, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input.</span>
-<span class="lf-cpp">In the C++ target, a smart pointer is returned for present values and `nullptr` if the value is not present.
-<span class="lf-py warning">FIXME.</span>
-<span class="lf-ts">In the TS target, the value will be **undefined**, a legitimate value in TypeScript.</span>
+<span class="lf-cpp">In the C++ target, a smart pointer is returned for present values and `nullptr` if the value is not present.</span>
+<span class="lf-py">In the Python target, the value will be `None` if the input is not present.</span>
+<span class="lf-ts">In the TS target, the value will be **undefined** if the input is not present, a legitimate value in TypeScript.</span>
 <span class="lf-rs warning">FIXME.</span>
 
 ## Triggers, Effects, and Uses
