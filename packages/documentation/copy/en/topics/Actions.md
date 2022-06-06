@@ -303,7 +303,7 @@ main reactor {
     =}
     state thread_id:lf_thread_t(0);
     physical action a(100 msec):int;
-  
+
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         lf_thread_create(&self->thread_id, &external, a);
@@ -326,7 +326,7 @@ main reactor {
 
     state thread: std::thread;
     physical action a:int;
-  
+
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         thread = std::thread([&]{
@@ -361,7 +361,7 @@ main reactor {
     =}
     state thread;
     physical action a(100 msec);
-  
+
     reaction(startup) -> a {=
         # Start a thread to schedule physical actions.
         self.thread = self.threading.Thread(target=self.external, args=(a,))
@@ -381,7 +381,7 @@ target TypeScript
 main reactor {
 
     physical action a(100 msec):number;
-  
+
     reaction(startup) -> a {=
         // Have asynchronous callback schedule physical action.
         setTimeout(() => {
@@ -467,3 +467,12 @@ Note that while the `"defer"` policy is conservative in the sense that it does n
 > The `<policy>` argument is currently not supported.
 
 </div>
+
+## Testing an Action for Presence
+
+When a reaction is triggered by more than one action or by an action and an input, it may be necessary to test within the reaction whether the action is present.
+<span class="lf-c">Just like for inputs, this can be done in the C target with `a->is_present`, where `a` is the name of the action.</span>
+<span class="lf-py">Just like for inputs, this can be done in the Python target with `a.is_present`, where `a` is the name of the action.</span>
+<span class="lf-cpp">Just like for inputs, this can be done in the C++ target with `a.is_present()`, where `a` is the name of the action.</span>
+<span class="lf-ts warning">FIXME: How is this tested in TypeScript? The ActionIsPresent.lf test is missing.</span>
+<span class="lf-rs">Just like for inputs, this can be done in the Rust target with `ctx.is_present(a)`, where `a` is the name of the action.</span>
