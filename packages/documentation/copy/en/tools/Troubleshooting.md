@@ -41,9 +41,48 @@ This way, the tools inherit the environment from the shell from which you invoke
 </div>
 
 <div class="lf-py">
-Many problems first encountered by Python users are caused by having multiple versions of Python installed on your platform.  First, you should ensure that you have Python 3 installed:
 
-<span class="warning"> FIXME: More information needed here </span>
+### Wrong Python version
+
+Many problems first encountered by Python users are caused by having multiple versions of Python installed on your platform. First, you should ensure that you have Python 3 installed. On the command line, you should see something like this:
+
+```
+$ python3 --version
+Python 3.9.12
+```
+
+Then make sure your IDE (Epoch or VS Code) or your command-line compiler `lfc` is invoked in the same environment as this command line (start the IDEs in the same shell).
+
+<span class="warning"> FIXME: What to do if `python` is in the path and is a version 3 Python, but `python3` is not in the path?</span>
+
+### LinguaFrancaBase not installed
+
+When you try to run the generated Python program, you might see this:
+
+```
+No module named 'LinguaFrancaBase'. Install using "pip3 install LinguaFrancaBase".
+```
+
+Follow the instructions:
+
+```
+$ pip3 install LinguaFrancaBase
+```
+
+If this still does not work, then possibly your version of `pip3` does not match your Python version. Check:
+
+```
+$ pip3 --version
+pip 22.0.4 from /usr/local/lib/python3.9/site-packages/pip (python 3.9)
+```
+
+If `pip3` does not match, you install LinguaFrancaBase instead using:
+
+```
+python3 -m pip install LinguaFrancaBase
+```
+
+This will ensure that it is installed for the same version of Python.
 
 </div>
 
