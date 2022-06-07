@@ -53,7 +53,7 @@ Python 3.9.12
 
 Then make sure your IDE (Epoch or VS Code) or your command-line compiler `lfc` is invoked in the same environment as this command line (start the IDEs in the same shell).
 
-<span class="warning"> FIXME: What to do if `python` is in the path and is a version 3 Python, but `python3` is not in the path?</span>
+Note that your Python installation may assume the command `python` instead of `python3`. As long as that version of Python is still 3, it should work.
 
 ### LinguaFrancaBase not installed
 
