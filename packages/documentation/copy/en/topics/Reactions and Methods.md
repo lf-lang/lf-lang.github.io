@@ -317,13 +317,13 @@ This instantiates the above `Overwriting` reactor and monitors its outputs.
 
 ## Method Declaration
 
-<div class="lf-c lf-py lf-ts lf-rs">
+<div class="lf-py lf-ts lf-rs">
 
 The $target-language$ target does not currently support methods.
 
 </div>
 
-<div class="lf-cpp">
+<div class="lf-cpp lf-c">
 
 A method declaration has one of the forms:
 
@@ -336,14 +336,33 @@ A method declaration has one of the forms:
 
 The first form defines a method with no arguments and no return value. The second form defines a method with the return type `<type>` but no arguments. The third form defines a method with a comma-separated list of arguments given by their name and type, but without a return value. Finally, the fourth form is similar to the third, but adds a return type.
 
+<div class="lf-cpp">
+
 The $method$ keywork can optionally be prefixed with the $const$ qualifier, which indicates that the method is read only.
 
-Methods are particularly useful in reactors that need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to be implemented in a single reaction. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction bodies or from other methods. Consider the following example:
+</div>
+
+Methods are particularly useful in reactors that need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to be implemented in a single reaction. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction bodies or from other methods. Methods may also recursively invoke themselves. Consider the following example:
 
 $start(Methods)$
 
 ```lf-c
-WARNING: No source file found: ../code/c/src/Methods.lf
+target C;
+main reactor Methods {
+    state foo:int(2);
+    method getFoo(): int {=
+        return self->foo;
+    =}
+    method add(x:int) {=
+        self->foo += x;
+    =}
+    reaction(startup){=
+        lf_print("Foo is initialized to %d", getFoo());
+        add(40);
+        lf_print("2 + 40 = %d", getFoo());
+    =}
+}
+
 ```
 
 ```lf-cpp
@@ -379,6 +398,6 @@ WARNING: No source file found: ../code/rs/src/Methods.lf
 
 $end(Methods)$
 
-This reactor defines two methods `getFoo` and `add`. `getFoo` is qualified as a const method, which indicates that it has read-only access to the state variables. This is direclty translated to a C++ const method in the code generation process. The `getFoo` method receives no arguments and returns an integer (`int`) indicating the current value of the `foo` state variable. The `add` method returns nothing (`void`) and receives one interger argument, which it uses to increment `foo`. Both methods are visible in all reactions of the reactor. In this example, the reaction to startup calls both methods in order to read and modify its state.
+This reactor defines two methods `getFoo` and `add`. <span class="lf_cpp">`getFoo` is qualified as a const method, which indicates that it has read-only access to the state variables. This is direclty translated to a C++ const method in the code generation process.</span> The `getFoo` method receives no arguments and returns an integer (`int`) indicating the current value of the `foo` state variable. The `add` method returns nothing (`void`) and receives one interger argument, which it uses to increment `foo`. Both methods are visible in all reactions of the reactor. In this example, the reaction to startup calls both methods in order to read and modify its state.
 
 </div>
