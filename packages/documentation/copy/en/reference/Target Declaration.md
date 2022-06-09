@@ -107,7 +107,7 @@ target TypeScript {
 
 ```lf-rs
 target Rust {
-    build-type: <Debug, Release, RelWithDebInfo, or RelMinSize>,
+    build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
     cargo-features: <array of strings>,
     cargo-dependencies: <list of key-value pairs>,
     export-dependency-graph: <true or false>,
@@ -216,7 +216,7 @@ This parameter works with `cargo` to specify how to compile the code. The follow
 - `Release`: Optimization is turned on and debug information is missing.
 - `Debug`: Debug information is included in the executable.
 - `RelWithDebInfo`: Optimization with debug information.
-- `RelMinSize`: Optimize for smallest size.
+- `MinSizeRel`: Optimize for smallest size.
 
 This defaults to `Release`.
 
