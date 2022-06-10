@@ -396,6 +396,20 @@ reactor Receiver {
 }
 ```
 
+```lf-c
+// ~/lf-ros-demo/lf-project/src/Main.lf
+target CCpp;
+
+import Sender from "Sender.lf"
+import Receiver from "Receiver.lf"
+
+federated reactor {
+    sender = new Sender();
+    receiver = new Receiver();
+    sender.out -> receiver.in serializer "ROS2";
+}
+```
+
 **FIXME**: Add figures for the examples above.
 
 </div>
