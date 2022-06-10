@@ -163,7 +163,7 @@ you would be using Ubuntu 22.04 and ROS 2 Humble. However, the overall steps
 should work on all non-deprecated and fully supported ROS 2
 [distributions](https://docs.ros.org/en/humble/Releases.html).
 
-### Putting ROS 2 nodes inside reactors
+### Step 1: Put the ROS 2 node inside a reactor
 
 - Step 1: [Install ROS 2](https://docs.ros.org/en/humble/Installation.html).
 - Step 2: [Install LFC](/docs/handbook/command-line-tools).
@@ -299,6 +299,10 @@ should work on all non-deprecated and fully supported ROS 2
     ```
 
     **FIXME:** Following the steps above will cause the following error: "undefined reference to `SubscriberNode::SubscriberNode(rclcpp::NodeOptions)'".
+
+### Step 2: Take over the communication of the node
+
+**FIXME:**
 
 </div>
 
