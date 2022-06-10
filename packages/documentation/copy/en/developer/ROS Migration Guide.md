@@ -298,11 +298,105 @@ should work on all non-deprecated and fully supported ROS 2
 
     ```
 
-    **FIXME:** Following the steps above will cause the following error: "undefined reference to `SubscriberNode::SubscriberNode(rclcpp::NodeOptions)'".
+    **FIXME:** Following the steps above will cause the following error:
+    "undefined reference to
+    `SubscriberNode::SubscriberNode(rclcpp::NodeOptions)'".
+
+    As you may have noticed, the Sender and Receiver reactors above do nothing
+    more than instantiating the PublisherNode and SubscriberNode respectively
+    and still rely on `rclcpp::spin()`, which starts the main event handling
+    loop of rclcpp, to process events and send and receive messages. Next, we
+    take steps to take over the message passing.
 
 ### Step 2: Take over the communication of the node
 
-**FIXME:**
+At a high level, the ROS communication framework is built on top of the pub-sub
+paradigm. This is in contrast to Lingua Franca, which uses
+[ports](http://localhost:8000/docs/handbook/inputs-and-outputs) and
+[connections](http://localhost:8000/docs/handbook/composing-reactors#connections)
+to facilitate communication between reactors.
+
+However, there is a methodical way of encapsulating ROS connections between nodes in Lingua
+Franca reactors:
+
+1. For each topic that a ROS node subscribes to, create an input port in the
+   encompassing reactor.
+2. For each callback of each topic, create a reaction that simply calls the
+   callback function (akin to forwarding the message).
+3. For each topic that a ROS node publishes to, create an output port in the
+   encompassing reactor.
+4. Replace the many-to-many connections between ROS nodes with one-to-many and
+   one-to-one connections in Lingua Franca.
+
+These steps can be applied to the minimal_composition example, creating the
+following two reactors:
+
+```lf-c
+// ~/lf-ros-demo/lf-project/src/Sender.lf
+target CCpp {
+    cmake-include: "include/composition.cmake"
+};
+preamble {=
+    #include <memory>
+    #include "minimal_composition/publisher_node.hpp"
+    #include "rclcpp/rclcpp.hpp"
+    #include "std_msgs/msg/string.hpp"
+=}
+reactor Sender {
+    // Instantiate the publisher node as a sate variable
+    state publisher_node : std::shared_ptr<PublisherNode>;
+    output out:std_msgs::msg::String;
+    timer t(0, 1 sec);
+    state count:int(0);
+    reaction(startup) {=
+        // Initialize rclcpp
+        // rclcpp::init(0, NULL);
+        // Instantiate the ROS node
+        // self->publisher_node = std::make_shared<PublisherNode>(rclcpp::NodeOptions());
+    =}
+    reaction(t) -> out {=
+        auto message = std_msgs::msg::String();
+        message.data = "Hello, world! " + std::to_string(self->count++);
+        lf_set(out, message);
+    =}
+    reaction(shutdown) {=
+        rclcpp::shutdown();
+    =}
+}
+```
+
+```lf-c
+// ~/lf-ros-demo/lf-project/src/Receiver.lf
+target CCpp {
+    cmake-include: "include/composition.cmake"
+};
+preamble {=
+    #include <memory>
+    #include "minimal_composition/subscriber_node.hpp"
+    #include "rclcpp/rclcpp.hpp"
+    #include "std_msgs/msg/string.hpp"
+=}
+reactor Receiver {
+    // Instantiate the subscriber node as a sate variable
+    state subscriber_node : std::shared_ptr<SubscriberNode>;
+    input in:std_msgs::msg::String;
+    reaction(startup) {=
+        // Initialize rclcpp
+        rclcpp::init(0, NULL);
+        // Instantiate the ROS node
+        self->subscriber_node = std::make_shared<SubscriberNode>(rclcpp::NodeOptions());
+    =}
+    reaction(in) {=
+        lf_print("Received %s", in->value.data.c_str());
+        self->subscriber_node->topic_callback(in->value);
+    =}
+    reaction(shutdown) {=
+        rclcpp::shutdown();
+    =}
+}
+```
+
+**FIXME**: Add figures for the examples above.
 
 </div>
 
