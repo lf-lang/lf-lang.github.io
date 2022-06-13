@@ -71,7 +71,7 @@ federated reactor {
     p = new Print();
     c.out -> p.in;
 }
-
+ 
 ```
 
 ```lf-cpp
@@ -105,7 +105,7 @@ federated reactor {
     p = new Print();
     c.out -> p.inp;
 }
-
+ 
 ```
 
 ```lf-ts
@@ -348,7 +348,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -414,7 +414,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer(STP_offset:time(10 msec)) extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -501,7 +501,7 @@ reactor PrintTimer {
         );
     =}
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}

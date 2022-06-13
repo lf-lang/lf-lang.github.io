@@ -1,8 +1,8 @@
 ---
-title: "Preambles and Methods"
+title: "Preambles"
 layout: docs
-permalink: /docs/handbook/preambles-and-methods
-oneline: "Defining functions and methods in Lingua Franca."
+permalink: /docs/handbook/preambles
+oneline: "Defining preambles in Lingua Franca."
 preamble: >
 ---
 
@@ -148,7 +148,7 @@ An example of this can be found in [PreambleFile.lf](https://github.com/lf-lang/
 Admittedly, the precise interactions of preambles and imports can become confusing. The preamble mechanism will likely be refined in future revisions.
 
 Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments.
-If access to the inner state of a reactor is required, [methods](#Methods) present a viable and easy to use alternative.
+If access to the inner state of a reactor is required, [methods](/docs/handbook/reactions-and-methods#method-declaration) present a viable and easy to use alternative.
 
 </div>
 
@@ -299,50 +299,5 @@ The important takeaway here is with the package.json file and the compiled JavaS
 <div class="lf-rs warning">
 
 FIXME: Add $preamble$ example.
-
-</div>
-
-## Methods
-
-<div class="lf-c lf-py lf-ts lf-rs">
-
-Methods are not currently implemented in the $target-language$ target.
-
-</div>
-
-<div class="lf-cpp">
-
-### Using Methods
-
-Sometimes reactors need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to
-be implemented in a single reaction. In such cases, methods can be defined within reactors to facilitate code reuse and enable a better structuring of the
-reactor's functionality. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction
-bodies or from other methods. Consdider the [Method](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/target/Methods.lf) example:
-
-```lf-cpp
-main reactor {
-    state foo:int(2);
-
-    const method get_foo(): int {=
-        return foo;
-    =}
-
-    method add(x:int) {=
-        foo += x;
-    =}
-
-    reaction(startup){=
-        std::cout << "Foo is initialized to " << get_foo() << std::endl;
-        add(40);
-        std::cout << "2 + 40 = " << get_foo() << std::endl;
-    =}
-}
-```
-
-This reactor defines two methods `get_foo` and `add`. `get_foo` is quailfied as a const method, which indicates that it has read-only access to the
-state variables. This is direclty translated to a C++ const method in the code generation process. `get_foo` receives no arguments and returns an integer
-(`int`) indicating the current value of the `foo` state variable. `add` returns nothing (`void`) and receives one interger argument, which it uses to
-increment `foo`. Both methods are visible in all reactions of the reactor. In this example, the reactio to startup calles both methods in order ro read
-and modify its state.
 
 </div>

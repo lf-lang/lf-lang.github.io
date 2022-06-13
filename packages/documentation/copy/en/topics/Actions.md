@@ -303,7 +303,7 @@ main reactor {
     =}
     state thread_id:lf_thread_t(0);
     physical action a(100 msec):int;
-
+  
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         lf_thread_create(&self->thread_id, &external, a);
@@ -326,7 +326,7 @@ main reactor {
 
     state thread: std::thread;
     physical action a:int;
-
+  
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         thread = std::thread([&]{
@@ -361,7 +361,7 @@ main reactor {
     =}
     state thread;
     physical action a(100 msec);
-
+  
     reaction(startup) -> a {=
         # Start a thread to schedule physical actions.
         self.thread = self.threading.Thread(target=self.external, args=(a,))
@@ -381,7 +381,7 @@ target TypeScript
 main reactor {
 
     physical action a(100 msec):number;
-
+  
     reaction(startup) -> a {=
         // Have asynchronous callback schedule physical action.
         setTimeout(() => {
@@ -430,7 +430,7 @@ Physical actions are the mechanism for obtaining input from the outside world. B
 
 In the above example, at $startup$, the main reactor creates an external thread that schedules a physical action roughly every 200 msec. The thread uses a built-in function `lf_nanosleep()`, which abstracts platform-specific mechanisms for stalling the thread for a specified amount of time. The thread is created with a built-in function `lf_thread_create()`, which similarly abstracts platform-specific mechanisms for creating threads.
 
-The code executed by the thread is defined in a $preamble$ section. See [Preambles and Methods](/docs/handbook/preambles-and-methods).
+The code executed by the thread is defined in a $preamble$ section. See [Preambles](/docs/handbook/preambles).
 
 **Important Note:** Asynchronous calls to `lf_schedule()` will not work if you set the [`threading` target parameter](/docs/handbook/target-declaration#threading) to `false`. You must use a threaded runtime for such asynchronous calls to work correctly.
 
