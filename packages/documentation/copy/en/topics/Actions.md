@@ -303,7 +303,7 @@ main reactor {
     =}
     state thread_id:lf_thread_t(0);
     physical action a(100 msec):int;
-
+  
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         lf_thread_create(&self->thread_id, &external, a);
@@ -326,7 +326,7 @@ main reactor {
 
     state thread: std::thread;
     physical action a:int;
-
+  
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         thread = std::thread([&]{
@@ -361,7 +361,7 @@ main reactor {
     =}
     state thread;
     physical action a(100 msec);
-
+  
     reaction(startup) -> a {=
         # Start a thread to schedule physical actions.
         self.thread = self.threading.Thread(target=self.external, args=(a,))
@@ -381,7 +381,7 @@ target TypeScript
 main reactor {
 
     physical action a(100 msec):number;
-
+  
     reaction(startup) -> a {=
         // Have asynchronous callback schedule physical action.
         setTimeout(() => {

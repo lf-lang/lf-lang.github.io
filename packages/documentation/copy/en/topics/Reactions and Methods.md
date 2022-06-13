@@ -317,13 +317,13 @@ This instantiates the above `Overwriting` reactor and monitors its outputs.
 
 ## Method Declaration
 
-<div class="lf-py lf-ts lf-rs">
+<div class="lf-ts lf-rs">
 
 The $target-language$ target does not currently support methods.
 
 </div>
 
-<div class="lf-cpp lf-c">
+<div class="lf-cpp lf-c lf-py">
 
 A method declaration has one of the forms:
 
@@ -385,7 +385,22 @@ main reactor Methods {
 ```
 
 ```lf-py
-WARNING: No source file found: ../code/py/src/Methods.lf
+target Python
+main reactor Methods {
+    state foo(2)
+    method getFoo() {=
+        return self.foo
+    =}
+    method add(x) {=
+        self.foo += x
+    =}
+    reaction(startup){=
+        print(f"Foo is initialized to {self.getFoo()}.")
+        self.add(40)
+        print(f"2 + 40 = {self.getFoo()}.")
+    =}
+}
+
 ```
 
 ```lf-ts
@@ -398,6 +413,20 @@ WARNING: No source file found: ../code/rs/src/Methods.lf
 
 $end(Methods)$
 
-This reactor defines two methods `getFoo` and `add`. <span class="lf_cpp">`getFoo` is qualified as a const method, which indicates that it has read-only access to the state variables. This is direclty translated to a C++ const method in the code generation process.</span> The `getFoo` method receives no arguments and returns an integer (`int`) indicating the current value of the `foo` state variable. The `add` method returns nothing (`void`) and receives one interger argument, which it uses to increment `foo`. Both methods are visible in all reactions of the reactor. In this example, the reaction to startup calls both methods in order to read and modify its state.
+This reactor defines two methods `getFoo` and `add`.
+<span class="lf-cpp">
+`getFoo` is qualified as a const method, which indicates that it has read-only
+access to the state variables. This is direclty translated to a C++ const method
+in the code generation process.
+</span>
+The `getFoo` method receives no arguments and returns an integer (`int`)
+indicating the current value of the `foo` state variable. The `add` method
+returns nothing
+<span class="lf-cpp lf-c">
+(`void`)
+</span>
+and receives one interger argument, which it uses to increment `foo`. Both
+methods are visible in all reactions of the reactor. In this example, the
+reaction to startup calls both methods in order to read and modify its state.
 
 </div>
