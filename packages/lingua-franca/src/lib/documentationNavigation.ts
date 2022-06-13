@@ -132,10 +132,10 @@ export function getDocumentationNavForLanguage(
           oneline: "Multiports and Banks of Reactors.",
         },
         {
-          title: "Preambles and Methods",
-          id: "1-preambles-and-methods",
-          permalink: "/docs/handbook/preambles-and-methods",
-          oneline: "Defining functions and methods in Lingua Franca.",
+          title: "Preambles",
+          id: "1-preambles",
+          permalink: "/docs/handbook/preambles",
+          oneline: "Defining preambles in Lingua Franca.",
         },
         {
           title: "Distributed Execution",

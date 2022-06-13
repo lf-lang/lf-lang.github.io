@@ -55,7 +55,7 @@ const handbookPages = [
       { file: "topics/Modal Models.md" },
       { file: "topics/Deadlines.md" },
       { file: "topics/Multiports and Banks.md" },
-      { file: "topics/Preambles and Methods.md" },
+      { file: "topics/Preambles.md" },
       { file: "topics/Distributed Execution.md" },
       { file: "topics/Termination.md" },
     ],
