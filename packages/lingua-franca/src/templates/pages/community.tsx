@@ -123,15 +123,14 @@ export const Comm: React.FC<Props> = props => {
                 {i("com_online_publications_desc")}
               </div>
             </div>
-
             <div className="callout">
               <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/lf-lang/lingua-franca/issues/new/choose" title="Create a new GitHub Issue on the Lingua Franca repo" target="_blank" />
               <div className="text">
-                <a href="https://github.com/lf-lang/lingua-franca/issues/new/choose" id="github-header" title="Create a new GitHub Issue on the Lingua Franca repo">
+                <a href="https://github.com/lf-lang/lingua-franca/issues/new/choose" id="github-header" target="_blank" title="Create a new GitHub Issue on the Lingua Franca repo">
                   <h3 className="community-callout-headline">GitHub</h3>
                 </a>
                 {i("com_online_github_desc")}{" "}
-                <a href="https://github.com/lf-lang/lingua-franca/issues/new/choose" title="Create a new GitHub Issue on the Lingua Franca repo">{i("com_online_github_href")}</a>
+                <a href="https://github.com/lf-lang/lingua-franca/issues/new/choose" target="_blank" title="Create a new GitHub Issue on the Lingua Franca repo">{i("com_online_github_href")}</a>
               </div>
             </div>
             <div className="callout">
@@ -141,10 +140,19 @@ export const Comm: React.FC<Props> = props => {
                   <h3 className="community-callout-headline">Twitter</h3>
                 </a>
                 {i("com_online_twitter_desc") + " "}
-                <a href="https://twitter.com/thelflang" title="Lingua Franca on Twitter" target="_blank">@thelflang</a>!
+                <a href="https://twitter.com/thelflang" title="Lingua Franca on Twitter" target="_blank">{i("com_online_twitter_href")}</a>!
               </div>
             </div>
-
+            <div className="callout">
+              <a aria-labelledby="slack-header" className="icon slack img-circle" href="https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw" title="Join the Lingua Franca community slack channel" target="_blank" />
+              <div className="text">
+                <a href="https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw" id="slack-header" target="_blank" title="Join the Lingua Franca community slack channel">
+                  <h3 className="community-callout-headline">Slack</h3>
+                </a>
+                {i("com_online_slack_desc")}{" "}
+                <a href="https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw" target="_blank" title="Join the Lingua Franca community slack channel">{i("com_online_slack_href")}</a>
+              </div>
+            </div>
           </Col2>
         </Row>
       </div>

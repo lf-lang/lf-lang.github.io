@@ -7,14 +7,17 @@ export const comCopy = {
   com_connect_online_description:
     "Tap into our online resources to learn more about Lingua Franca, provide feedback, connect with our developers, and find out about new updates.",
   com_online_publications_desc:
-    "View our publications and presentations",
+    "View our publications and presentations.",
   com_online_publications_tag: "",
   com_online_discord_header: "Chat",
   com_online_discord_desc:
     "Chat with other Lingua Franca users in the Lingua Franca Community Chat.",
   com_online_github_desc:
     "Found a bug, or want to provide feedback?",
-  com_online_github_href: "Tell us on GitHub",
+  com_online_github_href: "Tell us on GitHub.",
+  com_online_slack_href: "Join the slack channel.",
+  com_online_slack_desc: "Have questions, or want to chat with other users?",
+  com_online_twitter_href: "@thelflang",
   com_online_twitter_desc: "Stay up to date. Follow us on Twitter",
   com_online_blog_desc:
     "Learn about the latest Lingua Franca developments via our", //... blog

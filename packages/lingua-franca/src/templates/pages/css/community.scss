@@ -85,6 +85,10 @@
         background-color: lighten(black, 30%);
       }
       
+      &.slack {
+        background-image: url("../../../assets/community/connect-slack-icon.svg");
+        background-color: lighten(rgb(167, 167, 167), 30%);
+      }
     }
   }
 
