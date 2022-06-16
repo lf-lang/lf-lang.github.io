@@ -54,6 +54,14 @@ const contributors = [
     blurb: "Professor in the Graduate School at UC Berkeley."
   },
   {
+    name: "Shaokai Lin",
+    url: "https://shaokai.io",
+    image: "https://avatars.githubusercontent.com/u/7968955?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Graduate Student at UC Berkeley."
+  },
+  {
     name: "Marten Lohstroh",
     url: "http://people.eecs.berkeley.edu/~marten/",
     image: "https://avatars.githubusercontent.com/u/19938940?v=4",
