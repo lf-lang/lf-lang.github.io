@@ -79,18 +79,18 @@ const contributors = [
     blurb: "Graduate Student at TU Dresden.",
   },
   {
-    name: "Hou Seng (Steven) Wong",
-    image: "https://avatars.githubusercontent.com/u/46389172?v=4",
-    country: "🇺🇸",
-    continentish: "North America",
-    blurb: "Student assistant at UC Berkeley.",
-  },
-  {
     name: "Alexander Schulz-Rosengarten",
     image: "https://avatars.githubusercontent.com/u/25612037?v=4",
     country: "🇩🇪",
     continentish: "Europe",
     blurb: "Graduate student at Kiel University.",
+  },
+  {
+    name: "Hou Seng (Steven) Wong",
+    image: "https://avatars.githubusercontent.com/u/46389172?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Student assistant at UC Berkeley.",
   },
 ]
 
