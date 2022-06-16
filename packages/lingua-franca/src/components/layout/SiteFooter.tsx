@@ -48,6 +48,10 @@ const communityLinks = [
     title: "Web Repo",
     url: "https://github.com/lf-lang/website-lingua-franca",
   },
+  {
+    title: "Slack",
+    url: "https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw",
+  },
 ]
 
 const faviconForURL = (url: string) => {
@@ -85,6 +89,15 @@ const faviconForURL = (url: string) => {
           />
         </svg>
       )
+      case "https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw":
+        return (
+            <svg 
+              xmlns="http://www.w3.org/2000/svg" 
+              viewBox="-20 -3 54 54" 
+            >
+              <path d="M13,23.17a2.52,2.52,0,1,1-2.52-2.53H13Zm1.27,6.31a2.53,2.53,0,0,0,5,0V23.17a2.53,2.53,0,1,0-5,0Zm5-16.44V10.52A2.53,2.53,0,1,0,16.83,13Zm-8.84,1.27a2.53,2.53,0,0,0,0,5h6.31a2.53,2.53,0,1,0,0-5Zm16.44,5h2.52A2.53,2.53,0,1,0,27,16.83Zm-1.27-8.84a2.53,2.53,0,0,0-5.05,0v6.31a2.53,2.53,0,1,0,5.05,0ZM20.64,27v2.52A2.53,2.53,0,1,0,23.17,27Zm8.84-1.27a2.53,2.53,0,0,0,0-5.05H23.17a2.53,2.53,0,1,0,0,5.05Z" fill="#ffffff" class="color000 svgShape"></path>
+            </svg>
+        )
   }
 }
 
