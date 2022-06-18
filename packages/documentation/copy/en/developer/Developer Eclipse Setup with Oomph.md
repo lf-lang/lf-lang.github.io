@@ -31,8 +31,8 @@ mv ~/.p2 ~/.p2.bak
 
 4. Click the Hamburger button at the top right corner and switch to "Advanced Mode".
 
-5. Oomph now wants you to select the base Eclipse distribution for your development. We recommend to use "Eclipse IDE for Java and DSL Developers". As product version we recommend to use "Latest Release (...)". Since 2020-09, Eclipse requires Java 11+ to run.\
-   **IMPORTANT**: Xtext, used by the Lingua Franca code generator, does not yet support Java 15 or higher. Please use Java 11 through 14.\
+5. Oomph now wants you to select the base Eclipse distribution for your development. We recommend to use "Eclipse IDE for Java and DSL Developers". As product version we recommend to use "Latest Release (...)". \
+   **Important**: Lingua Franca tools require Java 17 or higher. Under Java VM, please select Java 17 or higher.\
    Then press Next to continue with the project section.\
    ![](../../../../../img/oomph/product_selection.png)
 
@@ -48,7 +48,7 @@ mv ~/.p2 ~/.p2.bak
 
 - If you already have cloned the LF repository and you want Eclipse to use this location instead of cloning it into the new IDE environment, you should adjust the "Git clone location rule".
 - Preferably, you have a Github account with an SSH key uploaded to Github. Otherwise, you should adjust the "Lingua Franca Github repository" entry to use the https option in the pulldown menu. See [adding an SSH key to your Github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
-- If the "JRE 11 location" is empty, you need to install and/or locate a JDK that has at least version 11.
+- If the "JRE 17 location" is empty, you need to install and/or locate a JDK that has at least version 17.
   ![](../../../../../img/oomph/project_configuration.png)
 
 9. Click Next to get a summary of what will happen during installation. Click Finish to start.
@@ -58,13 +58,13 @@ mv ~/.p2 ~/.p2.bak
 
 11. In the new Eclipse, it may automatically start building the project, or it may pop up an "Eclipse Updater" dialog. If neither happens, you can click the button with the yellow and blue cycling arrows in the status bar at the bottom. Oomph will perform various operations to configure the Eclipse environment, including the initial code generation for the LF language. This may take some time. Wait until the setup is finished.
 
-12. If you get compile errors, make sure Eclipse is using Java 11. If you skipped the first step above (removing your `~/.p2` directory), then you may have legacy configuration information that causes Eclipse to mysteriously use an earlier version of Java. Lingua Franca requires Java 11 or higher, and will get compiler errors if it uses an earlier version. To fix this, go to the menu `Project->Properties` and select `Java Build Path`. Remove the entry for `JRE System Library [JRE for JavaSE-8]` (or similar). Choose `Add Library` on the right, and choose `JRE System Library`. You should now be able to choose `Workspace default JRE (JRE for JavaSE-11)`. A resulting rebuild should then compile correctly.
+12. If you get compile errors, make sure Eclipse is using Java 17. If you skipped the first step above (removing your `~/.p2` directory), then you may have legacy configuration information that causes Eclipse to mysteriously use an earlier version of Java. Lingua Franca requires Java 17 or higher, and will get compiler errors if it uses an earlier version. To fix this, go to the menu `Project->Properties` and select `Java Build Path`. Remove the entry for `JRE System Library [JRE for JavaSE-8]` (or similar). Choose `Add Library` on the right, and choose `JRE System Library`. You should now be able to choose `Workspace default JRE (JRE for JavaSE-17)`. A resulting rebuild should then compile correctly.
 
 13. When the setup dialog is closed, your LF development IDE is ready. Probably, Eclipse is still compiling some code but when this is finished as well, all error markers on the project should have disappeared. Now, you can start a runtime Eclipse to test the actual Lingua Franca end-user IDE. In the toolbar, click on the small arrow next to the green Start button. There may already be an entry named "Launch Runtime Eclipse", but probably not. To create it, click on "Run Configurations...". Expand the "Eclipse Application" entry, select "Launch Runtime Eclipse", as follows:
 
 ![](../../../../../img/oomph/run_configurations.png)
 
-Make sure that the Execution Environment shows a version of Java that is at least Java 11. The click on "Run" at the bottom.
+Make sure that the Execution Environment shows a version of Java that is at least Java 17. The click on "Run" at the bottom.
 
 14. A new Eclipse starts where you can write LF programs and also get a diagram representation (but you fist need to open the diagram view by clicking on Window -> Show View -> Other and selecting Diagram in the "KIELER Lightweight Diagrams" folder). You can close the welcome window in the new Eclipse and proceed to creating a new project, as below.
 
