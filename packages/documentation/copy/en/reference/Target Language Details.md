@@ -2673,6 +2673,23 @@ Note that when building with a release profile (i.e., target property `build-typ
 
 </div>
 
+<div class="lf-c">
+
+## Scheduler Target Property
+
+The `scheduler` target property is used to select the scheduler used by the C runtime. This scheduler determines the order in which reactions are processed. It also assigns reactions to user-level threads and can thereby influence the assignment of reactions to processors.
+
+Because the C runtime scheduler operates at a higher level of abstraction than the OS, none of the scheduling policies that we currently support allow preemption; furthermore, they do not control migration of threads between processors.
+
+The following schedulers are available:
+
+- `GEDF_NP` (global earliest-deadline-first): This scheduler is the default scheduler for programs that have deadlines. It guarantees that in the execution of any given tag, reactions with earlier deadlines are executed before reactions with later deadlines; however, the tag of a reaction will still take precedence over its deadline in determining execution order. Reactions with no explicit deadline implicitly have an infinitely late deadline.
+- `NP` (non-preemptive): This scheduler is the default scheduler for programs that have no deadlines. It makes minimal guarantees about its behavior beyond that it maintains the deterministic semantics of Lingua Franca. This allows it to include optimizations that can result in lower execution times than the GEDF_NP scheduler.
+- `adaptive`: This scheduler behaves similarly to the `NP` scheduler, with the additional limitation that it is designed for applications that can tolerate potentially wide variability in physical execution times. In exchange, it can accomplish good performance on iterative workloads involving reactions that execute too quickly to justify the degree of automatic parallelization that other schedulers offer.
+- `GEDF_NP_CI` (global earliest-deadline-first, with chain ID): This scheduler implements the same policy as `GEDF_NP`, but it includes an optimization called chain ID that is currently disabled. This scheduler should not be used in practical applications.
+
+</div>
+
 [comment]: <> (================= NEW SECTION =====================)
 
 ## Target Implementation Details
