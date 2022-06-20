@@ -2673,7 +2673,7 @@ Note that when building with a release profile (i.e., target property `build-typ
 
 </div>
 
-<div class="lf-c">
+<div class="lf-c lf-py">
 
 ## Scheduler Target Property
 
