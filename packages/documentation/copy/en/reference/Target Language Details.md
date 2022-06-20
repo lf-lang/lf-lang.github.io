@@ -2677,7 +2677,7 @@ Note that when building with a release profile (i.e., target property `build-typ
 
 ## Scheduler Target Property
 
-The `scheduler` target property is used to select the scheduler used by the C runtime. This scheduler determines the order in which reactions are processed. It also assigns reactions to user-level threads and can thereby influence the assignment of reactions to processors.
+The `scheduler` target property is used to select the scheduler used by the C runtime. This scheduler determines the exact order in which reactions are processed, as long as the order complies with the deterministic semantics of Lingua Franca. It also assigns reactions to user-level threads and can thereby influence the assignment of reactions to processors.
 
 Because the C runtime scheduler operates at a higher level of abstraction than the OS, none of the scheduling policies that we currently support allow preemption; furthermore, they do not control migration of threads between processors.
 
