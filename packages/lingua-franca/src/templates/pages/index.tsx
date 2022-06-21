@@ -29,25 +29,6 @@ const Index: React.FC<Props> = (props) => {
   const i = createInternational<typeof indexCopy>(useIntl())
   const Link = createIntlLink(props.pageContext.lang)
 
-
-  // useEffect(() => {
-  //   // NOOP on tiny devices where we need to re-orient the arrows.
-  //   if (window.innerWidth < 900) return
-
-  //   const adopt = document.getElementById("adopt-gradually-content")!
-  //   adopt.classList.remove("no-js")
-  //   adopt.classList.add("fancy-scroll")   
-
-  //   updateOnScroll(i)()
-  //   // Handles setting the scroll 
-  //   window.addEventListener("scroll", updateOnScroll(i), { passive: true, capture: true });
- 
-
-  //   return () => {
-  //     window.removeEventListener("scroll", updateOnScroll(i))
-  //   }
-  // });
-
   /** Basically a <p> with bold set up */
   const P = (props: { ikey: keyof typeof indexCopy }) =>  <p key={props.ikey}>{i(props.ikey, { strong: (...chunk) => <strong>{chunk}</strong> })}</p>
   const GetStarted = (props: { href: string, title: any, subtitle: any, classes: string }) => (

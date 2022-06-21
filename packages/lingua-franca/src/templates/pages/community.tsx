@@ -1,14 +1,11 @@
 import * as React from "react"
 import { Layout } from "../../components/layout"
-import { graphql } from "gatsby"
 import { createInternational } from "../../lib/createInternational"
 import { useIntl } from "react-intl"
 import { Intl } from "../../components/Intl"
 
 import "./css/community.scss"
 import { comCopy } from "../../copy/en/community"
-import { QuickJump } from "../../components/QuickJump"
-import { Contributors } from "../../components/handbook/Contributors"
 
 const Row = (props: { children: any, className?: string }) => <div className={[props.className, "row"].join(" ")}>{props.children}</div>
 const Col = (props: { children: any, className?: string }) => <div className={[props.className, "col1"].join(" ")}>{props.children}</div>
@@ -21,7 +18,7 @@ const contributors = [
     image: "https://avatars.githubusercontent.com/u/4221770?v=4",
     country: "🇺🇸",
     continentish: "North America",
-    blurb: "Postdocural researcher at UC Berkeley."
+    blurb: "Postdoctoral researcher at UC Berkeley."
   },
   {
     name: "Peter Donovan",
