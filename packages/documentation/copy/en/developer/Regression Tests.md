@@ -70,7 +70,7 @@ cd $LF
 ./gradlew test --tests org.lflang.tests.runtime.TypeScriptTest.*
 ```
 
-To run a single test case, use the `runSingleTest` gradle task along with the path to the test source file:
+To run a single test case, use the `runSingleTest` Gradle task along with the path to the test source file:
 
 ```
 ./gradlew runSingleTest --args test/C/src/Minimal.lf
@@ -164,4 +164,4 @@ Code coverage is automatically recorded when running tests. After completing a t
 
 ## Continuous Integration
 
-Each push or pull request will trigger all tests to be run on Github Actions. It's configuration can be found [here](https://github.com/lf-lang/lingua-franca/blob/master/.github/workflows/build.yml).
+Each push or pull request will trigger all tests to be run on GitHub Actions. It's configuration can be found [here](https://github.com/lf-lang/lingua-franca/blob/master/.github/workflows/build.yml).

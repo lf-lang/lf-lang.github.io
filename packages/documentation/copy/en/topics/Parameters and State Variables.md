@@ -25,7 +25,7 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 - An identifier, such as `int`<span class="lf-cpp">, possibly followed by a type argument, e.g. `vector<int>`</span>.
 - An array type `type[]`<span class="lf-c lf-cpp lf-rs"> and `type[integer]`</span>.
 - The keyword $time$, which designates a time value.
-- A code block delimitted by `{= ... =}`, where the contents is any valid type in the target language.
+- A code block delimited by `{= ... =}`, where the contents is any valid type in the target language.
 
 </div>
 
@@ -59,7 +59,7 @@ reactor <class-name>(<param-name>(<expr>), ... ) {
 
 </div>
 
-Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
+Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
 
 For example, the `Double` reactor on the [previous page](/docs/handbook/inputs-and-outputs) can be replaced with a more general parameterized reactor `Scale` as follows:
 

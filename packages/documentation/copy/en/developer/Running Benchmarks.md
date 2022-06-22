@@ -32,7 +32,7 @@ pip install -r benchmark/runner/requirements.txt
 
 ### Compile lfc
 
-For running LF benchmarks, the commandline compiler `lfc` needs to be built. Simply run
+For running LF benchmarks, the command-line compiler `lfc` needs to be built. Simply run
 
 ```
 bin/build-lfc
@@ -50,7 +50,7 @@ export LF_PATH=/path/to/lf
 
 Currently all of our benchmarks are ported from the [Savina actor benchmark suite](https://doi.org/10.1145/2687357.2687368). In order to compare our LF implementations with actor based implementation, the Savina benchmark suite needs to be downloaded and compiled. Note that we require a modified version of the Savina suite, that adds support for specifying the number of worker threads and that includes CAF implementations of most benchmarks.
 
-To download and build savina, run the following commands:
+To download and build Savina, run the following commands:
 
 ```
 git clone https://github.com/lf-lang/savina.git
@@ -64,7 +64,7 @@ Building Savina requires a Java 8 JDK. Depending on the local setup, `JAVA_HOME`
 export JAVA_HOME=/path/to/jdk8
 ```
 
-Before invoking the benchmark runner, the environment variable `SAVINA_PATH` needs to be set and point to the location of the savina repository using an absolute path.
+Before invoking the benchmark runner, the environment variable `SAVINA_PATH` needs to be set and point to the location of the Savina repository using an absolute path.
 
 ```
 export SAVINA_PATH=/path/to/savina
@@ -72,7 +72,7 @@ export SAVINA_PATH=/path/to/savina
 
 #### CAF
 
-To futher build the CAF benchmarks, CAF 0.16.5 needs to be downloaded, compiled and installed first:
+To further build the CAF benchmarks, CAF 0.16.5 needs to be downloaded, compiled and installed first:
 
 ```
 git clone --branch "0.16.5" git@github.com:actor-framework/actor-framework.git
@@ -81,7 +81,7 @@ cmake -DCMAKE_INSTALL_PREFIX=<preferred/install/location> ..
 make install
 ```
 
-Then, from within the savina directory, the CAF benchmarks can be build:
+Then, from within the Savina directory, the CAF benchmarks can be build:
 
 ```
 cmake -DCAF_ROOT_DIR=<path/to/caf/install/location> ..
@@ -110,7 +110,7 @@ The benchmarks can also be configured. The `threads` and `iterations` parameters
 ./run_benchmark.py benchmark=savina_micro_pingpong target=akka threads=1 iterations=12 benchmark.params.messages=1000
 ```
 
-Each benchmark run produces an output directory in the scheme `outputs/<date>/<time>/` (e.g. `outputs/2020-12-17/16-46-16/`). This directory contains a files `results.csv` which contains the measured execution time for each iteration and all the parameters used for running this particular benchmark. The csv file contains precisely one row per iteration.
+Each benchmark run produces an output directory in the scheme `outputs/<date>/<time>/` (e.g. `outputs/2020-12-17/16-46-16/`). This directory contains a files `results.csv` which contains the measured execution time for each iteration and all the parameters used for running this particular benchmark. The CSV file contains precisely one row per iteration.
 
 ## Running a series of benchmarks (multirun)
 
@@ -144,9 +144,9 @@ collects all results from the particular multirun and stores the merged data str
 
 ## How it works
 
-The benchmark runner itself is actually relatively simple. Most of the complexity is dealt with by [hydra](https://hydra.cc/). Hydra is a complex and convienient tool for handling configurations. These configurations can be merged from different sources and be overriden via command line arguments as you have seen above. The actual benchmark runner receives the configuration represented as nested dictionaries from hydra. It then executes the benchmarks precisely as instructed by the configutation.
+The benchmark runner itself is actually relatively simple. Most of the complexity is dealt with by [hydra](https://hydra.cc/). Hydra is a complex and convenient tool for handling configurations. These configurations can be merged from different sources and be overridden via command line arguments as you have seen above. The actual benchmark runner receives the configuration represented as nested dictionaries from hydra. It then executes the benchmarks precisely as instructed by the configuration.
 
-The configuration is split into two big parts: the benchmark configuration and the target configuration. The benchmark configuration describes a particular benchmark instance. This is described in more detail in the [next section](#adding-new-benchmarks). The target configuration specifies how to run a benchmark for a specific target (e.g. akka, lf-c, lf-cpp). This is not intended to be changed by the user and therefore isn't explained in detail here. Essentially a benchmark run is split into 5 steps as is outlined in the following. The target configuartion precisely specifies what needs to be done in each step
+The configuration is split into two big parts: the benchmark configuration and the target configuration. The benchmark configuration describes a particular benchmark instance. This is described in more detail in the [next section](#adding-new-benchmarks). The target configuration specifies how to run a benchmark for a specific target (e.g. akka, lf-c, lf-cpp). This is not intended to be changed by the user and therefore isn't explained in detail here. Essentially a benchmark run is split into 5 steps as is outlined in the following. The target configuration precisely specifies what needs to be done in each step
 
 1. **copy** The command used to copy relevant source files to a temporary directory.
 2. **gen** The command used to generate a configured LF file. This is intended to apply a code generation tool like cog to the source code in order to make benchmarks parameterized.
@@ -235,7 +235,7 @@ lf-cpp:
 
 For C and C++ programs, we cannot run a precompiled program as it is the case for Akka, but we need to compile the benchmark first. The benchmark handler automatically performs the build in a temporary directory, so that it doesn't interfere with the source tree. First, it copies all files listed under `copy_sources` to the temporary directory. If the specified source path is a directory, the whole directory is copied recursively. The `lf_file` configuration file specifies the file to be compiled with `lfc`. `binary` indicates the name of the binary file resulting from the compilation process.
 
-For some benchmarks, not all parameters can be applied at runtime. In such cases, the `gen_args` configuration key can be used to provide additional arguments that should be passed to cog. cog then applies the parameters to the source file (assuming that the source LF file uses cog directives to generate code according to the configuration). Similiarly `run_args` specifies any additional arguments that should be passed to the binary when running the benchmark. In the case of the C++ configuration for the Ping Pong benchmark, the number of pings is a runtime parameter and specified with `--count`. Since this particular benchmark does not have any paremeter that need to be set during generation, `gen_args` is set to `null`.
+For some benchmarks, not all parameters can be applied at runtime. In such cases, the `gen_args` configuration key can be used to provide additional arguments that should be passed to cog. cog then applies the parameters to the source file (assuming that the source LF file uses cog directives to generate code according to the configuration). Similarly `run_args` specifies any additional arguments that should be passed to the binary when running the benchmark. In the case of the C++ configuration for the Ping Pong benchmark, the number of pings is a runtime parameter and specified with `--count`. Since this particular benchmark does not have any parameter that need to be set during generation, `gen_args` is set to `null`.
 
 Finally, we have the C part of the target configuration.
 

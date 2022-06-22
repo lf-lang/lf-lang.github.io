@@ -474,5 +474,5 @@ When a reaction is triggered by more than one action or by an action and an inpu
 <span class="lf-c">Just like for inputs, this can be done in the C target with `a->is_present`, where `a` is the name of the action.</span>
 <span class="lf-py">Just like for inputs, this can be done in the Python target with `a.is_present`, where `a` is the name of the action.</span>
 <span class="lf-cpp">Just like for inputs, this can be done in the C++ target with `a.is_present()`, where `a` is the name of the action.</span>
-<span class="lf-ts">FJust like for inputs, this can be done in the TypeScript target with `a != undefined`, where `a` is the name of the action.</span>
+<span class="lf-ts">Just like for inputs, this can be done in the TypeScript target with `a != undefined`, where `a` is the name of the action.</span>
 <span class="lf-rs">Just like for inputs, this can be done in the Rust target with `ctx.is_present(a)`, where `a` is the name of the action.</span>

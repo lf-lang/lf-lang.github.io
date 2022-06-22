@@ -101,7 +101,7 @@ reactor Foo(period: time(100 msec)) {
 }
 ```
 
-Container types may also be written eg `int[]`, which is translated to a target-specific array or list type. The acceptable expressions for these types vary across targets (see [Complex expressions](#complex-expressions)), for instance in C, you can initialize an array parameter as follows:
+Container types may also be written e.g. `int[]`, which is translated to a target-specific array or list type. The acceptable expressions for these types vary across targets (see [Complex expressions](#complex-expressions)), for instance in C, you can initialize an array parameter as follows:
 
 ```
 reactor Foo(my_array:int[](1, 2, 3)) {
@@ -174,7 +174,7 @@ A method declaration has one of the forms:
 
 The first form defines a method with no arguments and no return value. The second form defines a method with the return type _type_ but no arguments. The third form defines a method with arguments given by their name and type, but without a return value. Finally, the fourth form is similar to the third, but adds a return type.
 
-The **method** keywork can optionally be prefixed with the **const** qualifier, which indicates that the method is "read-only". This is relvant for some target languages such as C++.
+The **method** keyword can optionally be prefixed with the **const** qualifier, which indicates that the method is "read-only". This is relevant for some target languages such as C++.
 
 See the [C++ documentation](https://github.com/lf-lang/lingua-franca/wiki/Writing-Reactors-in-Cpp#using-methods) for a usage example.
 
@@ -331,7 +331,7 @@ reactor Add {
 
 See the [C target](Writing-Reactors-in-C#Reaction-Body) for an example of how these things are specified in C.
 
-**NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is undefined and may be target dependent. In the C target, as of this writing, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input. In the TS target, the value will be **undefined**, a legitimate value in TypeScript.
+**NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is undefined and may be target dependent. In the C target, as of this writing, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the data type of the input. In the TS target, the value will be **undefined**, a legitimate value in TypeScript.
 
 ### Scheduling Future Reactions
 
@@ -362,7 +362,7 @@ Nanoseconds since start: 2100000000.
 ...
 ```
 
-This action has no datatype and carries no value, but, as explained below, an action can carry a value.
+This action has no data type and carries no value, but, as explained below, an action can carry a value.
 
 ### Asynchronous Callbacks
 
@@ -631,10 +631,10 @@ Type annotations may be written in many places in LF, including [parameter decla
 
 Assigning meaning to type annotations is entirely offloaded to the target compiler, as LF does not feature a type system (yet?). However, LF's syntax for types supports a few idioms that have target-specific meaning. Types may have the following forms:
 
-- the **time** type is reserved by LF, its values represent time durations. The **time** type accepts _time expressions_ for values, eg `100 msec`, or `0` (see [Basic expressions](#basic-expressions) for a reference).
-- identifiers are valid types (eg `int`, `size_t`), and may be followed by type arguments (eg `vector<int>`).
-- the syntactic forms `type[]` and `type[integer]` correspond to target-specific array types. The second form is available only in languages which support fixed-size array types (eg in C++, `std::array<5>`).
-- the syntactic form `{= some type =}` allows writing an arbitrary type as target code. This is useful in target languages which have complex type grammar (eg in TypeScript, `{= int | null =}`).
+- the **time** type is reserved by LF, its values represent time durations. The **time** type accepts _time expressions_ for values, e.g. `100 msec`, or `0` (see [Basic expressions](#basic-expressions) for a reference).
+- identifiers are valid types (e.g. `int`, `size_t`), and may be followed by type arguments (e.g. `vector<int>`).
+- the syntactic forms `type[]` and `type[integer]` correspond to target-specific array types. The second form is available only in languages which support fixed-size array types (e.g. in C++, `std::array<5>`).
+- the syntactic form `{= some type =}` allows writing an arbitrary type as target code. This is useful in target languages which have complex type grammar (e.g. in TypeScript, `{= int | null =}`).
 
 Also note that to use strings conveniently in the C target, the "type" `string` is an alias for `{=char*=}`.
 
@@ -644,19 +644,19 @@ Also note that to use strings conveniently in the C target, the "type" `string` 
 
 A subset of LF syntax is used to write _expressions_, which represent target language values. Expressions are used in [state variable](#State-declaration) initializers, default values for [parameters](#Parameter-declarations), and [parameter assignments](#Contained-reactors).
 
-Expressions in LF support only simple forms, that are intended to be common across languages. Their precise meaning (eg the target language types they are compatible with) is target-specific and not specified here.
+Expressions in LF support only simple forms, that are intended to be common across languages. Their precise meaning (e.g. the target language types they are compatible with) is target-specific and not specified here.
 
 ### Basic expressions
 
 The most basic expression forms, which are supported by all target languages, are the following:
 
 - Literals:
-  - Numeric literals, eg `1`, `-120`, `1.5`. Note that the sign, if any, is part of the literal and must not be separated by whitespace.
-  - String literals, eg `"abcd"`. String literals always use double-quotes, even in languages which support other forms (like Python).
-  - Character literals. eg `'a'`. Single-quoted literals must be exactly one character long --even in Python.
+  - Numeric literals, e.g. `1`, `-120`, `1.5`. Note that the sign, if any, is part of the literal and must not be separated by whitespace.
+  - String literals, e.g. `"abcd"`. String literals always use double-quotes, even in languages which support other forms (like Python).
+  - Character literals. e.g. `'a'`. Single-quoted literals must be exactly one character long --even in Python.
   - Boolean literals: `true`, `false`, `True`, `False`. The latter two are there for Python.
-- Parameter references, which are simple identifiers (eg `foo`). Any identifier in expression position must refer to a parameter of the enclosing reactor.
-- Time values, eg `1 msec` or `10 seconds`. The syntax of time values is `integer time_unit`, where `time_unit` is one of the following
+- Parameter references, which are simple identifiers (e.g. `foo`). Any identifier in expression position must refer to a parameter of the enclosing reactor.
+- Time values, e.g. `1 msec` or `10 seconds`. The syntax of time values is `integer time_unit`, where `time_unit` is one of the following
 
   - **nsec**: nanoseconds
   - **usec**: microseconds
@@ -667,23 +667,23 @@ The most basic expression forms, which are supported by all target languages, ar
   - **day**: 24 hours
   - **week**: 7 days
 
-  Each of these units also support a pluralized version (eg `nsecs`, `minutes`, `days`), which means the same thing.
+  Each of these units also support a pluralized version (e.g. `nsecs`, `minutes`, `days`), which means the same thing.
 
   The time value `0` may have no unit. Except in this specific case, the unit is always required.
 
   Time values are compatible with the `time` type.
 
-- Escaped target-language expression, eg `{= foo() =}`. This syntax is used to write any expression which does not fall into one of the other forms described here. The contents are not parsed and are used verbatim in the generated file.
+- Escaped target-language expression, e.g. `{= foo() =}`. This syntax is used to write any expression which does not fall into one of the other forms described here. The contents are not parsed and are used verbatim in the generated file.
 
   The variables in scope are target-specific.
 
 ### Complex expressions
 
-Some targets may make use of a few other syntactic forms for expressions. These syntactic forms may be acribed a different meaning by different targets, to keep the source language close in meaning to the target language.
+Some targets may make use of a few other syntactic forms for expressions. These syntactic forms may be ascribed a different meaning by different targets, to keep the source language close in meaning to the target language.
 
 We describe here these syntactic forms and what meaning they have in each target.
 
-- Bracket-list syntax, eg `[1, 2, 3]`. This syntax is used to create a list in Python. It is not supported by any other target at the moment.
+- Bracket-list syntax, e.g. `[1, 2, 3]`. This syntax is used to create a list in Python. It is not supported by any other target at the moment.
   ```python
   state x([1,2,3])
   ```
@@ -692,7 +692,7 @@ We describe here these syntactic forms and what meaning they have in each target
 
 Some "expression" forms are only acceptable as the initializer of a state variable or parameter, but not in other places (like inside a list expression). These are
 
-- Tuple syntax, eg `(1, 2, 3)`. This syntax is used:
+- Tuple syntax, e.g. `(1, 2, 3)`. This syntax is used:
 
   - in the Python target, to create a tuple value. Tuples are different from lists in that they are immutable.
   - in C++, to pass arguments to a constructor:
@@ -711,4 +711,4 @@ Some "expression" forms are only acceptable as the initializer of a state variab
     state x: int[]({= {1} =})  // one element array: `int x[] = {1};`
   ```
 
-- Brace-list syntax, eg `{1, 2, 3}`. This syntax is at the moment only supported by the C++ target. It's used to initialize a vector with the initializer list syntax instead of a constructor call.
+- Brace-list syntax, e.g. `{1, 2, 3}`. This syntax is at the moment only supported by the C++ target. It's used to initialize a vector with the initializer list syntax instead of a constructor call.

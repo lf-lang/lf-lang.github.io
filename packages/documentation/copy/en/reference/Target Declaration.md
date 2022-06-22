@@ -716,9 +716,9 @@ This parameter takes a non-negative integer and specifies the number of worker t
 The generated executable may feature a command-line interface (CLI), if it uses the `cargo-features: ["cli"]` target property. When that feature is enabled:
 
 - some target properties become settable at runtime:
-  - `--timeout <time value>`: override the default timeout mentioned as a target property. The syntax for times is just like the LF one (eg `1msec`, `"2 seconds"`).
+  - `--timeout <time value>`: override the default timeout mentioned as a target property. The syntax for times is just like the LF one (e.g. `1msec`, `"2 seconds"`).
   - `--workers <number>`: override the default worker count mentioned as a target property. This option is **ignored** unless the runtime crate has been built with the feature `parallel-runtime`.
-  - `--export-graph`: export the dependency graph (corresponds to `export-dependency-graph` target property). This is a flag, ie, absent means false, present means true. This means the value of the target property is ignored and not used as default.
+  - `--export-graph`: export the dependency graph (corresponds to `export-dependency-graph` target property). This is a flag, i.e., absent means false, present means true. This means the value of the target property is ignored and not used as default.
   - `--log-level`: corresponds to the `logging` target property, but note that the levels have different meanings, and the target property is ignored. See [Logging levels](#logging-levels).
 - parameters of the main reactor are translated to CLI parameters.
   - Each LF parameter named `param` corresponds to a CLI parameter named `--main-param`. Underscores in the LF parameter name are replaced by hyphens.
@@ -765,7 +765,7 @@ The Python target does not currently support any command-line arguments. You mus
 In the TypeScript target, the generated JavaScript program understands the following command-line arguments, each of which has a short form (one character) and a long form:
 
 - `-f, --fast [true | false]`: Specifies whether to wait for physical time to match logical time. The default is `false`. If this is `true`, then the program will execute as fast as possible, letting logical time advance faster than physical time.
-- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those. For the duration and units of a timeout argument to be parsed correctly as a single value, these should be specified in quotes with no leading or trailing space (eg '5 sec').
+- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those. For the duration and units of a timeout argument to be parsed correctly as a single value, these should be specified in quotes with no leading or trailing space (e.g. '5 sec').
 - `-k, --keepalive [true | false]`: Specifies whether to stop execution if there are no events to process. This defaults to `false`, meaning that the program will stop executing when there are no more events on the event queue. If you set this to `true`, then the program will keep executing until either the `timeout` logical time is reached or the program is externally killed. If you have `physical action`s, it usually makes sense to set this to `true`.
 - `-l, --logging [ERROR | WARN | INFO | LOG | DEBUG]`: The level of logging messages from the reactor-ts runtime to to print to the console. Messages tagged with a given type (error, warn, etc.) will print if this argument is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`).
 - `-h, --help`: Print this usage guide. The program will not execute if this flag is present.

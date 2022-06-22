@@ -338,7 +338,7 @@ The first form defines a method with no arguments and no return value. The secon
 
 <div class="lf-cpp">
 
-The $method$ keywork can optionally be prefixed with the $const$ qualifier, which indicates that the method is read only.
+The $method$ keyword can optionally be prefixed with the $const$ qualifier, which indicates that the method is read only.
 
 </div>
 
@@ -416,7 +416,7 @@ $end(Methods)$
 This reactor defines two methods `getFoo` and `add`.
 <span class="lf-cpp">
 `getFoo` is qualified as a const method, which indicates that it has read-only
-access to the state variables. This is direclty translated to a C++ const method
+access to the state variables. This is directly translated to a C++ const method
 in the code generation process.
 </span>
 The `getFoo` method receives no arguments and returns an integer (`int`)
@@ -425,7 +425,7 @@ returns nothing
 <span class="lf-cpp lf-c">
 (`void`)
 </span>
-and receives one interger argument, which it uses to increment `foo`. Both
+and receives one integer argument, which it uses to increment `foo`. Both
 methods are visible in all reactions of the reactor. In this example, the
 reaction to startup calls both methods in order to read and modify its state.
 

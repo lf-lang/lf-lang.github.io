@@ -100,7 +100,7 @@ In case a mode is entered with the reset behavior:
 * any contained reactions triggered by `reset` are executed, and
 * all events (actions, timers, delayed connections) that were previously scheduled from within this mode are discarded.
 
-Note that *contained* refers to all contents defined locally in the mode and in local reactor instances (recursively) that are not ortherwise enclosed in modes of lower levels.
+Note that *contained* refers to all contents defined locally in the mode and in local reactor instances (recursively) that are not otherwise enclosed in modes of lower levels.
 
 Whenever a mode is entered with a reset transition, the subsequent timing behavior is as if the mode was never executed before.
 If there are state variables that need to be reset or reinitialized, then this can be done in a reaction triggered by `reset` or by marking the state variable for automatic reset (e.g., 

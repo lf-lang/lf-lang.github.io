@@ -19,13 +19,13 @@ Download the appropriate `epoch_ide_...` file for your platform from:
 
 The downloaded file is a compressed tarball. Open it to get an `Epoch.app` item that you can drag into your `Applications` folder.
 
-**First**: Currently, the Epoch IDE is not signed, and MacOS will report it as "damaged" if you try to invoke it immediately. You can work around this by opening a terminal and running the following command:
+**First**: Currently, the Epoch IDE is not signed, and macOS will report it as "damaged" if you try to invoke it immediately. You can work around this by opening a terminal and running the following command:
 
 ```sh
 xattr -cr Epoch.app
 ```
 
-**Second**: By default, the Lingua Franca compiler uses `cmake` to compile the programs it generates. This is not installed by default on MacOS systems. To install `cmake` using `brew`, just do this:
+**Second**: By default, the Lingua Franca compiler uses `cmake` to compile the programs it generates. This is not installed by default on macOS systems. To install `cmake` using `brew`, just do this:
 
 ```sh
 brew install cmake
@@ -33,7 +33,7 @@ brew install cmake
 
 Verify that cmake is in your path by typing `which cmake`.
 
-**Third**: We recommend also starting Epoch from the command line because then it will inherit your `PATH` variable (If you start it by double clicking on the icon, as usual in MacOS, it will not find `cmake` and will be unable to build LF programs). To do this, in a terminal window:
+**Third**: We recommend also starting Epoch from the command line because then it will inherit your `PATH` variable (If you start it by double clicking on the icon, as usual in macOS, it will not find `cmake` and will be unable to build LF programs). To do this, in a terminal window:
 
 ```
 open -a Epoch

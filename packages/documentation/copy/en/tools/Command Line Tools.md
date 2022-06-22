@@ -55,7 +55,7 @@ or
     mvn compile
 ```
 
-**Note:** The gradle build also performs tests, which takes a long time.
+**Note:** The Gradle build also performs tests, which takes a long time.
 
 The comnand-line tools will then be in a directory `lingua-franca/bin`.
 
@@ -81,4 +81,4 @@ To see the options that can be given to `lfc`, get help:
     lfc --help
 ```
 
-If you have installed the developer setup by cloning the GitHub repostory, then there are a number of other command-line tools available in the `lingua-franca/bin` directory.
+If you have installed the developer setup by cloning the GitHub repository, then there are a number of other command-line tools available in the `lingua-franca/bin` directory.

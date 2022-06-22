@@ -11,7 +11,7 @@ preamble: >
 - Java 17 or up ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
 - Each target language may have additional requirements. See the [Target Language Details](/docs/handbook/target-language-details#requirements) page and select your target language.
 
-**Note:** Eclipse does not currently support Kotlin, the language used for some of the target code generators. If you plan to develop Kotlin code, we recomments [using IntelliJ](/docs/handbook/intellij-kotlin) instead of Eclipse.
+**Note:** Eclipse does not currently support Kotlin, the language used for some of the target code generators. If you plan to develop Kotlin code, we recommend [using IntelliJ](/docs/handbook/intellij-kotlin) instead of Eclipse.
 
 ## Oomph Setup
 
@@ -36,25 +36,25 @@ mv ~/.p2 ~/.p2.bak
    Then press Next to continue with the project section.\
    ![](../../../../../img/oomph/product_selection.png)
 
-6. Next, we need to register the Lingua Franca specific setup in Oomph **(only the first time you use the installer)**. Click the green Plus button at the top right corner. Select "Github Projects" as catalog and paste the following URL into the "Resource URI" field:
+6. Next, we need to register the Lingua Franca specific setup in Oomph **(only the first time you use the installer)**. Click the green Plus button at the top right corner. Select "GitHub Projects" as catalog and paste the following URL into the "Resource URI" field:
    `https://raw.githubusercontent.com/icyphy/lingua-franca/master/oomph/LinguaFranca.setup`.
    Then press OK.
    NOTE: to check out another branch instead, adjust the URL above accordingly. For instance, in order to install the setup from `foo-bar` branch, change the URL to `https://raw.githubusercontent.com/icyphy/lingua-franca/foo-bar/oomph/LinguaFranca.setup`. Also, in the subsequent screen in the wizard, select the particular branch of interest instead of default, which is `master`.
 
-7. Now Oomph lists the Lingua Franca setup in the "<User>" directory of the "Github Projects" catalog. Check the Lingua Franca entry. A new entry for Lingua Franca will appear in the table at the bottom of the window. Select Lingua Franca and click Next.\
+7. Now Oomph lists the Lingua Franca setup in the "<User>" directory of the "GitHub Projects" catalog. Check the Lingua Franca entry. A new entry for Lingua Franca will appear in the table at the bottom of the window. Select Lingua Franca and click Next.\
    ![](../../../../../img/oomph/project_selection.png)
 
 8. Now you can further configure where and how your development Eclipse should be created. Check "Show all variables" to enable all possible configuration options. You can hover over the field labels to get a more detailed explanation of their effects.
 
 - If you already have cloned the LF repository and you want Eclipse to use this location instead of cloning it into the new IDE environment, you should adjust the "Git clone location rule".
-- Preferably, you have a Github account with an SSH key uploaded to Github. Otherwise, you should adjust the "Lingua Franca Github repository" entry to use the https option in the pulldown menu. See [adding an SSH key to your Github account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
+- Preferably, you have a GitHub account with an SSH key uploaded to GitHub. Otherwise, you should adjust the "Lingua Franca GitHub repository" entry to use the https option in the drop-down menu. See [adding an SSH key to your GitHub account](https://docs.github.com/en/authentication/connecting-to-github-with-ssh/adding-a-new-ssh-key-to-your-github-account).
 - If the "JRE 17 location" is empty, you need to install and/or locate a JDK that has at least version 17.
   ![](../../../../../img/oomph/project_configuration.png)
 
 9. Click Next to get a summary of what will happen during installation. Click Finish to start.
 
-10. Once the basic installation is complete, your new Eclipse will start. If it fails to clone the Github repository, then you should use the back button in the Oomph dialog and change the way you are accessing the repo (ssh or https). See above. \
-    The setup may also fail to clone the repository via SHH if Eclipse cannot find the private ssh key that matches the public key you uploaded to Github. You can configure the location of your private key in Eclipse as follows. In the Eclipse IDE, click the menu entry Window -> Preferences (on Mac Apple-Menu -> Preferences) and navigate to General -> Network Connections -> SSH2 in the tree view on the left and configure the SSH home directory and key names according to your computer. After the repo has been cloned, you can safely close the initial Oomph dialog (if not dismissed automatically). You will see a Welcome page that you can close.
+10. Once the basic installation is complete, your new Eclipse will start. If it fails to clone the GitHub repository, then you should use the back button in the Oomph dialog and change the way you are accessing the repo (ssh or https). See above. \
+    The setup may also fail to clone the repository via SHH if Eclipse cannot find the private ssh key that matches the public key you uploaded to GitHub. You can configure the location of your private key in Eclipse as follows. In the Eclipse IDE, click the menu entry Window -> Preferences (on Mac Apple-Menu -> Preferences) and navigate to General -> Network Connections -> SSH2 in the tree view on the left and configure the SSH home directory and key names according to your computer. After the repo has been cloned, you can safely close the initial Oomph dialog (if not dismissed automatically). You will see a Welcome page that you can close.
 
 11. In the new Eclipse, it may automatically start building the project, or it may pop up an "Eclipse Updater" dialog. If neither happens, you can click the button with the yellow and blue cycling arrows in the status bar at the bottom. Oomph will perform various operations to configure the Eclipse environment, including the initial code generation for the LF language. This may take some time. Wait until the setup is finished.
 
