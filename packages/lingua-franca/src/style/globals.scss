@@ -13,24 +13,20 @@ $lf-main-blue-color: #3c7a9b;
 $lf-main-blue-lighter-color: #3B7EA1;
 $lf-main-blue-lightest-color: #a8baf3;  // FIXME: This color is chosen ad-hoc.
 
-$ts-dark-barely-blue-highlight: #2a2828;
+$lf-dark-barely-red-highlight: #2a2828;
 
-$ts-js-yellow-bright-color: #f1dd35;
-$ts-js-yellow-muted-color: #c6bf31;
+$lf-light-bg: #fdfcfb;
+$lf-light-bg-20: #fdfcfb20;
+$lf-light-bg-grey: #eeeeee;
+$lf-light-bg-grey-highlight-color: #f2f2f2;
 
-$ts-light-bg-sandy-color: #faf9f8;
-$ts-light-bg-sandy-color-20: #faf9f820;
-$ts-light-bg-grey: #eeeeee;
-$ts-light-bg-grey-highlight-color: #f2f2f2;
+$lf-dark-bg-color: #181818;
+$lf-dark-bg-for-foreground-color: #202020;
+$lf-bg-selection-grey: #4d4c4c;
 
-$ts-dark-bg-color: #181818;
-$ts-dark-bg-for-foreground-color: #202020;
-$ts-dark-bg-secondary: #2a2a2b;
-$ts-bg-selection-grey: #4e4e4f;
-
-$ts-muted-red: #c63131;
-$ts-muted-green: #086f56;
-$ts-muted-purple: #4e086f;
+$lf-muted-red: #c63131;
+$lf-muted-green: #086f56;
+$lf-muted-purple: #4e086f;
 
 $screen-xs: 480px;
 $font-code: var(--code-font);

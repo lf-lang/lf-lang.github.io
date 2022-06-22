@@ -5,31 +5,31 @@
   --lf-keyword: #{$lf-gold-dark};
   --lf-target-selector: #{$lf-gold-dark-dark};
   --lf-target-selector-button: #{$lf-gold-dark};
-  --background-color: #{$ts-dark-bg-color};
+  --background-color: #{$lf-dark-bg-color};
   --text-color: #fff;
   --border-color: #444;
   --background-minor-highlight-color: #343434;
-  --inline-code-background-color: #{$ts-dark-bg-color};
+  --inline-code-background-color: #{$lf-dark-bg-color};
   --inline-code-color: #fff;
   --link-color: #{$lf-main-blue-lightest-color};
   --pure-background: black;
-  --raised-background-color: #{$ts-dark-bg-for-foreground-color};
+  --raised-background-color: #{$lf-dark-bg-for-foreground-color};
   --alt-text-color: #fff;
   --raised-box-shadow: 0 1.6px 3.6px 0 rgba(255, 255, 255, 0.132),
     0 0.3px 0.9px 0 rgba(255, 255, 255, 0.108);
-  --sidebar-background-color: #{$ts-dark-bg-for-foreground-color};
-  --sidebar-list-active-background-color: #{$ts-dark-barely-blue-highlight};
+  --sidebar-background-color: #{$lf-dark-bg-for-foreground-color};
+  --sidebar-list-active-background-color: #{$lf-dark-barely-red-highlight};
   --sidebar-list-background-color: rgb(53, 52, 52);
   --sidebar-link-border-color: #fff;
   --sidebar-item-border-color: #3e3e3e;
   --sidebar-twisty-color: #248AED;
   --sidebar-highlight-color: #248AED;
   --sidebar-target-selector-highlight-color: lf-gold-light-light;
-  --sidebar-active-button-background-color: #{$ts-bg-selection-grey};
+  --sidebar-active-button-background-color: #{$lf-bg-selection-grey};
   --table-border-color: #545454;
   --blue-tinged-bg: #2c3841;
   --blue-tinged-strong: #273f52;
-  --footer-arrow-color: $ts-light-bg-grey-highlight-color;
+  --footer-arrow-color: $lf-light-bg-grey-highlight-color;
   --fade-gradient: linear-gradient(
     0deg,
     rgba(49, 49, 49, 1) 0%,
@@ -43,7 +43,7 @@ html.light-theme {
   --lf-keyword: #{$lf-gold-dark};
   --lf-target-selector: #{$lf-gold-light};
   --lf-target-selector-button: rgb(230, 221, 174);
-  --background-color: #{$ts-light-bg-sandy-color};
+  --background-color: #{$lf-light-bg};
   --pure-background: white;
   --text-color: #333;
   --border-color: #eee;
@@ -55,7 +55,7 @@ html.light-theme {
   --alt-text-color: #000;
   --raised-box-shadow: 0 1.6px 3.6px 0 rgba(0, 0, 0, 0.132),
     0 0.3px 0.9px 0 rgba(0, 0, 0, 0.108);
-  --sidebar-background-color: #{$ts-light-bg-grey};
+  --sidebar-background-color: #{$lf-light-bg-grey};
   --sidebar-list-active-background-color: #d3dde3;
   --sidebar-list-background-color: #dedede;
   --sidebar-link-border-color: #000;
@@ -64,7 +64,7 @@ html.light-theme {
   --sidebar-target-selector-highlight-color: #{$lf-gold-dark};
   --sidebar-item-border-color: #dfdfdf;
   --sidebar-active-button-background-color: #dfdfdf;
-  --footer-arrow-color: $ts-dark-bg-for-foreground-color;
+  --footer-arrow-color: $lf-dark-bg-for-foreground-color;
   --table-border-color: #f1f1f1;
   --blue-tinged-bg: #e6f2fb;
   --blue-tinged-strong: #cce4f6;

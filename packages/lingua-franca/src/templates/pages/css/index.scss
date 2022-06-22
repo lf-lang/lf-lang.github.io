@@ -5,7 +5,7 @@ $headline-background-bg: $lf-main-blue-color;
 $headline-foreground-bg: white;
 
 .version-bar {
-  background-color: $ts-dark-bg-color;
+  background-color: $lf-dark-bg-color;
   text-align: center;
   color: white;
   padding: 0.7rem 2rem;
@@ -229,7 +229,7 @@ $headline-foreground-bg: white;
   }
 
   .purple {
-    background-color: $ts-muted-purple;
+    background-color: $lf-muted-purple;
     color: white;
   }
 
@@ -252,7 +252,7 @@ $headline-foreground-bg: white;
   }
 
   .light-grey {
-    background-color: $ts-light-bg-sandy-color;
+    background-color: $lf-light-bg;
     color: black;
   }
 
@@ -383,7 +383,7 @@ $headline-foreground-bg: white;
         left: 0;
         height: 20px;
         width: 22px;
-        background-color: $ts-muted-red;
+        background-color: $lf-muted-red;
       }
 
       .underline-error {
@@ -817,11 +817,11 @@ $headline-foreground-bg: white;
     }
 
     .copy {
-      background: $ts-light-bg-sandy-color;
+      background: $lf-light-bg;
       background: linear-gradient(
         90deg,
-        $ts-light-bg-sandy-color 48%,
-        $ts-light-bg-sandy-color-20 100%
+        $lf-light-bg 48%,
+        $lf-light-bg-20 100%
       );
       p {
         font-size: 1rem;
