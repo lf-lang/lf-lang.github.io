@@ -40,7 +40,7 @@
   }
 
   #home-page-logo {
-    width: 135px;
+    max-width: 135px;
     padding-top: 0.5rem;
     padding-left: 3.5rem;
     padding-right: 4.5rem;
@@ -61,6 +61,21 @@
       margin-right: 0.2rem;
       top: -0.3rem;
       text-decoration: none;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    #home-page-logo {
+      padding-left: 1.5rem;
+      padding-right: 2rem;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    overflow-x: scroll;
+    #home-page-logo {
+      padding-left: 0.25rem;
+      padding-right: 0.25rem;
     }
   }
 

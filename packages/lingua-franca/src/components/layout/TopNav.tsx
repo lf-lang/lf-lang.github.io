@@ -24,15 +24,23 @@ export const SiteNav = (props: Props) => {
         <div className="left below-small">
 
           <IntlLink id="home-page-logo" to="/" aria-label="Lingua Franca Home Page">
-            
-          <img id="lf-logo" width={135} height={48} src={require("../../../../../img/header_logo.svg").default} alt="Lingua Franca Logo"/>
+          <img
+            id="lf-logo"
+            srcSet={
+              `${require("../../../../../img/small_logo.svg").default} 30w, `
+              + `${require("../../../../../img/header_logo.svg").default} 125w`
+            }
+            src={require("../../../../../img/small_logo.svg").default}
+            sizes="(max-width: 600px) 30px, 125px"
+            alt="Lingua Franca Logo"
+          />
           </IntlLink>
 
           <nav role="navigation">
             <ul>
-              <li className="nav-item hide-small"><IntlLink to="/download">{i("nav_download")}</IntlLink></li>
-              <li className="nav-item"><IntlLink to="/docs/"><span>{i("nav_documentation_short")}</span></IntlLink></li>
-              <li className="nav-item show-only-large"><IntlLink to="/docs/handbook/overview">{i("nav_handbook")}</IntlLink></li>
+              <li className="nav-item"><IntlLink to="/download">{i("nav_download")}</IntlLink></li>
+              <li className="nav-item"><IntlLink to="/docs/">{i("nav_documentation_short")}</IntlLink></li>
+              <li className="nav-item"><IntlLink to="/docs/handbook/overview">{i("nav_handbook")}</IntlLink></li>
               <li className="nav-item"><IntlLink to="/community">{i("nav_community")}</IntlLink></li>
             </ul>
           </nav>
