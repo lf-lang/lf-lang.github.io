@@ -259,7 +259,7 @@ This will print:
 demo_path.js
 ```
 
-By putting the `import` in the **preamble**, the library becomes available in all reactions of this reactor. Oddly, it also becomes available in all subsequently defined reactors in the same file. It's a bit more complicated to [set up node.js modules from npm](#using-node-modules) that aren't built-in, but the reaction code to `import` them is the same as what you see here.
+By putting the `import` in the **preamble**, the library becomes available in all reactions of this reactor. Oddly, it also becomes available in all subsequently defined reactors in the same file. It's a bit more complicated to [set up Node.js modules from npm](#using-node-modules) that aren't built-in, but the reaction code to `import` them is the same as what you see here.
 
 You can also use the preamble to define functions that are shared across reactions and reactors:
 

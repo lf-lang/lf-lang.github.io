@@ -12,7 +12,7 @@ The purpose of this page is to collect problems and solutions that users on vari
 
 The Lingua Franca tools rely on being able to invoke various external programs such as `cmake`, target-language compilers, Python, and Node.js. If any of these programs is missing, you will get an error message suggesting that you install the program. If you install the program and the error message persists, this usually means that the program is not visible in the environment in which the Lingua Franca tool is being run.
 
-The simplest aproach to diagnosing the problem is to first verify that the <a href="/docs/handbook/command-line-tools">command-line tools</a> work. For example, on the command line:
+The simplest approach to diagnosing the problem is to first verify that the <a href="/docs/handbook/command-line-tools">command-line tools</a> work. For example, on the command line:
 
 ```
 $ lfc --version

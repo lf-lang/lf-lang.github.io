@@ -16,7 +16,7 @@ preamble: >
 
 $page-showing-target$
 
-**NOTE:** Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on MacOS and Linux, and there are no plans currently to support Windows systems.
+**NOTE:** Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on macOS and Linux, and there are no plans currently to support Windows systems.
 
 A distributed Lingua Franca program is called a **federation**. Each reactor within the main reactor is called a **federate**. The LF compiler generates a separate program for each federate and synthesizes the code for the federates to communicate. The federates can be distributed across networks and eventually will be able to be written in different target languages, although this is not yet supported.
 
@@ -71,7 +71,7 @@ federated reactor {
     p = new Print();
     c.out -> p.in;
 }
- 
+
 ```
 
 ```lf-cpp
@@ -105,7 +105,7 @@ federated reactor {
     p = new Print();
     c.out -> p.inp;
 }
- 
+
 ```
 
 ```lf-ts
@@ -348,7 +348,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).", 
+        lf_print("Timer ticked at (%lld, %d).",
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -414,7 +414,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer(STP_offset:time(10 msec)) extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).", 
+        lf_print("Timer ticked at (%lld, %d).",
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -501,7 +501,7 @@ reactor PrintTimer {
         );
     =}
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).", 
+        lf_print("Timer ticked at (%lld, %d).",
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -602,7 +602,7 @@ In order for a federated execution to work, there is some setup required on the 
     sudo systemctl <start|enable> ssh.service
 ```
 
-Enable means to always start the service at startup, whereas start means to just start it this once. On MacOS, open System Preferences from the Apple menu and click on the "Sharing" preference panel. Select the checkbox next to "Remote Login" to enable it.
+Enable means to always start the service at startup, whereas start means to just start it this once. On macOS, open System Preferences from the Apple menu and click on the "Sharing" preference panel. Select the checkbox next to "Remote Login" to enable it.
 
 It will also be much more convenient if the launcher does not have to enter passwords to gain access to the remote machine. This can be accomplished by installing your public key (typically found in `~/.ssh/id_rsa.pub`) in `~/.ssh/authorized_keys` on the remote host.
 
@@ -646,7 +646,7 @@ A federate may be mapped to a particular remote machine using a syntax like this
     count = new Count() at user@host:port/path;
 ```
 
-The `port` is ignored in **centralized** mode because all communication is routed through the RTI, but in **decentralized** mode it will specify the port on which a socket server listens for incomming connections from other federates.
+The `port` is ignored in **centralized** mode because all communication is routed through the RTI, but in **decentralized** mode it will specify the port on which a socket server listens for incoming connections from other federates.
 
 If any federate has such a remote designator, then a `Federation_distribute.sh` shell script will be generated. This script will distribute the generated code for the RTI to the remote machine at the specified directory.
 

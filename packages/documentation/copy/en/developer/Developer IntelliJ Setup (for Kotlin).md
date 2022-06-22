@@ -6,7 +6,7 @@ oneline: "Developer IntelliJ Setup (for Kotlin)."
 preamble: >
 ---
 
-The IntelliJ environment allows running Kotlin-based code generators (e.g., Cpp code generator), which is currently impossible for the Eclipse environment.
+The IntelliJ environment allows running Kotlin-based code generators (e.g., C++ code generator), which is currently impossible for the Eclipse environment.
 Like Eclipse, IntelliJ provides a debugger UI useful for debugging the code generation routines.
 
 ## Prerequisites

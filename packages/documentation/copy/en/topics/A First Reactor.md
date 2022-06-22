@@ -69,7 +69,7 @@ Every Lingua Franca program begins with a [target declaration](/docs/handbook/ta
 
 Every LF program also has a $main$ [ or $federated$]{federated} reactor, which is the top level of a hierarchy of contained and interconnected reactors. The above simple example has no contained reactors.
 
-The $main$ reactor above has a single $reaction$, which is triggered by the $startup$ trigger. This trigger causes the reaction to execute at the start of the program. The body of the reaction, delimitted by `{= ... =}`, is ordinary $target-language$ code which, as we will see, has access to a number of functions and variables specific to Lingua Franca.
+The $main$ reactor above has a single $reaction$, which is triggered by the $startup$ trigger. This trigger causes the reaction to execute at the start of the program. The body of the reaction, delimited by `{= ... =}`, is ordinary $target-language$ code which, as we will see, has access to a number of functions and variables specific to Lingua Franca.
 
 ## Examples
 

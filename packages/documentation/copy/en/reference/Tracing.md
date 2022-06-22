@@ -16,7 +16,7 @@ Tracing is currently supported in the C, Python, and C++ targets. The mechanism 
 
 ## Tracing in C++
 
-Tracing in the Cpp target of Lingua Franca is based on three third-party tools. [LTTng](https://lttng.org/docs/v2.12/) is a Linux tool used to instrument the Lingua Franca program and to record traces in the [CTF](https://diamon.org/ctf/), which minimizes the overhead of instrumentation. Chrome (or Chromium) has a build in [trace viewer](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool) that is used to visualize the recorded trace data in a reactor-specific way. Since the Chrome trace-viewer cannot read CTF traces directly, we use [Babeltrace2](https://babeltrace.org/) to convert the recorded CTF trace to a json file that the Google trace viewer can load.
+Tracing in the C++ target of Lingua Franca is based on three third-party tools. [LTTng](https://lttng.org/docs/v2.12/) is a Linux tool used to instrument the Lingua Franca program and to record traces in the [CTF](https://diamon.org/ctf/), which minimizes the overhead of instrumentation. Chrome (or Chromium) has a build in [trace viewer](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool) that is used to visualize the recorded trace data in a reactor-specific way. Since the Chrome trace-viewer cannot read CTF traces directly, we use [Babeltrace2](https://babeltrace.org/) to convert the recorded CTF trace to a JSON file that the Google trace viewer can load.
 
 ## Usage
 
@@ -47,8 +47,8 @@ target Cpp {
 6. Start a LTTng user space session by simply running the `start_tracing.sh` script. This will print the directory in which the recorded traces will be placed.
 7. Run your instrumented Lingua Franca application.
 8. Stop the LTTng session using `stop_tracing.sh`.
-9. Convert the recorded CTF trace to a json file using `ctf_to_json.py <lttng-session-dir>`. `<lttng-session-dir>` is the output directory reported by `start_tracing.sh`. By default, this produces a file `trace.json`. Optionally, the default output file can be overridden using `-o` or `--output`.
-10. Open Chrome (or Chromium) and go to `about://tracing`. Load the previously generated json file to visualize it.
+9. Convert the recorded CTF trace to a JSON file using `ctf_to_json.py <lttng-session-dir>`. `<lttng-session-dir>` is the output directory reported by `start_tracing.sh`. By default, this produces a file `trace.json`. Optionally, the default output file can be overridden using `-o` or `--output`.
+10. Open Chrome (or Chromium) and go to `about://tracing`. Load the previously generated JSON file to visualize it.
 
 ## The Trace View
 
@@ -66,7 +66,7 @@ This section gives a brief overview of trace viewers that could be applicable fo
 
 ### Google Trace Viewer
 
-The Google Trace Viewer is the only viewer currently supported. Since it reads json files, it is easy to use and a conversion script can easily tailor the trace data such that it is correctly displayed by the viewer. Documentation of the json trace format can be found [here](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#). There is also a list of available [color codes](https://github.com/catapult-project/catapult/blob/master/tracing/tracing/base/color_scheme.html). The approach of using LTTng for tracing, a converter and Google Trace Viewer can also be used to sample and visualize data live. This is shown in the [Scalapus project](https://clearpathrobotics.com/blog/2020/01/scalopus-tracing-framework-c-python/).
+The Google Trace Viewer is the only viewer currently supported. Since it reads JSON files, it is easy to use and a conversion script can easily tailor the trace data such that it is correctly displayed by the viewer. Documentation of the JSON trace format can be found [here](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#). There is also a list of available [color codes](https://github.com/catapult-project/catapult/blob/master/tracing/tracing/base/color_scheme.html). The approach of using LTTng for tracing, a converter and Google Trace Viewer can also be used to sample and visualize data live. This is shown in the [Scalapus project](https://clearpathrobotics.com/blog/2020/01/scalopus-tracing-framework-c-python/).
 
 ### Trace Compass
 
@@ -152,7 +152,7 @@ then a ThreadedThreaded.json file is created. To visualize the data, point your 
 
 The tan-colored regions whose labels start with "A" and "W" represent time spent advancing logical time and waiting for activity on the reaction queue, respectively. When logical time advances, unless you have specified the `-fast` option, one of the worker threads blocks execution until physical time catches up with logical time. The remaining worker threads block waiting for reactions that are ready to execute appear on the reaction queue.
 
-The json trace format can be found [here](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#). There is also a list of available [color codes](https://github.com/catapult-project/catapult/blob/master/tracing/tracing/base/color_scheme.html).
+The JSON trace format can be found [here](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#). There is also a list of available [color codes](https://github.com/catapult-project/catapult/blob/master/tracing/tracing/base/color_scheme.html).
 
 ### User-Defined Tracepoints
 

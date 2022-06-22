@@ -10,7 +10,7 @@ This page shows how to install and use the Lingua Franca Visual Studio Code exte
 
 ## Download the Visual Studio Code Extension
 
-This plugin is available from the [VSCode
+This plugin is available from the [VS Code
 Marketplace](https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca)/[Open VSX Registry](https://open-vsx.org/extension/lf-lang/vscode-lingua-franca).
 
 To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter `ext install lf-lang.vscode-lingua-franca`.
