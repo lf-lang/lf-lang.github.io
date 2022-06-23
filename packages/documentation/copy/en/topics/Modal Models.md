@@ -65,7 +65,7 @@ reaction(trig) -> Two {=
 =}
 ```
 
-You can also specify the type of the transition by adding the modifier `reset(<mode>)` or `continue(<mode>)` in the effect.
+You can also specify the type of the transition by adding the modifier `reset(<mode>)` or `history(<mode>)` in the effect.
 The `reset` variant is implicitly assumed when the mode is listed without modifier.
 
 ## Execution Semantics
@@ -76,7 +76,7 @@ Reactions in inactive modes are simply not executed, while all components that m
 That means while a mode is inactive, the progress of time is suspended locally.
 How the timing components behave when a mode becomes active depends on the transition type.
 A mode can be *reset* upon entry, returning it to its initial state.
-Alternatively, it may *continue*, this only has an actual effect if the mode was active before.
+Alternatively, it may be entered preseving its *history*, this only has an actual effect if the mode was active before.
 In the latter case all timing components will continue their delays or period as if no time had passed during inactivity of the mode.
 The following section will provide a more detailed explanation of this effect.
 
@@ -113,7 +113,7 @@ If there are state variables that need to be reset or reinitialized, then this c
 State variables are not reset automatically to their initial conditions because it is idiomatic for reactors to allocate resources or initialize subsystems (e.g., allocate memory or sockets, register an interrupt, or start a server) in reactions triggered by the `startup`, and to store references to these resources in state variables.
 If these were to be automatically reset, those references would be lost.
 
-On the other hand, if a mode has been active prior and is then re-entered via a `continue` transition, no reset is performed.
+On the other hand, if a mode has been active prior and is then re-entered via a `history` transition, no reset is performed.
 Events originating from timers, scheduled actions, and delayed connections are adjusted to reflect a remaining delay equal to the remaining delay recorded at the instant the mode was previously deactivated.
 As a consequence, a mode has a notion of local time that elapses only when the mode is active.
 
@@ -133,7 +133,7 @@ Each mode has a timer `T1`/`T2` that triggers a reaction after an initial offset
 This reaction then schedules a logical action with a delay of 500 msec (the actual target code does not add an additional delay over the minimum specified).
 This action triggers the second reaction, which writes to the output `out`.
 The main difference between the modes is that `One` is entered via a history transition, continuing its behavior, while `Two` is reset.
-(Continue behavior is indicated by an "H" on the transition edge because it enters into the entire history of the mode.)
+(History behavior is indicated by an "H" on the transition edge because it enters into the entire history of the mode.)
 
 <img alt="Illustration of local time (trace)" src="../../../../../img/modal_models/local_time_trace.svg" width="600"/>
 
