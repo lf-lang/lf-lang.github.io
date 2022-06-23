@@ -81,13 +81,54 @@ export class Config {
       scopeName: "source.shell",
       grammarFile: new URL("https://raw.githubusercontent.com/microsoft/vscode/main/extensions/shellscript/syntaxes/shell-unix-bash.tmLanguage.json"),
       aliases: ["bash", "sh"]
+    },
+    {
+      canonicalName: "gnuplot",
+      scopeName: "source.gnuplot",
+      grammarFile: new URL("https://raw.githubusercontent.com/mammothb/vscode-gnuplot/master/syntaxes/gnuplot.tmLanguage"),
+      aliases: []
+    },
+    {
+      canonicalName: "powershell",
+      scopeName: "source.powershell",
+      grammarFile: new URL("https://raw.githubusercontent.com/PowerShell/EditorSyntax/master/PowerShellSyntax.tmLanguage"),
+      aliases: []
+    },
+    {
+      canonicalName: "yaml",
+      scopeName: "source.yaml",
+      grammarFile: new URL("https://raw.githubusercontent.com/redhat-developer/vscode-yaml/main/syntaxes/yaml.tmLanguage.json"),
+      aliases: []
+    },
+    {
+      canonicalName: "cmake",
+      scopeName: "source.cmake",
+      grammarFile: new URL("https://raw.githubusercontent.com/twxs/vs.language.cmake/master/syntaxes/CMake.tmLanguage"),
+      aliases: []
+    },
+    {
+      canonicalName: "JavaScript",
+      scopeName: "source.js",
+      grammarFile: new URL("https://raw.githubusercontent.com/microsoft/vscode/main/extensions/javascript/syntaxes/JavaScript.tmLanguage.json"),
+      aliases: ["js"]
+    },
+    {
+      canonicalName: "JSON",
+      scopeName: "source.json",
+      grammarFile: new URL("https://raw.githubusercontent.com/microsoft/vscode/main/extensions/json/syntaxes/JSON.tmLanguage.json"),
+      aliases: []
+    },
+    {
+      canonicalName: "JSON Comments",
+      scopeName: "source.json.comments",
+      grammarFile: new URL("https://raw.githubusercontent.com/microsoft/vscode/main/extensions/json/syntaxes/JSONC.tmLanguage.json"),
+      aliases: []
+    },
+    {
+      canonicalName: "TOML",
+      scopeName: "source.toml",
+      grammarFile: new URL("https://raw.githubusercontent.com/bungcip/better-toml/master/syntaxes/TOML.tmLanguage"),
+      aliases: []
     }
-    // TODO: Add yaml for Running Benchmarks.md
-    // TODO: Add gnuplot for Target Declaration.md
-    // TODO: Add cmake for Target Declaration.md
-    // c for Target Declaration.md
-    // python for ditto
-    // ts for ditto
-    // powershell for Command Line Tools.md
   ]
 }
