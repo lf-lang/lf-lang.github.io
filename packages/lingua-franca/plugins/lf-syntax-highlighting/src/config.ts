@@ -1,9 +1,9 @@
 import * as path from "path"
 
 export type Language = {
-  canonicalName: string,
-  scopeName: string,
-  grammarFile: string,
+  canonicalName: string,  // The name used in the "lang" field of MarkDown code blocks.
+  scopeName: string,  // The name of the TextMate scope of this language.
+  grammarFile: string | URL,  // A path or URL to the TextMate grammar.
   aliases: string[]
 }
 
@@ -75,6 +75,19 @@ export class Config {
         "..", "syntaxes", "vscode-rust", "rust-analyzer", "editors", "code", "rust.tmGrammar.json"
       ),
       aliases: ["RS"]
+    },
+    {
+      canonicalName: "shell",
+      scopeName: "source.shell",
+      grammarFile: new URL("https://raw.githubusercontent.com/microsoft/vscode/main/extensions/shellscript/syntaxes/shell-unix-bash.tmLanguage.json"),
+      aliases: ["bash", "sh"]
     }
+    // TODO: Add yaml for Running Benchmarks.md
+    // TODO: Add gnuplot for Target Declaration.md
+    // TODO: Add cmake for Target Declaration.md
+    // c for Target Declaration.md
+    // python for ditto
+    // ts for ditto
+    // powershell for Command Line Tools.md
   ]
 }
