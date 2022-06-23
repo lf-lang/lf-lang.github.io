@@ -51,7 +51,6 @@ reactor Schedule {
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -68,7 +67,6 @@ reactor Schedule {
         std::cout << "Action triggered at logical time " << elapsed_time << "  nsec after start." << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -84,7 +82,6 @@ reactor Schedule {
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
     =}
 }
-
 ```
 
 ```lf-ts
@@ -193,7 +190,6 @@ reactor Physical {
         printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -212,7 +208,6 @@ reactor Physical {
         std::cout << "Action triggered at logical time " << elapsed_time << " nsec after start." << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -228,7 +223,6 @@ reactor Physical {
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
     =}
 }
-
 ```
 
 ```lf-ts
@@ -243,7 +237,6 @@ reactor Physical {
         console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} nsec after start.`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -303,7 +296,7 @@ main reactor {
     =}
     state thread_id:lf_thread_t(0);
     physical action a(100 msec):int;
-  
+
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         lf_thread_create(&self->thread_id, &external, a);
@@ -326,7 +319,7 @@ main reactor {
 
     state thread: std::thread;
     physical action a:int;
-  
+
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         thread = std::thread([&]{
@@ -361,7 +354,7 @@ main reactor {
     =}
     state thread;
     physical action a(100 msec);
-  
+
     reaction(startup) -> a {=
         # Start a thread to schedule physical actions.
         self.thread = self.threading.Thread(target=self.external, args=(a,))
@@ -373,7 +366,6 @@ main reactor {
         print(f"Action triggered at logical time {elapsed_time} nsec after start.")
     =}
 }
-
 ```
 
 ```lf-ts
@@ -381,7 +373,7 @@ target TypeScript
 main reactor {
 
     physical action a(100 msec):number;
-  
+
     reaction(startup) -> a {=
         // Have asynchronous callback schedule physical action.
         setTimeout(() => {
@@ -393,7 +385,6 @@ main reactor {
         console.log(`Action triggered at logical time ${util.getElapsedLogicalTime()} nsec after start.`)
     =}
 }
-
 ```
 
 ```lf-rs

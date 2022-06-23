@@ -40,7 +40,6 @@ reactor Deadline {
         lf_set(d, x->value);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -56,7 +55,6 @@ reactor Deadline {
         d.set(*x.get());
     =}
 }
-
 ```
 
 ```lf-py
@@ -85,7 +83,6 @@ reactor Deadline {
         d = x
     =}
 }
-
 ```
 
 ```lf-rs
@@ -116,7 +113,6 @@ main reactor {
         printf("Deadline reactor produced an output.\n");
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -140,7 +136,6 @@ main reactor {
         std::cout << "Deadline reactor produced an output." << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -185,7 +180,6 @@ main reactor {
         console.log("Deadline reactor produced an output.")
     =}
 }
-
 ```
 
 ```lf-rs

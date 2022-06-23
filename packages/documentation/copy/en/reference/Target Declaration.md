@@ -166,7 +166,7 @@ target C {
 
 then instead of invoking the C compiler after generating code, the code generator will invoke your `compile.sh` script, which could look something like this:
 
-```
+```sh
 #!/bin/bash
 # Build the generated code.
 cd ${LF_SOURCE_GEN_DIRECTORY}
@@ -186,7 +186,7 @@ open $1.pdf
 
 The first few lines of this script do the same thing that is normally done when there is no `build` option in the target. Specifically, they use `cmake` to create a makefile, invoke `make`, and then move the executable to the `bin` directory. The next line, however, gives new functionality. It executes the compiled code! The final two lines assume that the program has produced a file with data to be plotted and use `gnuplot` to plot the data. This requires, of course, that you have `gnuplot` installed, and that there is a file called `Foo.gnuplot` in the same directory as `Foo.lf`. The file `Foo.gnuplot` contains the commands to plot the data, and might look something like the following:
 
-```
+```gnuplot
 set title 'My Title'
 set xrange [0:3]
 set yrange [-2:2]
@@ -242,6 +242,7 @@ This defaults to `Release`.
 This is a list of dependencies to include in the generated Cargo.toml file. The value of this parameter is a map of package name to _dependency-spec_.
 
 Here is an example for defining dependencies:
+
 ```lf-rs
 target Rust {
     cargo-dependencies: {
@@ -288,7 +289,7 @@ target C {
 
 This will enable or disable the CMake-based build system (the default is `true`). Enabling the CMake build system will result in a `CMakeLists.txt` being generated in the `src-gen` directory. This `CMakeLists.txt` is then used when `cmake` is invoked by the LF runtime (either the `lfc` or the IDE). Alternatively, the generated program can be built manually. To do so, in the `src-gen/ProgramName` directory, run:
 
-```
+```sh
 mkdir build && cd build
 cmake ../
 make
@@ -326,7 +327,7 @@ The cmake-include target property can be used, for example, to add dependencies 
 
 A CMake variable called `${LF_MAIN_TARGET}` can be used in the included text file(s) for convenience. This variable will contain the name of the CMake target (i.e., the name of the main reactor). For example, a `foo.txt` file can contain:
 
-```
+```cmake
 find_package(m REQUIRED) # Finds the m library
 
 target_link_libraries( ${LF_MAIN_TARGET} m ) # Links the m library
@@ -386,13 +387,13 @@ to point it to your preferred C++ compiler.
 
 </div>
 
-
 ## docker
+
 <div class="lf-c lf-py lf-ts">
 
-This option takes a boolean argument (default is `false`). 
+This option takes a boolean argument (default is `false`).
 
-If true, a docker file will be generated in the unfederated case. 
+If true, a docker file will be generated in the unfederated case.
 
 In the federated case, a docker file for each federate will be generated. A docker-compose file will also be generated for the top-level federated reactor.
 
@@ -494,7 +495,7 @@ target C {
 
 Your preamble code can then include these files, for example:
 
-```
+```lf-c
 preamble {=
     #include "audio_loop_mac.c"
 =}
@@ -504,7 +505,7 @@ Your reactions can then invoke functions defined in that `.c` file.
 
 Sometimes, you will need access to these files from target code in a reaction. For the C target (at least), the generated program will contain a line like this:
 
-```
+```c
     #define TARGET_FILES_DIRECTORY "path"
 ```
 

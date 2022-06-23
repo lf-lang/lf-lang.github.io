@@ -113,7 +113,7 @@ program.
 
 To install `setuptools` using `pip3`, do this:
 
-```bash
+```sh
 pip3 install setuptools
 ```
 
@@ -125,7 +125,7 @@ First, make sure Node.js is installed on your machine. You can [download Node.js
 
 After installing Node, you may optionally install the TypeScript compiler.
 
-```
+```sh
 npm install -g typescript
 ```
 
@@ -473,7 +473,7 @@ main reactor Hello(msg: std::string("World")) {
 
 This program will print "Hello World!" by default. However, since `msg` is a main reactor parameter, the C++ code generator will extend the CLI argument parser and allow to overwrite `msg` when invoking the program. For instance,
 
-```
+```sh
 bin/Hello --msg Earth
 ```
 
@@ -1207,15 +1207,15 @@ The C++ library defines two types of smart pointers that the runtime uses intern
 
 In fact this code from the example above:
 
-```lf-cpp
-Hello hello{"Earth, 42};
+```cpp
+Hello hello{"Earth, 42"};
 out.set(hello);
 ```
 
 implicitly invokes `reactor::make_immutable_value<Hello>(hello)` and could be rewritten as
 
-```lf-cpp
-Hello hello{"Earth, 42};
+```cpp
+Hello hello{"Earth, 42"};
 out.set(reactor::make_immutable_value<Hello>(hello));
 ```
 
@@ -1223,7 +1223,7 @@ This will invoke the copy constructor of `Hello`, copying its content from the `
 
 Since copying large objects is inefficient, the move semantics of C++ can be used to move the ownership of object instead of copying it. This can be done in the following two ways. First, by directly creating a mutable or immutable value pointer, where a mutable pointer allows modification of the object after it has been created:
 
-```lf-cpp
+```cpp
 auto hello = reactor::make_mutable_value<Hello>("Earth", 42);
 hello->name = "Mars";
 out.set(std::move(hello));
@@ -1231,7 +1231,7 @@ out.set(std::move(hello));
 
 An example of this can be found in [StructPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructPrint.lf). Not that after the call to `std::move`, hello is `nullptr` and the reaction cannot modify the object anymore. Alternatively, if no modification is requires, the object can be instantiated directly in the call to `set()` as follows:
 
-```lf-cpp
+```cpp
 out.set({"Earth", 42});
 ```
 
@@ -1578,7 +1578,7 @@ The reactor-cpp library uses [`std::chrono`](https://en.cppreference.com/w/cpp/c
 
 Lingua Franca uses a superdense model of logical time. A reaction is invoked at a logical **tag**. In the C++ library, a tag is represented by the class `reactor::Tag`. In essence, this class is a tuple of a `reactor::TimePoint` representing a specific point in logical time and a microstep value (of type `reactor::mstep_t`, which is an alias for `unsigned long`). `reactor::Tag` provides two methods for getting the time point or the microstep:
 
-```lf-cpp
+```cpp
 const TimePoint& time_point() const;
 const mstep_t& micro_step() const;
 ```
@@ -1677,7 +1677,7 @@ Time lag is 228241 nsecs
 
 For specifying time durations in code [chrono](https://en.cppreference.com/w/cpp/header/chrono) provides convenient literal operators in `std::chrono_literals`. This namespace is automatically included for all reaction bodies. Thus, we can simply write:
 
-```lf-cpp
+```cpp
 std::cout << 42us << std::endl;
 std::cout << 1ms << std::endl;
 std::cout << 3s << std::endl;
@@ -1733,7 +1733,7 @@ main reactor GetTime {
 
 When executed, you will get something like this:
 
-```bash
+```
 ---- Start execution at time Thu Nov  5 08:51:02 2020
 ---- plus 864237900 nanoseconds.
 Logical time is  1604587862864237900
@@ -1758,7 +1758,7 @@ main reactor GetTime {
 
 This will produce:
 
-```bash
+```
 ---- Start execution at time Thu Nov  5 08:51:02 2020
 ---- plus 864237900 nanoseconds.
 Elapsed logical time is  0
@@ -1781,7 +1781,7 @@ main reactor GetTime {
 
 This will produce something like this:
 
-```bash
+```
 ---- Start execution at time Thu Nov  5 08:51:02 2020
 ---- plus 864237900 nanoseconds.
 Physical time is  1604587862864343500
@@ -1804,7 +1804,7 @@ main reactor GetTime {
 
 This will produce something like this:
 
-```bash
+```
 ---- Start execution at time Thu Nov  5 08:51:02 2020
 ---- plus 864237900 nanoseconds.
 Elapsed physical time is  110200
@@ -1990,21 +1990,21 @@ See [Time](#timed-behavior). These time functions are defined in the [time.ts](h
 
 `UnitBasedTimeValue(value: number, unit:TimeUnit)` Constructor for `UnitBasedTimeValue`, a programmer-friendly subclass of TimeValue. Use a number and a `TimeUnit` enum.
 
-```
+```ts
 enum TimeUnit {
-    nsec,
-    usec,
-    msec,
-    sec,
-    secs,
-    minute,
-    minutes,
-    hour,
-    hours,
-    day,
-    days,
-    week,
-    weeks
+  nsec,
+  usec,
+  msec,
+  sec,
+  secs,
+  minute,
+  minutes,
+  hour,
+  hours,
+  day,
+  days,
+  week,
+  weeks,
 }
 ```
 
@@ -2151,7 +2151,7 @@ Physical actions work exactly as described in the [Physical Actions](/docs/handb
 
 If the specified delay in a `schedule()` is omitted or is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](/docs/handbook/superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` in one of the following ways:
 
-```lf-cpp
+```cpp
 a.schedule();
 a.schedule(0s);
 a.schedule(reactor::Duration::zero());
@@ -2411,7 +2411,7 @@ reaction(a) -> out, a {=
 
 Actions may carry values if they mention a data type, for instance:
 
-```rust
+```lf-rust
 logical action act: u32;
 ```
 
@@ -2636,7 +2636,7 @@ In particular, reactor-cpp provides the following logging interfaces:
 
 These utilities can be used analogues to `std::cout`. For instance:
 
-```lf-cpp
+```cpp
 reactor::Info() << "Hello World! It is " << get_physical_time();
 ```
 
@@ -2778,7 +2778,7 @@ Running [lfc](/docs/handbook/command-line-tools) on a `XXX.lf` program that uses
 Linux machine will create the following files (other operating systems will have
 a slightly different structure and/or files):
 
-```bash
+```shell
 ├── src
 │   └── XXX.lf
 └── src-gen
@@ -2903,7 +2903,7 @@ As mentioned before, the LinguaFrancaXXX module is separate from
 
 The LinguaFrancaXXX module is imported in `src-gen/XXX/XXX.py`:
 
-```
+```python
 from LinguaFrancaXXX import *
 ```
 
@@ -2917,7 +2917,7 @@ From then on, `LinguaFrancaXXX` will call reactions that are defined in `src-gen
 
 This package's modules are imported in the `XXX.py` program:
 
-```
+```python
 from LinguaFrancaBase.constants import * #Useful constants
 from LinguaFrancaBase.functions import * #Useful helper functions
 from LinguaFrancaBase.classes import * #Useful classes
@@ -2927,7 +2927,7 @@ from LinguaFrancaBase.classes import * #Useful classes
 
 The following packages are already imported and thus do not need to be re-imported by the user:
 
-```
+```python
 import os
 import sys
 import copy
@@ -3080,7 +3080,7 @@ These utility functions may be called within a TypeScript reaction:
 
 To build and view proper documentation for `time.ts` (and other reactor-ts libraries), install [typedoc](https://typedoc.org/) and run
 
-```
+```sh
 typedoc --out docs src
 ```
 
@@ -3115,7 +3115,7 @@ to navigate the docs.
 
 Target properties may be mentioned like so:
 
-```rust
+```lf-rust
 target Rust {
     // enables single-file project layout
     single-file-project: false,
@@ -3172,7 +3172,7 @@ The Rust code generator leverages Cargo to allow LF programs to profit from Rust
 
 The `cargo-dependencies` target property may be used to specify dependencies on crates coming from `crates.io`. Here's an example:
 
-```ruby
+```lf-rust
 target Rust {
    cargo-dependencies: {
       termcolor: "0.8"
@@ -3182,7 +3182,7 @@ target Rust {
 
 The value of the _cargo-dependencies_ property is a map of crate identifiers to a _dependency-spec_. An informal example follows:
 
-```js
+```json
 cargo-dependencies: {
    // Name-of-the-crate: "version"
    rand: "0.8",
@@ -3212,7 +3212,7 @@ cargo-dependencies: {
 
 When a _dependency-spec_ is specified as an object, its key-value pairs correspond directly to those of a [Cargo dependency specification](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-dependencies-from-git-repositories). For instance for the following dependency spec:
 
-```js
+```json
    rand: {
      version: "0.8",
      // you can specify cargo features
@@ -3234,7 +3234,7 @@ Not all keys are necessarily supported though, e.g. the `registry` key is not su
 
 The runtime crate can be configured just like other crates, using the `cargo-dependencies` target property, e.g.:
 
-```js
+```json
 cargo-dependencies: {
    reactor_rt: {
      features: ["parallel-runtime"]
@@ -3249,7 +3249,7 @@ See [reactor_rt](https://lf-lang.github.io/reactor-rust/reactor_rt/index.html) f
 
 You can link-in additional rust modules using the `rust-include` target property:
 
-```ruby
+```lf-rust
 target Rust {
   rust-include: ["foo.rs"]
 };
@@ -3274,7 +3274,7 @@ Each reactor generates its own `struct` which contains state variables. For inst
 <tr>
 <td>
 
-```rust
+```lf-rust
 reactor SomeReactor {
   state field: u32(0)
 }
@@ -3420,7 +3420,7 @@ The [`ReactionCtx`](https://lf-lang.github.io/reactor-rust/reactor_rt/struct.Rea
 
 For instance:
 
-```rust
+```lf-rust
 reactor Source {
     output out: i32;
     reaction(startup) -> out {=

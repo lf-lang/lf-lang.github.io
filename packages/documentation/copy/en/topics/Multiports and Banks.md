@@ -61,7 +61,6 @@ main reactor {
     b = new Destination();
     a.out -> b.in;
 }
-
 ```
 
 ```lf-cpp
@@ -91,7 +90,6 @@ main reactor {
     b = new Destination();
     a.out -> b.in;
 }
-
 ```
 
 ```lf-py
@@ -117,7 +115,6 @@ main reactor {
     b = new Destination();
     a.out -> b.inp;
 }
-
 ```
 
 ```lf-ts
@@ -146,7 +143,6 @@ main reactor {
     b = new Destination()
     a.out -> b.inp
 }
-
 ```
 
 ```lf-rs
@@ -176,7 +172,6 @@ main reactor {
     b = new Destination();
     a.out -> b.inp;
 }
-
 ```
 
 $end(Multiport)$
@@ -215,7 +210,6 @@ reactor Source(width:int(4)) {
         ...
     =}
 }
-
 ```
 
 <div class="lf-cpp">
@@ -290,7 +284,6 @@ reactor MultiportSource(
         self->s += self->bank_index;
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -308,7 +301,6 @@ reactor MultiportSource(
         s += bank_index;
     =}
 }
-
 ```
 
 ```lf-py
@@ -337,7 +329,6 @@ reactor MultiportSource {
         s += this.getBankIndex()
     =}
 }
-
 ```
 
 ```lf-rs
@@ -393,7 +384,6 @@ reactor A(bank_index:int(0), value:int(0)) {
 main reactor {
     a = new[4] A(value = {= table[bank_index] =});
 }
-
 ```
 
 ```lf-cpp
@@ -413,7 +403,6 @@ reactor A(bank_index(0), value(0)) {
 main reactor {
     a = new[4] A(value = {= table[bank_index] =})
 }
-
 ```
 
 ```lf-ts
@@ -460,7 +449,6 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 ```lf-cpp
@@ -480,7 +468,6 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 ```lf-py
@@ -500,7 +487,6 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 ```lf-ts
@@ -516,7 +502,6 @@ reactor Parent {
 main reactor {
     p = new[2] Parent()
 }
-
 ```
 
 ```lf-rs
@@ -538,7 +523,6 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 $end(ChildBank)$
@@ -605,7 +589,6 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 ```lf-py
@@ -646,7 +629,6 @@ reactor Parent {
 main reactor {
     p = new[2] Parent()
 }
-
 ```
 
 ```lf-rs
@@ -720,7 +702,6 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 ```lf-cpp
@@ -747,7 +728,6 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 ```lf-py
@@ -773,7 +753,6 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 ```lf-ts
@@ -797,7 +776,6 @@ reactor Parent {
 main reactor {
     p = new[2] Parent();
 }
-
 ```
 
 ```lf-rs
@@ -877,7 +855,6 @@ main reactor MultiportToBank {
     b = new[3] Destination();
     a.out -> b.in;
 }
-
 ```
 
 ```lf-cpp
@@ -905,7 +882,6 @@ main reactor MultiportToBank {
     b = new[3] Destination();
     a.out -> b.in;
 }
-
 ```
 
 ```lf-py
@@ -931,7 +907,6 @@ main reactor MultiportToBank {
     b = new[3] Destination();
     a.out -> b.inp;
 }
-
 ```
 
 ```lf-ts
@@ -956,7 +931,6 @@ main reactor MultiportToBank {
     b = new[3] Destination()
     a.out -> b.inp
 }
-
 ```
 
 ```lf-rs
@@ -988,7 +962,6 @@ main reactor MultiportToBank {
     b = new[3] Destination();
     a.out -> b.inp;
 }
-
 ```
 
 $end(MultiportToBank)$
@@ -1067,7 +1040,6 @@ main reactor(num_nodes: size_t(4)) {
     nodes = new[num_nodes] Node(num_nodes=num_nodes);
     nodes.out -> interleaved(nodes.in);
 }
-
 ```
 
 ```lf-cpp
@@ -1087,7 +1059,7 @@ reactor Node(
     reaction (in) {=
         for (auto i = 0ul; i < in.size(); i++) {
             if (in[i].is_present()) {
-                std::cout << "Bank index " << bank_index 
+                std::cout << "Bank index " << bank_index
                     << " received " << *in[i].get() << " on channel" << std::endl;
             }
         }
@@ -1097,7 +1069,6 @@ main reactor(num_nodes: size_t(4)) {
     nodes = new[num_nodes] Node(num_nodes=num_nodes);
     nodes.out -> interleaved(nodes.in);
 }
-
 ```
 
 ```lf-py
@@ -1126,7 +1097,6 @@ main reactor(num_nodes(4)) {
     nodes = new[num_nodes] Node(num_nodes=num_nodes);
     nodes.out -> interleaved(nodes.inp);
 }
-
 ```
 
 ```lf-ts
@@ -1152,7 +1122,6 @@ main reactor(numNodes: number(4)) {
     nodes = new[numNodes] Node(numNodes=numNodes);
     nodes.out -> interleaved(nodes.inp)
 }
-
 ```
 
 ```lf-rs
