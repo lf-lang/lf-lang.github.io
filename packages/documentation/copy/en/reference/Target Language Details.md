@@ -1207,15 +1207,15 @@ The C++ library defines two types of smart pointers that the runtime uses intern
 
 In fact this code from the example above:
 
-```lf-cpp
-Hello hello{"Earth, 42};
+```cpp
+Hello hello{"Earth, 42"};
 out.set(hello);
 ```
 
 implicitly invokes `reactor::make_immutable_value<Hello>(hello)` and could be rewritten as
 
-```lf-cpp
-Hello hello{"Earth, 42};
+```cpp
+Hello hello{"Earth, 42"};
 out.set(reactor::make_immutable_value<Hello>(hello));
 ```
 
@@ -1223,7 +1223,7 @@ This will invoke the copy constructor of `Hello`, copying its content from the `
 
 Since copying large objects is inefficient, the move semantics of C++ can be used to move the ownership of object instead of copying it. This can be done in the following two ways. First, by directly creating a mutable or immutable value pointer, where a mutable pointer allows modification of the object after it has been created:
 
-```lf-cpp
+```cpp
 auto hello = reactor::make_mutable_value<Hello>("Earth", 42);
 hello->name = "Mars";
 out.set(std::move(hello));
@@ -1231,7 +1231,7 @@ out.set(std::move(hello));
 
 An example of this can be found in [StructPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructPrint.lf). Not that after the call to `std::move`, hello is `nullptr` and the reaction cannot modify the object anymore. Alternatively, if no modification is requires, the object can be instantiated directly in the call to `set()` as follows:
 
-```lf-cpp
+```cpp
 out.set({"Earth", 42});
 ```
 
@@ -1578,7 +1578,7 @@ The reactor-cpp library uses [`std::chrono`](https://en.cppreference.com/w/cpp/c
 
 Lingua Franca uses a superdense model of logical time. A reaction is invoked at a logical **tag**. In the C++ library, a tag is represented by the class `reactor::Tag`. In essence, this class is a tuple of a `reactor::TimePoint` representing a specific point in logical time and a microstep value (of type `reactor::mstep_t`, which is an alias for `unsigned long`). `reactor::Tag` provides two methods for getting the time point or the microstep:
 
-```lf-cpp
+```cpp
 const TimePoint& time_point() const;
 const mstep_t& micro_step() const;
 ```
@@ -1677,7 +1677,7 @@ Time lag is 228241 nsecs
 
 For specifying time durations in code [chrono](https://en.cppreference.com/w/cpp/header/chrono) provides convenient literal operators in `std::chrono_literals`. This namespace is automatically included for all reaction bodies. Thus, we can simply write:
 
-```lf-cpp
+```cpp
 std::cout << 42us << std::endl;
 std::cout << 1ms << std::endl;
 std::cout << 3s << std::endl;
@@ -1992,19 +1992,19 @@ See [Time](#timed-behavior). These time functions are defined in the [time.ts](h
 
 ```ts
 enum TimeUnit {
-    nsec,
-    usec,
-    msec,
-    sec,
-    secs,
-    minute,
-    minutes,
-    hour,
-    hours,
-    day,
-    days,
-    week,
-    weeks
+  nsec,
+  usec,
+  msec,
+  sec,
+  secs,
+  minute,
+  minutes,
+  hour,
+  hours,
+  day,
+  days,
+  week,
+  weeks,
 }
 ```
 
@@ -2151,7 +2151,7 @@ Physical actions work exactly as described in the [Physical Actions](/docs/handb
 
 If the specified delay in a `schedule()` is omitted or is zero, then the action `a` will be triggered one **microstep** later in **superdense time** (see [Superdense Time](/docs/handbook/superdense-time)). Hence, if the input `x` arrives at metric logical time _t_, and you call `schedule()` in one of the following ways:
 
-```lf-cpp
+```cpp
 a.schedule();
 a.schedule(0s);
 a.schedule(reactor::Duration::zero());
@@ -2636,7 +2636,7 @@ In particular, reactor-cpp provides the following logging interfaces:
 
 These utilities can be used analogues to `std::cout`. For instance:
 
-```lf-cpp
+```cpp
 reactor::Info() << "Hello World! It is " << get_physical_time();
 ```
 
@@ -3115,7 +3115,7 @@ to navigate the docs.
 
 Target properties may be mentioned like so:
 
-```rust
+```lf-rust
 target Rust {
     // enables single-file project layout
     single-file-project: false,
@@ -3182,7 +3182,7 @@ target Rust {
 
 The value of the _cargo-dependencies_ property is a map of crate identifiers to a _dependency-spec_. An informal example follows:
 
-```js
+```json
 cargo-dependencies: {
    // Name-of-the-crate: "version"
    rand: "0.8",
@@ -3212,7 +3212,7 @@ cargo-dependencies: {
 
 When a _dependency-spec_ is specified as an object, its key-value pairs correspond directly to those of a [Cargo dependency specification](https://doc.rust-lang.org/cargo/reference/specifying-dependencies.html#specifying-dependencies-from-git-repositories). For instance for the following dependency spec:
 
-```js
+```json
    rand: {
      version: "0.8",
      // you can specify cargo features
@@ -3234,7 +3234,7 @@ Not all keys are necessarily supported though, e.g. the `registry` key is not su
 
 The runtime crate can be configured just like other crates, using the `cargo-dependencies` target property, e.g.:
 
-```js
+```json
 cargo-dependencies: {
    reactor_rt: {
      features: ["parallel-runtime"]

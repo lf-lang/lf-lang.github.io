@@ -71,10 +71,6 @@ federated reactor {
     p = new Print();
     c.out -> p.in;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> Update language annotations in MarkDown.
 ```
 
 ```lf-cpp
@@ -108,10 +104,6 @@ federated reactor {
     p = new Print();
     c.out -> p.inp;
 }
-<<<<<<< HEAD
-
-=======
->>>>>>> Update language annotations in MarkDown.
 ```
 
 ```lf-ts
