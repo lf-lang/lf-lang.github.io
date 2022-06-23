@@ -72,7 +72,6 @@
   }
 
   @media screen and (max-width: 400px) {
-    overflow-x: scroll;
     #home-page-logo {
       padding-left: 0.25rem;
       padding-right: 0.25rem;
@@ -344,6 +343,7 @@ form.search {
 
       ul {
         display: flex;
+        flex-wrap: wrap;
 
         li {
           flex: 1;

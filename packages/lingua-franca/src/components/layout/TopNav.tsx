@@ -74,16 +74,15 @@ export const SiteNav = (props: Props) => {
         <div className="left below-small">
 
           <IntlLink id="home-page-logo" to="/" aria-label="Lingua Franca Home Page">
-          <img
-            id="lf-logo"
-            srcSet={
-              `${require("../../../../../img/small_logo.svg").default} 30w, `
-              + `${require("../../../../../img/header_logo.svg").default} 125w`
-            }
-            src={require("../../../../../img/small_logo.svg").default}
-            sizes="(max-width: 600px) 30px, 125px"
-            alt="Lingua Franca Logo"
-          />
+          <picture>
+            <source
+              media="(min-width: 600px)"
+              srcSet={require("../../../../../img/header_logo.svg").default}
+            />
+            <img
+              src={require("../../../../../img/small_logo.svg").default}
+            />
+          </picture>
           </IntlLink>
 
           <nav role="navigation">
