@@ -37,7 +37,7 @@ Some helper scripts that we will use below, can be found in the [reactor-cpp rep
 
 4. Modify the target declaration of your Lingua Franca program to enable tracing:
 
-```
+```lf-cpp
 target Cpp {
     tracing: true
 };
@@ -88,7 +88,7 @@ The Google Trace Viewer is the only viewer currently supported. Since it reads J
 
 The C and Python tracing mechanism depends only on the availability of the `pthread` library. Like C++ tracing, tracing is enabled by a target parameter:
 
-```
+```lf-c
 target C {
     tracing: true
 };
@@ -96,7 +96,7 @@ target C {
 
 Once it is enabled, when the compiled program, say `Foo.lf`, is executed, a trace file is created, `Foo.lft` (the extension is for "Lingua Franca trace"). If you wish to customize the root name of the trace file, you can specify the following target property instead:
 
-```
+```lf-c
 target C {
     tracing: {trace-file-name: "Bar"}
 };
@@ -113,7 +113,7 @@ These two programs are located in `lingua_franca/util/tracing`. Running `make in
 
 Consider for example the [ThreadedThreaded.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/concurrent/ThreadedThreaded.lf) test, which executes a number of heavyweight computations in parallel on multiple cores. If you enable tracing as shown above and run the program, a `ThreadedTheread.lft` file will appear. Running
 
-```
+```sh
    trace_to_csv ThreadedThreaded
 ```
 
@@ -142,7 +142,7 @@ The `trace_to_csv` utility will also create a summary file called `ThreadedThrea
 
 If you call
 
-```
+```sh
    trace_to_chrome ThreadedThreaded
 ```
 
@@ -158,7 +158,7 @@ The JSON trace format can be found [here](https://docs.google.com/document/d/1Cv
 
 Users can add their own tracepoints in order to provide low-overhead recording of events and events with values that occur during the execution of reactions. To do this, the first step is to register the trace event in a **startup** reaction as follows:
 
-```
+```lf-c
     reaction(startup) {=
         if (!register_user_trace_event("Description of event")) {
             fprintf(stderr, "ERROR: Failed to register trace event.\n");
@@ -171,7 +171,7 @@ The description of the event is an arbitrary string, but the string must be uniq
 
 To then actually record an event, in a reaction, call `tracepoint_user_event`, passing it the same string. E.g.,
 
-```
+```lf-c
 	reaction(in) -> out {=
 	    ...
 	    tracepoint_user_event("Description of event");
@@ -181,7 +181,7 @@ To then actually record an event, in a reaction, call `tracepoint_user_event`, p
 
 You can also pass a value to the trace. The type of the value is `long long`, so it can be a time value or an int. For example,
 
-```
+```lf-c
 	reaction(in) -> out {=
 	    ...
 	    tracepoint_user_value("Description of event", 42);

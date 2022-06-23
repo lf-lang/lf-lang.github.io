@@ -46,7 +46,7 @@ This will create two directories called `src-gen` and `bin` in the `$LF/test/C` 
 
 The simplest way to run the regression tests is to use a Bash script called `run-lf-tests` in `$LF/bin`, which takes the target language as a parameter:
 
-```
+```sh
 run-lf-tests C
 run-lf-tests Cpp
 run-lf-tests Python
@@ -55,14 +55,14 @@ run-lf-tests TS
 
 This will run the system tests only. To run all the tests, use the `gradle` build system in the `$LF/xtext` directory:
 
-```
+```sh
 cd $LF/xtext
 ./gradlew test
 ```
 
 You can also selectively run just some of the tests. For example, to run the system tests for an individual target language, do this:
 
-```
+```sh
 cd $LF
 ./gradlew test --tests org.lflang.tests.runtime.CTest.*
 ./gradlew test --tests org.lflang.tests.runtime.CppTest.*
@@ -72,7 +72,7 @@ cd $LF
 
 To run a single test case, use the `runSingleTest` Gradle task along with the path to the test source file:
 
-```
+```sh
 ./gradlew runSingleTest --args test/C/src/Minimal.lf
 ```
 
@@ -85,7 +85,7 @@ It is also possible to run a subset of the tests. For example, the C tests are o
 
 To invoke only the tests in the `concurrent` category, for example, do this:
 
-```
+```sh
 cd $LF/xtext
 ./gradlew test --tests org.icyphy.tests.runtime.CTest.runConcurrentTests
 ```
@@ -150,7 +150,7 @@ It is also possible to invoke tests in Eclipse. Simply navigate to the source fi
 
 We also maintain a set of unit tests that focus on various aspects of the LF compiler. They are located in the `compiler` package in `xtext/org.icyphy.linguafranca.tests`. These tests can also be invoked from Eclipse as describe above, or from the command line as follows:
 
-```
+```sh
 ./gradlew test --tests org.icyphy.tests.compiler.*
 ```
 
@@ -158,7 +158,7 @@ We also maintain a set of unit tests that focus on various aspects of the LF com
 
 Code coverage is automatically recorded when running tests. After completing a test run, a full report can be found in `$LF/xtext/org.icyphy.linguafranca.tests/build/reports/html/jacoco/index.html`. Note that this report will only reflect the coverage of the test that have actually executed. It is possible to obtain the full report without waiting for all the tests to complete by running the following command which only parses and generates code for system tests (instead of building and executing them, too):
 
-```
+```sh
 ./gradlew test --tests org.icyphy.tests.runtime.compiler.CodeGenCoverage.*
 ```
 

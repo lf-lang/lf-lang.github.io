@@ -11,9 +11,10 @@
   "license": "ISC",
   "devDependencies": {
     "fs": "^0.0.1-security",
+    "node-fetch": "^3.2.6",
     "path": "^0.12.7",
-    "vscode-oniguruma": "^1.6.2",
-    "typescript": "*"
+    "typescript": "*",
+    "vscode-oniguruma": "^1.6.2"
   },
   "dependencies": {
     "vscode-textmate": "^6.0.0"

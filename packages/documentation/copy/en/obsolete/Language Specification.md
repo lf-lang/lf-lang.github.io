@@ -14,7 +14,7 @@ A Lingua Franca file, which has a .lf extension, contains the following:
 
 If one of the reactors in the file is designated `main` or `federated`, then the file defines an executable application. Otherwise, it defines one or more library reactors that can be imported into other LF files. For example, an LF file might be structured like this:
 
-```
+```lf-c
 target C;
 main reactor C {
     a = new A();
@@ -35,7 +35,7 @@ The name of the main reactor (`C` above) is optional. If given, it must match th
 
 This example specifies and instantiates two reactors, one of which sends messages to the other. A minimal but complete Lingua Franca file with one reactor is this:
 
-```
+```lf-c
 target C;
 main reactor HelloWorld {
     reaction(startup) {=
@@ -82,7 +82,7 @@ Each parameter may have a _type annotation_, written `:type`, and must have a _d
 
 The type annotation specifies a type in the target language, which is necessary for some target languages. For instance in C you might write
 
-```
+```lf-c
 reactor Foo(size: int(100)) {
     ...
 }
@@ -95,7 +95,7 @@ One useful type predefined by LF is the `time` type, which represents time durat
 
 For instance, you can write the following in any target language:
 
-```
+```lf
 reactor Foo(period: time(100 msec)) {
     ...
 }
@@ -103,7 +103,7 @@ reactor Foo(period: time(100 msec)) {
 
 Container types may also be written e.g. `int[]`, which is translated to a target-specific array or list type. The acceptable expressions for these types vary across targets (see [Complex expressions](#complex-expressions)), for instance in C, you can initialize an array parameter as follows:
 
-```
+```lf-c
 reactor Foo(my_array:int[](1, 2, 3)) {
    ...
 }
@@ -111,7 +111,7 @@ reactor Foo(my_array:int[](1, 2, 3)) {
 
 If the type or expression uses syntax that Lingua Franca does not support, you can use `{= ... =}` delimiters to enclose them and escape them. For instance to have a 2-dimensional array as a parameter in C:
 
-```
+```lf-c
 reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
     ...
 }
@@ -125,7 +125,7 @@ Other forms for types and expressions are described in [LF types](#appendix-lf-t
 
 How parameters may be used in the body of a reaction depends on the target. For example, in the [C target](writing-reactors-in-c#using-parameters), a `self` struct is provided that contains the parameter values. The following example illustrates this:
 
-```
+```lf-c
 target C;
 reactor Gain(scale:int(2)) {
     input x:int;
@@ -151,7 +151,7 @@ In the second form, the state variable inherits its type from the specified _par
 
 How state variables may be used in the body of a reaction depends on the target. For example, in the [C target](writing-reactors-in-c#using-state-variables), a `self` struct is provided that contains the state values. The following example illustrates this:
 
-```
+```lf-c
 reactor Count {
 	output c:int;
 	timer t(0, 1 sec);
@@ -212,7 +212,7 @@ A timer, like an input and an action, causes reactions to be invoked. Unlike an 
 
 For example,
 
-```
+```lf
 timer foo(10 msec, 100 msec);
 ```
 
@@ -225,7 +225,7 @@ whereas a value greater than zero specifies that they should be triggered repeat
 
 To cause a reaction to be invoked at the start of execution, a special **startup** trigger is provided:
 
-```
+```lf
 reactor Foo {
     reaction(startup) {=
         ... perform initialization ...
@@ -290,7 +290,7 @@ A reaction is defined within a reactor using the following syntax:
 
 The _uses_ and _effects_ fields are optional. A simple example appears in the "hello world" example given above:
 
-```
+```lf
     reaction(t) {=
         printf("Hello World.\n");
     =}
@@ -315,7 +315,7 @@ The target provides language-dependent mechanisms for referring to inputs, outpu
 
 In the [C target](Writing-Reactors-in-C#Reaction-Body), for example, the following reactor will add two inputs if they are present at the time of a reaction:
 
-```
+```lf
 reactor Add {
     input in1:int;
     input in2:int;
@@ -337,7 +337,7 @@ See the [C target](Writing-Reactors-in-C#Reaction-Body) for an example of how th
 
 Each target language provides some mechanism for scheduling future reactions. Typically, this takes the form of a `schedule` function that takes as an argument an [action](#Action-Declaration), a time interval, and (perhaps optionally), a payload. For example, in the [C target](Writing-Reactors-in-C#Reaction-Body), in the following program, each reaction to the timer `t` schedules another reaction to occur 100 msec later:
 
-```
+```lf-c
 target C;
 main reactor Schedule {
     timer t(0, 1 sec);
@@ -372,7 +372,7 @@ In targets that support multitasking, the `schedule` function, which schedules f
 
 Lingua Franca uses a concept known as **superdense time**, where two time values that appear to be the same are not logically simultaneous. At every logical time value, for example midnight on January 1, 1970, there exist a logical sequence of **microsteps** that are not simultaneous. The [Microsteps](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Microsteps.lf) example illustrates this:
 
-```
+```lf-c
 target C;
 reactor Destination {
     input x:int;
@@ -416,7 +416,7 @@ Note that the numerical time reported by `get_elapsed_logical_time()` has not ad
 
 Note that it is possible to write code that will prevent logical time from advancing except by microsteps. For example, we could replace the reaction to `repeat` in `Main` with this one:
 
-```
+```lf-c
     reaction(repeat) -> d.y, repeat {=
         lf_set(d.y, 1);
         schedule(repeat, 0);
@@ -441,13 +441,13 @@ Time since start: 0.
 
 Two special triggers are supported, **startup** and **shutdown**. A reaction that specifies the **startup** trigger will be invoked at the start of execution of the model. The following two syntaxes have exactly the same effect:
 
-```
+```lf
     reaction(startup) {= ... =}
 ```
 
 and
 
-```
+```lf
     timer t;
     reaction(t) {= ... =}
 ```
@@ -456,7 +456,7 @@ In other words, **startup** is a timer that triggers once at the first logical t
 
 The **shutdown** trigger is slightly different. A shutdown reaction is specified as follows:
 
-```
+```lf
    reaction(shutdown) {= ... =}
 ```
 
@@ -468,7 +468,7 @@ If the reaction produces outputs, then downstream reactors will also be invoked 
 
 Reactors can contain instances of other reactors defined in the same file or in an imported file. Assuming the above [Count reactor](#state-declaration) is stored in a file [Count.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/lib/Count.lf), then [CountTest](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/CountTest.lf) is an example that imports and instantiates it to test the reactor:
 
-```
+```lf-c
 target C;
 import Count.lf;
 reactor Test {
@@ -529,7 +529,7 @@ When there are multiports or banks of reactors, several channels can be connecte
 
 The following example defines a reactor that adds a counting sequence to its input. It uses the above Count and Add reactors (see [Hierarchy2](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Hierarchy2.lf)):
 
-```
+```lf
 import Count.lf;
 import Add.lf;
 reactor AddCount {
@@ -545,7 +545,7 @@ reactor AddCount {
 
 A reactor that contains other reactors may, within a reaction, send data to the contained reactor. The following example illustrates this (see [SendingInside](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SendingInside.lf)):
 
-```
+```lf-c
 target C;
 reactor Printer {
 	input x:int;
@@ -571,7 +571,7 @@ Inside reactor received: 1
 
 Lingua Franca includes a notion of a **deadline**, which is a relation between logical time and physical time. Specifically, a program may specify that the invocation of a reaction must occur within some physical-time interval of the logical timestamp of the message. If a reaction is invoked at logical time 12 noon, for example, and the reaction has a deadline of one hour, then the reaction is required to be invoked before the physical-time clock of the execution platform reaches 1 PM. If the deadline is violated, then the specified deadline handler is invoked instead of the reaction. For example (see [Deadline](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Deadline.lf)):
 
-```
+```lf
 reactor Deadline() {
     input x:int;
     output d:int; // Produced if the deadline is violated.
@@ -589,7 +589,7 @@ The amount of the deadline, of course, can be given by a parameter.
 
 A sometimes useful pattern is when a container reactor reacts to deadline violations in a contained reactor. The [DeadlineHandledAbove](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DeadlineHandledAbove.lf) example illustrates this:
 
-```
+```lf-c
 target C;
 reactor Deadline() {
     input x:int;
@@ -614,7 +614,7 @@ main reactor DeadlineHandledAbove {
 
 Lingua Franca files can have C/C++/Java-style comments and/or Python-style comments. All of the following are valid comments:
 
-```
+```lf
     // Single-line C-style comment.
     /*
        Multi-line C-style comment.

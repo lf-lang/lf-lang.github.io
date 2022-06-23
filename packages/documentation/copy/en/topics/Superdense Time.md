@@ -30,7 +30,6 @@ main reactor {
         }
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -45,7 +44,6 @@ main reactor {
         }
     =}
 }
-
 ```
 
 ```lf-py
@@ -63,7 +61,6 @@ main reactor {
         self.count += 1
     =}
 }
-
 ```
 
 ```lf-ts
@@ -78,7 +75,6 @@ main reactor {
         }
     =}
 }
-
 ```
 
 ```lf-rs
@@ -152,7 +148,6 @@ main reactor {
         lf_set(d.y, 1);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -183,7 +178,6 @@ main reactor {
         d.y.set(1);
     =}
 }
-
 ```
 
 ```lf-py
@@ -213,7 +207,6 @@ main reactor {
         d.y.set(1)
     =}
 }
-
 ```
 
 ```lf-ts
@@ -242,7 +235,6 @@ main reactor {
         d.y = 1
     =}
 }
-
 ```
 
 ```lf-rs
@@ -276,7 +268,6 @@ main reactor {
         ctx.set(d__y, 1);
     =}
 }
-
 ```
 
 $end(Simultaneous)$

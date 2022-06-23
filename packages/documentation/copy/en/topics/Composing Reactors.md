@@ -50,7 +50,6 @@ main reactor RegressionTest {
     c.y -> s.x;
     s.y -> t.x;
 }
-
 ```
 
 ```lf-py
@@ -87,7 +86,6 @@ main reactor RegressionTest {
     c.y -> s.x
     s.y -> t.x
 }
-
 ```
 
 ```lf-rs
@@ -262,7 +260,6 @@ main reactor Hierarchy {
     t = new TestCount(stride = 4, num_inputs = 11);
     c.y -> t.x;
 }
-
 ```
 
 ```lf-py
@@ -304,7 +301,6 @@ main reactor Hierarchy {
     t = new TestCount(stride = 4, numInputs = 11)
     c.y -> t.x
 }
-
 ```
 
 ```lf-rs

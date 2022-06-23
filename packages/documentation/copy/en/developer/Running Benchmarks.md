@@ -19,14 +19,14 @@ The benchmark runner is written in Python and requires a working Python3 install
 
 It is recommended to install the dependencies and execute the benchmark runner in a virtual environment. For instance, this can be done with `virtualenv`:
 
-```
+```sh
 virtualenv ~/virtualenvs/lfrunner -p python3
 source ~/virtualenvs/lfrunner/bin/activate
 ```
 
 Then the dependencies can be installed by running:
 
-```
+```sh
 pip install -r benchmark/runner/requirements.txt
 ```
 
@@ -34,7 +34,7 @@ pip install -r benchmark/runner/requirements.txt
 
 For running LF benchmarks, the command-line compiler `lfc` needs to be built. Simply run
 
-```
+```sh
 bin/build-lfc
 ```
 
@@ -42,7 +42,7 @@ in the root directory of the LF repository.
 
 Also, the environment variable `LF_PATH` needs to be set and point to the location of the LF repository. This needs to be an absolute path.
 
-```
+```sh
 export LF_PATH=/path/to/lf
 ```
 
@@ -52,7 +52,7 @@ Currently all of our benchmarks are ported from the [Savina actor benchmark suit
 
 To download and build Savina, run the following commands:
 
-```
+```sh
 git clone https://github.com/lf-lang/savina.git
 cd savina
 mvn install
@@ -60,13 +60,13 @@ mvn install
 
 Building Savina requires a Java 8 JDK. Depending on the local setup, `JAVA_HOME` might need to be adjusted before running `mvn` in order to point to the correct JDK.
 
-```
+```sh
 export JAVA_HOME=/path/to/jdk8
 ```
 
 Before invoking the benchmark runner, the environment variable `SAVINA_PATH` needs to be set and point to the location of the Savina repository using an absolute path.
 
-```
+```sh
 export SAVINA_PATH=/path/to/savina
 ```
 
@@ -74,7 +74,7 @@ export SAVINA_PATH=/path/to/savina
 
 To further build the CAF benchmarks, CAF 0.16.5 needs to be downloaded, compiled and installed first:
 
-```
+```sh
 git clone --branch "0.16.5" git@github.com:actor-framework/actor-framework.git
 mkdir actor-framework/build && cd actor-framework/build
 cmake -DCMAKE_INSTALL_PREFIX=<preferred/install/location> ..
@@ -83,7 +83,7 @@ make install
 
 Then, from within the Savina directory, the CAF benchmarks can be build:
 
-```
+```sh
 cmake -DCAF_ROOT_DIR=<path/to/caf/install/location> ..
 make
 ```
@@ -97,7 +97,7 @@ The CAF benchmarks are used in these two publications:
 
 A benchmark can simply be run by specifying a benchmark and a target. For instance
 
-```
+```sh
 cd benchmark/runner
 ./run_benchmark.py benchmark=savina_micro_pingpong target=lf-c
 ```
@@ -106,7 +106,7 @@ runs the Ping Pong benchmark from the Savina suite using the C-target of LF. Cur
 
 The benchmarks can also be configured. The `threads` and `iterations` parameters apply to every benchmark and specify the number of worker threads as well as how many times the benchmark should be run. Most benchmarks allow additional parameters. For instance, the Ping Pong benchmark sends a configurable number of pings that be set via the `benchmark.params.messages` configuration key. Running the Akka version of the Ping Pong benchmark for 1000 messages, 1 thread and 12 iterations could be done like this:
 
-```
+```sh
 ./run_benchmark.py benchmark=savina_micro_pingpong target=akka threads=1 iterations=12 benchmark.params.messages=1000
 ```
 
@@ -116,7 +116,7 @@ Each benchmark run produces an output directory in the scheme `outputs/<date>/<t
 
 The runner also allows to automatically run a single benchmark or a series of benchmarks with a range of settings. The multirun feature is simply used by the `-m` switch. For instance:
 
-```
+```sh
 ./run_benchmark.py -m benchmark=savina_micro_pingpong target="glob(*)" threads=1,2,4 iterations=12 benchmark.params.messages="range(1000000,10000000,1000000)"
 ```
 
@@ -124,7 +124,7 @@ runs the Ping Pong benchmark for all targets using 1, 2 and 4 threads and for a 
 
 This mechanism can also be used to run multiple benchmarks. For instance,
 
-```
+```sh
 ./run_benchmark.py -m benchmark="glob(*)" target="glob(*)" threads=4 iterations=12
 ```
 
@@ -136,7 +136,7 @@ The results for a multirun are written to a directory in the scheme `multirun/<d
 
 A second script called `collect_results.py` provides a convenient way for collecting results from a multirun and merging them into a single CSV file. Simply running
 
-```
+```sh
 ./collect_results.py multirun/<date>/<time>/ out.csv
 ```
 

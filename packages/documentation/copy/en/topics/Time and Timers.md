@@ -60,7 +60,6 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         lf_schedule(a, self->interval);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -80,7 +79,6 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         a.schedule(interval);
     =}
 }
-
 ```
 
 ```lf-py
@@ -100,7 +98,6 @@ main reactor SlowingClock(start(100 msec), incr(100 msec)) {
         a.schedule(self.interval)
     =}
 }
-
 ```
 
 ```lf-ts
@@ -117,7 +114,6 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         actions.a.schedule(interval, null)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -141,7 +137,6 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         self.expected_time += self.interval;
     =}
 }
-
 ```
 
 $end(SlowingClock)$
@@ -178,7 +173,6 @@ main reactor Timer {
         printf("Logical time is %lld.\n", lf_time_logical());
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -191,7 +185,6 @@ main reactor Timer {
         std::cout << "Logical time is: " << get_logical_time() << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -202,7 +195,6 @@ main reactor Timer {
         print(f"Logical time is {lf.time.logical()}.")
     =}
 }
-
 ```
 
 ```lf-ts
@@ -213,7 +205,6 @@ main reactor Timer {
         console.log(`Logical time is ${util.getCurrentLogicalTime()}.`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -267,7 +258,6 @@ main reactor TimeElapsed {
         );
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -280,7 +270,6 @@ main reactor TimeElapsed {
         std::cout << "Elapsed logical time is " << get_elapsed_logical_time() << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -293,7 +282,6 @@ main reactor TimeElapsed {
         )
     =}
 }
-
 ```
 
 ```lf-ts
@@ -304,7 +292,6 @@ main reactor TimeElapsed {
         console.log(`Elapsed logical time is ${util.getElapsedLogicalTime()}`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -352,7 +339,6 @@ main reactor TimeLag {
         );
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -368,7 +354,6 @@ main reactor TimeLag {
             << " lag: " << physical_time - logical_time <<  std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -383,7 +368,6 @@ main reactor TimeLag {
         )
     =}
 }
-
 ```
 
 ```lf-ts
@@ -396,7 +380,6 @@ main reactor TimeLag {
         console.log(`Elapsed logical time: ${t}, physical time: ${T}, lag: ${T.subtract(t)}`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -544,7 +527,6 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
         }
     =}
 }
-
 ```
 
 ```lf-py
@@ -595,7 +577,6 @@ reactor TestCount(start:number(0), stride:number(1), numInputs:number(1)) {
         }
     =}
 }
-
 ```
 
 ```lf-rs

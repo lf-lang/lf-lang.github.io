@@ -37,7 +37,6 @@ reactor B extends A {
         lf_set(out, a->value + b->value);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -60,7 +59,6 @@ reactor B extends A {
         out.set(a.value + b.value)
     =}
 }
-
 ```
 
 ```lf-ts
@@ -78,7 +76,6 @@ reactor B extends A {
         out = a + b
     =}
 }
-
 ```
 
 ```lf-rs
@@ -96,7 +93,6 @@ reactor B extends A {
         ctx.set(out, ctx.get(a).unwrap() + ctx.get(b).unwrap());
     =}
 }
-
 ```
 
 $end(Extends)$

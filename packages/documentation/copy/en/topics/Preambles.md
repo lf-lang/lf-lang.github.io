@@ -176,7 +176,7 @@ main reactor Preamble {
 
 On a Linux machine, this will print:
 
-```bash
+```
 Converted string 42 to int 42.
 42 plus 42 is 84
 Your platform is Linux

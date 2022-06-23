@@ -65,8 +65,9 @@ reaction(trig) -> Two {=
 =}
 ```
 
-You can also specify the type of the transition by adding the modifier `reset(<mode>)` or `history(<mode>)` in the effect.
-The `reset` variant is implicitly assumed when the mode is listed without modifier.
+You can also specify the type of the transition by adding the modifier `reset(<mode>)` or `history(<mode>)` in the effects of the
+reaction signature (i.e., after the `->`). For example, a history transition to the state `Two` is enabled by listing `history(Two)`
+among the effects of the reaction. The `reset` variant is implicitly assumed when the mode is listed without modifier.
 
 ## Execution Semantics
 
