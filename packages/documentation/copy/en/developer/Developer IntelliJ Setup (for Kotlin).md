@@ -24,7 +24,7 @@ The community edition (CE) of IntelliJ should be enough as a development environ
 Clone the lingua-franca repository into your working directory.
 For example, into a directory called `lingua-franca-intellij` using the following command:
 
-```
+```sh
 $ git clone git@github.com:lf-lang/lingua-franca.git lingua-franca-intellij
 ```
 

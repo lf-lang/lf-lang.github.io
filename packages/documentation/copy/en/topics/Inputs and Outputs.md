@@ -44,7 +44,6 @@ reactor Double {
         lf_set(y, x->value * 2);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -59,8 +58,6 @@ reactor Double {
         }
     =}
 }
-
-
 ```
 
 ```lf-py
@@ -83,7 +80,6 @@ reactor Double {
         y = value * 2
     =}
 }
-
 ```
 
 ```lf-rs
@@ -145,10 +141,9 @@ reactor Destination {
             sum += *y.get();
         }
 
-        std::cout << "Received: " << sum << std::endl; 
+        std::cout << "Received: " << sum << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -183,7 +178,6 @@ reactor Destination {
         console.log(`Received ${sum}.`)
     =}
 }
-
 ```
 
 ```lf-rs

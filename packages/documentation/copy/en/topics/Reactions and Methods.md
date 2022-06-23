@@ -52,7 +52,6 @@ main reactor Alignment {
         std::cout << "s = " << std::to_string(s) << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -95,7 +94,6 @@ main reactor Alignment {
         console.log(`s = ${s}`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -117,7 +115,6 @@ main reactor Alignment {
         println!("s = {}", self.s);
     =}
 }
-
 ```
 
 $end(Alignment)$
@@ -146,7 +143,6 @@ reactor Overwriting {
         lf_set(y, self->s);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -167,7 +163,6 @@ reactor Overwriting {
         y.set(s);
     =}
 }
-
 ```
 
 ```lf-py
@@ -204,7 +199,6 @@ reactor Overwriting {
         y = s
     =}
 }
-
 ```
 
 ```lf-rs
@@ -264,7 +258,6 @@ main reactor {
         }
     =}
 }
-
 ```
 
 ```lf-py
@@ -291,7 +284,6 @@ main reactor {
         }
     =}
 }
-
 ```
 
 ```lf-rs
@@ -362,7 +354,6 @@ main reactor Methods {
         lf_print("2 + 40 = %d", getFoo());
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -381,7 +372,6 @@ main reactor Methods {
         std::cout << "2 + 40 = " << getFoo() << '\n';
     =}
 }
-
 ```
 
 ```lf-py
@@ -400,7 +390,6 @@ main reactor Methods {
         print(f"2 + 40 = {self.getFoo()}.")
     =}
 }
-
 ```
 
 ```lf-ts

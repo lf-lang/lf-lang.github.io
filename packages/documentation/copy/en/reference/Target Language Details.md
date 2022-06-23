@@ -113,7 +113,7 @@ program.
 
 To install `setuptools` using `pip3`, do this:
 
-```bash
+```sh
 pip3 install setuptools
 ```
 
@@ -125,7 +125,7 @@ First, make sure Node.js is installed on your machine. You can [download Node.js
 
 After installing Node, you may optionally install the TypeScript compiler.
 
-```
+```sh
 npm install -g typescript
 ```
 
@@ -473,7 +473,7 @@ main reactor Hello(msg: std::string("World")) {
 
 This program will print "Hello World!" by default. However, since `msg` is a main reactor parameter, the C++ code generator will extend the CLI argument parser and allow to overwrite `msg` when invoking the program. For instance,
 
-```
+```sh
 bin/Hello --msg Earth
 ```
 
@@ -1733,7 +1733,7 @@ main reactor GetTime {
 
 When executed, you will get something like this:
 
-```bash
+```
 ---- Start execution at time Thu Nov  5 08:51:02 2020
 ---- plus 864237900 nanoseconds.
 Logical time is  1604587862864237900
@@ -1758,7 +1758,7 @@ main reactor GetTime {
 
 This will produce:
 
-```bash
+```
 ---- Start execution at time Thu Nov  5 08:51:02 2020
 ---- plus 864237900 nanoseconds.
 Elapsed logical time is  0
@@ -1781,7 +1781,7 @@ main reactor GetTime {
 
 This will produce something like this:
 
-```bash
+```
 ---- Start execution at time Thu Nov  5 08:51:02 2020
 ---- plus 864237900 nanoseconds.
 Physical time is  1604587862864343500
@@ -1804,7 +1804,7 @@ main reactor GetTime {
 
 This will produce something like this:
 
-```bash
+```
 ---- Start execution at time Thu Nov  5 08:51:02 2020
 ---- plus 864237900 nanoseconds.
 Elapsed physical time is  110200
@@ -1990,7 +1990,7 @@ See [Time](#timed-behavior). These time functions are defined in the [time.ts](h
 
 `UnitBasedTimeValue(value: number, unit:TimeUnit)` Constructor for `UnitBasedTimeValue`, a programmer-friendly subclass of TimeValue. Use a number and a `TimeUnit` enum.
 
-```
+```ts
 enum TimeUnit {
     nsec,
     usec,
@@ -2411,7 +2411,7 @@ reaction(a) -> out, a {=
 
 Actions may carry values if they mention a data type, for instance:
 
-```rust
+```lf-rust
 logical action act: u32;
 ```
 
@@ -2778,7 +2778,7 @@ Running [lfc](/docs/handbook/command-line-tools) on a `XXX.lf` program that uses
 Linux machine will create the following files (other operating systems will have
 a slightly different structure and/or files):
 
-```bash
+```shell
 ├── src
 │   └── XXX.lf
 └── src-gen
@@ -2903,7 +2903,7 @@ As mentioned before, the LinguaFrancaXXX module is separate from
 
 The LinguaFrancaXXX module is imported in `src-gen/XXX/XXX.py`:
 
-```
+```python
 from LinguaFrancaXXX import *
 ```
 
@@ -2917,7 +2917,7 @@ From then on, `LinguaFrancaXXX` will call reactions that are defined in `src-gen
 
 This package's modules are imported in the `XXX.py` program:
 
-```
+```python
 from LinguaFrancaBase.constants import * #Useful constants
 from LinguaFrancaBase.functions import * #Useful helper functions
 from LinguaFrancaBase.classes import * #Useful classes
@@ -2927,7 +2927,7 @@ from LinguaFrancaBase.classes import * #Useful classes
 
 The following packages are already imported and thus do not need to be re-imported by the user:
 
-```
+```python
 import os
 import sys
 import copy
@@ -3080,7 +3080,7 @@ These utility functions may be called within a TypeScript reaction:
 
 To build and view proper documentation for `time.ts` (and other reactor-ts libraries), install [typedoc](https://typedoc.org/) and run
 
-```
+```sh
 typedoc --out docs src
 ```
 
@@ -3172,7 +3172,7 @@ The Rust code generator leverages Cargo to allow LF programs to profit from Rust
 
 The `cargo-dependencies` target property may be used to specify dependencies on crates coming from `crates.io`. Here's an example:
 
-```ruby
+```lf-rust
 target Rust {
    cargo-dependencies: {
       termcolor: "0.8"
@@ -3249,7 +3249,7 @@ See [reactor_rt](https://lf-lang.github.io/reactor-rust/reactor_rt/index.html) f
 
 You can link-in additional rust modules using the `rust-include` target property:
 
-```ruby
+```lf-rust
 target Rust {
   rust-include: ["foo.rs"]
 };
@@ -3274,7 +3274,7 @@ Each reactor generates its own `struct` which contains state variables. For inst
 <tr>
 <td>
 
-```rust
+```lf-rust
 reactor SomeReactor {
   state field: u32(0)
 }
@@ -3420,7 +3420,7 @@ The [`ReactionCtx`](https://lf-lang.github.io/reactor-rust/reactor_rt/struct.Rea
 
 For instance:
 
-```rust
+```lf-rust
 reactor Source {
     output out: i32;
     reaction(startup) -> out {=

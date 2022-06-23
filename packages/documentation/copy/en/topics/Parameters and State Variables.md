@@ -74,7 +74,6 @@ reactor Scale(factor:int(2)) {
         lf_set(y, x->value * self->factor);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -87,7 +86,6 @@ reactor Scale(factor:int(2)) {
         y.set(factor * *x.get());
     =}
 }
-
 ```
 
 ```lf-py
@@ -110,7 +108,6 @@ reactor Scale(factor:number(2)) {
         if (x !== undefined) y = x * factor
     =}
 }
-
 ```
 
 ```lf-rs
@@ -168,7 +165,6 @@ reactor Count {
         lf_set(y, self->count++);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -183,7 +179,6 @@ reactor Count {
         y.set(count++);
     =}
 }
-
 ```
 
 ```lf-py
@@ -197,7 +192,6 @@ reactor Count {
         self.count += 1
     =}
 }
-
 ```
 
 ```lf-ts
@@ -210,7 +204,6 @@ reactor Count {
         y = count++
     =}
 }
-
 ```
 
 ```lf-rs
@@ -224,7 +217,6 @@ reactor Count {
         self.count += 1;
     =}
 }
-
 ```
 
 $end(Count)$

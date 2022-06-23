@@ -43,7 +43,7 @@ The most basic expression forms, which are supported by all target languages, ar
 
 For instance, to have a 2-dimensional array as a parameter in C:
 
-```
+```lf-c
 reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
     ...
 }
@@ -76,7 +76,7 @@ To avoid the awkwardness of using the code delimiters `{= ... =}`, Lingua Franca
 
 In C, a parameter or state may be given an array value as in the following example:
 
-```lf
+```lf-c
 reactor Foo(param:double[](0.0, 1.0, 2.0)) {
     ...
 }
@@ -84,7 +84,7 @@ reactor Foo(param:double[](0.0, 1.0, 2.0)) {
 
 This will become an array of length three. When instantiating this reactor, the default parameter value can be overridden using a similar syntax:
 
-```lf
+```lf-c
 main reactor {
     f = new Foo(param = (3.3, 4.4, 5.5));
 }

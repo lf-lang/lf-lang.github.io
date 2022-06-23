@@ -35,7 +35,7 @@ Verify that cmake is in your path by typing `which cmake`.
 
 **Third**: We recommend also starting Epoch from the command line because then it will inherit your `PATH` variable (If you start it by double clicking on the icon, as usual in macOS, it will not find `cmake` and will be unable to build LF programs). To do this, in a terminal window:
 
-```
+```sh
 open -a Epoch
 ```
 
@@ -47,13 +47,13 @@ If you instead start Epoch by double clicking on its icon, then when you compile
 
 **First**: Uncompress the download (shown assuming the 0.2.0 version):
 
-```
+```sh
 tar xvf epoch_ide_0.2.0-linux.gtk.x86_64.tar.gz
 ```
 
 **Second**: Find and execute the IDE:
 
-```
+```sh
 cd epoch_ide_0.2.0-linux.gtk.x86_64
 ./epoch
 ```
@@ -64,7 +64,7 @@ You can move this executable to a more convenient place, ideally somewhere in yo
 
 **First**: In a terminal,
 
-```
+```powershell
 unzip epoch_ide_0.2.0-win32.win32.x86_64.zip
 cd epoch_ide_0.2.0-win32.win32.x86_64
 .\epoch

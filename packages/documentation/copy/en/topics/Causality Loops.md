@@ -147,7 +147,6 @@ main reactor {
     a.y -> b.x;
     b.y -> a.x;
 }
-
 ```
 
 $end(Cycle)$
@@ -216,7 +215,6 @@ main reactor {
     a.y -> b.x after 0;
     b.y -> a.x;
 }
-
 ```
 
 ```lf-py
@@ -271,7 +269,6 @@ main reactor {
     a.y -> b.x after 0
     b.y -> a.x
 }
-
 ```
 
 ```lf-rs
@@ -365,7 +362,6 @@ main reactor {
     a.y -> b.x;
     b.y -> a.x;
 }
-
 ```
 
 ```lf-py
@@ -420,7 +416,6 @@ main reactor {
     a.y -> b.x
     b.y -> a.x
 }
-
 ```
 
 ```lf-rs

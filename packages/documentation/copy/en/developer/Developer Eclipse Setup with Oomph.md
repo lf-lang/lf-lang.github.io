@@ -19,7 +19,7 @@ The Eclipse setup with Oomph allows to automatically create a fully configured E
 
 1. If you have previously installed Eclipse and you want to start fresh, then remove or move a hidden directory called `.p2` in your home directory. I do this:
 
-```
+```sh
 mv ~/.p2 ~/.p2.bak
 ```
 
@@ -81,7 +81,7 @@ Start the Lingua Franca IDE, create a project, and create your first LF program:
 - **IMPORTANT:** A dialog appears: Do you want to convert 'test' to an Xtext Project? Say YES.
 - Start typing in Lingua-Franca! Try this:
 
-```
+```lf
   target C;
   main reactor HelloWorld {
       timer t;
@@ -93,7 +93,7 @@ Start the Lingua Franca IDE, create a project, and create your first LF program:
 
 When you save, generated code goes into your project directory, e.g. `/Users/yourname/test`. That directory now has two directories inside it, `src-gen` and `bin`. The first contains the generated C code and the second contains the resulting executable program. Run the program:
 
-```
+```sh
     cd ~/lingua-franca-master/runtime-EclipseXtext/test
     bin/HelloWorld
 ```
