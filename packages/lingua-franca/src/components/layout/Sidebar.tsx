@@ -136,14 +136,13 @@ export const Sidebar = (props: Props) => {
     const id = `lf-current-target-${props.target}`
     const ret = <div
       id={id}
-      className={`language-${props.target} current-target`}
+      className={`language-lf-${props.target} current-target`}
       style={{display: ""}}
     >
       {props.children}
     </div>
     useEffect(() => {
       const hidden: boolean = props.target === (getTargetLanguage() || setInitialTargetLanguage())
-      console.log(`target=${props.target}, targetLanguage=${getTargetLanguage()}, hidden=${hidden}`)
       const retWritable = document.getElementById(id)
       if (retWritable) retWritable.style.display = hidden ? "" : "none"
     }, [ret])
@@ -167,11 +166,11 @@ export const Sidebar = (props: Props) => {
     return (
       <li id="targetChooser" className="closed" onClick={toggleOpen}>
         <button id="targetSelector">
-        Target<CurrentTarget target="lf-c">&#58; C</CurrentTarget>
-          <CurrentTarget target="lf-cpp">&#58; C++</CurrentTarget>
-          <CurrentTarget target="lf-py">&#58; Python</CurrentTarget>
-          <CurrentTarget target="lf-rs">&#58; Rust</CurrentTarget>
-          <CurrentTarget target="lf-ts">&#58; TypeScript</CurrentTarget>
+        Target<CurrentTarget target="c">&#58; C</CurrentTarget>
+          <CurrentTarget target="cpp">&#58; C++</CurrentTarget>
+          <CurrentTarget target="py">&#58; Python</CurrentTarget>
+          <CurrentTarget target="rs">&#58; Rust</CurrentTarget>
+          <CurrentTarget target="ts">&#58; TypeScript</CurrentTarget>
           <span className="open">
             <svg fill="none" height="9" viewBox="0 0 14 9" width="14" xmlns="http://www.w3.org/2000/svg">
               <path d="m1 1 6 6 6-6" stroke="#000" stroke-width="2"></path>
@@ -184,11 +183,11 @@ export const Sidebar = (props: Props) => {
           </span>
         </button>
         <ul>
-          <TargetLanguageLink target="lf-c">C</TargetLanguageLink>
-          <TargetLanguageLink target="lf-cpp">C++</TargetLanguageLink>
-          <TargetLanguageLink target="lf-py">Python</TargetLanguageLink>
-          <TargetLanguageLink target="lf-ts">TypeScript</TargetLanguageLink>
-          <TargetLanguageLink target="lf-rs">Rust</TargetLanguageLink>
+          <TargetLanguageLink target="c">C</TargetLanguageLink>
+          <TargetLanguageLink target="cpp">C++</TargetLanguageLink>
+          <TargetLanguageLink target="py">Python</TargetLanguageLink>
+          <TargetLanguageLink target="ts">TypeScript</TargetLanguageLink>
+          <TargetLanguageLink target="rs">Rust</TargetLanguageLink>
         </ul>
       </li>
     )

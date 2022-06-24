@@ -1,7 +1,7 @@
 import { hasLocalStorage } from "./hasLocalStorage";
 import { getTargetLanguage, setTargetLanguage } from "./setTargetLanguage";
 
-const defaultTargetLanguage = "lf-c";
+const defaultTargetLanguage = "c";
 
 export const setInitialTargetLanguage = () => {
   const target:string = getTargetLanguage()

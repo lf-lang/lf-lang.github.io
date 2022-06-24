@@ -17,18 +17,18 @@ export const setTargetLanguage = (selected: string) => {
   for (const target of targetLanguages) {
     const id = 'lf-' + target;
     const element = document.getElementById(id);
-    if (element != null) element.className = id === selected ? "highlight" : ""
+    if (element != null) element.className = target === selected ? "highlight" : ""
   }
   for (var target of targetLanguages) {
     for (var element of Array.from(document.getElementsByClassName('language-lf-' + target) as HTMLCollectionOf<HTMLElement>)) {
-      if (element.classList.contains('language-' + selected)) {
+      if (element.classList.contains('language-lf-' + selected)) {
         element.style.display = "";
       } else {
         element.style.display = "none";
       }
     }
     for (var element of Array.from(document.getElementsByClassName('lf-' + target) as HTMLCollectionOf<HTMLElement>)) {
-      if (element.classList.contains(selected)) {
+      if (element.classList.contains("lf-" + selected)) {
         element.style.display = "";
       } else {
         element.style.display = "none";
