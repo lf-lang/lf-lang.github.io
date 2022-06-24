@@ -15,7 +15,7 @@ export const setTargetLanguage = (selected: string) => {
   window.history.replaceState(null, '', `?target=${selected}`);
   hasLocalStorage && localStorage.setItem("last-selected-target-language", selected)
   for (const target of targetLanguages) {
-    const id = 'lf-' + target;
+    const id = `lf-target-button-${target}`;
     const element = document.getElementById(id);
     if (element != null) element.className = target === selected ? "highlight" : ""
   }

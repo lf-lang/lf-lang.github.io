@@ -125,7 +125,10 @@ export const Sidebar = (props: Props) => {
   }
 
   const TargetLanguageLink = (props: {target: string, children: string}) => {
-    return <li className={getTargetLanguage() === props.target ? "highlight" : ""} id={props.target}>
+    return <li
+      className={getTargetLanguage() === props.target ? "highlight" : ""}
+      id={`lf-target-button-${props.target}`}
+    >
       <a onClick={() => setTargetLanguage(props.target)}>
         {props.children}
       </a>
@@ -137,7 +140,7 @@ export const Sidebar = (props: Props) => {
     const ret = <div
       id={id}
       className={`language-lf-${props.target} current-target`}
-      style={{display: ""}}
+      style={{display: "none"}}
     >
       {props.children}
     </div>
