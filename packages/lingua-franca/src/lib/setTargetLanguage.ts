@@ -3,10 +3,14 @@ import { hasLocalStorage } from "./hasLocalStorage";
 const targetLanguages = ["c", "cpp", "py", "ts", "rs"];
 
 export function getTargetLanguage(): string | null {
+  if (typeof window === 'undefined') return null;
   return new URLSearchParams(window.location.search).get('target')
 }
 
 export const setTargetLanguage = (selected: string) => {
+  // Despite the following line, setTargetLanguage should still do its job in the browser.
+  // See https://github.com/gatsbyjs/gatsby/issues/309 for details.
+  if (typeof window === 'undefined') return;
   console.log("Setting target language to " + selected);
   window.history.replaceState(null, '', `?target=${selected}`);
   hasLocalStorage && localStorage.setItem("last-selected-target-language", selected)
