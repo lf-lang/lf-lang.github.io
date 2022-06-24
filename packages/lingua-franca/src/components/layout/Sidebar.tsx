@@ -133,11 +133,21 @@ export const Sidebar = (props: Props) => {
   }
 
   const CurrentTarget = (props: {target: string, children: string}) => {
-    const hidden: boolean = props.target === (getTargetLanguage() || setInitialTargetLanguage())
-    const style: React.CSSProperties = {display: hidden ? "" : "none" }
-    return <div className={`language-${props.target} current-target`} style = {style}>
+    const id = `lf-current-target-${props.target}`
+    const ret = <div
+      id={id}
+      className={`language-${props.target} current-target`}
+      style={{display: ""}}
+    >
       {props.children}
     </div>
+    useEffect(() => {
+      const hidden: boolean = props.target === (getTargetLanguage() || setInitialTargetLanguage())
+      console.log(`target=${props.target}, targetLanguage=${getTargetLanguage()}, hidden=${hidden}`)
+      const retWritable = document.getElementById(id)
+      if (retWritable) retWritable.style.display = hidden ? "" : "none"
+    }, [ret])
+    return ret;
   }
 
   function toggleOpen() {
