@@ -55,12 +55,6 @@ nav#sidebar {
           stroke: var(--text-color);
         }
 
-        &:active,
-        &:focus {
-          color: var(--alt-text-color);
-          background-color: var(--sidebar-active-button-background-color);
-        }
-
         span {
           position: absolute;
           right: 20px;
@@ -76,7 +70,7 @@ nav#sidebar {
   // Still looking at the highest level of navigation
   ul li {
     &.highlighted {
-      background-color: var(--sidebar-list-active-background-color);
+      background-color: var(--sidebar-header-active-background-color);
 
       svg path {
         stroke: var(--sidebar-twisty-color);
@@ -186,7 +180,7 @@ nav#sidebar {
       background-color: var(--lf-target-selector-button);
       & li {
         border-top: 1px solid;
-        border-color: #{$lf-gold-dark};
+        border-color: var(--lf-target-selector-border-color);
         border-bottom: none;
       }
     }
