@@ -4,7 +4,7 @@
 .dark-theme {
   --lf-keyword: #{$lf-gold-dark};
   --lf-target-selector: #{$lf-gold-dark-dark};
-  --lf-target-selector-button: rgb(216, 171, 88);
+  --lf-target-selector-button: rgb(103, 97, 82);
   --lf-target-selector-border-color: rgb(232, 204, 189);
   --background-color: #{$lf-dark-bg-color};
   --text-color: #fff;
@@ -26,7 +26,7 @@
   --sidebar-twisty-color: #248AED;
   --sidebar-header-active-background-color: #1a1c28;
   --sidebar-highlight-color: #248AED;
-  --sidebar-target-selector-highlight-color: #{$lf-gold-dark-dark-dark};
+  --sidebar-target-selector-highlight-color: #{$lf-gold-light};
   --sidebar-active-button-background-color: #{$lf-bg-selection-grey};
   --table-border-color: #545454;
   --blue-tinged-bg: #2c3841;
