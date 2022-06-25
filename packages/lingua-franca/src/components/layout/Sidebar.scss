@@ -165,6 +165,9 @@ nav#sidebar {
     background-color: var(--lf-target-selector);
     & button {
       background-color: var(--lf-target-selector);
+      // svg path {
+      //   stroke: rgb(247, 148, 30);
+      // }
     }
     &.closed div.current-target {
       display: inline-block;
