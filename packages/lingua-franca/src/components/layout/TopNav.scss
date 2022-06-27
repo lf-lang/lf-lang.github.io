@@ -340,14 +340,18 @@ form.search {
     /* Simplify the nav to a few buttons and home */
     .below-small nav {
       flex-grow: 1;
+      columns: 2;
 
-      ul {
-        display: flex;
-        flex-wrap: wrap;
-
-        li {
-          flex: 1;
-          text-align: center;
+      @media (min-width: 450px) {
+        columns: 1;
+        ul {
+          display: flex;
+          flex-wrap: wrap;
+  
+          li {
+            flex: 1;
+            text-align: center;
+          }
         }
       }
     }
