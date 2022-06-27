@@ -12,7 +12,7 @@ export const setTargetLanguage = (selected: string) => {
   // See https://github.com/gatsbyjs/gatsby/issues/309 for details.
   if (typeof window === 'undefined') return;
   console.log("Setting target language to " + selected);
-  window.history.replaceState(null, '', `?target=${selected}`);
+  window.history.replaceState(null, '', `?target=${selected}${window.location.hash}`);
   hasLocalStorage && localStorage.setItem("last-selected-target-language", selected)
   for (const target of targetLanguages) {
     const id = `lf-target-button-${target}`;
