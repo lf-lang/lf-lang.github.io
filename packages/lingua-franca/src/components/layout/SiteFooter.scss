@@ -1,7 +1,7 @@
 @import "../../style/globals.scss";
 
 #site-footer {
-  background-color: $ts-main-blue-color;
+  background-color: $lf-main-blue-color;
   color: white;
   padding-top: 1rem;
   padding-bottom: 3rem;
@@ -103,7 +103,7 @@
       margin-right: 1rem;
 
       select {
-        background-color: $ts-main-blue-darkest-color;
+        background-color: $lf-dark-bg-color;
         color: white;
       }
     }
@@ -114,8 +114,9 @@
     padding-top: 2rem;
     display: flex;
 
-    @media (max-width: $screen-sm) {
+    @media (max-width: $screen-md) {
       flex-direction: column-reverse;
+      padding-left: 2rem;
 
       article#logos {
         text-align: center;
@@ -133,7 +134,7 @@
           width: 50%;
         }
         margin-bottom: 0.8rem;
-        word-break: break-all;
+        word-break: break-word;
       }
     }
 
@@ -154,7 +155,7 @@
       }
     }
 
-    #using-typescript {
+    #using-lf {
       flex: 1;
     }
 
@@ -167,7 +168,7 @@
 @media (max-width: $screen-sm) {
 
   #community-links ul,
-  #using-typescript ul {
+  #using-lf ul {
     margin-left: 12px;
   }
 }
