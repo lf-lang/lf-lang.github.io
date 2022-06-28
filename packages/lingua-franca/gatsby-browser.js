@@ -1,6 +1,7 @@
 // This hooks ups client-side app analytics
 // it's based on how the google analytics plugin works for gatsby
 // https://github.com/gatsbyjs/gatsby/blob/master/packages/gatsby-plugin-google-analytics/src/gatsby-browser.js
+setInitialTargetLanguage = require("./src/lib/setInitialTargetLanguage")
 
 exports.onRouteUpdate = ({ location, prevLocation }) => {
   // Run both clear and app insights for a bit, then drop app insights
@@ -11,6 +12,7 @@ exports.onRouteUpdate = ({ location, prevLocation }) => {
   //       t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
   //       y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
   //   })(window, document, "clarity", "script", "3w5kyel345");
+  setInitialTargetLanguage.setInitialTargetLanguage()
 
   var sdkInstance = "appInsightsSDK"
   window[sdkInstance] = "appInsights"

@@ -7,9 +7,6 @@ export const setInitialTargetLanguage = () => {
   const target:string = getTargetLanguage()
       || (hasLocalStorage && localStorage.getItem("last-selected-target-language"))
       || defaultTargetLanguage;
-
-  let selector = document.getElementById("targetSelector") as any;
-  if (selector != null) selector.value = target;
   setTargetLanguage(target);
   return target;
 }
