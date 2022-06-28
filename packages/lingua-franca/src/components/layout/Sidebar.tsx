@@ -144,11 +144,6 @@ export const Sidebar = (props: Props) => {
     >
       {props.children}
     </div>
-    useEffect(() => {
-      const hidden: boolean = props.target === (getTargetLanguage() || setInitialTargetLanguage())
-      const retWritable = document.getElementById(id)
-      if (retWritable) retWritable.style.display = hidden ? "" : "none"
-    }, [ret])
     return ret;
   }
 
@@ -160,12 +155,6 @@ export const Sidebar = (props: Props) => {
 
   /* Target language chooser */
   const RenderTargetChooser = () => {
-    useEffect(() => {
-      return globalHistory.listen(({ action }) => {
-        if (action === "PUSH") setInitialTargetLanguage()
-      })
-    }, [setInitialTargetLanguage])
-
     return (
       <li id="targetChooser" className="closed" onClick={toggleOpen}>
         <button id="targetSelector">
