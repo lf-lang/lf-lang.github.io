@@ -5122,6 +5122,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@xmldom/xmldom@npm:^0.7.0":
+  version: 0.7.5
+  resolution: "@xmldom/xmldom@npm:0.7.5"
+  checksum: 8d7ec35c1ef6183b4f621df08e01d7e61f244fb964a4719025e65fe6ac06fac418919be64fb40fe5908e69158ef728f2d936daa082db326fe04603012b5f2a84
+  languageName: node
+  linkType: hard
+
 "@xtuc/ieee754@npm:^1.2.0":
   version: 1.2.0
   resolution: "@xtuc/ieee754@npm:1.2.0"
@@ -20043,6 +20050,7 @@ __metadata:
   dependencies:
     "@oss-docs/sync": ^1.1.4
     "@types/express": ^4.17.13
+    "@xmldom/xmldom": ^0.7.0
     concurrently: ^7.1.0
     cross-env: ^7.0.3
     danger: ^11.0.5
