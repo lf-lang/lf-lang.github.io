@@ -17,7 +17,7 @@ const Index: React.FC<Props> = (props) => {
       <h1>Download and Install Lingua Franca</h1>
       <p>
         All Lingua Franca tools require Java 17 or up (<a href="https://www.oracle.com/java/technologies/downloads/">download from Oracle</a>).
-        Each target language may have additional requirements. See the <a href="/docs/handbook/target-language-details#requirements">Target Language Details</a>) page and select your target language.
+        Each target language may have additional requirements. See the <a href="/docs/handbook/target-language-details#requirements">Target Language Details</a> page and select your target language.
         The alternatives:
         <ul>
           <li><a href="#vscode">Use the Visual Studio Code extension</a></li>
