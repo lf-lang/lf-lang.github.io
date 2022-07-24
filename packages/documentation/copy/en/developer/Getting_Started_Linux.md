@@ -32,6 +32,12 @@ Alternatively you can use the prebuild lfc.
 There are packaged version of [lfc](https://aur.archlinux.org/packages/lfc-bin) and [epoch](https://aur.archlinux.org/packages/epoch-bin) the arch user repository.
 
 ```bash
+    yay -S lfc-bin
+```
+
+Alternatively you can install it by hand.
+
+```bash
     git clone https://aur.archlinux.org/packages/lfc-bin
     cd lfc-bin
     makepkg -si
@@ -39,7 +45,7 @@ There are packaged version of [lfc](https://aur.archlinux.org/packages/lfc-bin) 
 
 ### Nixos
 
-For nixos users there is a already a package since the **nixos-22.05** release. Lingua-franca developes quite rapidly so the version packaged for nixpkgs may lack behind.
+For nixos users there is a already a package since the **nixos-22.05** release. Lingua-franca develops quite rapidly so the version packaged for nixpkgs may lack behind.
 
 ```
     nix-shell -p lingua-franca
