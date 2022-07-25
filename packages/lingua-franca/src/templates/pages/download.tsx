@@ -22,6 +22,7 @@ const Index: React.FC<Props> = (props) => {
           <li><a href="#download-cl">Download the command-line tools</a></li>
           <li><a href="#developer">Developer setup, if you will be contributing to Lingua Franca</a></li>
           <li><a href="https://vm.lf-lang.org/">Download an Ubuntu virtual machine with Epoch preinstalled</a></li>
+          <li><a href="https://github.com/lf-lang/lingua-franca/releases/">See all releases</a></li>
         </ul>
       </p>
     </div>
