@@ -14,8 +14,8 @@ const Index: React.FC<Props> = (props) => {
       <h1>Download and Install Lingua Franca</h1>
       <p>
         All Lingua Franca tools require Java 17 or up (<a href="https://www.oracle.com/java/technologies/downloads/">download from Oracle</a>).
-        Each target language may have additional requirements. See the <a href="/docs/handbook/target-language-details#requirements">Target Language Details</a> page and select your target language.
-        The alternatives:
+        Each target language may have additional requirements (see the <a href="/docs/handbook/target-language-details#requirements">Target Language Details</a> page and select your target language).
+        The alternatives for using Lingua Franca are:
         <ul>
           <li><a href="#vscode">Use the Visual Studio Code extension</a></li>
           <li><a href="#download-epoch">Download Epoch, the Eclipse-based IDE</a></li>
@@ -28,9 +28,8 @@ const Index: React.FC<Props> = (props) => {
     <div className="raised main-content-block">
     <h2 id="vscode">Visual Studio Code</h2>
       <p>The easiest way to get started with Lingua Franca is to install our Visual Studio Code extension from the 
-        <a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a>
-        or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
-        To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter `ext install lf-lang.vscode-lingua-franca`.
+        <a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a> or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
+        To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter <code>ext install lf-lang.vscode-lingua-franca</code>.
         See <a href="/docs/handbook/code-extension">more details</a>.
       </p>
     </div>
@@ -45,24 +44,24 @@ const Index: React.FC<Props> = (props) => {
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Linux</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/epoch_ide_0.2.0-linux.gtk.x86_64.tar.gz">Epoch IDE 0.2.0 for Linux</a> and run:
-      <p><code>tar xvf epoch_ide_0.2.0-linux.gtk.x86_64.tar.gz</code></p>
-      <p><code>cd epoch_ide_0.2.0-linux.gtk.x86_64</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/epoch_ide_0.3.0-linux.gtk.x86_64.tar.gz">Epoch IDE 0.3.0 for Linux</a> and run:
+      <p><code>tar xvf epoch_ide_0.3.0-linux.gtk.x86_64.tar.gz</code></p>
+      <p><code>cd epoch_ide_0.3.0-linux.gtk.x86_64</code></p>
       <p><code>./epoch</code></p>
         </div>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/epoch_ide_0.2.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.2.0 for macOS</a> and run:
-      <p><code>open epoch_ide_0.2.0-macosx.cocoa.x86_64.tar</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/epoch_ide_0.3.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.3.0 for macOS</a> and run:
+      <p><code>open epoch_ide_0.3.0-macosx.cocoa.x86_64.tar</code></p>
       <p><code>xattr -cr Epoch.app</code></p>
       <p><code>open -a Epoch</code></p>
         </div>
 
         <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Windows</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/epoch_ide_0.2.0-win32.win32.x86_64.zip">Epoch IDE 0.2.0 for Windows</a> and run:
-      <p><code>unzip epoch_ide_0.2.0-win32.win32.x86_64.zip</code></p>
-      <p><code>cd epoch_ide_0.2.0-win32.win32.x86_64</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/epoch_ide_0.3.0-win32.win32.x86_64.zip">Epoch IDE 0.3.0 for Windows</a> and run:
+      <p><code>unzip epoch_ide_0.3.0-win32.win32.x86_64.zip</code></p>
+      <p><code>cd epoch_ide_0.3.0-win32.win32.x86_64</code></p>
       <p><code>.\epoch</code></p>
          </div>
       </section>
@@ -78,15 +77,15 @@ const Index: React.FC<Props> = (props) => {
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Linux and macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.tar.gz">lfc 0.2.0 for Linux/Mac</a> and run:
-      <p><code>tar xvf lfc_0.2.0.tar.gz</code></p>
-      <p><code>./lfc_0.2.0/bin/lfc --version</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/lfc_0.3.0.tar.gz">lfc 0.3.0 for Linux/Mac</a> and run:
+      <p><code>tar xvf lfc_0.3.0.tar.gz</code></p>
+      <p><code>./lfc_0.3.0/bin/lfc --version</code></p>
         </div>
         <div style={{padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Windows</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.2.0/lfc_0.2.0.zip">lfc 0.2.0 for Windows</a> and run:
-      <p><code>unzip lfc_0.2.0.zip</code></p>
-      <p><code>.\lfc_0.2.0\bin\lfc.ps1 --version</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/lfc_0.3.0.zip">lfc 0.3.0 for Windows</a> and run:
+      <p><code>unzip lfc_0.3.0.zip</code></p>
+      <p><code>.\lfc_0.3.0\bin\lfc.ps1 --version</code></p>
         </div>
       </section>
       See <a href="/docs/handbook/command-line-tools">more details</a>.
