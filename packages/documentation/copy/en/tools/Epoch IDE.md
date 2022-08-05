@@ -12,7 +12,7 @@ This page shows how to install and run the Epoch integrated development environm
 
 Download the appropriate `epoch_ide_...` file for your platform from:
 
-- [Version 0.2.1](https://github.com/lf-lang/lingua-franca/releases/tag/v0.2.1) (the most recent release)
+- [Version 0.3.0](https://github.com/lf-lang/lingua-franca/releases/tag/v0.3.0) (the most recent release)
 - [Nightly build](https://github.com/lf-lang/lingua-franca/releases/tag/nightly) (the latest prerelease, unstable)
 
 ## Set Up Epoch in MacOS
@@ -45,16 +45,16 @@ If you instead start Epoch by double clicking on its icon, then when you compile
 
 ## Set Up Epoch in Linux
 
-**First**: Uncompress the download (shown assuming the 0.2.1 version):
+**First**: Uncompress the download (shown assuming the 0.3.0 version):
 
 ```sh
-tar xvf epoch_ide_0.2.1-linux.gtk.x86_64.tar.gz
+tar xvf epoch_ide_0.3.0-linux.gtk.x86_64.tar.gz
 ```
 
 **Second**: Find and execute the IDE:
 
 ```sh
-cd epoch_ide_0.2.1-linux.gtk.x86_64
+cd epoch_ide_0.3.0-linux.gtk.x86_64
 ./epoch
 ```
 
@@ -65,7 +65,7 @@ You can move this executable to a more convenient place, ideally somewhere in yo
 **First**: In a terminal,
 
 ```powershell
-unzip epoch_ide_0.2.1-win32.win32.x86_64.zip
-cd epoch_ide_0.2.1-win32.win32.x86_64
+unzip epoch_ide_0.3.0-win32.win32.x86_64.zip
+cd epoch_ide_0.3.0-win32.win32.x86_64
 .\epoch
 ```
