@@ -54,7 +54,7 @@ const Index: React.FC<Props> = (props) => {
           Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/epoch_ide_0.3.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.3.0 for macOS</a> and run:
           <p><code>open epoch_ide_0.3.0-macosx.cocoa.x86_64.tar</code></p>
           <p><code>xattr -cr Epoch.app</code></p>
-          <p><code>open -a Epoch</code></p>
+          <p><code>open epoch.app</code></p>
         </div>
 
         <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
