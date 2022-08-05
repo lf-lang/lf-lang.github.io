@@ -421,7 +421,7 @@ A reaction is always invoked at a well-defined logical time, and logical time do
 
 ## Timeout
 
-By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-declaration#timeout) or a [`--timeout command-line option](docs/handbook/target-declaration#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
+By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-declaration#timeout) or a [`--timeout` command-line option](docs/handbook/target-declaration#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
 
 ```lf-c
 target C {
