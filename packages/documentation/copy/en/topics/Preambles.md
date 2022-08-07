@@ -133,14 +133,14 @@ reactor Preamble {
 }
 ```
 
-It defines both, a public and a private preamble. The public preamble defines the type MyStruct. This type definition will be visible to all elements of the
+It defines both a public and a private preamble. The public preamble defines the type MyStruct. This type definition will be visible to all elements of the
 Preamble reactor as well as to all reactors defined in files that import Preamble. The private preamble defines the function `add_42(int i)`.
 This function will only be usable to reactions within the Preamble reactor.
 
 You can think of public and private preambles as the equivalent of header files and source files in C++. In fact, the public preamble will be translated to a
 header file and the private preamble to a source file. As a rule of thumb, all types that are used in port or action definitions as well as in state variables
-or parameters should be defined in a public preamble. Also declarations of functions to be shared across reactors should be placed in the public preamble.
-Everything else, like function definitions or types that are used only within reactions should be placed in a private preamble.
+or parameters should be defined in a public preamble. Also, declarations of functions to be shared across reactors should be placed in the public preamble.
+Everything else, like function definitions or types that are used only within reactions, should be placed in a private preamble.
 
 Note that preambles can also be specified on the file level. These file level preambles are visible to all reactors within the file.
 An example of this can be found in [PreambleFile.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/target/PreambleFile.lf).

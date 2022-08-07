@@ -77,7 +77,7 @@ Reactions in inactive modes are simply not executed, while all components that m
 That means while a mode is inactive, the progress of time is suspended locally.
 How the timing components behave when a mode becomes active depends on the transition type.
 A mode can be *reset* upon entry, returning it to its initial state.
-Alternatively, it may be entered preserving its *history*, this only has an actual effect if the mode was active before.
+Alternatively, it may be entered preserving its *history*, which only has an actual effect if the mode was active before.
 In the latter case all timing components will continue their delays or period as if no time had passed during inactivity of the mode.
 The following section will provide a more detailed explanation of this effect.
 

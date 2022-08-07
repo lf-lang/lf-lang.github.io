@@ -299,7 +299,7 @@ The first three ports of `b` will received input from `a1`, and the last two por
     a1.out, a2.out -> b1.out, b2.out, b3.out;
 ```
 
-If the total width on the left does not match the total width on the right, then a warning is issued. If the left side is wider than the right, then output data will be discarded. If the right side is wider than the left, then inputs channels will be absent.
+If the total width on the left does not match the total width on the right, then a warning is issued. If the left side is wider than the right, then output data will be discarded. If the right side is wider than the left, then input channels will be absent.
 
 Any given port can appear only once on the right side of the `->` connection operator, so all connections to a multiport destination must be made in one single connection statement.
 
@@ -329,7 +329,7 @@ main reactor {
 
 There will be three instances of `Source`, each with an output of width four, and four instances of `Destination`, each with an input of width 3, for a total of 12 connections.
 
-To distinguish the instances in a bank of reactors, the reactor can define a parameter called **bank_index**<span class="lf-c lf-cpp lf-rs"> with any type that can be assigned a non-negative integer value (for example, `int`, `size_t`, or `uint32_t`)</span>. If such a parameter is defined for the reactor, then when the reactor is instanced in a bank, each instance will be assigned a number between 0 and _n_-1, where _n_ is the number of reactor instances in the bank. For example, the following source reactor increments the output it produces by the value of `bank_index` on each reaction to the timer:
+To distinguish the instances in a bank of reactors, the reactor can define a parameter called **bank_index**<span class="lf-c lf-cpp lf-rs"> with any type that can be assigned a non-negative integer value (for example, `int`, `size_t`, or `uint32_t`)</span>. If such a parameter is defined for the reactor, then when the reactor is instantiated in a bank, each instance will be assigned a number between 0 and _n_-1, where _n_ is the number of reactor instances in the bank. For example, the following source reactor increments the output it produces by the value of `bank_index` on each reaction to the timer:
 
 $start(MultiportSource)$
 
