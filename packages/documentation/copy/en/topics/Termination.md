@@ -46,7 +46,7 @@ If a reaction calls the built-in `request_stop()` function, then it is requestin
 
 <div class="lf-c lf-py lf-ts">
 
-In a federated execution, things are more complicated. In general, it is not possible to cease execution in the next microstep because this would mean that every federate has a communication channel to every other with delay equal to one microstep. This this does not create a causality loop, but it means that all federates have to advance time in lockstep, which creates a global barrier synchronization that would likely kill performance. It will also make decentralized coordination impossible because the safe-to-process (STP) threshold for all federates will diverge to infinity.
+In a federated execution, things are more complicated. In general, it is not possible to cease execution in the next microstep because this would mean that every federate has a communication channel to every other with delay equal to one microstep. This does not create a causality loop, but it means that all federates have to advance time in lockstep, which creates a global barrier synchronization that would likely kill performance. It would also make decentralized coordination impossible because the safe-to-process (STP) threshold for all federates would diverge to infinity.
 
 For **centralized coordination**, when a reaction in a federate calls `request_stop()`, the federate sends a **STOP_REQUEST** message to the RTI with its current timestamp _t_ as a payload and completes execution of any other reactions triggered at the current tag. It then blocks, waiting for a **STOP_GRANTED** message with a timestamp payload _s_. If _s_ > _t_, then it sets `timeout` = _s_ and continues executing, using the timeout mechanism (see above) to stop. If _s_ = _t_, then schedules the shutdown phase to occur one microstep later, as in the unfederated case.
 
@@ -64,8 +64,8 @@ A control-C or other kill signal to a running Lingua Franca program will cause e
 
 For federated programs, each federate and the RTI catches external signals to shut down in an orderly way.
 
-When a federate gets such an external signal (e.g. control-C), it sends a **RESIGN** message to the RTI and an **EOF** (end of file) on each socket connection to another federate. It then closes all sockets and shut down. The RTI and all other federates should continue running until some other termination condition occurs.
+When a federate gets such an external signal (e.g. control-C), it sends a **RESIGN** message to the RTI and an **EOF** (end of file) on each socket connection to another federate. It then closes all sockets and shuts down. The RTI and all other federates should continue running until some other termination condition occurs.
 
-When the RTI gets such an external signal (e.g. control-C), it broadcasts a **STOP_REQUEST** message to all federates, wait for their replies (with a timeout in case the federate or the network has failed), choose the maximum timestamp _s_ on the replies, broadcast a **STOP_GRANTED** message to all federates with payload _s_, and wait for **LOGICAL_TIME_COMPLETE** messages as above.
+When the RTI gets such an external signal (e.g. control-C), it broadcasts a **STOP_REQUEST** message to all federates, waits for their replies (with a timeout in case the federate or the network has failed), chooses the maximum timestamp _s_ on the replies, broadcasts a **STOP_GRANTED** message to all federates with payload _s_, and waits for **LOGICAL_TIME_COMPLETE** messages as above.
 
 </div>
