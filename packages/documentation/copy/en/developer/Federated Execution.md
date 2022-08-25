@@ -10,10 +10,25 @@ preamble: >
 
 The LF program supports federated runtime and each LF program executes in each federate independently controlled by RTI. In [`net_common.h`](https://github.com/lf-lang/reactor-c/blob/main/core/federated/net_common.h), the message types for the federated Lingua Franca programs are implemented. Each message types are for the federate communicate with the RTI.
 
+TODO: fix the picture with seperating two pictures which represent centralized coordination and decentralized coordination.
+
+FACT:**Right now, even in the Decentralized coordination, all federates are connected to the RTI for some moment.**
+
 ![](../../../../../img/federated_execution/Federated_model.png)
 
 The protocol between the RTI and the federate is like below:
+TODO: the protocol should be fixed. The process should include the start sync. etc
 ![](../../../../../img/federated_execution/RTI-Federate%20Protocol.png)
+
+## **Coordination**
+
+### 1. Centralized Coordination
+
+Centralized Coordination is easy to synchronize or handle each federate states but it has a tendency that all federates are dependent on the RTI operation.
+
+### 2. Decentralized Coordination
+
+Even in the decentralized coordination, RTI and each federate should be connected to match the **startup time** and it is decided by the largest time. In **Shutdown** process, it happens again, so we should not make a mistake to understand decentralized coordination doesn't need a central control.
 
 ## **Startup**
 
@@ -54,7 +69,7 @@ In code generator, each federate attempts to connect with an RTI at the `IP addr
 - **Initial clock synchronization**
 
   - Using TCP connection, the first step is to find an **initial offset** to the physical clock of the federate to make it better match the physical clock at the RTI.
-  - `LF_CLOCK_SYNC_EXCHANGES_PER_INTERVAL` **times** of cycle will happen to account for network delay. The cycle is like as below:
+  - `LF_CLOCK_SYNC_EXCHANGES_PER_INTERVAL` **times** (eg. 10 times) of cycle will happen to account for network delay. The cycle is like as below:
 
     ![](../../../../../img/federated_execution/Connecting_RTI.png)
 
@@ -138,7 +153,18 @@ In code generator, each federate attempts to connect with an RTI at the `IP addr
 - `MSG_TYPE_LOGICAL_TAG_COMPLETE`: Each federate sends this message at the conclusion of each tag.
 - `MSG_TYPE_TAG_ADVANCE_GRANT` (TAG) and `MSG_TYPE_PROVISIONAL_TAG_ADVANCE_GRANT` (PTAG): Each federate would have to wait for one of these messages before it can advance to a particular tag.
 
-  ![](../../../../../img/federated_execution/Message_sequence.png)
+  TODO: explain about the difference between TAG and PTAG with Scenario
+
+  Question: The drawing method, how to define each case (lf.pops)
+
+  - TAG: Know the input state (VALID, ABSENT, UNKNOWN)
+  - PTAG: Still doensn't know about the state of input port, and it should be observed when it is needed.
+
+    - The case of the pysical message is `null`
+
+      : Dummy event happens
+
+      QEUSTION: Studying materials
 
 #### **Case 2**) **Decentralized** coordination
 
@@ -157,9 +183,45 @@ For deterministic shutdown process, there is a fomulated logical consensus as fo
 
 ### 4. Picking the maximum tag
 
+- The largest time
+
 ### 5. Sending the maximum tag to RTI
 
 ### 6. Events up to and including the maxium tag
+
+### **Requirements**
+
+And the **reason** of Shutdown can be:
+
+1. Stavation: This means there are no more events on the event queue. -> There is no physical actions present in the system and event queue is empty
+2. Timeout: The last event has an upper bound tag to end.
+3. Requested stop: Request to stop.
+4. External signal: `Ctrl+C` or `kill` command can terminate the program externally.
+
+## **PLUS**
+
+QEUSTION: the section name
+TODO: Add more information about federated execution topics
+
+1. Serializer-deserializer
+2. About network...? [Design of output control reactions #608](https://github.com/lf-lang/lingua-franca/discussions/608)
+3. Fed-gen
+
+- The interface should be built depends on target languages
+
+### Code generation
+
+### Runtime protocol
+
+### Federated Compilation
+
+-ts: network -> in that way...?
+
+### launch mechanism
+
+4. Docker, Bash scripts
+
+- [link]()
 
 ## **Variables**
 
@@ -629,7 +691,7 @@ These codes are sent in a `MSG_TYPE_REJECT` message and they are limited to one 
 
 #### `UNEXPECTED_MESSAGE`
 
-- Incoming message is not expected. \_/
+- Incoming message is not expected.
   ```c
   #define UNEXPECTED_MESSAGE 4
   ```
