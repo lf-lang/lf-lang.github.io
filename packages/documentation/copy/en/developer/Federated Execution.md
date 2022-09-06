@@ -6,6 +6,8 @@ oneline: "Federated Execution in Lingua Franca"
 preamble: >
 ---
 
+# **Federated Execution**
+
 The startup sequence is as follows:
 
 Each federate attempts to connect with an RTI at the IP address put into its code by the code generator (i.e., it attempts to open a TCP connection). It starts by trying the port number given by STARTING_PORT and increments the port number from there until it successfully connects. The maximum port number it will try before giving up is STARTING_PORT + PORT_RANGE_LIMIT.
