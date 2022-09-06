@@ -6,24 +6,6 @@ oneline: "Federated Execution in Lingua Franca"
 preamble: >
 ---
 
-author Edward A. Lee (eal@berkeley.edu)
-author Soroush Bateni (soroush@utdallas.edu)
-
-Redistribution and use in source and binary forms, with or without modification,
-are permitted provided that the following conditions are met:
-
-1. Redistributions of source code must retain the above copyright notice,
-   this list of conditions and the following disclaimer.
-
-2. Redistributions in binary form must reproduce the above copyright notice,
-   this list of conditions and the following disclaimer in the documentation
-   andor other materials provided with the distribution.
-
-Header file for common message types and definitions for federated Lingua Franca programs.
-
-This file defines the message types for the federate to communicate with the RTI.
-Each message type has a unique one-byte ID.
-
 The startup sequence is as follows:
 
 Each federate attempts to connect with an RTI at the IP address put into its code by the code generator (i.e., it attempts to open a TCP connection). It starts by trying the port number given by STARTING_PORT and increments the port number from there until it successfully connects. The maximum port number it will try before giving up is STARTING_PORT + PORT_RANGE_LIMIT.
