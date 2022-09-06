@@ -23,7 +23,9 @@ const Index: React.FC<Props> = (props) => {
 
 <p>In reverse chronological order: </p>
 <ul>
-<li><p><strong>Xronos&#39;22</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng Wong, Rohan Tabish, Hokeun Kim, Shaokai Lin, Christian Menard, Cong Liu, and Edward A. Lee, &quote;<a href="https://arxiv.org/abs/2207.09555">Xronos: Predictable Coordination for Safety-Critical Distributed Embedded Systems</a>,&quot;	arXiv:2207.09555 [cs.DC], July 19, 2022.</p>
+<li><p><strong>LET&#39;23</strong>: Edward A. Lee and Marten Lohstroh, "<a href="https://www.icyphy.org/publications/2023_LeeLohstroh/">Generalizing Logical Execution Time</a>", in <i>Principles of Systems Design - Essays Dedicated to Thomas A. Hensinzer on the Occasion of his 60th Birthday</i>, LNCS 13660, July 2023, to appear.
+</li>
+<li><p><strong>Xronos&#39;22</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng Wong, Rohan Tabish, Hokeun Kim, Shaokai Lin, Christian Menard, Cong Liu, and Edward A. Lee, "<a href="https://arxiv.org/abs/2207.09555">Xronos: Predictable Coordination for Safety-Critical Distributed Embedded Systems</a>,&quot;	arXiv:2207.09555 [cs.DC], July 19, 2022.</p>
 </li>
 <li><p><strong>ISoLA&#39;21</strong>: Edward A. Lee and Marten Lohstroh, &quot;<a href="https://doi.org/10.1007/978-3-030-89159-6_15">Time for All Programs, Not Just Real-Time Programs</a>,&quot; Proc. Int. Symp. on Leveraging Applications of Formal Methods (ISoLA), Rhodes, Greece, October 17-29, 2021.</p>
 </li>
