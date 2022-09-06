@@ -1,7 +1,7 @@
 ---
 title: Federated Execution
 layout: docs
-permalink: docshandbookPERMALINK_LOCATION
+permalink: /docs/handbook/PERMALINK_LOCATION
 oneline: "Federated Execution in Lingua Franca"
 preamble: >
 ---
