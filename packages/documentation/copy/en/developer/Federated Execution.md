@@ -68,7 +68,7 @@ Under decentralized coordination, the coordination is governed by STA and STAAs,
 
 FIXME: Expand this. Explain control reactions.
 
-/
+## **Variables**
 
 The timeout time in ns for TCP operations.
 Default value is 10 secs.
