@@ -70,12 +70,16 @@ FIXME: Expand this. Explain control reactions.
 
 ## **Variables**
 
+### **`TCP_TIMEOUT_TIME`**
+
 The timeout time in ns for TCP operations.
 Default value is 10 secs.
 
 ```c
 #define TCP_TIMEOUT_TIME SEC(10)
 ```
+
+### **`UDP_TIMEOUT_TIME`**
 
 The timeout time in ns for UDP operations.
 Default value is 1 sec.
@@ -84,6 +88,8 @@ Default value is 1 sec.
 #define UDP_TIMEOUT_TIME SEC(1)
 ```
 
+### **`FED_COM_BUFFER_SIZE`**
+
 Size of the buffer used for messages sent between federates.
 This is used by both the federates and the rti, so message lengths should generally match.
 
@@ -91,11 +97,15 @@ This is used by both the federates and the rti, so message lengths should genera
 #define FED_COM_BUFFER_SIZE 256u
 ```
 
+### **`CONNECT_RETRY_INTERVAL`**
+
 Number of seconds that elapse between a federate's attempts to connect to the RTI.
 
 ```c
 #define CONNECT_RETRY_INTERVAL 2
 ```
+
+### **`CONNECT_NUM_RETRIES`**
 
 Bound on the number of retries to connect to the RTI.
 A federate will retry every `CONNECT_RETRY_INTERVAL` seconds this many times before giving up. E.g., 500 retries every 2 seconds results in retrying for about 16 minutes.
@@ -104,11 +114,15 @@ A federate will retry every `CONNECT_RETRY_INTERVAL` seconds this many times bef
 #define CONNECT_NUM_RETRIES 500
 ```
 
+### **`ADDRESS_QUERY_RETRY_INTERVAL`**
+
 Number of nanoseconds that a federate waits before asking the RTI again for the port and IP address of a federate (an `MSG_TYPE_ADDRESS_QUERY` message) after the RTI responds that it does not know.
 
 ```c
 #define ADDRESS_QUERY_RETRY_INTERVAL 100000000LL
 ```
+
+### **`PORT_KNOCKING_RETRY_INTERVAL`**
 
 Number of nanoseconds that a federate waits before trying another port for the RTI. This is to avoid overwhelming the OS and the socket with too many calls.
 FIXME: Is this too small?
@@ -116,6 +130,8 @@ FIXME: Is this too small?
 ```c
 #define PORT_KNOCKING_RETRY_INTERVAL 10000LL
 ```
+
+### **`STARTING_PORT`**
 
 Default starting port number for the RTI and federates' socket server.
 Unless a specific port has been specified by the LF program in the "at" for the RTI, when the federates start up, they will attempt to open a socket server on this port, and, if this fails, increment the port number and try again. The number of increments is limited by `PORT_RANGE_LIMIT`.
@@ -125,11 +141,15 @@ FIXME: Clarify what happens if a specific port has been given in "at".
 #define STARTING_PORT 15045u
 ```
 
+### **`PORT_RANGE_LIMIT`**
+
 Number of ports to try to connect to. Unless the LF program specifies a specific port number to use, the RTI or federates will attempt to start a socket server on port `STARTING_PORT`. If that port is not available (e.g., another RTI is running or has recently exited), then it will try the next port, `STARTING_PORT+1`, and keep incrementing the port number up to this limit. If no port between `STARTING_PORT` and `STARTING_PORT` + `PORT_RANGE_LIMIT` is available, then the RTI or the federate will fail to start. This number, therefore, limits the number of RTIs and federates that can be simultaneously running on any given machine without assigning specific port numbers.
 
 ```c
 #define PORT_RANGE_LIMIT 1024
 ```
+
+### **`DELAY_START SEC`**
 
 Delay the start of all federates by this amount.
 FIXME: More.
@@ -143,12 +163,16 @@ FIXME: Should use the latency estimates that were acquired during initial clock 
 
 These message types will be encoded in an unsigned char, so the magnitude must not exceed 255. Note that these are listed in increasing numerical order starting from 0 interleaved with decreasing numerical order starting from 255 (so that they can be listed in a logical order here even as the design evolves).
 
+### **`MSG_TYPE_REJECT`**
+
 Byte identifying a rejection of the previously received message.
 The reason for the rejection is included as an additional byte (uchar) (see below for encodings of rejection reasons).
 
 ```c
 #define MSG_TYPE_REJECT 0
 ```
+
+### **`MSG_TYPE_ACK`**
 
 Byte identifying an acknowledgment of the previously received message.
 This message carries no payload.
@@ -157,12 +181,16 @@ This message carries no payload.
 #define MSG_TYPE_ACK 255
 ```
 
+### **`MSG_TYPE_UDP_PORT`**
+
 Byte identifying an acknowledgment of the previously received `MSG_TYPE_FED_IDS` message sent by the RTI to the federate with a payload indicating the UDP port to use for clock synchronization.
 The next four bytes will be the port number for the UDP server, or 0 or `USHRT_MAX` if there is no UDP server. 0 means that initial clock synchronization is enabled, whereas `USHRT_MAX` mean that no synchronization should be performed at all.
 
 ```c
 #define MSG_TYPE_UDP_PORT 254
 ```
+
+### **`MSG_TYPE_FED_IDS`**
 
 Byte identifying a message from a federate to an RTI containing the federation ID and the federate ID. The message contains, in
 this order:
@@ -179,6 +207,8 @@ If the federate is a C target LF program, the generated federate code does this 
 #define MSG_TYPE_FED_IDS 1
 ```
 
+### **`MSG_TYPE_TIMESTAMP`** and **`MSG_TYPE_TIMESTAMP_LENGTH`**
+
 Byte identifying a timestamp message, which is 64 bits long.
 Each federate sends its starting physical time as a message of this type, and the RTI broadcasts to all the federates the starting logical time as a message of this type.
 
@@ -186,6 +216,8 @@ Each federate sends its starting physical time as a message of this type, and th
 #define MSG_TYPE_TIMESTAMP 2
 #define MSG_TYPE_TIMESTAMP_LENGTH (1 + sizeof(int64_t))
 ```
+
+### **`MSG_TYPE_MESSAGE`**
 
 Byte identifying a message to forward to another federate.
 The next two bytes will be the ID of the destination port.
@@ -198,11 +230,15 @@ NOTE: This is currently not used. All messages are tagged, even on physical conn
 #define MSG_TYPE_MESSAGE 3
 ```
 
+### **`MSG_TYPE_RESIGN`**
+
 Byte identifying that the federate is ending its execution.
 
 ```c
 #define MSG_TYPE_RESIGN 4
 ```
+
+### **`MSG_TYPE_TAGGED_MESSAGE`**
 
 Byte identifying a timestamped message to forward to another federate.
 The next two bytes will be the ID of the destination reactor port.
@@ -219,11 +255,15 @@ With decentralized coordination, tagged messages are sent peer-to-peer between f
 #define MSG_TYPE_TAGGED_MESSAGE 5
 ```
 
+### **`MSG_TYPE_NEXT_EVENT_TAG`**
+
 Byte identifying a **next event tag (NET)** message sent from a federate in centralized coordination. The next eight bytes will be the timestamp. The next four bytes will be the microstep. This message from a federate tells the RTI the tag of the earliest event on that federate's event queue. In other words, absent any further inputs from other federates, this will be the least tag of the next set of reactions on that federate. If the event queue is empty and a timeout time has been specified, then the timeout time will be sent. If there is no timeout time, then FOREVER will be sent. Note that if there are physical actions and the earliest event on the event queue has a tag that is ahead of physical time (or the queue is empty), the federate should try to regularly advance its tag (and thus send NET messages) to make sure downstream federates can make progress.
 
 ```c
 #define MSG_TYPE_NEXT_EVENT_TAG 6
 ```
+
+### **`MSG_TYPE_TAG_ADVANCE_GRANT`**
 
 Byte identifying a **time advance grant (TAG)** sent by the RTI to a federate in centralized coordination. This message is a promise by the RTI to the federate that no later message sent to the federate will have a tag earlier than or equal to the tag carried by this TAG message.
 The next eight bytes will be the timestamp.
@@ -233,6 +273,8 @@ The next four bytes will be the microstep.
 #define MSG_TYPE_TAG_ADVANCE_GRANT 7
 ```
 
+### **`MSG_TYPE_PROVISIONAL_TAG_ADVANCE_GRANT`**
+
 Byte identifying a **provisional time advance grant (PTAG)** sent by the RTI to a federate in centralized coordination. This message is a promise by the RTI to the federate that no later message sent to the federate will have a tag earlier than the tag carried by this PTAG message.
 The next eight bytes will be the timestamp.
 The next four bytes will be the microstep.
@@ -240,6 +282,8 @@ The next four bytes will be the microstep.
 ```c
 #define MSG_TYPE_PROVISIONAL_TAG_ADVANCE_GRANT 8
 ```
+
+### **`MSG_TYPE_LOGICAL_TAG_COMPLETE`**
 
 Byte identifying a **logical tag complete (LTC)** message sent by a federate
 to the RTI.
@@ -249,6 +293,8 @@ The next four bytes will be the microsteps of the completed tag.
 ```c
 #define MSG_TYPE_LOGICAL_TAG_COMPLETE 9
 ```
+
+### **Messages used in `lf_request_stop()`**
 
 Messages used in `lf_request_stop()`
 Overview of the algorithm:
