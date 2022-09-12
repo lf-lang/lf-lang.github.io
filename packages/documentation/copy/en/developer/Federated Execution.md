@@ -12,9 +12,13 @@ preamble: >
 
 The startup sequence is as follows:
 
+### **1. Connect RTI and each Federate**
+
 Each federate attempts to connect with an RTI at the IP address put into its code by the code generator (i.e., it attempts to open a TCP connection). It starts by trying the port number given by `STARTING_PORT` and increments the port number from there until it successfully connects. The maximum port number it will try before giving up is `STARTING_PORT` + `PORT_RANGE_LIMIT`.
 
 FIXME: What if a port is specified in the "at" of the federated statement?
+
+### **2. Send Federate ID information**
 
 When it has successfully opened a TCP connection, the first message it sends to the RTI is a `MSG_TYPE_FED_IDS` message, which contains the ID of this federate within the federation, contained in the global variable `_lf_my_fed_id` in the federate code (which is initialized by the code generator) and the unique ID of the federation, a GUID that is created at run time by the generated script that launches the federation.
 If you launch the federates and the RTI manually, rather than using the script, then the federation ID is a string that is optionally given to the federate on the command line when it is launched. The federate will connect successfully only to an RTI that is given the same federation ID on its command line. If no ID is given on the command line, then the default ID "Unidentified Federation" will be used.
@@ -23,10 +27,15 @@ The RTI will respond with a `MSG_TYPE_REJECT` message if the federation IDs do n
 
 When the federation IDs match, the RTI will respond with an `MSG_TYPE_ACK`.
 
+### **3. UDP port Synchronization**
+
 The next message to the RTI will be a `MSG_TYPE_NEIGHBOR_STRUCTURE` message that informs the RTI about connections between this federate and other federates where messages are routed through the RTI. Currently, this only includes logical connections when the coordination is centralized. This information is needed for the RTI to perform the centralized coordination.
 The burden is on the federates to inform the RTI about relevant connections.
 
 The next message to the RTI will be a `MSG_TYPE_UDP_PORT` message, which has payload `USHRT_MAX` if clock synchronization is disabled altogether, 0 if only initial clock synchronization is enabled, and a port number for UDP communication if runtime clock synchronization is enabled.
+
+#### **3.1 Clock Synchronization**
+
 By default, if the federate host is identical to that of the RTI (either no "at" clause is given for either or they both have exactly the same string), then clock synchronization is disabled.
 Otherwise, the default is that initial clock synchronization is enabled.
 To turn turn off clock synchronization altogether, set the clock-sync property of the target to off. To turn on runtime clock synchronization, set it to on. The default value is initial.
@@ -39,12 +48,20 @@ The payload of the `MSG_TYPE_CLOCK_SYNC_T3` message is the federate ID. The RTI 
 
 The times **T1** and **T4** are taken from the physical clock at the RTI, whereas the times **T2** and **T3** are taken from the physical clock at the federate. The round trip latency on the connection to the RTI is therefore measured as **(T4 - T1) - (T3 - T2)**. Half this quantity is an estimate `L` of the one-way latency. The estimated clock error `E` is therefore **L - (T2 - T1)**. Over several cycles, the average value of E becomes the initial offset for the clock at the federate. Henceforth, when `lf_time_physical()` is called, the offset will be added to whatever the physical clock says.
 
+#### **3.2 Start Federate Thread**
+
 If clock synchronization is enabled, then the federate will also start a thread to listen for incoming UDP messages from the RTI.
-With period given by the `-c on period <n>` command-line argument, the RTI will initiate a clock synchronization round by sending to the federate a `MSG_TYPE_CLOCK_SYNC_T1` message. A similar protocol to that above is followed to estimate the average clock synchronization error `E`, with two exceptions. First, a fraction of `E` (given by `_LF_CLOCK_SYNC_ATTENUATION`) is used to adjust the offset up or down rather than just setting the offset equal to `E`.
+With period given by the `-c on period <n>` command-line argument, the RTI will initiate a clock synchronization round by sending to the federate a `MSG_TYPE_CLOCK_SYNC_T1` message.
+
+#### **3.3 Estimate the Average Clock Synchronization error E**
+
+A similar protocol to that above is followed to estimate the average clock synchronization error `E`, with two exceptions. First, a fraction of `E` (given by `_LF_CLOCK_SYNC_ATTENUATION`) is used to adjust the offset up or down rather than just setting the offset equal to `E`.
 Second, after `MSG_TYPE_CLOCK_SYNC_T4`, the RTI immediately sends a following message of type `MSG_TYPE_CLOCK_SYNC_CODED_PROBE`.
 The federate measures the time difference between its receipt of **T4** and this code probe and compares that time difference against the time difference at the RTI (the difference between the two payloads). If that difference is larger than `CLOCK_SYNC_GUARD_BAND` in magnitude, then the clock synchronization round is skipped and no adjustment is made. The round will also be skipped if any of the expected UDP messages fails to arrive.
 
 FIXME: Citation needed here.
+
+#### **4. TODO:Decide the title**
 
 The next step depends on the coordination mode. If the coordination parameter of the target is "decentralized" and the federate has inbound connections from other federates, then it starts a socket server to listen for incoming connections from those federates.
 It attempts to create the server at the port given by `STARTING_PORT`, and if this fails, increments the port number from there until a port is available. It then sends to the RTI an `MSG_TYPE_ADDRESS_ADVERTISEMENT` message with the port number as a payload. The federate then creates a thread to listen for incoming socket connections and messages.
