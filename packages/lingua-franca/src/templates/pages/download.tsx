@@ -151,6 +151,6 @@ export default (props: Props) => <Intl locale={props.pageContext.lang}><Index {.
 /*
 <QuickJump title="Learning Resources" lang={props.pageContext.lang} />
  <p>Some of code generator components are written in Kotlin, which is not supported by Eclipse.</p>
-          <p>If you want a Kotlin-friendly developer environment using IntelliJ, you can follow the Developer IntelliJ Setup (for Kotlin) instructions to set it up.</p>
+          <p>If you want a Kotlin-friendly developer environment using IntelliJ, you can follow the Developer IntelliJ Setup instructions to set it up.</p>
           <p>To build the Lingua Franca IDE (Epoch) with Kotlin-based code generators enabled (which is not possible with the Eclipse setup), please see the instructions in Running Lingua Franca IDE (Epoch) with Kotlin based Code Generators Enabled (without Eclipse Environment).</p>
  */
