@@ -27,9 +27,12 @@ const Index: React.FC<Props> = (props) => {
       </p>
     </div>
     <div className="raised main-content-block">
-      <h2 id="vscode">Visual Studio Code</h2>
-      <p>The easiest way to get started with Lingua Franca is to install our Visual Studio Code extension from the <a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a> or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
-        To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter <code>ext install lf-lang.vscode-lingua-franca</code>.
+    <h2 id="vscode">Visual Studio Code</h2>
+      <p>The easiest way to get started with Lingua Franca is to install our Visual Studio Code extension from the <
+        a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a
+        > or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
+        To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and
+        enter <code>ext install lf-lang.vscode-lingua-franca</code>.
         See <a href="/docs/handbook/code-extension">more details</a>.
       </p>
     </div>
@@ -148,6 +151,6 @@ export default (props: Props) => <Intl locale={props.pageContext.lang}><Index {.
 /*
 <QuickJump title="Learning Resources" lang={props.pageContext.lang} />
  <p>Some of code generator components are written in Kotlin, which is not supported by Eclipse.</p>
-          <p>If you want a Kotlin-friendly developer environment using IntelliJ, you can follow the Developer IntelliJ Setup (for Kotlin) instructions to set it up.</p> 
+          <p>If you want a Kotlin-friendly developer environment using IntelliJ, you can follow the Developer IntelliJ Setup instructions to set it up.</p>
           <p>To build the Lingua Franca IDE (Epoch) with Kotlin-based code generators enabled (which is not possible with the Eclipse setup), please see the instructions in Running Lingua Franca IDE (Epoch) with Kotlin based Code Generators Enabled (without Eclipse Environment).</p>
  */

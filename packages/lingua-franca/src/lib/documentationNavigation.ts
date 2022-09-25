@@ -257,10 +257,10 @@ export function getDocumentationNavForLanguage(
           oneline: "Developer Eclipse setup with Oomph.",
         },
         {
-          title: "Developer IntelliJ Setup (for Kotlin)",
-          id: "4-developer-intellij-setup-(for-kotlin)",
-          permalink: "/docs/handbook/intellij-kotlin",
-          oneline: "Developer IntelliJ Setup (for Kotlin).",
+          title: "Developer IntelliJ Setup",
+          id: "4-developer-intellij-setup",
+          permalink: "/docs/handbook/intellij",
+          oneline: "Developer IntelliJ Setup.",
         },
         {
           title: "Running Benchmarks",

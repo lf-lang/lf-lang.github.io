@@ -20,7 +20,7 @@ const { read: readMarkdownFile } = require("gray-matter");
 // where it's used in the website / epub / etc
 //
 
-/* 
+/*
   Run this after any changes to propagate:
      yarn workspace documentation create-handbook-nav
 */
@@ -92,7 +92,7 @@ const handbookPages = [
       { file: "developer/Contributing.md" },
       { file: "developer/Downloading and Building.md" },
       { file: "developer/Developer Eclipse Setup with Oomph.md" },
-      { file: "developer/Developer IntelliJ Setup (for Kotlin).md" },
+      { file: "developer/Developer IntelliJ Setup.md" },
       { file: "developer/Running Benchmarks.md" },
     ]
   },
@@ -132,7 +132,7 @@ const codeForTheHandbook = [
 export function getDocumentationNavForLanguage(langRequest: string): SidebarNavItem[] {
   const langs = ['${langs.join("', '")}']
   const lang = langs.includes(langRequest) ? langRequest : "en"
-  const navigations: Record<string, SidebarNavItem[]> = {} 
+  const navigations: Record<string, SidebarNavItem[]> = {}
 `,
 ];
 
@@ -141,7 +141,7 @@ for (const lang of langs) {
 
   handbookPages.forEach((section, sectionIndex) => {
     // Section metadata:
-    codeForTheHandbook.push(`{ 
+    codeForTheHandbook.push(`{
       title: "${section.title}",
       oneline: "${section.summary}",
       id: "${section.title.toLowerCase().replace(/\s/g, "-")}",
