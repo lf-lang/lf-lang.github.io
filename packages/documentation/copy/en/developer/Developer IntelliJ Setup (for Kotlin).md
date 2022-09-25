@@ -1,8 +1,8 @@
 ---
-title: Developer IntelliJ Setup (for Kotlin)
+title: Developer IntelliJ Setup
 layout: docs
-permalink: /docs/handbook/intellij-kotlin
-oneline: "Developer IntelliJ Setup (for Kotlin)."
+permalink: /docs/handbook/intellij
+oneline: "Developer IntelliJ Setup."
 preamble: >
 ---
 
@@ -43,7 +43,7 @@ If you see a pop-up saying "Maven build scripts found" after opening the reposit
 
 ![](../../../../../img/intellij/skip_maven_build.png)
 
-To reduce the time spent indexing the repository upon startup, exclude any large directories that do not contain files that are relevant to you. For example, you should exclude any `node_modules` directories.
+To reduce the time spent indexing the repository upon startup, exclude any large directories that do not contain files that are relevant to you. For example, you should exclude any `node_modules` directories. These exclusions will take effect the next time you open IntelliJ so that indexing does not take longer than about thirty seconds.
 
 ## Importing Gradle Project
 
@@ -63,9 +63,6 @@ If you are prompted to a pop-up window asking if you trust the Gradle project, c
 ![](../../../../../img/intellij/trust_gradle_project.png)
 
 Once the repository is imported as a Gradle project, you will see a Gradle tab on the right.
-
-You may see a message saying that Gradle project indexing is in progress at the bottom.
-Indexing may take a few minutes.
 
 Once the indexing finishes, you can expand the Gradle project and see the set of Tasks.
 
