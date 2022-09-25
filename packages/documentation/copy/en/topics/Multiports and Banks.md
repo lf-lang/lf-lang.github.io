@@ -61,6 +61,7 @@ main reactor {
     b = new Destination();
     a.out -> b.in;
 }
+
 ```
 
 ```lf-cpp
@@ -90,6 +91,7 @@ main reactor {
     b = new Destination();
     a.out -> b.in;
 }
+
 ```
 
 ```lf-py
@@ -115,6 +117,7 @@ main reactor {
     b = new Destination();
     a.out -> b.inp;
 }
+
 ```
 
 ```lf-ts
@@ -143,6 +146,7 @@ main reactor {
     b = new Destination()
     a.out -> b.inp
 }
+
 ```
 
 ```lf-rs
@@ -172,6 +176,7 @@ main reactor {
     b = new Destination();
     a.out -> b.inp;
 }
+
 ```
 
 $end(Multiport)$
@@ -186,16 +191,73 @@ Sum of received: 6.
 
 The `Source` reactor has a four-way multiport output and the `Destination` reactor has a four-way multiport input. These channels are connected all at once on one line, the second line from the last. Notice that the generated diagram shows multiports with hollow triangles. Whether it shows the widths is controlled by an option in the diagram generator.
 
+The `Source` reactor specifies `out` as an effect of its reaction using the syntax `-> out`. This brings into scope of the reaction body a way to access the width of the port and a way to write to each channel of the port.
+
 **NOTE**: In `Destination`, the reaction is triggered by `in`, not by some individual channel of the multiport input. Hence, it is important when using multiport inputs to test for presence of the input on each channel, as done above with the syntax
 <span class="lf-c">`if (in[i]->is_present) ...`</span>
 <span class="lf-cpp">`if (in[i]->is_present()) ...`</span>
 <span class="lf-py lf-ts lf-rs warning">FIXME</span>. An event on any one of the channels is sufficient to trigger the reaction.
 
-The `Source` reactor also specifies `out` as an effect of its reaction using the syntax `-> out`. This brings into scope of the reaction body a way to access the width of the port and a way to write to each channel of the port.
-
 <div class="lf-py">
 
 In the Python target, multiports can be iterated on in a for loop (e.g., `for p in out`) or enumerated (e.g., `for i, p in enumerate(out)`) and the length of the multiport can be obtained by using the `len()` (e.g., `len(out)`) expression.
+
+</div>
+
+<div class="lf-c">
+
+## Sparse Inputs
+
+Sometimes, a program needs a wide multiport input, but when reactions are triggered by this input, few of the channels are present.
+In this case, it can inefficient to iterate over all the channels to determine which are present.
+If you know that a multiport input will be **sparse** in this way, then you can provide a hint to the compiler and use a more efficient iterator to access the port. For example:
+
+$start(Sparse)$
+
+```lf-c
+target C;
+reactor Sparse {
+    @sparse
+    input[100] in:int;
+    reaction(in) {=
+        // Create an iterator over the input channels.
+        struct lf_multiport_iterator_t i = lf_multiport_iterator(in);
+        // Get the least index of a channel with present inputs.
+        int channel = lf_multiport_next(&i);
+        // Iterate until no more channels have present inputs.
+        while(channel >= 0) {
+            printf("Received %d on channel %d\n", in[channel]->value, channel);
+            // Get the next channel with a present input.
+            channel = lf_multiport_next(&i);
+        }
+    =}
+}
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/Sparse.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/Sparse.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/Sparse.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/Sparse.lf
+```
+
+$end(Sparse)$
+
+Notice the `@sparse` annotation on the input declaration.
+This provides a hint to the compiler to optimize for sparse inputs.
+Then, instead of iterating over all input channels, this code uses the built-in function `lf_multiport_iterator()` to construct an iterator. The function `lf_multiport_next()` returns the first (and later, the next) channel index that is present. It returns -1 when no more channels have present inputs.
+
+The multiport iterator can be used for any input multiport, even if it is not marked sparse.
+But if it is not marked sparse, then the `lf_multiport_next()` function will not optimize for sparse inputs and will simply iterate over the channels until it finds one that is present.
 
 </div>
 
@@ -284,6 +346,7 @@ reactor MultiportSource(
         self->s += self->bank_index;
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -301,6 +364,7 @@ reactor MultiportSource(
         s += bank_index;
     =}
 }
+
 ```
 
 ```lf-py
@@ -329,6 +393,7 @@ reactor MultiportSource {
         s += this.getBankIndex()
     =}
 }
+
 ```
 
 ```lf-rs
@@ -384,6 +449,7 @@ reactor A(bank_index:int(0), value:int(0)) {
 main reactor {
     a = new[4] A(value = {= table[bank_index] =});
 }
+
 ```
 
 ```lf-cpp
@@ -403,6 +469,7 @@ reactor A(bank_index(0), value(0)) {
 main reactor {
     a = new[4] A(value = {= table[bank_index] =})
 }
+
 ```
 
 ```lf-ts
@@ -449,6 +516,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-cpp
@@ -468,6 +536,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-py
@@ -487,6 +556,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-ts
@@ -502,6 +572,7 @@ reactor Parent {
 main reactor {
     p = new[2] Parent()
 }
+
 ```
 
 ```lf-rs
@@ -523,6 +594,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 $end(ChildBank)$
@@ -589,6 +661,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-py
@@ -629,6 +702,7 @@ reactor Parent {
 main reactor {
     p = new[2] Parent()
 }
+
 ```
 
 ```lf-rs
@@ -702,6 +776,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-cpp
@@ -728,6 +803,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-py
@@ -753,6 +829,7 @@ reactor Parent (
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-ts
@@ -776,6 +853,7 @@ reactor Parent {
 main reactor {
     p = new[2] Parent();
 }
+
 ```
 
 ```lf-rs
@@ -855,6 +933,7 @@ main reactor MultiportToBank {
     b = new[3] Destination();
     a.out -> b.in;
 }
+
 ```
 
 ```lf-cpp
@@ -882,6 +961,7 @@ main reactor MultiportToBank {
     b = new[3] Destination();
     a.out -> b.in;
 }
+
 ```
 
 ```lf-py
@@ -907,6 +987,7 @@ main reactor MultiportToBank {
     b = new[3] Destination();
     a.out -> b.inp;
 }
+
 ```
 
 ```lf-ts
@@ -931,6 +1012,7 @@ main reactor MultiportToBank {
     b = new[3] Destination()
     a.out -> b.inp
 }
+
 ```
 
 ```lf-rs
@@ -962,6 +1044,7 @@ main reactor MultiportToBank {
     b = new[3] Destination();
     a.out -> b.inp;
 }
+
 ```
 
 $end(MultiportToBank)$
@@ -1040,6 +1123,7 @@ main reactor(num_nodes: size_t(4)) {
     nodes = new[num_nodes] Node(num_nodes=num_nodes);
     nodes.out -> interleaved(nodes.in);
 }
+
 ```
 
 ```lf-cpp
@@ -1069,6 +1153,7 @@ main reactor(num_nodes: size_t(4)) {
     nodes = new[num_nodes] Node(num_nodes=num_nodes);
     nodes.out -> interleaved(nodes.in);
 }
+
 ```
 
 ```lf-py
@@ -1097,6 +1182,7 @@ main reactor(num_nodes(4)) {
     nodes = new[num_nodes] Node(num_nodes=num_nodes);
     nodes.out -> interleaved(nodes.inp);
 }
+
 ```
 
 ```lf-ts
@@ -1122,6 +1208,7 @@ main reactor(numNodes: number(4)) {
     nodes = new[numNodes] Node(numNodes=numNodes);
     nodes.out -> interleaved(nodes.inp)
 }
+
 ```
 
 ```lf-rs

@@ -9,7 +9,7 @@ export const indexCopy = {
 
   // Above the fold
   index_2_cta_install: "Download Lingua Franca",
-  index_2_cta_install_subtitle: "Version 0.2.0",
+  index_2_cta_install_subtitle: "Version 0.3.0",
 
   index_2_cta_download: "On your computer",
   index_2_cta_download_subtitle: "via Github",
