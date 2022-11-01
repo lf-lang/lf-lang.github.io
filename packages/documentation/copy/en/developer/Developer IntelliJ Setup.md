@@ -26,6 +26,8 @@ For example, into a directory called `lingua-franca-intellij` using the followin
 
 ```sh
 $ git clone git@github.com:lf-lang/lingua-franca.git lingua-franca-intellij
+$ cd lingua-franca-intellij
+$ git submodule update --init --recursive
 ```
 
 ## Opening lingua-franca as IntelliJ Project
@@ -42,8 +44,6 @@ In the pop-up dialog, navigate to the cloned Git repository, and click Open.
 If you see a pop-up saying "Maven build scripts found" after opening the repository as an IntelliJ project, click Skip since we want to use Gradle instead of Maven in this setup.
 
 ![](../../../../../img/intellij/skip_maven_build.png)
-
-To reduce the time spent indexing the repository upon startup, exclude any large directories that do not contain files that are relevant to you. For example, you should exclude any `node_modules` directories. These exclusions will take effect the next time you open IntelliJ so that indexing does not take longer than about thirty seconds.
 
 ## Importing Gradle Project
 
