@@ -45,6 +45,8 @@ If you see a pop-up saying "Maven build scripts found" after opening the reposit
 
 ![](../../../../../img/intellij/skip_maven_build.png)
 
+To reduce the time spent indexing the repository upon startup, exclude any large directories that do not contain files that are relevant to you. For example, you should exclude any `src-gen` directories. These exclusions will take effect the next time you open IntelliJ so that indexing does not take longer than about thirty seconds. **FIXME**: How to exclude these directories?
+
 ## Importing Gradle Project
 
 The next step is to load the Gradle configs for building and running Lingua Franca tasks in IntelliJ.
@@ -75,18 +77,18 @@ To set up a run configuration for runLfc task, right-click on `runLfc` under Gra
 
 ![](../../../../../img/intellij/modify_run_config.png)
 
-In the Run/Debug Configurations dialog, click on the text box next to Tasks: and append args to specify the LF target. For example, `runLfc --args '../example/Cpp/src/CarBrake/CarBrake.lf'` Then click OK.
+In the Run/Debug Configurations dialog, click on the text box next to Tasks: and append args to specify the LF target. For example, `runLfc --args 'test/C/src/Minimal.lf'` Then click OK.
 
 ![](../../../../../img/intellij/run_config_lf_program.png)
 
-You will see a new run/debug config added to the top menu bar, as shown below.
+You will see a new run/debug config added to the top-level menu bar, as shown below.
 You can always change the config, for example, changing the args, by clicking `Edit Configurations` via a drop-down menu.
 
 ![](../../../../../img/intellij/new_runlfc_config.png)
 
 ## Running and Debugging
 
-Using the newly added config, you can run and debug the code generator by clicking the play button and the bug button.
+Using the newly added config, you can run and debug the code generator by clicking the play button and the debug button.
 
 ![](../../../../../img/intellij/run_debug_buttons.png)
 
