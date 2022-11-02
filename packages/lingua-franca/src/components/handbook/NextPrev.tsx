@@ -13,8 +13,8 @@ const Row = (props: { children: any, className?: string }) => <div className={[p
 
 export const NextPrev = (props: NextPrevProps) => {
   if (!props.prev && !props.next) return null
-  const prev = props.prev && props.prev.childMarkdownRemark.frontmatter
-  const next = props.next && props.next.childMarkdownRemark.frontmatter
+  const prev = props.prev && props.prev?.childMarkdownRemark?.frontmatter
+  const next = props.next && props.next?.childMarkdownRemark?.frontmatter
 
   return (
     <div className="whitespace-tight raised">
