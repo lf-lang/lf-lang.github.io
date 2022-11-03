@@ -1,4 +1,5 @@
 import React, { useEffect } from "react"
+import { withPrefix } from "gatsby"
 
 import "./TopNav.scss"
 import { useIntl } from "react-intl";
@@ -15,57 +16,59 @@ import { createInternational } from "../../lib/createInternational"
 export const SiteNav = (props: Props) => {
   const i = createInternational<typeof navCopy>(useIntl())
   const IntlLink = createIntlLink(props.lang)
+  const loadDocSearch = () => {
+    const isDev = document.location.host.includes('localhost')
+    let customHandleSelected;
 
-  //   if (isDev) {
-  //     customHandleSelected = (input, event, suggestion, datasetNumber, context) => {
-  //       const urlToOpen = suggestion.url.replace("www.lf-lang.org", "localhost:8000").replace("https", "http")
-  //       window.open(urlToOpen)
-  //     }
-  //   }
+    if (isDev) {
+      customHandleSelected = (input, event, suggestion, datasetNumber, context) => {
+        const urlToOpen = suggestion.url.replace("www.typescriptlang.org", "localhost:8000").replace("https", "http")
+        window.open(urlToOpen)
+      }
+    }
 
-
-  //   // @ts-ignore - this comes from the script above
-  //   // docsearch({
-  //   //   apiKey: '3c2db2aef0c7ff26e8911267474a9b2c',
-  //   //   indexName: 'typescriptlang',
-  //   //   inputSelector: '.search input',
-  //   //   handleSelected: customHandleSelected,
-  //   // });
-  // }
+    // @ts-ignore - this comes from the script above
+    docsearch({
+      appId: "BGCDYOIYZ5",
+      apiKey: '37ee06fa68db6aef451a490df6df7c60',
+      indexName: 'lf-lang',
+      inputSelector: '.search input',
+      handleSelected: customHandleSelected,
+    });
+  }
   // This extra bit of mis-direction ensures that non-essential code runs after
   // the page is loaded
   useEffect(() => {
     setupStickyNavigation()
 
-  //   // @ts-ignore - this comes from the script above
-  //   if (window.docsearch) {
-  //     loadDocSearch();
-  //   }
-  //   if (document.getElementById("algolia-search")) return
+    // @ts-ignore - this comes from the script above
+    if (window.docsearch) {
+      loadDocSearch();
+    }
+    if (document.getElementById("algolia-search")) return
 
-  //   //const searchScript = document.createElement('script');
-  //   //searchScript.id = "algolia-search"
-  //   //const searchCSS = document.createElement('link');
+    const searchScript = document.createElement('script');
+    searchScript.id = "algolia-search"
+    const searchCSS = document.createElement('link');
 
-  //   //searchScript.src = withPrefix("/js/docsearch.js");
-  //  // searchScript.async = true;
-  //   searchScript.onload = () => {
-  //     // @ts-ignore - this comes from the script above
-  //     if (window.docsearch) {
-  //       loadDocSearch();
+    searchScript.src = withPrefix("/js/docsearch.js");
+    searchScript.async = true;
+    searchScript.onload = () => {
+      // @ts-ignore - this comes from the script above
+      if (window.docsearch) {
+        loadDocSearch();
 
-  //       searchCSS.rel = 'stylesheet';
-  //       searchCSS.href = withPrefix('/css/docsearch.css');
-  //       searchCSS.type = 'text/css';
-  //       document.body.appendChild(searchCSS);
+        searchCSS.rel = 'stylesheet';
+        searchCSS.href = withPrefix('/css/docsearch.css');
+        searchCSS.type = 'text/css';
+        document.body.appendChild(searchCSS);
 
-  //       document.getElementById("search-form")?.classList.add("search-enabled")
-  //     }
-  //   }
+        document.getElementById("search-form")?.classList.add("search-enabled")
+      }
+    }
 
-  //   document.body.appendChild(searchScript);
+    document.body.appendChild(searchScript);
   }, []);
-
   return (
     <header dir="ltr">
       <a className="skip-to-main" href="#site-content" tabIndex={0}>{i("skip_to_content")}</a>
