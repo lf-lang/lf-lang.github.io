@@ -961,25 +961,27 @@ The preamble should not be repeated in this reactor definition if the two reacto
 
 Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
 
-Suppose the data structure of interest, its constructor and destructor are defined as follows:
+Suppose the data structure of interest, its constructor, and its destructor are defined as follows:
 
 ```c
-typedef struct int_array_t {
-    int* data;
-    size_t length;
-} int_array_t;
+preamble {=
+    typedef struct int_array_t {
+        int* data;
+        size_t length;
+    } int_array_t;
 
-int_array_t* int_array_constructor(size_t length) {
-    int_array_t* val = (int_array_t*) malloc(sizeof(int_array_t));
-    val->data = (int*) calloc(length, sizeof(int));
-    val->length = length;
-    return val;
-}
+    int_array_t* int_array_constructor(size_t length) {
+        int_array_t* val = (int_array_t*) malloc(sizeof(int_array_t));
+        val->data = (int*) calloc(length, sizeof(int));
+        val->length = length;
+        return val;
+    }
 
-void int_array_destructor(void* arr) {
-    free(((int_array_t*) arr)->data);
-    free(arr);
-}
+    void int_array_destructor(void* arr) {
+        free(((int_array_t*) arr)->data);
+        free(arr);
+    }
+=}
 ```
 
 Then, the sender reactor would use `lf_set_destructor` to specify how the memory set on an output port should be freed:
@@ -1089,11 +1091,11 @@ The above `ArrayScale` reactor modifies the array and then forwards it to its ou
 
 If the above code were not to forward the array, then the dynamically allocated memory will be automatically freed when this reactor is done with it.
 
-The above three reactors can be combined into a pipeline as follows:
+Three of the above reactors can be combined into a pipeline as follows:
 
 ```lf
 main reactor ArrayScaleTest {
-    s = new ArrayPrint();
+    s = new Source();
     c = new ArrayScale();
     p = new Print();
     s.out -> c.in;
