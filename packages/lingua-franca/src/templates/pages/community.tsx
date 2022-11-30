@@ -107,6 +107,13 @@ const past = [
     blurb: "Applied Math and CS student at UC Berkeley."
   },
   {
+    name: "Martin Schoeberl",
+    image: "https://avatars.githubusercontent.com/u/650648?v=4",
+    country: "🇩🇰",
+    continentish: "Europe",
+    blurb: "Professor at TU Denmark.",
+  },
+  {
     name: "Matt Weber",
     image: "https://avatars.githubusercontent.com/u/3513451?v=4",
     country: "🇺🇸",
@@ -119,13 +126,6 @@ const past = [
     country: "🇺🇸",
     continentish: "North America",
     blurb: "Software Development Engineer at Amazon AWS.",
-  },
-  {
-    name: "Martin Schoeberl",
-    image: "https://avatars.githubusercontent.com/u/650648?v=4",
-    country: "🇩🇰",
-    continentish: "Europe",
-    blurb: "Professor at TU Denmark.",
   },
 ]
 
