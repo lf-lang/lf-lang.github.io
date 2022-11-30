@@ -141,13 +141,13 @@ export const Comm: React.FC<Props> = props => {
               </div>
             </div>
             <div className="callout">
-              <a aria-labelledby="slack-header" className="icon slack img-circle" href="https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw" title="Join the Lingua Franca community slack channel" target="_blank" />
+              <a aria-labelledby="zulip-header" className="icon zulip img-circle" href="https://lf-lang.zulipchat.com/" title="Join the conversation on Zulip" target="_blank" />
               <div className="text">
-                <a href="https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw" id="slack-header" target="_blank" title="Join the Lingua Franca community slack channel">
-                  <h3 className="community-callout-headline">Slack</h3>
+                <a href="https://lf-lang.zulipchat.com/" id="zulip-header" target="_blank" title="Join the conversation on Zulip">
+                  <h3 className="community-callout-headline">Zulip</h3>
                 </a>
-                {i("com_online_slack_desc")}{" "}
-                <a href="https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw" target="_blank" title="Join the Lingua Franca community slack channel">{i("com_online_slack_href")}</a>
+                {i("com_online_zulip_desc")}{" "}
+                <a href="https://lf-lang.zulipchat.com/" target="_blank" title="Join the conversation on Zulip">{i("com_online_zulip_href")}</a>
               </div>
             </div>
           </Col2>

@@ -11,8 +11,8 @@ export const comCopy = {
   com_online_github_desc:
     "Found a bug, or want to provide feedback?",
   com_online_github_href: "Tell us on GitHub.",
-  com_online_slack_href: "Join the slack channel.",
-  com_online_slack_desc: "Have questions, or want to chat with other users?",
+  com_online_zulip_href: "Join the conversation on Zulip.",
+  com_online_zulip_desc: "Have questions, or want to chat with other users?",
   com_online_twitter_href: "@thelflang",
   com_online_twitter_desc: "Stay up to date. Follow us on Twitter",
 }
