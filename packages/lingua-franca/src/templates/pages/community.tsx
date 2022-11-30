@@ -11,15 +11,7 @@ const Row = (props: { children: any, className?: string }) => <div className={[p
 const Col = (props: { children: any, className?: string }) => <div className={[props.className, "col1"].join(" ")}>{props.children}</div>
 const Col2 = (props: { children: any, className?: string }) => <div className={[props.className, "col2"].join(" ")}>{props.children}</div>
 
-const contributors = [
-  {
-    name: "Soroush Bateni",
-    url: "https://personal.utdallas.edu/~soroush/",
-    image: "https://avatars.githubusercontent.com/u/4221770?v=4",
-    country: "🇺🇸",
-    continentish: "North America",
-    blurb: "Postdoctoral researcher at UC Berkeley."
-  },
+const active = [
   {
     name: "Peter Donovan",
     image: "https://avatars.githubusercontent.com/u/33707478?v=4",
@@ -82,15 +74,25 @@ const contributors = [
     continentish: "Europe",
     blurb: "Graduate student at Kiel University.",
   },
+]
+
+const past = [
+  {
+    name: "Soroush Bateni",
+    url: "https://personal.utdallas.edu/~soroush/",
+    image: "https://avatars.githubusercontent.com/u/4221770?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Software Engineer at Apple."
+  },
   {
     name: "Hou Seng (Steven) Wong",
     image: "https://avatars.githubusercontent.com/u/46389172?v=4",
     country: "🇺🇸",
     continentish: "North America",
-    blurb: "Student assistant at UC Berkeley.",
+    blurb: "Software Development Engineer at Amazon AWS.",
   },
 ]
-
 
 
 type Props = {
@@ -155,11 +157,34 @@ export const Comm: React.FC<Props> = props => {
       </div>
 
       <div className="raised main-content-block container community">
-        <h3 className="centered-highlight">Key Contributors</h3>
+        <h3 className="centered-highlight">Active Contributors</h3>
         <div className="events">
 
           <div className="callouts">
-            {contributors.map(({name, image, country, url, twitter, blurb}, index) => (
+            {active.map(({name, image, country, url, twitter, blurb}, index) => (
+              <Col className="callout" key={index}>
+                <img src={image} className="icon img-square" alt={"logo of " + name} />
+                <div>
+                  <h5 className="community-callout-headline">{name}</h5>
+                  <h6 className="blurb">{blurb}</h6>
+                  <div className="text">{country}<br />
+                    {" "}{url? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a> 
+                    : null}
+                    {" "}{twitter ? <a rel="noopener" target="blank" href={twitter} title={"Twitter page for " + name}>Twitter</a> : null}
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="raised main-content-block container community">
+        <h3 className="centered-highlight">Past Contributors</h3>
+        <div className="events">
+
+          <div className="callouts">
+            {past.map(({name, image, country, url, twitter, blurb}, index) => (
               <Col className="callout" key={index}>
                 <img src={image} className="icon img-square" alt={"logo of " + name} />
                 <div>
