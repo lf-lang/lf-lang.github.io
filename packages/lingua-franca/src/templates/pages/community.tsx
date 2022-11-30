@@ -60,12 +60,26 @@ const active = [
     blurb: "Postdoctoral researcher at UC Berkeley.",
   },
   {
+    name: "Johannes Hayeß",
+    image: "https://avatars.githubusercontent.com/u/7195008?v=4",
+    country: "🇩🇪",
+    continentish: "Europe",
+    blurb: "Master's Student at TU Dresden.",
+  },
+  {
     name: "Christian Menard",
     url: "https://cfaed.tu-dresden.de/investigators-institutions/compiler-construction/ccc-staff/christian-menard",
     image: "https://avatars.githubusercontent.com/u/6460123?v=4",
     country: "🇩🇪",
     continentish: "Europe",
     blurb: "Graduate Student at TU Dresden.",
+  },
+  {
+    name: "Anirudh Rengarajan",
+    image: "https://avatars.githubusercontent.com/u/44007330?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "M.S. student @ UC Berkeley.",
   },
   {
     name: "Alexander Schulz-Rosengarten",
@@ -86,11 +100,32 @@ const past = [
     blurb: "Software Engineer at Apple."
   },
   {
+    name: "Matt Chorlian",
+    image: "https://avatars.githubusercontent.com/u/70343891?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Applied Math and CS student at UC Berkeley."
+  },
+  {
+    name: "Matt Weber",
+    image: "https://avatars.githubusercontent.com/u/3513451?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Software Engineer at Anyscale."
+  },
+  {
     name: "Hou Seng (Steven) Wong",
     image: "https://avatars.githubusercontent.com/u/46389172?v=4",
     country: "🇺🇸",
     continentish: "North America",
     blurb: "Software Development Engineer at Amazon AWS.",
+  },
+  {
+    name: "Martin Schoeberl",
+    image: "https://avatars.githubusercontent.com/u/650648?v=4",
+    country: "🇩🇰",
+    continentish: "Europe",
+    blurb: "Professor at TU Denmark.",
   },
 ]
 
