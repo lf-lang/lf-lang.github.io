@@ -86,8 +86,10 @@ $insert(Name)$
 then you can run the following script:
 
 ```
-node packages/documentation/scripts/preprocessMarkdown.js yourMarkdownFile.md
+node $WEBSITE_ROOT/packages/documentation/scripts/preprocessMarkdown.js yourMarkdownFile.md
 ```
+
+where `$WEBSITE_ROOT` is replaced with the root directory of the website repo clone.
 
 This script will replace that line with something of the form:
 
