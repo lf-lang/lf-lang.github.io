@@ -222,6 +222,12 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/containerized-execution",
           oneline: "Containerized Execution using Docker",
         },
+        {
+          title: "Security",
+          id: "3-security",
+          permalink: "/docs/handbook/security",
+          oneline: "Federated Execution with Security",
+        },
       ],
     },
     {

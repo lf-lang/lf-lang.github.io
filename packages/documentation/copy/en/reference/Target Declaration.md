@@ -20,6 +20,7 @@ The `<name>` gives the name of some Lingua Franca target language, which is the 
 
 A target specification may have optional parameters, the names and values of which depend on which specific target you are using. Each parameter is a key-value pair, where the supported keys are a subset of the following:
 
+- [**auth**](#auth): A boolean specifying to apply authorization between RTI and federates when federated execution.
 - [**build**](#build): A command to execute after code generation instead of the default compile command.
 - [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.

@@ -81,6 +81,7 @@ const handbookPages = [
       { file: "reference/Target Declaration.md" },
       { file: "reference/Tracing.md" },
       { file: "reference/Containerized Execution.md" },
+      { file: "reference/Security.md" },
     ],
   },
   {
