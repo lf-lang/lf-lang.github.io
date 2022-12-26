@@ -145,7 +145,7 @@ A target may support overriding the target parameters on the [command line](#com
 
 <div class="lf-cpp lf-py lf-ts lf-rs">
 
-The $target-language$ target does not currently support the `build` target option.
+The $target-language$ target does not currently support the `auth` target option.
 
 </div>
 
