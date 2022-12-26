@@ -49,6 +49,7 @@ Not all targets support all target parameters. The full set of target parameters
 
 ```lf-c
 target C {
+    auth: <true or false>
     build: <string>,
     build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
     cmake: <true or false>,
@@ -139,6 +140,20 @@ This specifies to use compiler `cc` instead of the default `gcc`, to use optimiz
 
 The comma on the last parameter is optional, as is the semicolon on the last line.
 A target may support overriding the target parameters on the [command line](#command-line-arguments) when invoking the compiled program.
+
+## auth
+
+<div class="lf-cpp lf-py lf-ts lf-rs">
+
+The $target-language$ target does not currently support the `build` target option.
+
+</div>
+
+<div class="lf-c">
+
+The detailed documentation is [here](/docs/handbook/security).
+
+</div>
 
 ## build
 
