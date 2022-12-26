@@ -26,7 +26,7 @@ target C {
 };
 ```
 
-The RTI bui0ld must include cmake options to enable simple HMAC-based authentication of federates. Add `-DAUTH=ON` option to the cmake command as shown below:
+The RTI build must include cmake options to enable simple HMAC-based authentication of federates. Add `-DAUTH=ON` option to the cmake command as shown below:
 
 ```bash
 mkdir build && cd build
@@ -44,8 +44,5 @@ In the future, we will be able to use full-fledged authentication, for example, 
 ### Communication Security
 
 Communication security is to ensure confidentiality, integrity and message authenticity of the network messages between RTI and federates as well as among federates.
-
-
-
 
 </div>
