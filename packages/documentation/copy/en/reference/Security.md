@@ -2,9 +2,11 @@
 title: "Security"
 layout: docs
 permalink: /docs/handbook/security
-oneline: "Federated Execution with Security"
+oneline: "Secure Federated Execution"
 preamble: >
 ---
+
+### Warning: This part is under construction. Users should not expect federations are secure applying this property.
 
 By default, there is no secure authentication happening when a federate joins a federation, and data exchanged by federates is not encrypted. The `auth` target property can be used to change this.
 
@@ -36,28 +38,5 @@ sudo make install
 ```
 
 If you would like to go back to non-AUTH mode, you would have to remove all contents of the `build` folder.
-
-## Future Work
-
-In the future, we will be able to use full-fledged authentication, for example, using different keys for each federate or using public-key cryptography for authentication. Also, we can try to apply different encryption and message authentication algorithms for each federate in the same federation, to support a federation with federates running on heterogeneous platforms where some of platforms have limited resources or capabilities.
-
-### Communication Security
-
-Communication security is to ensure confidentiality, integrity and message authenticity of the network messages between RTI and federates as well as among federates. The current `auth` target only guarantees the authentication of the federates and does not encrypt and decrypt messages during communication. We plan to add target properties `communication-security` as below.
-
-```
-target C {
-    communication-security: {
-        key-distribution: FederationID,
-        encryption: AES-128-CBC,
-        message-authentication: HmacSHA256
-    }
-};
-```
-
-- The `key-distribution` property will be the key to distribute symmetric keys to the federates. The federation ID may be an option for this. 
-- The `encryption` property will be the encryption algorithm to guarantee confidentiality. 
-- The `message-authentication` property specifies the HMAC algorithm for message authentication and integrity.
-
 
 </div>
