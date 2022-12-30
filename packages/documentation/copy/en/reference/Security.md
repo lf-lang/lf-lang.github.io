@@ -43,6 +43,21 @@ In the future, we will be able to use full-fledged authentication, for example, 
 
 ### Communication Security
 
-Communication security is to ensure confidentiality, integrity and message authenticity of the network messages between RTI and federates as well as among federates.
+Communication security is to ensure confidentiality, integrity and message authenticity of the network messages between RTI and federates as well as among federates. The current `auth` target only guarantees the authentication of the federates and does not encrypt and decrypt messages during communication. We plan to add target properties `communication-security` as below.
+
+```
+target C {
+    communication-security: {
+        key-distribution: FederationID,
+        encryption: AES-128-CBC,
+        message-authentication: HmacSHA256
+    }
+};
+```
+
+- The `key-distribution` property will be the key to distribute symmetric keys to the federates. The federation ID may be an option for this. 
+- The `encryption` property will be the encryption algorithm to guarantee confidentiality. 
+- The `message-authentication` property specifies the HMAC algorithm for message authentication and integrity.
+
 
 </div>
