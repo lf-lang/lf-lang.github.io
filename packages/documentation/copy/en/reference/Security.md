@@ -6,7 +6,7 @@ oneline: "Federated Execution with Security"
 preamble: >
 ---
 
-The current implementation of federated execution lacks authentication of federates from joining the federation. Also communication security is not implemented to prevent adversarial federates sending malicious messages (e.g.. bad tags or bad sensor readings) to the RTI or other federates.
+By default, there is no secure authentication happening when a federate joins a federation, and data exchanged by federates is not encrypted. The `auth` target property can be used to change this.
 
 <div class="lf-cpp lf-py lf-ts lf-rs">
 
@@ -18,7 +18,7 @@ The $target-language$ target does not currently support the `auth` target option
 
 ## Authentication
 
-For the `C` target at least, federated execution is able to apply security with authentication by using HMAC authentication between RTI and federates. To enable this, include the `auth` property in your target specification, as follows:
+For the `C` target, federated execution is able to apply security with authentication by using HMAC authentication between RTI and federates. To enable this, include the `auth` property in your target specification, as follows:
 
 ```lf-c
 target C {
@@ -26,7 +26,7 @@ target C {
 };
 ```
 
-The RTI build must include cmake options to enable simple HMAC-based authentication of federates. Add `-DAUTH=ON` option to the cmake command as shown below:
+The RTI build must include CMake options to enable simple HMAC-based authentication of federates. Add `-DAUTH=ON` option to the CMake command as shown below:
 
 ```bash
 mkdir build && cd build

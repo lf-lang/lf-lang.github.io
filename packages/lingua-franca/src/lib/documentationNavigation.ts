@@ -226,7 +226,7 @@ export function getDocumentationNavForLanguage(
           title: "Security",
           id: "3-security",
           permalink: "/docs/handbook/security",
-          oneline: "Federated Execution with Security",
+          oneline: "Secure Federated Execution",
         },
       ],
     },
