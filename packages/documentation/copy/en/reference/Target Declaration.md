@@ -20,6 +20,7 @@ The `<name>` gives the name of some Lingua Franca target language, which is the 
 
 A target specification may have optional parameters, the names and values of which depend on which specific target you are using. Each parameter is a key-value pair, where the supported keys are a subset of the following:
 
+- [**auth**](#auth): A boolean specifying to apply authorization between RTI and federates when federated execution.
 - [**build**](#build): A command to execute after code generation instead of the default compile command.
 - [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
@@ -48,6 +49,7 @@ Not all targets support all target parameters. The full set of target parameters
 
 ```lf-c
 target C {
+    auth: <true or false>
     build: <string>,
     build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
     cmake: <true or false>,
@@ -138,6 +140,20 @@ This specifies to use compiler `cc` instead of the default `gcc`, to use optimiz
 
 The comma on the last parameter is optional, as is the semicolon on the last line.
 A target may support overriding the target parameters on the [command line](#command-line-arguments) when invoking the compiled program.
+
+## auth
+
+<div class="lf-cpp lf-py lf-ts lf-rs">
+
+The $target-language$ target does not currently support the `auth` target option.
+
+</div>
+
+<div class="lf-c">
+
+The detailed documentation is [here](/docs/handbook/security).
+
+</div>
 
 ## build
 
