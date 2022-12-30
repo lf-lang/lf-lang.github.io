@@ -6,9 +6,9 @@ oneline: "Secure Federated Execution"
 preamble: >
 ---
 
-### Warning: This part is under construction. Users should not expect federations are secure applying this property.
+### Warning: the experimental security features described on this page are under development and not production ready. Users should not expect their federations will be secure if the `auth` target property is enabled.
 
-By default, there is no secure authentication happening when a federate joins a federation, and data exchanged by federates is not encrypted. The `auth` target property can be used to change this.
+By default, there is no secure authentication happening when a federate joins a federation, and data exchanged by federates is not encrypted. For targets that support it, the `auth` target property can be used to enable authentication between federates. Messages exchanged between federates after authentication are **not encrypted**, but this capability is planned for the future.
 
 <div class="lf-cpp lf-py lf-ts lf-rs">
 
