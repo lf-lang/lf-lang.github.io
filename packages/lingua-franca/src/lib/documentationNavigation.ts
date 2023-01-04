@@ -222,6 +222,12 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/containerized-execution",
           oneline: "Containerized Execution using Docker",
         },
+        {
+          title: "Security",
+          id: "3-security",
+          permalink: "/docs/handbook/security",
+          oneline: "Secure Federated Execution",
+        },
       ],
     },
     {
@@ -232,12 +238,6 @@ export function getDocumentationNavForLanguage(
       chronological: true,
 
       items: [
-        {
-          title: "Regression Tests",
-          id: "4-regression-tests",
-          permalink: "/docs/handbook/regression-tests",
-          oneline: "Regression Tests for Lingua Franca.",
-        },
         {
           title: "Contributing",
           id: "4-contributing",
@@ -251,6 +251,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Quick start with Lingua Franca.",
         },
         {
+          title: "Website Development",
+          id: "4-website-development",
+          permalink: "/docs/handbook/website-development",
+          oneline: "Development of the Lingua Franca website.",
+        },
+        {
           title: "Developer Eclipse Setup",
           id: "4-developer-eclipse-setup",
           permalink: "/docs/handbook/eclipse-oomph",
@@ -261,6 +267,12 @@ export function getDocumentationNavForLanguage(
           id: "4-developer-intellij-setup",
           permalink: "/docs/handbook/intellij",
           oneline: "Developer IntelliJ Setup.",
+        },
+        {
+          title: "Regression Tests",
+          id: "4-regression-tests",
+          permalink: "/docs/handbook/regression-tests",
+          oneline: "Regression Tests for Lingua Franca.",
         },
         {
           title: "Running Benchmarks",

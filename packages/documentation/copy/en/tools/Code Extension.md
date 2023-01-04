@@ -23,3 +23,15 @@ To install this extension from the marketplace, launch VS Code Quick Open (<kbd>
 - Run the `.lf` file by entering <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>, then `Lingua Franca: Build and Run`.
 - (Optional) Users who edit LF programs with a Python target will benefit the most from Python
   linting by installing Pylint 2.12.2 or later.
+
+## For Developers: Get the Latest Version
+
+To get the latest version of the VS Code extension from the repo rather than the latest release, the steps are:
+
+- git clone --recursive git@github.com:lf-lang/vscode-lingua-franca.git
+- cd vscode-lingua-franca/lingua-franca
+- git checkout master
+- cd ..
+- npm install
+
+If you have previously cloned the repo, it should be sufficient to pull the most recent version and re-run `npm install`.
