@@ -23,6 +23,8 @@ const Index: React.FC<Props> = (props) => {
 
 <p>In reverse chronological order: </p>
 <ul>
+<li><p><strong>Perf&#39;23</strong>: Christian Menard, Marten Lohstroh, Soroush Bateni, Matthew Chorlian, Arthur Deng, Peter Donovan, Clément Fournier, Shaokai Lin, Felix Suchert, Tassilo Tanneberger, Hokeun Kim, Jeronimo Castrillon and Edward A. Lee, "<a href="https://arxiv.org/abs/2301.02444">High-Performance Deterministic Concurrency using Lingua Franca</a>",&quot; arXiv:2301.02444 [cs.PL], Jan. 9, 2023</p>
+</li>
 <li><p><strong>LET&#39;23</strong>: Edward A. Lee and Marten Lohstroh, "<a href="https://www.icyphy.org/publications/2023_LeeLohstroh/">Generalizing Logical Execution Time</a>", in <i>Principles of Systems Design - Essays Dedicated to Thomas A. Hensinzer on the Occasion of his 60th Birthday</i>, LNCS 13660, July 2023, to appear.</p>
 </li>
 <li><p><strong>Xronos&#39;22</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng Wong, Rohan Tabish, Hokeun Kim, Shaokai Lin, Christian Menard, Cong Liu, and Edward A. Lee, "<a href="https://arxiv.org/abs/2207.09555">Xronos: Predictable Coordination for Safety-Critical Distributed Embedded Systems</a>,&quot;	arXiv:2207.09555 [cs.DC], July 19, 2022.</p>
