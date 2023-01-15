@@ -209,7 +209,7 @@ In the Python target, multiports can be iterated on in a for loop (e.g., `for p 
 ## Sparse Inputs
 
 Sometimes, a program needs a wide multiport input, but when reactions are triggered by this input, few of the channels are present.
-In this case, it can inefficient to iterate over all the channels to determine which are present.
+In this case, it can be inefficient to iterate over all the channels to determine which are present.
 If you know that a multiport input will be **sparse** in this way, then you can provide a hint to the compiler and use a more efficient iterator to access the port. For example:
 
 $start(Sparse)$

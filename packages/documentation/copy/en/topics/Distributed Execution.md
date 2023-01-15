@@ -20,7 +20,7 @@ $page-showing-target$
 
 A distributed Lingua Franca program is called a **federation**. Each reactor within the main reactor is called a **federate**. The LF compiler generates a separate program for each federate and synthesizes the code for the federates to communicate. The federates can be distributed across networks and eventually will be able to be written in different target languages, although this is not yet supported.
 
-In addition to the federates, there is a program called the **RTI**, for **runtime infrastructure**. that coordinates startup and shutdown and may, if the coordination is centralized, mediate communication. The RTI needs to be compiled and installed separately on the system before any federation can execute.
+In addition to the federates, there is a program called the **RTI**, for **runtime infrastructure**, that coordinates startup and shutdown and may, if the coordination is centralized, mediate communication. The RTI needs to be compiled and installed separately on the system before any federation can execute.
 
 It is possible to encapsulate federates in Docker containers for deployment.
 See [containerized execution](/docs/handbook/containerized-execution).
