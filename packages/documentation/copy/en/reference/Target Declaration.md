@@ -337,7 +337,7 @@ target Cpp {
 };
 ```
 
-This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](/docs/handbook/distributed-execution)</span>.
+This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](/docs/handbook/distributed-execution))</span>.
 
 The cmake-include target property can be used, for example, to add dependencies on various packages (e.g., by using the [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) and [`target_link_libraries`](https://cmake.org/cmake/help/latest/command/target_link_libraries.html) commands).
 
