@@ -961,7 +961,7 @@ The preamble should not be repeated in this reactor definition if the two reacto
 
 Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
 
-Suppose the data structure of interest, its constructor, and its destructor are defined as follows:
+Suppose the data structure of interest, its constructor, destructor, and copy_constructor are defined as follows:
 
 ```c
 preamble {=
@@ -971,15 +971,26 @@ preamble {=
     } int_array_t;
 
     int_array_t* int_array_constructor(size_t length) {
-        int_array_t* val = (int_array_t*) malloc(sizeof(int_array_t));
-        val->data = (int*) calloc(length, sizeof(int));
-        val->length = length;
-        return val;
+        int_array_t* result = (int_array_t*) malloc(sizeof(int_array_t));
+        result->data = (int*) calloc(length, sizeof(int));
+        result->length = length;
+        return result;
     }
 
-    void int_array_destructor(void* arr) {
-        free(((int_array_t*) arr)->data);
-        free(arr);
+    void int_array_destructor(void* array) {
+        free(((int_array_t*) array)->data);
+        free(array);
+    }
+
+    void* int_array_copy_constructor(void* array) {
+        int_array_t* source = (int_array_t*) array;
+        int_array_t* copy = (int_array_t*) malloc(sizeof(int_array_t));
+        copy->data = (int*) calloc(source->length, sizeof(int));
+        copy->length = source->length;
+        for (size_t i = 0; i < source->length; i++) {
+            copy->data[i] = source->data[i];
+        }
+        return (void*) copy;
     }
 =}
 ```
@@ -991,6 +1002,9 @@ reactor Source {
     output out:int_array_t*;
     reaction(startup) -> out {=
         lf_set_destructor(out, int_array_destructor);
+        lf_set_copy_constructor(out, int_array_copy_constructor);
+    }
+    reaction(startup) -> out {=
         int_array_t* array =  int_array_constructor(2);
         for (size_t i = 0; i < array->length; i++) {
             array->data[i] = i;
@@ -999,6 +1013,12 @@ reactor Source {
     =}
 }
 ```
+
+The first reaction specifies the destructor and copy constructor (the latter of which will be used if any downstream reactor has a mutable input or wishes to make a writable copy).
+
+**IMPORTANT:** The array constructed should be sent to only one output port using `lf_set`. If you need to send it to more than one output port or to use it as the payload of an action, you should use `lf_set_token`.
+
+**FIXME:** Show how to do this.
 
 A reactor receiving this array is straightforward. It just references the array elements as usual in C, as illustrated by this example:
 
@@ -1064,7 +1084,7 @@ The above technique can be used to abuse the reactor model of computation by com
 
 ### Mutable Inputs
 
-Although it cannot be enforced in C, the receiving reactor should not modify the values stored in the array. Inputs are logically _immutable_ because there may be several recipients. Any recipient that wishes to modify the array should make a copy of it. Fortunately, a utility is provided for this pattern. Consider the [ArrayScale](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayScale.lf) example:
+Although it cannot be enforced in C, a receiving reactor should not modify the values provided by an input. Inputs are logically _immutable_ because there may be several recipients. Any recipient that wishes to modify the input should make a copy of it. Fortunately, a utility is provided for this pattern. Consider the [ArrayScale](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayScale.lf) example:
 
 ```lf-c
 reactor ArrayScale(scale:int(2)) {
@@ -1082,12 +1102,16 @@ reactor ArrayScale(scale:int(2)) {
 Here, the input is declared $mutable$, which means that any reaction is free to
 modify the input. If this reactor is the only recipient of the array or the last
 recipient of the array, then this will not make a copy of the array but rather use
-the original array. Otherwise, it will use a copy. By default, the assignment
-operator (`=`) is used to copy the data. However, the sender can also specify
+the original array. Otherwise, it will use a copy. By default, `memcpy` is used to copy the data. However, the sender can also specify
 a copy constructor to be used by calling `lf_set_copy_constructor` on the
-output port.
+output port, as explained below.
 
-The above `ArrayScale` reactor modifies the array and then forwards it to its output port using the `lf_set_token()` macro. That macro further delegates to downstream reactors the responsibility for freeing dynamically allocated memory once all readers have completed their work.
+**Important:** Notice that the above `ArrayScale` reactor modifies the array and then forwards it to its output port using the `lf_set_token()` macro. That macro further delegates to downstream reactors the responsibility for freeing dynamically allocated memory once all readers have completed their work. It will not work to just use `lf_set`, passing it the value.
+This will result in a memory error, yielding a message like the following:
+
+```
+    malloc: *** error for object 0x600002674070: pointer being freed was not allocated
+```
 
 If the above code were not to forward the array, then the dynamically allocated memory will be automatically freed when this reactor is done with it.
 
@@ -1136,13 +1160,13 @@ Set the specified output (or input of a contained reactor) to the specified
 value using shallow copy. `lf_set` can be used with all supported data types
 (including type declarations that end with `*` or `[]`).
 
-> `lf_set_token(<out>, <value>);`
+> `lf_set_token(<out>, <token>);`
 
 This version is used to directly set the underlying reference-counted token in
 outputs with a type declaration ending with `*` (any pointer) or `[]` (any
 array). The `<value>` argument should be a struct of type `token_t`. It should
 be rarely necessary to have the need to create your own (dynamically allocated)
-instance of `token_t`. Hence, use `lf_set_token` with caution.
+instance of `token_t`.
 
 Consider the
 [SetToken.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetToken.lf)
