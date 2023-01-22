@@ -957,9 +957,43 @@ reactor Print() {
 
 The preamble should not be repeated in this reactor definition if the two reactors are defined together because this will trigger an error when the compiler thinks that `hello_t` is being redefined.
 
+### Fixed Length Array Inputs and Outputs
+
+When inputs and outputs are fixed-length arrays, the memory to contain the array is automatically provided as part of the reactor instance. You can write directly to it, and then just call `lf_set_present` to alert the system that the output is present. For example:
+
+```lf-c
+reactor Source {
+    output out: int[3]
+    reaction(startup) -> out {=
+        out->value[0] = 0;
+        out->value[1] = 1;
+        out->value[2] = 2;
+        lf_set_present(out);
+    =}
+}
+```
+
+In general, this will work for any data type that can be copied by a simple assignment operator (see below for how to handle more complex data types).
+
+Reading the array is equally simple:
+
+```lf-c
+reactor Print(scale: int(1)) {  // The scale parameter is just for testing.
+    input in: int[3]
+    reaction(in) {=
+        printf("Received: [");
+        for (int i = 0; i < 3; i++) {
+            if (i > 0) printf(", ");
+            printf("%d", in->value[i]);
+        }
+        printf("]\n");
+    =}
+}
+```
+
 ### Dynamically Allocated Data
 
-Suppose dynamically allocated data is set on an output port. When should that memory be freed? A reactor cannot know when downstream reactors are done with the data. Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
+A much more flexible way to communicate complex data types is to set dynamically allocated on an output port. This can be done in a way that automatically handles freeing the memory when all users of the data are done with it. The reactor that allocates the memory cannot know when downstream reactors are done with the data, so Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
 
 Suppose the data structure of interest, its constructor, destructor, and copy_constructor are defined as follows:
 
