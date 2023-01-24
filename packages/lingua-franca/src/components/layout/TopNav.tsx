@@ -29,8 +29,8 @@ export const SiteNav = (props: Props) => {
 
     // @ts-ignore - this comes from the script above
     docsearch({
-      appId: "3Z0QVXSJE6",
-      apiKey: '43408ca337034bd8be6dbdbec06db564',
+      appId: "U5IWIJW31Z",
+      apiKey: '0e594ee25f8bd7d73ae16a1af7076554',
       indexName: 'lf-lang',
       inputSelector: '.search input',
       handleSelected: customHandleSelected,
