@@ -16,7 +16,7 @@ Lingua Franca comes with an extensive set of regression tests that are executed 
 
 To learn about Lingua Franca, browsing the system tests and examples could be very useful.
 
-### Browsing and Editing Examples in the LF IDE
+### Browsing and Editing Examples in Epoch
 
 - In the LF IDE Eclipse, select File->New->Project (a General Project is adequate) and click Next.
 - Give the project a name, e.g. `CExamples`.
@@ -28,7 +28,7 @@ To learn about Lingua Franca, browsing the system tests and examples could be ve
 
 This will create two directories called `src-gen` and `bin` in the `$LF/example/C` directory. Eclipse populates these directories with generated and compiled code. You can run the programs in the `bin` directory.
 
-### Browsing and Editing System Tests in the LF IDE
+### Browsing and Editing System Tests in Epoch
 
 The built-in regression tests provide many small, simple examples of LF programs. Browsing them can be useful to learn the capabilities, so we strongly recommend creating a project for this.
 
