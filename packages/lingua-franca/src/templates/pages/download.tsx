@@ -96,50 +96,7 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
       <h2 id="developer">Developer Setup</h2>
-      <p>If you'd like to contribute to Lingua Franca and build our toolchain on your own, you will need to check out our <a href="https://repo.lf-lang.org/">GitHub repository</a>. The toolchain can built using Gradle or Maven, which have integrations with most IDEs. For Eclipse users, we provide an Oomph setup.</p>
-
-      <section style={{ display: "flex", flexWrap: "wrap" }}>
-        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Cloning our repository</h3>
-          <ul>
-            <li>If you have public-key authentication set up:
-              <p><code>git clone git@github.com:lf-lang/lingua-franca.git</code></p>
-            </li>
-            <li>If you prefer to clone using the web URL:
-              <p><code>git clone https://github.com/lf-lang/lingua-franca.git</code></p>
-            </li>
-          </ul>
-
-        </div>
-        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Building from the command line</h3>
-          <ul>
-            <li>Gradle:
-              <p><code>./gradlew assemble</code> (the build also performs tests, which takes a long time)</p>
-            </li>
-            <li style={{ marginTop: "20px" }}>
-              Maven:
-              <p><code>mvn compile</code> (you need to install Maven first)</p>
-            </li>
-          </ul>
-        </div>
-
-        <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Oomph setup for Eclipse</h3>
-          <ul>
-            <li>Download the <a href="https://www.eclipse.org/downloads/index.php">Eclipse installer</a>.</li>
-            <li>
-              Click the Hamburger button at the top right corner and switch to "Advanced Mode".
-            </li>
-            <li>
-              Select "Eclipse IDE for Java and DSL developers".
-            </li>
-            <li>
-              Continue reading <a href="/docs/handbook/eclipse-oomph">here...</a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <p>If you'd like to contribute to Lingua Franca and build our toolchain on your own, you can find details about the recomended developer setup <a href="/docs/handbook/developer-setup">here</a>.</p>
     </div>
 
 
