@@ -342,18 +342,14 @@ form.search {
     /* Simplify the nav to a few buttons and home */
     .below-small nav {
       flex-grow: 1;
-      columns: 2;
+      overflow-x: scroll;
+      ul {
+        display: flex;
+        flex-wrap: nowrap;
 
-      @media (min-width: 450px) {
-        columns: 1;
-        ul {
-          display: flex;
-          flex-wrap: wrap;
-
-          li {
-            flex: 1;
-            text-align: center;
-          }
+        li {
+          flex: 1;
+          text-align: center;
         }
       }
     }
@@ -371,7 +367,7 @@ form.search {
       display: flex;
 
       svg {
-        // width: 2.5rem;
+        height: 40%;
         position: relative;
         top: 1rem;
       }
