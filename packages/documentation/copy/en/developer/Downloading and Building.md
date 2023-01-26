@@ -18,13 +18,13 @@ git submodule update --init --recursive
 
 ## Command Line Tools
 
-The command line tools are used using Gradle with `./gradlew buildAll`.
+You can the build the Lingua Franca compiler and other CLI tools with Gradle using `./bin/lfc --version`.
 
-You can the Lingua Franca compiler and other CLI tools. For instance: `./bin/lfc --version`.
+There are scripts in `bin` which you can use to run the compiler or other tools. For instance: `./bin/lfc --version`.
 
 ## Epoch
 
-The Epoch IDE can be build with Maven using `mvn compile && mvn pacakge`. The resulting is then located within `org.lflang.rca/target/products/org.lflang.rca/`. On a 64-bit Linux, the binary is `org.lflang.rca/target/products/org.lflang.rca/linux/gtk/x86_64/epoch/epoch`.
+The Epoch IDE can be build with Maven using `mvn compile && mvn pacakge`. The resulting executable is then located within `org.lflang.rca/target/products/org.lflang.rca/`. On a 64-bit Linux, the binary is `org.lflang.rca/target/products/org.lflang.rca/linux/gtk/x86_64/epoch/epoch`.
 
 # Running Test
 
@@ -32,7 +32,7 @@ Lingua Franca comes with unit and integration tests. More details can be found [
 
 ## Unit Tests
 
-The unit tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.compiler.*"`.
+The unit tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.compiler.*"`. 
 
 ## Integration Tests
 
