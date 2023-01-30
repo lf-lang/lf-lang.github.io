@@ -24,7 +24,7 @@ There are scripts in `bin` which you can use to run the compiler or other tools.
 
 ## Epoch
 
-The Epoch IDE can be built with Maven using `mvn clean package`. The resulting tar an zip archives for all supported platforms can be found in `./org.lflang.rca/target/products/`. Platform-specific binaries can be found in the `org.lflang.rca` subdirectory. For instance, a 64-bit Linux binary will be located in `./org.lflang.rca/target/products/org.lflang.rca/linux/gtk/x86_64/epoch/epoch`.
+The Epoch IDE can be built with Maven using `mvn clean package`. The resulting tar and zip archives for all supported platforms can be found in `./org.lflang.rca/target/products/`. Platform-specific binaries can be found in the `org.lflang.rca` subdirectory. For instance, a 64-bit Linux binary will be located in `./org.lflang.rca/target/products/org.lflang.rca/linux/gtk/x86_64/epoch/epoch`.
 
 # Running Test
 
