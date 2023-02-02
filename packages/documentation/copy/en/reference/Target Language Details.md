@@ -2380,7 +2380,7 @@ reactor Schedule {
 }
 ```
 
-When this reactor receives an input `x`, it calls `schedule()` on the action `a`, so it will be triggered at the logical time offset (200 msec) with a null value. The action `a` will be triggered at a logical time 200 milliseconds after the arrival of input `x`. This will trigger the second reaction, which will use the `util.getElapsedLogicalTime()` function to determine how much logical time has elapsed since the start of execution. The third argument to the `schedule()` function is a **value**, data that can be carried by the action, which is explained below. In the above example, there is no value.
+When this reactor receives an input `x`, it calls `schedule()` on the action `a`, so it will be triggered at the logical time offset (200 msec) with a null value. The action `a` will be triggered at a logical time 200 milliseconds after the arrival of input `x`. This will trigger the second reaction, which will use the `util.getElapsedLogicalTime()` function to determine how much logical time has elapsed since the start of execution. The second argument to the `schedule()` function is a **value**, data that can be carried by the action, which is explained below. In the above example, there is no value.
 
 ### Zero-Delay Actions
 
