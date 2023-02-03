@@ -7,7 +7,7 @@ preamble: >
 ---
 
 ## Supported Operating Systems
-- Mac OSX
+- macOS
 - Linux
 
 ## Prerequisites
@@ -15,7 +15,7 @@ preamble: >
 
 # Overview
 
-Lingua Franca relies on Arduino-CLI as a means of compiling Arduino programs. LFC Generated Code will serve as the .ino sketch required by the CLI to compile the Arduino program. Arduino-CLI uses recursive compilation inside a src folder containing files from reactor-c. Once compilation is completed, you can upload the sketch by providing an Fully Qualified Board Name (FQBN) and the port on which to flash your program.
+Lingua Franca relies on Arduino-CLI as a means of compiling Arduino programs using the C target. LFC Generated Code will serve as the .ino sketch required by the CLI to compile the Arduino program. Arduino-CLI uses recursive compilation inside a src folder containing files from reactor-c. Once compilation is completed, you can upload the sketch by providing an Fully Qualified Board Name (FQBN) and the port on which to flash your program.
 
 # Writing an Arduino Supported LF Program
 
