@@ -91,19 +91,19 @@ To install certain board flavors, you may run the following command:
 
 `arduino-cli core install arduino:[BOARD_FAMILY]`
 
-The common board families include avr, megaAVR, sam, samd, and mbed.
+The common board families include `avr`, `megaAVR`, `sam`, `samd`, and `mbed`.
 
 If a board is provided, LFC will automatically compile the program for you in the generated sources directory. From here, you can either enable flash + provide a port to automatically upload your sketch or run the following command in the generated sources directory:
 
 `arduino-cli upload -p PORT -b FQBN .`
 
-If a board is not provided, LFC will default to the no-compile option. To compile from here, run the following command in the generated sources directory:
+If a board is not provided, LFC will default to the no-compile option. To compile from here, run the following command in the generated sources directory (replace FQBN with your board):
 
 - Unthreaded Programs (most arduino flavors)
-`arduino-cli compile -b FQBN --build-property compiler.c.extra_flags=\"-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\" --build-property compiler.cpp.extra_flags=\"-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\"`
+`arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags=\"-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\" --build-property compiler.cpp.extra_flags=\"-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\"`
 
 - Threaded Programs (arduino:mbed boards) 
-`arduino-cli compile -b FQBN --build-property compiler.c.extra_flags=\"-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\" --build-property compiler.cpp.extra_flags=\"-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\"`
+`arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags=\"-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\" --build-property compiler.cpp.extra_flags=\"-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\"`
 
 Use the upload command above once compiled to flash your program.
 
