@@ -85,6 +85,14 @@ const handbookPages = [
     ],
   },
   {
+    title: "Embedded Platforms",
+    summary: "Documentation for developing Lingua Franca on Embedded Platforms.",
+    chronological: true,
+    items: [
+      { file: "embedded/Arduino.md"},
+    ],
+  },
+  {
     title: "Developer",
     summary: "Information for developers of the Lingua Franca language and tools.",
     chronological: true,
