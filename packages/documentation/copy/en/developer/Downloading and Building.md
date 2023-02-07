@@ -1,34 +1,47 @@
 ---
-title: Downloading
+title: Developer Setup
 layout: docs
-permalink: /docs/handbook/download
-oneline: "Quick start with Lingua Franca."
+permalink: /docs/handbook/developer-setup
+oneline: "Setting up Lingua Franca for developers."
 preamble: >
 ---
 
-## Releases and Nightly Snapshots
+# Cloning the Repository
 
-To get started with Lingua Franca immediately, choose one or more of the following tools:
+```
+git clone git@github.com:lf-lang/lingua-franca.git
+cd lingua-franca
+git submodule update --init --recursive
+```
 
-- [Visual Studio Code Extension](/docs/handbook/code-extension), a popular IDE from Microsoft.
-- [Epoch IDE](/docs/handbook/epoch-ide), an Eclipse-based IDE specifically for Lingua Franca.
-- [Command-line Tools](/docs/handbook/command-line-tools)
-- [Vim and Neovim plugins](https://github.com/lf-lang/lingua-franca.vim)
+# Building from the Command Line
 
-The VS Code plugin gives you the latest **release** of the Lingua Franca tools, including the diagram synthesis.
-If instead you want to use the **most recent development version** of Lingua Franca, then you will be given the option to download the Epoch IDE or the command-line tools from the nightly build. Just follow the above links.
-The Vim plugin provides syntax-directed editing, but it does not include the diagram synthesis that is available with Epoch and Code.
-The diagram synthesis is quite useful, so we recommend using Epoch or Code to develop LF programs.
+## Command Line Tools
 
-## The Repository
+You can the build the Lingua Franca compiler and other CLI tools with Gradle using `./bin/lfc --version`.
 
-If you plan to contribute to Lingua Franca, or if you want to keep up to date as the project evolves, you will need to work from the git repository on GitHub. There are several ways to do this:
+There are scripts in `bin` which you can use to run the compiler or other tools. For instance: `./bin/lfc --version`.
 
-1. [IntelliJ setup](/docs/handbook/intellij) (Recommended if you plan to do Kotlin development)
-2. [Oomph setup for Eclipse](/docs/handbook/eclipse-oomph) (This does not currently support Kotlin development, used in C++ and Rust code generators)
-3. [Clone the Repository](https://github.com/lf-lang/lingua-franca) and build manually using Gradle or Maven:
+## Epoch
 
-   - Gradle: `./gradlew assemble` (the `build` also performs tests, which takes a long time)
-   - Maven: `mvn compile` (you need to install Maven first)
+The Epoch IDE can be built with Maven using `mvn clean package`. The resulting tar and zip archives for all supported platforms can be found in `./org.lflang.rca/target/products/`. Platform-specific binaries can be found in the `org.lflang.rca` subdirectory. For instance, a 64-bit Linux binary will be located in `./org.lflang.rca/target/products/org.lflang.rca/linux/gtk/x86_64/epoch/epoch`.
 
-Some of code generator components are written in Kotlin, which is not supported by Eclipse. If you want a Kotlin-friendly developer environment, we recommend using IntelliJ, as described [here](https://www.lf-lang.org/docs/handbook/intellij). <!-- To build the Lingua Franca IDE (Epoch) with Kotlin-based code generators enabled (which is not possible with the Eclipse setup), please see the instructions in [[Running Lingua Franca IDE (Epoch) with Kotlin based Code Generators Enabled (without Eclipse Environment)]]. -->
+# Running Test
+
+Lingua Franca comes with unit and integration tests. More details can be found [here](/docs/handbook/regression-tests).
+
+## Unit Tests
+
+The unit tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.compiler.*"`. 
+
+## Integration Tests
+
+All integration tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.runtime.*"`. By specifying the concrete test class, it is also possible to run only tests for a specific target. For instance the Python tests can be run with `./gradlew test --tests "org.lflang.tests.runtime.PythonTest.*"`. For convenience, there is also a script which can be used for running the integration tests for a specific target. For instance: `./bin/run-lf-tests Python`.
+
+Sometimes it is useful to only run a single integration test. This can be done with the `runSingleTest` Gradle task. For instance: `./gradlew  runSingleTest --args test/C/src/Minimal.lf`.
+
+
+# IDE Integration
+
+You will likely want to use an IDE for working with the code base. For development of the core tools, any IDE that integrates with gradle can be used. We recommend our [IntelliJ setup](/docs/handbook/intellij).
+If you plan to contribute to the Epoch IDE, you should use the [Oomph setup for Eclipse](/docs/handbook/eclipse-oomph).
