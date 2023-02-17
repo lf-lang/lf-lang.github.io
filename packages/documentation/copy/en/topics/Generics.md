@@ -38,7 +38,7 @@ main reactor {
 }
 ```
 
-The example above defies a generic reactor `Delay` which receives a type parameter `T`. Its input, output and logical action are all of type `T`. The logic implemented in the reactions is straight forward. The reaction to `in` schedules the logical action `a` with the configured delay and the received value. The reaction to `a` simply forwards this value to the output port at a later tag. The concrete type `T`, however, is not relevant for this implementation and will be filled in only, when the reactor is instantiated. In our example, the main reactor instantiates `Delay`, specifying `int` as the type to be assigned to `T`. In consequence, we can set an integer on `d`'s input port and receive an integer on its output. If we wanted instead to delay a string, we can do this ar follows:
+The example above defines a generic reactor `Delay` which receives a type parameter `T`. Its input, output and logical action are all of type `T`. The logic implemented in the reactions is straight forward. The reaction to `in` schedules the logical action `a` with the configured delay and the received value. The reaction to `a` simply forwards this value to the output port at a later tag. The concrete type `T`, however, is not relevant for this implementation and will be filled in only, when the reactor is instantiated. In our example, the main reactor instantiates `Delay`, specifying `int` as the type to be assigned to `T`. In consequence, we can set an integer on `d`'s input port and receive an integer on its output. If we wanted instead to delay a string, we can do this as follows:
 ```lf-cpp
 main reactor {
     d = new Delay<{=std::string=}>(delay = 100 msec)
