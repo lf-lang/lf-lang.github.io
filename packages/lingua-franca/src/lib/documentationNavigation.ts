@@ -138,6 +138,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Defining preambles in Lingua Franca.",
         },
         {
+          title: "Generic Reactors",
+          id: "1-generics",
+          permalink: "/docs/handbook/generics",
+          oneline: "Defining generic reactors in Lingua Franca.",
+        },
+        {
           title: "Distributed Execution",
           id: "1-distributed-execution",
           permalink: "/docs/handbook/distributed-execution",
