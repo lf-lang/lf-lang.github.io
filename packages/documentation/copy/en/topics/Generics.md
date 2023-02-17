@@ -6,13 +6,13 @@ oneline: "Defining generic reactors in Lingua Franca."
 preamble: >
 ---
 
-<div class="lf-c lf-rs lf-py">
+<div class="lf-c lf-rs lf-py lf-ts">
 
 **Generic reactors are not supported in $target-language$.**
 
 </div>
 
-<div class="lf-cpp lf-ts">
+<div class="lf-cpp">
 
 $page-showing-target$
 
@@ -37,9 +37,6 @@ main reactor {
     reaction(d.out) -> d.out {= std::cout << "received " << *d.in.get(); =}
 }
 ```
-```lf-ts
-FIXME
-```
 
 The example above defies a generic reactor `Delay` which receives a type parameter `T`. Its input, output and logical action are all of type `T`. The logic implemented in the reactions is straight forward. The reaction to `in` schedules the logical action `a` with the configured delay and the received value. The reaction to `a` simply forwards this value to the output port at a later tag. The concrete type `T`, however, is not relevant for this implementation and will be filled in only, when the reactor is instantiated. In our example, the main reactor instantiates `Delay`, specifying `int` as the type to be assigned to `T`. In consequence, we can set an integer on `d`'s input port and receive an integer on its output. If we wanted instead to delay a string, we can do this ar follows:
 ```lf-cpp
@@ -49,9 +46,6 @@ main reactor {
     reaction(startup) -> d.in {= d.in.set("foo"); =}
     reaction(d.out) -> d.out {= std::cout << "received " << *d.in.get(); =}
 }
-```
-```lf-ts
-FIXME
 ```
 
 Reactor definitions may also specify multiple type parameters. Moreover, type parameters are not limited to ports and actions, but can also be used in state variables, parameters, or methods. For instance, we can define the following reactor:
@@ -65,16 +59,9 @@ reactor Generic<T, U, V>(bar: T) {
 }
 ```
 
-```lf-ts
-FIXME
-```
-
 This reactor could be instantiated for example like this:
 ```lf-cpp
 g = new Generic<float, int, bool>
-```
-```lf-ts
-FIXME
 ```
 
 </div>
