@@ -25,6 +25,8 @@ const Index: React.FC<Props> = (props) => {
 <ul>
 <li><p><strong>LET&#39;23</strong>: Edward A. Lee and Marten Lohstroh, &quot;<a href="https://www.icyphy.org/publications/2023_LeeLohstroh/">Generalizing Logical Execution Time</a>,&quot; in <i>Principles of Systems Design - Essays Dedicated to Thomas A. Hensinzer on the Occasion of his 60th Birthday</i>, LNCS 13660, July 2023, to appear.</p>
 </li>
+<li><p><strong>CAL_IC&#39;23</strong>: Edward A. Lee, Soroush Bateni, Shaokai Lin, Marten Lohstroh, and Christian Menard,  &quot;<a href="https://doi.org/10.34133/icomputing.0013">Trading Off Consistency and Availability in Tiered Heterogeneous Distributed Systems</a>,&quot; Intelligent Computing, vol. 2, no. Article 0013, pp. 1-23, February 15 2023.</p>
+</li>
 <li><p><strong>Modes&#39;23</strong>: Alexander Schulz-Rosengarten, Reinhard von Hanxleden,Marten Lohstroh, Soroush Bateni, Edward A. Lee, &quot;<a href="https://arxiv.org/abs/2301.09597">Modal Reactors</a>,&quot; arXiv:2301.09597 [cs.PL], January 23, 2023.</p>
 </li>
 <li><p><strong>CAL&#39;23</strong>: Edward A. Lee, Ravi Akella, Soroush Bateni, Shaokai Lin, Marten Lohstroh, Christian Menard, &quot;<a href="https://arxiv.org/abs/2301.08906">Consistency vs. Availability in Distributed Real-Time Systems</a>,&quot; arXiv:2301.08906 [cs.DC], January 21, 2023.</p>
