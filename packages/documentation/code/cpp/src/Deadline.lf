@@ -1,11 +1,14 @@
-target Cpp;
+target Cpp
 
 reactor Deadline {
-    input x:int;
-    output d:int; // Produced if the deadline is violated.
+    input x: int
+    output d: int  // Produced if the deadline is violated.
+
     reaction(x) -> d {=
         std::cout << "Normal reaction." << std::endl;
-    =} deadline(10ms) {=
+    =} deadline(
+        10 ms
+    ) {=
         std::cout << "Deadline violation detected." << std::endl;
         d.set(*x.get());
     =}

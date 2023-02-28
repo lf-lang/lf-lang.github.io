@@ -4,20 +4,19 @@ target Python {
 }
 
 reactor Source {
-    output out;
-    reaction(startup) -> out {=
-        out.set("Hello World!")
-    =}
+    output out
+
+    reaction(startup) -> out {= out.set("Hello World!") =}
 }
+
 reactor Destination {
-    input _in;
-    reaction(_in) {=
-        print(f"Received {_in.value}")
-    =}
+    input _in
+
+    reaction(_in) {= print(f"Received {_in.value}") =}
 }
- 
+
 federated reactor {
-    s = new Source();
-    d = new Destination();
-    s.out -> d._in;
+    s = new Source()
+    d = new Destination()
+    s.out -> d._in
 }

@@ -1,7 +1,10 @@
-target Rust;
-import Overwriting from "Overwriting.lf";
+target Rust
+
+import Overwriting from "Overwriting.lf"
+
 main reactor {
-    s = new Overwriting();
+    s = new Overwriting()
+
     reaction(s.y) {=
         let value = ctx.get(s__y).unwrap();
         if value != 0 && value != 1 {

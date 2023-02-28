@@ -1,9 +1,12 @@
 target Python {
     timeout: 1 secs
 }
-import Overwriting from "../Overwriting.lf";
+
+import Overwriting from "../Overwriting.lf"
+
 main reactor {
-    s = new Overwriting();
+    s = new Overwriting()
+
     reaction(s.y) {=
         print(
             f"At logical time {lf.time.logical_elapsed()}, "

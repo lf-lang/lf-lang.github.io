@@ -1,4 +1,5 @@
 target Python
+
 main reactor {
     preamble {=
         import threading
@@ -21,8 +22,6 @@ main reactor {
         elapsed_time = lf.time.logical_elapsed()
         print(f"A time {elapsed_time} nsec after start, received: ", a.value)
     =}
-    
-    reaction(t) {=
-        print("Waiting ...")
-    =}
+
+    reaction(t) {= print("Waiting ...") =}
 }

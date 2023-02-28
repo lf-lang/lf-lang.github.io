@@ -1,8 +1,10 @@
-target Cpp;
-import Overwriting from "Overwriting.lf";
+target Cpp
+
+import Overwriting from "Overwriting.lf"
 
 main reactor {
-    s = new Overwriting();
+    s = new Overwriting()
+
     reaction(s.y) {=
         auto is_correct = [](auto value){
             return value == 0 || value == 1;

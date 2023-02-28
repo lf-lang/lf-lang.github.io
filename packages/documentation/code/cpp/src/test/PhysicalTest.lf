@@ -1,12 +1,10 @@
-target Cpp;
+target Cpp
 
-import Physical from "../Physical.lf";
+import Physical from "../Physical.lf"
 
 main reactor {
-    timer t(200ms, 200ms);
-    p = new Physical();
+    timer t(200 ms, 200 ms)
+    p = new Physical()
 
-    reaction(t) -> p.x {=
-        p.x.set(0);
-    =}
+    reaction(t) -> p.x {= p.x.set(0); =}
 }

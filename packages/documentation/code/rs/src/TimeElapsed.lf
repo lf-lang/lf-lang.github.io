@@ -1,6 +1,8 @@
-target Rust;
+target Rust
+
 main reactor TimeElapsed {
-    timer t(0, 1 sec);
+    timer t(0, 1 sec)
+
     reaction(t) {=
         println!(
             "Elapsed logical time is {}.",

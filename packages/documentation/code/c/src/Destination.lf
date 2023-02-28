@@ -1,7 +1,9 @@
-target C;
+target C
+
 reactor Destination {
-    input x:int;
-    input y:int;
+    input x: int
+    input y: int
+
     reaction(x, y) {=
         int sum = 0;
         if (x->is_present) {

@@ -1,7 +1,9 @@
-target Python;
+target Python
+
 reactor Destination {
-    input x;
-    input y;
+    input x
+    input y
+
     reaction(x, y) {=
         print(
             f"Time since start: {lf.time.logical_elapsed()}, "
@@ -13,14 +15,15 @@ reactor Destination {
             print("  y is present.")
     =}
 }
+
 main reactor {
-    logical action repeat;
-    d = new Destination();
+    logical action repeat
+    d = new Destination()
+
     reaction(startup) -> d.x, repeat {=
         d.x.set(1)
         repeat.schedule(0)
     =}
-    reaction(repeat) -> d.y {=
-        d.y.set(1)
-    =}
+
+    reaction(repeat) -> d.y {= d.y.set(1) =}
 }

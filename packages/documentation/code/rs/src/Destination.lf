@@ -1,7 +1,9 @@
-target Rust;
+target Rust
+
 reactor Destination {
-    input x:u32;
-    input y:u32;
+    input x: u32
+    input y: u32
+
     reaction(x, y) {=
         let mut sum = 0;
         if let Some(x) = ctx.get(x) {

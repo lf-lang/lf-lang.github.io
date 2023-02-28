@@ -1,10 +1,9 @@
-target Rust;
-reactor Child (
-    bank_index:usize(0),
-    parent_bank_index:usize(0)
-) {
-    state bank_index(bank_index);
-    state parent_bank_index(parent_bank_index);
+target Rust
+
+reactor Child(bank_index: usize = 0, parent_bank_index: usize = 0) {
+    state bank_index = bank_index
+    state parent_bank_index = parent_bank_index
+
     reaction(startup) {=
         println!(
             "My bank index: {}. My parent's bank index: {}.",
@@ -13,11 +12,11 @@ reactor Child (
         );
     =}
 }
-reactor Parent (
-    bank_index:usize(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
+
+reactor Parent(bank_index: usize = 0) {
+    c = new[2] Child(parent_bank_index = bank_index)
 }
+
 main reactor {
-    p = new[2] Parent();
+    p = new[2] Parent()
 }

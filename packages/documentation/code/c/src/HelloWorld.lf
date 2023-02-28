@@ -1,6 +1,5 @@
-target C;
+target C
+
 main reactor {
-    reaction(startup) {=
-        printf("Hello World.\n");
-    =}
+    reaction(startup) {= printf("Hello World.\n"); =}
 }

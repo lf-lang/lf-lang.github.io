@@ -1,13 +1,14 @@
 target Cpp {
-    timeout: 1s
+    timeout: 1 s
 }
 
-import Overwriting from "../Overwriting.lf";
+import Overwriting from "../Overwriting.lf"
 
 main reactor {
-    s = new Overwriting();
+    s = new Overwriting()
+
     reaction(s.y) {=
-        std::cout << "At logical time: " << get_elapsed_logical_time() 
+        std::cout << "At logical time: " << get_elapsed_logical_time()
             << "s = " << *s.y.get() << std::endl;
     =}
 }

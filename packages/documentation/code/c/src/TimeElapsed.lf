@@ -1,6 +1,8 @@
-target C;
+target C
+
 main reactor TimeElapsed {
-    timer t(0, 1 sec);
+    timer t(0, 1 sec)
+
     reaction(t) {=
         printf(
             "Elapsed logical time is %lld.\n",

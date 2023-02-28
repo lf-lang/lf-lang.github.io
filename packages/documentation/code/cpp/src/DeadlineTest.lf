@@ -1,9 +1,11 @@
-target Cpp;
-import Deadline from "Deadline.lf";
+target Cpp
+
+import Deadline from "Deadline.lf"
 
 main reactor {
-    logical action a;
-    d = new Deadline();
+    logical action a
+    d = new Deadline()
+
     reaction(startup) -> d.x, a {=
         d.x.set(0);
         a.schedule(0ms);

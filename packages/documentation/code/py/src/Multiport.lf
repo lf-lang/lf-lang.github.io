@@ -1,13 +1,17 @@
-target Python;
+target Python
+
 reactor Source {
-    output[4] out;
+    output[4] out
+
     reaction(startup) -> out {=
         for i, port in enumerate(out):
             port.set(i)
     =}
 }
+
 reactor Destination {
-    input[4] inp;
+    input[4] inp
+
     reaction(inp) {=
         sum = 0
         for port in inp:
@@ -15,8 +19,9 @@ reactor Destination {
         print(f"Sum of received: {sum}.")
     =}
 }
+
 main reactor {
-    a = new Source();
-    b = new Destination();
-    a.out -> b.inp;
+    a = new Source()
+    b = new Destination()
+    a.out -> b.inp
 }

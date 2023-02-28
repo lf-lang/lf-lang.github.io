@@ -1,8 +1,8 @@
 target TypeScript
-main reactor {
 
-    physical action a(100 msec):number;
-  
+main reactor {
+    physical action a(100 msec): number
+
     reaction(startup) -> a {=
         // Have asynchronous callback schedule physical action.
         setTimeout(() => {

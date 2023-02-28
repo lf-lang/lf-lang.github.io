@@ -1,23 +1,21 @@
 target TypeScript {
-    // FIXME: This should work with timeout: 0 msec.
-    timeout: 1 msec
+    timeout: 1 msec  // FIXME: This should work with timeout: 0 msec.
 }
 
 reactor Source {
-    output out:string;
-    reaction(startup) -> out {=
-        out = "Hello World!";
-    =}
+    output out: string
+
+    reaction(startup) -> out {= out = "Hello World!"; =}
 }
+
 reactor Destination {
-    input inp:string;
-    reaction(inp) {=
-        console.log("Received: " + inp);
-    =}
+    input inp: string
+
+    reaction(inp) {= console.log("Received: " + inp); =}
 }
 
 federated reactor Federated {
-    s = new Source();
-    d = new Destination();
-    s.out -> d.inp;
+    s = new Source()
+    d = new Destination()
+    s.out -> d.inp
 }

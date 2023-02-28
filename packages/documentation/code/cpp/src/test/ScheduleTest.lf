@@ -1,13 +1,13 @@
 target Cpp {
-    timeout: 1s,
+    timeout: 1 s,
     fast: true
 }
 
-import Schedule from "../Schedule.lf";
-import Count from "../Count.lf";
+import Schedule from "../Schedule.lf"
+import Count from "../Count.lf"
 
 main reactor {
-    c = new Count();
-    d = new Schedule();
-    c.y -> d.x;
+    c = new Count()
+    d = new Schedule()
+    c.y -> d.x
 }

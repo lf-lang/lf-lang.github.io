@@ -1,8 +1,10 @@
-target Python;
+target Python
+
 reactor Count {
-    state count(0);
-    output y;
-    timer t(0, 100 msec);
+    state count = 0
+    output y
+    timer t(0, 100 msec)
+
     reaction(t) -> y {=
         y.set(self.count)
         self.count += 1

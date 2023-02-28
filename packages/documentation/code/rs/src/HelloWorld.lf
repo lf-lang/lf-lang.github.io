@@ -1,6 +1,5 @@
-target Rust;
+target Rust
+
 main reactor {
-    reaction(startup) {=
-        println!("Hello World.");
-    =}
+    reaction(startup) {= println!("Hello World."); =}
 }

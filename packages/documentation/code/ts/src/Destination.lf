@@ -1,7 +1,9 @@
 target TypeScript
+
 reactor Destination {
-    input x:number
-    input y:number
+    input x: number
+    input y: number
+
     reaction(x, y) {=
         let sum = 0
         if (x !== undefined) {

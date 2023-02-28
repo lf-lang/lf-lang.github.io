@@ -1,7 +1,7 @@
-target Cpp;
+target Cpp
 
 main reactor TimeElapsed {
-    timer t(0, 1s);
+    timer t(0, 1 s)
 
     reaction(t) {=
         std::cout << "Elapsed logical time is " << get_elapsed_logical_time() << std::endl;

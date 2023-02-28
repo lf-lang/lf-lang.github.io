@@ -1,8 +1,6 @@
-target C;
-reactor Child (
-    bank_index:int(0),
-    parent_bank_index:int(0)
-) {
+target C
+
+reactor Child(bank_index: int = 0, parent_bank_index: int = 0) {
     reaction(startup) {=
         printf(
             "My bank index: %d. My parent's bank index: %d.\n",
@@ -10,11 +8,11 @@ reactor Child (
         );
     =}
 }
-reactor Parent (
-    bank_index:int(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
+
+reactor Parent(bank_index: int = 0) {
+    c = new[2] Child(parent_bank_index = bank_index)
 }
+
 main reactor {
-    p = new[2] Parent();
+    p = new[2] Parent()
 }

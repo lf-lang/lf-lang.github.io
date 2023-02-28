@@ -1,6 +1,8 @@
-target Python;
+target Python
+
 main reactor TimeLag {
-    timer t(0, 1 sec);
+    timer t(0, 1 sec)
+
     reaction(t) {=
         t = lf.time.logical_elapsed()
         T = lf.time.physical_elapsed()

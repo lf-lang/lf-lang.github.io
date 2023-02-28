@@ -1,4 +1,5 @@
-target Python;
+target Python
+
 main reactor {
     preamble {=
         import time
@@ -9,9 +10,9 @@ main reactor {
                 self.time.sleep(0.2)
                 a.schedule(0)
     =}
-    state thread;
-    physical action a(100 msec);
-  
+    state thread
+    physical action a(100 msec)
+
     reaction(startup) -> a {=
         # Start a thread to schedule physical actions.
         self.thread = self.threading.Thread(target=self.external, args=(a,))

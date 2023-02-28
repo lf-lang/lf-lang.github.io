@@ -1,13 +1,16 @@
-target Rust;
+target Rust
+
 reactor Physical {
-    input x:u32;
-    physical action a;
+    input x: u32
+    physical action a
+
     reaction(x) -> a {=
         let phys_action = a.clone();
         ctx.spawn_physical_thread(move |link| {
             link.schedule(&phys_action, Asap).unwrap();
         });
     =}
+
     reaction(a) {=
         println!(
             "Action triggered at logical time {} nsec after start.",

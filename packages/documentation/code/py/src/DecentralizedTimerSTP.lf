@@ -2,9 +2,12 @@ target Python {
     timeout: 5 sec,
     coordination: decentralized
 }
+
 import Count, Print from "Federated.lf"
-reactor PrintTimer(STP_offset(10 msec)) extends Print {
+
+reactor PrintTimer(STP_offset = 10 msec) extends Print {
     timer t(0, 1 sec)
+
     reaction(t) {=
         print(
             "Timer ticked at "
@@ -12,8 +15,9 @@ reactor PrintTimer(STP_offset(10 msec)) extends Print {
         )
     =}
 }
+
 federated reactor {
-    c = new Count();
-    p = new PrintTimer();
-    c.out -> p.inp;
+    c = new Count()
+    p = new PrintTimer()
+    c.out -> p.inp
 }

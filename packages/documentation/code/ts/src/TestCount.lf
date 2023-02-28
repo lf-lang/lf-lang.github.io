@@ -1,8 +1,14 @@
 target TypeScript
-reactor TestCount(start:number(0), stride:number(1), numInputs:number(1)) {
-    state count:number(start)
-    state inputsReceived:number(0)
-    input x:number
+
+reactor TestCount(
+    start: number = 0,
+    stride: number = 1,
+    numInputs: number = 1
+) {
+    state count: number = start
+    state inputsReceived: number = 0
+    input x: number
+
     reaction(x) {=
         console.log(`Received ${x}`)
         if (x != count) {
@@ -12,6 +18,7 @@ reactor TestCount(start:number(0), stride:number(1), numInputs:number(1)) {
         count += stride;
         inputsReceived++
     =}
+
     reaction(shutdown) {=
         console.log("Shutdown invoked.")
         if (inputsReceived != numInputs) {

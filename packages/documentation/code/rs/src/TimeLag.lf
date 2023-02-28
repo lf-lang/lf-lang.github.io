@@ -1,6 +1,8 @@
-target Rust;
+target Rust
+
 main reactor TimeLag {
-    timer t(0, 1 sec);
+    timer t(0, 1 sec)
+
     reaction(t) {=
         let t = ctx.get_elapsed_logical_time();
         let T = ctx.get_elapsed_physical_time();

@@ -1,12 +1,13 @@
-target Cpp;
+target Cpp
+
 main reactor {
     private preamble {=
         #include <thread>
     =}
 
-    state thread: std::thread;
-    physical action a:int;
-  
+    state thread: std::thread
+    physical action a: int
+
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         thread = std::thread([&]{

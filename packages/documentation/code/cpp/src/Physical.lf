@@ -1,12 +1,10 @@
-target Cpp;
+target Cpp
 
 reactor Physical {
-    input x:int;
-    physical action a;
+    input x: int
+    physical action a
 
-    reaction(x) -> a {=
-        a.schedule(0ms);
-    =}
+    reaction(x) -> a {= a.schedule(0ms); =}
 
     reaction(a) {=
         auto elapsed_time = get_elapsed_logical_time();

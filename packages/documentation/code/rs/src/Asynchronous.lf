@@ -1,7 +1,8 @@
-target Rust;
+target Rust
+
 main reactor {
-    state start_time:Instant({=Instant::now()=});
-    physical action a(100 msec):u32;
+    state start_time: Instant = {= Instant::now() =}
+    physical action a(100 msec): u32
 
     reaction(startup) -> a {=
         let phys_action = a.clone(); // clone to move it into other thread

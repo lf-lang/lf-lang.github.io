@@ -1,12 +1,15 @@
-target C;
+target C
+
 reactor A {
-    output y:int;
+    output y: int
 }
+
 reactor B {
-    input x:int;
+    input x: int
 }
+
 main reactor {
-    a = new A();
-    b = new B();
-    a.y ~> b.x;
+    a = new A()
+    b = new B()
+    a.y ~> b.x
 }

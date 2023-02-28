@@ -1,9 +1,8 @@
-target Cpp;
+target Cpp
 
-reactor Scale(factor:int(2)) {
-    input x:int;
-    output y:int;
-    reaction(x) -> y {=
-        y.set(factor * *x.get());
-    =}
+reactor Scale(factor: int = 2) {
+    input x: int
+    output y: int
+
+    reaction(x) -> y {= y.set(factor * *x.get()); =}
 }

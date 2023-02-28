@@ -1,4 +1,4 @@
-target Cpp;
+target Cpp
 
 public preamble {=
     struct Hello {
@@ -9,7 +9,6 @@ public preamble {=
     auto operator<<(std::ostream& stream, const Hello& hello) noexcept -> std::ostream&;
     auto operator>>(std::stringstream& stream, Hello& hello) noexcept -> std::stringstream&;
 =}
-
 
 private preamble {=
     auto operator<<(std::ostream& stream, const Hello& hello) noexcept -> std::ostream& {
@@ -26,7 +25,7 @@ private preamble {=
     }
 =}
 
-main reactor(p_input:Hello{"Earth", 42}) {
+main reactor(p_input: Hello{"Earth", 42}) {
     reaction(startup) {=
         std::cout << p_input << std::endl;
         if (p_input.value != 42) {

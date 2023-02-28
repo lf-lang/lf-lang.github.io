@@ -1,11 +1,9 @@
-target Cpp;
+target Cpp
 
 reactor Count {
-    state count:int(0);
-    output y:int;
-    timer t(0, 100ms);
+    state count: int = 0
+    output y: int
+    timer t(0, 100 ms)
 
-    reaction(t) -> y {=
-        y.set(count++);
-    =}
+    reaction(t) -> y {= y.set(count++); =}
 }

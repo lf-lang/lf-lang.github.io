@@ -1,10 +1,10 @@
-target C;
+target C
+
 reactor Deadline {
-    input x:int;
-    output d:int; // Produced if the deadline is violated.
-    reaction(x) -> d {=
-        printf("Normal reaction.\n");
-    =} deadline(10 msec) {=
+    input x: int
+    output d: int  // Produced if the deadline is violated.
+
+    reaction(x) -> d {= printf("Normal reaction.\n"); =} deadline(10 msec) {=
         printf("Deadline violation detected.\n");
         lf_set(d, x->value);
     =}

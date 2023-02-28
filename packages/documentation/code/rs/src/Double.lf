@@ -1,8 +1,8 @@
-target Rust;
+target Rust
+
 reactor Double {
-    input x:u32;
-    output y:u32;
-    reaction(x) -> y {=
-        ctx.set(y, ctx.get(x).unwrap() * 2);
-    =}
+    input x: u32
+    output y: u32
+
+    reaction(x) -> y {= ctx.set(y, ctx.get(x).unwrap() * 2); =}
 }

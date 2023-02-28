@@ -1,7 +1,9 @@
-target Python;
+target Python
+
 reactor Destination {
-    input x;
-    input y;
+    input x
+    input y
+
     reaction(x, y) {=
         sum = 0
         if x.is_present:

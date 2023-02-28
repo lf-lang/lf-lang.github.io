@@ -1,6 +1,8 @@
 target TypeScript
+
 main reactor TimeLag {
     timer t(0, 1 sec)
+
     reaction(t) {=
         const t = util.getElapsedLogicalTime()
         const T = util.getElapsedPhysicalTime()

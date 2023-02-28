@@ -1,8 +1,9 @@
-target Cpp;
+target Cpp
 
 reactor Destination {
-    input x:int;
-    input y:int;
+    input x: int
+    input y: int
+
     reaction(x, y) {=
         int sum = 0;
         if (x.is_present()) {
@@ -12,6 +13,6 @@ reactor Destination {
             sum += *y.get();
         }
 
-        std::cout << "Received: " << sum << std::endl; 
+        std::cout << "Received: " << sum << std::endl;
     =}
 }

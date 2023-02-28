@@ -2,10 +2,13 @@ target Python {
     timeout: 5 sec,
     coordination: decentralized
 }
+
 import Count from "Federated.lf"
+
 reactor PrintTimer {
     timer t(0, 1 sec)
     input inp
+
     reaction(inp) {=
         print(
             f"Received: {inp.value} "
@@ -19,6 +22,7 @@ reactor PrintTimer {
             f"({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep})."
         )
     =}
+
     reaction(t) {=
         print(
             "Timer ticked at "
@@ -26,8 +30,9 @@ reactor PrintTimer {
         )
     =}
 }
+
 federated reactor {
-    c = new Count();
-    p = new PrintTimer();
-    c.out -> p.inp after 10 msec;
+    c = new Count()
+    p = new PrintTimer()
+    c.out -> p.inp after 10 msec
 }
