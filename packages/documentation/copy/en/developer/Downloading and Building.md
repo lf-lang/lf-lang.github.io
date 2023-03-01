@@ -18,7 +18,7 @@ git submodule update --init --recursive
 
 ## Command Line Tools
 
-You can the build the Lingua Franca compiler and other CLI tools with Gradle using `./bin/lfc --version`.
+You can build the Lingua Franca compiler and other CLI tools with Gradle using `./gradlew clean buildAll`.
 
 There are scripts in `bin` which you can use to run the compiler or other tools. For instance: `./bin/lfc --version`.
 
