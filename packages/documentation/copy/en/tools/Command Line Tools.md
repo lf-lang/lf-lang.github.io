@@ -13,20 +13,20 @@ To download the current development version of the command-line tools instead of
 
 ### Linux and macOS
 
-Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/lfc_0.3.0.tar.gz">lfc 0.3.0 for Linux/Mac</a> and run:
+Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/lf-cli-0.4.0.tar.gz">lfc 0.4.0 for Linux/Mac</a> and run:
 
 ```shell
-    tar xvf lfc_0.3.0.tar.gz
-    ./lfc_0.3.0/bin/lfc --help
+    tar xvf lf-cli-0.4.0.tar.gz
+    ./lf-cli-0.4.0/bin/lfc --help
 ```
 
 ### Windows
 
-Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/lfc_0.3.0.zip">lfc 0.3.0 for Windows</a> and run:
+Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/lf-cli-0.4.0.zip">lfc 0.4.0 for Windows</a> and run:
 
 ```powershell
-    unzip lfc_0.3.0.zip
-    .\lfc_0.3.0\bin\lfc.ps1 --version
+    unzip lf-cli-0.4.0.zip
+    .\lf-cli-0.4.0\bin\lfc.ps1 --version
 ```
 
 ### Developer
