@@ -14,7 +14,7 @@ preamble: >
 - lfc v0.4.0
 - West
 - Zephyr SDK
-- nrf52dk (Optional)
+- nrf52 Development Kit (Optional)
 
 # Overview
 Lingua Franca's C-runtime is tightly integrated with the Zephyr RTOS. This enables developing and programming hundreds of resource-constrained platforms like microcontrollers. In this guide we will see how LF programs can be build, programmed and debugged both in emulation and on real hardware. There are two ways of developing LF Zephyr programs, the preferred West-centric way and the  lfc-centric way. This guide will mainly describe the West-centric approach. 
@@ -93,11 +93,19 @@ cd application
 west lf-build src/NrfBlinky.lf -w "-b nrf52dk_nrf52832 -p always"
 west flash
 ```
+# Kernel configuration options
+The Lingua Franca Zephyr platform depends on some specific Kernel configurations. These are 
+
 
 # The `lf-build` west command
 The custom `lf-build` west command can be inspected in `scripts/lf_build.py`. It
 invokes `lfc` on the provided LF source file. It then invokes `west build` on
-the generated sources. See `west lf-build -h` for more information.
+the generated sources. If you would like to pass forward arguments to the `west build` command do so with the `-w` flag. E.g. `-w -b nrf52dk_nrf52832 -p always` passes information about the dev-kit and also tells `west` to clean the build folder before starting.
+
+
+
+
+See `west lf-build -h` for more information.
 
 
 # Debugging LF Zephyr programs using QEMU and GDB
