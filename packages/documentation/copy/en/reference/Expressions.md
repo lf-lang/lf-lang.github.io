@@ -44,7 +44,7 @@ The most basic expression forms, which are supported by all target languages, ar
 For instance, to have a 2-dimensional array as a parameter in C:
 
 ```lf-c
-reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
+reactor Foo(param: {= int[][] =} = {= { {1}, {2} } =}) {
     ...
 }
 ```
@@ -59,7 +59,7 @@ For instance, to assign a 2-dimensional list as an initial value to a parameter
 in the Python target:
 
 ```lf-py
-reactor Foo(param({= ((1, 2, 3), (4, 5, 6)) =})) {
+reactor Foo(param = {= [[1, 2, 3], [4, 5, 6]] =}) {
     ...
 }
 ```
@@ -70,29 +70,7 @@ reactor Foo(param({= ((1, 2, 3), (4, 5, 6)) =})) {
 
 $page-showing-target$
 
-To avoid the awkwardness of using the code delimiters `{= ... =}`, Lingua Franca supports initialization of simple arrays and similar structures. The interpretation is slightly different in each target language.
-
-<div class="lf-c">
-
-In C, a parameter or state may be given an array value as in the following example:
-
-```lf-c
-reactor Foo(param:double[](0.0, 1.0, 2.0)) {
-    ...
-}
-```
-
-This will become an array of length three. When instantiating this reactor, the default parameter value can be overridden using a similar syntax:
-
-```lf-c
-main reactor {
-    f = new Foo(param = (3.3, 4.4, 5.5));
-}
-```
-
-See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
-
-</div>
+To avoid the awkwardness of using the code delimiters `{= ... =}`, Lingua Franca supports some expression forms directly, depending on the target language. The meaning of these expressions may be different in each target language, but it is consistent with the target language's own interpretation of these constructs (eg `[1, 2, 3]` in the Python target is a list, in the Rust target it's an array).
 
 <div class="lf-cpp">
 
@@ -106,35 +84,37 @@ Here, the type `int[]` is translated by the code generator into `std::vector` an
 
 </div>
 
-<div class="lf-py">
+<!-- 
+TODO these are commented out because they don't have any special syntax currently.
 
-In Python, a parameter or state variable may be assigned an array expression as its initial value, as in the following example:
+<div class="lf-c">
 
-```lf-py
-reactor Foo(param(1, 2, 3)) {
-    state x(1, 2, 3)
+In C, a parameter or state may be given an array value as in the following example:
+
+```lf-c
+reactor Foo(param: double[] = {= { 0.0, 1.0, 2.0 } =}) {
     ...
 }
 ```
 
-The Python target interprets the `(1, 2, 3)` expression differently depending on
-whether the assignee is a parameter or a state variable. For parameters, the
-`(1, 2, 3)` expression will translate into an immutable Python tuple (i.e.,
-`param = (1, 2, 3)`). For state variables, the `(1, 2, 3)` expression will
-translate into a mutable Python list (i.e., `x = [1, 2, 3])`). The reason behind
-this discrepancy is that parameters are assumed to be immutable after
-instantiation (in fact, they are also read-only in reaction bodies), but state
-variables usually need to be updated during execution.
+This will become an array of length three. When instantiating this reactor, the default parameter value can be overridden using a similar syntax:
 
-<!-- In Python, `[1, 2, 3]` defines a list, which is mutable, whereas `(1, 2, 3)` defines a tuple, which is not mutable. To support this distinction, both syntaxes are available in Lingua Franca without code delimiters. For example, -->
+```lf-c
+main reactor {
+    f = new Foo(param = {= { 3.3, 4.4, 5.5 } =});
+}
+```
 
-Notice that even though the tuple assigned to the parameter is immutable (you
-cannot assign new values to its elements), the parameter itself can be
-overridden with _another_ immutable tuple when instantiating the reactor:
+See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
+
+</div>
+<div class="lf-py">
+
+The Python target supports a shorthand to write a python list, using Python-like syntax:
 
 ```lf-py
-main reactor {
-    f = new Foo(param = (3, 4, 5))
+reactor Foo(param = [1, 2, 3]) {
+    state x = [1, 2, 3]
 }
 ```
 
@@ -147,8 +127,8 @@ See the [Target Language Details](/docs/handbook/target-language-details) for de
 In TypeScript, a parameter or state variable may be assigned an array expression as its initial value, as in the following example:
 
 ```lf-ts
-reactor Foo(param:{=Array<number>=}({= [1, 2, 3] =})) {
-    state x:{=Array<number>=}({= [0.1, 0.2, 0.3] =});
+reactor Foo(param: Array<number> = {= [1, 2, 3] =}) {
+    state x: Array<number> = {= [0.1, 0.2, 0.3] =};
 }
 ```
 
@@ -159,5 +139,6 @@ See the [TypeScript reactor documentation](/docs/handbook/target-language-detail
 <div class="lf-rs warning">
 
 FIXME: Rust
+-->
 
 </div>
