@@ -61,9 +61,24 @@ sudo udevadm control --reload
 ```
 
 ## Download the Zephyr RTOS
+1. Remove old Zephyr installations from your system.
+```
+echo $ZEPHYR_BASE
+```
+should be empty.
+
+```
+ls ~/.cmake/packages
+```
+should not contain `Zephyr` or `ZephyrUnittest`. If they do, delete them. They will be replaced later when we do `west zephyr-export`.
+
 1. Download the Zephyr RTOS to the template repository. This step will take some time
 ```
 west update
+```
+
+2. Export CMake packages for Zephyr
+```
 west zephyr-export
 ```
 
@@ -94,17 +109,13 @@ west lf-build src/NrfBlinky.lf -w "-b nrf52dk_nrf52832 -p always"
 west flash
 ```
 # Kernel configuration options
-The Lingua Franca Zephyr platform depends on some specific Kernel configurations. These are 
-
+The Lingua Franca Zephyr platform depends on some specific Kernel configurations. For instance, the Counter drivers must be linked with the application to provide hi-resolution timing, These required configurations are stored in a file called `prj_lf.conf` which is copied to the generated `src-gen` folder by `lfc`. The user can also supply their own configuration options in a file called `prj.conf` which has to be located in the same folder as `west lf-build` is invoked from. There is such a file located in `~/application` in the template.
+There is anoter file called `debug.conf` which is meant for containing debug options. Such additional configuration files can also be passed to `west lf-build` through the `--conf-overlays` options. E.g. `west lf-build -c debug.conf`.
 
 # The `lf-build` west command
-The custom `lf-build` west command can be inspected in `scripts/lf_build.py`. It
+The custom `lf-build` west command has already been used in previos sections. It can be inspected in `scripts/lf_build.py`. It
 invokes `lfc` on the provided LF source file. It then invokes `west build` on
 the generated sources. If you would like to pass forward arguments to the `west build` command do so with the `-w` flag. E.g. `-w -b nrf52dk_nrf52832 -p always` passes information about the dev-kit and also tells `west` to clean the build folder before starting.
-
-
-
-
 See `west lf-build -h` for more information.
 
 
@@ -140,3 +151,30 @@ The QEMU emulation implements optimizations such that if the system goes to slee
 ## Troubleshooting
 
 ### Multiple Zephyr installations
+If the follwing warning is shown when invoking `west lf-build` or any other `west` command:
+```
+WARNING: ZEPHYR_BASE=/path/to/zephyr in the calling environment will be used,
+but the zephyr.base config option in /path/to/lf-west-template is "deps/zephyr"
+which implies a different ZEPHYR_BASE=/path/to/lf-west-template/deps/zephyr
+To disable this warning in the future, execute 'west config --global zephyr.base-prefer env'
+```
+
+Then it means that you have multiple Zephyr repositories installed. We do not recommend this as `west` will link the application with the Zephyr found in the CMake package registry. Please refer to the section on deleting old Zephyr installations.
+
+### Wrong version of Zephyr
+If, when trying to build an application with `west lf-build` the following error occurs:
+```
+CMake Error at CMakeLists.txt:8 (find_package):
+  Could not find a configuration file for package "Zephyr" that exactly
+  matches requested version "3.2.0".
+```
+
+It means your Zephyr installation is of the wrong version. Currently LF requires the exact version v3.2.0. This restriction might be eased in the future. The `lf-west-template` will download this exact version automatically. This might mean that you have other Zephyr installations. Please remove them and the exported CMake packages.
+
+
+### Threaded Lingua Franca
+Currently only the unthreaded runtime is supported with Zephyr. Unless `threading: false` is set, there will be the following error during compilation:
+```
+lf-west-template/application/src-gen/HelloWorld/core/platform/lf_zephyr_support.c:352:2: error: #error "Threaded support on Zephyr is not supported"
+  352 | #error "Threaded support on Zephyr is not supported"
+```
