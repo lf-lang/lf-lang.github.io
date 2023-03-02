@@ -47,24 +47,24 @@ const Index: React.FC<Props> = (props) => {
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Linux</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/epoch_ide_0.3.0-linux.gtk.x86_64.tar.gz">Epoch IDE 0.3.0 for Linux</a> and run:
-          <p><code>tar xvf epoch_ide_0.3.0-linux.gtk.x86_64.tar.gz</code></p>
-          <p><code>cd epoch_ide_0.3.0-linux.gtk.x86_64</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-linux.gtk.x86_64.tar.gz">Epoch IDE 0.4.0 for Linux</a> and run:
+          <p><code>tar xvf epoch_ide_0.4.0-linux.gtk.x86_64.tar.gz</code></p>
+          <p><code>cd epoch_ide_0.4.0-linux.gtk.x86_64</code></p>
           <p><code>./epoch</code></p>
         </div>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/epoch_ide_0.3.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.3.0 for macOS</a> and run:
-          <p><code>open epoch_ide_0.3.0-macosx.cocoa.x86_64.tar</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.4.0 for macOS</a> and run:
+          <p><code>open epoch_ide_0.4.0-macosx.cocoa.x86_64.tar</code></p>
           <p><code>xattr -cr Epoch.app</code></p>
           <p><code>open epoch.app</code></p>
         </div>
 
         <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Windows</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/epoch_ide_0.3.0-win32.win32.x86_64.zip">Epoch IDE 0.3.0 for Windows</a> and run:
-          <p><code>unzip epoch_ide_0.3.0-win32.win32.x86_64.zip</code></p>
-          <p><code>cd epoch_ide_0.3.0-win32.win32.x86_64</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-win32.win32.x86_64.zip">Epoch IDE 0.4.0 for Windows</a> and run:
+          <p><code>unzip epoch_ide_0.4.0-win32.win32.x86_64.zip</code></p>
+          <p><code>cd epoch_ide_0.4.0-win32.win32.x86_64</code></p>
           <p><code>.\epoch</code></p>
         </div>
       </section>
@@ -80,15 +80,17 @@ const Index: React.FC<Props> = (props) => {
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Linux and macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/lfc_0.3.0.tar.gz">lfc 0.3.0 for Linux/Mac</a> and run:
-          <p><code>tar xvf lfc_0.3.0.tar.gz</code></p>
-          <p><code>./lfc_0.3.0/bin/lfc --version</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/lf-cli-0.4.0.tar.gz">Lingua Franca CLI tools 0.4.0 for Linux/Mac</a> and run:
+          <p><code>tar xvf lf-cli-0.4.0.tar.gz</code></p>
+          To check the version of the compiler, run:
+          <p><code>./lf-cli-0.4.0/bin/lfc --version</code></p>
         </div>
         <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>Windows</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.3.0/lfc_0.3.0.zip">lfc 0.3.0 for Windows</a> and run:
-          <p><code>unzip lfc_0.3.0.zip</code></p>
-          <p><code>.\lfc_0.3.0\bin\lfc.ps1 --version</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/lf-cli-0.4.0.zip">Lingua Franca CLI tools 0.4.0 for Windows</a> and run:
+          <p><code>unzip lf-cli-0.4.0.zip</code></p>
+          To check the version of the compiler, run:
+          <p><code>.\lf-cli-0.4.0\bin\lfc.ps1 --version</code></p>
         </div>
       </section>
       See <a href="/docs/handbook/command-line-tools">more details</a>.
@@ -96,50 +98,7 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
       <h2 id="developer">Developer Setup</h2>
-      <p>If you'd like to contribute to Lingua Franca and build our toolchain on your own, you will need to check out our <a href="https://repo.lf-lang.org/">GitHub repository</a>. The toolchain can built using Gradle or Maven, which have integrations with most IDEs. For Eclipse users, we provide an Oomph setup.</p>
-
-      <section style={{ display: "flex", flexWrap: "wrap" }}>
-        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Cloning our repository</h3>
-          <ul>
-            <li>If you have public-key authentication set up:
-              <p><code>git clone git@github.com:lf-lang/lingua-franca.git</code></p>
-            </li>
-            <li>If you prefer to clone using the web URL:
-              <p><code>git clone https://github.com/lf-lang/lingua-franca.git</code></p>
-            </li>
-          </ul>
-
-        </div>
-        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Building from the command line</h3>
-          <ul>
-            <li>Gradle:
-              <p><code>./gradlew assemble</code> (the build also performs tests, which takes a long time)</p>
-            </li>
-            <li style={{ marginTop: "20px" }}>
-              Maven:
-              <p><code>mvn compile</code> (you need to install Maven first)</p>
-            </li>
-          </ul>
-        </div>
-
-        <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Oomph setup for Eclipse</h3>
-          <ul>
-            <li>Download the <a href="https://www.eclipse.org/downloads/index.php">Eclipse installer</a>.</li>
-            <li>
-              Click the Hamburger button at the top right corner and switch to "Advanced Mode".
-            </li>
-            <li>
-              Select "Eclipse IDE for Java and DSL developers".
-            </li>
-            <li>
-              Continue reading <a href="/docs/handbook/eclipse-oomph">here...</a>
-            </li>
-          </ul>
-        </div>
-      </section>
+      <p>If you'd like to contribute to Lingua Franca and build our toolchain on your own, you can find details about the recomended developer setup <a href="/docs/handbook/developer-setup">here</a>.</p>
     </div>
 
 

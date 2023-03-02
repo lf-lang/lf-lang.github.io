@@ -132,6 +132,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Multiports and Banks of Reactors.",
         },
         {
+          title: "Generic Reactors",
+          id: "1-generic-reactors",
+          permalink: "/docs/handbook/generics",
+          oneline: "Defining generic reactors in Lingua Franca.",
+        },
+        {
           title: "Preambles",
           id: "1-preambles",
           permalink: "/docs/handbook/preambles",
@@ -244,6 +250,12 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/arduino",
           oneline: "Developing LF Programs on Arduino.",
         },
+        {
+          title: "Zephyr",
+          id: "5-zephyr",
+          permalink: "/docs/handbook/zephyr",
+          oneline: "Developing LF Programs on Zephyr RTOS.",
+        },
       ],
     },
     {
@@ -261,10 +273,10 @@ export function getDocumentationNavForLanguage(
           oneline: "Contribute to Lingua Franca.",
         },
         {
-          title: "Downloading",
-          id: "5-downloading",
-          permalink: "/docs/handbook/download",
-          oneline: "Quick start with Lingua Franca.",
+          title: "Developer Setup",
+          id: "4-developer-setup",
+          permalink: "/docs/handbook/developer-setup",
+          oneline: "Setting up Lingua Franca for developers.",
         },
         {
           title: "Website Development",
