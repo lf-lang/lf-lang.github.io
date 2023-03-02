@@ -173,8 +173,10 @@ It means your Zephyr installation is of the wrong version. Currently LF requires
 
 
 ### Threaded Lingua Franca
-Currently only the unthreaded runtime is supported with Zephyr. Unless `threading: false` is set, there will be the following error during compilation:
+In lfc v0.4.0 only the unthreaded runtime is supported with Zephyr. Unless `threading: false` is set, there will be the following error during compilation:
 ```
 lf-west-template/application/src-gen/HelloWorld/core/platform/lf_zephyr_support.c:352:2: error: #error "Threaded support on Zephyr is not supported"
   352 | #error "Threaded support on Zephyr is not supported"
 ```
+
+Threaded Zephyr support will be added shortly.
