@@ -132,6 +132,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Multiports and Banks of Reactors.",
         },
         {
+          title: "Generic Reactors",
+          id: "1-generic-reactors",
+          permalink: "/docs/handbook/generics",
+          oneline: "Defining generic reactors in Lingua Franca.",
+        },
+        {
           title: "Preambles",
           id: "1-preambles",
           permalink: "/docs/handbook/preambles",
@@ -265,6 +271,11 @@ export function getDocumentationNavForLanguage(
           id: "5-downloading",
           permalink: "/docs/handbook/download",
           oneline: "Quick start with Lingua Franca.",
+         },
+          title: "Developer Setup",
+          id: "4-developer-setup",
+          permalink: "/docs/handbook/developer-setup",
+          oneline: "Setting up Lingua Franca for developers.",
         },
         {
           title: "Website Development",
