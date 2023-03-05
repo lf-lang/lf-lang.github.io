@@ -252,7 +252,7 @@ export function getDocumentationNavForLanguage(
         },
         {
           title: "Zephyr",
-          id: "5-zephyr",
+          id: "4-zephyr",
           permalink: "/docs/handbook/zephyr",
           oneline: "Developing LF Programs on Zephyr RTOS.",
         },
