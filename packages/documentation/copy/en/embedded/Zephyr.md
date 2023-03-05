@@ -19,13 +19,14 @@ Lingua Franca's C-runtime is tightly integrated with the Zephyr RTOS. This enabl
 
 # Getting started
 
+This section consists several copied and pasted sections from the [Zephyr Getting Started Guide](https://docs.zephyrproject.org/latest/develop/getting_started/index.html). Please refer to Zephyrs documentation to better understand this project and its build tool `west`.
+
 ## Pull the lf-west-template
 ```
 git clone https://github.com/lf-lang/lf-west-template lf-west && cd lf-west
 ```
 
 ## Install `west`
-This section consists of copied and pasted sections from the [Zephyr Getting Started Guide](https://docs.zephyrproject.org/latest/develop/getting_started/index.html).
 
 1. Setup and activate a virtual environment
 ```
