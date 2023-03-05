@@ -237,6 +237,22 @@ export function getDocumentationNavForLanguage(
       ],
     },
     {
+      title: "Embedded Platforms",
+      oneline:
+        "Documentation for developing Lingua Franca on Embedded Platforms.",
+      id: "embedded-platforms",
+      chronological: true,
+
+      items: [
+        {
+          title: "Arduino",
+          id: "4-arduino",
+          permalink: "/docs/handbook/arduino",
+          oneline: "Developing LF Programs on Arduino.",
+        },
+      ],
+    },
+    {
       title: "Developer",
       oneline:
         "Information for developers of the Lingua Franca language and tools.",
@@ -246,43 +262,43 @@ export function getDocumentationNavForLanguage(
       items: [
         {
           title: "Contributing",
-          id: "4-contributing",
+          id: "5-contributing",
           permalink: "/docs/handbook/contributing",
           oneline: "Contribute to Lingua Franca.",
         },
         {
           title: "Developer Setup",
-          id: "4-developer-setup",
+          id: "5-developer-setup",
           permalink: "/docs/handbook/developer-setup",
           oneline: "Setting up Lingua Franca for developers.",
         },
         {
           title: "Website Development",
-          id: "4-website-development",
+          id: "5-website-development",
           permalink: "/docs/handbook/website-development",
           oneline: "Development of the Lingua Franca website.",
         },
         {
           title: "Developer Eclipse Setup",
-          id: "4-developer-eclipse-setup",
+          id: "5-developer-eclipse-setup",
           permalink: "/docs/handbook/eclipse-oomph",
           oneline: "Developer Eclipse setup with Oomph.",
         },
         {
           title: "Developer IntelliJ Setup",
-          id: "4-developer-intellij-setup",
+          id: "5-developer-intellij-setup",
           permalink: "/docs/handbook/intellij",
           oneline: "Developer IntelliJ Setup.",
         },
         {
           title: "Regression Tests",
-          id: "4-regression-tests",
+          id: "5-regression-tests",
           permalink: "/docs/handbook/regression-tests",
           oneline: "Regression Tests for Lingua Franca.",
         },
         {
           title: "Running Benchmarks",
-          id: "4-running-benchmarks",
+          id: "5-running-benchmarks",
           permalink: "/docs/handbook/running-benchmarks",
           oneline: "Running Benchmarks.",
         },
