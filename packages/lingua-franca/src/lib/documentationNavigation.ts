@@ -274,7 +274,7 @@ export function getDocumentationNavForLanguage(
         },
         {
           title: "Developer Setup",
-          id: "4-developer-setup",
+          id: "5-developer-setup",
           permalink: "/docs/handbook/developer-setup",
           oneline: "Setting up Lingua Franca for developers.",
         },
