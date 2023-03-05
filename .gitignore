@@ -73,8 +73,6 @@ dist
 .lighthouserc.json
 packages/documentation/output/attribution.json
 
-packages/lingua-franca/src/lib/documentationNavigation.ts
-
 .yarn/cache
 .yarn/unplugged
 .yarn/build-state.yml
