@@ -15,7 +15,7 @@ preamble: >
 - nrf52 Development Kit (Optional)
 
 # Overview
-Lingua Franca's C-runtime is tightly integrated with the Zephyr RTOS. This enables developing and programming [hundreds](https://docs.zephyrproject.org/latest/boards/index.html) of resource-constrained microcontrollers. In this guide we will see how LF programs can be built, programmed and debugged both in emulation and on real hardware. When developing LF programs for Zephyr we use a `west`-centric approach. `west` is the preferred build tool for Zephyr projects. This means organizing the code-base and development-flow as expected by `west`. To interact with the Lingua Franca Compiler we provide custom `west`-extensions which invoke `lfc` before building the Zephyr application. This is contrasted by our Arduino-support which is `lfc`-centric.
+Lingua Franca's C-runtime supports the Zephyr RTOS. This enables developing and programming [hundreds](https://docs.zephyrproject.org/latest/boards/index.html) of resource-constrained microcontrollers. In this guide we will see how LF programs can be built, programmed and debugged both in emulation and on real hardware. When developing LF programs for Zephyr we use a `west`-centric approach. `west` is the preferred build tool for Zephyr projects. This means organizing the code-base and development-flow as expected by `west`. To interact with the Lingua Franca Compiler we provide custom `west`-extensions which invoke `lfc` before building the Zephyr application. This is contrasted by our Arduino-support which is `lfc`-centric.
 
 # Getting started
 
