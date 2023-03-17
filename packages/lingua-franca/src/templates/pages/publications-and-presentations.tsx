@@ -31,6 +31,8 @@ const Index: React.FC<Props> = (props) => {
 </li>
 <li><p><strong>CAL&#39;23</strong>: Edward A. Lee, Ravi Akella, Soroush Bateni, Shaokai Lin, Marten Lohstroh, Christian Menard, &quot;<a href="https://arxiv.org/abs/2301.08906">Consistency vs. Availability in Distributed Real-Time Systems</a>,&quot; arXiv:2301.08906 [cs.DC], January 21, 2023.</p>
 </li>
+<li><p><strong>NG-RES&#39;23</strong>: Erling Rennemo Jellum, Shaokai Lin, Peter Donovan, Efsane Soyer, Fuzail Shakir, Torleiv Bryne, Milica Orlandic, Marten Lohstroh, Edward A. Lee, &quot;<a href="https://doi.org/10.4230/OASIcs.NG-RES.2023.3">Beyond the Threaded Programming Model on Real-Time Operating Systems</a>,&quot; Workshop on Next Generation Real-Time Embedded Systems (NG-RES), January 18 2023.</p>
+</li>
 <li><p><strong>Perf&#39;23</strong>: Christian Menard, Marten Lohstroh, Soroush Bateni, Matthew Chorlian, Arthur Deng, Peter Donovan, Clément Fournier, Shaokai Lin, Felix Suchert, Tassilo Tanneberger, Hokeun Kim, Jeronimo Castrillon and Edward A. Lee, "<a href="https://arxiv.org/abs/2301.02444">High-Performance Deterministic Concurrency using Lingua Franca</a>,&quot; arXiv:2301.02444 [cs.PL], Jan. 9, 2023</p>
 </li>
 <li><p><strong>Xronos&#39;22</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng Wong, Rohan Tabish, Hokeun Kim, Shaokai Lin, Christian Menard, Cong Liu, and Edward A. Lee, "<a href="https://arxiv.org/abs/2207.09555">Xronos: Predictable Coordination for Safety-Critical Distributed Embedded Systems</a>,&quot;	arXiv:2207.09555 [cs.DC], July 19, 2022.</p>
