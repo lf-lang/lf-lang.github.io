@@ -207,7 +207,7 @@ When the `tracing` target parameter is set to `true` in a [federated program](ht
 
 Consider the following LF program:
 
-<img src="../../../../../img/tracing/Feedback.png" alt="Feedback example" width="300"/>
+<img src="../../../../../img/tracing/Feedback.svg" alt="Feedback example" width="300"/>
 
 Setting `tracing: true` in this program and running it produces four `.lft` files. Running `fedsd` on those files:
 
