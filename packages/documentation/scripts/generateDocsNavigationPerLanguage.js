@@ -91,6 +91,7 @@ const handbookPages = [
     chronological: true,
     items: [
       { file: "embedded/Arduino.md"},
+      { file: "embedded/Zephyr.md"},
     ],
   },
   {
