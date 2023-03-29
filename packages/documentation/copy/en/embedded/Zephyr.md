@@ -5,15 +5,6 @@ permalink: /docs/handbook/zephyr
 oneline: "Developing LF Programs for Zephyr RTOS."
 preamble: >
 ---
-
-## Supported Operating Systems
-- macOS
-- Linux
-
-## Prerequisites
-- lfc v0.4.0
-- nrf52 Development Kit (optional)
-
 # Overview
 Lingua Franca's C-runtime supports the Zephyr RTOS. This enables developing and
 programming [hundreds](https://docs.zephyrproject.org/latest/boards/index.html)
@@ -25,6 +16,11 @@ requires structuring the code base and development flow as expected by `west`. T
 with the Lingua Franca Compiler we provide custom `west`-extensions which invoke
 `lfc` before building the Zephyr application. This in contrast to our
 Arduino-support, which is `lfc`-centric.
+
+## Prerequisites
+- Linux or macOS development system
+- `lfc` v0.4.0 or greater
+- nrf52 Development Kit (optional)
 
 # Getting started
 
