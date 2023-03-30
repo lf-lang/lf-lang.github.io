@@ -40,9 +40,9 @@ const Index: React.FC<Props> = (props) => {
     <div className="raised main-content-block">
       <h2 id="download-epoch">Epoch IDE</h2>
       <p>Epoch can be installed in any directory.
-        It is convenient to add the installation directory to your <code>PATH</code>.
-        On a Mac, you can drag <code>epoch.app</code> to the Applications folder and open it from anywhere using <code>open -a epoch</code>.
-        To download the current development version of Epoch, replace the following tar and zip files with those from the <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">nightly build</a>.
+        It is convenient to add the installation directory to your <code>PATH</code>, or,
+        a Mac, you can drag <code>epoch.app</code> to the Applications folder and open it from anywhere using <code>open -a epoch</code>.
+        To get the current development version of Epoch, see the <a href="https://github.com/lf-lang/epoch">Epoch repo</a>.
       </p>
       <section style={{ display: "flex", flexWrap: "wrap" }}>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
@@ -54,10 +54,11 @@ const Index: React.FC<Props> = (props) => {
         </div>
         <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
           <h3>macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.4.0 for macOS</a> and run:
-          <p><code>open epoch_ide_0.4.0-macosx.cocoa.x86_64.tar</code></p>
+          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.4.0 for x86_64 macOS</a>
+          or <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-macosx.cocoa.aarch64.tar.gz">Epoch IDE 0.4.0 for aarch64 macOS</a> and run:
+          <p><code>open </code><i>downloaded file</i></p>
           <p><code>xattr -cr Epoch.app</code></p>
-          <p><code>open epoch.app</code></p>
+          <p><code>open Epoch.app</code></p>
         </div>
 
         <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
