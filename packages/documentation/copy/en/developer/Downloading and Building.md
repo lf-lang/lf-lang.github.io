@@ -24,7 +24,8 @@ There are scripts in `bin` which you can use to run the compiler or other tools.
 
 ## Epoch
 
-The Epoch IDE can be built with Maven using `mvn clean package`. The resulting tar and zip archives for all supported platforms can be found in `./org.lflang.rca/target/products/`. Platform-specific binaries can be found in the `org.lflang.rca` subdirectory. For instance, a 64-bit Linux binary will be located in `./org.lflang.rca/target/products/org.lflang.rca/linux/gtk/x86_64/epoch/epoch`.
+The Epoch IDE is in a [separate repository](https://github.com/lf-lang/epoch).
+Follow the instructures there in the [README file](https://github.com/lf-lang/epoch/blob/main/README.md).
 
 # Running Test
 
@@ -32,14 +33,13 @@ Lingua Franca comes with unit and integration tests. More details can be found [
 
 ## Unit Tests
 
-The unit tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.compiler.*"`. 
+The unit tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.compiler.*"`.
 
 ## Integration Tests
 
 All integration tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.runtime.*"`. By specifying the concrete test class, it is also possible to run only tests for a specific target. For instance the Python tests can be run with `./gradlew test --tests "org.lflang.tests.runtime.PythonTest.*"`. For convenience, there is also a script which can be used for running the integration tests for a specific target. For instance: `./bin/run-lf-tests Python`.
 
-Sometimes it is useful to only run a single integration test. This can be done with the `runSingleTest` Gradle task. For instance: `./gradlew  runSingleTest --args test/C/src/Minimal.lf`.
-
+Sometimes it is useful to only run a single integration test. This can be done with the `runSingleTest` Gradle task. For instance: `./gradlew runSingleTest --args test/C/src/Minimal.lf`.
 
 # IDE Integration
 
