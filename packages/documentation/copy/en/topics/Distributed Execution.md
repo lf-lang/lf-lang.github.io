@@ -71,6 +71,7 @@ federated reactor {
     p = new Print();
     c.out -> p.in;
 }
+ 
 ```
 
 ```lf-cpp
@@ -104,6 +105,7 @@ federated reactor {
     p = new Print();
     c.out -> p.inp;
 }
+ 
 ```
 
 ```lf-ts
@@ -130,6 +132,7 @@ federated reactor Federated {
     d = new Destination();
     s.out -> d.inp;
 }
+
 ```
 
 ```lf-rs
@@ -345,7 +348,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -355,6 +358,7 @@ federated reactor {
     p = new PrintTimer();
     c.out -> p.in after 10 msec;
 }
+
 ```
 
 ```lf-cpp
@@ -381,6 +385,7 @@ federated reactor {
     p = new PrintTimer()
     c.out -> p.inp after 10 msec
 }
+
 ```
 
 ```lf-ts
@@ -409,7 +414,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer(STP_offset:time(10 msec)) extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -419,6 +424,7 @@ federated reactor {
     p = new PrintTimer();
     c.out -> p.in;
 }
+
 ```
 
 ```lf-cpp
@@ -445,6 +451,7 @@ federated reactor {
     p = new PrintTimer();
     c.out -> p.inp;
 }
+
 ```
 
 ```lf-ts
@@ -490,11 +497,11 @@ reactor PrintTimer {
         lf_print("****** STP violation handler invoked at (%lld, %d). "
             "Intended tag was (%lld, %d).",
             lf_time_logical_elapsed(), lf_tag().microstep,
-            in->intended_tag.time - start_time, in->intended_tag.microstep
+            in->intended_tag.time - lf_time_start(), in->intended_tag.microstep
         );
     =}
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -504,6 +511,7 @@ federated reactor {
     p = new PrintTimer();
     c.out -> p.in after 10 msec;
 }
+
 ```
 
 ```lf-cpp
@@ -544,6 +552,7 @@ federated reactor {
     p = new PrintTimer();
     c.out -> p.inp after 10 msec;
 }
+
 ```
 
 ```lf-ts
