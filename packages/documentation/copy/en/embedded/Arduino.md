@@ -70,7 +70,7 @@ Here a target declaration that specifies all of these options:
 target C {
   platform: {
     name: "arduino",
-    board: "arduino-avr-uno",
+    board: "arduino:avr:uno",
     port: "/dev/ttyd2",
     baud-rate: 115200,
     flash: true
@@ -110,10 +110,10 @@ The common board families include `avr`, `megaAVR`, `sam`, `samd`, and `mbed`.
 If you specify your FQBN under `board` in the `platform` target property, `lfc` will automatically invoke `arduino-cli` on the generated sketch. To invoke `arduino-cli` manually
 
 - for unthreaded programs (most arduino flavors), run:
-  `arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags=\"-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\" --build-property compiler.cpp.extra_flags=\"-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\"`
+  `arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags="-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10" --build-property compiler.cpp.extra_flags="-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10"`
 
 - for threaded programs (`arduino:mbed` boards), run:
-  `arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags=\"-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\" --build-property compiler.cpp.extra_flags=\"-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10\"`
+  `arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags="-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10" --build-property compiler.cpp.extra_flags="-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10"`
 
 # Flashing
 
