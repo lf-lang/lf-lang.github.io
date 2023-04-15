@@ -2796,33 +2796,30 @@ The following schedulers are available:
 
 ### Included Libraries
 
-The generated code includes the following standard C libraries, so there is no need for a reactor definition to explicitly include them if they are needed:
+Definitions for the following do not need to be explicitly included because the code generator exposes them in the user namespace automatically:
 
-- stdio.h
-- stdlib.h
-- string.h
-- time.h
-- errno.h
+- Functions and macros used to set ports and iterate over multiports
+- Functions and macros used to schedule actions
+- Functions and macros used to set a reactor's mode
+- Functions and macros used to create trace points
+- Logging utility functions
+- Typedefs relating to time and logical time, including `tag_t`, `instant_t`, `interval_t`, and `microstep_t`
+- API functions for obtaining timing information about the current program execution, including the current physical and logical time
 
-In addition, the multithreaded implementation uses
+Some standard C libraries are exposed to the user through `reactor.h`, including `stddef.h`,
+`stdio.h`, and `stdlib.h`. However, users who wish to avoid breaking changes between releases should
+consider including these libraries explicitly instead of relying on their being exposed by the
+runtime.
 
-- pthread.h
+Users who wish to include functionality that has a platform-specific implementation may choose to
+explicitly include `platform.h`, which provides a uniform interface for various concurrency
+primitives and sleep functions.
 
 ### Single Threaded Implementation
 
-The runtime library for the single-threaded implementation is in the following files:
-
-- reactor.c
-- reactor_common.c (included in the above using #include)
-- pqueue.c
-
-Three header files provide the interfaces:
-
-- reactor.h
-- ctarget.h
-- pqueue.h
-
-The strategy is to have two queues of pending accessor invocations, one that is sorted by timestamp (the **event queue**) and one that is sorted by priority (the **reaction queue**). Execution proceeds as follows:
+The execution strategy is to have two queues of pending accessor invocations, one that is sorted by
+timestamp (the **event queue**) and one that is sorted by priority (the **reaction queue**).
+Execution proceeds as follows:
 
 1. At initialization, an event for each timer is put on the event queue and logical time is initialized to the current time, represented as the number of nanoseconds elapsed since January 1, 1970.
 
@@ -2835,17 +2832,6 @@ The strategy is to have two queues of pending accessor invocations, one that is 
 5. When the reaction queue is empty, go to 2.
 
 ### Multithreaded Implementation
-
-The runtime library for the multithreaded implementation is in the following files:
-
-- reactor_threaded.c
-- reactor_common.c (included in the above using #include)
-- pqueue.c
-
-The same two header files provide the interfaces:
-
-- reactor.h
-- pqueue.h
 
 The default number of worker threads is given by the `workers` argument in the [target](/docs/handbook/target-declaration#threading) statement.
 This can be overridden with the `--workers` [command-line argument](#command-line-arguments).
