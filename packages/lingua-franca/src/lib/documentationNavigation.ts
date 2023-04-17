@@ -250,6 +250,12 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/arduino",
           oneline: "Developing LF Programs on Arduino.",
         },
+        {
+          title: "Zephyr",
+          id: "4-zephyr",
+          permalink: "/docs/handbook/zephyr",
+          oneline: "Developing LF Programs for Zephyr RTOS.",
+        },
       ],
     },
     {
