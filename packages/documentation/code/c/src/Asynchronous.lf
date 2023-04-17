@@ -1,17 +1,24 @@
-target C;
+target C {
+    keepalive: true  // Do not exit when event queue is empty.
+}
+
+preamble {=
+    #include "platform.h" // Defines lf_sleep() and thread functions.
+=}
+
 main reactor {
     preamble {=
         // Schedule an event roughly every 200 msec.
         void* external(void* a) {
             while (true) {
-                lf_nanosleep(MSEC(200));
+                lf_sleep(MSEC(200));
                 lf_schedule(a, 0);
             }
         }
     =}
-    state thread_id:lf_thread_t(0);
-    physical action a(100 msec):int;
-  
+    state thread_id: lf_thread_t(0)
+    physical action a(100 msec): int
+
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         lf_thread_create(&self->thread_id, &external, a);
