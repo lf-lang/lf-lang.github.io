@@ -88,7 +88,7 @@ A $preamble$ that is put outside the $reactor$ definition can only contain
 _declarations_ not _definitions_ of functions or variables.
 The following code, for example will **fail to compile**:
 
-```
+```lf-c
 preamble {=
     int add_42(int i) {
         return i + 42;
@@ -114,7 +114,7 @@ The compiler will issue a **duplicate symbol** error because the function defini
 
 To correct this compile error, the file-level preamble should contain only a _declaration_, not a _definition_, as here:
 
-```
+```lf-c
 preamble {=
     int add_42(int i);
 =}
@@ -147,7 +147,7 @@ using `#include` in a file-level $preamble$. If you wish to use a header file th
 If you wish to share _variables_ across reactors, similar constraints apply.
 Note that sharing variables across reactors is **strongly discouraged** because it can undermine the determinacy of Lingua Franca, and you may have to implement mutual-exclusion locks to access such variables. But it is occassionaly justfiable, as in the following example:
 
-```
+```lf-c
 preamble {=
     extern const char shared_string[];
 =}
@@ -171,6 +171,35 @@ main reactor {
 ```
 
 Notice the use of the `extern` keyword in C, which is required because the _definition_ of the `shared_string` variable will be in a separate (code-generated) C file, the one for `main`, not the ones for `A` and `B`.
+
+One subtlety is that if you define symbols that you will use in $input$, $output$, or $state$ declarations, then the symbols _must_ be defined in a file-level $preamble$.
+Specifically, the following code will **fail to compile**:
+
+```lf-c
+main reactor {
+    preamble {=
+        typedef int foo;
+    =}
+    state x:foo = 0
+    reaction(startup) {=
+        lf_print("State is %d", self->x);
+    =}
+}
+```
+
+The compiler will issue an **unknown type name** error. To correct this, just move the declaration to a file-level $preamble$:
+
+```lf-c
+preamble {=
+    typedef int foo;
+=}
+main reactor {
+    state x:foo = 0
+    reaction(startup) {=
+        lf_print("State is %d", self->x);
+    =}
+}
+```
 
 </div>
 
