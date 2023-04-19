@@ -147,7 +147,7 @@ You can use a development version of the runtime library by setting the LFC opti
 
 <div class="lf-c">
 
-- The C target does not yet implement methods.
+- The C target does make any distinction between $private$ and $public$ $preamble$.
 
 </div>
 
@@ -2699,7 +2699,7 @@ A reaction may request that the execution stop by calling the function `util.req
 
 <div class="lf-c">
 
-A suite of useful functions is provided in [util.h](https://github.com/lf-lang/reactor-c/blob/main/core/utils/util.h) for producing messages to be made visible when the generated program is run. Of course, you can always use `printf`, but this is not a good choice for logging or debug information, and it is not a good choice when output needs to be redirected to a window or some other user interface (see for example the [sensor simulator](https://github.com/lf-lang/reactor-c/blob/main/util/sensor_simulator.h)). Also, in federated execution, these functions identify which federate is producing the message. The functions are listed below. The arguments for all of these are identical to `printf` with the exception that a trailing newline is automatically added and therefore need not be included in the format string.
+A suite of useful functions is provided in [util.h](https://www.lf-lang.org/reactor-c/d8/d3c/util_8h.html) for producing messages to be made visible when the generated program is run. Of course, you can always use `printf`, but this is not a good choice for logging or debug information, and it is not a good choice when output needs to be redirected to a window or some other user interface (see for example the [sensor simulator](https://github.com/lf-lang/reactor-c/blob/main/util/sensor_simulator.h)). Also, in federated execution, these functions identify which federate is producing the message. The functions are listed below. The arguments for all of these are identical to `printf` with the exception that a trailing newline is automatically added and therefore need not be included in the format string.
 
 - `LF_PRINT_DEBUG(format, ...)`: Use this for verbose messages that are only needed during debugging. Nothing is printed unless the [target](/docs/handbook/target-declaration#logging) parameter `logging` is set to `debug`. THe overhead is minimized when nothing is to be printed.
 
@@ -2768,6 +2768,100 @@ Note that the `logging` target property is ignored, as its levels do not match t
 Note that when building with a release profile (i.e., target property `build-type` is not `Debug`), all log statements with level `debug` and `trace` are removed from the executable, and cannot be turned on at runtime. A warning is produced by the executable if you try to use these levels explicitly.
 
 </div>
+
+[comment]: <> (================= NEW SECTION =====================)
+
+## Libraries Available to Programmers
+
+<div class="lf-c">
+
+#### Libraries Available in All Programs
+
+Reactions in C can use a number of pre-defined functions, macros, and constants without having to explicitly include any header files:
+
+- **Time and tags** ([tag.h](https://www.lf-lang.org/reactor-c/d2/dcd/tag_8h.html)):
+
+  - Specifying time value, such as `MSEC` and `FOREVER`
+  - Time data types, such as `tag_t` and `instant_t`
+  - Obtaining tag and time information, e.g. `lf_time_logical` and `lf_time_physical`
+
+- **Ports**
+
+  - Writing to output ports, such as `lf_set` and `lf_set_token` ([set.h](https://www.lf-lang.org/reactor-c/d4/d13/set_8h.html))
+  - Iterating over sparse multiports, such as `lf_multiport_iterator` and `lf_multiport_next` ([port.h](https://www.lf-lang.org/reactor-c/da/d00/port_8h.html))
+
+- **Scheduling actions**
+
+  - Schedule future events, such as `lf_schedule` and `lf_schedule_value` ([api.h](https://www.lf-lang.org/reactor-c/dc/d65/api_8h.html))
+
+- **Miscellaneous**
+
+  - Changing modes in modal models, `lf_set_mode` ([set.h](https://www.lf-lang.org/reactor-c/d4/d13/set_8h.html))
+  - Checking deadlines, `lf_check_deadline` ([api.h](https://www.lf-lang.org/reactor-c/dc/d65/api_8h.html))
+  - Defining and recording tracepoints, such as `register_user_trace_event` and `tracepoint` ([trace.h](https://www.lf-lang.org/reactor-c/d1/d1b/trace_8h.html))
+  - Printing utilities, such as `lf_print` and `lf_print_error` ([util.h](https://www.lf-lang.org/reactor-c/d8/d3c/util_8h.html))
+  - Logging utilities, such as `LF_PRINT_LOG` and `LF_PRINT_DEBUG` ([util.h](https://www.lf-lang.org/reactor-c/d8/d3c/util_8h.html))
+
+#### Standard C Libraries
+
+The generated C code automatically includes the following [standard C libraries](https://en.wikipedia.org/wiki/C_standard_library) (see also the [C standard library header files](https://en.cppreference.com/w/c/header)):
+
+- limits.h (Defines `INT_MIN`, `INT_MAX`, etc.)
+- stdbool.h (Defines `bool` datatype and `true` and `false` constants)
+- stddef.h (Defines `size_t`, `NULL`, etc.)
+- stdint.h (Defines `int64_t`, `int32_t`, etc.)
+- stdlib.h (Defines `exit`, `getenv`, `atoi`, etc.)
+
+Hence, programmers are free to use functions from these libraries without explicitly providing a `#include` statement. Nevertheless, providing one is harmless and may be good form. In particular, future releases may not include these header files
+
+#### Available Libraries Requiring #include
+
+More sophisticated library functions require a `#include` statement in a $preamble$.
+Specifically, [platform.h](https://www.lf-lang.org/reactor-c/de/d03/platform_8h.html) includes the following:
+
+- Sleep functions such as `lf_sleep`
+- Mutual exclusion such as `lf_critial_section_enter` and `lf_critical_section_exit`
+- Threading functions such as `lf_thread_create`
+
+The threading functions are only available for platforms that support multithreading.
+
+#### Available Libraries Requiring #include, a files entry, and a cmake-include
+
+A few utility libraries are provided, but require considerably more setup.
+These also help to illustrate how to incorporate your own libraries.
+
+- Audio functions (for Linux and Mac only): [audio_loop.h](https://www.lf-lang.org/reactor-c/d1/dcb/audio__loop_8h.html)
+- Audio file reader: [wave_file_reader.h](https://www.lf-lang.org/reactor-c/d3/d8a/wave__file__reader_8h.html)
+- A double-ended queue: [deque.h](https://www.lf-lang.org/reactor-c/dc/d44/deque_8h.html)
+- An ncurses terminal interface for I/O: [sensor_simulator.h](https://www.lf-lang.org/reactor-c/dc/de9/sensor__simulator_8h.html)
+
+</div>
+
+<div class="lf-cpp">
+
+<span class="warning">FIXME: Details needed here.</span>
+
+</div>
+
+<div class="lf-py">
+
+<span class="warning">FIXME: Details needed here.</span>
+
+</div>
+
+<div class="lf-ts">
+
+<span class="warning">FIXME: Details needed here.</span>
+
+</div>
+
+<div class="lf-rs">
+
+<span class="warning">FIXME: Details needed here.</span>
+
+</div>
+
+[comment]: <> (================= NEW SECTION =====================)
 
 <div class="lf-c lf-py">
 
