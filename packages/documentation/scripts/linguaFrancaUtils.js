@@ -19,7 +19,7 @@ const keywords = [
   "main", "method", "mode", "msec", "msecs", "mutable", "mutation", 
   "new", 
   "output", 
-  "physical", "preamble",
+  "physical", "preamble", "private", "public",
   "reaction", "reactor", "realtime", "reset",
   "sec", "secs", "shutdown", "startup", "state",
   "target", "timer", "time", 
