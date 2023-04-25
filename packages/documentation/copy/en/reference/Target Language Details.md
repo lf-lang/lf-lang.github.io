@@ -2794,6 +2794,18 @@ Reactions in C can use a number of pre-defined functions, macros, and constants 
 
   - Schedule future events, such as `lf_schedule` and `lf_schedule_value` ([api.h](https://www.lf-lang.org/reactor-c/dc/d65/api_8h.html))
 
+- **File Access**
+
+  - LF_SOURCE_DIRECTORY: A C string giving the full path to the directory containing the `.lf` file of the program.
+  - LF_FILE_SEPARATOR: A C string giving the file separator for the platform containing the `.lf` file ("/" for Unix-like systems, "\\" for Windows).
+
+These are useful when your application needs to open and read additional files. For example, the following C code can be used to open a file in a subdirectory called `dir` of the directory that contains the `.lf` file:
+
+```
+    const char* path = LF_SOURCE_DIRECTORY LF_FILE_SEPARATOR "dir" LF_FILE_SEPARATOR "filename"
+    FILE* fp = fopen(path, "rb");
+```
+
 - **Miscellaneous**
 
   - Changing modes in modal models, `lf_set_mode` ([set.h](https://www.lf-lang.org/reactor-c/d4/d13/set_8h.html))
