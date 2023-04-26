@@ -40,6 +40,7 @@ reactor Deadline {
         lf_set(d, x->value);
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -55,6 +56,7 @@ reactor Deadline {
         d.set(*x.get());
     =}
 }
+
 ```
 
 ```lf-py
@@ -83,6 +85,7 @@ reactor Deadline {
         d = x
     =}
 }
+
 ```
 
 ```lf-rs
@@ -96,23 +99,31 @@ This reactor specifies a deadline of 10 milliseconds (this can be a parameter of
 $start(DeadlineTest)$
 
 ```lf-c
-target C;
-import Deadline from "Deadline.lf";
+target C
+
+import Deadline from "Deadline.lf"
+
+preamble {=
+    #include "platform.h"
+=}
+
 main reactor {
-    logical action a;
-    d = new Deadline();
+    logical action a
+    d = new Deadline()
+
     reaction(startup) -> d.x, a {=
         lf_set(d.x, 0);
         lf_schedule(a, 0);
     =}
+
     reaction(a) -> d.x {=
         lf_set(d.x, 0);
-        lf_nanosleep(MSEC(20));
+        lf_sleep(MSEC(20));
     =}
-    reaction(d.d) {=
-        printf("Deadline reactor produced an output.\n");
-    =}
+
+    reaction(d.d) {= printf("Deadline reactor produced an output.\n"); =}
 }
+
 ```
 
 ```lf-cpp
@@ -136,6 +147,7 @@ main reactor {
         std::cout << "Deadline reactor produced an output." << std::endl;
     =}
 }
+
 ```
 
 ```lf-py
@@ -180,6 +192,7 @@ main reactor {
         console.log("Deadline reactor produced an output.")
     =}
 }
+
 ```
 
 ```lf-rs
@@ -201,6 +214,14 @@ Deadline reactor produced an output.
 The first reaction of the `Deadline` reactor does not violate the deadline, but the second does. Notice that the sleep in the $main$ reactor occurs _after_ setting the output, but because of the deterministic semantics of LF, this does not matter. The actual value of an output cannot be known until every reaction that sets that output _completes_ its execution. Since this reaction takes at least 20 msec to complete, the deadline is assured of being violated.
 
 Notice that the deadline is annotated in the diagram with a small clock symbol.
+
+<div class="lf-c">
+
+Notice that the deadline violation here is caused by an invocation of `lf_sleep`, defined in `"platform.h"` (see [Libraries Available to Programmers](/docs/handbook/target-language-details?target=c#libraries-available-to-programmers)).
+It is not generally advisable for a reaction to sleep because this can block other reactions from executing.
+But this is exactly what we are trying to accomplish here in order to force a deadline to be violated.
+
+</div>
 
 ## Deadline Violations During Execution
 
