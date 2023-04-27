@@ -113,7 +113,7 @@ The C target has several features that would allow you to mostly re-use your exi
   [sourced](https://docs.ros.org/en/humble/Tutorials/Configuring-ROS2-Environment.html#source-the-setup-files)
   in order for `std_msgs` to be findable.
 
-  Support for `shared_ptr` types is also supported. It is generally could be
+  Support for `shared_ptr` types is also supported. It could be
   more efficient to use shared pointers because they can minimize the overhead
   of copying. This would especially be useful for message types such as
   `PointCloud2` that are expensive to copy. The example above could be
