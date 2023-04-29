@@ -2797,7 +2797,7 @@ Reactions in C can use a number of pre-defined functions, macros, and constants 
 - **File Access**
 
   - LF_SOURCE_DIRECTORY: A C string giving the full path to the directory containing the `.lf` file of the program.
-  - LF_PROJECT_DIRECTORY: A C string giving the full path to the directory that is the root of the project.
+  - LF_PACKAGE_DIRECTORY: A C string giving the full path to the directory that is the root of the project or package (normally, the directory above the `src` directory).
   - LF_FILE_SEPARATOR: A C string giving the file separator for the platform containing the `.lf` file ("/" for Unix-like systems, "\\" for Windows).
 
 These are useful when your application needs to open and read additional files. For example, the following C code can be used to open a file in a subdirectory called `dir` of the directory that contains the `.lf` file:

@@ -169,7 +169,7 @@ A command to execute after code generation instead of the default compile comman
 
 - `LF_CURRENT_WORKING_DIRECTORY`: The directory in which the command is invoked.
 - `LF_SOURCE_DIRECTORY`: The directory containing the .lf file being compiled.
-- `LF_PROJECT_DIRECTORY`: The directory for the root of the project.
+- `LF_PACKAGE_DIRECTORY`: The directory for the root of the project or package (normally the directory above the `src` directory).
 - `LF_SOURCE_GEN_DIRECTORY`: The directory in which generated files are placed.
 - `LF_BIN_DIRECTORY`: The directory into which to put binaries.
 
