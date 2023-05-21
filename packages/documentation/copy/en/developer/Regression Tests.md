@@ -86,8 +86,8 @@ It is also possible to run a subset of the tests. For example, the C tests are o
 To invoke only the tests in the `concurrent` category, for example, do this:
 
 ```sh
-cd $LF/xtext
-./gradlew test --tests org.icyphy.tests.runtime.CTest.runConcurrentTests
+cd $LF
+./gradlew test --tests org.lflang.tests.runtime.CTest.runConcurrentTests
 ```
 
 ### Reporting Bugs
