@@ -6,6 +6,10 @@ oneline: "Setting up Lingua Franca for developers."
 preamble: >
 ---
 
+## Prerequisites
+
+- Java 17 or up ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
+
 ## Cloning the Repository
 
 Please run the following commands to clone the repository and its submodules.
