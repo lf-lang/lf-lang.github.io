@@ -6,42 +6,48 @@ oneline: "Setting up Lingua Franca for developers."
 preamble: >
 ---
 
-# Cloning the Repository
+## Cloning the Repository
 
-```
+Please run the following commands to clone the repository and its submodules.
+
+```sh
 git clone git@github.com:lf-lang/lingua-franca.git
 cd lingua-franca
 git submodule update --init --recursive
 ```
 
-# Building from the Command Line
+## Building the command line tools
 
-## Command Line Tools
+We use [Gradle](https://docs.gradle.org/current/userguide/userguide.html) for building the code within our repository.
 
-You can build the Lingua Franca compiler and other CLI tools with Gradle using `./gradlew clean buildAll`.
+For an easy start, the `bin/` directory contains scripts for building and running our compiler lfc and our code formatter lff.
+Try to run `./bin/lfc --version`.
+This will first build `lfc` and then execute it through Gradle.
+In fact, running `./bin/lfc <args>` is equivalent to running `./gradlew cli:lfc:run --args="<args>"`.
 
-There are scripts in `bin` which you can use to run the compiler or other tools. For instance: `./bin/lfc --version`.
+To build the entire repository, you can simply run `./gradlew build`.
+This will build all tools and also run all formatting checks and unit tests.
+Note that this does not run our integration tests.
+For more details on our testing infrastructure, please refer to the [Regression Test](/docs/handbook/regression-tests) section.
 
-## Epoch
+If you only want to build without running any tests, you can use `./gradlew assemble` instead.
+Both the assemble and the build task will create a distribution package containing our command line tools in `build/distribution`.
+There is also an installed version of this package in `build/install/lf-cli/`.
+If you run `build/install/lf-cli/bin/lfc` this will run lfc as it was last build.
+Thus, you can choose if you want to use `bin/lfc`, which runs lfc through gradle and always uses the latest code, or if you prefer to run `./gradlew build` and then directly invoke `build/install/lf-cli/bin/lfc`.
 
-The Epoch IDE is in a [separate repository](https://github.com/lf-lang/epoch).
-Follow the instructures there in the [README file](https://github.com/lf-lang/epoch/blob/main/README.md).
+## IDE Integration
 
-# Running Test
+You can use any editor or IDE that you like to work with the code base.
+However, we would suggest to choose an IDE that comes with good Java (and
+ideally Kotlin) support and that integrates well with Gradle.
+We recommend to use our [IntelliJ setup](/docs/handbook/intellij).
 
-Lingua Franca comes with unit and integration tests. More details can be found [here](/docs/handbook/regression-tests).
+If you plan to contribute to the [Epoch IDE](https://github.com/lf-lang/epoch), you should use the [Oomph setup for Eclipse](/docs/handbook/eclipse-oomph).
 
-## Unit Tests
+## Building IDEs
 
-The unit tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.compiler.*"`.
-
-## Integration Tests
-
-All integration tests can be run with Gradle using `./gradlew test --tests "org.lflang.tests.runtime.*"`. By specifying the concrete test class, it is also possible to run only tests for a specific target. For instance the Python tests can be run with `./gradlew test --tests "org.lflang.tests.runtime.PythonTest.*"`. For convenience, there is also a script which can be used for running the integration tests for a specific target. For instance: `./bin/run-lf-tests Python`.
-
-Sometimes it is useful to only run a single integration test. This can be done with the `runSingleTest` Gradle task. For instance: `./gradlew runSingleTest --args test/C/src/Minimal.lf`.
-
-# IDE Integration
-
-You will likely want to use an IDE for working with the code base. For development of the core tools, any IDE that integrates with gradle can be used. We recommend our [IntelliJ setup](/docs/handbook/intellij).
-If you plan to contribute to the Epoch IDE, you should use the [Oomph setup for Eclipse](/docs/handbook/eclipse-oomph).
+Currently, we provide two IDEs that support Lingua Franca programs.
+Their source code is located in external repositories.
+We have a [Lingua Franca extension](https://github.com/lf-lang/vscode-lingua-franca) for VS code and an Eclipse based IDE called [Epoch](https://github.com/lf-lang/epoch).
+Please refer to the READMEs for build instructions.
