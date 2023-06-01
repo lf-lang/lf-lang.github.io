@@ -102,7 +102,6 @@ const handbookPages = [
       { file: "developer/Contributing.md" },
       { file: "developer/Downloading and Building.md" },
       { file: "developer/Website Development.md"},
-      { file: "developer/Developer Eclipse Setup with Oomph.md" },
       { file: "developer/Developer IntelliJ Setup.md" },
       { file: "developer/Regression Tests.md" },
       { file: "developer/Running Benchmarks.md" },

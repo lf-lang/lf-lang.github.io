@@ -285,12 +285,6 @@ export function getDocumentationNavForLanguage(
           oneline: "Development of the Lingua Franca website.",
         },
         {
-          title: "Developer Eclipse Setup",
-          id: "5-developer-eclipse-setup",
-          permalink: "/docs/handbook/eclipse-oomph",
-          oneline: "Developer Eclipse setup with Oomph.",
-        },
-        {
           title: "Developer IntelliJ Setup",
           id: "5-developer-intellij-setup",
           permalink: "/docs/handbook/intellij",

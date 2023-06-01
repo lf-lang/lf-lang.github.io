@@ -43,8 +43,6 @@ However, we would suggest to choose an IDE that comes with good Java (and
 ideally Kotlin) support and that integrates well with Gradle.
 We recommend to use our [IntelliJ setup](/docs/handbook/intellij).
 
-If you plan to contribute to the [Epoch IDE](https://github.com/lf-lang/epoch), you should use the [Oomph setup for Eclipse](/docs/handbook/eclipse-oomph).
-
 ## Building IDEs
 
 Currently, we provide two IDEs that support Lingua Franca programs.
