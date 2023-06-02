@@ -18,7 +18,7 @@ The integration tests are also executed through JUnit using methods with `@Test`
 To run all unit tests, simply run `./gradlew test`. Note that also the normal build tasks `./gradlew build` runs all the unit tests.
 
 
-The integration tests can be run using the `integratioTest` task. However, typically it is not desired to run all tests for all targets locally as it will need the right target tooling and will take a long time.
+The integration tests can be run using the `integrationTest` task. However, typically it is not desired to run all tests for all targets locally as it will need the right target tooling and will take a long time.
 
 To run only the integration tests for one target, we provide the `targetTest` gradle task. For instance, you can use the following command to run all Rust tests:
 ```
