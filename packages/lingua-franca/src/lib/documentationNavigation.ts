@@ -279,18 +279,6 @@ export function getDocumentationNavForLanguage(
           oneline: "Setting up Lingua Franca for developers.",
         },
         {
-          title: "Website Development",
-          id: "5-website-development",
-          permalink: "/docs/handbook/website-development",
-          oneline: "Development of the Lingua Franca website.",
-        },
-        {
-          title: "Developer Eclipse Setup",
-          id: "5-developer-eclipse-setup",
-          permalink: "/docs/handbook/eclipse-oomph",
-          oneline: "Developer Eclipse setup with Oomph.",
-        },
-        {
           title: "Developer IntelliJ Setup",
           id: "5-developer-intellij-setup",
           permalink: "/docs/handbook/intellij",
@@ -307,6 +295,12 @@ export function getDocumentationNavForLanguage(
           id: "5-running-benchmarks",
           permalink: "/docs/handbook/running-benchmarks",
           oneline: "Running Benchmarks.",
+        },
+        {
+          title: "Website Development",
+          id: "5-website-development",
+          permalink: "/docs/handbook/website-development",
+          oneline: "Development of the Lingua Franca website.",
         },
       ],
     },
