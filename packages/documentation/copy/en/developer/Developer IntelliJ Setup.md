@@ -42,6 +42,8 @@ Once the indexing finishes, you can expand the Gradle project and see the set of
 
 ![](../../../../../img/intellij/expand_gradle_tab.png)
 
+You can run any Gradle command from IntelliJ simply by clicking on the "Execute Gradle Task" icon in the Gradle tab. You are the prompted for the precis command to run.
+
 ## Setting up run configurations
 
 You can set up a run configuration for running and debugging various Gradle tasks from the Gradle tab, including the code generation through lfc.
@@ -67,3 +69,7 @@ Set up breakpoints before starting the debugger by clicking the space right next
 While debugging, you can run code step-by-step by using the debugger tools.
 
 ![](../../../../../img/intellij/debugger_screen.png)
+
+## Integration Tests
+
+You can also run the integration test from IntelliJ. You will find the `targetTest` and `singleTest` tasks in the Gradle tab under "org.lflang" -> "Tasks" -> "other". Make sure to add a run configuration as shown above and add `-Ptarget=...` to the `targetTest` command or `-DsingleTest=...` to your `singleTest` command to specify the target or the precise test that you would like to run.
