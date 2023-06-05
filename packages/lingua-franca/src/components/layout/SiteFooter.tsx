@@ -49,8 +49,8 @@ const communityLinks = [
     url: "https://github.com/lf-lang/website-lingua-franca",
   },
   {
-    title: "Slack",
-    url: "https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw",
+    title: "Zulip",
+    url: "https://zulip.lf-lang.org",
   },
 ]
 
@@ -89,15 +89,10 @@ const faviconForURL = (url: string) => {
           />
         </svg>
       )
-      case "https://join.slack.com/t/lf-community/shared_invite/zt-1b4egenxd-Dz~uG5Ps6ce71pgJG02cjw":
-        return (
-            <svg 
-              xmlns="http://www.w3.org/2000/svg" 
-              viewBox="-20 -3 54 54" 
-            >
-              <path d="M13,23.17a2.52,2.52,0,1,1-2.52-2.53H13Zm1.27,6.31a2.53,2.53,0,0,0,5,0V23.17a2.53,2.53,0,1,0-5,0Zm5-16.44V10.52A2.53,2.53,0,1,0,16.83,13Zm-8.84,1.27a2.53,2.53,0,0,0,0,5h6.31a2.53,2.53,0,1,0,0-5Zm16.44,5h2.52A2.53,2.53,0,1,0,27,16.83Zm-1.27-8.84a2.53,2.53,0,0,0-5.05,0v6.31a2.53,2.53,0,1,0,5.05,0ZM20.64,27v2.52A2.53,2.53,0,1,0,23.17,27Zm8.84-1.27a2.53,2.53,0,0,0,0-5.05H23.17a2.53,2.53,0,1,0,0,5.05Z" fill="#ffffff" className="color000 svgShape"></path>
-            </svg>
-        )
+    case "https://zulip.lf-lang.org":
+      return (
+        <svg style="color: white" role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><title>Zulip</title><path d="M22.767 3.589c0 1.209-.543 2.283-1.37 2.934l-8.034 7.174c-.149.128-.343-.078-.235-.25l2.946-5.9c.083-.165-.024-.368-.194-.368H4.452c-1.77 0-3.219-1.615-3.219-3.59C1.233 1.616 2.682 0 4.452 0h15.096c1.77-.001 3.219 1.614 3.219 3.589zM4.452 24h15.096c1.77 0 3.219-1.616 3.219-3.59 0-1.974-1.449-3.59-3.219-3.59H8.12c-.17 0-.277-.202-.194-.367l2.946-5.9c.108-.172-.086-.378-.235-.25l-8.033 7.173c-.828.65-1.37 1.725-1.37 2.934 0 1.974 1.448 3.59 3.218 3.59z" fill="white"></path></svg>
+      )
   }
 }
 
@@ -115,8 +110,8 @@ export const SiteFooter = (props: Props) => {
 
       <section id="community">
         <article id="logos">
-          
-        <a href="">
+
+          <a href="">
             <img
               id="lf-logo"
               width={195}
