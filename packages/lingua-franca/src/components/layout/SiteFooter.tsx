@@ -93,7 +93,7 @@ const faviconForURL = (url: string) => {
       return (
         <svg
           fill="none"
-          viewBox="-25 -7 50 50"
+          viewBox="-30 -10 55 55"
           xmlns="http://www.w3.org/2000/svg"
         >
           <path
