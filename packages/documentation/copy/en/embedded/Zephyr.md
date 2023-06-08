@@ -58,7 +58,7 @@ cd ~
 wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.15.2/zephyr-sdk-0.16.1_linux-x86_64.tar.xz
 wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.1/sha256.sum | shasum --check --ignore-missing
 
-tar xvf zephyr-sdk-0.16.1_linux-x86_64.tar.gz --directory /opt/
+tar xvf zephyr-sdk-0.16.1_linux-x86_64.tar.xz --directory /opt/
 cd /opt/zephyr-sdk-0.16.1
 ./setup.sh
 ```
