@@ -55,17 +55,17 @@ be activated every time you want to use west with LF**
 1. Download and install Zephyr SDK to `/opt`
 ```
 cd ~
-wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.15.2/zephyr-sdk-0.15.2_linux-x86_64.tar.gz
-wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.15.2/sha256.sum | shasum --check --ignore-missing
+wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.15.2/zephyr-sdk-0.16.1_linux-x86_64.tar.xz
+wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.1/sha256.sum | shasum --check --ignore-missing
 
-tar xvf zephyr-sdk-0.15.2_linux-x86_64.tar.gz --directory /opt/
-cd /opt/zephyr-sdk-0.15.2
+tar xvf zephyr-sdk-0.16.1_linux-x86_64.tar.xz --directory /opt/
+cd /opt/zephyr-sdk-0.16.1
 ./setup.sh
 ```
 
 2. Install udev rules for flashing and debugging boards
 ```
-sudo cp /opt/zephyr-sdk-0.15.2/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules /etc/udev/rules.d
+sudo cp /opt/zephyr-sdk-0.16.1/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules /etc/udev/rules.d
 sudo udevadm control --reload
 ```
 
@@ -99,7 +99,7 @@ pip install -r deps/zephyr/scripts/requirements.txt
 # Hello World!
 Now you should have the following installed:
 1. `west`; Verify with `west boards`
-2. Zephyr SDK located at `/opt/zephyr-sdk-0.15.2`
+2. Zephyr SDK located at `/opt/zephyr-sdk-0.16.1`
 3. Zephyr RTOS pulled down to `/deps/zephyr`
 
 You should now be able to build and emulate a simple Hello World! LF program:
@@ -200,30 +200,3 @@ To disable this warning in the future, execute 'west config --global zephyr.base
 Then it means that you have multiple Zephyr repositories installed. 
 We do not recommend this as `west` will link the application with the Zephyr found in the CMake package registry. 
 Please refer to the Getting Started section to purge the system of old Zephyr installations.
-
-### Wrong version of Zephyr
-If, when trying to build an application with `west lf-build` the following error occurs:
-```
-CMake Error at CMakeLists.txt:8 (find_package):
-  Could not find a configuration file for package "Zephyr" that exactly
-  matches requested version "3.2.0".
-```
-
-It means your Zephyr installation is of the wrong version.
-Currently LF requires the exact version v3.2.0.
-This restriction might be eased in the future.
-The `lf-west-template` will download this exact version automatically.
-This might mean that you have other Zephyr installations.
-Please remove them and the exported CMake packages.
-
-
-### Threaded Lingua Franca
-In lfc v0.4.0 only the unthreaded runtime is supported with Zephyr. 
-Unless `threading: false` is set, there will be the following error during compilation:
-
-```
-lf-west-template/application/src-gen/HelloWorld/core/platform/lf_zephyr_support.c:352:2: error: #error "Threaded support on Zephyr is not supported"
-  352 | #error "Threaded support on Zephyr is not supported"
-```
-
-Threaded Zephyr support is expected to be available soon.
