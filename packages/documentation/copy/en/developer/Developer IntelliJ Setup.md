@@ -50,7 +50,9 @@ You can set up a run configuration for running and debugging various Gradle task
 To set up a run configuration for the run task of lfc, right-click on "run" under org.lflang -> cli -> lfc -> Tasks -> application and click "Modify Run Configuration".
 This will create a custom run/debug configuration for you.
 
-In the Run/Debug Configurations dialog, click on the text box next to Tasks: and append args to specify the LF target. For example, `run --args 'test/Cpp/src/HelloWorld.lf'` Then click OK.
+In the Run/Debug Configurations dialog, click on the text box next to Tasks: use the full task name `cli:lfc:run` instead of just `run`.
+and append args to specify the LF target. For example, `cli:lfc:run -args 'test/Cpp/src/HelloWorld.lf'` Meanwhile, change the Gradle project to
+"lingua-franca" instead of "lingua-franca:cli:lfc". Then click OK.
 
 ![](../../../../../img/intellij/run_config_lf_program.png)
 
@@ -69,6 +71,8 @@ Set up breakpoints before starting the debugger by clicking the space right next
 While debugging, you can run code step-by-step by using the debugger tools.
 
 ![](../../../../../img/intellij/debugger_screen.png)
+
+By clicking the play button, the code will be generated without execution. You can run the program by executing the binary file generated under the "bin" folder. In the example above, we can execute the binary by typing the command "test/Cpp/bin/HelloWorld" in the terminal and then pressing enter.
 
 ## Integration Tests
 
