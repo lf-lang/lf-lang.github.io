@@ -72,7 +72,7 @@ While debugging, you can run code step-by-step by using the debugger tools.
 
 ![](../../../../../img/intellij/debugger_screen.png)
 
-By clicking the play button, the code will be generated without execution. You can run the program by executing the binary file generated under the "bin" folder. In the example above, we can execute the binary by typing the command "test/Cpp/bin/HelloWorld" in the terminal and then pressing enter.
+By clicking the play button, the code will be generated without execution. You can run the program by executing the binary file generated under the "bin" folder. In the HelloWorld example above, we can execute the binary by typing the command "test/Cpp/bin/HelloWorld" in the terminal and then pressing enter.
 
 ## Integration Tests
 
