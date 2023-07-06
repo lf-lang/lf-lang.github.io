@@ -74,4 +74,4 @@ By clicking the play button, `lfc` will be invoked, and if compilation is succes
 
 ## Integration Tests
 
-You can also run the integration test from IntelliJ. You will find the <kbd>targetTest</kbd> and <kbd>singleTest</kbd> tasks in the Gradle tab under <kbd org.lflang > Tasks > other</kbd>. Make sure to add a run configuration as shown above and add `-Ptarget=...'` to the `targetTest` command or `-DsingleTest=...` to your `singleTest` command to specify the target (e.g., `C`) or the precise test that you would like to run.
+You can also run the integration test from IntelliJ. You will find the <kbd>targetTest</kbd> and <kbd>singleTest</kbd> tasks in the Gradle tab under <kbd>org.lflang > Tasks > other</kbd>. Make sure to add a run configuration as shown above and append `-Ptarget=...'` to the `targetTest` command or `-DsingleTest=...` to your `singleTest` command to specify the target (e.g., `C`) or the specific test that you would like to run.
