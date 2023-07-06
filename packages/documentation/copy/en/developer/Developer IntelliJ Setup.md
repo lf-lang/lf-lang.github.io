@@ -70,8 +70,8 @@ While debugging, you can run code step-by-step by using the debugger tools.
 
 ![](../../../../../img/intellij/debugger_screen.png)
 
-By clicking the play button, the code will be generated without execution. You can run the program by executing the binary file generated under the "bin" folder. In the HelloWorld example above, we can execute the binary by typing the command "test/Cpp/bin/HelloWorld" in the terminal and then pressing enter.
+By clicking the play button, `lfc` will be invoked, and if compilation is successful, its output can be found, relative to package root of the file under compilation, in `bin` if the target is a compiled language (e.g., C) or in `src-gen` if the target is an interpreted language (e.g., TypeScript).  For the `HelloWorld.lf` example above, the binary can be found in `test/Cpp/bin/HelloWorld` and can be executed in the terminal.
 
 ## Integration Tests
 
-You can also run the integration test from IntelliJ. You will find the `targetTest` and `singleTest` tasks in the Gradle tab under "org.lflang" -> "Tasks" -> "other". Make sure to add a run configuration as shown above and add `-Ptarget=...` to the `targetTest` command or `-DsingleTest=...` to your `singleTest` command to specify the target or the precise test that you would like to run.
+You can also run the integration test from IntelliJ. You will find the <kbd>targetTest</kbd> and <kbd>singleTest</kbd> tasks in the Gradle tab under <kbd org.lflang > Tasks > other</kbd>. Make sure to add a run configuration as shown above and add `-Ptarget=...'` to the `targetTest` command or `-DsingleTest=...` to your `singleTest` command to specify the target (e.g., `C`) or the precise test that you would like to run.
