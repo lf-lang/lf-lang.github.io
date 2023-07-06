@@ -30,34 +30,32 @@ When you open the project for the first time, you will see a small pop-up in the
 
 ![](../../../../../img/intellij/gradle_import.png)
 
-Click on "Load Gradle Project" to import the Gradle configurations.
+Click on <kbd>Load Gradle Project</kbd> to import the Gradle configurations.
 
-If you are prompted to a pop-up window asking if you trust the Gradle project, click Trust Project.
+If you are prompted to a pop-up window asking if you trust the Gradle project, click <kbd>Trust Project</kbd>.
 
 ![](../../../../../img/intellij/trust_gradle_project.png)
 
-Once the repository is imported as a Gradle project, you will see a Gradle tab on the right.
+Once the repository is imported as a Gradle project, you will see a <kbd>Gradle</kbd> tab on the right.
 
 Once the indexing finishes, you can expand the Gradle project and see the set of Tasks.
 
 ![](../../../../../img/intellij/expand_gradle_tab.png)
 
-You can run any Gradle command from IntelliJ simply by clicking on the "Execute Gradle Task" icon in the Gradle tab. You are the prompted for the precis command to run.
+You can run any Gradle command from IntelliJ simply by clicking on the <kbd>Execute Gradle Task</kbd> icon in the Gradle tab. You are then prompted for the precise command to run.
 
 ## Setting up run configurations
 
-You can set up a run configuration for running and debugging various Gradle tasks from the Gradle tab, including the code generation through lfc.
-To set up a run configuration for the run task of lfc, right-click on "run" under org.lflang -> cli -> lfc -> Tasks -> application and click "Modify Run Configuration".
+You can set up a run configuration for running and debugging various Gradle tasks from the <kbd>Gradle</kbd> tab, including the code generation through `lfc`.
+To set up a run configuration for the run task of `lfc`, expand the <kbd>application</kbd> task group under <kbd>org.lflang > Tasks</kbd>, right-click on <kbd>⚙️ run</kbd>, and select <kbd>Modify Run Configuration...</kbd>.
 This will create a custom run/debug configuration for you.
 
-In the Run/Debug Configurations dialog, click on the text box next to Tasks: use the full task name `cli:lfc:run` instead of just `run`.
-and append args to specify the LF target. For example, `cli:lfc:run -args 'test/Cpp/src/HelloWorld.lf'` Meanwhile, change the Gradle project to
-"lingua-franca" instead of "lingua-franca:cli:lfc". Then click OK.
+In the <kbd>Create Run Configuration</kbd> dialog, click on the text box next to <kbd>Run</kbd>, select `cli:lfc:run` from the drop-down menu, and append arguments to be passed to `lfc` using the `--args` flag. For instance, to invoke `lfc` on `test/Cpp/src/HelloWorld.lf`, enter `cli:lfc:run --args 'test/Cpp/src/HelloWorld.lf'` Then click <kbd>OK</kbd>.
 
 ![](../../../../../img/intellij/run_config_lf_program.png)
 
 You will see a new run/debug config added to the top-level menu bar, as shown below.
-You can always change the config, for example, changing the args, by clicking `Edit Configurations` via a drop-down menu.
+You can always change the config, for example, changing the `--args`, by clicking <kbd>Edit Configurations</kbd> via a drop-down menu.
 
 ![](../../../../../img/intellij/new_runlfc_config.png)
 
