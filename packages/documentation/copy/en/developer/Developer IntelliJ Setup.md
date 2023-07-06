@@ -23,7 +23,7 @@ $ git submodule update --init --recursive
 
 ## Opening lingua-franca as IntelliJ Project
 
-To import the Lingua Franca repository as a project, simply run `./gradew openIdea`.
+To import the Lingua Franca repository as a project, simply run `./gradlew openIdea`.
 This will create some project files and then open the project in IntelliJ.
 
 When you open the project for the first time, you will see a small pop-up in the lower right corner.
