@@ -2914,7 +2914,7 @@ Definitions for the following do not need to be explicitly included because the 
 - API functions for obtaining timing information about the current program execution, including the current physical and logical time
 
 Some standard C libraries are exposed to the user through `reactor.h`, including `stddef.h`,
-`stdio.h`, and `stdlib.h`. However, users who wish to avoid breaking changes between releases should
+`stdio.h`, and `stdlib.h`. In addition, `math.h` gets automatically included. However, users who wish to avoid breaking changes between releases should
 consider including these libraries explicitly instead of relying on their being exposed by the
 runtime.
 
