@@ -2922,34 +2922,32 @@ Users who wish to include functionality that has a platform-specific implementat
 explicitly include `platform.h`, which provides a uniform interface for various concurrency
 primitives and sleep functions.
 
+### Multithreaded Implementation
+
+By default, the C runtime system uses multiple worker threads in order to take advantage of multicore execution. The number of worker threads will match the number of cores on the machine unless the `workers` argument is given in the [target](/docs/handbook/target-declaration#threading) statement or the `--workers` [command-line argument](/docs/handbook/target-declaration#command-line-arguments) is given.
+
+Upon initialization, the main thread will create the specified number of worker threads.
+Execution proceeds in a manner similar to the [single threaded implementation](#single-threaded-implementation)
+except that the worker threads concurrently draw reactions from the reaction queue.
+The execution algorithm ensures that no reaction executes until all reactions that it depends on have executed or it has been determined that they will not execute at the current tag.
+
 ### Single Threaded Implementation
 
+By giving the `single-threaded` (target option)[/docs/handbook/target-declaration#single-threaded] or the `--single-threaded` (command-line argument)[/docs/handbook/target-declaration#command-line-arguments], the generated program will execute the program using only a single thread. This option is most useful for creating programs to run on bare-metal microprocessors that have no threading support. On such platforms, mutual exclusion is typically realized by disabling interrupts.
+
 The execution strategy is to have two queues of pending accessor invocations, one that is sorted by
-timestamp (the **event queue**) and one that is sorted by priority (the **reaction queue**).
+tag (the **event queue**) and one that is sorted by priority (the **reaction queue**).
 Execution proceeds as follows:
 
 1. At initialization, an event for each timer is put on the event queue and logical time is initialized to the current time, represented as the number of nanoseconds elapsed since January 1, 1970.
 
-2. At each logical time, pull all events from event queue that have the same earliest time stamp, find the reactions that these events trigger, and put them on the reaction queue. If there are no events on the event queue, then exit the program (unless the `--keepalive true` command-line argument is given).
+2. At each logical time, pull all events from event queue that have the same earliest tag, find the reactions that these events trigger, and put them on the reaction queue. If there are no events on the event queue, then exit the program (unless the `--keepalive true` (command-line argument)[/docs/handbook/target-declaration#command-line-arguments] is given).
 
-3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` command-line argument is given). Then advance logical time to match that earliest timestamp.
+3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` (command-line argument)[/docs/handbook/target-declaration#command-line-arguments] is given). Then advance logical time to match that earliest timestamp.
 
 4. Execute reactions in order of priority from the reaction queue. These reactions may produce outputs, which results in more events getting put on the reaction queue. Those reactions are assured of having lower priority than the reaction that is executing. If a reaction calls `lf_schedule()`, an event will be put on the event queue, not the reaction queue.
 
 5. When the reaction queue is empty, go to 2.
-
-### Multithreaded Implementation
-
-The default number of worker threads is given by the `workers` argument in the [target](/docs/handbook/target-declaration#threading) statement.
-This can be overridden with the `--workers` [command-line argument](#command-line-arguments).
-By default, the number of workers will match the number of cores on the execution platform.
-
-Upon initialization, the main thread will create the specified number of worker threads.
-A good choice is for this number to match the number of available cores.
-Execution proceeds in a manner similar to the [single threaded implementation](#single-threaded-implementation)
-except that the worker threads concurrently draw reactions from the reaction queue.
-The execution algorithm ensures that no reaction executes until all reactions that it depends on that are also
-on the reaction queue have executed at the current logical time.
 
 </div>
 

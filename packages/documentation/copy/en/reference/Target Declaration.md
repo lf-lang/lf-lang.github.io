@@ -41,7 +41,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**runtime-version**](#runtime-version): Specify which version of the runtime system to use.
 - [**rust-include**](#rust-include): (Rust only) A set of Rust modules in the generated project.
 - [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](#single-file-layout).
-- [**threading**](#threading): Whether to use multiple threads.
+- [**single-threaded**](#single-threaded): Specify to not use multithreading.
 - [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](/docs/handbook/termination).
 - [**workers**](#workers): If using multiple threads, how many worker threads to create.
 
@@ -62,7 +62,7 @@ target C {
     logging: <error, warning, info, log, debug>,
     no-compile: <true or false>,
     protobufs: <string or list of strings>,
-    threading: <true or false>,
+    single-threaded: <true>,
     timeout: <time>,
     workers: <non-negative integer>,
 };
@@ -92,7 +92,6 @@ target Python {
     logging: <error, warning, info, log, debug>,
     no-compile: <true or false>,
     protobufs: <string or list of strings>,
-    threading: <true or false>,
     timeout: <time>,
     workers: <non-negative integer>,
 };
@@ -658,34 +657,35 @@ If true, enables [single-file project layout](#single-file-layout).
 
 </div>
 
-## threading
+## single-threaded
 
 <div class="lf-cpp lf-ts">
 
-The $target-language$ target does not support the `threading` target option.
+The $target-language$ target does not support the `single-threaded` target option.
 
 </div>
 
 <div class="lf-c">
 
-If threading is disabled (by setting `threading` to `false`), then no thread library is used, and the `lf_schedule()` function is not thread safe. This setting is incompatible with asynchronously scheduling any physical actions and hence this parameter will be ignored for programs that have physical actions.
-See [workers](#workers).
+If threading is disabled (by setting `single-threaded` to `true`), then no thread library is used. This is mostly useful for bare-metal embedded software implementations where no thread library is abailable. In such a setting, mutual exclusion is typically implemented by disabling interrupts.
 
 </div>
 
 <div class="lf-py">
 
+<b>FIXME: Check this.</b>
 The Python target uses the single threaded C runtime by default but will switch to the multithreaded C runtime if a physical action is detected. This target property can be used to override this behavior.
 
 </div>
 
 <div class="lf-rs">
 
-Boolean flag (either `true` (default) or `false`) that controls if the project is to be compiled with support for multi-threading.
-
-See [workers](#workers).
+<b>FIXME: Check this.</b> The rust target uses a `threading` property that is a
+boolean flag (either `true` (default) or `false`) that controls if the project is to be compiled with support for multi-threading.
 
 </div>
+
+See [workers](#workers).
 
 ## timeout
 
@@ -701,9 +701,7 @@ The $target-language$ target does not support the `workers` target option.
 
 <div class="lf-c">
 
-This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. If threading is turned on (the default, see [threading](#threading)), then the generated code will use a target platform thread library and generate multi-threaded code. This can transparently execute reactions that have no dependence on one another in parallel on multiple cores. By default, threading is turned on, and the `workers` property is set to `0`, which means that the number of workers is determined by the runtime system. Typically, it will be set to the number of cores on the machine running the code. To use a different number of worker threads, give a positive integer for this target parameter.
-
-With value `0`, the runtime engine is free to choose the number of worker threads to use. Typically, this will equal the number of hardware threads on the machine on which the Lingua Franca code generator is run.
+This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. If threading is turned on (the default, see [single-threaded](#single-threaded)), then the generated code will use a target platform thread library and generate multithreaded code. This can transparently execute reactions that have no dependence on one another in parallel on multiple cores. By default, threading is turned on, and the `workers` property is set to `0`, which means that the number of workers is determined by the runtime system. Typically, it will be set to the number of cores on the machine running the code. To use a different number of worker threads, give a positive integer for this target parameter.
 
 </div>
 
@@ -748,12 +746,13 @@ When the `cli` feature is disabled, the parameters of the main reactor will each
 
 <div class="lf-c">
 
-The generated C program understands the following command-line arguments, each of which has a short form (one character) and a long form:
+The generated C program understands the following command-line arguments, most of which have a short form (one character) and a long form:
 
-- `-f, --fast [true | false]`: Specifies whether to wait for physical time to match logical time. The default is `false`. If this is `true`, then the program will execute as fast as possible, letting logical time advance faster than physical time.
-- `-o, --timeout <duration> <units>`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
-- `-w, --workers <n>`: Executed using <n> worker threads if possible. This option is ignored in the single-threaded version. That is, it is ignored if a `threading` option was given in the target properties with value `false`.
+- `-f, --fast [true | false]`: Specify whether to allow logical time to progress faster than physical time. The default is `false`. If this is `true`, then the program will execute as fast as possible, letting logical time advance faster than physical time.
 - `-i, --id <n>`: The ID of the federation that this reactor will join.
+- `-o, --timeout <duration> <units>`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
+- `--single-threaded`: Specify to execute in a single thread.
+- `-w, --workers <n>`: Execute using `<n>` worker threads if possible. This option is incompatible with the `single-threaded` option.
 
 Any other command-line arguments result in printing the above information.
 
