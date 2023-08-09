@@ -8,7 +8,7 @@ preamble: >
 
 ## Prerequisites
 
-- Java 17 or up ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
+- Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
 - Each target language may have additional requirements. See the [Target Language Details](/docs/handbook/target-language-details#requirements) page and select your target language.
 
 **Note:** Eclipse does not currently support Kotlin, the language used for some of the target code generators. If you plan to develop Kotlin code, we recommend [using IntelliJ](/docs/handbook/intellij-kotlin) instead of Eclipse.
@@ -32,7 +32,7 @@ mv ~/.p2 ~/.p2.bak
 4. Click the Hamburger button at the top right corner and switch to "Advanced Mode".
 
 5. Oomph now wants you to select the base Eclipse distribution for your development. We recommend to use "Eclipse IDE for Java and DSL Developers". As product version we recommend to use "Latest Release (...)". \
-   **Important**: Lingua Franca tools require Java 17 or higher. Under Java VM, please select Java 17 or higher.\
+   **Important**: Lingua Franca tools require Java 17. Under Java VM, please select Java 17.\
    Then press Next to continue with the project section.\
    ![](../../../../../img/oomph/product_selection.png)
 
@@ -58,7 +58,7 @@ mv ~/.p2 ~/.p2.bak
 
 11. In the new Eclipse, it may automatically start building the project, or it may pop up an "Eclipse Updater" dialog. If neither happens, you can click the button with the yellow and blue cycling arrows in the status bar at the bottom. Oomph will perform various operations to configure the Eclipse environment, including the initial code generation for the LF language. This may take some time. Wait until the setup is finished.
 
-12. If you get compile errors, make sure Eclipse is using Java 17. If you skipped the first step above (removing your `~/.p2` directory), then you may have legacy configuration information that causes Eclipse to mysteriously use an earlier version of Java. Lingua Franca requires Java 17 or higher, and will get compiler errors if it uses an earlier version. To fix this, go to the menu `Project->Properties` and select `Java Build Path`. Remove the entry for `JRE System Library [JRE for JavaSE-8]` (or similar). Choose `Add Library` on the right, and choose `JRE System Library`. You should now be able to choose `Workspace default JRE (JRE for JavaSE-17)`. A resulting rebuild should then compile correctly.
+12. If you get compile errors, make sure Eclipse is using Java 17. If you skipped the first step above (removing your `~/.p2` directory), then you may have legacy configuration information that causes Eclipse to mysteriously use an earlier version of Java. Lingua Franca requires Java 17, and will get compiler errors if it uses an earlier version. To fix this, go to the menu `Project->Properties` and select `Java Build Path`. Remove the entry for `JRE System Library [JRE for JavaSE-8]` (or similar). Choose `Add Library` on the right, and choose `JRE System Library`. You should now be able to choose `Workspace default JRE (JRE for JavaSE-17)`. A resulting rebuild should then compile correctly.
 
 13. When the setup dialog is closed, your LF development IDE is ready. Probably, Eclipse is still compiling some code but when this is finished as well, all error markers on the project should have disappeared. Now, you can start a runtime Eclipse to test the actual Lingua Franca end-user IDE. In the toolbar, click on the small arrow next to the green Start button. There may already be an entry named "Launch Runtime Eclipse", but probably not. To create it, click on "Run Configurations...". Expand the "Eclipse Application" entry, select "Launch Runtime Eclipse", as follows:
 
