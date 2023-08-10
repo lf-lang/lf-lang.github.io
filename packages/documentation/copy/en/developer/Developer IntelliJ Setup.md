@@ -8,7 +8,7 @@ preamble: >
 
 ## Prerequisites
 
-- Java 17 or up ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
+- Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
 - IntelliJ IDEA Community Edition ([download from Jetbrains](https://www.jetbrains.com/idea/download/))
 
 ## Cloning lingua-franca repository
