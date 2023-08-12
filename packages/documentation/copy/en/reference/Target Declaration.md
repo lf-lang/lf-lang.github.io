@@ -673,14 +673,13 @@ If threading is disabled (by setting `single-threaded` to `true`), then no threa
 
 <div class="lf-py">
 
-<b>FIXME: Check this.</b>
 The Python target uses the single threaded C runtime by default but will switch to the multithreaded C runtime if a physical action is detected. This target property can be used to override this behavior.
 
 </div>
 
 <div class="lf-rs">
 
-<b>FIXME: Check this.</b> The rust target uses a `threading` property that is a
+The rust target uses a `threading` property that is a
 boolean flag (either `true` (default) or `false`) that controls if the project is to be compiled with support for multi-threading.
 
 </div>
