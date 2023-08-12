@@ -13,7 +13,7 @@ const Index: React.FC<Props> = (props) => {
     <div className="raised main-content-block">
       <h1>Download and Install Lingua Franca</h1>
       <p>
-        All Lingua Franca tools require Java 17 or up (<a href="https://www.oracle.com/java/technologies/downloads/">download from Oracle</a>).
+        All Lingua Franca tools require Java 17 (<a href="https://www.oracle.com/java/technologies/downloads/">download from Oracle</a>).
         Each target language may have additional requirements (see the <a href="/docs/handbook/target-language-details#requirements">Target Language Details</a> page and select your target language).
         The alternatives for using Lingua Franca are:
         <ul>
