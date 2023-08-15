@@ -8,7 +8,7 @@ preamble: >
 
 For the `C` target at least, the Lingua Franca code generator is able to generate a Dockerfile when it generates the C source files. To enable this, include the `docker` property in your target specification, as follows:
 
-```
+```lf-c
 target C {
     docker: true
 };
@@ -16,7 +16,7 @@ target C {
 
 The generated Docker file has the same name as the LF file except that the extension is `.Dockerfile` and will be put in the `src-gen` directory. You can also specify options. Currently, only the base image (`FROM`) can be customized, but this will be extended to allow further customization is the future. To customize the Docker file, instead of just `true` above, which gives default options, specify the options as in the following example:
 
-```
+```lf-c
 target C {
     docker: {FROM: "alpine:latest"}
 };
@@ -32,7 +32,7 @@ How to use this depends on whether your application is federated. You will need 
 
 Suppose your LF source file is `Foo.lf`. When you run `lfc` or use the IDE to generate code, a file called `Foo.Dockerfile` will appear in the `src_gen` directory. You can use this file to build a Docker image as follows. First, make sure you are in the same directory as the source file. Then issue the command:
 
-```
+```sh
    docker build -t foo -f src-gen/Foo.Dockerfile .
 ```
 
@@ -40,7 +40,7 @@ This will create a Docker image with tag `foo`. The tag is required to be all lo
 
 You can then use this tag to run the image in a container:
 
-```
+```sh
     docker run -t --rm foo
 ```
 
@@ -52,7 +52,7 @@ If you wish for your program to run in the background, give a `-d` option as wel
 
 The above run command can include any supported command-line arguments to the LF program. For example, to specify a logical timeout, you can do this:
 
-```
+```sh
     docker run -t --rm foo --timeout 20 sec
 ```
 
@@ -66,7 +66,7 @@ When you use `lfc` to compile `Foo.lf`, a file called `docker-compose.yml` will 
 
 For a federated Lingua Franca program, one Dockerfile is created for each federate plus an additional one for the RTI. The Dockerfile for the RTI will be generated at `src-gen/RTI`. You will need to run `docker build` for each of these. For example, to build the image for the RTI, you can do this:
 
-```
+```sh
 docker build -t distributedcountcontainerized_rti -f src-gen/DistributedCountContainerized_RTI.Dockerfile .
 ```
 
@@ -74,21 +74,21 @@ This is for the [DistributedCountContainerized.lf](https://github.com/lf-lang/li
 
 Now, there are several options for how to proceed. One is to create a named network on which to run your federation. For example, to create a network named `lf`, do this:
 
-```
+```sh
     docker network create lf
 ```
 
 You can then run the RTI on this network and assign the RTI a name that the federates can use to find the RTI:
 
-```
+```sh
     docker run -t --rm --network lf --name distributedcount-rti distributedcount_rti
 ```
 
 Here, the assigned name is not quite the same as the tag that was specified when building the image (the last argument is the tag of the image to run in a container) because a host name is not allowed to have an underscore in it.
 
-Currently, you will also have to specify this host name in the LF source file so that the federates know where to find the RTI. E.g., in [DistributedCount.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/DistributedCount.lf), change the end of the file to read as follows:
+Currently, you will also have to specify this host name in the LF source file so that the federates know where to find the RTI. E.g., in [DistributedCount.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/DistributedCount.lf), change the end of the file to read as follows:
 
-```
+```lf
 federated reactor DistributedCount at distributedcount-rti {
     c = new Count();
     p = new Print();
@@ -100,13 +100,13 @@ Notice the `at distributedcount-rti`, which must match the name you use when run
 
 In two other terminals, you can now run the other federates on the same network:
 
-```
+```sh
 docker run -t --rm --network lf distributedcount_c
 ```
 
 and
 
-```
+```sh
 docker run -t --rm --network lf distributedcount_p
 ```
 

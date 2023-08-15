@@ -16,7 +16,7 @@ reactor CountPrint(stp_offset:time(0)) {
         );
     =} STP(0 msec) {=
         lf_print_warning("CountPrint: Safe to process violation!");
-        lf_print("Intended time: %lld", in->intended_tag.time - start_time);
+        lf_print("Intended time: %lld", in->intended_tag.time - lf_time_start());
     =}
 }
 
@@ -29,7 +29,7 @@ reactor PrintCount(stp_offset:time(0)) {
         lf_print("***** PrintCount Received: %d", in->value);
     =} STP(0 msec) {=
         lf_print_warning("PrintCount: Safe to process violation!");
-        lf_print("Intended time: %lld", in->intended_tag.time - start_time);
+        lf_print("Intended time: %lld", in->intended_tag.time - lf_time_start());
     =}
     reaction(t) -> out {=
         lf_set(out, self->c++);

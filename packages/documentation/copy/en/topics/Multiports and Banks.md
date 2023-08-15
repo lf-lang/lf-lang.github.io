@@ -191,16 +191,73 @@ Sum of received: 6.
 
 The `Source` reactor has a four-way multiport output and the `Destination` reactor has a four-way multiport input. These channels are connected all at once on one line, the second line from the last. Notice that the generated diagram shows multiports with hollow triangles. Whether it shows the widths is controlled by an option in the diagram generator.
 
+The `Source` reactor specifies `out` as an effect of its reaction using the syntax `-> out`. This brings into scope of the reaction body a way to access the width of the port and a way to write to each channel of the port.
+
 **NOTE**: In `Destination`, the reaction is triggered by `in`, not by some individual channel of the multiport input. Hence, it is important when using multiport inputs to test for presence of the input on each channel, as done above with the syntax
 <span class="lf-c">`if (in[i]->is_present) ...`</span>
 <span class="lf-cpp">`if (in[i]->is_present()) ...`</span>
 <span class="lf-py lf-ts lf-rs warning">FIXME</span>. An event on any one of the channels is sufficient to trigger the reaction.
 
-The `Source` reactor also specifies `out` as an effect of its reaction using the syntax `-> out`. This brings into scope of the reaction body a way to access the width of the port and a way to write to each channel of the port.
-
 <div class="lf-py">
 
 In the Python target, multiports can be iterated on in a for loop (e.g., `for p in out`) or enumerated (e.g., `for i, p in enumerate(out)`) and the length of the multiport can be obtained by using the `len()` (e.g., `len(out)`) expression.
+
+</div>
+
+<div class="lf-c">
+
+## Sparse Inputs
+
+Sometimes, a program needs a wide multiport input, but when reactions are triggered by this input, few of the channels are present.
+In this case, it can be inefficient to iterate over all the channels to determine which are present.
+If you know that a multiport input will be **sparse** in this way, then you can provide a hint to the compiler and use a more efficient iterator to access the port. For example:
+
+$start(Sparse)$
+
+```lf-c
+target C;
+reactor Sparse {
+    @sparse
+    input[100] in:int;
+    reaction(in) {=
+        // Create an iterator over the input channels.
+        struct lf_multiport_iterator_t i = lf_multiport_iterator(in);
+        // Get the least index of a channel with present inputs.
+        int channel = lf_multiport_next(&i);
+        // Iterate until no more channels have present inputs.
+        while(channel >= 0) {
+            printf("Received %d on channel %d\n", in[channel]->value, channel);
+            // Get the next channel with a present input.
+            channel = lf_multiport_next(&i);
+        }
+    =}
+}
+```
+
+```lf-cpp
+WARNING: No source file found: ../code/cpp/src/Sparse.lf
+```
+
+```lf-py
+WARNING: No source file found: ../code/py/src/Sparse.lf
+```
+
+```lf-ts
+WARNING: No source file found: ../code/ts/src/Sparse.lf
+```
+
+```lf-rs
+WARNING: No source file found: ../code/rs/src/Sparse.lf
+```
+
+$end(Sparse)$
+
+Notice the `@sparse` annotation on the input declaration.
+This provides a hint to the compiler to optimize for sparse inputs.
+Then, instead of iterating over all input channels, this code uses the built-in function `lf_multiport_iterator()` to construct an iterator. The function `lf_multiport_next()` returns the first (and later, the next) channel index that is present. It returns -1 when no more channels have present inputs.
+
+The multiport iterator can be used for any input multiport, even if it is not marked sparse.
+But if it is not marked sparse, then the `lf_multiport_next()` function will not optimize for sparse inputs and will simply iterate over the channels until it finds one that is present.
 
 </div>
 
@@ -215,7 +272,6 @@ reactor Source(width:int(4)) {
         ...
     =}
 }
-
 ```
 
 <div class="lf-cpp">
@@ -243,7 +299,7 @@ The first three ports of `b` will received input from `a1`, and the last two por
     a1.out, a2.out -> b1.out, b2.out, b3.out;
 ```
 
-If the total width on the left does not match the total width on the right, then a warning is issued. If the left side is wider than the right, then output data will be discarded. If the right side is wider than the left, then inputs channels will be absent.
+If the total width on the left does not match the total width on the right, then a warning is issued. If the left side is wider than the right, then output data will be discarded. If the right side is wider than the left, then input channels will be absent.
 
 Any given port can appear only once on the right side of the `->` connection operator, so all connections to a multiport destination must be made in one single connection statement.
 
@@ -273,7 +329,7 @@ main reactor {
 
 There will be three instances of `Source`, each with an output of width four, and four instances of `Destination`, each with an input of width 3, for a total of 12 connections.
 
-To distinguish the instances in a bank of reactors, the reactor can define a parameter called **bank_index**<span class="lf-c lf-cpp lf-rs"> with any type that can be assigned a non-negative integer value (for example, `int`, `size_t`, or `uint32_t`)</span>. If such a parameter is defined for the reactor, then when the reactor is instanced in a bank, each instance will be assigned a number between 0 and _n_-1, where _n_ is the number of reactor instances in the bank. For example, the following source reactor increments the output it produces by the value of `bank_index` on each reaction to the timer:
+To distinguish the instances in a bank of reactors, the reactor can define a parameter called **bank_index**<span class="lf-c lf-cpp lf-rs"> with any type that can be assigned a non-negative integer value (for example, `int`, `size_t`, or `uint32_t`)</span>. If such a parameter is defined for the reactor, then when the reactor is instantiated in a bank, each instance will be assigned a number between 0 and _n_-1, where _n_ is the number of reactor instances in the bank. For example, the following source reactor increments the output it produces by the value of `bank_index` on each reaction to the timer:
 
 $start(MultiportSource)$
 
@@ -1035,7 +1091,7 @@ The syntax `(a.out)+` means "repeat the output port `a.out` one or more times as
 
 ## Interleaved Connections
 
-Sometimes, we don't want to broadcast messages to all reactors, but need more fine-grained control as to which reactor within a bank receives a message. If we have separate source and destination reactors, this can be done by combining multiports and banks as was shown in [Combining Banks and Multiports](#Combining-Banks-and-Multiports). Setting a value on the index _n_ of the output multiport, will result in a message to the _n_-th reactor instance within the destianation bank. However, this pattern gets slightly more complicated, if we want to exchange addressable messages between instances of the same bank. This pattern is shown in the following example:
+Sometimes, we don't want to broadcast messages to all reactors, but need more fine-grained control as to which reactor within a bank receives a message. If we have separate source and destination reactors, this can be done by combining multiports and banks as was shown in [Combining Banks and Multiports](#Combining-Banks-and-Multiports). Setting a value on the index _n_ of the output multiport, will result in a message to the _n_-th reactor instance within the destination bank. However, this pattern gets slightly more complicated, if we want to exchange addressable messages between instances of the same bank. This pattern is shown in the following example:
 
 $start(Interleaved)$
 
@@ -1087,7 +1143,7 @@ reactor Node(
     reaction (in) {=
         for (auto i = 0ul; i < in.size(); i++) {
             if (in[i].is_present()) {
-                std::cout << "Bank index " << bank_index 
+                std::cout << "Bank index " << bank_index
                     << " received " << *in[i].get() << " on channel" << std::endl;
             }
         }

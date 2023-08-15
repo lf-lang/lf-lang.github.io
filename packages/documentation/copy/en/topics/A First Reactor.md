@@ -69,7 +69,7 @@ Every Lingua Franca program begins with a [target declaration](/docs/handbook/ta
 
 Every LF program also has a $main$ [ or $federated$]{federated} reactor, which is the top level of a hierarchy of contained and interconnected reactors. The above simple example has no contained reactors.
 
-The $main$ reactor above has a single $reaction$, which is triggered by the $startup$ trigger. This trigger causes the reaction to execute at the start of the program. The body of the reaction, delimitted by `{= ... =}`, is ordinary $target-language$ code which, as we will see, has access to a number of functions and variables specific to Lingua Franca.
+The $main$ reactor above has a single $reaction$, which is triggered by the $startup$ trigger. This trigger causes the reaction to execute at the start of the program. The body of the reaction, delimited by `{= ... =}`, is ordinary $target-language$ code which, as we will see, has access to a number of functions and variables specific to Lingua Franca.
 
 ## Examples
 
@@ -82,19 +82,23 @@ The [regression tests](https://github.com/lf-lang/lingua-franca/tree/master/test
 The Lingua Franca tools assume that LF programs are put into a file with a `.lf` extension that is stored somewhere within a directory called `src`. To compile and run the above example, choose a **project root** directory, create a `src` directory within that, and put the above code into a file called, say, `src/HelloWorld.lf`. You can compile the code on the [command line](/docs/handbook/command-line-tools), within [Visual Studio Code](/docs/handbook/code-extension), or within the [Epoch IDE](/docs/handbook/epoch-ide). On the command line this will look like this:
 
 ```
-    > lfc src/Minimal.lf
+    > lfc src/HelloWorld.lf
     ... output from the code generator and compiler ...
 ```
 
 <div class="lf-c lf-cpp lf-rs">
 
-After this completes, two additional directories will have been created within the projet root, `bin` and `src-gen`. The `bin` directory has an executable file called `HelloWorld`. Executing that file will result, not surprisingly, in printing "Hello World". The generated source files will be within the directory `src-gen`.
+After this completes, two additional directories will have been created within
+the project root, `bin` and `src-gen`. The `bin` directory has an
+executable file called `HelloWorld`. Executing that file will result, not
+surprisingly, in printing "Hello World". The generated source files will be
+in a subdirectory called `HelloWorld` within `src-gen`.
 
 </div>
 
 <div class="lf-ts lf-py">
 
-After this completes, an additional `src-gen` directory will have been created within the projet root. The generated code will be in subdirectory called `HelloWorld` within `src-gen`. The output from the code generator will include instructions for executing the generated code:
+After this completes, an additional `src-gen` directory will have been created within the project root. The generated code will be in subdirectory called `HelloWorld` within `src-gen`. The output from the code generator will include instructions for executing the generated code:
 
 ```lf-ts
 #####################################
@@ -196,7 +200,4 @@ Lingua Franca files can have C/C++/Java-style comments and/or Python-style comme
      * Multi-line C-style comment.
      */
     # Single-line Python-style comment.
-    '''
-       Multi-line Python-style comment.
-    '''
 ```

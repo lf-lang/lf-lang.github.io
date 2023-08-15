@@ -1,28 +1,17 @@
 import * as React from "react"
 import { Layout } from "../../components/layout"
-import { graphql } from "gatsby"
 import { createInternational } from "../../lib/createInternational"
 import { useIntl } from "react-intl"
 import { Intl } from "../../components/Intl"
 
 import "./css/community.scss"
 import { comCopy } from "../../copy/en/community"
-import { QuickJump } from "../../components/QuickJump"
-import { Contributors } from "../../components/handbook/Contributors"
 
 const Row = (props: { children: any, className?: string }) => <div className={[props.className, "row"].join(" ")}>{props.children}</div>
 const Col = (props: { children: any, className?: string }) => <div className={[props.className, "col1"].join(" ")}>{props.children}</div>
 const Col2 = (props: { children: any, className?: string }) => <div className={[props.className, "col2"].join(" ")}>{props.children}</div>
 
-const contributors = [
-  {
-    name: "Soroush Bateni",
-    url: "https://personal.utdallas.edu/~soroush/",
-    image: "https://avatars.githubusercontent.com/u/4221770?v=4",
-    country: "🇺🇸",
-    continentish: "North America",
-    blurb: "Postdocural researcher at UC Berkeley."
-  },
+const active = [
   {
     name: "Peter Donovan",
     image: "https://avatars.githubusercontent.com/u/33707478?v=4",
@@ -54,6 +43,14 @@ const contributors = [
     blurb: "Professor in the Graduate School at UC Berkeley."
   },
   {
+    name: "Shaokai Lin",
+    url: "https://shaokai.io",
+    image: "https://avatars.githubusercontent.com/u/7968955?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Graduate Student at UC Berkeley."
+  },
+  {
     name: "Marten Lohstroh",
     url: "http://people.eecs.berkeley.edu/~marten/",
     image: "https://avatars.githubusercontent.com/u/19938940?v=4",
@@ -61,6 +58,13 @@ const contributors = [
     country: "🇺🇸",
     continentish: "North America",
     blurb: "Postdoctoral researcher at UC Berkeley.",
+  },
+  {
+    name: "Johannes Hayeß",
+    image: "https://avatars.githubusercontent.com/u/7195008?v=4",
+    country: "🇩🇪",
+    continentish: "Europe",
+    blurb: "Master's Student at TU Dresden.",
   },
   {
     name: "Christian Menard",
@@ -71,11 +75,11 @@ const contributors = [
     blurb: "Graduate Student at TU Dresden.",
   },
   {
-    name: "Hou Seng (Steven) Wong",
-    image: "https://avatars.githubusercontent.com/u/46389172?v=4",
+    name: "Anirudh Rengarajan",
+    image: "https://avatars.githubusercontent.com/u/44007330?v=4",
     country: "🇺🇸",
     continentish: "North America",
-    blurb: "Student assistant at UC Berkeley.",
+    blurb: "M.S. student @ UC Berkeley.",
   },
   {
     name: "Alexander Schulz-Rosengarten",
@@ -86,6 +90,44 @@ const contributors = [
   },
 ]
 
+const past = [
+  {
+    name: "Soroush Bateni",
+    url: "https://personal.utdallas.edu/~soroush/",
+    image: "https://avatars.githubusercontent.com/u/4221770?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Software Engineer at Apple."
+  },
+  {
+    name: "Matt Chorlian",
+    image: "https://avatars.githubusercontent.com/u/70343891?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Applied Math and CS student at UC Berkeley."
+  },
+  {
+    name: "Martin Schoeberl",
+    image: "https://avatars.githubusercontent.com/u/650648?v=4",
+    country: "🇩🇰",
+    continentish: "Europe",
+    blurb: "Professor at TU Denmark.",
+  },
+  {
+    name: "Matt Weber",
+    image: "https://avatars.githubusercontent.com/u/3513451?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Software Engineer at Anyscale."
+  },
+  {
+    name: "Hou Seng (Steven) Wong",
+    image: "https://avatars.githubusercontent.com/u/46389172?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Software Development Engineer at Amazon AWS.",
+  },
+]
 
 
 type Props = {
@@ -115,15 +157,14 @@ export const Comm: React.FC<Props> = props => {
                 {i("com_online_publications_desc")}
               </div>
             </div>
-
             <div className="callout">
               <a aria-labelledby="github-header" className="icon bug img-circle" href="https://github.com/lf-lang/lingua-franca/issues/new/choose" title="Create a new GitHub Issue on the Lingua Franca repo" target="_blank" />
               <div className="text">
-                <a href="https://github.com/lf-lang/lingua-franca/issues/new/choose" id="github-header" title="Create a new GitHub Issue on the Lingua Franca repo">
+                <a href="https://github.com/lf-lang/lingua-franca/issues/new/choose" id="github-header" target="_blank" title="Create a new GitHub Issue on the Lingua Franca repo">
                   <h3 className="community-callout-headline">GitHub</h3>
                 </a>
                 {i("com_online_github_desc")}{" "}
-                <a href="https://github.com/lf-lang/lingua-franca/issues/new/choose" title="Create a new GitHub Issue on the Lingua Franca repo">{i("com_online_github_href")}</a>
+                <a href="https://github.com/lf-lang/lingua-franca/issues/new/choose" target="_blank" title="Create a new GitHub Issue on the Lingua Franca repo">{i("com_online_github_href")}</a>
               </div>
             </div>
             <div className="callout">
@@ -133,20 +174,52 @@ export const Comm: React.FC<Props> = props => {
                   <h3 className="community-callout-headline">Twitter</h3>
                 </a>
                 {i("com_online_twitter_desc") + " "}
-                <a href="https://twitter.com/thelflang" title="Lingua Franca on Twitter" target="_blank">@thelflang</a>!
+                <a href="https://twitter.com/thelflang" title="Lingua Franca on Twitter" target="_blank">{i("com_online_twitter_href")}</a>!
               </div>
             </div>
-
+            <div className="callout">
+              <a aria-labelledby="zulip-header" className="icon zulip img-circle" href="https://lf-lang.zulipchat.com/" title="Join the conversation on Zulip" target="_blank" />
+              <div className="text">
+                <a href="https://lf-lang.zulipchat.com/" id="zulip-header" target="_blank" title="Join the conversation on Zulip">
+                  <h3 className="community-callout-headline">Zulip</h3>
+                </a>
+                {i("com_online_zulip_desc")}{" "}
+                <a href="https://lf-lang.zulipchat.com/" target="_blank" title="Join the conversation on Zulip">{i("com_online_zulip_href")}</a>
+              </div>
+            </div>
           </Col2>
         </Row>
       </div>
 
       <div className="raised main-content-block container community">
-        <h3 className="centered-highlight">Key Contributors</h3>
+        <h3 className="centered-highlight">Active Contributors</h3>
         <div className="events">
 
           <div className="callouts">
-            {contributors.map(({name, image, country, url, twitter, blurb}, index) => (
+            {active.map(({name, image, country, url, twitter, blurb}, index) => (
+              <Col className="callout" key={index}>
+                <img src={image} className="icon img-square" alt={"logo of " + name} />
+                <div>
+                  <h5 className="community-callout-headline">{name}</h5>
+                  <h6 className="blurb">{blurb}</h6>
+                  <div className="text">{country}<br />
+                    {" "}{url? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a> 
+                    : null}
+                    {" "}{twitter ? <a rel="noopener" target="blank" href={twitter} title={"Twitter page for " + name}>Twitter</a> : null}
+                  </div>
+                </div>
+              </Col>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="raised main-content-block container community">
+        <h3 className="centered-highlight">Past Contributors</h3>
+        <div className="events">
+
+          <div className="callouts">
+            {past.map(({name, image, country, url, twitter, blurb}, index) => (
               <Col className="callout" key={index}>
                 <img src={image} className="icon img-square" alt={"logo of " + name} />
                 <div>

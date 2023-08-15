@@ -290,20 +290,27 @@ Whereas logical actions are required to be scheduled within a reaction of the re
 $start(Asynchronous)$
 
 ```lf-c
-target C;
+target C {
+    keepalive: true  // Do not exit when event queue is empty.
+}
+
+preamble {=
+    #include "platform.h" // Defines lf_sleep() and thread functions.
+=}
+
 main reactor {
     preamble {=
         // Schedule an event roughly every 200 msec.
         void* external(void* a) {
             while (true) {
-                lf_nanosleep(MSEC(200));
+                lf_sleep(MSEC(200));
                 lf_schedule(a, 0);
             }
         }
     =}
-    state thread_id:lf_thread_t(0);
-    physical action a(100 msec):int;
-  
+    state thread_id: lf_thread_t(0)
+    physical action a(100 msec): int
+
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         lf_thread_create(&self->thread_id, &external, a);
@@ -326,7 +333,7 @@ main reactor {
 
     state thread: std::thread;
     physical action a:int;
-  
+
     reaction(startup) -> a {=
         // Start a thread to schedule physical actions.
         thread = std::thread([&]{
@@ -361,7 +368,7 @@ main reactor {
     =}
     state thread;
     physical action a(100 msec);
-  
+
     reaction(startup) -> a {=
         # Start a thread to schedule physical actions.
         self.thread = self.threading.Thread(target=self.external, args=(a,))
@@ -381,7 +388,7 @@ target TypeScript
 main reactor {
 
     physical action a(100 msec):number;
-  
+
     reaction(startup) -> a {=
         // Have asynchronous callback schedule physical action.
         setTimeout(() => {
@@ -428,9 +435,13 @@ Physical actions are the mechanism for obtaining input from the outside world. B
 
 <div class="lf-c">
 
-In the above example, at $startup$, the main reactor creates an external thread that schedules a physical action roughly every 200 msec. The thread uses a built-in function `lf_nanosleep()`, which abstracts platform-specific mechanisms for stalling the thread for a specified amount of time. The thread is created with a built-in function `lf_thread_create()`, which similarly abstracts platform-specific mechanisms for creating threads.
+In the above example, at $startup$, the main reactor creates an external thread that schedules a physical action roughly every 200 msec.
 
-The code executed by the thread is defined in a $preamble$ section. See [Preambles and Methods](/docs/handbook/preambles-and-methods).
+First, the [file-level $preamble$](/docs/handbook/preambles) has `#include "platform.h"`, which includes the declarations for functions it uses, `lf_sleep` and `lf_thread_create` (see [Libraries Available to Programmers](/docs/handbook/target-language-details?target=c#libraries-available-to-programmers)).
+
+Second, the thread uses a function `lf_sleep()`, which abstracts platform-specific mechanisms for stalling the thread for a specified amount of time, and `lf_thread_create()`, which abstracts platform-specific mechanisms for creating threads.
+
+The `external` function executed by the thread is defined in a reactor-level $preamble$ section. See [Preambles](/docs/handbook/preambles).
 
 **Important Note:** Asynchronous calls to `lf_schedule()` will not work if you set the [`threading` target parameter](/docs/handbook/target-declaration#threading) to `false`. You must use a threaded runtime for such asynchronous calls to work correctly.
 
@@ -467,3 +478,12 @@ Note that while the `"defer"` policy is conservative in the sense that it does n
 > The `<policy>` argument is currently not supported.
 
 </div>
+
+## Testing an Action for Presence
+
+When a reaction is triggered by more than one action or by an action and an input, it may be necessary to test within the reaction whether the action is present.
+<span class="lf-c">Just like for inputs, this can be done in the C target with `a->is_present`, where `a` is the name of the action.</span>
+<span class="lf-py">Just like for inputs, this can be done in the Python target with `a.is_present`, where `a` is the name of the action.</span>
+<span class="lf-cpp">Just like for inputs, this can be done in the C++ target with `a.is_present()`, where `a` is the name of the action.</span>
+<span class="lf-ts">Just like for inputs, this can be done in the TypeScript target with `a != undefined`, where `a` is the name of the action.</span>
+<span class="lf-rs">Just like for inputs, this can be done in the Rust target with `ctx.is_present(a)`, where `a` is the name of the action.</span>

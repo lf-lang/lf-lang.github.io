@@ -20,7 +20,7 @@ In Lingua Franca, $time$ is a data type.
 A parameter, state variable, port, or action may have type $time$.
 <span class="lf-c">In the C target, time values internally have type `instant_t` or `interval_t`,
 both of which are (usually) equivalent to the C type `long long`.</span>
-<span class="lf-cpp">In the Cpp target, time values internally have the type `std::chrono::nanoseconds`. For details, see the [Target Language Details](/docs/handbook/target-language-details).</span>
+<span class="lf-cpp">In the C++ target, time values internally have the type `std::chrono::nanoseconds`. For details, see the [Target Language Details](/docs/handbook/target-language-details).</span>
 <span class="lf-rs warning">In the Rust target, time values internally have type FIXME.</span>
 
 </div>
@@ -60,7 +60,6 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         lf_schedule(a, self->interval);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -80,7 +79,6 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         a.schedule(interval);
     =}
 }
-
 ```
 
 ```lf-py
@@ -100,7 +98,6 @@ main reactor SlowingClock(start(100 msec), incr(100 msec)) {
         a.schedule(self.interval)
     =}
 }
-
 ```
 
 ```lf-ts
@@ -117,7 +114,6 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         actions.a.schedule(interval, null)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -141,7 +137,6 @@ main reactor SlowingClock(start:time(100 msec), incr:time(100 msec)) {
         self.expected_time += self.interval;
     =}
 }
-
 ```
 
 $end(SlowingClock)$
@@ -178,7 +173,6 @@ main reactor Timer {
         printf("Logical time is %lld.\n", lf_time_logical());
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -191,7 +185,6 @@ main reactor Timer {
         std::cout << "Logical time is: " << get_logical_time() << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -202,7 +195,6 @@ main reactor Timer {
         print(f"Logical time is {lf.time.logical()}.")
     =}
 }
-
 ```
 
 ```lf-ts
@@ -213,7 +205,6 @@ main reactor Timer {
         console.log(`Logical time is ${util.getCurrentLogicalTime()}.`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -233,10 +224,10 @@ $end(Timer)$
 
 This specifies a timer named `t` that will first trigger at the start of execution and then repeatedly trigger at intervals of one second. Notice that the time units can be left off if the value is zero.
 
-Each target provides a built-in function for retrieving the logical time at which the reaction is invoked,
+This target provides a built-in function for retrieving the logical time at which the reaction is invoked,
 <span class="lf-c">`get_logical_time()`</span>
 <span class="lf-cpp warning">FIXME</span>
-<span class="lf-py warning">FIXME</span>
+<span class="lf-py warning">lf.time.logical()</span>
 <span class="lf-ts">util.getCurrentLogicalTime()</span>
 <span class="lf-rs warning">FIXME</span>.
 On most platforms (with the exception of some embedded platforms), the returned value is a 64-bit number representing the number of nanoseconds that have elapsed since January 1, 1970. Executing the above displays something like the following:
@@ -267,7 +258,6 @@ main reactor TimeElapsed {
         );
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -280,7 +270,6 @@ main reactor TimeElapsed {
         std::cout << "Elapsed logical time is " << get_elapsed_logical_time() << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -293,7 +282,6 @@ main reactor TimeElapsed {
         )
     =}
 }
-
 ```
 
 ```lf-ts
@@ -304,7 +292,6 @@ main reactor TimeElapsed {
         console.log(`Elapsed logical time is ${util.getElapsedLogicalTime()}`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -352,7 +339,6 @@ main reactor TimeLag {
         );
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -363,12 +349,11 @@ main reactor TimeLag {
     reaction(t) {=
         auto logical_time = get_elapsed_logical_time();
         auto physical_time = get_elapsed_physical_time();
-        std::cout << "Elapsed logical time: " << logical_time 
-            << " physical time: " << physical_time 
+        std::cout << "Elapsed logical time: " << logical_time
+            << " physical time: " << physical_time
             << " lag: " << physical_time - logical_time <<  std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -383,7 +368,6 @@ main reactor TimeLag {
         )
     =}
 }
-
 ```
 
 ```lf-ts
@@ -396,7 +380,6 @@ main reactor TimeLag {
         console.log(`Elapsed logical time: ${t}, physical time: ${T}, lag: ${T.subtract(t)}`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -438,7 +421,7 @@ A reaction is always invoked at a well-defined logical time, and logical time do
 
 ## Timeout
 
-By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-declaration#timeout) or a [`--timeout command-line option](ocs/handbook/target-declaration#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
+By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](/docs/handbook/target-declaration#timeout) or a [`--timeout` command-line option](docs/handbook/target-declaration#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
 
 ```lf-c
 target C {
@@ -538,13 +521,12 @@ reactor TestCount(start:int(0), stride:int(1), num_inputs:int(1)) {
     reaction(shutdown) {=
         std::cout << "Shutdown invoked." << std::endl;
         if (inputs_received != num_inputs) {
-            std::cerr << "ERROR: Expected to receive " << num_inputs 
+            std::cerr << "ERROR: Expected to receive " << num_inputs
                 << " inputs, but got " << inputs_received << std::endl;
             exit(2);
         }
     =}
 }
-
 ```
 
 ```lf-py
@@ -595,7 +577,6 @@ reactor TestCount(start:number(0), stride:number(1), numInputs:number(1)) {
         }
     =}
 }
-
 ```
 
 ```lf-rs

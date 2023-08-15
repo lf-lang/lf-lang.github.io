@@ -50,7 +50,6 @@ main reactor RegressionTest {
     c.y -> s.x;
     s.y -> t.x;
 }
-
 ```
 
 ```lf-py
@@ -87,7 +86,6 @@ main reactor RegressionTest {
     c.y -> s.x
     s.y -> t.x
 }
-
 ```
 
 ```lf-rs
@@ -134,7 +132,7 @@ The `<parameters>` argument is a comma-separated list of assignments:
     <parameter_name> = <value>, ...
 ```
 
-Like the default value for parameters, `<value>` can be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, target-language code enclosed in `{= ... =}`, or any of the list forms described in [Expressions](/docs/handbook/expressions).
+Like the default value for parameters, `<value>` can be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, target-language code enclosed in `{= ... =}`, or any of the list forms described in [Expressions](/docs/handbook/expressions).
 
 ## Connections
 
@@ -262,7 +260,6 @@ main reactor Hierarchy {
     t = new TestCount(stride = 4, num_inputs = 11);
     c.y -> t.x;
 }
-
 ```
 
 ```lf-py
@@ -304,7 +301,6 @@ main reactor Hierarchy {
     t = new TestCount(stride = 4, numInputs = 11)
     c.y -> t.x
 }
-
 ```
 
 ```lf-rs

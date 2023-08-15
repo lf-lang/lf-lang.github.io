@@ -44,7 +44,6 @@ reactor Double {
         lf_set(y, x->value * 2);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -59,8 +58,6 @@ reactor Double {
         }
     =}
 }
-
-
 ```
 
 ```lf-py
@@ -83,7 +80,6 @@ reactor Double {
         y = value * 2
     =}
 }
-
 ```
 
 ```lf-rs
@@ -104,7 +100,7 @@ Setting an output within a reaction will trigger downstream reactions at the sam
 
 <div class="lf-c lf-cpp lf-ts lf-rs">
 
-The **type** of a port is a type in the target language plus the special type $time$. A type may also be specified using a **code block**, delimited by the same delimeters `{= ... =}` that separate target language code from Lingua Franca code in reactions. Any valid target-language type designator can be given within these delimiters.
+The **type** of a port is a type in the target language plus the special type $time$. A type may also be specified using a **code block**, delimited by the same delimiters `{= ... =}` that separate target language code from Lingua Franca code in reactions. Any valid target-language type designator can be given within these delimiters.
 
 </div>
 
@@ -145,10 +141,9 @@ reactor Destination {
             sum += *y.get();
         }
 
-        std::cout << "Received: " << sum << std::endl; 
+        std::cout << "Received: " << sum << std::endl;
     =}
 }
-
 ```
 
 ```lf-py
@@ -183,7 +178,6 @@ reactor Destination {
         console.log(`Received ${sum}.`)
     =}
 }
-
 ```
 
 ```lf-rs
@@ -207,10 +201,10 @@ reactor Destination {
 $end(Destination)$
 
 **NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is target dependent.
-<span class="lf-c">In the C target, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input.</span>
-<span class="lf-cpp">In the C++ target, a smart pointer is returned for present values and `nullptr` if the value is not present.
-<span class="lf-py warning">FIXME.</span>
-<span class="lf-ts">In the TS target, the value will be **undefined**, a legitimate value in TypeScript.</span>
+<span class="lf-c">In the C target, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the data type of the input.</span>
+<span class="lf-cpp">In the C++ target, a smart pointer is returned for present values and `nullptr` if the value is not present.</span>
+<span class="lf-py">In the Python target, the value will be `None` if the input is not present.</span>
+<span class="lf-ts">In the TS target, the value will be **undefined** if the input is not present, a legitimate value in TypeScript.</span>
 <span class="lf-rs warning">FIXME.</span>
 
 ## Triggers, Effects, and Uses
@@ -239,7 +233,7 @@ If a reaction wishes to test whether an output has been previously set at the cu
 
 Normally, a reaction does not modify the value of an input. An input is said to be **immutable**. The degree to which this is enforced varies by target language. Most of the target languages make it rather difficult to enforce, so the programmer needs to avoid modifying the input. Modifying an input value may lead to nondeterministic results.
 
-Occassionally, it is useful to modify an input. For example, the input may be a large data structure, and a reaction may wish to make a small modification and forward the result to an output. To accomplish this, the programmer should declare the input **mutable** as follows:
+Occasionally, it is useful to modify an input. For example, the input may be a large data structure, and a reaction may wish to make a small modification and forward the result to an output. To accomplish this, the programmer should declare the input **mutable** as follows:
 
 <div class="lf-c lf-cpp lf-ts lf-rs>
 
@@ -257,4 +251,4 @@ Occassionally, it is useful to modify an input. For example, the input may be a 
 
 </div>
 
-This is a directive to the code generator indicating that reactions that read this input may also modify the value of the input. The code generator will attempt to optimize the scheduling to avoid copying the input value, but this may not be possible, in which case it will automatically insert a copy operation, making it safe to modify the input. The target-spefic reference documentation has more details about how this works.
+This is a directive to the code generator indicating that reactions that read this input may also modify the value of the input. The code generator will attempt to optimize the scheduling to avoid copying the input value, but this may not be possible, in which case it will automatically insert a copy operation, making it safe to modify the input. The target-specific reference documentation has more details about how this works.

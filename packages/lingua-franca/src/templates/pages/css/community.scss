@@ -84,7 +84,12 @@
         background-image: url("../../../assets/community/connect-github-icon.png");
         background-color: lighten(black, 30%);
       }
-      
+
+      &.zulip {
+        background-image: url("../../../assets/community/connect-zulip-icon.svg");
+        background-color: lighten(rgb(167, 167, 167), 30%);
+        background-size: 100%;
+      }
     }
   }
 

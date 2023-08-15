@@ -6,7 +6,7 @@
 }
 
 #top-menu {
-  background-color: rgb(1, 49, 99);
+  background-color: $lf-main-blue-darker-color;
 
   user-select: none;
   clear: both;
@@ -40,7 +40,7 @@
   }
 
   #home-page-logo {
-    width: 135px;
+    max-width: 135px;
     padding-top: 0.5rem;
     padding-left: 3.5rem;
     padding-right: 4.5rem;
@@ -61,6 +61,20 @@
       margin-right: 0.2rem;
       top: -0.3rem;
       text-decoration: none;
+    }
+  }
+
+  @media screen and (max-width: 700px) {
+    #home-page-logo {
+      padding-left: 0.5rem;
+      padding-right: 0rem;
+    }
+  }
+
+  @media screen and (max-width: 400px) {
+    #home-page-logo {
+      padding-left: 0.25rem;
+      padding-right: 0rem;
     }
   }
 
@@ -93,7 +107,7 @@
 
 #beta-notification-menu,
 .gatsby-noscript {
-  background-color: $ts-muted-red;
+  background-color: $lf-muted-red;
   text-align: center;
   color: white;
   padding: 0.4rem 0;
@@ -108,7 +122,7 @@
 
 form.search {
   height: 4rem;
-  background-color: $ts-main-blue-darker-color;
+  background-color: $lf-main-blue-darker-color;
   border-radius: 3px 0px 0px 3px;
 
   padding-left: 1rem;
@@ -127,7 +141,7 @@ form.search {
   }
 
   &:focus-within {
-    background-color: $ts-main-blue-lighter-color;
+    background-color: $lf-main-blue-lighter-color;
     @media screen and (-ms-high-contrast: black-on-white) {
       border: 2px solid white;
     }
@@ -137,13 +151,15 @@ form.search {
   }
 
   input {
+    outline: none;
+    border: none;
     width: 150px;
 
     &:focus-within {
-      background-color: $ts-main-blue-lighter-color;
+      background-color: $lf-main-blue-lighter-color;
     }
     -webkit-appearance: none;
-    background-color: $ts-main-blue-darker-color;
+    background-color: $lf-main-blue-darker-color;
 
     border-color: #152740;
     border-radius: 0;
@@ -190,7 +206,7 @@ form.search {
     button {
       flex: 1;
       flex-grow: 1;
-      background-color: $ts-main-blue-darker-color;
+      background-color: $lf-main-blue-color;
       color: white;
       border: none;
       border-radius: 0;
@@ -326,9 +342,10 @@ form.search {
     /* Simplify the nav to a few buttons and home */
     .below-small nav {
       flex-grow: 1;
-
+      overflow-x: scroll;
       ul {
         display: flex;
+        flex-wrap: nowrap;
 
         li {
           flex: 1;
@@ -350,7 +367,7 @@ form.search {
       display: flex;
 
       svg {
-        // width: 2.5rem;
+        height: 40%;
         position: relative;
         top: 1rem;
       }
@@ -396,7 +413,7 @@ form.search {
   overflow: auto;
   position: absolute;
   width: 100%;
-  background-color: $ts-light-bg-sandy-color;
+  background-color: $lf-light-bg;
   color: black;
   text-align: center;
   padding: 20px;

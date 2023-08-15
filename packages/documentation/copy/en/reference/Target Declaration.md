@@ -20,6 +20,7 @@ The `<name>` gives the name of some Lingua Franca target language, which is the 
 
 A target specification may have optional parameters, the names and values of which depend on which specific target you are using. Each parameter is a key-value pair, where the supported keys are a subset of the following:
 
+- [**auth**](#auth): A boolean specifying to apply authorization between RTI and federates when federated execution.
 - [**build**](#build): A command to execute after code generation instead of the default compile command.
 - [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
@@ -48,6 +49,7 @@ Not all targets support all target parameters. The full set of target parameters
 
 ```lf-c
 target C {
+    auth: <true or false>
     build: <string>,
     build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
     cmake: <true or false>,
@@ -107,7 +109,7 @@ target TypeScript {
 
 ```lf-rs
 target Rust {
-    build-type: <Debug, Release, RelWithDebInfo, or RelMinSize>,
+    build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
     cargo-features: <array of strings>,
     cargo-dependencies: <list of key-value pairs>,
     export-dependency-graph: <true or false>,
@@ -139,6 +141,20 @@ This specifies to use compiler `cc` instead of the default `gcc`, to use optimiz
 The comma on the last parameter is optional, as is the semicolon on the last line.
 A target may support overriding the target parameters on the [command line](#command-line-arguments) when invoking the compiled program.
 
+## auth
+
+<div class="lf-cpp lf-py lf-ts lf-rs">
+
+The $target-language$ target does not currently support the `auth` target option.
+
+</div>
+
+<div class="lf-c">
+
+The detailed documentation is [here](/docs/handbook/security).
+
+</div>
+
 ## build
 
 <div class="lf-cpp lf-py lf-ts lf-rs">
@@ -153,6 +169,7 @@ A command to execute after code generation instead of the default compile comman
 
 - `LF_CURRENT_WORKING_DIRECTORY`: The directory in which the command is invoked.
 - `LF_SOURCE_DIRECTORY`: The directory containing the .lf file being compiled.
+- `LF_PACKAGE_DIRECTORY`: The directory for the root of the project or package (normally the directory above the `src` directory).
 - `LF_SOURCE_GEN_DIRECTORY`: The directory in which generated files are placed.
 - `LF_BIN_DIRECTORY`: The directory into which to put binaries.
 
@@ -166,7 +183,7 @@ target C {
 
 then instead of invoking the C compiler after generating code, the code generator will invoke your `compile.sh` script, which could look something like this:
 
-```
+```sh
 #!/bin/bash
 # Build the generated code.
 cd ${LF_SOURCE_GEN_DIRECTORY}
@@ -186,7 +203,7 @@ open $1.pdf
 
 The first few lines of this script do the same thing that is normally done when there is no `build` option in the target. Specifically, they use `cmake` to create a makefile, invoke `make`, and then move the executable to the `bin` directory. The next line, however, gives new functionality. It executes the compiled code! The final two lines assume that the program has produced a file with data to be plotted and use `gnuplot` to plot the data. This requires, of course, that you have `gnuplot` installed, and that there is a file called `Foo.gnuplot` in the same directory as `Foo.lf`. The file `Foo.gnuplot` contains the commands to plot the data, and might look something like the following:
 
-```
+```gnuplot
 set title 'My Title'
 set xrange [0:3]
 set yrange [-2:2]
@@ -216,7 +233,7 @@ This parameter works with `cargo` to specify how to compile the code. The follow
 - `Release`: Optimization is turned on and debug information is missing.
 - `Debug`: Debug information is included in the executable.
 - `RelWithDebInfo`: Optimization with debug information.
-- `RelMinSize`: Optimize for smallest size.
+- `MinSizeRel`: Optimize for smallest size.
 
 This defaults to `Release`.
 
@@ -242,6 +259,7 @@ This defaults to `Release`.
 This is a list of dependencies to include in the generated Cargo.toml file. The value of this parameter is a map of package name to _dependency-spec_.
 
 Here is an example for defining dependencies:
+
 ```lf-rs
 target Rust {
     cargo-dependencies: {
@@ -288,7 +306,7 @@ target C {
 
 This will enable or disable the CMake-based build system (the default is `true`). Enabling the CMake build system will result in a `CMakeLists.txt` being generated in the `src-gen` directory. This `CMakeLists.txt` is then used when `cmake` is invoked by the LF runtime (either the `lfc` or the IDE). Alternatively, the generated program can be built manually. To do so, in the `src-gen/ProgramName` directory, run:
 
-```
+```sh
 mkdir build && cd build
 cmake ../
 make
@@ -320,13 +338,13 @@ target Cpp {
 };
 ```
 
-This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](/docs/handbook/distributed-execution)</span>.
+This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](/docs/handbook/distributed-execution))</span>.
 
 The cmake-include target property can be used, for example, to add dependencies on various packages (e.g., by using the [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) and [`target_link_libraries`](https://cmake.org/cmake/help/latest/command/target_link_libraries.html) commands).
 
 A CMake variable called `${LF_MAIN_TARGET}` can be used in the included text file(s) for convenience. This variable will contain the name of the CMake target (i.e., the name of the main reactor). For example, a `foo.txt` file can contain:
 
-```
+```cmake
 find_package(m REQUIRED) # Finds the m library
 
 target_link_libraries( ${LF_MAIN_TARGET} m ) # Links the m library
@@ -386,13 +404,13 @@ to point it to your preferred C++ compiler.
 
 </div>
 
-
 ## docker
+
 <div class="lf-c lf-py lf-ts">
 
-This option takes a boolean argument (default is `false`). 
+This option takes a boolean argument (default is `false`).
 
-If true, a docker file will be generated in the unfederated case. 
+If true, a docker file will be generated in the unfederated case.
 
 In the federated case, a docker file for each federate will be generated. A docker-compose file will also be generated for the top-level federated reactor.
 
@@ -494,7 +512,7 @@ target C {
 
 Your preamble code can then include these files, for example:
 
-```
+```lf-c
 preamble {=
     #include "audio_loop_mac.c"
 =}
@@ -504,7 +522,7 @@ Your reactions can then invoke functions defined in that `.c` file.
 
 Sometimes, you will need access to these files from target code in a reaction. For the C target (at least), the generated program will contain a line like this:
 
-```
+```c
     #define TARGET_FILES_DIRECTORY "path"
 ```
 
@@ -716,9 +734,9 @@ This parameter takes a non-negative integer and specifies the number of worker t
 The generated executable may feature a command-line interface (CLI), if it uses the `cargo-features: ["cli"]` target property. When that feature is enabled:
 
 - some target properties become settable at runtime:
-  - `--timeout <time value>`: override the default timeout mentioned as a target property. The syntax for times is just like the LF one (eg `1msec`, `"2 seconds"`).
+  - `--timeout <time value>`: override the default timeout mentioned as a target property. The syntax for times is just like the LF one (e.g. `1msec`, `"2 seconds"`).
   - `--workers <number>`: override the default worker count mentioned as a target property. This option is **ignored** unless the runtime crate has been built with the feature `parallel-runtime`.
-  - `--export-graph`: export the dependency graph (corresponds to `export-dependency-graph` target property). This is a flag, ie, absent means false, present means true. This means the value of the target property is ignored and not used as default.
+  - `--export-graph`: export the dependency graph (corresponds to `export-dependency-graph` target property). This is a flag, i.e., absent means false, present means true. This means the value of the target property is ignored and not used as default.
   - `--log-level`: corresponds to the `logging` target property, but note that the levels have different meanings, and the target property is ignored. See [Logging levels](#logging-levels).
 - parameters of the main reactor are translated to CLI parameters.
   - Each LF parameter named `param` corresponds to a CLI parameter named `--main-param`. Underscores in the LF parameter name are replaced by hyphens.
@@ -765,7 +783,7 @@ The Python target does not currently support any command-line arguments. You mus
 In the TypeScript target, the generated JavaScript program understands the following command-line arguments, each of which has a short form (one character) and a long form:
 
 - `-f, --fast [true | false]`: Specifies whether to wait for physical time to match logical time. The default is `false`. If this is `true`, then the program will execute as fast as possible, letting logical time advance faster than physical time.
-- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those. For the duration and units of a timeout argument to be parsed correctly as a single value, these should be specified in quotes with no leading or trailing space (eg '5 sec').
+- `-o, --timeout '<duration> <units>'`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those. For the duration and units of a timeout argument to be parsed correctly as a single value, these should be specified in quotes with no leading or trailing space (e.g. '5 sec').
 - `-k, --keepalive [true | false]`: Specifies whether to stop execution if there are no events to process. This defaults to `false`, meaning that the program will stop executing when there are no more events on the event queue. If you set this to `true`, then the program will keep executing until either the `timeout` logical time is reached or the program is externally killed. If you have `physical action`s, it usually makes sense to set this to `true`.
 - `-l, --logging [ERROR | WARN | INFO | LOG | DEBUG]`: The level of logging messages from the reactor-ts runtime to to print to the console. Messages tagged with a given type (error, warn, etc.) will print if this argument is greater than or equal to the level of the message (`ERROR` < `WARN` < `INFO` < `LOG` < `DEBUG`).
 - `-h, --help`: Print this usage guide. The program will not execute if this flag is present.

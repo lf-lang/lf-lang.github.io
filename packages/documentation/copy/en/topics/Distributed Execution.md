@@ -16,11 +16,11 @@ preamble: >
 
 $page-showing-target$
 
-**NOTE:** Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on MacOS and Linux, and there are no plans currently to support Windows systems.
+**NOTE:** Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on macOS and Linux, and there are no plans currently to support Windows systems.
 
 A distributed Lingua Franca program is called a **federation**. Each reactor within the main reactor is called a **federate**. The LF compiler generates a separate program for each federate and synthesizes the code for the federates to communicate. The federates can be distributed across networks and eventually will be able to be written in different target languages, although this is not yet supported.
 
-In addition to the federates, there is a program called the **RTI**, for **runtime infrastructure**. that coordinates startup and shutdown and may, if the coordination is centralized, mediate communication. The RTI needs to be compiled and installed separately on the system before any federation can execute.
+In addition to the federates, there is a program called the **RTI**, for **runtime infrastructure**, that coordinates startup and shutdown and may, if the coordination is centralized, mediate communication. The RTI needs to be compiled and installed separately on the system before any federation can execute.
 
 It is possible to encapsulate federates in Docker containers for deployment.
 See [containerized execution](/docs/handbook/containerized-execution).
@@ -71,7 +71,7 @@ federated reactor {
     p = new Print();
     c.out -> p.in;
 }
-
+ 
 ```
 
 ```lf-cpp
@@ -105,7 +105,7 @@ federated reactor {
     p = new Print();
     c.out -> p.inp;
 }
-
+ 
 ```
 
 ```lf-ts
@@ -182,7 +182,7 @@ Alternatively, you can manually execute the RTI followed by the two federate pro
 
 <div class="lf-c">
 
-```
+```sh
 RTI -n 2
 bin/Federated_s
 bin/Federated_d
@@ -192,7 +192,7 @@ bin/Federated_d
 
 <div class="lf-py">
 
-```
+```sh
 RTI -n 2
 python3 src-gen/Federated/s/Federated_s.py
 python3 src-gen/Federated/d/Federated_d.py
@@ -202,7 +202,7 @@ python3 src-gen/Federated/d/Federated_d.py
 
 <div class="lf-ts">
 
-```
+```sh
 RTI -n 2
 node src-gen/Federated/dist/Federated_s.js
 node src-gen/Federated/dist/Federated_d.js
@@ -246,7 +246,7 @@ You may have several federations running on the same machine(s) or even several 
 
 <div class="lf-c">
 
-```
+```sh
 RTI -n 2 -i myFederation
 bin/Federated_s -i myFederation
 bin/Federated_d -i myFederation
@@ -256,7 +256,7 @@ bin/Federated_d -i myFederation
 
 <div class="lf-py">
 
-```
+```sh
 RTI -n 2 -i myFederation
 python3 src-gen/Federated/s/Federated_s.py -i myFederation
 python3 src-gen/Federated/d/Federated_d.py -i myFederation
@@ -266,7 +266,7 @@ python3 src-gen/Federated/d/Federated_d.py -i myFederation
 
 <div class="lf-ts">
 
-```
+```sh
 RTI -n 2 -i myFederation
 node src-gen/Federated/dist/Federated_s.js -i myFederation
 node src-gen/Federated/dist/Federated_d.js -i myFederation
@@ -293,7 +293,7 @@ Coordinating the shutdown of a distributed program is discussed in [Termination]
 
 When one federate sends data to another, by default, the timestamp at the receiver will match the timestamp at the sender. You can also specify a logical delay on the communication using the **after** keyword. For example, if we had instead specified
 
-```
+```lf
 	s.out -> p.in after 200 msec;
 ```
 
@@ -321,13 +321,13 @@ With centralized coordination, all messages (except those on [physical connectio
 
 The default coordination between mechanisms is **centralized**, equivalent to specifying the target property:
 
-```
+```lf
    coordination: centralized
 ```
 
 An alternative is **decentralized** coordination, which extends a technique realized in [PTIDES](https://ptolemy.berkeley.edu/publications/papers/07/RTAS/) and [Google Spanner](https://dl.acm.org/doi/10.1145/2491245), a globally distributed database system:
 
-```
+```lf
    coordination: decentralized
 ```
 
@@ -348,7 +348,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -414,7 +414,7 @@ import Count, Print from "Federated.lf"
 reactor PrintTimer(STP_offset:time(10 msec)) extends Print {
     timer t(0, 1 sec);
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -468,7 +468,7 @@ Here, a parameter named `STP_offset` (not case sensitive) gives a time value, an
 
 Of course, the assumptions about network latency, etc., can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation by providing an STP violation handler. The pattern is:
 
-```
+```lf-c
 reaction(in) {=
     // User code
 =} STP (0) {=
@@ -497,11 +497,11 @@ reactor PrintTimer {
         lf_print("****** STP violation handler invoked at (%lld, %d). "
             "Intended tag was (%lld, %d).",
             lf_time_logical_elapsed(), lf_tag().microstep,
-            in->intended_tag.time - start_time, in->intended_tag.microstep
+            in->intended_tag.time - lf_time_start(), in->intended_tag.microstep
         );
     =}
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).",
+        lf_print("Timer ticked at (%lld, %d).", 
             lf_time_logical_elapsed(), lf_tag().microstep
         );
     =}
@@ -567,7 +567,7 @@ $end(DecentralizedTimerAfterHandler)$
 
 For more advanced users, the LF API provides two functions that can be used to dynamically adjust the STP:
 
-```
+```c
 interval_t lf_get_stp_offset();
 void lf_set_stp_offset(interval_t offset);
 ```
@@ -578,7 +578,7 @@ Using these functions, however, is a pretty advanced operation.
 
 Coordinating the execution of the federates so that timestamps are preserved is tricky. If your application does not require the deterministic execution that results from preserving the timestamps, then you can alternatively specify a **physical connection** as follows:
 
-```
+```lf
 source.out ~> print.in;
 ```
 
@@ -586,7 +586,7 @@ The tilde specifies that the timestamp of the sender should be discarded. A new 
 
 There are a number of subtleties with physical connections. One is that if you specify an `after` clause, for example like this:
 
-```
+```lf
 count.out ~> print.in after 10 msec;
 ```
 
@@ -598,11 +598,11 @@ In the above example, all of the generated programs expect to run on localhost. 
 
 In order for a federated execution to work, there is some setup required on the machines to be used. First, each machine must be running on `ssh` server. On a Linux machine, this is typically done with a command like this:
 
-```
+```sh
     sudo systemctl <start|enable> ssh.service
 ```
 
-Enable means to always start the service at startup, whereas start means to just start it this once. On MacOS, open System Preferences from the Apple menu and click on the "Sharing" preference panel. Select the checkbox next to "Remote Login" to enable it.
+Enable means to always start the service at startup, whereas start means to just start it this once. On macOS, open System Preferences from the Apple menu and click on the "Sharing" preference panel. Select the checkbox next to "Remote Login" to enable it.
 
 It will also be much more convenient if the launcher does not have to enter passwords to gain access to the remote machine. This can be accomplished by installing your public key (typically found in `~/.ssh/id_rsa.pub`) in `~/.ssh/authorized_keys` on the remote host.
 
@@ -612,7 +612,7 @@ Second, the RTI must be installed on the remote machine. See [instructions for i
 
 You can specify a domain name on which the RTI should run as follows:
 
-```
+```lf
 federated reactor DistributedCount at www.example.com {
     ...
 }
@@ -620,7 +620,7 @@ federated reactor DistributedCount at www.example.com {
 
 You can alternatively specify an IP address (either IPv4 or IPv6):
 
-```
+```lf
 federated reactor DistributedCount at 10.0.0.198 { ... }
 ```
 
@@ -628,7 +628,7 @@ By default, the RTI starts a socket server on port 15045, if that port is availa
 
 You can also specify a port for the RTI to use as follows:
 
-```
+```lf
 federated reactor DistributedCount at 10.0.0.198:8080 { ... }
 ```
 
@@ -642,23 +642,23 @@ Address 0.0.0.0: The default host, `localhost` is used if no address is specifie
 
 A federate may be mapped to a particular remote machine using a syntax like this:
 
-```
+```lf
     count = new Count() at user@host:port/path;
 ```
 
-The `port` is ignored in **centralized** mode because all communication is routed through the RTI, but in **decentralized** mode it will specify the port on which a socket server listens for incomming connections from other federates.
+The `port` is ignored in **centralized** mode because all communication is routed through the RTI, but in **decentralized** mode it will specify the port on which a socket server listens for incoming connections from other federates.
 
 If any federate has such a remote designator, then a `Federation_distribute.sh` shell script will be generated. This script will distribute the generated code for the RTI to the remote machine at the specified directory.
 
 You can also specify a user name on the remote machine for cases where the username will not match whoever launches the federation:
 
-```
+```lf
 federated reactor DistributedCount at user@10.0.0.198:8080 { ... }
 ```
 
 The general form of the host designation is
 
-```
+```lf
 federated reactor DistributedCount at user@host:port/path { ... }
 ```
 
@@ -672,19 +672,19 @@ Both centralized and decentralized coordination have some reliance on clock sync
 
 If your host is not running any clock synchronization, or if it is running only NTP and your application needs tighter latencies, then Lingua Franca's own built-in clock synchronization may provide better precision, depending on your network conditions. Like NTP, it realizes a software-only protocol, which are much less precise than hardware-supported protocols such as PTP, but if your hosts are on the same local area network, then network conditions may be such that the performance of LF clock synchronization will be much better than NTP. If your network is equipped with PTP, you will want to disable the clock synchronization in Lingua Franca by specifying in your target properties the following:
 
-```
+```lf
     clock-sync: off
 ```
 
 When a federation is mapped onto multiple machines, then, by default, any federate mapped to a machine that is not the one running the RTI will attempt during startup to synchronize its clock with the one on the machine running the RTI. The determination of whether the federate is running on the same machine is determined by comparing the string that comes after the `at` clause between the federate and the RTI. If they differ at all, then they will be treated as if the federate is running on a different machine even if it is actually running on the same machine. This default behavior can be obtained by either specifying nothing in the target properties or saying:
 
-```
+```lf
     clock-sync: initial
 ```
 
 This results in clock synchronization being done during startup only. To account for the possibility of your clocks drifting during execution of the program, you can alternatively specify:
 
-```
+```lf
     clock-sync: on
 ```
 
@@ -694,7 +694,7 @@ With this specification, in addition to synchronization during startup, synchron
 
 A number of options can be specified using the `clock-sync-options` target parameter. For example:
 
-```
+```lf
     clock-sync-options: {local-federates-on: true, test-offset: 200 msec}
 ```
 

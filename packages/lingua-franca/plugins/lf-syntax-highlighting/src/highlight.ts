@@ -17,6 +17,14 @@ function readFile(p: string) {
     })
 }
 
+async function readUrl(url: URL) {
+  return (
+    await (
+      await (Function('return import("node-fetch")')() as Promise<typeof import('node-fetch')>)
+    ).default(url.href)
+  ).text();
+}
+
 const wasmBin = fs.readFileSync(path.join(__dirname, Config.onigurumaParser)).buffer;
 const vscodeOnigurumaLib = oniguruma.loadWASM(wasmBin).then(() => {
     return {
@@ -28,7 +36,7 @@ const vscodeOnigurumaLib = oniguruma.loadWASM(wasmBin).then(() => {
 const registry = new vsctm.Registry({
     onigLib: vscodeOnigurumaLib,
     loadGrammar: async (scopeName: string) => {
-      let grammarFile: string = ""
+      let grammarFile: string | URL = ""
       for (const language of Config.languages) {
         if (scopeName == language.scopeName) {
           grammarFile = language.grammarFile
@@ -36,8 +44,13 @@ const registry = new vsctm.Registry({
         }
       }
       if (grammarFile !== "") {
-        const data: any = await readFile(grammarFile)
-        return vsctm.parseRawGrammar(data.toString(), grammarFile)
+        if (grammarFile instanceof URL) {
+          const data: any = await readUrl(grammarFile)
+          return vsctm.parseRawGrammar(data.toString(), grammarFile.pathname)
+        } else {
+          const data: any = await readFile(grammarFile)
+          return vsctm.parseRawGrammar(data.toString(), grammarFile)
+        }
       }
       console.warn(`Unknown scope name: ${scopeName}`)
       return Promise.resolve(null)

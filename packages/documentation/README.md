@@ -58,9 +58,9 @@ preamble: >
 The handbook documentation pages include a target language selector that specifies the target language in which to show examples. To add target-specific content to a markdown file, the content must have HTML class `lf-T`, where `T` is one of `c`, `cpp`, `py`, `ts`, or `rs`. A code block specific to C, for example, can be given as:
 
 ```
-\`\`\`lf-c
-    ... your code here ...
-\`\`\`
+    ```lf-c
+        ... your code here ...
+    ```
 ```
 
 Arbitrary content can be put with `div` of `span` with the appropriate class(es). For example, content that is relevant to only C and C++ can be surrounded with:
@@ -86,21 +86,23 @@ $insert(Name)$
 then you can run the following script:
 
 ```
-node packages/documentation/scripts/preprocessMarkdown.js yourMarkdownFile.md
+node $WEBSITE_ROOT/packages/documentation/scripts/preprocessMarkdown.js yourMarkdownFile.md
 ```
+
+where `$WEBSITE_ROOT` is replaced with the root directory of the website repo clone.
 
 This script will replace that line with something of the form:
 
 ```
 $start(Name)$
 
-\`\`\`lf-c
-  ... C target code here
-\`\`\`
+    ```lf-c
+       ... C target code here
+    ```
 
-\`\`\`lf-cpp
-  ... Cpp target code here
-\`\`\`
+    ```lf-cpp
+       ... Cpp target code here
+    ```
 ...
 $end(Name)$
 ```

@@ -4,7 +4,9 @@ import { Link } from "gatsby"
 import "./Sidebar.scss"
 import { onAnchorKeyDown, onButtonKeydown } from "./Sidebar-keyboard"
 import { SidebarNavItem } from "../../lib/documentationNavigation"
-import { setTargetLanguage } from "../../lib/setTargetLanguage";
+import { setInitialTargetLanguage } from "../../lib/setInitialTargetLanguage"
+import { getTargetLanguage, setTargetLanguage } from "../../lib/setTargetLanguage"
+import { globalHistory } from '@reach/router'
 
 export type Props = {
   navItems: SidebarNavItem[]
@@ -122,20 +124,63 @@ export const Sidebar = (props: Props) => {
     }
   }
 
+  const TargetLanguageLink = (props: {target: string, children: string}) => {
+    return <li
+      className={getTargetLanguage() === props.target ? "highlight" : ""}
+      id={`lf-target-button-${props.target}`}
+    >
+      <a onClick={() => setTargetLanguage(props.target)}>
+        {props.children}
+      </a>
+    </li>
+  }
+
+  const CurrentTarget = (props: {target: string, children: string}) => {
+    const id = `lf-current-target-${props.target}`
+    const ret = <div
+      id={id}
+      className={`language-lf-${props.target} current-target`}
+      style={{display: "none"}}
+    >
+      {props.children}
+    </div>
+    return ret;
+  }
+
+  function toggleOpen() {
+    const selector = document.getElementById("targetChooser");
+    if (selector === null) return;
+    selector.className = selector.className === "open" ? "closed" : "open";
+  }
+
   /* Target language chooser */
   const RenderTargetChooser = () => {
     return (
-      <li key="targetChooser">
-        <button id="targetChooser">
-          <label>Target language:</label>
-          <select name="target" id="targetSelector" onChange={(e) => setTargetLanguage(e.target.value)}>
-            <option value="lf-c">C</option>
-            <option value="lf-cpp">C++</option>
-            <option value="lf-py">Python</option>
-            <option value="lf-ts">TypeScript</option>
-            <option value="lf-rs">Rust</option>
-          </select>
+      <li id="targetChooser" className="closed" onClick={toggleOpen}>
+        <button id="targetSelector">
+        Target<CurrentTarget target="c">&#58; C</CurrentTarget>
+          <CurrentTarget target="cpp">&#58; C++</CurrentTarget>
+          <CurrentTarget target="py">&#58; Python</CurrentTarget>
+          <CurrentTarget target="rs">&#58; Rust</CurrentTarget>
+          <CurrentTarget target="ts">&#58; TypeScript</CurrentTarget>
+          <span className="open">
+            <svg fill="none" height="9" viewBox="0 0 14 9" width="14" xmlns="http://www.w3.org/2000/svg">
+              <path d="m1 1 6 6 6-6" stroke="#000" stroke-width="2"></path>
+            </svg>
+          </span>
+          <span className="closed">
+            <svg fill="none" height="14" viewBox="0 0 9 14" width="9" xmlns="http://www.w3.org/2000/svg">
+              <path d="m1 13 6-6-6-6" stroke="#000" stroke-width="2"></path>
+            </svg>
+          </span>
         </button>
+        <ul>
+          <TargetLanguageLink target="c">C</TargetLanguageLink>
+          <TargetLanguageLink target="cpp">C++</TargetLanguageLink>
+          <TargetLanguageLink target="py">Python</TargetLanguageLink>
+          <TargetLanguageLink target="ts">TypeScript</TargetLanguageLink>
+          <TargetLanguageLink target="rs">Rust</TargetLanguageLink>
+        </ul>
       </li>
     )
   }

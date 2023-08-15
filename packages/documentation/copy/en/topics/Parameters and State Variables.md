@@ -25,7 +25,7 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 - An identifier, such as `int`<span class="lf-cpp">, possibly followed by a type argument, e.g. `vector<int>`</span>.
 - An array type `type[]`<span class="lf-c lf-cpp lf-rs"> and `type[integer]`</span>.
 - The keyword $time$, which designates a time value.
-- A code block delimitted by `{= ... =}`, where the contents is any valid type in the target language.
+- A code block delimited by `{= ... =}`, where the contents is any valid type in the target language.
 
 </div>
 
@@ -59,7 +59,7 @@ reactor <class-name>(<param-name>(<expr>), ... ) {
 
 </div>
 
-Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
+Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
 
 For example, the `Double` reactor on the [previous page](/docs/handbook/inputs-and-outputs) can be replaced with a more general parameterized reactor `Scale` as follows:
 
@@ -74,7 +74,6 @@ reactor Scale(factor:int(2)) {
         lf_set(y, x->value * self->factor);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -87,7 +86,6 @@ reactor Scale(factor:int(2)) {
         y.set(factor * *x.get());
     =}
 }
-
 ```
 
 ```lf-py
@@ -110,7 +108,6 @@ reactor Scale(factor:number(2)) {
         if (x !== undefined) y = x * factor
     =}
 }
-
 ```
 
 ```lf-rs
@@ -168,7 +165,6 @@ reactor Count {
         lf_set(y, self->count++);
     =}
 }
-
 ```
 
 ```lf-cpp
@@ -183,7 +179,6 @@ reactor Count {
         y.set(count++);
     =}
 }
-
 ```
 
 ```lf-py
@@ -197,7 +192,6 @@ reactor Count {
         self.count += 1
     =}
 }
-
 ```
 
 ```lf-ts
@@ -210,7 +204,6 @@ reactor Count {
         y = count++
     =}
 }
-
 ```
 
 ```lf-rs
@@ -224,7 +217,6 @@ reactor Count {
         self.count += 1;
     =}
 }
-
 ```
 
 $end(Count)$

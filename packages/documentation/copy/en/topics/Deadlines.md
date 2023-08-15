@@ -16,7 +16,7 @@ A deadline in an LF program serves two purposes. First, it can guide scheduling 
 
 Second, the deadline mechanism provides a **fault handler**, a section of code to invoke when the deadline requirement is violated. Because invocation of the fault handler depends on factors beyond the control of the LF program, an LF program with deadlines becomes **nondeterministic**. The behavior of the program depends on the exact timing of the execution.
 
-There remains the question of when the fault handler should be invoked. By default, dealines in LF are **lazy**, meaning that the fault handler is invoked at the logical time of the event triggering the reaction whose deadline is missed. Specifically, the possible violation of a deadline is not checked until the reaction with the deadline is ready to execute. Only then is the determination made whether to invoke the regular reaction or the fault handler.
+There remains the question of when the fault handler should be invoked. By default, deadlines in LF are **lazy**, meaning that the fault handler is invoked at the logical time of the event triggering the reaction whose deadline is missed. Specifically, the possible violation of a deadline is not checked until the reaction with the deadline is ready to execute. Only then is the determination made whether to invoke the regular reaction or the fault handler.
 
 An alternative is an **eager deadline**, where a fault handler is invoked as soon as possible after a deadline violation becomes inevitable. With an eager deadline, if an event with tag (_t_, _m_) triggers a reaction with deadline _D_, then as soon as the runtime system detects that physical time _T_ > _t_ + _D_, the fault handler becomes enabled. This can occur at a logical time _earlier_ than _t_. Hence, a fault handler may be invoked at a logical time earlier than that of the event that triggered the fault.
 
@@ -99,22 +99,29 @@ This reactor specifies a deadline of 10 milliseconds (this can be a parameter of
 $start(DeadlineTest)$
 
 ```lf-c
-target C;
-import Deadline from "Deadline.lf";
+target C
+
+import Deadline from "Deadline.lf"
+
+preamble {=
+    #include "platform.h"
+=}
+
 main reactor {
-    logical action a;
-    d = new Deadline();
+    logical action a
+    d = new Deadline()
+
     reaction(startup) -> d.x, a {=
         lf_set(d.x, 0);
         lf_schedule(a, 0);
     =}
+
     reaction(a) -> d.x {=
         lf_set(d.x, 0);
-        lf_nanosleep(MSEC(20));
+        lf_sleep(MSEC(20));
     =}
-    reaction(d.d) {=
-        printf("Deadline reactor produced an output.\n");
-    =}
+
+    reaction(d.d) {= printf("Deadline reactor produced an output.\n"); =}
 }
 
 ```
@@ -207,6 +214,14 @@ Deadline reactor produced an output.
 The first reaction of the `Deadline` reactor does not violate the deadline, but the second does. Notice that the sleep in the $main$ reactor occurs _after_ setting the output, but because of the deterministic semantics of LF, this does not matter. The actual value of an output cannot be known until every reaction that sets that output _completes_ its execution. Since this reaction takes at least 20 msec to complete, the deadline is assured of being violated.
 
 Notice that the deadline is annotated in the diagram with a small clock symbol.
+
+<div class="lf-c">
+
+Notice that the deadline violation here is caused by an invocation of `lf_sleep`, defined in `"platform.h"` (see [Libraries Available to Programmers](/docs/handbook/target-language-details?target=c#libraries-available-to-programmers)).
+It is not generally advisable for a reaction to sleep because this can block other reactions from executing.
+But this is exactly what we are trying to accomplish here in order to force a deadline to be violated.
+
+</div>
 
 ## Deadline Violations During Execution
 
