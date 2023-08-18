@@ -104,13 +104,14 @@ target C {
 
 This will result in the trace file being named `Bar.lft`, regardless of the name of the `.lf` file.
 
-The trace file is a binary file. It is not human readable. There are three utilities for reading it:
+The trace file is a binary file. It is not human readable. There are  utilities for reading it:
 
 - `trace_to_csv`: This program creates a text file with one line per traced event in comma-separated list format.
 - `trace_to_chrome`: This program creates a text file in JSON format that is suitable for reading into the same Google Trace Viewer, which runs in Chrome, as used above in C++ tracing.
+- `trace_to_influxdb` : This program will send the traced event to a running InfluxDB database server. 
 - `fedsd`: This program creates a timed sequence diagram showing the interactions between components of a federated program (see [Tracing Federated Programs](#tracing-federated-programs) below).
 
-These three programs are located in `lingua_franca/util/tracing`. Running `make install` in that directory will put executables into `lingua_franca/bin`, the same directory that houses `lfc`, the compiler.
+These four programs are located in reactor-c at `lingua-franca/core/src/main/resources/lib/c/reactor-c/util/tracing`. Running `sudo make install` in that directory will put executables into `usr/local/bin`.
 
 Consider for example the [ThreadedThreaded.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/concurrent/ThreadedThreaded.lf) test, which executes a number of heavyweight computations in parallel on multiple cores. If you enable tracing as shown above and run the program, a `ThreadedTheread.lft` file will appear. Running
 
