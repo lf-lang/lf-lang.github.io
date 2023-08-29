@@ -17,16 +17,16 @@ Input and output declarations have the form:
 <div class="lf-c lf-ts lf-rs lf-cpp">
 
 ```lf
-    input <name>:<type>
-    output <name>:<type>
+  input <name>:<type>
+  output <name>:<type>
 ```
 
 </div>
 <div class="lf-py">
 
 ```lf
-    input <name>
-    output <name>
+  input <name>
+  output <name>
 ```
 
 </div>
@@ -36,60 +36,59 @@ For example, the following reactor doubles its input and sends the result to the
 $start(Double)$
 
 ```lf-c
-target C;
+target C
 reactor Double {
-    input x:int;
-    output y:int;
-    reaction(x) -> y {=
-        lf_set(y, x->value * 2);
-    =}
+  input x: int
+  output y: int
+  reaction(x) -> y {=
+    lf_set(y, x->value * 2);
+  =}
 }
 ```
 
 ```lf-cpp
-target Cpp;
-
+target Cpp
 reactor Double {
-    input x:int;
-    output y:int;
-    reaction(x) -> y {=
-        if (x.is_present()){
-            y.set(*x.get() * 2);
-        }
-    =}
+  input x: int
+  output y: int
+  reaction(x) -> y {=
+    if (x.is_present()){
+        y.set(*x.get() * 2);
+    }
+  =}
 }
 ```
 
 ```lf-py
-target Python;
+target Python
 reactor Double {
-    input x;
-    output y;
-    reaction(x) -> y {=
-        y.set(x.value * 2)
-    =}
+  input x
+  output y
+  reaction(x) -> y {=
+    y.set(x.value * 2)
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
 reactor Double {
-    input x:number
-    output y:number
-    reaction(x) -> y {=
-        y = value * 2
-    =}
+  input x: number
+  output y: number
+  reaction(x) -> y {=
+    y = value * 2
+  =}
 }
 ```
 
 ```lf-rs
-target Rust;
+target Rust
 reactor Double {
-    input x:u32;
-    output y:u32;
-    reaction(x) -> y {=
-        ctx.set(y, ctx.get(x).unwrap() * 2);
-    =}
+  input x: u32
+  output y: u32
+  reaction(x) -> y {=
+    ctx.set(y, ctx.get(x).unwrap() * 2);
+  =}
 }
 ```
 
@@ -109,92 +108,90 @@ The $reaction$ declaration above indicates that an input event on port `x` is a 
 $start(Destination)$
 
 ```lf-c
-target C;
+target C
 reactor Destination {
-    input x:int;
-    input y:int;
-    reaction(x, y) {=
-        int sum = 0;
-        if (x->is_present) {
-            sum += x->value;
-        }
-        if (y->is_present) {
-            sum += y->value;
-        }
-        printf("Received %d.\n", sum);
-    =}
+  input x: int
+  input y: int
+  reaction(x, y) {=
+    int sum = 0;
+    if (x->is_present) {
+      sum += x->value;
+    }
+    if (y->is_present) {
+      sum += y->value;
+    }
+    printf("Received %d.\n", sum);
+  =}
 }
 ```
 
 ```lf-cpp
-target Cpp;
-
+target Cpp
 reactor Destination {
-    input x:int;
-    input y:int;
-    reaction(x, y) {=
-        int sum = 0;
-        if (x.is_present()) {
-            sum += *x.get();
-        }
-        if (y.is_present()) {
-            sum += *y.get();
-        }
-
-        std::cout << "Received: " << sum << std::endl;
-    =}
+  input x: int
+  input y: int
+  reaction(x, y) {=
+    int sum = 0;
+    if (x.is_present()) {
+      sum += *x.get();
+    }
+    if (y.is_present()) {
+      sum += *y.get();
+    }
+    std::cout << "Received: " << sum << std::endl;
+  =}
 }
 ```
 
 ```lf-py
-target Python;
+target Python
 reactor Destination {
-    input x;
-    input y;
-    reaction(x, y) {=
-        sum = 0
-        if x.is_present:
-            sum += x.value
-        if y.is_present:
-            sum += y.value
-        print(f"Received {sum}")
-    =}
+  input x
+  input y
+  reaction(x, y) {=
+    sum = 0
+    if x.is_present:
+      sum += x.value
+    if y.is_present:
+      sum += y.value
+    print(f"Received {sum}")
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
 reactor Destination {
-    input x:number
-    input y:number
-    reaction(x, y) {=
-        let sum = 0
-        if (x !== undefined) {
-            sum += x
-        }
-        if (y !== undefined) {
-            sum += y
-        }
-        console.log(`Received ${sum}.`)
-    =}
+  input x: number
+  input y: number
+  reaction(x, y) {=
+    let sum = 0
+    if (x !== undefined) {
+      sum += x
+    }
+    if (y !== undefined) {
+      sum += y
+    }
+    console.log(`Received ${sum}.`)
+  =}
 }
 ```
 
 ```lf-rs
-target Rust;
+target Rust
 reactor Destination {
-    input x:u32;
-    input y:u32;
-    reaction(x, y) {=
-        let mut sum = 0;
-        if let Some(x) = ctx.get(x) {
-            sum += x;
-        }
-        if let Some(y) = ctx.get(y) {
-            sum += y;
-        }
-        println!("Received {}.", sum);
-    =}
+  input x: u32
+  input y: u32
+  reaction(x, y) {=
+    let mut sum = 0;
+    if let Some(x) = ctx.get(x) {
+      sum += x;
+    }
+    if let Some(y) = ctx.get(y) {
+      sum += y;
+    }
+    println!("Received {}.", sum);
+  =}
 }
 ```
 
@@ -213,15 +210,15 @@ The general form of a $reaction$ is
 
 ```lf
 reaction (<triggers>) <uses> -> <effects> {=
-    <target language code>
+  <target language code>
 =}
 ```
 
 The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), [timers](/docs/handbook/time-and-timers#timers), [actions](/docs/handbook/actions), or the special events $startup$ and $shutdown$. There must be at least one trigger for each reaction. A reaction with a $startup$ trigger is invoked when the program begins executing, and a reaction with a $shutdown$ trigger is invoked at the end of execution.
 
-The **uses** field, which is optional, specifies input ports (or [output ports of contained reactors](/docs/handbook/composing-reactors#hierarchy)) that do not trigger execution of the reaction but may be read by the reaction.
+The **uses** field, which is optional, specifies input ports (or output ports of contained reactors) that do not trigger execution of the reaction but may be read by the reaction.
 
-The **effects** field, which is also optional, is a comma-separated lists of output ports ports, [input ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), or [actions](/docs/handbook/actions).
+The **effects** field, which is also optional, is a comma-separated lists of output ports ports, input ports of contained reactors, or [actions](/docs/handbook/actions).
 
 ## Setting an Output Multiple Times
 
@@ -233,20 +230,20 @@ If a reaction wishes to test whether an output has been previously set at the cu
 
 Normally, a reaction does not modify the value of an input. An input is said to be **immutable**. The degree to which this is enforced varies by target language. Most of the target languages make it rather difficult to enforce, so the programmer needs to avoid modifying the input. Modifying an input value may lead to nondeterministic results.
 
-Occasionally, it is useful to modify an input. For example, the input may be a large data structure, and a reaction may wish to make a small modification and forward the result to an output. To accomplish this, the programmer should declare the input **mutable** as follows:
+Occasionally, it is useful to modify an input. For example, the input may be a large data structure, and a reaction may wish to make a small modification and forward the result to an output. To accomplish this, the programmer should declare the input $mutable$ as follows:
 
-<div class="lf-c lf-cpp lf-ts lf-rs>
+<div class="lf-c lf-cpp lf-ts lf-rs">
 
 ```lf
-    mutable input <name>:<type>;
+  mutable input <name>:<type>
 ```
 
 </div>
 
-<div class="lf-py>
+<div class="lf-py">
 
 ```lf
-    mutable input <name>;
+  mutable input <name>
 ```
 
 </div>
