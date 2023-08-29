@@ -23,6 +23,7 @@ const endMatcher = new RegExp('\\$end\\((.*)\\)\\$');
 
 /**
  * Return the code block matching the specified target language and program name.
+ * This removes any blank lines.
  * @param target The target language.
  * @param programName The program name. 
  * @throws Exception if no matching file is found. 
@@ -35,7 +36,9 @@ const readSourceFile = (target, programName) => {
     if (code) {
       // Write the code line by line to ensure correct line breaks.
       code.split(/\r?\n/).forEach(codeLine => {
-        result += codeLine + "\n";
+        if (codeLine.trim().length > 0) {
+          result += codeLine + "\n";
+        }
       })
     } else {
       // This should probably not happen.
