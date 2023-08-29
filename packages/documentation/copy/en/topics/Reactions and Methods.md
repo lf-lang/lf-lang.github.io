@@ -52,6 +52,7 @@ main reactor Alignment {
         std::cout << "s = " << std::to_string(s) << std::endl;
     =}
 }
+
 ```
 
 ```lf-py
@@ -94,6 +95,7 @@ main reactor Alignment {
         console.log(`s = ${s}`)
     =}
 }
+
 ```
 
 ```lf-rs
@@ -115,6 +117,7 @@ main reactor Alignment {
         println!("s = {}", self.s);
     =}
 }
+
 ```
 
 $end(Alignment)$
@@ -143,6 +146,7 @@ reactor Overwriting {
         lf_set(y, self->s);
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -163,6 +167,7 @@ reactor Overwriting {
         y.set(s);
     =}
 }
+
 ```
 
 ```lf-py
@@ -199,6 +204,7 @@ reactor Overwriting {
         y = s
     =}
 }
+
 ```
 
 ```lf-rs
@@ -258,6 +264,7 @@ main reactor {
         }
     =}
 }
+
 ```
 
 ```lf-py
@@ -284,6 +291,7 @@ main reactor {
         }
     =}
 }
+
 ```
 
 ```lf-rs
@@ -306,6 +314,97 @@ $end(Contained)$
 <img alt="Lingua Franca diagram" src="../../../../../img/diagrams/Contained.svg" width="300"/>
 
 This instantiates the above `Overwriting` reactor and monitors its outputs.
+
+## Triggering Contained Reactors
+
+A reaction can set the input of a contained reactor, thereby triggering its reactions, as illustrated in the following example:
+
+$start(Triggering)$
+
+```lf-c
+target C
+reactor Inside {
+  input x: int
+  reaction(x) {=
+    printf("Received %d\n", x->value);=
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    lf_set(i.x, 42);
+  =}
+}
+```
+
+```lf-cpp
+target Cpp
+reactor Inside {
+  input x: int
+  reaction(x) {=
+    std::cout << "Received " << std::to_string(*x.get()) << std::endl;
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    i.x.set(42);
+  =}
+}
+```
+
+```lf-py
+target Python
+reactor Inside {
+  input x
+  reaction(x) {=
+    print(f"Received {x.value}")
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    i.x.set(42);
+  =}
+}
+```
+
+```lf-ts
+target TypeScript
+reactor Inside {
+  input x: number
+  reaction(x) {=
+    console.log("Received ${x}");
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    i.x = 42
+  =}
+}
+```
+
+```lf-rs
+target Rust
+reactor Inside {
+  input x: u32
+  reaction(x) {=
+    println!("Received {}", ctx.get(x).unwrap());
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    ctx.set(i__x, 42);
+  =}
+}
+```
+
+$end(Triggering)$
+
+The reaction to $startup$ declares the input port of the inside reactor as an effect and then sets it with value 42.
+This will cause the inside reactor's reaction to execute and print `Received 42`.
 
 ## Method Declaration
 
@@ -354,6 +453,7 @@ main reactor Methods {
         lf_print("2 + 40 = %d", getFoo());
     =}
 }
+
 ```
 
 ```lf-cpp
@@ -372,6 +472,7 @@ main reactor Methods {
         std::cout << "2 + 40 = " << getFoo() << '\n';
     =}
 }
+
 ```
 
 ```lf-py
@@ -390,6 +491,7 @@ main reactor Methods {
         print(f"2 + 40 = {self.getFoo()}.")
     =}
 }
+
 ```
 
 ```lf-ts

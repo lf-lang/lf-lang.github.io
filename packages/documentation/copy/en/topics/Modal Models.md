@@ -24,7 +24,7 @@ Transitioning between modes switches the reactor's behavior and provides control
 
 Modes can be defined in any reactor, except federated ones.
 Each mode requires a unique (per reactor) name and can declare contents that are local to this mode.
-There must be exactly one mode marked as **initial**.
+There must be exactly one mode marked as $initial$.
 
 ```lf
 reactor TwoModes {
