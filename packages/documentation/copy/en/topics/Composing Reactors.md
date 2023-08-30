@@ -17,92 +17,86 @@ $start(RegressionTest)$
 
 ```lf-c
 target C {
-    timeout: 1 sec,
-    fast: true
+  timeout: 1 sec,
+  fast: true
 }
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
-
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
 main reactor RegressionTest {
-    c = new Count();
-    s = new Scale(factor = 4);
-    t = new TestCount(stride = 4, num_inputs = 11);
-    c.y -> s.x;
-    s.y -> t.x;
+  c = new Count()
+  s = new Scale(factor=4)
+  t = new TestCount(stride=4, num_inputs=11)
+  c.y -> s.x
+  s.y -> t.x
 }
 ```
 
 ```lf-cpp
 target Cpp {
-    timeout: 1 sec,
-    fast: true
+  timeout: 1 sec,
+  fast: true
 }
-
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
-
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
 main reactor RegressionTest {
-    c = new Count();
-    s = new Scale(factor = 4);
-    t = new TestCount(stride = 4, num_inputs = 11);
-    c.y -> s.x;
-    s.y -> t.x;
+  c = new Count()
+  s = new Scale(factor=4)
+  t = new TestCount(stride=4, num_inputs=11)
+  c.y -> s.x
+  s.y -> t.x
 }
 ```
 
 ```lf-py
 target Python {
-    timeout: 1 sec,
-    fast: true
+  timeout: 1 sec,
+  fast: true
 }
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
-
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
 main reactor RegressionTest {
-    c = new Count();
-    s = new Scale(factor = 4);
-    t = new TestCount(stride = 4, num_inputs = 11);
-    c.y -> s.x;
-    s.y -> t.x;
+  c = new Count()
+  s = new Scale(factor=4)
+  t = new TestCount(stride=4, num_inputs=11)
+  c.y -> s.x
+  s.y -> t.x
 }
 ```
 
 ```lf-ts
 target TypeScript {
-    timeout: 1 sec,
-    fast: true
+  timeout: 1 sec,
+  fast: true
 }
 import Count from "Count.lf"
 import Scale from "Scale.lf"
 import TestCount from "TestCount.lf"
-
 main reactor RegressionTest {
-    c = new Count()
-    s = new Scale(factor = 4)
-    t = new TestCount(stride = 4, numInputs = 11)
-    c.y -> s.x
-    s.y -> t.x
+  c = new Count()
+  s = new Scale(factor=4)
+  t = new TestCount(stride=4, numInputs=11)
+  c.y -> s.x
+  s.y -> t.x
 }
 ```
 
 ```lf-rs
 target Rust {
-    timeout: 1 sec,
-    fast: true
+  timeout: 1 sec,
+  fast: true
 }
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
-
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
 main reactor RegressionTest {
-    c = new Count();
-    s = new Scale(factor = 4);
-    t = new TestCount(stride = 4, num_inputs = 11);
-    c.y -> s.x;
-    s.y -> t.x;
+  c = new Count()
+  s = new Scale(factor=4)
+  t = new TestCount(stride=4, num_inputs=11)
+  c.y -> s.x
+  s.y -> t.x
 }
 ```
 
@@ -150,7 +144,8 @@ On the left and right of a connection statement, you can put a comma-separated l
     c.y, s.y -> s.x, t.x
 ```
 
-The only constraint is that the total number of channels on the left match the total number on the right.
+A constraint is that the total number of channels on the left match the total number on the right.
+In addition, some targets require the types of all the ports to be the same.
 
 A destination port (on the right) can only be connected to a single source port (on the left). However, a source port may be connected to multiple destinations, as in the following example:
 
@@ -158,17 +153,17 @@ A destination port (on the right) can only be connected to a single source port 
 
 ```lf
 reactor A {
-    output y
+  output y
 }
 reactor B {
-    input x
+  input x
 }
 main reactor {
-    a = new A()
-    b1 = new B()
-    b2 = new B()
-    a.y -> b1.x
-    a.y -> b2.x
+  a = new A()
+  b1 = new B()
+  b2 = new B()
+  a.y -> b1.x
+  a.y -> b2.x
 }
 ```
 
@@ -178,17 +173,17 @@ main reactor {
 
 ```lf
 reactor A {
-    output y:int
+  output y:int
 }
 reactor B {
-    input x:int
+  input x:int
 }
 main reactor {
-    a = new A()
-    b1 = new B()
-    b2 = new B()
-    a.y -> b1.x
-    a.y -> b2.x
+  a = new A()
+  b1 = new B()
+  b2 = new B()
+  a.y -> b1.x
+  a.y -> b2.x
 }
 ```
 
@@ -199,7 +194,7 @@ main reactor {
 Lingua Franca provides a convenient shortcut for such multicast connections, where the above two lines can be replaced by one as follows:
 
 ```lf
-    (a.y)+ -> b1.x, b2.x
+  (a.y)+ -> b1.x, b2.x
 ```
 
 The enclosing `( ... )+` means to repeat the enclosed comma-separated list of sources however many times is needed to provide inputs to all the sinks on the right of the connection `->`.
@@ -209,7 +204,7 @@ The enclosing `( ... )+` means to repeat the enclosed comma-separated list of so
 An import statement has the form:
 
 ```lf
-    import <classname> as <alias> from "<path>"
+  import <classname> as <alias> from "<path>"
 ```
 
 where `<classname>` and `<alias>` can be a comma-separated list to import multiple reactors from the same file. The `<path>` specifies another `.lf` file relative to the location of the current file. The `as <alias>` portion is optional and specifies alternative class names to use in the $new$ statements.
@@ -221,65 +216,59 @@ Reactors can be composed in arbitrarily deep hierarchies. For example, the follo
 $start(Hierarchy)$
 
 ```lf-c
-target C;
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
-
-reactor Container(stride:int(2)) {
-    output y:int;
-    c = new Count();
-    s = new Scale(factor = stride);
-    c.y -> s.x;
-    s.y -> y;
+target C
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
+reactor Container(stride: int = 2) {
+  output y: int
+  c = new Count()
+  s = new Scale(factor=stride)
+  c.y -> s.x
+  s.y -> y
 }
-
 main reactor Hierarchy {
-    c = new Container(stride = 4);
-    t = new TestCount(stride = 4, num_inputs = 11);
-    c.y -> t.x;
+  c = new Container(stride=4)
+  t = new TestCount(stride=4, num_inputs=11)
+  c.y -> t.x
 }
 ```
 
 ```lf-cpp
-target Cpp;
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
-
-reactor Container(stride:int(2)) {
-    output y:int;
-    c = new Count();
-    s = new Scale(factor = stride);
-    c.y -> s.x;
-    s.y -> y;
+target Cpp
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
+reactor Container(stride: int(2)) {
+  output y: int
+  c = new Count()
+  s = new Scale(factor=stride)
+  c.y -> s.x
+  s.y -> y
 }
-
 main reactor Hierarchy {
-    c = new Container(stride = 4);
-    t = new TestCount(stride = 4, num_inputs = 11);
-    c.y -> t.x;
+  c = new Container(stride=4)
+  t = new TestCount(stride=4, num_inputs=11)
+  c.y -> t.x
 }
 ```
 
 ```lf-py
-target Python;
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
-
-reactor Container(stride(2)) {
-    output y;
-    c = new Count();
-    s = new Scale(factor = stride);
-    c.y -> s.x;
-    s.y -> y;
+target Python
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
+reactor Container(stride=2) {
+  output y
+  c = new Count()
+  s = new Scale(factor=stride)
+  c.y -> s.x
+  s.y -> y
 }
-
 main reactor Hierarchy {
-    c = new Container(stride = 4);
-    t = new TestCount(stride = 4, num_inputs = 11);
-    c.y -> t.x;
+  c = new Container(stride=4)
+  t = new TestCount(stride=4, num_inputs=11)
+  c.y -> t.x
 }
 ```
 
@@ -288,39 +277,36 @@ target TypeScript
 import Count from "Count.lf"
 import Scale from "Scale.lf"
 import TestCount from "TestCount.lf"
-
-reactor Container(stride:number(2)) {
-    output y:number
-    c = new Count()
-    s = new Scale(factor = stride)
-    c.y -> s.x
-    s.y -> y
+reactor Container(stride: number = 2) {
+  output y: number
+  c = new Count()
+  s = new Scale(factor=stride)
+  c.y -> s.x
+  s.y -> y
 }
 main reactor Hierarchy {
-    c = new Container(stride = 4)
-    t = new TestCount(stride = 4, numInputs = 11)
-    c.y -> t.x
+  c = new Container(stride=4)
+  t = new TestCount(stride=4, numInputs=11)
+  c.y -> t.x
 }
 ```
 
 ```lf-rs
-target Rust;
-import Count from "Count.lf";
-import Scale from "Scale.lf";
-import TestCount from "TestCount.lf";
-
-reactor Container(stride:u32(2)) {
-    output y:u32;
-    c = new Count();
-    s = new Scale(factor = stride);
-    c.y -> s.x;
-    s.y -> y;
+target Rust
+import Count from "Count.lf"
+import Scale from "Scale.lf"
+import TestCount from "TestCount.lf"
+reactor Container(stride: u32 = 2) {
+  output y: u32
+  c = new Count()
+  s = new Scale(factor=stride)
+  c.y -> s.x
+  s.y -> y
 }
-
 main reactor Hierarchy {
-    c = new Container(stride = 4);
-    t = new TestCount(stride = 4, num_inputs = 11);
-    c.y -> t.x;
+  c = new Container(stride=4)
+  t = new TestCount(stride=4, num_inputs=11)
+  c.y -> t.x
 }
 ```
 
@@ -331,13 +317,13 @@ $end(Hierarchy)$
 The `Container` has a parameter named `stride`, whose value is passed to the `factor` parameter of the `Scale` reactor. The line
 
 ```lf
-    s.y -> y;
+  s.y -> y;
 ```
 
 establishes a connection across levels of the hierarchy. This propagates the output of a contained reactor to the output of the container. A similar notation may be used to propagate the input of a container to the input of a contained reactor,
 
 ```lf
-    x -> s.x;
+  x -> s.x;
 ```
 
 ## Connections with Logical Delays
@@ -345,7 +331,7 @@ establishes a connection across levels of the hierarchy. This propagates the out
 Connections may include a **logical delay** using the $after$ keyword, as follows:
 
 ```lf
-    <source_port_reference> -> <destination_port_reference> after <time_value>
+  <source_port_reference> -> <destination_port_reference> after <time_value>
 ```
 
 where `<time_value>` can be any of the forms described in [Expressions](/docs/handbook/expressions).
@@ -358,9 +344,9 @@ A subtle and rarely used variant of the `->` connection is a **physical connecti
 
 ```lf
 main reactor {
-    a = new A();
-    b = new B();
-    a.y ~> b.x;
+  a = new A();
+  b = new B();
+  a.y ~> b.x;
 }
 ```
 

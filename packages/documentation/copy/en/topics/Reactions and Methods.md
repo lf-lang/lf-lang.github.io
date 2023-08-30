@@ -14,110 +14,107 @@ $start(Alignment)$
 
 ```lf-c
 target C {
-    timeout: 3 secs
+  timeout: 3 secs
 }
 main reactor Alignment {
-    state s:int(0);
-    timer t1(100 msec, 100 msec);
-    timer t2(200 msec, 200 msec);
-    timer t4(400 msec, 400 msec);
-    reaction(t1) {=
-        self->s += 1;
-    =}
-    reaction(t2) {=
-        self->s -= 2;
-    =}
-    reaction(t4) {=
-        printf("s = %d\n", self->s);
-    =}
+  state s: int = 0
+  timer t1(100 msec, 100 msec)
+  timer t2(200 msec, 200 msec)
+  timer t4(400 msec, 400 msec)
+  reaction(t1) {=
+    self->s += 1;
+  =}
+  reaction(t2) {=
+    self->s -= 2;
+  =}
+  reaction(t4) {=
+    printf("s = %d\n", self->s);
+  =}
 }
 ```
 
 ```lf-cpp
 target Cpp {
-    timeout: 3s
+  timeout: 3 s
 }
 main reactor Alignment {
-    state s:int(0);
-    timer t1(100ms, 100ms);
-    timer t2(200ms, 200ms);
-    timer t4(400ms, 400ms);
-    reaction(t1) {=
-        s += 1;
-    =}
-    reaction(t2) {=
-        s -= 2;
-    =}
-    reaction(t4) {=
-        std::cout << "s = " << std::to_string(s) << std::endl;
-    =}
+  state s: int(0)
+  timer t1(100 ms, 100 ms)
+  timer t2(200 ms, 200 ms)
+  timer t4(400 ms, 400 ms)
+  reaction(t1) {=
+    s += 1;
+  =}
+  reaction(t2) {=
+    s -= 2;
+  =}
+  reaction(t4) {=
+    std::cout << "s = " << std::to_string(s) << std::endl;
+  =}
 }
-
 ```
 
 ```lf-py
 target Python {
-    timeout: 3 secs
+  timeout: 3 secs
 }
 main reactor Alignment {
-    state s(0);
-    timer t1(100 msec, 100 msec);
-    timer t2(200 msec, 200 msec);
-    timer t4(400 msec, 400 msec);
-    reaction(t1) {=
-        self.s += 1
-    =}
-    reaction(t2) {=
-        self.s -= 2
-    =}
-    reaction(t4) {=
-        print(f"s = {self.s}")
-    =}
+  state s = 0
+  timer t1(100 msec, 100 msec)
+  timer t2(200 msec, 200 msec)
+  timer t4(400 msec, 400 msec)
+  reaction(t1) {=
+    self.s += 1
+  =}
+  reaction(t2) {=
+    self.s -= 2
+  =}
+  reaction(t4) {=
+    print(f"s = {self.s}")
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript {
-    timeout: 3s
+  timeout: 3 s
 }
 main reactor Alignment {
-    state s:number(0)
-    timer t1(100ms, 100ms)
-    timer t2(200ms, 200ms)
-    timer t4(400ms, 400ms)
-    reaction(t1) {=
-        s += 1
-    =}
-    reaction(t2) {=
-        s -= 2
-    =}
-    reaction(t4) {=
-        console.log(`s = ${s}`)
-    =}
+  state s: number = 0
+  timer t1(100 ms, 100 ms)
+  timer t2(200 ms, 200 ms)
+  timer t4(400 ms, 400 ms)
+  reaction(t1) {=
+    s += 1
+  =}
+  reaction(t2) {=
+    s -= 2
+  =}
+  reaction(t4) {=
+    console.log(`s = ${s}`)
+  =}
 }
-
 ```
 
 ```lf-rs
 target Rust {
-    timeout: 3 secs
+  timeout: 3 secs
 }
 main reactor Alignment {
-    state s:u32(0);
-    timer t1(100 msec, 100 msec);
-    timer t2(200 msec, 200 msec);
-    timer t4(400 msec, 400 msec);
-    reaction(t1) {=
-        self.s += 1;
-    =}
-    reaction(t2) {=
-        self.s -= 2;
-    =}
-    reaction(t4) {=
-        println!("s = {}", self.s);
-    =}
+  state s: u32 = 0
+  timer t1(100 msec, 100 msec)
+  timer t2(200 msec, 200 msec)
+  timer t4(400 msec, 400 msec)
+  reaction(t1) {=
+    self.s += 1;
+  =}
+  reaction(t2) {=
+    self.s -= 2;
+  =}
+  reaction(t4) {=
+    println!("s = {}", self.s);
+  =}
 }
-
 ```
 
 $end(Alignment)$
@@ -131,97 +128,92 @@ Just as the reactions of the `Alignment` reactor overwrite the state variable `s
 $start(Overwriting)$
 
 ```lf-c
-target C;
+target C
 reactor Overwriting {
-    output y:int;
-    state s:int(0);
-    timer t1(100 msec, 100 msec);
-    timer t2(200 msec, 200 msec);
-    reaction(t1) -> y {=
-        self->s += 1;
-        lf_set(y, self->s);
-    =}
-    reaction(t2) -> y {=
-        self->s -= 2;
-        lf_set(y, self->s);
-    =}
+  output y: int
+  state s: int = 0
+  timer t1(100 msec, 100 msec)
+  timer t2(200 msec, 200 msec)
+  reaction(t1) -> y {=
+    self->s += 1;
+    lf_set(y, self->s);
+  =}
+  reaction(t2) -> y {=
+    self->s -= 2;
+    lf_set(y, self->s);
+  =}
 }
-
 ```
 
 ```lf-cpp
-target Cpp;
+target Cpp
 reactor Overwriting {
-    output y:int;
-    state s:int(0);
-
-    timer t1(100ms, 100ms);
-    timer t2(200ms, 200ms);
-
-    reaction(t1) -> y {=
-        s += 1;
-        y.set(s);
-    =}
-    reaction(t2) -> y {=
-        s -= 2;
-        y.set(s);
-    =}
+  output y: int
+  state s: int(0)
+  timer t1(100 ms, 100 ms)
+  timer t2(200 ms, 200 ms)
+  reaction(t1) -> y {=
+    s += 1;
+    y.set(s);
+  =}
+  reaction(t2) -> y {=
+    s -= 2;
+    y.set(s);
+  =}
 }
-
 ```
 
 ```lf-py
-target Python;
+target Python
 reactor Overwriting {
-    output y;
-    state s(0);
-    timer t1(100 msec, 100 msec);
-    timer t2(200 msec, 200 msec);
-    reaction(t1) -> y {=
-        self.s += 1
-        y.set(self.s)
-    =}
-    reaction(t2) -> y {=
-        self.s -= 2
-        y.set(self.s)
-    =}
+  output y
+  state s = 0
+  timer t1(100 msec, 100 msec)
+  timer t2(200 msec, 200 msec)
+  reaction(t1) -> y {=
+    self.s += 1
+    y.set(self.s)
+  =}
+  reaction(t2) -> y {=
+    self.s -= 2
+    y.set(self.s)
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
 reactor Overwriting {
-    output y:number
-    state s:number(0)
-    timer t1(100 msec, 100 msec)
-    timer t2(200 msec, 200 msec)
-    reaction(t1) -> y {=
-        s += 1
-        y = s
-    =}
-    reaction(t2) -> y {=
-        s -= 2
-        y = s
-    =}
+  output y: number
+  state s: number = 0
+  timer t1(100 msec, 100 msec)
+  timer t2(200 msec, 200 msec)
+  reaction(t1) -> y {=
+    s += 1
+    y = s
+  =}
+  reaction(t2) -> y {=
+    s -= 2
+    y = s
+  =}
 }
-
 ```
 
 ```lf-rs
-target Rust;
+target Rust
 reactor Overwriting {
-    output y:u32;
-    state s:u32(0);
-    timer t1(100 msec, 100 msec);
-    timer t2(200 msec, 200 msec);
-    reaction(t1) -> y {=
-        self.s += 1;
-        ctx.set(y, self.s);
-    =}
-    reaction(t2) -> y {=
-        self.s -= 2;
-        ctx.set(y, self.s);
-    =}
+  output y: u32
+  state s: u32 = 0
+  timer t1(100 msec, 100 msec)
+  timer t2(200 msec, 200 msec)
+  reaction(t1) -> y {=
+    self.s += 1;
+    ctx.set(y, self.s);
+  =}
+  reaction(t2) -> y {=
+    self.s -= 2;
+    ctx.set(y, self.s);
+  =}
 }
 ```
 
@@ -236,76 +228,72 @@ A reaction may be triggered by the an input to the reactor, but also by an outpu
 $start(Contained)$
 
 ```lf-c
-target C;
-import Overwriting from "Overwriting.lf";
+target C
+import Overwriting from "Overwriting.lf"
 main reactor {
-    s = new Overwriting();
-    reaction(s.y) {=
-        if (s.y->value != 0 && s.y->value != 1) {
-            lf_print_error_and_exit("Outputs should only be 0 or 1!");
-        }
-    =}
+  s = new Overwriting()
+  reaction(s.y) {=
+    if (s.y->value != 0 && s.y->value != 1) {
+      lf_print_error_and_exit("Outputs should only be 0 or 1!");
+    }
+  =}
 }
 ```
 
 ```lf-cpp
-target Cpp;
-import Overwriting from "Overwriting.lf";
-
+target Cpp
+import Overwriting from "Overwriting.lf"
 main reactor {
-    s = new Overwriting();
-    reaction(s.y) {=
-        auto is_correct = [](auto value){
-            return value == 0 || value == 1;
-        };
-
-        if (s.y.is_present() && !is_correct(*s.y.get())) {
-            std::cout << "Output shoudl only be 0 or 1!" << std::endl;
-        }
-    =}
+  s = new Overwriting()
+  reaction(s.y) {=
+    auto is_correct = [](auto value){
+      return value == 0 || value == 1;
+    };
+    if (s.y.is_present() && !is_correct(*s.y.get())) {
+      std::cout << "Output shoudl only be 0 or 1!" << std::endl;
+    }
+  =}
 }
-
 ```
 
 ```lf-py
-target Python;
-import Overwriting from "Overwriting.lf";
+target Python
+import Overwriting from "Overwriting.lf"
 main reactor {
-    s = new Overwriting();
-    reaction(s.y) {=
-        if s.y.value != 0 and s.y.value != 1:
-            sys.stderr.write("ERROR: Outputs should only be 0 or 1!\n")
-            exit(1)
-    =}
+  s = new Overwriting()
+  reaction(s.y) {=
+    if s.y.value != 0 and s.y.value != 1:
+      sys.stderr.write("ERROR: Outputs should only be 0 or 1!\n")
+      exit(1)
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
-import Overwriting from "Overwriting.lf";
+import Overwriting from "Overwriting.lf"
 main reactor {
-    s = new Overwriting();
-    reaction(s.y) {=
-        if (s.y != 0 && s.y != 1) {
-            util.requestErrorStop("Outputs should only be 0 or 1!")
-        }
-    =}
+  s = new Overwriting()
+  reaction(s.y) {=
+    if (s.y != 0 && s.y != 1) {
+      util.requestErrorStop("Outputs should only be 0 or 1!")
+    }
+  =}
 }
-
 ```
 
 ```lf-rs
-target Rust;
-import Overwriting from "Overwriting.lf";
+target Rust
+import Overwriting from "Overwriting.lf"
 main reactor {
-    s = new Overwriting();
-    reaction(s.y) {=
-        let value = ctx.get(s__y).unwrap();
-        if value != 0 && value != 1 {
-            eprintln!("Output schould only be 0 or 1!");
-            ctx.request_stop(Asap);
-        }
-    =}
+  s = new Overwriting()
+  reaction(s.y) {=
+    let value = ctx.get(s__y).unwrap();
+    if value != 0 && value != 1 {
+      eprintln!("Output schould only be 0 or 1!");
+      ctx.request_stop(Asap);
+    }
+  =}
 }
 ```
 
@@ -438,60 +426,57 @@ Methods are particularly useful in reactors that need to perform certain operati
 $start(Methods)$
 
 ```lf-c
-target C;
+target C
 main reactor Methods {
-    state foo:int(2);
-    method getFoo(): int {=
-        return self->foo;
-    =}
-    method add(x:int) {=
-        self->foo += x;
-    =}
-    reaction(startup){=
-        lf_print("Foo is initialized to %d", getFoo());
-        add(40);
-        lf_print("2 + 40 = %d", getFoo());
-    =}
+  state foo: int = 2
+  method getFoo(): int {=
+    return self->foo;
+  =}
+  method add(x: int) {=
+    self->foo += x;
+  =}
+  reaction(startup) {=
+    lf_print("Foo is initialized to %d", getFoo());
+    add(40);
+    lf_print("2 + 40 = %d", getFoo());
+  =}
 }
-
 ```
 
 ```lf-cpp
-target Cpp;
+target Cpp
 main reactor Methods {
-    state foo:int(2);
-    const method getFoo(): int {=
-        return foo;
-    =}
-    method add(x:int) {=
-        foo += x;
-    =}
-    reaction(startup){=
-        std::cout << "Foo is initialized to " << getFoo() << '\n';
-        add(40);
-        std::cout << "2 + 40 = " << getFoo() << '\n';
-    =}
+  state foo: int(2)
+  const method getFoo(): int {=
+    return foo;
+  =}
+  method add(x: int) {=
+    foo += x;
+  =}
+  reaction(startup) {=
+    std::cout << "Foo is initialized to " << getFoo() << '\n';
+    add(40);
+    std::cout << "2 + 40 = " << getFoo() << '\n';
+  =}
 }
-
 ```
 
 ```lf-py
 target Python
 main reactor Methods {
-    state foo(2)
-    method getFoo() {=
-        return self.foo
-    =}
-    method add(x) {=
-        self.foo += x
-    =}
-    reaction(startup){=
-        print(f"Foo is initialized to {self.getFoo()}.")
-        self.add(40)
-        print(f"2 + 40 = {self.getFoo()}.")
-    =}
+  state foo = 2
+  method getFoo() {=
+    return self.foo
+  =}
+  method add(x) {=
+    self.foo += x
+  =}
+  reaction(startup) {=
+    print(f"Foo is initialized to {self.getFoo()}.")
+    self.add(40)
+    print(f"2 + 40 = {self.getFoo()}.")
+  =}
 }
-
 ```
 
 ```lf-ts
