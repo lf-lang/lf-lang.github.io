@@ -139,7 +139,7 @@ main reactor SlowingClock(start: time = 100 ms, incr: time = 100 ms) {
 
 $end(SlowingClock)$
 
-This has two time parameters, `start` and `incr`, each with default value `100 ms` <span class="lf-c lf-cpp lf-rs">and type $time$</span>. This parameter is used to initialize the `interval` state variable, which also stores a time. The $logical$ $action$ `a`, explained [below](/docs/handbook/actions#logical-actions), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
+This has two time parameters, `start` and `incr`, each with default value `100 ms` <span class="lf-c lf-cpp lf-rs">and type $time$</span>. This parameter is used to initialize the `interval` state variable, which also stores a time. The $logical$ $action$ `a`, explained in [Actions](/docs/handbook/actions#logical-actions), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
 
 ```
 Logical time since start: 100000000 nsec.

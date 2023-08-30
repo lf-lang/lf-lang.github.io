@@ -221,3 +221,27 @@ reactor Count {
 $end(Count)$
 
 This reactor has an integer state variable named `count`, and each time its reaction is invoked, it outputs the value of that state variable and increments it. The reaction is triggered by a $timer$, discussed in the next section.
+
+## Reset State Variables
+
+<div class="lf-cpp lf-ts lf-rs">
+
+The $reset$ keyword is not supported in $target-language$ because [modal reactors](/docs/handbook/modal-models) are not supported.
+
+</div>
+
+<div class="lf-c lf-py">
+
+A state variable declaration may be qualified with a $reset$ keyword as follows:
+
+```lf-c
+  reset state <name>:<type> = <value>
+```
+
+```lf-py
+  reset state <name> = <value>
+```
+
+When this is done, if the state variable or the reactor is within a mode of a [modal reactor](/docs/handbook/modal-models), then when the mode is entered via a reset transition, the state variable will be reset to its initial value. For details, see the [Modal Reactors](/docs/handbook/modal-models) section.
+
+</div>

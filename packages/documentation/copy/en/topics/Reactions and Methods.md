@@ -394,6 +394,37 @@ $end(Triggering)$
 The reaction to $startup$ declares the input port of the inside reactor as an effect and then sets it with value 42.
 This will cause the inside reactor's reaction to execute and print `Received 42`.
 
+## Startup, Shutdown, and Reset Reactions
+
+Reactions may be triggered by the special events $startup$, $shutdown$, or $reset$.
+For example,
+
+```lf
+  reaction(startup) {=
+    // ... Do something
+  =}
+```
+
+A reaction to $startup$ is triggered at the very first tag when the program begins (or, if within a mode of a [modal reactor](/docs/handbook/modal-models), when the mode is first entered).
+This reaction will be logically simultaneous with reactions to [timers](/docs/handbook/time-and-timers) that have a zero offset.
+As usual, for logically simultaneous reactions declared within the same reactor, the order in which they are invoked will be governed by the order in which they are declared.
+
+A reaction to $shutdown$ is invoked at program termination.
+See the [Termination](/docs/handbook/termination) section for details.
+
+<div class="lf-cpp lf-ts lf-rs">
+
+Reactions to the $reset$ event are not supported in $target-language$ because [modal reactors](/docs/handbook/modal-models) are not supported.
+
+</div>
+
+<div class="lf-c lf-py">
+
+A reaction to the $reset$ event is invoked if the reaction or reactor is within a mode of a [modal reactor](/docs/handbook/modal-models) and the mode is entered via a reset transition.
+For details, see the [Modal Reactors](/docs/handbook/modal-models) section.
+
+</div>
+
 ## Method Declaration
 
 <div class="lf-ts lf-rs">
