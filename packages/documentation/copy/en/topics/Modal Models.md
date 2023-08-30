@@ -28,14 +28,13 @@ There must be exactly one mode marked as $initial$.
 
 ```lf
 reactor TwoModes {
+  ...
+  initial mode One {
     ...
-
-    initial mode One {
-      ...
-    }
-    mode Two {
-      ...
-    }
+  }
+  mode Two {
+    ...
+  }
 }
 ```
 
@@ -52,16 +51,16 @@ Such an effect enables the use of the target language API to set the next mode.
 
 ```lf-c
 reaction(trig) -> Two {=
-    if (trig->value) {
-        lf_set_mode(Two)
-    }
+  if (trig->value) {
+    lf_set_mode(Two)
+  }
 =}
 ```
 
 ```lf-py
 reaction(trig) -> Two {=
-    if trig.value:
-        Two.set()
+  if trig.value:
+    Two.set()
 =}
 ```
 
