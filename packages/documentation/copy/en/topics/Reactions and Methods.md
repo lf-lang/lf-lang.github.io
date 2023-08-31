@@ -435,16 +435,30 @@ The $target-language$ target does not currently support methods.
 
 <div class="lf-cpp lf-c lf-py">
 
+<div class="lf-cpp lf-c">
+
 A method declaration has one of the forms:
 
 ```lf
-  method <name>();
-  method <name>():<type>;
-  method <name>(<argument_name>:<type>, ...);
-  method <name>(<argument_name>:<type>, ...):<type>;
+  method <name>() {= ... =}
+  method <name>():<type> {= ... =}
+  method <name>(<argument_name>:<type>, ...) {= ... =}
+  method <name>(<argument_name>:<type>, ...):<type> {= ... =}
 ```
 
 The first form defines a method with no arguments and no return value. The second form defines a method with the return type `<type>` but no arguments. The third form defines a method with a comma-separated list of arguments given by their name and type, but without a return value. Finally, the fourth form is similar to the third, but adds a return type.
+
+</div>
+
+<div class="lf-py">
+
+A method declaration has the forms:
+
+```lf
+  method <name>() {= ... =}
+```
+
+</div>
 
 <div class="lf-cpp">
 
