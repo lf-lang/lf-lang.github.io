@@ -18,12 +18,12 @@ For example, the following reactor uses the `math` C library for its trigonometr
 
 ```lf-c
 main reactor {
-    preamble {=
-        #include <math.h>
-    =}
-    reaction(startup) {=
-        printf("The cosine of 1 is %f.\n", cos(1));
-    =}
+  preamble {=
+    #include <math.h>
+  =}
+  reaction(startup) {=
+    printf("The cosine of 1 is %f.\n", cos(1));
+  =}
 }
 ```
 
@@ -38,21 +38,21 @@ If you wish to have the library available in all reactors in the same file, you 
 
 ```lf-c
 preamble {=
-    #include <math.h>
+  #include <math.h>
 =}
 reactor Cos {
-    reaction(startup) {=
-        printf("The cosine of 1 is %f.\n", cos(1));
-    =}
+  reaction(startup) {=
+    printf("The cosine of 1 is %f.\n", cos(1));
+  =}
 }
 reactor Sin {
-    reaction(startup) {=
-        printf("The sine of 1 is %f.\n", sin(1));
-    =}
+  reaction(startup) {=
+    printf("The sine of 1 is %f.\n", sin(1));
+  =}
 }
 main reactor {
-    c = new Cos()
-    s = new Sin()
+  c = new Cos()
+  s = new Sin()
 }
 ```
 
@@ -60,17 +60,17 @@ You can also use the $preamble$ to define functions that are shared across react
 
 ```lf-c
 main reactor {
-    preamble {=
-        int add_42(int i) {
-            return i + 42;
-        }
-    =}
-    reaction(startup) {=
-        printf("42 plus 42 is %d.\n", add_42(42));
-    =}
-    reaction(startup) {=
-        printf("42 plus 1 is %d.\n", add_42(1));
-    =}
+  preamble {=
+    int add_42(int i) {
+      return i + 42;
+    }
+  =}
+  reaction(startup) {=
+    printf("42 plus 42 is %d.\n", add_42(42));
+  =}
+  reaction(startup) {=
+    printf("42 plus 1 is %d.\n", add_42(1));
+  =}
 }
 ```
 
@@ -90,23 +90,23 @@ The following code, for example will **fail to compile**:
 
 ```lf-c
 preamble {=
-    int add_42(int i) {
-        return i + 42;
-    }
+  int add_42(int i) {
+    return i + 42;
+  }
 =}
 reactor Add_42 {
-    reaction(startup) {=
-        printf("42 plus 42 is %d.\n", add_42(42));
-    =}
+  reaction(startup) {=
+    printf("42 plus 42 is %d.\n", add_42(42));
+  =}
 }
 reactor Add_1 {
-    reaction(startup) {=
-        printf("42 plus 1 is %d.\n", add_42(1));
-    =}
+  reaction(startup) {=
+    printf("42 plus 1 is %d.\n", add_42(1));
+  =}
 }
 main reactor {
-    a = new Add_42()
-    b = new Add_1()
+  a = new Add_42()
+  b = new Add_1()
 }
 ```
 
@@ -116,26 +116,26 @@ To correct this compile error, the file-level preamble should contain only a _de
 
 ```lf-c
 preamble {=
-    int add_42(int i);
+  int add_42(int i);
 =}
 reactor Add_42 {
-    reaction(startup) {=
-        printf("42 plus 42 is %d.\n", add_42(42));
-    =}
+  reaction(startup) {=
+    printf("42 plus 42 is %d.\n", add_42(42));
+  =}
 }
 reactor Add_1 {
-    reaction(startup) {=
-        printf("42 plus 1 is %d.\n", add_42(1));
-    =}
+  reaction(startup) {=
+    printf("42 plus 1 is %d.\n", add_42(1));
+  =}
 }
 main reactor {
-    preamble {=
-        int add_42(int i) {
-            return i + 42;
-        }
-    =}
-    a = new Add_42()
-    b = new Add_1()
+  preamble {=
+    int add_42(int i) {
+      return i + 42;
+    }
+  =}
+  a = new Add_42()
+  b = new Add_1()
 }
 ```
 
@@ -149,24 +149,24 @@ Note that sharing variables across reactors is **strongly discouraged** because 
 
 ```lf-c
 preamble {=
-    extern const char shared_string[];
+  extern const char shared_string[];
 =}
 reactor A {
-    reaction(startup) {=
-        printf("Reactor A says %s.\n", shared_string);
-    =}
+  reaction(startup) {=
+    printf("Reactor A says %s.\n", shared_string);
+  =}
 }
 reactor B {
-    reaction(startup) {=
-        printf("Reactor B says %s.\n", shared_string);
-    =}
+  reaction(startup) {=
+    printf("Reactor B says %s.\n", shared_string);
+  =}
 }
 main reactor {
-    preamble {=
-        const char shared_string[] = "Hello";
-    =}
-    a = new A()
-    b = new B()
+  preamble {=
+    const char shared_string[] = "Hello";
+  =}
+  a = new A()
+  b = new B()
 }
 ```
 
@@ -177,13 +177,13 @@ Specifically, the following code will **fail to compile**:
 
 ```lf-c
 main reactor {
-    preamble {=
-        typedef int foo;
-    =}
-    state x:foo = 0
-    reaction(startup) {=
-        lf_print("State is %d", self->x);
-    =}
+  preamble {=
+    typedef int foo;
+  =}
+  state x:foo = 0
+  reaction(startup) {=
+    lf_print("State is %d", self->x);
+  =}
 }
 ```
 
@@ -191,13 +191,13 @@ The compiler will issue an **unknown type name** error. To correct this, just mo
 
 ```lf-c
 preamble {=
-    typedef int foo;
+  typedef int foo;
 =}
 main reactor {
-    state x:foo = 0
-    reaction(startup) {=
-        lf_print("State is %d", self->x);
-    =}
+  state x:foo = 0
+  reaction(startup) {=
+    lf_print("State is %d", self->x);
+  =}
 }
 ```
 
@@ -211,23 +211,23 @@ For example, the following reactor uses the `charconv` header from the c++ stand
 target Cpp;
 
 main reactor {
-    private preamble {=
-        #include <charconv>
-        #include <string>
-    =}
+  private preamble {=
+    #include <charconv>
+    #include <string>
+  =}
 
-    timer t;
-    reaction(t) {=
-        std::string raw = "42";
-        std::size_t number;
+  timer t;
+  reaction(t) {=
+    std::string raw = "42";
+    std::size_t number;
 
-        auto result = std::from_chars(raw.data(), raw.data() + raw.size(), number);
-        if (result.ec == std::errc::invalid_argument) {
-            std::cerr << "Could not convert.";
-        } else {
-            std::cout << "Converted string: " << raw << " to integer: " << number << std::endl;
-        }
-    =}
+    auto result = std::from_chars(raw.data(), raw.data() + raw.size(), number);
+    if (result.ec == std::errc::invalid_argument) {
+      std::cerr << "Could not convert.";
+    } else {
+      std::cout << "Converted string: " << raw << " to integer: " << number << std::endl;
+    }
+  =}
 }
 ```
 
@@ -245,29 +245,29 @@ the public qualifier ensures that the preamble is also visible to other reactors
 
 ```lf-cpp
 reactor Preamble {
-    public preamble {=
-        struct MyStruct {
-            int foo;
-            std::string bar;
-        };
-    =}
+  public preamble {=
+    struct MyStruct {
+      int foo;
+      std::string bar;
+    };
+  =}
 
-    private preamble {=
-        auto add_42(int i) noexcept -> int {
-            return i + 42;
-        }
-    =}
+  private preamble {=
+    auto add_42(int i) noexcept -> int {
+      return i + 42;
+    }
+  =}
 
-    logical action a:MyStruct;
+  logical action a:MyStruct;
 
-    reaction(startup) {=
-        a.schedule({add_42(42), "baz"});
-    =}
+  reaction(startup) {=
+    a.schedule({add_42(42), "baz"});
+  =}
 
-    reaction(a) {=
-        auto value = *a.get();
-        std::cout << "Received " << value.foo << " and '" << value.bar << "'\n";
-    =}
+  reaction(a) {=
+    auto value = *a.get();
+    std::cout << "Received " << value.foo << " and '" << value.bar << "'\n";
+  =}
 }
 ```
 
@@ -328,10 +328,10 @@ Alternatively, you can define a $preamble$ outside any reactor definition. Such 
 
 ```lf-py
 target Python {
-    files: include/hello.py
+  files: include/hello.py
 };
 preamble {=
-    import hello
+  import hello
 =}
 ```
 
@@ -342,31 +342,31 @@ For another example, the following program uses the built-in Python `input()` fu
 ```lf-py
 target Python
 main reactor {
-    preamble {=
-        import threading
-        def external(self, a):
-            while (True):
-                from_user = input() # Blocking
-                a.schedule(0, from_user)
-    =}
-    state thread
-    physical action a
-    timer t(2 secs, 2 secs)
+  preamble {=
+    import threading
+    def external(self, a):
+      while (True):
+        from_user = input() # Blocking
+        a.schedule(0, from_user)
+  =}
+  state thread
+  physical action a
+  timer t(2 secs, 2 secs)
 
-    reaction(startup) -> a {=
-        self.thread = self.threading.Thread(target=self.external, args=(a,))
-        self.thread.start()
-        print("Type something.")
-    =}
+  reaction(startup) -> a {=
+    self.thread = self.threading.Thread(target=self.external, args=(a,))
+    self.thread.start()
+    print("Type something.")
+  =}
 
-    reaction(a) {=
-        elapsed_time = lf.time.logical_elapsed()
-        print(f"A time {elapsed_time} nsec after start, received: ", a.value)
-    =}
+  reaction(a) {=
+    elapsed_time = lf.time.logical_elapsed()
+    print(f"A time {elapsed_time} nsec after start, received: ", a.value)
+  =}
 
-    reaction(t) {=
-        print("Waiting ...")
-    =}
+  reaction(t) {=
+    print("Waiting ...")
+  =}
 }
 ```
 
@@ -381,13 +381,13 @@ For example, the following reactor uses Node's built-in path module to extract t
 ```lf-ts
 target TypeScript;
 main reactor Preamble {
-    preamble {=
-        import * as path from 'path';
-    =}
-    reaction (startup) {=
-        var filename = path.basename('/Users/Refsnes/demo_path.js');
-        console.log(filename);
-    =}
+  preamble {=
+    import * as path from 'path';
+  =}
+  reaction (startup) {=
+    var filename = path.basename('/Users/Refsnes/demo_path.js');
+    console.log(filename);
+  =}
 }
 ```
 
@@ -403,19 +403,19 @@ You can also use the preamble to define functions that are shared across reactio
 
 ```lf-ts
 main reactor Preamble {
-    preamble {=
-        function add42( i:number) {
-            return i + 42;
-        }
-    =}
-    timer t;
-    reaction(t) {=
-        let s = "42";
-        let radix = 10;
-        let i = parseInt(s, radix);
-        console.log("Converted string " + s + " to number " + i);
-        console.log("42 plus 42 is " + add42(42));
-    =}
+  preamble {=
+    function add42( i:number) {
+      return i + 42;
+    }
+  =}
+  timer t;
+  reaction(t) {=
+    let s = "42";
+    let radix = 10;
+    let i = parseInt(s, radix);
+    console.log("Converted string " + s + " to number " + i);
+    console.log("42 plus 42 is " + add42(42));
+  =}
 }
 ```
 
