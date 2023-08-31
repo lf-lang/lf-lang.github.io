@@ -47,31 +47,28 @@ A minimal federated execution is specified by using the $federated$ keyword inst
 $start(Federated)$
 
 ```lf-c
-target C;
-
+target C
 reactor Count {
-    output out:int;
-    state c:int(0);
-    timer t(0, 1 sec);
-    reaction(t) -> out {=
-        lf_set(out, self->c++);
-    =}
+  output out: int
+  state c: int = 0
+  timer t(0, 1 sec)
+  reaction(t) -> out {=
+    lf_set(out, self->c++);
+  =}
 }
 reactor Print {
-    input in:int;
-    reaction(in) {=
-        lf_print("Received: %d at (%lld, %d)", in->value,
-            lf_time_logical_elapsed(), lf_tag().microstep
-        );
-    =}
+  input in: int
+  reaction(in) {=
+    lf_print("Received: %d at (%lld, %d)", in->value,
+        lf_time_logical_elapsed(), lf_tag().microstep
+    );
+  =}
 }
-
 federated reactor {
-    c = new Count();
-    p = new Print();
-    c.out -> p.in;
+  c = new Count()
+  p = new Print()
+  c.out -> p.in
 }
- 
 ```
 
 ```lf-cpp
@@ -80,59 +77,52 @@ WARNING: No source file found: ../code/cpp/src/Federated.lf
 
 ```lf-py
 target Python
-
 reactor Count {
-    output out
-    state c(0)
-    timer t(0, 1 sec)
-    reaction(t) -> out {=
-        out.set(self.c)
-        self.c += 1
-    =}
+  output out
+  state c = 0
+  timer t(0, 1 sec)
+  reaction(t) -> out {=
+    out.set(self.c)
+    self.c += 1
+  =}
 }
 reactor Print {
-    input inp
-    reaction(inp) {=
-        print(
-            f"Received: {inp.value} "
-            f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
-        )
-    =}
+  input inp
+  reaction(inp) {=
+    print(
+        f"Received: {inp.value} "
+        f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
+    )
+  =}
 }
-
 federated reactor {
-    c = new Count();
-    p = new Print();
-    c.out -> p.inp;
+  c = new Count()
+  p = new Print()
+  c.out -> p.inp
 }
- 
 ```
 
 ```lf-ts
 target TypeScript {
-    // FIXME: This should work with timeout: 0 msec.
-    timeout: 1 msec
+  timeout: 1 msec  // FIXME: This should work with timeout: 0 msec.
 }
-
 reactor Source {
-    output out:string;
-    reaction(startup) -> out {=
-        out = "Hello World!";
-    =}
+  output out: string
+  reaction(startup) -> out {=
+    out = "Hello World!";
+  =}
 }
 reactor Destination {
-    input inp:string;
-    reaction(inp) {=
-        console.log("Received: " + inp);
-    =}
+  input inp: string
+  reaction(inp) {=
+    console.log("Received: " + inp);
+  =}
 }
-
 federated reactor Federated {
-    s = new Source();
-    d = new Destination();
-    s.out -> d.inp;
+  s = new Source()
+  d = new Destination()
+  s.out -> d.inp
 }
-
 ```
 
 ```lf-rs
@@ -322,13 +312,13 @@ With centralized coordination, all messages (except those on [physical connectio
 The default coordination between mechanisms is **centralized**, equivalent to specifying the target property:
 
 ```lf
-   coordination: centralized
+  coordination: centralized
 ```
 
 An alternative is **decentralized** coordination, which extends a technique realized in [PTIDES](https://ptolemy.berkeley.edu/publications/papers/07/RTAS/) and [Google Spanner](https://dl.acm.org/doi/10.1145/2491245), a globally distributed database system:
 
 ```lf
-   coordination: decentralized
+  coordination: decentralized
 ```
 
 With decentralized coordination, the RTI coordinates startup, shutdown, and clock synchronization, but is otherwise not involved in the execution of the distributed program.
@@ -341,24 +331,23 @@ $start(DecentralizedTimerAfter)$
 
 ```lf-c
 target C {
-    timeout: 5 sec,
-    coordination: decentralized
+  timeout: 5 sec,
+  coordination: decentralized
 }
 import Count, Print from "Federated.lf"
 reactor PrintTimer extends Print {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).", 
-            lf_time_logical_elapsed(), lf_tag().microstep
-        );
-    =}
+  timer t(0, 1 sec)
+  reaction(t) {=
+    lf_print("Timer ticked at (%lld, %d).",
+        lf_time_logical_elapsed(), lf_tag().microstep
+    );
+  =}
 }
 federated reactor {
-    c = new Count();
-    p = new PrintTimer();
-    c.out -> p.in after 10 msec;
+  c = new Count()
+  p = new PrintTimer()
+  c.out -> p.in after 10 msec
 }
-
 ```
 
 ```lf-cpp
@@ -367,25 +356,24 @@ WARNING: No source file found: ../code/cpp/src/DecentralizedTimerAfter.lf
 
 ```lf-py
 target Python {
-    timeout: 5 sec,
-    coordination: decentralized
+  timeout: 5 sec,
+  coordination: decentralized
 }
 import Count, Print from "Federated.lf"
 reactor PrintTimer extends Print {
-    timer t(0, 1 sec)
-    reaction(t) {=
-        print(
-            f"Timer ticked at "
-            f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
-        )
-    =}
+  timer t(0, 1 sec)
+  reaction(t) {=
+    print(
+        f"Timer ticked at "
+        f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
+    )
+  =}
 }
 federated reactor {
-    c = new Count()
-    p = new PrintTimer()
-    c.out -> p.inp after 10 msec
+  c = new Count()
+  p = new PrintTimer()
+  c.out -> p.inp after 10 msec
 }
-
 ```
 
 ```lf-ts
@@ -407,24 +395,23 @@ $start(DecentralizedTimerSTP)$
 
 ```lf-c
 target C {
-    timeout: 5 sec,
-    coordination: decentralized
+  timeout: 5 sec,
+  coordination: decentralized
 }
 import Count, Print from "Federated.lf"
-reactor PrintTimer(STP_offset:time(10 msec)) extends Print {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).", 
-            lf_time_logical_elapsed(), lf_tag().microstep
-        );
-    =}
+reactor PrintTimer(STP_offset: time = 10 msec) extends Print {
+  timer t(0, 1 sec)
+  reaction(t) {=
+    lf_print("Timer ticked at (%lld, %d).",
+        lf_time_logical_elapsed(), lf_tag().microstep
+    );
+  =}
 }
 federated reactor {
-    c = new Count();
-    p = new PrintTimer();
-    c.out -> p.in;
+  c = new Count()
+  p = new PrintTimer()
+  c.out -> p.in
 }
-
 ```
 
 ```lf-cpp
@@ -433,25 +420,24 @@ WARNING: No source file found: ../code/cpp/src/DecentralizedTimerSTP.lf
 
 ```lf-py
 target Python {
-    timeout: 5 sec,
-    coordination: decentralized
+  timeout: 5 sec,
+  coordination: decentralized
 }
 import Count, Print from "Federated.lf"
-reactor PrintTimer(STP_offset(10 msec)) extends Print {
-    timer t(0, 1 sec)
-    reaction(t) {=
-        print(
-            "Timer ticked at "
-            f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
-        )
-    =}
+reactor PrintTimer(STP_offset = 10 msec) extends Print {
+  timer t(0, 1 sec)
+  reaction(t) {=
+    print(
+        "Timer ticked at "
+        f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
+    )
+  =}
 }
 federated reactor {
-    c = new Count();
-    p = new PrintTimer();
-    c.out -> p.inp;
+  c = new Count()
+  p = new PrintTimer()
+  c.out -> p.inp
 }
-
 ```
 
 ```lf-ts
@@ -482,36 +468,35 @@ $start(DecentralizedTimerAfterHandler)$
 
 ```lf-c
 target C {
-    timeout: 5 sec,
-    coordination: decentralized
+  timeout: 5 sec,
+  coordination: decentralized
 }
 import Count from "Federated.lf"
 reactor PrintTimer {
-    timer t(0, 1 sec);
-    input in:int;
-    reaction(in) {=
-        lf_print("Received: %d at (%lld, %d)", in->value,
-            lf_time_logical_elapsed(), lf_tag().microstep
-        );
-    =} STP(0) {=
-        lf_print("****** STP violation handler invoked at (%lld, %d). "
-            "Intended tag was (%lld, %d).",
-            lf_time_logical_elapsed(), lf_tag().microstep,
-            in->intended_tag.time - lf_time_start(), in->intended_tag.microstep
-        );
-    =}
-    reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).", 
-            lf_time_logical_elapsed(), lf_tag().microstep
-        );
-    =}
+  timer t(0, 1 sec)
+  input in: int
+  reaction(in) {=
+    lf_print("Received: %d at (%lld, %d)", in->value,
+        lf_time_logical_elapsed(), lf_tag().microstep
+    );
+  =} STP(0) {=
+    lf_print("****** STP violation handler invoked at (%lld, %d). "
+        "Intended tag was (%lld, %d).",
+        lf_time_logical_elapsed(), lf_tag().microstep,
+        in->intended_tag.time - lf_time_start(), in->intended_tag.microstep
+    );
+  =}
+  reaction(t) {=
+    lf_print("Timer ticked at (%lld, %d).",
+        lf_time_logical_elapsed(), lf_tag().microstep
+    );
+  =}
 }
 federated reactor {
-    c = new Count();
-    p = new PrintTimer();
-    c.out -> p.in after 10 msec;
+  c = new Count()
+  p = new PrintTimer()
+  c.out -> p.in after 10 msec
 }
-
 ```
 
 ```lf-cpp
@@ -520,39 +505,38 @@ WARNING: No source file found: ../code/cpp/src/DecentralizedTimerAfterHandler.lf
 
 ```lf-py
 target Python {
-    timeout: 5 sec,
-    coordination: decentralized
+  timeout: 5 sec,
+  coordination: decentralized
 }
 import Count from "Federated.lf"
 reactor PrintTimer {
-    timer t(0, 1 sec)
-    input inp
-    reaction(inp) {=
-        print(
-            f"Received: {inp.value} "
-            f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
-        )
-    =} STP(0) {=
-        print(
-            "****** STP violation handler invoked at "
-            f"({lf.time.logical_elapsed()}, {lf.tag().microstep}). "
-            "Intended tag was "
-            f"({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep})."
-        )
-    =}
-    reaction(t) {=
-        print(
-            "Timer ticked at "
-            f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
-        )
-    =}
+  timer t(0, 1 sec)
+  input inp
+  reaction(inp) {=
+    print(
+        f"Received: {inp.value} "
+        f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
+    )
+  =} STP(0) {=
+    print(
+        "****** STP violation handler invoked at "
+        f"({lf.time.logical_elapsed()}, {lf.tag().microstep}). "
+        "Intended tag was "
+        f"({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep})."
+    )
+  =}
+  reaction(t) {=
+    print(
+        "Timer ticked at "
+        f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
+    )
+  =}
 }
 federated reactor {
-    c = new Count();
-    p = new PrintTimer();
-    c.out -> p.inp after 10 msec;
+  c = new Count()
+  p = new PrintTimer()
+  c.out -> p.inp after 10 msec
 }
-
 ```
 
 ```lf-ts
@@ -599,7 +583,7 @@ In the above example, all of the generated programs expect to run on localhost. 
 In order for a federated execution to work, there is some setup required on the machines to be used. First, each machine must be running on `ssh` server. On a Linux machine, this is typically done with a command like this:
 
 ```sh
-    sudo systemctl <start|enable> ssh.service
+  sudo systemctl <start|enable> ssh.service
 ```
 
 Enable means to always start the service at startup, whereas start means to just start it this once. On macOS, open System Preferences from the Apple menu and click on the "Sharing" preference panel. Select the checkbox next to "Remote Login" to enable it.
@@ -614,7 +598,7 @@ You can specify a domain name on which the RTI should run as follows:
 
 ```lf
 federated reactor DistributedCount at www.example.com {
-    ...
+  ...
 }
 ```
 
@@ -643,7 +627,7 @@ Address 0.0.0.0: The default host, `localhost` is used if no address is specifie
 A federate may be mapped to a particular remote machine using a syntax like this:
 
 ```lf
-    count = new Count() at user@host:port/path;
+  count = new Count() at user@host:port/path;
 ```
 
 The `port` is ignored in **centralized** mode because all communication is routed through the RTI, but in **decentralized** mode it will specify the port on which a socket server listens for incoming connections from other federates.
@@ -673,19 +657,19 @@ Both centralized and decentralized coordination have some reliance on clock sync
 If your host is not running any clock synchronization, or if it is running only NTP and your application needs tighter latencies, then Lingua Franca's own built-in clock synchronization may provide better precision, depending on your network conditions. Like NTP, it realizes a software-only protocol, which are much less precise than hardware-supported protocols such as PTP, but if your hosts are on the same local area network, then network conditions may be such that the performance of LF clock synchronization will be much better than NTP. If your network is equipped with PTP, you will want to disable the clock synchronization in Lingua Franca by specifying in your target properties the following:
 
 ```lf
-    clock-sync: off
+  clock-sync: off
 ```
 
 When a federation is mapped onto multiple machines, then, by default, any federate mapped to a machine that is not the one running the RTI will attempt during startup to synchronize its clock with the one on the machine running the RTI. The determination of whether the federate is running on the same machine is determined by comparing the string that comes after the `at` clause between the federate and the RTI. If they differ at all, then they will be treated as if the federate is running on a different machine even if it is actually running on the same machine. This default behavior can be obtained by either specifying nothing in the target properties or saying:
 
 ```lf
-    clock-sync: initial
+  clock-sync: initial
 ```
 
 This results in clock synchronization being done during startup only. To account for the possibility of your clocks drifting during execution of the program, you can alternatively specify:
 
 ```lf
-    clock-sync: on
+  clock-sync: on
 ```
 
 With this specification, in addition to synchronization during startup, synchronization will be redone periodically during program execution.
@@ -695,7 +679,7 @@ With this specification, in addition to synchronization during startup, synchron
 A number of options can be specified using the `clock-sync-options` target parameter. For example:
 
 ```lf
-    clock-sync-options: {local-federates-on: true, test-offset: 200 msec}
+  clock-sync-options: {local-federates-on: true, test-offset: 200 msec}
 ```
 
 The supported options are:
