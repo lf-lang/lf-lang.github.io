@@ -99,10 +99,10 @@ See the [Target Language Details](/docs/handbook/target-language-details) for de
 In C++, initial values for a parameter or state can be used to pass arguments to a constructor, as in the following example:
 
 ```lf-cpp
-  state x: int[](1,2);
+  state x: int[](2, 0);
 ```
 
-Here, the type `int[]` is translated by the code generator into `std::vector` and the `(1,2)` to constructor arguments, as in `new std::vector(1,2)`. See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
+Here, the type `int[]` is translated by the code generator into `std::vector` and the `(2, 0)` to constructor arguments, as in `new std::vector(2,0)`, which creates a vector of length 2 filled with elements with value 0. See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
 
 </div>
 
