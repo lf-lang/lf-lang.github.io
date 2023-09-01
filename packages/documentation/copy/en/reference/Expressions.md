@@ -117,6 +117,7 @@ reactor Foo(param(1, 2, 3)) {
 }
 ```
 
+<!-- The following should be true but is not:
 The Python target interprets the `(1, 2, 3)` expression differently depending on
 whether the assignee is a parameter or a state variable. For parameters, the
 `(1, 2, 3)` expression will translate into an immutable Python tuple (i.e.,
@@ -129,14 +130,20 @@ variables usually need to be updated during execution.
 Notice that even though the tuple assigned to the parameter is immutable (you
 cannot assign new values to its elements), the parameter itself can be
 overridden with _another_ immutable tuple when instantiating the reactor:
+ -->
+
+The `param` parameter and `x` state variable become Python lists.
+Their elements may be accessed as arrays, for example `self.x[i]`, where `i` is an array index.
+
+The parameter may be overridden with a different list at instantiation:
 
 ```lf-py
 main reactor {
-  f = new Foo(param = (3, 4, 5))
+  f = new Foo(param(3, 4, 5, 6))
 }
 ```
 
-See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
+See the [Target Language Details](/docs/handbook/target-language-details) for details.
 
 </div>
 

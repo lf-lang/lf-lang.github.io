@@ -568,8 +568,6 @@ State variables with more complex types such as classes or structs can be simila
 
 </div>
 
-**FIXME: The rest of this file needs updating **
-
 <div class="lf-py">
 
 Reactor parameters and state variables are referenced in the Python code using
@@ -581,14 +579,14 @@ Declaration](/docs/handbook/parameters-and-state-variables#state-declaration) to
 include both a parameter and a state variable:
 
 ```lf-py
-reactor Count(stride(1)) {
-    state count(1);
-    output y;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        y.set(self.count)
-        self.count += self.stride
-    =}
+reactor Count(stride=1) {
+  state count = 1
+  output y
+  timer t(0, 100 msec)
+  reaction(t) -> y {=
+    y.set(self.count)
+    self.count += self.stride
+  =}
 }
 ```
 
@@ -610,15 +608,15 @@ It may be tempting to declare state variables in the $preamble$, as follows:
 
 ```lf-py
 reactor FlawedCount {
-    preamble {=
-        count = 0
-    =}
-    output y
-    timer t(0, 100 msec)
-    reaction(t) -> y {=
-        y.set(count)
-        count += 1
-    =}
+  preamble {=
+    count = 0
+  =}
+  output y
+  timer t(0, 100 msec)
+  reaction(t) -> y {=
+    y.set(count)
+    count += 1
+  =}
 }
 ```
 
@@ -634,8 +632,7 @@ will also not be repeatable.
 
 ### Array Expressions for State Variables and Parameters
 
-A Lingua Franca array expression (e.g., (0, 1, 2)) can be used for the initial
-(default) value of parameters and state variables. In the following example, the
+Array parameters and state variables are implemented using Python lists and initialized using a parentheized list. In the following example, the
 parameter `sequence` and the state variable `x` have an initial value of `(0, 1, 2)`:
 
 ```lf-py
@@ -645,11 +642,12 @@ reactor Source(sequence(0, 1, 2)) {
 }
 ```
 
-The Python target interprets the `(0, 1, 2)` expression differently depending on
+<!-- The following should be true but is not:
+The Python target interprets the `(1, 2, 3)` expression differently depending on
 whether the assignee is a parameter or a state variable. For parameters, the
-`(0, 1, 2)` expression will translate into an immutable Python tuple (i.e.,
-`sequence = (0, 1, 2)`). For state variables, the `(0, 1, 2)` expression will
-translate into a mutable Python list (i.e., `x = [0, 1, 2])`). The reason behind
+`(1, 2, 3)` expression will translate into an immutable Python tuple (i.e.,
+`param = (1, 2, 3)`). For state variables, the `(1, 2, 3)` expression will
+translate into a mutable Python list (i.e., `x = [1, 2, 3])`). The reason behind
 this discrepancy is that parameters are assumed to be immutable after
 instantiation (in fact, they are also read-only in reaction bodies), but state
 variables usually need to be updated during execution.
@@ -657,9 +655,14 @@ variables usually need to be updated during execution.
 Notice that even though the tuple assigned to the parameter is immutable (you
 cannot assign new values to its elements), the parameter itself can be
 overridden with _another_ immutable tuple when instantiating the reactor:
+ -->
+
+Their elements may be accessed as arrays in the body of a reaction, for example `self.x[i]`, where `i` is an array index.
+
+The parameter may be overridden with a different list at instantiation:
 
 ```lf
-s = new Source(sequence = (1, 2, 3, 4));
+s = new Source(sequence(1, 2, 3, 4));
 ```
 
 As with any ordinary Python list or tuple, `len()` can been used to deduce the
@@ -674,19 +677,18 @@ demonstrates this usage:
 
 ```lf-py
 main reactor StructAsState {
-    preamble {=
-        class hello:
-            def __init__(self, name, value):
-                self.name = name
-                self.value = value
-    =}
-    state s ({=self.hello("Earth", 42) =});
-    reaction(startup) {=
-        print("State s.name='{:s}', value={:d}.".format(self.s.name, self.s.value))
-        if self.s.value != 42:
-            sys.stderr.write("FAILED: Expected 42.\n")
-            exit(1)
-    =}
+  preamble {=
+    class hello:
+      def __init__(self, name, value):
+        self.name = name
+        self.value = value
+  =}
+  state s = {= self.hello("Earth", 42) =}
+
+  reaction(startup) {=
+    # will print "State s.name="Earth", value=42."
+    print("State s.name=\"{:s}\", value={:d}.".format(self.s.name, self.s.value))
+  =}
 }
 ```
 
@@ -713,7 +715,7 @@ In Python, tuples are immutable, while lists can be modified. Be aware also that
 
 <div class="lf-ts">
 
-In the TypeScript target, all [TypeScript types](https://www.typescriptlang.org/docs/handbook/basic-types.html) are generally acceptable for parameters and state variables. Custom types (and classes) must be defined in the [preamble](#preamble) before they may be used.
+In the TypeScript target, all [TypeScript types](https://www.typescriptlang.org/docs/handbook/basic-types.html) are generally acceptable for parameters and state variables. Custom types (and classes) must be defined in the $preamble$ before they may be used.
 
 **To benefit from type checking, you should declare types for your reactor elements.** If a type isn't declared for a state variable, it is assigned the type [`unknown`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type).
 
@@ -721,13 +723,13 @@ For example, the following reactor will produce the output sequence 0, 1, 2, 3, 
 
 ```lf-ts
 reactor Count {
-    state count:number(0);
-    output y:number;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        count++;
-        y = count;
-    =}
+  state count:number = 0;
+  output y:number;
+  timer t(0, 100 ms);
+  reaction(t) -> y {=
+    count++;
+    y = count;
+  =}
 }
 ```
 
@@ -739,15 +741,15 @@ It may be tempting to declare state variables in the **preamble**, as follows:
 
 ```lf-ts
 reactor FlawedCount {
-    preamble {=
-        let count = 0;
-    =}
-    output y:number;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        count++;
-        y = count;
-    =}
+  preamble {=
+    let count = 0;
+  =}
+  output y:number;
+  timer t(0, 100 msec);
+  reaction(t) -> y {=
+    count++;
+    y = count;
+  =}
 }
 ```
 
@@ -756,37 +758,38 @@ This will produce a sequence of integers, but if there is more than one instance
 A state variable may be a time value, declared as follows:
 
 ```lf-ts
-    state time_value:time(100 msec);
+  state time_value:time = 100 ms
 ```
 
 The `time_value` variable will be of type `TimeValue`, which is an object used to represent a time in the TypeScript Target. Refer to the section on [timed behavior](#timed-behavior) for more information.
 
-A state variable can have an array or object value. For example, the following reactor computes the **moving average** of the last four inputs each time it receives an input:
+A state variable can have an array or object value. For example, the following reactor computes the **moving average** of the last four inputs each time it receives an input (from [MovingAverageImpl](https://github.com/lf-lang/lingua-franca/blob/master/test/TypeScript/src/MovingAverage.lf)):
 
 ```lf-ts
 reactor MovingAverage {
-    state delay_line:{=Array<number>=}({= [0.0, 0.0, 0.0] =});
-    state index:number(0);
-    input x:number;
-    output out:number;
-    reaction(x) -> out {=
-        x = x as number;
-        // Calculate the output.
-        let sum = x;
-        for (let i = 0; i < 3; i++) {
-            sum += delay_line[i];
-        }
-        out = sum/4.0;
+  state delay_line: {= Array<number> =} = {= [0.0, 0.0, 0.0] =}
+  state index: number = 0
+  input x: number
+  output out: number
 
-        // Insert the input in the delay line.
-        delay_line[index] = x;
+  reaction(x) -> out {=
+    x = x as number;
+    // Calculate the output.
+    let sum = x;
+    for (let i = 0; i < 3; i++) {
+      sum += delay_line[i];
+    }
+    out = sum/4.0;
 
-        // Update the index for the next input.
-        index++;
-        if (index >= 3) {
-            index = 0;
-        }
-    =}
+    // Insert the input in the delay line.
+    delay_line[index] = x;
+
+    // Update the index for the next input.
+    index++;
+    if (index >= 3) {
+      index = 0;
+    }
+  =}
 }
 ```
 
@@ -795,38 +798,38 @@ The second line declares that the type of the state variable is an array of `num
 States whose type are objects can similarly be initialized. Declarations can take an object literal as the initial value:
 
 ```lf-ts
-state myLiteral:{= {foo: number, bar: string} =}({= {foo: 42, bar: "baz"} =});
+state myLiteral:{= {foo: number, bar: string} =} = {= {foo: 42, bar: "baz"} =};
 ```
 
 or use `new`:
 
 ```lf-ts
-state mySet:{=Set<number>=}({= new Set<number>() =});
+state mySet:{=Set<number>=} = {= new Set<number>() =};
 ```
 
 Reactor parameters are also referenced in the TypeScript code as local variables. The example below modifies the `Count` reactor so that its stride is a parameter:
 
 ```lf-ts
-target TypeScript;
-reactor Count(stride:number(1)) {
-    state count:number(0);
-    output y:number;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        y = count;
-        count += stride;
-    =}
+target TypeScript
+reactor Count(stride:number = 1) {
+  state count:number = 0;
+  output y:number;
+  timer t(0, 100 ms);
+  reaction(t) -> y {=
+    y = count;
+    count += stride;
+  =}
 }
 reactor Display {
-    input x:number;
-    reaction(x) {=
-        console.log("Received: " + x + ".");
-    =}
+  input x:number;
+  reaction(x) {=
+    console.log("Received: " + x + ".");
+  =}
 }
 main reactor Stride {
-    c = new Count(stride = 2);
-    d = new Display();
-    c.y -> d.x;
+  c = new Count(stride = 2);
+  d = new Display();
+  c.y -> d.x;
 }
 ```
 
@@ -835,7 +838,7 @@ The second line defines the `stride` parameter, gives its type, and gives its in
 When the reactor is instantiated, the default parameter value can be overridden. This is done in the above example near the bottom with the line:
 
 ```lf-ts
-    c = new Count(stride = 2);
+  c = new Count(stride = 2);
 ```
 
 If there is more than one parameter, use a comma separated list of assignments.
@@ -843,26 +846,26 @@ If there is more than one parameter, use a comma separated list of assignments.
 Parameters in Lingua Franca are immutable. To encourage correct usage, parameter variables within a reaction are local `const` variables. If you feel tempted to use a mutable parameter, instead try using the parameter to initialize state and modify the state variable instead. This is illustrated below by a further modification to the Stride example where it takes an initial "start" value for count as a second parameter:
 
 ```lf-ts
-target TypeScript;
-reactor Count(stride:number(1), start:number(5)) {
-    state count:number(start);
-    output y:number;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        y = count;
-        count += stride;
-    =}
+target TypeScript
+reactor Count(stride:number = 1, start:number = 5) {
+  state count:number = start;
+  output y:number;
+  timer t(0, 100 ms);
+  reaction(t) -> y {=
+    y = count;
+    count += stride;
+  =}
 }
 reactor Display {
-    input x:number;
-    reaction(x) {=
-        console.log("Received: " + x + ".");
-    =}
+  input x:number;
+  reaction(x) {=
+    console.log("Received: " + x + ".");
+  =}
 }
 main reactor Stride {
-    c = new Count(stride = 2, start = 10);
-    d = new Display();
-    c.y -> d.x;
+  c = new Count(stride = 2, start = 10);
+  d = new Display();
+  c.y -> d.x;
 }
 ```
 
@@ -871,36 +874,36 @@ main reactor Stride {
 Parameters can have array or object values. Here is an example that outputs the elements of an array as a sequence of individual messages:
 
 ```lf-ts
-reactor Source(sequence:{=Array<number>=}({= [0, 1, 2] =})) {
-    output out:number;
-    state count:number(0);
-    logical action next;
-    reaction(startup, next) -> out, next {=
-        out = sequence[count];
-        count++;
-        if (count < sequence.length) {
-            actions.next.schedule(0, null);
-        }
-    =}
+reactor Source(sequence:{=Array<number>=} = {= [0, 1, 2] =}) {
+  output out:number;
+  state count:number(0);
+  logical action next;
+  reaction(startup, next) -> out, next {=
+    out = sequence[count];
+    count++;
+    if (count < sequence.length) {
+      actions.next.schedule(0, null);
+    }
+  =}
 }
 ```
 
 Above, the parameter default value is an array with three elements, `[0, 1, 2]`. The syntax for giving this default value is a TypeScript array literal. Since this is TypeScript syntax, not Lingua Franca syntax, the initial value needs to be surrounded with the target code delimiters, `{= ... =}`. The default value can be overridden when instantiating the reactor using a similar syntax:
 
 ```lf-ts
-s = new Source(sequence={= [1, 2, 3, 4] =});
+  s = new Source(sequence = {= [1, 2, 3, 4] =});
 ```
 
 Both default and overridden values for parameters can also be created with the `new` keyword:
 
 ```lf-ts
-reactor Source(sequence:{=Array<number>=}({= new Array<number>() =})) {
+reactor Source(sequence:{=Array<number>=} = {= new Array<number>() =}) {
 ```
 
 and
 
 ```lf-ts
-s = new Source(sequence={= new Array<number() =});
+s = new Source(sequence = {= new Array<number() =});
 ```
 
 </div>
@@ -908,6 +911,8 @@ s = new Source(sequence={= new Array<number() =});
 <div class="lf-rs">
 
 Parameters and state variables in Rust are accessed on the `self` structure, as shown in [Parameter Declaration](/docs/handbook/parameters-and-state-variables#parameter-declaration).
+
+<span class="warning">**FIXME:** How to define and use array parameters and states?</span>
 
 </div>
 
@@ -917,30 +922,30 @@ Parameters and state variables in Rust are accessed on the `self` structure, as 
 
 <div class="lf-c">
 
-In the body of a reaction in the C target, the value of an input is obtained using the syntax `name->value`, where `name` is the name of the input port. See, for example, the `Destination` reactor in [Triggers, Effects, and Uses](/docs/handbook/inputs-and-outputs#triggers-effects-and-uses).
+In the body of a reaction in the C target, the value of an input is obtained using the syntax `name->value`, where `name` is the name of the input port. See, for example, the `Destination` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).
 
 To set the value of outputs, use `lf_set`. See, for example, the `Double` reactor in [Input and Output Declarations](/docs/handbook/inputs-and-outputs#input-and-output-declarations).)
 
-An output may even be set in different reactions of the same reactor at the same tag. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name->is_present` to determine whether the output has been set. For example, the following reactor (the test case [TestForPreviousOutput](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/TestForPreviousOutput.lf)) will always produce the output 42:
+An output may even be set in different reactions of the same reactor at the same tag. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name->is_present` to determine whether the output has been set. For example, the `Source` reactor in the test case [TestForPreviousOutput](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/TestForPreviousOutput.lf) will always produce the output 42:
 
 ```lf-c
-reactor TestForPreviousOutput {
-    output out:int;
-    reaction(startup) -> out {=
-        // Set a seed for random number generation based on the current time.
-        srand(time(0));
-        // Randomly produce an output or not.
-        if (rand() % 2) {
-            lf_set(out, 21);
-        }
-    =}
-    reaction(startup) -> out {=
-        if (out->is_present) {
-            lf_set(out, 2 * out->value);
-        } else {
-            lf_set(out, 42);
-        }
-    =}
+reactor Source {
+  output out: int
+  reaction(startup) -> out {=
+    // Set a seed for random number generation based on the current time.
+    srand(time(0));
+    // Randomly produce an output or not.
+    if (rand() % 2) {
+      lf_set(out, 21);
+    }
+  =}
+  reaction(startup) -> out {=
+    if (out->is_present) {
+      lf_set(out, 2 * out->value);
+    } else {
+      lf_set(out, 42);
+    }
+  =}
 }
 ```
 
@@ -951,37 +956,81 @@ The first reaction may or may not set the output to 21. The second reaction doub
 You can define your own data types in C and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsType.lf) example:
 
 ```lf-c
+preamble {=
+  typedef struct hello_t {
+    char* name;
+    int value;
+  } hello_t;
+=}
 reactor StructAsType {
-    preamble {=
-        typedef struct hello_t {
-            char* name;
-            int value;
-        } hello_t;
-    =}
-    output out:hello_t;
-    reaction(startup) -> out {=
-        struct hello_t temp = {"Earth", 42};
-        lf_set(out, temp);
-    =}
+  output out:hello_t;
+  reaction(startup) -> out {=
+    struct hello_t temp = {"Earth", 42};
+    lf_set(out, temp);
+  =}
 }
 ```
 
 The $preamble$ code defines a struct data type. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `lf_set` macro.
 
-For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-arrays) for details.
+For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-data) for details.
 
 A reactor receiving the struct message uses the struct as normal in C:
 
 ```lf-c
 reactor Print() {
-    input in:hello_t;
-    reaction(in) {=
-        printf("Received: name = %s, value = %d\n", in->value.name, in->value.value);
-    =}
+  input in:hello_t;
+  reaction(in) {=
+    printf("Received: name = %s, value = %d\n", in->value.name, in->value.value);
+  =}
 }
 ```
 
 The preamble should not be repeated in this reactor definition if the two reactors are defined together because this will trigger an error when the compiler thinks that `hello_t` is being redefined.
+
+### Persistent Inputs
+
+In the C target, inputs are persistent. You can read an input even when there is no event present and the value of that input will be the most recently received value or an instance of the input type filled with zeros. For example:
+
+```lf-c
+target C
+reactor Source {
+  output out: int
+  timer t(100 ms, 200 ms)
+  state count: int = 1
+  reaction(t) -> out {=
+    lf_set(out, self->count++);
+  =}
+}
+reactor Sink {
+  input in: int
+  timer t(0, 100 ms)
+  reaction(t) in {=
+    printf("Value of the input is %d at time %lld\n", in->value, lf_time_logical_elapsed());
+  =}
+}
+main reactor {
+  source = new Source()
+  sink = new Sink()
+  source.out -> sink.in
+}
+```
+
+The `Source` reactor produces output 1 at 100ms and 2 at 300ms.
+The `Sink` reactor reads every 100ms starting at 0.
+Notice that it uses the input `in` but is not triggered by it.
+The result of running this program is:
+
+```
+Value of the input is 0 at time 0
+Value of the input is 1 at time 100000000
+Value of the input is 1 at time 200000000
+Value of the input is 2 at time 300000000
+Value of the input is 2 at time 400000000
+...
+```
+
+The first output is 0 (an `int` initialized with zero), and subsequently, each output is read twice.
 
 ### Fixed Length Array Inputs and Outputs
 
@@ -989,13 +1038,13 @@ When inputs and outputs are fixed-length arrays, the memory to contain the array
 
 ```lf-c
 reactor Source {
-    output out: int[3]
-    reaction(startup) -> out {=
-        out->value[0] = 0;
-        out->value[1] = 1;
-        out->value[2] = 2;
-        lf_set_present(out);
-    =}
+  output out: int[3]
+  reaction(startup) -> out {=
+    out->value[0] = 0;
+    out->value[1] = 1;
+    out->value[2] = 2;
+    lf_set_present(out);
+  =}
 }
 ```
 
@@ -1005,15 +1054,15 @@ Reading the array is equally simple:
 
 ```lf-c
 reactor Print(scale: int(1)) {  // The scale parameter is just for testing.
-    input in: int[3]
-    reaction(in) {=
-        printf("Received: [");
-        for (int i = 0; i < 3; i++) {
-            if (i > 0) printf(", ");
-            printf("%d", in->value[i]);
-        }
-        printf("]\n");
-    =}
+  input in: int[3]
+  reaction(in) {=
+    printf("Received: [");
+    for (int i = 0; i < 3; i++) {
+      if (i > 0) printf(", ");
+      printf("%d", in->value[i]);
+    }
+   printf("]\n");
+  =}
 }
 ```
 
@@ -1023,17 +1072,17 @@ Above, the array size is fixed and must be known throughout the program. A more 
 
 ```lf-c
 reactor Source {
-    output out: int[]
-    reaction(startup) -> out {=
-        // Dynamically allocate an output array of length 3.
-        int* array = (int*)malloc(3 * sizeof(int));
-        // Populate the array.
-        array[0] = 0;
-        array[1] = 1;
-        array[2] = 2;
-        // Set the output, specifying the array length.
-        lf_set_array(out, array, 3);
-    =}
+  output out: int[]
+  reaction(startup) -> out {=
+    // Dynamically allocate an output array of length 3.
+    int* array = (int*)malloc(3 * sizeof(int));
+    // Populate the array.
+    array[0] = 0;
+    array[1] = 1;
+    array[2] = 2;
+    // Set the output, specifying the array length.
+    lf_set_array(out, array, 3);
+  =}
 }
 ```
 
@@ -1041,15 +1090,15 @@ The array length will be available at the receiving end, which may look like thi
 
 ```lf-c
 reactor Print {
-    input in: int[]
-    reaction(in) {=
-        printf("Received: [");
-        for (int i = 0; i < in->length; i++) {
-            if (i > 0) printf(", ");
-            printf("%d", in->value[i]);
-        }
-        printf("]\n");
-    =}
+  input in: int[]
+  reaction(in) {=
+    printf("Received: [");
+    for (int i = 0; i < in->length; i++) {
+      if (i > 0) printf(", ");
+      printf("%d", in->value[i]);
+    }
+    printf("]\n");
+  =}
 }
 ```
 
@@ -1061,33 +1110,33 @@ Suppose the data structure of interest, its constructor, destructor, and copy_co
 
 ```c
 preamble {=
-    typedef struct int_array_t {
-        int* data;
-        size_t length;
-    } int_array_t;
+  typedef struct int_array_t {
+    int* data;
+    size_t length;
+  } int_array_t;
 
-    int_array_t* int_array_constructor(size_t length) {
-        int_array_t* result = (int_array_t*) malloc(sizeof(int_array_t));
-        result->data = (int*) calloc(length, sizeof(int));
-        result->length = length;
-        return result;
-    }
+  int_array_t* int_array_constructor(size_t length) {
+    int_array_t* result = (int_array_t*) malloc(sizeof(int_array_t));
+    result->data = (int*) calloc(length, sizeof(int));
+    result->length = length;
+    return result;
+  }
 
-    void int_array_destructor(void* array) {
-        free(((int_array_t*) array)->data);
-        free(array);
-    }
+  void int_array_destructor(void* array) {
+    free(((int_array_t*) array)->data);
+    free(array);
+  }
 
-    void* int_array_copy_constructor(void* array) {
-        int_array_t* source = (int_array_t*) array;
-        int_array_t* copy = (int_array_t*) malloc(sizeof(int_array_t));
-        copy->data = (int*) calloc(source->length, sizeof(int));
-        copy->length = source->length;
-        for (size_t i = 0; i < source->length; i++) {
-            copy->data[i] = source->data[i];
-        }
-        return (void*) copy;
+  void* int_array_copy_constructor(void* array) {
+    int_array_t* source = (int_array_t*) array;
+    int_array_t* copy = (int_array_t*) malloc(sizeof(int_array_t));
+    copy->data = (int*) calloc(source->length, sizeof(int));
+    copy->length = source->length;
+    for (size_t i = 0; i < source->length; i++) {
+      copy->data[i] = source->data[i];
     }
+    return (void*) copy;
+  }
 =}
 ```
 
@@ -1095,18 +1144,18 @@ Then, the sender reactor would use `lf_set_destructor` to specify how the memory
 
 ```lf-c
 reactor Source {
-    output out:int_array_t*;
-    reaction(startup) -> out {=
-        lf_set_destructor(out, int_array_destructor);
-        lf_set_copy_constructor(out, int_array_copy_constructor);
+  output out:int_array_t*;
+  reaction(startup) -> out {=
+    lf_set_destructor(out, int_array_destructor);
+    lf_set_copy_constructor(out, int_array_copy_constructor);
+  }
+  reaction(startup) -> out {=
+    int_array_t* array =  int_array_constructor(2);
+    for (size_t i = 0; i < array->length; i++) {
+      array->data[i] = i;
     }
-    reaction(startup) -> out {=
-        int_array_t* array =  int_array_constructor(2);
-        for (size_t i = 0; i < array->length; i++) {
-            array->data[i] = i;
-        }
-        lf_set(out, array);
-    =}
+    lf_set(out, array);
+  =}
 }
 ```
 
@@ -1114,21 +1163,21 @@ The first reaction specifies the destructor and copy constructor (the latter of 
 
 **IMPORTANT:** The array constructed should be sent to only one output port using `lf_set`. If you need to send it to more than one output port or to use it as the payload of an action, you should use `lf_set_token`.
 
-**FIXME:** Show how to do this.
+<span class="warning">**FIXME:** Show how to do this.</span>
 
 A reactor receiving this array is straightforward. It just references the array elements as usual in C, as illustrated by this example:
 
 ```lf-c
 reactor Print() {
-    input in:int_array_t*;
-    reaction(in) {=
-        printf("Received: [");
-        for (int i = 0; i < in->value->length; i++) {
-            if (i > 0) printf(", ");
-            printf("%d", in->value->data[i]);
-        }
-        printf("]\n");
-    =}
+  input in:int_array_t*;
+  reaction(in) {=
+    printf("Received: [");
+    for (int i = 0; i < in->value->length; i++) {
+      if (i > 0) printf(", ");
+      printf("%d", in->value->data[i]);
+    }
+    printf("]\n");
+  =}
 }
 ```
 
@@ -1138,10 +1187,10 @@ Occasionally, you will want an input or output type to be a pointer, but you don
 
 ```lf-c
 reactor Erroneous {
-    output out:char*;
-    reaction(startup) -> out {=
-        lf_set(out, "Hello World");
-    =}
+  output out:char*;
+  reaction(startup) -> out {=
+    lf_set(out, "Hello World");
+  =}
 }
 ```
 
@@ -1154,10 +1203,10 @@ to free the allocated memory. To avoid this for strings, you can use a special
 
 ```lf-c
 reactor Fixed {
-    output out:string;
-    reaction(startup) -> out {=
-        lf_set(out, "Hello World");
-    =}
+  output out:string;
+  reaction(startup) -> out {=
+    lf_set(out, "Hello World");
+  =}
 }
 ```
 
@@ -1165,14 +1214,14 @@ The `string` type is equivalent to `char*`, but since it doesn't end with `*`, i
 
 ```lf-c
 reactor SendsPointer  {
-    preamble {=
-        typedef int* int_pointer;
-    =}
-    output out:int_pointer;
-    reaction(startup) -> out {=
-        static int my_constant = 42;
-        lf_set(out, &my_constant;)
-    =}
+  preamble {=
+    typedef int* int_pointer;
+  =}
+  output out:int_pointer
+  reaction(startup) -> out {=
+    static int my_constant = 42;
+    lf_set(out, &my_constant;)
+  =}
 }
 ```
 
@@ -1180,18 +1229,18 @@ The above technique can be used to abuse the reactor model of computation by com
 
 ### Mutable Inputs
 
-Although it cannot be enforced in C, a receiving reactor should not modify the values provided by an input. Inputs are logically _immutable_ because there may be several recipients. Any recipient that wishes to modify the input should make a copy of it. Fortunately, a utility is provided for this pattern. Consider the [ArrayScale](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayScale.lf) example:
+Although it cannot be enforced in C, a receiving reactor should not modify the values provided by an input. Inputs are logically _immutable_ because there may be several recipients. Any recipient that wishes to modify the input should make a copy of it. Fortunately, a utility is provided for this pattern. Consider the [ArrayScale](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayScale.lf) example, here modified to use the above `int_array_t` data type:
 
 ```lf-c
 reactor ArrayScale(scale:int(2)) {
-    mutable input in:int_array_t*;
-    output out:int_array_t*;
-    reaction(in) -> out {=
-        for(int i = 0; i < in->length; i++) {
-            in->value[i] *= self->scale;
-        }
-        lf_set_token(out, in->token);
-    =}
+  mutable input in:int_array_t*;
+  output out:int_array_t*;
+  reaction(in) -> out {=
+    for(int i = 0; i < in->length; i++) {
+      in->value[i] *= self->scale;
+    }
+    lf_set_token(out, in->token);
+  =}
 }
 ```
 
@@ -1215,11 +1264,11 @@ Three of the above reactors can be combined into a pipeline as follows:
 
 ```lf
 main reactor ArrayScaleTest {
-    s = new Source();
-    c = new ArrayScale();
-    p = new Print();
-    s.out -> c.in;
-    c.out -> p.in;
+  s = new Source();
+  c = new ArrayScale();
+  p = new Print();
+  s.out -> c.in;
+  c.out -> p.in;
 }
 ```
 
@@ -1232,17 +1281,17 @@ Inputs and outputs can also be dynamically allocated structs. In fact, Lingua Fr
 String types in C are `char*`. But, as explained above, types ending with `*` are interpreted specially to provide automatic memory management, which we generally don't want with strings (a string that is a compile-time constant must not be freed). You could enclose the type as `{= char* =}`, but to avoid this awkwardness, the header files include a typedef that permits using `string` instead of `char*`. For example (from [DelayString.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayString.lf)):
 
 ```lf-c
-reactor DelayString(delay:time(100 msec)) {
-    input in:string;
-    output out:string;
-    logical action a:string;
-    reaction(a) -> out {=
-        lf_set(out, a->value);
-    =}
-    reaction(in) -> a {=
-        // The following copies the char*, not the string.
-        lf_schedule_copy(a, self->delay, &(in->value), 1);
-    =}
+reactor DelayString(delay:time = 100 ms)) {
+  input in:string;
+  output out:string;
+  logical action a:string;
+  reaction(a) -> out {=
+    lf_set(out, a->value);
+  =}
+  reaction(in) -> a {=
+    // The following copies the char*, not the string.
+    lf_schedule_copy(a, self->delay, &(in->value), 1);
+  =}
 }
 ```
 
@@ -1269,19 +1318,19 @@ Consider the
 example:
 
 ```lf-c
-    reactor Source {
-        output out:int*;
-        logical action a:int;
-        reaction(startup) -> a {=
-            lf_schedule_int(a, MSEC(200), 42);
-        =}
-        reaction(a) -> out {=
-            lf_set_token(out, a->token);
-        =}
-    }
+reactor Source {
+  output out:int*
+  logical action a:int
+  reaction(startup) -> a {=
+    lf_schedule_int(a, MSEC(200), 42);
+  =}
+  reaction(a) -> out {=
+    lf_set_token(out, a->token);
+  =}
+}
 ```
 
-Here, the first reaction schedules an integer-valued action to trigger after 200 microseconds. As explained below, action payloads are carried by tokens. The second reaction grabs the token rather than the value using the syntax `a->token` (the name of the action followed by `->token`). It then forwards the token to the output. The output data type is `int*` not `int` because the token carries a pointer to dynamically allocated memory that contains the value. All inputs and outputs with types ending in `*` or `[]` are carried by tokens.
+Here, the first reaction schedules an integer-valued action to trigger after 200 milliseconds. As explained below, action payloads are carried by tokens. The second reaction grabs the token rather than the value using the syntax `a->token` (the name of the action followed by `->token`). It then forwards the token to the output. The output data type is `int*` not `int` because the token carries a pointer to dynamically allocated memory that contains the value. All inputs and outputs with types ending in `*` or `[]` are carried by tokens.
 
 > `lf_set_destructor(<out>, <destructor>);`
 
@@ -1307,38 +1356,37 @@ To determine whether an input is present, `name.is_present()` can be used. Since
 You can define your own data types in C++ or use types defined in a library and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructAsType.lf) example:
 
 ```lf-cpp
+public preamble {=
+  struct Hello {
+    std::string name;
+    int value;
+  };
+=}
 reactor StructAsType {
-    public preamble {=
-        struct Hello {
-            std::string name;
-            int value;
-        };
-    =}
-
-    output out:Hello;
-    reaction(startup) -> out {=
-        Hello hello{"Earth, 42};
-        out.set(hello);
-    =}
+  output out: Hello;
+  reaction(startup) -> out {=
+    Hello hello{"Earth, 42};
+    out.set(hello);
+  =}
 }
 ```
 
-The **preamble** code defines a struct data type. In the reaction to **startup**, the reactor creates an instance of this struct on the stack (as a local variable named `hello`) and then copies that instance to the output using the `set()` method. For this reason, the C++ reactor runtime provides more sophisticated ways to allocate objects and send them via ports.
+The $public$ $preamble$ code defines a struct data type. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `hello`) and then copies that instance to the output using the `set()` method. For this reason, the C++ reactor runtime provides more sophisticated ways to allocate objects and send them via ports.
 
 The C++ library defines two types of smart pointers that the runtime uses internally to implement the exchange of data between ports. These are `reactor::MutableValuePtr<T>` and `reactor::ImmutableValuePtr<T>`. `reactor::MutableValuePtr<T>` is a wrapper around [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr) and provides read and write access to the value hold, while ensuring that the value has a unique owner. In contrast, `reactor::ImmutableValuePtr<T>` is a wrapper around [`std::shared_pointer`](https://en.cppreference.com/w/cpp/memory/shared_ptr) and provides read only (const) access to the value it holds. This allows data to be shared between reactions of various reactors, while guarantee data consistency. Similar to `std::make_unique` and `std::make_shared`, the reactor library provides convenient function for creating mutable and immutable values pointers: `reactor::make_mutable_value<T>(...)` and `reactor::make_immutable_value<T>(...)`.
 
 In fact this code from the example above:
 
 ```cpp
-Hello hello{"Earth, 42"};
-out.set(hello);
+    Hello hello{"Earth, 42"};
+    out.set(hello);
 ```
 
 implicitly invokes `reactor::make_immutable_value<Hello>(hello)` and could be rewritten as
 
 ```cpp
-Hello hello{"Earth, 42"};
-out.set(reactor::make_immutable_value<Hello>(hello));
+    Hello hello{"Earth, 42"};
+    out.set(reactor::make_immutable_value<Hello>(hello));
 ```
 
 This will invoke the copy constructor of `Hello`, copying its content from the `hello` instance to the newly created `reactor::ImmutableValuePtr<Hello>`.
@@ -1346,15 +1394,15 @@ This will invoke the copy constructor of `Hello`, copying its content from the `
 Since copying large objects is inefficient, the move semantics of C++ can be used to move the ownership of object instead of copying it. This can be done in the following two ways. First, by directly creating a mutable or immutable value pointer, where a mutable pointer allows modification of the object after it has been created:
 
 ```cpp
-auto hello = reactor::make_mutable_value<Hello>("Earth", 42);
-hello->name = "Mars";
-out.set(std::move(hello));
+    auto hello = reactor::make_mutable_value<Hello>("Earth", 42);
+    hello->name = "Mars";
+    out.set(std::move(hello));
 ```
 
 An example of this can be found in [StructPrint.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructPrint.lf). Not that after the call to `std::move`, hello is `nullptr` and the reaction cannot modify the object anymore. Alternatively, if no modification is requires, the object can be instantiated directly in the call to `set()` as follows:
 
 ```cpp
-out.set({"Earth", 42});
+    out.set({"Earth", 42});
 ```
 
 An example of this can be found in [StructAsTypeDirect](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructAsTypeDirect.lf).
@@ -1362,17 +1410,17 @@ An example of this can be found in [StructAsTypeDirect](https://github.com/lf-la
 Getting a value from an input port of type `T` via `get()` always returns an `reactor::ImmutableValuePtr<T>`. This ensures that the value cannot be modified by multiple reactors receiving the same value, as this could lead to an inconsistent state and nondeterminism in a multi-threaded execution. An immutable value pointer can be converted to a mutable pointer by calling `get_mutable_copy`. For instance, the [ArrayScale](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/ArrayScale.lf) reactor modifies elements of the array it receives before sending it to the next reactor:
 
 ```lf-cpp
-reactor Scale(scale:int(2)) {
-    input in:int[3];
-    output out:int[3];
+reactor Scale(scale:int = 2) {
+  input in:int[3];
+  output out:int[3];
 
-    reaction(in) -> out {=
-        auto array = in.get().get_mutable_copy();
-        for(int i = 0; i < array->size(); i++) {
-            (*array)[i] = (*array)[i] * scale;
-        }
-        out.set(std::move(array));
-    =}
+  reaction(in) -> out {=
+    auto array = in.get().get_mutable_copy();
+    for(int i = 0; i < array->size(); i++) {
+      (*array)[i] = (*array)[i] * scale;
+    }
+    out.set(std::move(array));
+  =}
 }
 ```
 
@@ -3647,3 +3695,4 @@ In this example, the context object `ctx` is used to set a port to a value. The 
 > :warning: TODO when the runtime crate is public link to the docs, they should be the most exhaustive documentation.
 
 </div>
+````
