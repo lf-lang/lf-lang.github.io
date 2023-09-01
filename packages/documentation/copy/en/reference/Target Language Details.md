@@ -21,7 +21,7 @@ In the C reactor target for Lingua Franca, reactions are written in C and the co
 
 Note that C is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Here, we provide some guidelines for a style for writing reactors that will be safe.
 
-**NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special [CCpp target](#the-ccpp-target) that automatically uses a C++ compiler by default. Alternatively, you might want to use the Cpp target.
+**NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special CCpp target that automatically uses a C++ compiler by default. Alternatively, you might want to use the Cpp target.
 
 </div>
 
@@ -36,7 +36,7 @@ Note that C++ is not a safe language. There are many ways that a programmer can 
 
 <div class="lf-py">
 
-In the Python reactor target for Lingua Franca, reactions are written in Python. The user-written reactors are then generated into a Python 3 script that can be executed on several platforms. The Python target has been tested on Linux, macOS, and Windows. To facilitate efficient and fast execution of Python code, the generated program relies on a C extension to facilitate Lingua Franca API such as `set` and `schedule`. To learn more about the structure of the generated Python program see [Implementation Details](#python-target-implementation-details).
+In the Python reactor target for Lingua Franca, reactions are written in Python. The user-written reactors are then generated into a Python 3 script that can be executed on several platforms. The Python target has been tested on Linux, macOS, and Windows. To facilitate efficient and fast execution of Python code, the generated program relies on a C extension to facilitate Lingua Franca API such as `set` and `schedule`. To learn more about the structure of the generated Python program see [Implementation Details](#target-implementation-details).
 
 Python reactors can bring the vast library of scientific modules that exist for Python into a Lingua Franca program. Moreover, since the Python reactor target is based on a fast and efficient C runtime library, Lingua Franca programs can execute much faster than native equivalent Python programs in many cases. Finally, interoperability with C reactors is planned for the future.
 
@@ -45,7 +45,7 @@ In comparison to the C target, the Python target can be up to an order of magnit
 **NOTE:** A [Python C
 extension](https://docs.python.org/3/extending/extending.html) is
 generated for each Lingua Franca program (see [Implementation
-Details](#python-target-implementation-details)). This extension module will
+Details](#target-implementation-details)). This extension module will
 have the name LinguaFranca[your_LF_program_name].
 
 </div>
@@ -83,7 +83,7 @@ If you're not, here's a primer:
 
 <div class="lf-c">
 
-The following tools are required in order to compile the generated C++ source code:
+The following tools are required in order to compile the generated C source code:
 
 - A C compiler such as `gcc`
 - A recent version of `cmake` (at least 3.5)
@@ -103,7 +103,7 @@ The following tools are required in order to compile the generated C++ source co
 
 To use this target, install Python 3 on your machine. See [downloading Python](https://wiki.python.org/moin/BeginnersGuide/Download).
 
-**NOTE:** The Python target requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or with most of the alternative Python installations such as Anaconda. See [this](https://www.python.org/download/alternatives/) for more details.
+**NOTE:** The Python target requires a C implementation of Python (nicknamed CPython). This is what you will get if you use the above link, or with most of the alternative Python installations such as Anaconda. See [Python download alternatives](https://www.python.org/download/alternatives/) for more details.
 
 The Python reactor target relies on `setuptools` to be able to compile a [Python
 C extension](https://docs.python.org/3/extending/extending.html) for each LF
@@ -157,12 +157,11 @@ The C++ target does not yet implement:
 
 - $extends$
 - $federated$
+- [Modal reactors](/docs/handbook/modal-models)
 
 </div>
 
 <div class="lf-py">
-
-- The Python target does not yet implement methods.
 
 - The Lingua Franca lexer does not support single-quoted strings in Python. This limitation also applies to target property values. You must use double quotes.
 
@@ -174,6 +173,8 @@ The C++ target does not yet implement:
 
 - The TypeScript target does not yet implement methods.
 
+- The TypeScript target does not yet implement [modal reactors](/docs/handbook/modal-models)
+
 </div>
 
 <div class="lf-rs">
@@ -181,6 +182,7 @@ The C++ target does not yet implement:
 The Rust target does not yet implement:
 
 - $federated$
+- [Modal reactors](/docs/handbook/modal-models)
 
 </div>
 
@@ -193,11 +195,11 @@ The Rust target does not yet implement:
 To have Lingua Franca generate C code, start your `.lf` file with one of the following target specifications:
 
 ```lf
-    target C <options>;
-    target CCpp <options>;
+  target C <options>
+  target CCpp <options>
 ```
 
-Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C, you may want to include the final semicolon for uniformity.
+Note that for all LF statements, a final semicolon is optional. If you are writing your code in C, you may want to include the final semicolon for uniformity.
 
 For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-declaration).
 
@@ -209,17 +211,17 @@ the generated code, thereby allowing your C reactors to call C++ code.
 Here is a minimal example of a program written in the `CCpp` target, taken from [HelloWorldCCPP.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/HelloWorldCCPP.lf):
 
 ```lf-c
-target CCpp;
+target CCpp
 reactor HelloWorld {
-    preamble {=
-        #include <iostream> // Note that no C++ header will be included by default.
-    =}
-    reaction(startup) {=
-        std::cout << "Hello World." << std::endl;
-    =}
+  preamble {=
+    #include <iostream> // Note that no C++ header will be included by default.
+  =}
+  reaction(startup) {=
+    std::cout << "Hello World." << std::endl;
+  =}
 }
 main reactor {
-    a = new HelloWorld();
+  a = new HelloWorld()
 }
 ```
 
@@ -234,10 +236,10 @@ main reactor {
 To have Lingua Franca generate C++ code, start your `.lf` file with the following target specification:
 
 ```lf
-    target Cpp;
+    target Cpp
 ```
 
-Note that for all LF statements, the final semicolon is optional, but if you are writing your code in C++, you may want to include the final semicolon for uniformity.
+Note that for all LF statements, a final semicolon is optional. If you are writing your code in C++, you may want to include the final semicolon for uniformity.
 
 For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-declaration).
 
@@ -251,7 +253,7 @@ To have Lingua Franca generate Python code, start your `.lf` file with the follo
     target Python
 ```
 
-Note that for all LF statements, a final semicolon is optional, but if you are writing your code in Python, you may want to omit the final semicolon for uniformity.
+Note that for all LF statements, a final semicolon is optional.
 
 For options to the target specification, see [detailed documentation of the target options](/docs/handbook/target-declaration).
 
@@ -262,10 +264,12 @@ For options to the target specification, see [detailed documentation of the targ
 To have Lingua Franca generate TypeScript code, start your `.lf` file with the following target specification:
 
 ```lf
-    target TypeScript;
+    target TypeScript
 ```
 
-Note that for all LF statements, the final semicolon is optional, but if you are writing your code in TypeScript, you may want to include the final semicolon for uniformity. The supported target parameters and command-line options are documented in the [Target Declaration](/docs/handbook/target-declaration) documentation.
+Note that for all LF statements, a final semicolon is optional.
+
+The supported target parameters and command-line options are documented in the [Target Declaration](/docs/handbook/target-declaration) documentation.
 
 </div>
 
@@ -274,10 +278,10 @@ Note that for all LF statements, the final semicolon is optional, but if you are
 To have Lingua Franca generate Rust code, start your `.lf` file with the following target specification:
 
 ```lf
-    target Rust;
+    target Rust
 ```
 
-Note that for all LF statements, the final semicolon is optional, but if you are writing your code in Rust, you may want to include the final semicolon for uniformity.
+Note that for all LF statements, a final semicolon is optional. If you are writing your code in Rust, you may want to include the final semicolon for uniformity.
 
 </div>
 
@@ -295,14 +299,14 @@ Declaration](/docs/handbook/parameters-and-state-variables#state-declaration) to
 include both a parameter and a state variable:
 
 ```lf-c
-reactor Count(stride:int(1)) {
-    state count:int(1);
-    output y:int;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        lf_set(y, self->count);
-        self->count += self->stride;
-    =}
+reactor Count(stride: int = 1) {
+  state count: int = 1
+  output y: int
+  timer t(0, 100 msec)
+  reaction(t) -> y {=
+    lf_set(y, self->count);
+    self->count += self->stride;
+  =}
 }
 ```
 
@@ -317,14 +321,15 @@ It may be tempting to declare state variables in the $preamble$, as follows:
 
 ```lf-c
 reactor FlawedCount {
-    preamble {=
-        int count = 0;
-    =}
-    output y:int;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        lf_set(y, count++);
-    =}
+  preamble {=
+    int count = 0;
+  =}
+  output y: int
+  timer t(0, 100 msec)
+
+  reaction(t) -> y {=
+    lf_set(y, count++);
+  =}
 }
 ```
 
@@ -335,17 +340,18 @@ This will produce a sequence of integers, but if there is more than one instance
 Parameters and state variables can have array values, though some care is needed. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
 
 ```lf-c
-reactor Source(sequence:int[](0, 1, 2), n_sequence:int(3)) {
-    output out:int;
-    state count:int(0);
-    logical action next;
-    reaction(startup, next) -> out, next {=
-        lf_set(out, self->sequence[self->count]);
-        self->count++;
-        if (self->count < self->n_sequence) {
-            lf_schedule(next, 0);
-        }
-    =}
+reactor Source(sequence: int[] = {0, 1, 2}, n_sequence: int = 3) {
+  output out: int
+  state count: int = 0
+  logical action next
+
+  reaction(startup, next) -> out, next {=
+    lf_set(out, self->sequence[self->count]);
+    self->count++;
+    if (self->count < self->n_sequence) {
+      lf_schedule(next, 0);
+    }
+  =}
 }
 ```
 
@@ -353,39 +359,40 @@ This uses a [$logical$ $action$](/docs/handbook/actions#logical-actions) to repe
 
 In C, arrays do not encode their own length, so a separate parameter `n_sequence` is used for the array length. Obviously, there is potential here for errors, where the array length doesn't match the length parameter.
 
-Above, the parameter default value is an array with three elements, `[0, 1, 2]`. The syntax for giving this default value is that of a Lingua Franca list, `(0, 1, 2)`, which gets converted by the code generator into a C static initializer. The default value can be overridden when instantiating the reactor using a similar syntax:
+Above, the parameter default value is an array with three elements, `[0, 1, 2]`. The syntax for giving this default value is that of a Lingua Franca list, `{0, 1, 2}`, which gets converted by the code generator into a C static initializer. The default value can be overridden when instantiating the reactor using a similar syntax:
 
 ```lf
-    s = new Source(sequence = (1, 2, 3, 4), n_sequence=4);
+  s = new Source(sequence = {1, 2, 3, 4}, n_sequence=4)
 ```
 
 ### Array Values for States
 
-A state variable can also have an array value. For example, the [MovingAverage] (https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/MovingAverage.lf) reactor computes the **moving average** of the last four inputs each time it receives an input:
+A state variable can also have an array value. For example, the [MovingAverage](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/MovingAverage.lf) reactor computes the **moving average** of the last four inputs each time it receives an input:
 
 ```lf-c
-reactor MovingAverage {
-    state delay_line:double[](0.0, 0.0, 0.0);
-    state index:int(0);
-    input in:double;
-    output out:double;
-    reaction(in) -> out {=
-        // Calculate the output.
-        double sum = in->value;
-        for (int i = 0; i < 3; i++) {
-            sum += self->delay_line[i];
-        }
-        lf_set(out, sum/4.0);
+reactor MovingAverageImpl {
+  state delay_line: double[] = {0.0, 0.0, 0.0}
+  state index: int = 0
+  input in: double
+  output out: double
 
-        // Insert the input in the delay line.
-        self->delay_line[self->index] = in->value;
+  reaction(in) -> out {=
+    // Calculate the output.
+    double sum = in->value;
+    for (int i = 0; i < 3; i++) {
+      sum += self->delay_line[i];
+    }
+    lf_set(out, sum/4.0);
 
-        // Update the index for the next input.
-        self->index++;
-        if (self->index >= 3) {
-            self->index = 0;
-        }
-    =}
+    // Insert the input in the delay line.
+    self->delay_line[self->index] = in->value;
+
+    // Update the index for the next input.
+    self->index++;
+    if (self->index >= 3) {
+      self->index = 0;
+    }
+  =}
 }
 ```
 
@@ -396,18 +403,18 @@ The second line declares that the type of the state variable is an array of `dou
 States whose type are structs can similarly be initialized. This [StructAsState](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/StructAsState.lf) example illustrates this:
 
 ```lf-c
-target C;
+target C
+preamble {=
+  typedef struct hello_t {
+    char* name;
+    int value;
+  } hello_t;
+=}
 main reactor StructAsState {
-    preamble {=
-        typedef struct hello_t {
-            char* name;
-            int value;
-        } hello_t;
-    =}
-    state s:hello_t("Earth", 42);
-    reaction(startup) {=
-        printf("State s.name=\"%s\", value=%d.\n", self->s.name, self->s.value);
-    =}
+  state s: hello_t = {"Earth", 42}
+  reaction(startup) {=
+    printf("State s.name=\"%s\", value=%d.\n", self->s.name, self->s.value);
+  =}
 }
 ```
 
@@ -416,21 +423,17 @@ Notice that state `s` is given type `hello_t`, which is defined in the $preamble
 Parameters are similar:
 
 ```lf-c
-target C;
-main reactor StructParameter(p:hello_t("Earth", 42)) {
-    preamble {=
-        typedef struct hello_t {
-            char* name;
-            int value;
-        } hello_t;
-    =}
-    reaction(startup) {=
-        printf("Parameter p.name=\"%s\", value=%d.\n", self->p.name, self->p.value);
-        if (self->p.value != 42) {
-            fprintf(stderr, "FAILED: Expected 42.\n");
-            exit(1);
-        }
-    =}
+target C
+preamble {=
+  typedef struct hello_t {
+    char* name;
+    int value;
+  } hello_t;
+=}
+main reactor StructParameter(p: hello_t = {"Earth", 42}) {
+  reaction(startup) {=
+    printf("Parameter p.name=\"%s\", value=%d.\n", self->p.name, self->p.value);
+  =}
 }
 ```
 
@@ -438,40 +441,55 @@ main reactor StructParameter(p:hello_t("Earth", 42)) {
 
 <div class="lf-cpp">
 
-Reactor parameters internally declared as `const` by the code generator and initialized during reactor instantiation. Thus, the value of a parameter may not be changed. See [Parameters and State](/docs/handbook/parameters-and-state-variables) for examples.
+Reactor parameters are internally declared as `const` by the code generator and initialized during reactor instantiation. Thus, the value of a parameter may not be changed. See [Parameters and State](/docs/handbook/parameters-and-state-variables) for examples.
 
 ### Array-Valued Parameters
 
-Also parameters can have fixed- or variable-sized array values. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
+Also parameters can have fixed- or variable-sized array values. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
 
 ```lf-cpp
-reactor Source(sequence:int[]{0, 1, 2}) {
-    output out:int;
-    state count:int(0);
-    logical action next:void;
-    reaction(startup, next) -> out, next {=
-        out.set(sequence[count]);
-        count++;
-        if (count < sequence.size()) {
-            next.schedule();
-        }
-    =}
+reactor Source(sequence: std::vector<int> = {0, 1, 2}) {
+  output out: size_t
+  state count: size_t = 0
+  logical action next: void
+
+  reaction(startup, next) -> out, next {=
+    out.set(sequence[count]);
+    count++;
+    if (count < sequence.size()) {
+      next.schedule();
+    }
+  =}
 }
 ```
 
-Note that curly braces `{...}` can be used for initialization instead of parentheses to better match C++ syntax.
+Here, the type of `sequence` is explicitly given as `std::vector<int>`.
+A more compact alternative syntax is as follows:
 
-Note that also the main reactor can be parameterized:
+```
+sequence: int[] = {0, 1, 2}
+```
+
+The type `int[]` is converted to `std::vector<int>` by the code generator.
+Another alternative syntax is:
+
+```
+sequence: int[]({0, 1, 2})
+```
+
+Here, the static initializer `{0, 1, 2}` is passed as a single argument to the constructor of `std::vector`.
+
+The main reactor can be parameterized:
 
 ```lf-cpp
 main reactor Hello(msg: std::string("World")) {
-    reaction(startup) {=
-        std::cout << "Hello " << msg << "!\n";
-    =}
+  reaction(startup) {=
+    std::cout << "Hello " << msg << "!\n";
+  =}
 }
 ```
 
-This program will print "Hello World!" by default. However, since `msg` is a main reactor parameter, the C++ code generator will extend the CLI argument parser and allow to overwrite `msg` when invoking the program. For instance,
+This program will print "Hello World!" by default. However, since `msg` is a main reactor parameter, the C++ code generator will extend the command-line argument parser and allow to override `msg` when invoking the program. For instance,
 
 ```sh
 bin/Hello --msg Earth
@@ -485,24 +503,24 @@ A reactor may declare state variables, which become properties of each instance 
 
 ```lf-cpp
 reactor Count {
-    state i:int(0);
-    output c:int;
-    timer t(0, 1 sec);
-    reaction(t) -> c {=
-        i++;
-        c.set(i);
-    =}
+  state count: int = 0
+  output c: int
+  timer t(0, 1 s)
+  reaction(t) -> c {=
+    count++;
+    c.set(count);
+  =}
 }
 ```
 
 The declaration on the second line gives the variable the name `count`, declares its type to be `int`, and initializes its value to 0. The type and initial value can be enclosed in the C++-code delimiters `{= ... =}` if they are not simple identifiers, but in this case, that is not necessary.
 
-In the body of the reaction, the state variable is automatically in scope and can be referenced directly by its name. Since all reactions, state variables and also parameters of a reactor are members of the same class, reactions can also reference state variables (or parameters) using the this pointer: `this->name`.
+In the body of the reaction, the state variable is automatically in scope and can be referenced directly by its name. Since all reactions, state variables, and parameters of a reactor are members of the same class, reactions can also reference state variables (or parameters) using the `this` pointer: `this->name`.
 
 A state variable may be a time value, declared as follows:
 
 ```lf-cpp
-state time_value:time(100 msec);
+  state time_value:time = 100 ms;
 ```
 
 The type of the generated `time_value` variable will be `reactor::Duration`, which is an alias for [`std::chrono::nanoseconds`](https://en.cppreference.com/w/cpp/chrono/duration).
@@ -513,36 +531,44 @@ State variables can have array values. For example, the [MovingAverage] (https:/
 
 ```lf-cpp
 reactor MovingAverageImpl {
-    state delay_line:double[3]{0.0, 0.0, 0.0};
-    state index:int(0);
-    input in:double;
-    output out:double;
+  state delay_line: double[3]{0.0, 0.0, 0.0}
+  state index: int = 0
+  input in: double
+  output out: double
 
-    reaction(in) -> out {=
-        // Calculate the output.
-        double sum = *in.get();
-        for (int i = 0; i < 3; i++) {
-            sum += delay_line[i];
-        }
-        out.set(sum/4.0);
+  reaction(in) -> out {=
+    // Calculate the output.
+    double sum = *in.get();
+    for (int i = 0; i < 3; i++) {
+      sum += delay_line[i];
+    }
+    out.set(sum/4.0);
 
-        // Insert the input in the delay line.
-        delay_line[index] = *in.get();
+    // Insert the input in the delay line.
+    delay_line[index] = *in.get();
 
-        // Update the index for the next input.
-        index++;
-        if (index >= 3) {
-            index = 0;
-        }
-    =}
+    // Update the index for the next input.
+    index++;
+    if (index >= 3) {
+      index = 0;
+    }
+  =}
 }
 ```
 
 The second line declares that the type of the state variable is an fixed-size array of 3 `double`s with the initial value of the being filled with zeros (note the curly braces). If the size is given in the type specification, then the code generator will declare the type of the state variable using [`std::array`](https://en.cppreference.com/w/cpp/container/array). In the example above, the type of `delay_line` is `std::array<3, double>`. If the size specifier is omitted (e.g. `state x:double[]`). The code generator will produce a variable-sized array using [`std::vector`](https://en.cppreference.com/w/cpp/container/vector).
 
+The second line can equivalently be given with an assignment operator:
+
+```
+  state delay_line: double[3] = {0.0, 0.0, 0.0}
+```
+
 State variables with more complex types such as classes or structs can be similarly initialized. See [StructAsState.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/StructAsState.lf).
 
 </div>
+
+**FIXME: The rest of this file needs updating **
 
 <div class="lf-py">
 
