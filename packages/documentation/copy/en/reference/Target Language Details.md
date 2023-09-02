@@ -2187,39 +2187,42 @@ Actions are described in [Actions](/docs/handbook/actions). If an action is decl
 Recall from [Composing Reactors](/docs/handbook/composing-reactors) that the $after$ keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayInt.lf) example:
 
 ```lf-c
-reactor DelayInt(delay:time(100 msec)) {
-    input in:int;
-    output out:int;
-    logical action d:int;
-    reaction(d) -> out {=
-        lf_set(out, d->value);
-    =}
-    reaction(in) -> d {=
-        lf_schedule_int(d, self->delay, in->value);
-    =}
+reactor Delay(delay: time = 100 ms) {
+  input in: int
+  output out: int
+  logical action a: int
+  reaction(a) -> out {=
+    if (a->has_value && a->is_present) lf_set(out, a->value);
+  =}
+  reaction(in) -> a {=
+    // Use specialized form of schedule for integer payloads.
+    lf_schedule_int(a, self->delay, in->value);
+  =}
 }
 ```
 
 Using this reactor as follows
 
 ```lf
-    delay = new Delay();
-    source.out -> delay.in;
-    delay.in -> sink.out
+  delay = new Delay();
+  source.out -> delay.in;
+  delay.in -> sink.out
 ```
 
 is equivalent to
 
 ```lf
-    source.out -> sink.in after 100 msec
+    source.out -> sink.in after 100 ms
 ```
 
-(except that our `DelayInt` reactor will only work with data type `int`).
+(except that our `Delay` reactor will only work with data type `int`).
 
-In the `Delay` reactor, the action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. The reaction uses one of several variants of the **lf_schedule** function, namely **lf_schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
+**Note:** The reaction to `a` is given before the reaction to `in` above. This is important because if both inputs are present at the same tag, the first reaction must be executed before the second. Because of this reaction ordering, it is possible to create a program that has a feedback loop where the output of the `Delay` reactor propagates back to an input at the same tag. If the reactions were given in the opposite order, then such a program would result in a **causality loop**.
 
-The first reaction declares that it is triggered by `d` and has effect `out`. To
-read the value, it uses the `d->value` variable. Because this reaction is first,
+In the `Delay` reactor, the action `a` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `a`. This declaration makes it possible for the reaction to schedule a future triggering of `a`. The reaction uses one of several variants of the **lf_schedule** function, namely **lf_schedule_int**, a convenience function provided because integer payloads on actions are very common. We will see below, however, that payloads can have any data type.
+
+The first reaction declares that it is triggered by `a` and has effect `out`. To
+read the value, it uses the `a->value` variable. Because this reaction is first,
 the `out` at any logical time can be produced before the input `in` is even
 known to be present. Hence, this reactor can be used in a feedback loop, where
 `out` triggers a downstream reactor to send a message back to `in` of this same
@@ -2229,11 +2232,11 @@ causality loop and compilation would fail.
 If you are not sure whether an action carries a value, you can test for it as follows:
 
 ```lf-c
-    reaction(d) -> out {=
-        if (d->has_value) {
-            lf_set(out, d->value);
-        }
-    =}
+  reaction(a) -> out {=
+    if (a->has_value) {
+      lf_set(out, a->value);
+    }
+  =}
 ```
 
 It is possible to both be triggered by and schedule an action in the same
@@ -2242,17 +2245,17 @@ following [CountSelf](https://github.com/lf-lang/lingua-franca/blob/master/test/
 reactor will produce a counting sequence after it is triggered the first time:
 
 ```lf-c
-reactor CountSelf(delay:time(100 msec)) {
-    output out:int;
-    logical action a:int;
-    reaction(startup) -> a, out {=
-        lf_set(out, 0);
-        lf_schedule_int(a, self->delay, 1);
-    =}
-    reaction(a) -> a, out {=
-        lf_set(out, a->value);
-        lf_schedule_int(a, self->delay, a->value + 1);
-    =}
+reactor CountSelf(delay: time = 100 msec) {
+  output out: int
+  logical action a: int
+  reaction(startup) -> a, out {=
+    lf_set(out, 0);
+    lf_schedule_int(a, self->delay, 1);
+  =}
+  reaction(a) -> a, out {=
+    lf_set(out, a->value);
+    lf_schedule_int(a, self->delay, a->value + 1);
+  =}
 }
 ```
 
@@ -2266,16 +2269,17 @@ The C++ provides a simple interface for scheduling actions via a `schedule()` me
 
 ```lf-cpp
 reactor Schedule {
-	input x:int;
-    logical action a;
-    reaction(a) {=
-         auto elapsed_time = get_elapsed_logical_time();
-         std::cout << "Action triggered at logical time " << elapsed_time.count()
-                  << " after start" << std::endl; elapsed_time);
-    =}
-    reaction(x) -> a {=
-        a.schedule(200ms);
-    =}
+  input x: int
+  logical action a: void
+  reaction(x) -> a {=
+    a.schedule(200ms);
+  =}
+
+  reaction(a) {=
+    auto elapsed_time = get_elapsed_logical_time();
+    std::cout << "Action triggered at logical time " << elapsed_time.count()
+          << " after start" << std::endl;
+  =}
 }
 ```
 
@@ -2305,21 +2309,21 @@ As described in the [Action](/docs/handbook/actions) document, action declaratio
 
 If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
 
-Recall from the [Composing Reactors](/docs/handbook/composing-reactors#connections-with-logical-delays) section that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/tud-ccc/reactor-cpp/blob/master/include/reactor-cpp/logical_time.hh) example:
+Recall from the [Composing Reactors](/docs/handbook/composing-reactors#connections-with-logical-delays) section that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/DelayInt.lf) example:
 
 ```lf-cpp
-reactor Delay(delay:time(100 msec)) {
-    input in:int;
-    output out:int;
-    logical action d:int;
-    reaction(in) -> d {=
-        d.schedule(in.get(), delay);
-    =}
-    reaction(d) -> out {=
-        if (d.is_present()) {
-            out.set(d.get());
-        }
-    =}
+reactor Delay(delay: time = 100 ms) {
+  input in: int
+  output out: int
+  logical action d: int
+  reaction(d) -> out {=
+    if (d.is_present()) {
+      out.set(d.get());
+    }
+  =}
+  reaction(in) -> d {=
+    d.schedule(in.get(), delay);
+  =}
 }
 ```
 
@@ -2334,10 +2338,12 @@ d.in -> sink.out
 is equivalent to
 
 ```lf-cpp
-source.out -> sink.in after 100 msec
+source.out -> sink.in after 100 ms
 ```
 
 (except that our `Delay` reactor will only work with data type `int`).
+
+**Note:** The reaction to `d` is given before the reaction to `in` above. This is important because if both inputs are present at the same tag, the first reaction must be executed before the second. Because of this reaction ordering, it is possible to create a program that has a feedback loop where the output of the `Delay` reactor propagates back to an input at the same tag. If the reactions were given in the opposite order, then such a program would result in a **causality loop**.
 
 The action `d` is specified with a type `int`. The reaction to the input `in` declares as its effect the action `d`. This declaration makes it possible for the reaction to schedule a future triggering of `d`. In the C++ target, actions use the same mechanism for passing data via value pointers as do ports. In the example above, the `reactor::ImmutablValuePtr<int>` derived by the call to `in.get()` is passed directly to `schedule()`. Similarly, the value can later be retrieved from the action with `d.get()` and passed to the output port.
 
@@ -2347,9 +2353,9 @@ If you are not sure whether an action carries a value, you can test for it using
 
 ```lf-cpp
 reaction(d) -> out {=
-    if (d.is_present()) {
-        out.set(d.get());
-    }
+  if (d.is_present()) {
+    out.set(d.get());
+  }
 =}
 ```
 
@@ -2357,16 +2363,16 @@ It is possible to both be triggered by and schedule an action the same reaction.
 
 ```lf-cpp
 reactor CountSelf(delay:time(100 msec)) {
-    output out:int;
-    logical action a:int;
-    reaction(startup) -> a, out {=
-        out.set(0);
-        a.schedule_int(1, delay);
-    =}
-    reaction(a) -> a, out {=
-        out.set(a.get());
-        a.schedule_int(*a.get() + 1, delay);
-    =}
+  output out:int;
+  logical action a:int;
+  reaction(startup) -> a, out {=
+    out.set(0);
+    a.schedule_int(1, delay);
+  =}
+  reaction(a) -> a, out {=
+    out.set(a.get());
+    a.schedule_int(*a.get() + 1, delay);
+  =}
 }
 ```
 
@@ -2392,17 +2398,17 @@ using the
 example:
 
 ```lf-py
-reactor Delay(delay(100 msec)) {
-    input _in;
-    output out;
-    logical action a;
-    reaction(a) -> out {=
-        if (a.value is not None) and a.is_present:
-            out.set(a.value)
-    =}
-    reaction(_in) -> a {=
-        a.schedule(self.delay, _in.value)
-    =}
+reactor Delay(delay = 100 ms) {
+  input _in
+  output out
+  logical action a
+  reaction(a) -> out {=
+    if (a.value is not None) and a.is_present:
+      out.set(a.value)
+  =}
+  reaction(_in) -> a {=
+    a.schedule(self.delay, _in.value)
+  =}
 }
 ```
 
@@ -2417,7 +2423,7 @@ Using this reactor as follows
 is equivalent to
 
 ```lf
-    <source_port_reference> -> <destination_port_reference> after 100 msec
+    <source_port_reference> -> <destination_port_reference> after 100 ms
 ```
 
 In the `Delay` reactor, the reaction to the input `_in` declares as its effect
@@ -2437,10 +2443,10 @@ causality loop and compilation would fail.
 If you are not sure whether an action carries a value, you can test for it as follows:
 
 ```lf-py
-    reaction(a) -> out {=
-        if (a.value is not None):
-            out.set(a.value)
-    =}
+  reaction(a) -> out {=
+    if (a.value is not None):
+      out.set(a.value)
+  =}
 ```
 
 It is possible to both be triggered by and schedule an action in the same
@@ -2449,17 +2455,17 @@ following [CountSelf](https://github.com/lf-lang/lingua-franca/blob/master/test/
 reactor will produce a counting sequence after it is triggered the first time:
 
 ```lf-py
-reactor CountSelf2(delay(100 msec)) {
-    output out;
-    logical action a;
-    reaction(startup) -> a, out {=
-        out.set(0)
-        a.schedule(self.delay, 1)
-    =}
-    reaction(a) -> a, out {=
-        out.set(a.value)
-        a.schedule(self.delay, a.value + 1)
-    =}
+reactor CountSelf(delay = 100 ms) {
+  output out
+  logical action a
+  reaction(startup) -> a, out {=
+    out.set(0)
+    a.schedule(self.delay, 1)
+  =}
+  reaction(a) -> a, out {=
+    out.set(a.value)
+    a.schedule(self.delay, a.value + 1)
+  =}
 }
 ```
 
@@ -2480,15 +2486,15 @@ The first argument can either be the literal 0 (shorthand for 0 seconds) or a `T
 ```lf-ts
 target TypeScript;
 reactor Schedule {
-    input x:number;
-    logical action a;
-    reaction(x) -> a {=
-        actions.a.schedule(new UnitBasedTimeValue(200, TimeUnit.msec), null);
-    =}
-    reaction(a) {=
-        let elapsedTime = util.getElapsedLogicalTime();
-        console.log("Action triggered at logical time " + elapsedTime + " after start.");
-    =}
+  input x:number;
+  logical action a;
+  reaction(x) -> a {=
+    actions.a.schedule(new UnitBasedTimeValue(200, TimeUnit.msec), null);
+  =}
+  reaction(a) {=
+    let elapsedTime = util.getElapsedLogicalTime();
+    console.log("Action triggered at logical time " + elapsedTime + " after start.");
+  =}
 }
 ```
 
@@ -2511,18 +2517,18 @@ If an action is declared with a data type, then it can carry a **value**, a data
 If you are familiar with other targets (like C) you may notice it is much easier to schedule actions with values in TypeScript because of TypeScript/JavaScript's garbage collected memory management. The following example implements a logical delay using an action with a value.
 
 ```lf-ts
-reactor Delay(delay:time(100 msec)) {
-    input x:number;
-    output out:number;
-    logical action a:number;
-    reaction(x) -> a {=
-        actions.a.schedule(delay, x as number);
-    =}
-    reaction(a) -> out {=
-        if (a !== null){
-            out = a as number
-        }
-    =}
+reactor Delay(delay:time(100 ms)) {
+  input x:number;
+  output out:number;
+  logical action a:number;
+  reaction(x) -> a {=
+    actions.a.schedule(delay, x as number);
+  =}
+  reaction(a) -> out {=
+    if (a !== null){
+      out = a as number
+    }
+  =}
 }
 ```
 
@@ -2534,12 +2540,12 @@ The local variable cannot be used directly to schedule an action. As described a
 
 ```lf-ts
 reaction(a) -> out, a {=
-    if (a !== null) {
-        a = a as number;
-        out = a;
-        let newValue = a++;
-        actions.a.schedule(delay, newValue);
-    }
+  if (a !== null) {
+    a = a as number;
+    out = a;
+    let newValue = a++;
+    actions.a.schedule(delay, newValue);
+  }
 =}
 ```
 
