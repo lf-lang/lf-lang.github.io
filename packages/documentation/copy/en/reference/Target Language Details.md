@@ -2600,20 +2600,20 @@ This version carries an `int` value. The data type of the action is required to 
 This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `lf_schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Structs](#Dynamically-Allocated-Structs) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any data type carried by a token:
 
 ```lf-c
-reactor DelayPointer(delay:time(100 msec)) {
-    input in:void*;
-    output out:void*;
-    logical action a:void*;
-    reaction(a) -> out {=
-        // Using lf_set_token delegates responsibility for
-        // freeing the allocated memory downstream.
-        lf_set_token(out, a->token);
-    =}
-    reaction(in) -> a {=
-        // Schedule the actual token from the input rather than
-        // a new token with a copy of the input value.
-        lf_schedule_token(a, self->delay, in->token);
-    =}
+reactor DelayPointer(delay:time(100 ms)) {
+  input in:void*;
+  output out:void*;
+  logical action a:void*;
+  reaction(a) -> out {=
+    // Using lf_set_token delegates responsibility for
+    // freeing the allocated memory downstream.
+    lf_set_token(out, a->token);
+  =}
+  reaction(in) -> a {=
+    // Schedule the actual token from the input rather than
+    // a new token with a copy of the input value.
+    lf_schedule_token(a, self->delay, in->token);
+  =}
 }
 ```
 
@@ -2629,16 +2629,16 @@ Occasionally, an action payload may not be dynamically allocated nor freed. For 
 
 ```lf-c
 reactor DelayString(delay:time(100 msec)) {
-    input in:string;
-    output out:string;
-    logical action a:string;
-    reaction(a) -> out {=
-        lf_set(out, a->value);
-    =}
-    reaction(in) -> a {=
-        // The following copies the char*, not the string.
-        lf_schedule_copy(a, self->delay, &(in->value), 1);
-    =}
+  input in:string;
+  output out:string;
+  logical action a:string;
+  reaction(a) -> out {=
+    lf_set(out, a->value);
+  =}
+  reaction(in) -> a {=
+    // The following copies the char*, not the string.
+    lf_schedule_copy(a, self->delay, &(in->value), 1);
+  =}
 }
 ```
 
@@ -2661,17 +2661,17 @@ to be sent into the future. For example, take the
 
 ```lf-py
 main reactor ScheduleValue {
-    logical action a;
-    reaction(startup) -> a {=
-        value = "Hello"
-        a.schedule(0, value)
-    =}
-    reaction(a) {=
-        print("Received: ", a.value)
-        if a.value != "Hello":
-            sys.stderr.write("FAILURE: Should have received 'Hello'\n")
-            exit(1)
-    =}
+  logical action a;
+  reaction(startup) -> a {=
+    value = "Hello"
+    a.schedule(0, value)
+  =}
+  reaction(a) {=
+    print("Received: ", a.value)
+    if a.value != "Hello":
+      sys.stderr.write("FAILURE: Should have received 'Hello'\n")
+      exit(1)
+  =}
 }
 ```
 
@@ -3057,19 +3057,19 @@ For example, imagine the following program:
 # src/XXX.lf
 target Python;
 reactor Foo(bar(0)) {
-    preamble {=
-        import random
-    =}
-    state baz
-    input _in
-    logical action act
-    reaction(_in, act) {=
-        # Body of the reaction
-        self.random.seed() # Note the use of self
-    =}
+  preamble {=
+    import random
+  =}
+  state baz
+  input _in
+  logical action act
+  reaction(_in, act) {=
+    # Body of the reaction
+    self.random.seed() # Note the use of self
+  =}
 }
 main reactor {
-    foo = new Foo()
+  foo = new Foo()
 }
 ```
 
