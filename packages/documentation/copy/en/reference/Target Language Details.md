@@ -882,7 +882,6 @@ s = new Source(sequence = {= new Array<number() =});
 
 Parameters and state variables in Rust are accessed on the `self` structure, as shown in [Parameter Declaration](/docs/handbook/parameters-and-state-variables#parameter-declaration).
 
-<span class="warning">**FIXME:** How to define and use array parameters and states?</span>
 
 </div>
 
