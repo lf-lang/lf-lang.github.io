@@ -13,87 +13,60 @@ const Index: React.FC<Props> = (props) => {
     <div className="raised main-content-block">
       <h1>Download and Install Lingua Franca</h1>
       <p>
-        All Lingua Franca tools require Java 17 (<a href="https://www.oracle.com/java/technologies/downloads/">download from Oracle</a>).
+        The Lingua Franca toolchain requires Java 17 (<a href="https://www.oracle.com/java/technologies/downloads/">download from Oracle</a>).
         Each target language may have additional requirements (see the <a href="/docs/handbook/target-language-details#requirements">Target Language Details</a> page and select your target language).
-        The alternatives for using Lingua Franca are:
+      </p>
+      <p>
+      You can use Lingua Franca:
         <ul>
-          <li><a href="#vscode">Use the Visual Studio Code extension</a></li>
-          <li><a href="#download-epoch">Download Epoch, the Eclipse-based IDE</a></li>
-          <li><a href="#download-cl">Download the command-line tools</a></li>
-          <li><a href="#developer">Developer setup, if you will be contributing to Lingua Franca</a></li>
-          <li><a href="https://vm.lf-lang.org/">Download an Ubuntu virtual machine with Epoch preinstalled</a></li>
-          <li><a href="https://github.com/lf-lang/lingua-franca/releases/">See all releases</a></li>
+          <li><a href="#vscode">in Visual Studio Code, using our extension</a></li>
+          <li><a href="#download-epoch">using Epoch, an Eclipse-based IDE</a></li>
+          <li><a href="#download-cl">using the command line</a></li>
         </ul>
+        You can also spin up one of our pre-configured Cloud-based dev environments:<br/>
+        <table>
+            <tr>
+            <td>
+            <a href="https://gitpod.io/new#https://github.com/lf-lang/playground-lingua-franca/tree/main"><img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in GitPod"/></a>
+            </td>
+            <td>
+                &nbsp;&nbsp;
+            </td>
+            <td>
+            <a href="https://github.com/codespaces/new?hide_repo_select=true&repo=477928779&ref=main&skip_quickstart=true&devcontainer_path=.devcontainer%2Fnightly%2Fdevcontainer.json"><img src="https://github.com/codespaces/badge.svg" alt="Open in GitHub Codespaces"/></a><br/>
+            </td>
+            </tr>
+        </table>
+        Have a look at <a href="https://github.com/lf-lang/playground-lingua-franca">the Lingua Franca playground</a> for more details. 
       </p>
     </div>
     <div className="raised main-content-block">
     <h2 id="vscode">Visual Studio Code</h2>
-      <p>The easiest way to get started with Lingua Franca is to install our Visual Studio Code extension from the <
+      <p>Our Visual Studio Code extension is available on the <
         a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a
-        > or <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
-        To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and
-        enter <code>ext install lf-lang.vscode-lingua-franca</code>.
-        See <a href="/docs/handbook/code-extension">more details</a>.
+        > and <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
+        To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter:<p><code>ext install lf-lang.vscode-lingua-franca</code></p>
+      </p><p>  
+        You can also run:
+        <p><code>code --install-extension lf-lang.vscode-lingua-franca</code></p> in your terminal to install the extension. To use the nightly pre-release of the extension instead of the latest release, find the Lingua Franca extension in the Extensions tab and click on the "Switch to Pre-Release Version" button.
       </p>
+      See <a href="/docs/handbook/code-extension">more details</a>.
     </div>
 
     <div className="raised main-content-block">
       <h2 id="download-epoch">Epoch IDE</h2>
-      <p>Epoch can be installed in any directory.
-        It is convenient to add the installation directory to your <code>PATH</code>, or,
-        a Mac, you can drag <code>epoch.app</code> to the Applications folder and open it from anywhere using <code>open -a epoch</code>.
-        To get the current development version of Epoch, see the <a href="https://github.com/lf-lang/epoch">Epoch repo</a>.
+      <p>To install Epoch, open your terminal (in Windows, use WSL), and run the following command:
+        <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch</code></p>
       </p>
-      <section style={{ display: "flex", flexWrap: "wrap" }}>
-        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Linux</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-linux.gtk.x86_64.tar.gz">Epoch IDE 0.4.0 for Linux</a> and run:
-          <p><code>tar xvf epoch_ide_0.4.0-linux.gtk.x86_64.tar.gz</code></p>
-          <p><code>cd epoch_ide_0.4.0-linux.gtk.x86_64</code></p>
-          <p><code>./epoch</code></p>
-        </div>
-        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-macosx.cocoa.x86_64.tar.gz">Epoch IDE 0.4.0 for x86_64 macOS</a>
-          or <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-macosx.cocoa.aarch64.tar.gz">Epoch IDE 0.4.0 for aarch64 macOS</a> and run:
-          <p><code>open </code><i>downloaded file</i></p>
-          <p><code>xattr -cr Epoch.app</code></p>
-          <p><code>open Epoch.app</code></p>
-        </div>
-
-        <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Windows</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/epoch_ide_0.4.0-win32.win32.x86_64.zip">Epoch IDE 0.4.0 for Windows</a> and run:
-          <p><code>unzip epoch_ide_0.4.0-win32.win32.x86_64.zip</code></p>
-          <p><code>cd epoch_ide_0.4.0-win32.win32.x86_64</code></p>
-          <p><code>.\epoch</code></p>
-        </div>
-      </section>
+      <p>If your <code>PATH</code> is configured correctly, you should be able start Epoch by running the <code>epoch</code> command in your terminal.</p>
       See <a href="/docs/handbook/epoch-ide">more details</a>.
     </div>
 
     <div className="raised main-content-block">
-      <h2 id="download-cl">Lingua Franca Compiler (command-line)</h2>
-      <p>Our command line compiler can be installed in any directory.
-        It is most convenient to add the <code>bin</code> directory to your <code>PATH</code>.
-        To download the current development version of the command-line tools, replace the following tar and zip files with those from the <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">nightly build</a>.
+      <h2 id="download-cl">CLI Tools</h2>
+      <p>To install the Lingua Franca command line tools, open your terminal (in Windows, use WSL), and run the following command:
+      <p><code>curl -Ls https://install.lf-lang.org | sh -s cli</code></p>
       </p>
-      <section style={{ display: "flex", flexWrap: "wrap" }}>
-        <div style={{ borderRight: "1px lightgrey solid", padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Linux and macOS</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/lf-cli-0.4.0.tar.gz">Lingua Franca CLI tools 0.4.0 for Linux/Mac</a> and run:
-          <p><code>tar xvf lf-cli-0.4.0.tar.gz</code></p>
-          To check the version of the compiler, run:
-          <p><code>./lf-cli-0.4.0/bin/lfc --version</code></p>
-        </div>
-        <div style={{ padding: "1rem", flex: 1, minWidth: "240px" }}>
-          <h3>Windows</h3>
-          Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/lf-cli-0.4.0.zip">Lingua Franca CLI tools 0.4.0 for Windows</a> and run:
-          <p><code>unzip lf-cli-0.4.0.zip</code></p>
-          To check the version of the compiler, run:
-          <p><code>.\lf-cli-0.4.0\bin\lfc.ps1 --version</code></p>
-        </div>
-      </section>
       See <a href="/docs/handbook/command-line-tools">more details</a>.
     </div>
 
