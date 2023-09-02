@@ -633,44 +633,31 @@ will also not be repeatable.
 ### Array Expressions for State Variables and Parameters
 
 Array parameters and state variables are implemented using Python lists and initialized using a parentheized list. In the following example, the
-parameter `sequence` and the state variable `x` have an initial value of `(0, 1, 2)`:
+parameter `sequence` and the state variable `x` have an initial value that is a Python list `[1, 2, 3]`:
 
 ```lf-py
-reactor Source(sequence(0, 1, 2)) {
-    state x(0, 1, 2);
-    ...
+reactor Foo(param = {= [1, 2, 3] =}) {
+  state x = {= [1, 2, 3] =}
+  ...
 }
 ```
-
-<!-- The following should be true but is not:
-The Python target interprets the `(1, 2, 3)` expression differently depending on
-whether the assignee is a parameter or a state variable. For parameters, the
-`(1, 2, 3)` expression will translate into an immutable Python tuple (i.e.,
-`param = (1, 2, 3)`). For state variables, the `(1, 2, 3)` expression will
-translate into a mutable Python list (i.e., `x = [1, 2, 3])`). The reason behind
-this discrepancy is that parameters are assumed to be immutable after
-instantiation (in fact, they are also read-only in reaction bodies), but state
-variables usually need to be updated during execution.
-
-Notice that even though the tuple assigned to the parameter is immutable (you
-cannot assign new values to its elements), the parameter itself can be
-overridden with _another_ immutable tuple when instantiating the reactor:
- -->
 
 Their elements may be accessed as arrays in the body of a reaction, for example `self.x[i]`, where `i` is an array index.
 
 The parameter may be overridden with a different list at instantiation:
 
-```lf
-s = new Source(sequence(1, 2, 3, 4));
+```lf-py
+main reactor {
+  f = new Foo(param = {= [3, 4, 5, 6]} )
+}
 ```
 
 As with any ordinary Python list or tuple, `len()` can been used to deduce the
-length.
+length. In the above, `len(self.x)` and `len(self.param)` will return the lengths of the two lists.
 
 ### Assigning Arbitrary Initial Expressions to State Variables and Parameters
 
-The code delimiters `{= ... =}` can allow for assignment of arbitrary Python
+As used for lists above, the code delimiters `{= ... =}` can allow for assignment of arbitrary Python
 expressions as initial values for state variables and parameters. The following example, taken from
 [StructAsState.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/StructAsState.lf)
 demonstrates this usage:
@@ -693,23 +680,6 @@ main reactor StructAsState {
 ```
 
 Notice that a class `hello` is defined in the preamble. The state variable `s` is then initialized to an instance of `hello` constructed within the `{= ... =}` delimiters.
-
-<!-- State variables may be initialized to lists or tuples without requiring `{= ... =}` delimiters. The following illustrates the difference:
-
-```lf-py
-target Python;
-main reactor Foo {
-    state a_tuple(1, 2, 3);
-    state a_list([1, 2, 3]);
-    reaction(startup) {=
-        # will print "<class 'tuple'> != <class 'list'>"
-        print("{0} != {1}".format(type(self.a_tuple), type(self.a_list)))
-    =}
-}
-``` -->
-
-<!--
-In Python, tuples are immutable, while lists can be modified. Be aware also that the syntax for declaring tuples in the Python target is the same syntax as to declare an array in the C target, so the immutability might be a surprise. -->
 
 </div>
 

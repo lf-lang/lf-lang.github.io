@@ -68,7 +68,11 @@ reactor Foo(param({= ((1, 2, 3), (4, 5, 6)) =})) {
 
 ## Collections
 
+<div class="lf-c lf-cpp lf-ts lf-rs">
+
 To avoid the awkwardness of using the code delimiters `{= ... =}`, Lingua Franca supports initialization of simple arrays and similar structures. The interpretation is slightly different in each target language.
+
+</div>
 
 <div class="lf-c">
 
@@ -108,29 +112,14 @@ Here, the type `int[]` is translated by the code generator into `std::vector` an
 
 <div class="lf-py">
 
-In Python, a parameter or state variable may be assigned an array expression as its initial value, as in the following example:
+In Python, a parameter or state variable may be assigned a list expression as its initial value, as in the following example:
 
 ```lf-py
-reactor Foo(param(1, 2, 3)) {
-  state x(1, 2, 3)
+reactor Foo(param = {= [1, 2, 3] =}) {
+  state x = {= [1, 2, 3] =}
   ...
 }
 ```
-
-<!-- The following should be true but is not:
-The Python target interprets the `(1, 2, 3)` expression differently depending on
-whether the assignee is a parameter or a state variable. For parameters, the
-`(1, 2, 3)` expression will translate into an immutable Python tuple (i.e.,
-`param = (1, 2, 3)`). For state variables, the `(1, 2, 3)` expression will
-translate into a mutable Python list (i.e., `x = [1, 2, 3])`). The reason behind
-this discrepancy is that parameters are assumed to be immutable after
-instantiation (in fact, they are also read-only in reaction bodies), but state
-variables usually need to be updated during execution.
-
-Notice that even though the tuple assigned to the parameter is immutable (you
-cannot assign new values to its elements), the parameter itself can be
-overridden with _another_ immutable tuple when instantiating the reactor:
- -->
 
 The `param` parameter and `x` state variable become Python lists.
 Their elements may be accessed as arrays, for example `self.x[i]`, where `i` is an array index.
@@ -139,11 +128,11 @@ The parameter may be overridden with a different list at instantiation:
 
 ```lf-py
 main reactor {
-  f = new Foo(param(3, 4, 5, 6))
+  f = new Foo(param = {= [3, 4, 5, 6]} )
 }
 ```
 
-See the [Target Language Details](/docs/handbook/target-language-details) for details.
+See the [Target Language Details](/docs/handbook/target-language-details) for more details.
 
 </div>
 
