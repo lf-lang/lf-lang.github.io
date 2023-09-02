@@ -1412,19 +1412,18 @@ Outputs](/docs/handbook/inputs-and-outputs).
 You can define your own data types in Python and send and receive those. Consider the [StructAsType](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/StructAsType.lf) example:
 
 ```lf-py
-target Python {files: include/hello.py};
-
+target Python {
+  files: include/hello.py
+}
 preamble {=
-import hello
+  import hello
 =}
-
 reactor Source {
-    output out;
-
-    reaction(startup) -> out {=
-        temp = hello.hello("Earth", 42)
-        out.set(temp)
-    =}
+  output out;
+  reaction(startup) -> out {=
+    temp = hello.hello("Earth", 42)
+    out.set(temp)
+  =}
 }
 ```
 
@@ -1452,15 +1451,15 @@ using `<port>.value`:
 
 ```lf-py
 reactor Print(expected(42)) {
-    input _in;
-    reaction(_in) {=
-        print("Received: name = {:s}, value = {:d}\n".format(_in.value.name,
-                                                             _in.value.value))
-    =}
+  input _in;
+  reaction(_in) {=
+    print("Received: name = {:s}, value = {:d}\n".format(_in.value.name,
+                                                         _in.value.value))
+  =}
 }
 ```
 
-**Note:** The `hello` module has been imported using a top-level preamble, therefore, the contents of the module are available to all reactors defined in the current Lingua Franca file (similar situation arises if the `hello` class itself was in the top-level preamble).
+**Note:** The `hello` module has been imported using a top-level preamble, therefore, the contents of the module are available to all reactors defined in the current Lingua Franca file (a similar situation arises if the `hello` class itself was in the top-level preamble).
 
 </div>
 
@@ -1486,22 +1485,21 @@ For example, the [Determinism.lf](https://github.com/lf-lang/lingua-franca/blob/
 
 ```lf-ts
 reactor Destination {
-    input x:number;
-    input y:number;
-    reaction(x, y) {=
-        let sum = 0;
-        if (x !== undefined) {
-            sum += x;
-        }
-        if (y !== undefined) {
-            sum += y;
-        }
-        console.log("Received " + sum);
-        if (sum != 2) {
-            console.log("FAILURE: Expected 2.");
-            util.failure();
-        }
-    =}
+  input x: number
+  input y: number
+  reaction(x, y) {=
+    let sum = 0;
+    if (x !== undefined) {
+      sum += x;
+    }
+    if (y !== undefined) {
+      sum += y;
+    }
+    console.log("Received " + sum);
+    if (sum != 2) {
+      util.requestErrorStop("FAILURE: Expected 2.")
+    }
+  =}
 }
 ```
 
@@ -1511,11 +1509,11 @@ Inputs declared in the **uses** part of the reaction do not trigger the reaction
 
 ```lf-ts
 reaction(x) y {=
-    let sum = x as number;
-    if (y !== undefined) {
-        sum += y;
-    }
-    console.log("Received " + sum + ".");
+  let sum = x as number;
+  if (y !== undefined) {
+    sum += y;
+  }
+  console.log("Received " + sum + ".");
 =}
 ```
 
@@ -1526,11 +1524,11 @@ The **effects** portion of the reaction specification can include outputs and ac
 ```lf-ts
 output z:number;
 reaction(x) y -> z {=
-    let sum = x as number;
-    if (y !== undefined) {
-        sum += y;
-    }
-    z = sum;
+  let sum = x as number;
+  if (y !== undefined) {
+    sum += y;
+  }
+  z = sum;
 =}
 ```
 
@@ -1540,20 +1538,20 @@ An output may even be set in different reactions of the same reactor at the same
 
 ```lf-ts
 reactor TestForPreviousOutput {
-    output out:number;
-    reaction(startup) -> out {=
-        if (Math.random() > 0.5) {
-            out = 21;
-        }
-    =}
-    reaction(startup) -> out {=
-        let previous_output = out;
-        if (previous_output) {
-            out = 2 * previous_output;
-        } else {
-            out = 42;
-        }
-    =}
+  output out:number;
+  reaction(startup) -> out {=
+    if (Math.random() > 0.5) {
+      out = 21;
+    }
+  =}
+  reaction(startup) -> out {=
+    let previous_output = out;
+    if (previous_output) {
+      out = 2 * previous_output;
+    } else {
+      out = 42;
+    }
+  =}
 }
 ```
 
@@ -1565,17 +1563,17 @@ You can define your own data types in TypeScript and send and receive those. Con
 
 ```lf-ts
 reactor CustomType {
-    preamble {=
-        type custom = string | null;
-    =}
-    output out:custom;
-    reaction(startup) -> out {=
-        out = null;
-    =}
+  preamble {=
+    type custom = string | null;
+  =}
+  output out:custom;
+  reaction(startup) -> out {=
+    out = null;
+  =}
 }
 ```
 
-The **preamble** code defines a custom union type of `string` and `null`.
+The $preamble$ code defines a custom union type of `string` and `null`.
 
 </div>
 
@@ -1616,11 +1614,11 @@ A reaction can examine the current logical time (which is constant during the ex
 
 ```lf-c
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        instant_t logical = lf_time_logical();
-        printf("Logical time is %ld.\n", logical);
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    instant_t logical = lf_time_logical();
+    printf("Logical time is %ld.\n", logical);
+  =}
 }
 ```
 
@@ -1641,11 +1639,11 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 
 ```lf-c
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        interval_t elapsed = lf_time_logical_elapsed();
-        printf("Elapsed logical time is %ld.\n", elapsed);
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    interval_t elapsed = lf_time_logical_elapsed();
+    printf("Elapsed logical time is %ld.\n", elapsed);
+  =}
 }
 ```
 
@@ -1664,11 +1662,11 @@ You can also get physical time, which comes from your platform's real-time clock
 
 ```lf-c
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        instant_t physical = lf_time_physical();
-        printf("Physical time is %ld.\n", physical);
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    instant_t physical = lf_time_physical();
+    printf("Physical time is %ld.\n", physical);
+  =}
 }
 ```
 
@@ -1687,11 +1685,11 @@ Finally, you can get elapsed physical time:
 
 ```lf-c
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        instant_t elapsed_physical = lf_time_physical_elapsed();
-        printf("Elapsed physical time is %ld.\n", elapsed_physical);
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    instant_t elapsed_physical = lf_time_physical_elapsed();
+    printf("Elapsed physical time is %ld.\n", elapsed_physical);
+  =}
 }
 ```
 
@@ -1734,11 +1732,11 @@ A reaction can examine the current logical time (which is constant during the ex
 
 ```lf-cpp
 main reactor {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        auto logical = get_logical_time();
-        std::cout << "Logical time is " << logical << std::endl;
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    auto logical = get_logical_time();
+    std::cout << "Logical time is " << logical << std::endl;
+  =}
 }
 ```
 
@@ -1761,12 +1759,12 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 
 ```lf-cpp
 main reactor {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        auto elapsed = get_elapsed_logical_time();
-        std::cout << "Elapsed logical time is " << elapsed << std::endl;
-        std::cout << "In seconds: " <<  std::chrono::duration_cast<std::chrono::seconds>(elapsed) << std::endl;
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    auto elapsed = get_elapsed_logical_time();
+    std::cout << "Elapsed logical time is " << elapsed << std::endl;
+    std::cout << "In seconds: " <<  std::chrono::duration_cast<std::chrono::seconds>(elapsed) << std::endl;
+  =}
 }
 ```
 
@@ -1787,15 +1785,15 @@ You can also get physical and elapsed physical time:
 
 ```lf-cpp
 main reactor {
-    timer t(0, 1 sec);
+  timer t(0, 1 sec);
 	reaction(t) {=
-        auto logical = get_logical_time();
-        auto physical = get_physical_time();
-		auto elapsed = get_elapsed_physical_time();
-        std::cout << "Physical time is " << physical << std::endl;
-        std::cout << "Elapsed physical time is " << elapsed << std::endl;
-        std::cout << "Time lag is " << physical - logical << std::endl;
-   =}
+    auto logical = get_logical_time();
+    auto physical = get_physical_time();
+    auto elapsed = get_elapsed_physical_time();
+    std::cout << "Physical time is " << physical << std::endl;
+    std::cout << "Elapsed physical time is " << elapsed << std::endl;
+    std::cout << "Time lag is " << physical - logical << std::endl;
+  =}
 }
 ```
 
@@ -1863,11 +1861,11 @@ A reaction can examine the current logical time (which is constant during the ex
 
 ```lf-py
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        logical = lf.time.logical()
-        print("Logical time is ", logical)
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    logical = lf.time.logical()
+    print("Logical time is ", logical)
+  =}
 }
 ```
 
@@ -1888,11 +1886,11 @@ You can also obtain the _elapsed_ logical time since the start of execution:
 
 ```lf-py
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        elapsed = lf.time.logical_elapsed()
-        print("Elapsed logical time is ", elapsed)
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    elapsed = lf.time.logical_elapsed()
+    print("Elapsed logical time is ", elapsed)
+  =}
 }
 ```
 
@@ -1911,11 +1909,11 @@ You can also get physical time, which comes from your platform's real-time clock
 
 ```lf-py
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        physical = lf.time.physical()
-        print("Physical time is ", physical)
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    physical = lf.time.physical()
+    print("Physical time is ", physical)
+  =}
 }
 ```
 
@@ -1934,11 +1932,11 @@ Finally, you can get elapsed physical time:
 
 ```lf-py
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        elapsed_physical = lf.time.physical_elapsed()
-        print("Elapsed physical time is ", elapsed_physical)
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    elapsed_physical = lf.time.physical_elapsed()
+    print("Elapsed physical time is ", elapsed_physical)
+  =}
 }
 ```
 
@@ -1974,11 +1972,11 @@ A reaction can examine the current logical time (which is constant during the ex
 ```lf-ts
 target TypeScript;
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        let logical:TimeValue = util.getCurrentLogicalTime()
-        console.log("Logical time is " + logical + ".");
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    let logical:TimeValue = util.getCurrentLogicalTime()
+    console.log("Logical time is " + logical + ".");
+  =}
 }
 ```
 
@@ -1997,11 +1995,11 @@ You can also obtain the _elapsed_ logical time since the start of execution, rat
 
 ```lf-ts
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        let logical:TimeValue = util.getElapsedLogicalTime()
-        console.log("Logical time is " + logical + ".");
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    let logical:TimeValue = util.getElapsedLogicalTime()
+    console.log("Logical time is " + logical + ".");
+  =}
 }
 ```
 
@@ -2018,11 +2016,11 @@ You can get physical time, which comes from your platform's real-time clock:
 
 ```lf-ts
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        let physical:TimeValue = util.getCurrentPhysicalTime()
-        console.log("Physical time is " + physical + ".");
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    let physical:TimeValue = util.getCurrentPhysicalTime()
+    console.log("Physical time is " + physical + ".");
+  =}
 }
 ```
 
@@ -2041,11 +2039,11 @@ You can also get _elapsed_ physical time from the start of execution:
 
 ```lf-ts
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        let physical:TimeValue = util.getElapsedPhysicalTime()
-        console.log("Physical time is " + physical + ".");
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    let physical:TimeValue = util.getElapsedPhysicalTime()
+    console.log("Physical time is " + physical + ".");
+  =}
 }
 ```
 
@@ -2064,12 +2062,12 @@ This reactor has an example of a UnitBasedTimeValue.
 
 ```lf-ts
 main reactor GetTime {
-    timer t(0, 1 sec);
-    reaction(t) {=
-        let myTimeValue:TimeValue = new UnitBasedTimeValue(200, TimeUnit.msec);
-        let logical:TimeValue = util.getCurrentLogicalTime()
-        console.log("My custom time value is " + myTimeValue + ".");
-    =}
+  timer t(0, 1 sec);
+  reaction(t) {=
+    let myTimeValue:TimeValue = new UnitBasedTimeValue(200, TimeUnit.msec);
+    let logical:TimeValue = util.getCurrentLogicalTime()
+    console.log("My custom time value is " + myTimeValue + ".");
+  =}
 ```
 
 This will produce:
@@ -2090,20 +2088,20 @@ You can get the current `Tag` in your reactions. This example illustrates tags w
 ```lf-ts
 target TypeScript;
 main reactor GetTime {
-    timer t(0, 1 sec);
-    logical action a;
-    reaction(t) -> a {=
-        let superdense:Tag = util.getCurrentTag();
-        console.log("First iteration - the tag is: " + superdense + ".");
-        actions.a.schedule(0, null);
-    =}
-    reaction(a) {=
-        let superdense:Tag = util.getCurrentTag();
-        let timePart:TimeValue = superdense.time;
-        let microstepPart:number = superdense.microstep;
-        console.log("Second iteration - the time part of the tag is:  " + timePart + ".");
-        console.log("Second iteration - the microstep part of the tag is:  " + microstepPart + ".");
-    =}
+  timer t(0, 1 sec);
+  logical action a;
+  reaction(t) -> a {=
+    let superdense:Tag = util.getCurrentTag();
+    console.log("First iteration - the tag is: " + superdense + ".");
+    actions.a.schedule(0, null);
+  =}
+  reaction(a) {=
+    let superdense:Tag = util.getCurrentTag();
+    let timePart:TimeValue = superdense.time;
+    let microstepPart:number = superdense.microstep;
+    console.log("Second iteration - the time part of the tag is:  " + timePart + ".");
+    console.log("Second iteration - the microstep part of the tag is:  " + microstepPart + ".");
+  =}
 }
 ```
 
