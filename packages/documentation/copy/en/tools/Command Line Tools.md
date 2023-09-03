@@ -45,9 +45,7 @@ Then change directory to `lingua-franca` and build using `gradle`:
 $ ./gradlew build
 ```
 
-**Note:** The Gradle build also performs tests, which takes a long time.
-
-After building, the command-line tools will be in `./bin`.
+**Note:** The `build` tasks also performs tests, which takes a long time. To skip the tests, use `assemble` instead. After completion of the task, the command-line tools will be in `./bin`.
 
 ## Using the Command Line Tools
 
