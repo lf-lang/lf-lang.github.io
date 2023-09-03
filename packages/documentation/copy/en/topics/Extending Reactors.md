@@ -25,17 +25,17 @@ $start(Extends)$
 ```lf-c
 target C;
 reactor A {
-    input a:int;
-    output out:int;
-    reaction(a) -> out {=
-        lf_set(out, a->value);
-    =}
+  input a:int;
+  output out:int;
+  reaction(a) -> out {=
+    lf_set(out, a->value);
+  =}
 }
 reactor B extends A {
-    input b:int;
-    reaction(a, b) -> out {=
-        lf_set(out, a->value + b->value);
-    =}
+  input b:int;
+  reaction(a, b) -> out {=
+    lf_set(out, a->value + b->value);
+  =}
 }
 ```
 
@@ -47,51 +47,51 @@ WARNING: No source file found: ../code/cpp/src/Extends.lf
 ```lf-py
 target Python;
 reactor A {
-    input a;
-    output out;
-    reaction(a) -> out {=
-        out.set(a.value)
-    =}
+  input a;
+  output out;
+  reaction(a) -> out {=
+    out.set(a.value)
+  =}
 }
 reactor B extends A {
-    input b;
-    reaction(a, b) -> out {=
-        out.set(a.value + b.value)
-    =}
+  input b;
+  reaction(a, b) -> out {=
+    out.set(a.value + b.value)
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
 reactor A {
-    input a:number
-    output out:number
-    reaction(a) -> out {=
-        out = a
-    =}
+  input a:number
+  output out:number
+  reaction(a) -> out {=
+    out = a
+  =}
 }
 reactor B extends A {
-    input b:number
-    reaction(a, b) -> out {=
-        out = a + b
-    =}
+  input b:number
+  reaction(a, b) -> out {=
+    out = a + b
+  =}
 }
 ```
 
 ```lf-rs
 target Rust;
 reactor A {
-    input a:u32;
-    output out:u32;
-    reaction(a) -> out {=
-        ctx.set(out, ctx.get(a).unwrap());
-    =}
+  input a:u32;
+  output out:u32;
+  reaction(a) -> out {=
+    ctx.set(out, ctx.get(a).unwrap());
+  =}
 }
 reactor B extends A {
-    input b:u32;
-    reaction(a, b) -> out {=
-        ctx.set(out, ctx.get(a).unwrap() + ctx.get(b).unwrap());
-    =}
+  input b:u32;
+  reaction(a, b) -> out {=
+    ctx.set(out, ctx.get(a).unwrap() + ctx.get(b).unwrap());
+  =}
 }
 ```
 

@@ -18,74 +18,66 @@ Second, the deadline mechanism provides a **fault handler**, a section of code t
 
 There remains the question of when the fault handler should be invoked. By default, deadlines in LF are **lazy**, meaning that the fault handler is invoked at the logical time of the event triggering the reaction whose deadline is missed. Specifically, the possible violation of a deadline is not checked until the reaction with the deadline is ready to execute. Only then is the determination made whether to invoke the regular reaction or the fault handler.
 
-An alternative is an **eager deadline**, where a fault handler is invoked as soon as possible after a deadline violation becomes inevitable. With an eager deadline, if an event with tag (_t_, _m_) triggers a reaction with deadline _D_, then as soon as the runtime system detects that physical time _T_ > _t_ + _D_, the fault handler becomes enabled. This can occur at a logical time _earlier_ than _t_. Hence, a fault handler may be invoked at a logical time earlier than that of the event that triggered the fault.
+## Deadline Specification
 
-**Note:** As of this writing, eager deadlines are not implemented in any LF target language, so all deadlines are lazy.
-
-## Lazy Deadline
-
-A lazy deadline is specified as follows:
+A deadline is specified as follows:
 
 $start(Deadline)$
 
 ```lf-c
 target C;
 reactor Deadline {
-    input x:int;
-    output d:int; // Produced if the deadline is violated.
-    reaction(x) -> d {=
-        printf("Normal reaction.\n");
-    =} deadline(10 msec) {=
-        printf("Deadline violation detected.\n");
-        lf_set(d, x->value);
-    =}
+  input x:int;
+  output d:int; // Produced if the deadline is violated.
+  reaction(x) -> d {=
+    printf("Normal reaction.\n");
+  =} deadline(10 msec) {=
+    printf("Deadline violation detected.\n");
+    lf_set(d, x->value);
+  =}
 }
-
 ```
 
 ```lf-cpp
 target Cpp;
-
 reactor Deadline {
-    input x:int;
-    output d:int; // Produced if the deadline is violated.
-    reaction(x) -> d {=
-        std::cout << "Normal reaction." << std::endl;
-    =} deadline(10ms) {=
-        std::cout << "Deadline violation detected." << std::endl;
-        d.set(*x.get());
-    =}
+  input x:int;
+  output d:int; // Produced if the deadline is violated.
+  reaction(x) -> d {=
+    std::cout << "Normal reaction." << std::endl;
+  =} deadline(10ms) {=
+    std::cout << "Deadline violation detected." << std::endl;
+    d.set(*x.get());
+  =}
 }
-
 ```
 
 ```lf-py
 target Python;
 reactor Deadline {
-    input x;
-    output d; // Produced if the deadline is violated.
-    reaction(x) -> d {=
-        print("Normal reaction.")
-    =} deadline(10 msec) {=
-        print("Deadline violation detected.")
-        d.set(x.value)
-    =}
+  input x;
+  output d; // Produced if the deadline is violated.
+  reaction(x) -> d {=
+    print("Normal reaction.")
+  =} deadline(10 msec) {=
+    print("Deadline violation detected.")
+    d.set(x.value)
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
 reactor Deadline {
-    input x:number
-    output d:number // Produced if the deadline is violated.
-    reaction(x) -> d {=
-        console.log("Normal reaction.")
-    =} deadline(10 msec) {=
-        console.log("Deadline violation detected.")
-        d = x
-    =}
+  input x:number
+  output d:number // Produced if the deadline is violated.
+  reaction(x) -> d {=
+    console.log("Normal reaction.")
+  =} deadline(10 msec) {=
+    console.log("Deadline violation detected.")
+    d = x
+  =}
 }
-
 ```
 
 ```lf-rs
@@ -100,54 +92,45 @@ $start(DeadlineTest)$
 
 ```lf-c
 target C
-
 import Deadline from "Deadline.lf"
-
 preamble {=
-    #include "platform.h"
+  #include "platform.h"
 =}
-
 main reactor {
-    logical action a
-    d = new Deadline()
-
-    reaction(startup) -> d.x, a {=
-        lf_set(d.x, 0);
-        lf_schedule(a, 0);
-    =}
-
-    reaction(a) -> d.x {=
-        lf_set(d.x, 0);
-        lf_sleep(MSEC(20));
-    =}
-
-    reaction(d.d) {= printf("Deadline reactor produced an output.\n"); =}
+  logical action a
+  d = new Deadline()
+  reaction(startup) -> d.x, a {=
+    lf_set(d.x, 0);
+    lf_schedule(a, 0);
+  =}
+  reaction(a) -> d.x {=
+    lf_set(d.x, 0);
+    lf_sleep(MSEC(20));
+  =}
+  reaction(d.d) {=
+    printf("Deadline reactor produced an output.\n");
+  =}
 }
-
 ```
 
 ```lf-cpp
 target Cpp;
 import Deadline from "Deadline.lf";
-
 main reactor {
-    logical action a;
-    d = new Deadline();
-    reaction(startup) -> d.x, a {=
-        d.x.set(0);
-        a.schedule(0ms);
-    =}
-
-    reaction(a) -> d.x {=
-        d.x.set(0);
-        std::this_thread::sleep_for(20ms);
-    =}
-
-    reaction(d.d) {=
-        std::cout << "Deadline reactor produced an output." << std::endl;
-    =}
+  logical action a;
+  d = new Deadline();
+  reaction(startup) -> d.x, a {=
+    d.x.set(0);
+    a.schedule(0ms);
+  =}
+  reaction(a) -> d.x {=
+    d.x.set(0);
+    std::this_thread::sleep_for(20ms);
+  =}
+  reaction(d.d) {=
+    std::cout << "Deadline reactor produced an output." << std::endl;
+  =}
 }
-
 ```
 
 ```lf-py
@@ -155,19 +138,19 @@ target Python;
 import Deadline from "Deadline.lf";
 preamble {= import time =}
 main reactor {
-    logical action a;
-    d = new Deadline();
-    reaction(startup) -> d.x, a {=
-        d.x.set(0)
-        a.schedule(0)
-    =}
-    reaction(a) -> d.x {=
-        d.x.set(0)
-        time.sleep(0.02)
-    =}
-    reaction(d.d) {=
-        print("Deadline reactor produced an output.")
-    =}
+  logical action a;
+  d = new Deadline();
+  reaction(startup) -> d.x, a {=
+    d.x.set(0)
+    a.schedule(0)
+  =}
+  reaction(a) -> d.x {=
+    d.x.set(0)
+    time.sleep(0.02)
+  =}
+  reaction(d.d) {=
+    print("Deadline reactor produced an output.")
+  =}
 }
 ```
 
@@ -175,24 +158,23 @@ main reactor {
 target TypeScript
 import Deadline from "Deadline.lf"
 main reactor {
-    logical action a
-    d = new Deadline()
-    reaction(startup) -> d.x, a {=
-        d.x = 0
-        actions.a.schedule(TimeValue.zero(), null)
-    =}
-    reaction(a) -> d.x {=
-        d.x = 0
-        for (const later = util.getCurrentPhysicalTime().add(TimeValue.msecs(20));
-            util.getCurrentPhysicalTime() < later;) {
-            // Take time...
-        }
-    =}
-    reaction(d.d) {=
-        console.log("Deadline reactor produced an output.")
-    =}
+  logical action a
+  d = new Deadline()
+  reaction(startup) -> d.x, a {=
+    d.x = 0
+    actions.a.schedule(TimeValue.zero(), null)
+  =}
+  reaction(a) -> d.x {=
+    d.x = 0
+    for (const later = util.getCurrentPhysicalTime().add(TimeValue.msecs(20));
+      util.getCurrentPhysicalTime() < later;) {
+      // Take time...
+    }
+  =}
+  reaction(d.d) {=
+    console.log("Deadline reactor produced an output.")
+  =}
 }
-
 ```
 
 ```lf-rs
@@ -239,27 +221,24 @@ $start(CheckDeadline)$
 
 ```lf-c
 target C;
-
 reactor Count {
-    output out:int;
-    reaction(startup) -> out {=
-        int count = 0;
-        while (!lf_check_deadline(self, true)) {
-            count++;
-        }
-        lf_set(out, count);
-    =} deadline (3 msec) {=
-        printf("Stopped counting.\n");
-    =}
+  output out:int;
+  reaction(startup) -> out {=
+    int count = 0;
+    while (!lf_check_deadline(self, true)) {
+      count++;
+    }
+    lf_set(out, count);
+  =} deadline (3 msec) {=
+    printf("Stopped counting.\n");
+  =}
 }
-
 main reactor {
-    c = new Count();
-    reaction(c.out) {=
-        printf("Counted to %d\n", c.out->value);
-    =}
+  c = new Count();
+  reaction(c.out) {=
+    printf("Counted to %d\n", c.out->value);
+  =}
 }
-
 ```
 
 ```lf-cpp

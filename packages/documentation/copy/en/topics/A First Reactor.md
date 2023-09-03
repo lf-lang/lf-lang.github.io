@@ -16,50 +16,47 @@ A minimal but complete Lingua Franca file with one reactor is this:
 $start(HelloWorld)$
 
 ```lf-c
-target C;
+target C
 main reactor {
-    reaction(startup) {=
-        printf("Hello World.\n");
-    =}
+  reaction(startup) {=
+    printf("Hello World.\n");
+  =}
 }
 ```
 
 ```lf-cpp
-target Cpp;
-
+target Cpp
 main reactor {
-    reaction(startup) {=
-        std::cout << "Hello World." << std::endl;
-    =}
+  reaction(startup) {=
+    std::cout << "Hello World." << std::endl;
+  =}
 }
-
 ```
 
 ```lf-py
-target Python;
+target Python
 main reactor {
-    reaction(startup) {=
-        print("Hello World.")
-    =}
+  reaction(startup) {=
+    print("Hello World.")
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
 main reactor {
-    reaction(startup) {=
-        console.log("Hello World.")
-    =}
+  reaction(startup) {=
+    console.log("Hello World.")
+  =}
 }
-
 ```
 
 ```lf-rs
-target Rust;
+target Rust
 main reactor {
-    reaction(startup) {=
-        println!("Hello World.");
-    =}
+  reaction(startup) {=
+    println!("Hello World.");
+  =}
 }
 ```
 
@@ -73,7 +70,7 @@ The $main$ reactor above has a single $reaction$, which is triggered by the $sta
 
 ## Examples
 
-Examples of Lingua Franca programs can be found in [the examples-lingua-franca repository](https://github.com/lf-lang/examples-lingua-franca/tree/main/).
+Examples of Lingua Franca programs can be found in the [Lingua Franca Playground](https://github.com/lf-lang/playground-lingua-franca/tree/main).
 
 The [regression tests](https://github.com/lf-lang/lingua-franca/tree/master/test/) have a rich set of examples that illustrate every feature of the language.
 
@@ -194,7 +191,7 @@ Reactors may extend other reactors, inheriting their properties, and a file may 
 
 Lingua Franca files can have C/C++/Java-style comments and/or Python-style comments. All of the following are valid comments:
 
-```lf
+```
     // Single-line C-style comment.
     /*
      * Multi-line C-style comment.
