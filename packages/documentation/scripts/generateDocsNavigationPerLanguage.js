@@ -55,6 +55,7 @@ const handbookPages = [
       { file: "topics/Modal Models.md" },
       { file: "topics/Deadlines.md" },
       { file: "topics/Multiports and Banks.md" },
+      { file: "topics/Generics.md" },
       { file: "topics/Preambles.md" },
       { file: "topics/Distributed Execution.md" },
       { file: "topics/Termination.md" },
@@ -81,6 +82,16 @@ const handbookPages = [
       { file: "reference/Target Declaration.md" },
       { file: "reference/Tracing.md" },
       { file: "reference/Containerized Execution.md" },
+      { file: "reference/Security.md" },
+    ],
+  },
+  {
+    title: "Embedded Platforms",
+    summary: "Documentation for developing Lingua Franca on Embedded Platforms.",
+    chronological: true,
+    items: [
+      { file: "embedded/Arduino.md"},
+      { file: "embedded/Zephyr.md"},
     ],
   },
   {
@@ -88,12 +99,12 @@ const handbookPages = [
     summary: "Information for developers of the Lingua Franca language and tools.",
     chronological: true,
     items: [
-      { file: "developer/Regression Tests.md" },
       { file: "developer/Contributing.md" },
       { file: "developer/Downloading and Building.md" },
-      { file: "developer/Developer Eclipse Setup with Oomph.md" },
       { file: "developer/Developer IntelliJ Setup.md" },
+      { file: "developer/Regression Tests.md" },
       { file: "developer/Running Benchmarks.md" },
+      { file: "developer/Website Development.md"},
     ]
   },
 ]

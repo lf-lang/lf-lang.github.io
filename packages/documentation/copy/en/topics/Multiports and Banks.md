@@ -14,20 +14,20 @@ Lingua Franca provides a compact syntax for ports that can send or receive over 
 
 To declare an input or output port to be a **multiport**, use the following syntax:
 
-<div class="lf-c lf-cpp lf-rs">
+<div class="lf-c lf-cpp lf-rs lf-ts">
 
 ```lf
-    input[<width>] <name>:<type>;
-    output[<width>] <name>:<type>;
+  input[<width>] <name>:<type>;
+  output[<width>] <name>:<type>;
 ```
 
 </div>
 
-<div class="lf-ts lf-py">
+<div class="lf-py">
 
 ```lf
-    input[<width>] <name>
-    output[<width>] <name>
+  input[<width>] <name>
+  output[<width>] <name>
 ```
 
 </div>
@@ -39,144 +39,139 @@ $start(Multiport)$
 ```lf-c
 target C;
 reactor Source {
-    output[4] out:int;
-    reaction(startup) -> out {=
-        for(int i = 0; i < out_width; i++) {
-            lf_set(out[i], i);
-        }
-    =}
+  output[4] out:int;
+  reaction(startup) -> out {=
+    for(int i = 0; i < out_width; i++) {
+      lf_set(out[i], i);
+    }
+  =}
 }
 reactor Destination {
-    input[4] in:int;
-    reaction(in) {=
-        int sum = 0;
-        for (int i = 0; i < in_width; i++) {
-            if (in[i]->is_present) sum += in[i]->value;
-        }
-        printf("Sum of received: %d.\n", sum);
-    =}
+  input[4] in:int;
+  reaction(in) {=
+    int sum = 0;
+    for (int i = 0; i < in_width; i++) {
+      if (in[i]->is_present) sum += in[i]->value;
+    }
+    printf("Sum of received: %d.\n", sum);
+  =}
 }
 main reactor {
-    a = new Source();
-    b = new Destination();
-    a.out -> b.in;
+  a = new Source();
+  b = new Destination();
+  a.out -> b.in;
 }
-
 ```
 
 ```lf-cpp
 target Cpp;
 reactor Source {
-    output[4] out:int;
-    reaction(startup) -> out {=
-        for(auto i = 0ul; i < out.size(); i++) {
-            out[i].set(i);
-        }
-    =}
+  output[4] out:int;
+  reaction(startup) -> out {=
+    for(auto i = 0ul; i < out.size(); i++) {
+      out[i].set(i);
+    }
+  =}
 }
 reactor Destination {
-    input[4] in:int;
-    reaction(in) {=
-        int sum = 0;
-        for (auto i = 0ul; i < in.size(); i++) {
-            if (in[i].is_present()){
-                sum += *in[i].get();
-            }
-        }
-        std::cout << "Sum of received: " << sum << std::endl;
-    =}
+  input[4] in:int;
+  reaction(in) {=
+    int sum = 0;
+    for (auto i = 0ul; i < in.size(); i++) {
+      if (in[i].is_present()){
+        sum += *in[i].get();
+      }
+    }
+    std::cout << "Sum of received: " << sum << std::endl;
+  =}
 }
 main reactor {
-    a = new Source();
-    b = new Destination();
-    a.out -> b.in;
+  a = new Source();
+  b = new Destination();
+  a.out -> b.in;
 }
-
 ```
 
 ```lf-py
 target Python;
 reactor Source {
-    output[4] out;
-    reaction(startup) -> out {=
-        for i, port in enumerate(out):
-            port.set(i)
-    =}
+  output[4] out;
+  reaction(startup) -> out {=
+    for i, port in enumerate(out):
+      port.set(i)
+  =}
 }
 reactor Destination {
-    input[4] inp;
-    reaction(inp) {=
-        sum = 0
-        for port in inp:
-            if port.is_present: sum += port.value
-        print(f"Sum of received: {sum}.")
-    =}
+  input[4] inp;
+  reaction(inp) {=
+    sum = 0
+    for port in inp:
+      if port.is_present: sum += port.value
+    print(f"Sum of received: {sum}.")
+  =}
 }
 main reactor {
-    a = new Source();
-    b = new Destination();
-    a.out -> b.inp;
+  a = new Source();
+  b = new Destination();
+  a.out -> b.inp;
 }
-
 ```
 
 ```lf-ts
 target TypeScript
 reactor Source {
-    output[4] out:number
-    reaction(startup) -> out {=
-        for (let i = 0 ; i < out.length; i++) {
-            out[i] = i
-        }
-    =}
+  output[4] out:number
+  reaction(startup) -> out {=
+    for (let i = 0 ; i < out.length; i++) {
+      out[i] = i
+    }
+  =}
 }
 reactor Destination {
-    input[4] inp:number
-    reaction(inp) {=
-        let sum = 0
-        for (let i = 0 ; i < inp.length; i++) {
-            const val = inp[i]
-            if (val) sum += val
-        }
-        console.log(`Sum of received: ${sum}`)
-    =}
+  input[4] inp:number
+  reaction(inp) {=
+    let sum = 0
+    for (let i = 0 ; i < inp.length; i++) {
+      const val = inp[i]
+      if (val) sum += val
+    }
+    console.log(`Sum of received: ${sum}`)
+  =}
 }
 main reactor {
-    a = new Source()
-    b = new Destination()
-    a.out -> b.inp
+  a = new Source()
+  b = new Destination()
+  a.out -> b.inp
 }
-
 ```
 
 ```lf-rs
 target Rust;
 reactor Source {
-    output[4] out:usize;
-    reaction(startup) -> out {=
-        for (i, o) in out.into_iter().enumerate() {
-            ctx.set(o, i);
-        }
-    =}
+  output[4] out:usize;
+  reaction(startup) -> out {=
+    for (i, o) in out.into_iter().enumerate() {
+      ctx.set(o, i);
+    }
+  =}
 }
 reactor Destination {
-    input[4] inp:usize;
-    reaction(inp) {=
-        let mut sum = 0;
-        for i in inp {
-            if let Some(v) = ctx.get(&i) {
-                sum += v;
-            }
-        }
-        println!("Sum of received: {}.", sum);
-    =}
+  input[4] inp:usize;
+  reaction(inp) {=
+    let mut sum = 0;
+    for i in inp {
+      if let Some(v) = ctx.get(&i) {
+        sum += v;
+      }
+    }
+    println!("Sum of received: {}.", sum);
+  =}
 }
 main reactor {
-    a = new Source();
-    b = new Destination();
-    a.out -> b.inp;
+  a = new Source();
+  b = new Destination();
+  a.out -> b.inp;
 }
-
 ```
 
 $end(Multiport)$
@@ -193,10 +188,29 @@ The `Source` reactor has a four-way multiport output and the `Destination` react
 
 The `Source` reactor specifies `out` as an effect of its reaction using the syntax `-> out`. This brings into scope of the reaction body a way to access the width of the port and a way to write to each channel of the port.
 
-**NOTE**: In `Destination`, the reaction is triggered by `in`, not by some individual channel of the multiport input. Hence, it is important when using multiport inputs to test for presence of the input on each channel, as done above with the syntax
-<span class="lf-c">`if (in[i]->is_present) ...`</span>
-<span class="lf-cpp">`if (in[i]->is_present()) ...`</span>
-<span class="lf-py lf-ts lf-rs warning">FIXME</span>. An event on any one of the channels is sufficient to trigger the reaction.
+**NOTE**: In `Destination`, the reaction is triggered by `in`, not by some individual channel of the multiport input. Hence, it is important when using multiport inputs to test for presence of the input on each channel, as done above with the syntax:
+
+```lf-c
+    if (in[i]->is_present) ...
+```
+
+```lf-cpp
+    if (in[i]->is_present()) ...
+```
+
+```lf-py
+    if port.is_present: ...
+```
+
+```lf-ts
+    if (val) ...
+```
+
+```lf-rs
+    if let Some(v) = ctx.get(&i) ...
+```
+
+An event on any one of the channels is sufficient to trigger the reaction.
 
 <div class="lf-py">
 
@@ -209,7 +223,7 @@ In the Python target, multiports can be iterated on in a for loop (e.g., `for p 
 ## Sparse Inputs
 
 Sometimes, a program needs a wide multiport input, but when reactions are triggered by this input, few of the channels are present.
-In this case, it can inefficient to iterate over all the channels to determine which are present.
+In this case, it can be inefficient to iterate over all the channels to determine which are present.
 If you know that a multiport input will be **sparse** in this way, then you can provide a hint to the compiler and use a more efficient iterator to access the port. For example:
 
 $start(Sparse)$
@@ -217,20 +231,20 @@ $start(Sparse)$
 ```lf-c
 target C;
 reactor Sparse {
-    @sparse
-    input[100] in:int;
-    reaction(in) {=
-        // Create an iterator over the input channels.
-        struct lf_multiport_iterator_t i = lf_multiport_iterator(in);
-        // Get the least index of a channel with present inputs.
-        int channel = lf_multiport_next(&i);
-        // Iterate until no more channels have present inputs.
-        while(channel >= 0) {
-            printf("Received %d on channel %d\n", in[channel]->value, channel);
-            // Get the next channel with a present input.
-            channel = lf_multiport_next(&i);
-        }
-    =}
+  @sparse
+  input[100] in:int;
+  reaction(in) {=
+    // Create an iterator over the input channels.
+    struct lf_multiport_iterator_t i = lf_multiport_iterator(in);
+    // Get the least index of a channel with present inputs.
+    int channel = lf_multiport_next(&i);
+    // Iterate until no more channels have present inputs.
+    while(channel >= 0) {
+      printf("Received %d on channel %d\n", in[channel]->value, channel);
+      // Get the next channel with a present input.
+      channel = lf_multiport_next(&i);
+    }
+  =}
 }
 ```
 
@@ -266,11 +280,11 @@ But if it is not marked sparse, then the `lf_multiport_next()` function will not
 The width of a port may be given by a parameter. For example, the above `Source` reactor can be rewritten
 
 ```lf
-reactor Source(width:int(4)) {
-    output[width] out:int;
-    reaction(startup) -> out {=
-        ...
-    =}
+reactor Source(width:int = 4) {
+  output[width] out:int;
+  reaction(startup) -> out {=
+    ...
+  =}
 }
 ```
 
@@ -286,17 +300,17 @@ Assume that the `Source` and `Destination` reactors above both use a parameter `
 
 ```lf
 main reactor {
-    a1 = new Source(width = 3);
-    a2 = new Source(width = 2);
-    b = new Destination(width = 5);
-    a1.out, a2.out -> b.in;
+  a1 = new Source(width = 3);
+  a2 = new Source(width = 2);
+  b = new Destination(width = 5);
+  a1.out, a2.out -> b.in;
 }
 ```
 
 The first three ports of `b` will received input from `a1`, and the last two ports will receive input from `a2`. Parallel composition can appear on either side of a connection. For example:
 
 ```lf
-    a1.out, a2.out -> b1.out, b2.out, b3.out;
+  a1.out, a2.out -> b1.out, b2.out, b3.out;
 ```
 
 If the total width on the left does not match the total width on the right, then a warning is issued. If the left side is wider than the right, then output data will be discarded. If the right side is wider than the left, then input channels will be absent.
@@ -309,9 +323,9 @@ Using a similar notation, it is possible to create a bank of reactors. For examp
 
 ```lf
 main reactor {
-    a = new[4] Source();
-    b = new[4] Destination();
-    a.out -> b.in;
+  a = new[4] Source();
+  b = new[4] Destination();
+  a.out -> b.in;
 }
 ```
 
@@ -321,9 +335,9 @@ If the `Source` and `Destination` reactors have multiport inputs and outputs, as
 
 ```lf
 main reactor {
-    a = new[3] Source(width = 4);
-    b = new[4] Destination(width = 3);
-    a.out -> b.in;
+  a = new[3] Source(width = 4);
+  b = new[4] Destination(width = 3);
+  a.out -> b.in;
 }
 ```
 
@@ -334,81 +348,68 @@ To distinguish the instances in a bank of reactors, the reactor can define a par
 $start(MultiportSource)$
 
 ```lf-c
-target C;
-reactor MultiportSource(
-    bank_index:int(0)
-) {
-    timer t(0, 200 msec);
-    output out:int;
-    state s:int(0);
-    reaction(t) -> out {=
-        lf_set(out, self->s);
-        self->s += self->bank_index;
-    =}
+target C
+reactor MultiportSource(bank_index: int = 0) {
+  timer t(0, 200 msec)
+  output out: int
+  state s: int = 0
+  reaction(t) -> out {=
+    lf_set(out, self->s);
+    self->s += self->bank_index;
+  =}
 }
-
 ```
 
 ```lf-cpp
-target Cpp;
-
-reactor MultiportSource(
-    bank_index:int(0)
-) {
-    timer t(0, 200 ms);
-    output out:int;
-    state s:int(0);
-
-    reaction(t) -> out {=
-        out.set(s);
-        s += bank_index;
-    =}
+target Cpp
+reactor MultiportSource(bank_index: int(0)) {
+  timer t(0, 200 ms)
+  output out: int
+  state s: int(0)
+  reaction(t) -> out {=
+    out.set(s);
+    s += bank_index;
+  =}
 }
-
 ```
 
 ```lf-py
-target Python;
-reactor MultiportSource(
-    bank_index(0)
-) {
-    timer t(0, 200 msec);
-    output out;
-    state s(0);
-    reaction(t) -> out {=
-        out.set(self.s)
-        self.s += self.bank_index
-    =}
+target Python
+reactor MultiportSource(bank_index=0) {
+  timer t(0, 200 msec)
+  output out
+  state s = 0
+  reaction(t) -> out {=
+    out.set(self.s)
+    self.s += self.bank_index
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
 reactor MultiportSource {
-    timer t(0, 200 msec)
-    output out:number
-    state s:number(0)
-    reaction(t) -> out {=
-        out = s
-        s += this.getBankIndex()
-    =}
+  timer t(0, 200 msec)
+  output out: number
+  state s: number = 0
+  reaction(t) -> out {=
+    out = s
+    s += this.getBankIndex()
+  =}
 }
-
 ```
 
 ```lf-rs
-target Rust;
-reactor MultiportSource(
-    bank_index:u32(0)
-) {
-    state bank_index(bank_index);
-    timer t(0, 200 msec);
-    output out:u32;
-    state s:u32(0);
-    reaction(t) -> out {=
-        ctx.set(out, self.s);
-        self.s += self.bank_index;
-    =}
+target Rust
+reactor MultiportSource(bank_index: u32 = 0) {
+  state bank_index = bank_index
+  timer t(0, 200 msec)
+  output out: u32
+  state s: u32 = 0
+  reaction(t) -> out {=
+    ctx.set(out, self.s);
+    self.s += self.bank_index;
+  =}
 }
 ```
 
@@ -418,12 +419,12 @@ The width of a bank may also be given by a parameter, as in
 
 ```lf
 main reactor(
-    source_bank_width:int(3),
-    destination_bank_width:int(4)
+  source_bank_width:int = 3,
+  destination_bank_width:int = 4
 ) {
-    a = new[source_bank_width] Source(width = 4);
-    b = new[destination_bank_width] Destination(width = 3);
-    a.out -> b.in;
+  a = new[source_bank_width] Source(width = 4);
+  b = new[destination_bank_width] Destination(width = 3);
+  a.out -> b.in;
 }
 ```
 
@@ -439,17 +440,16 @@ $start(BankIndex)$
 ```lf-c
 target C;
 preamble {=
-    int table[] = {4, 3, 2, 1};
+  int table[] = {4, 3, 2, 1};
 =}
-reactor A(bank_index:int(0), value:int(0)) {
-    reaction (startup) {=
-        printf("bank_index: %d, value: %d\n", self->bank_index, self->value);
-    =}
+reactor A(bank_index:int = 0, value:int = 0) {
+  reaction (startup) {=
+    printf("bank_index: %d, value: %d\n", self->bank_index, self->value);
+  =}
 }
 main reactor {
-    a = new[4] A(value = {= table[bank_index] =});
+  a = new[4] A(value = {= table[bank_index] =});
 }
-
 ```
 
 ```lf-cpp
@@ -459,17 +459,16 @@ WARNING: No source file found: ../code/cpp/src/BankIndex.lf
 ```lf-py
 target Python;
 preamble {=
-    table = [4, 3, 2, 1]
+  table = [4, 3, 2, 1]
 =}
-reactor A(bank_index(0), value(0)) {
-    reaction (startup) {=
-        print("bank_index: {:d}, value: {:d}".format(self.bank_index, self.value))
-    =}
+reactor A(bank_index = 0, value = 0) {
+  reaction (startup) {=
+    print("bank_index: {:d}, value: {:d}".format(self.bank_index, self.value))
+  =}
 }
 main reactor {
-    a = new[4] A(value = {= table[bank_index] =})
+  a = new[4] A(value = {= table[bank_index] =})
 }
-
 ```
 
 ```lf-ts
@@ -502,99 +501,93 @@ $start(ChildBank)$
 ```lf-c
 target C;
 reactor Child (
-    bank_index:int(0)
+  bank_index:int = 0
 ) {
-    reaction(startup) {=
-        printf("My bank index: %d.\n", self->bank_index);
-    =}
+  reaction(startup) {=
+    printf("My bank index: %d.\n", self->bank_index);
+  =}
 }
 reactor Parent (
-    bank_index:int(0)
+  bank_index:int = 0
 ) {
-    c = new[2] Child();
+  c = new[2] Child();
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent();
 }
-
 ```
 
 ```lf-cpp
 target Cpp;
 reactor Child (
-    bank_index:int(0)
+  bank_index:int = 0
 ) {
-    reaction(startup) {=
-        std::cout << "My bank index:" << bank_index << std::endl;
-    =}
+  reaction(startup) {=
+    std::cout << "My bank index:" << bank_index << std::endl;
+  =}
 }
 reactor Parent (
-    bank_index:int(0)
+  bank_index:int = 0
 ) {
-    c = new[2] Child();
+  c = new[2] Child();
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent();
 }
-
 ```
 
 ```lf-py
 target Python;
 reactor Child (
-    bank_index(0)
+  bank_index = 0
 ) {
-    reaction(startup) {=
-        print(f"My bank index: {self.bank_index}.")
-    =}
+  reaction(startup) {=
+    print(f"My bank index: {self.bank_index}.")
+  =}
 }
 reactor Parent (
-    bank_index(0)
+  bank_index = 0
 ) {
-    c = new[2] Child();
+  c = new[2] Child();
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent();
 }
-
 ```
 
 ```lf-ts
 target TypeScript
 reactor Child {
-    reaction(startup) {=
-        console.log(`My bank index ${this.getBankIndex()}`)
-    =}
+  reaction(startup) {=
+    console.log(`My bank index ${this.getBankIndex()}`)
+  =}
 }
 reactor Parent {
-    c = new[2] Child()
+  c = new[2] Child()
 }
 main reactor {
-    p = new[2] Parent()
+  p = new[2] Parent()
 }
-
 ```
 
 ```lf-rs
 target Rust;
 reactor Child (
-    bank_index:usize(0)
+  bank_index:usize = 0
 ) {
-    state bank_index(bank_index);
-
-    reaction(startup) {=
-        println!("My bank index: {}.", self.bank_index);
-    =}
+  state bank_index = bank_index;
+  reaction(startup) {=
+    println!("My bank index: {}.", self.bank_index);
+  =}
 }
 reactor Parent (
-    bank_index:usize(0)
+  bank_index:usize = 0
 ) {
-    c = new[2] Child();
+  c = new[2] Child();
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent();
 }
-
 ```
 
 $end(ChildBank)$
@@ -621,113 +614,89 @@ contained (child) reactors. For example, note the following program:
 $start(ChildParentBank)$
 
 ```lf-c
-target C;
-reactor Child (
-    bank_index:int(0),
-    parent_bank_index:int(0)
-) {
-    reaction(startup) {=
-        printf(
-            "My bank index: %d. My parent's bank index: %d.\n",
-            self->bank_index, self->parent_bank_index
-        );
-    =}
+target C
+reactor Child(bank_index: int = 0, parent_bank_index: int = 0) {
+  reaction(startup) {=
+    printf(
+        "My bank index: %d. My parent's bank index: %d.\n",
+        self->bank_index, self->parent_bank_index
+    );
+  =}
 }
-reactor Parent (
-    bank_index:int(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
+reactor Parent(bank_index: int = 0) {
+  c = new[2] Child(parent_bank_index=bank_index)
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent()
 }
 ```
 
 ```lf-cpp
-target Cpp;
-reactor Child (
-    bank_index:int(0),
-    parent_bank_index:int(0)
-) {
-    reaction(startup) {=
-        std::cout <<"My bank index: " << bank_index << " My parent's bank index: " << parent_bank_index << std::endl;
-    =}
+target Cpp
+reactor Child(bank_index: int(0), parent_bank_index: int(0)) {
+  reaction(startup) {=
+    std::cout <<"My bank index: " << bank_index << " My parent's bank index: " << parent_bank_index << std::endl;
+  =}
 }
-reactor Parent (
-    bank_index:int(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
+reactor Parent(bank_index: int(0)) {
+  c = new[2] Child(parent_bank_index=bank_index)
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent()
 }
-
 ```
 
 ```lf-py
-target Python;
-reactor Child (
-    bank_index(0),
-    parent_bank_index(0)
-) {
-    reaction(startup) {=
-        print(
-            f"My bank index: {self.bank_index}. "
-            f"My parent's bank index: {self.parent_bank_index}."
-        )
-    =}
+target Python
+reactor Child(bank_index=0, parent_bank_index=0) {
+  reaction(startup) {=
+    print(
+        f"My bank index: {self.bank_index}. "
+        f"My parent's bank index: {self.parent_bank_index}."
+    )
+  =}
 }
-reactor Parent (
-    bank_index(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
+reactor Parent(bank_index=0) {
+  c = new[2] Child(parent_bank_index=bank_index)
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent()
 }
 ```
 
 ```lf-ts
 target TypeScript
-reactor Child (
-    parentBankIndex:number(0)
-) {
-    reaction(startup) {=
-        console.log(`My bank index: ${this.getBankIndex()} My parent's bank index: ${parentBankIndex}`)
-    =}
+reactor Child(parentBankIndex: number = 0) {
+  reaction(startup) {=
+    console.log(`My bank index: ${this.getBankIndex()} My parent's bank index: ${parentBankIndex}`)
+  =}
 }
 reactor Parent {
-    c = new[2] Child(parentBankIndex = {= this.getBankIndex() =})
+  c = new[2] Child(parentBankIndex = {= this.getBankIndex() =})
 }
 main reactor {
-    p = new[2] Parent()
+  p = new[2] Parent()
 }
-
 ```
 
 ```lf-rs
-target Rust;
-reactor Child (
-    bank_index:usize(0),
-    parent_bank_index:usize(0)
-) {
-    state bank_index(bank_index);
-    state parent_bank_index(parent_bank_index);
-    reaction(startup) {=
-        println!(
-            "My bank index: {}. My parent's bank index: {}.",
-            self.bank_index,
-            self.parent_bank_index,
-        );
-    =}
+target Rust
+reactor Child(bank_index: usize = 0, parent_bank_index: usize = 0) {
+  state bank_index = bank_index
+  state parent_bank_index = parent_bank_index
+  reaction(startup) {=
+    println!(
+        "My bank index: {}. My parent's bank index: {}.",
+        self.bank_index,
+        self.parent_bank_index,
+    );
+  =}
 }
-reactor Parent (
-    bank_index:usize(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
+reactor Parent(bank_index: usize = 0) {
+  c = new[2] Child(parent_bank_index=bank_index)
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent()
 }
 ```
 
@@ -753,107 +722,86 @@ in the reaction signature. For example, note the following program:
 $start(ChildParentBank2)$
 
 ```lf-c
-target C;
-reactor Child (
-    bank_index:int(0),
-    parent_bank_index:int(0)
-) {
-    output out:int;
-    reaction(startup) -> out {=
-        lf_set(out, self->parent_bank_index * 2 + self->bank_index);
-    =}
+target C
+reactor Child(bank_index: int = 0, parent_bank_index: int = 0) {
+  output out: int
+  reaction(startup) -> out {=
+    lf_set(out, self->parent_bank_index * 2 + self->bank_index);
+  =}
 }
-reactor Parent (
-    bank_index:int(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
-    reaction(c.out) {=
-        for (int i=0; i < c_width; i++) {
-            printf("Received %d from child %d.\n", c[i].out->value, i);
-        }
-    =}
+reactor Parent(bank_index: int = 0) {
+  c = new[2] Child(parent_bank_index=bank_index)
+  reaction(c.out) {=
+    for (int i=0; i < c_width; i++) {
+        printf("Received %d from child %d.\n", c[i].out->value, i);
+    }
+  =}
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent()
 }
-
 ```
 
 ```lf-cpp
-target Cpp;
-reactor Child (
-    bank_index:int(0),
-    parent_bank_index:int(0)
-) {
-    output out:int;
-    reaction(startup) -> out {=
-        out.set(parent_bank_index * 2 + bank_index);
-    =}
+target Cpp
+reactor Child(bank_index: int(0), parent_bank_index: int(0)) {
+  output out: int
+  reaction(startup) -> out {=
+    out.set(parent_bank_index * 2 + bank_index);
+  =}
 }
-reactor Parent (
-    bank_index:int(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
-    reaction(c.out) {=
-        for (auto i = 0ul; i < c.size(); i++) {
-            std::cout << "Received " << *c[i].out.get() <<" from child " << i << std::endl;
-        }
-    =}
+reactor Parent(bank_index: int(0)) {
+  c = new[2] Child(parent_bank_index=bank_index)
+  reaction(c.out) {=
+    for (auto i = 0ul; i < c.size(); i++) {
+        std::cout << "Received " << *c[i].out.get() <<" from child " << i << std::endl;
+    }
+  =}
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent()
 }
-
 ```
 
 ```lf-py
-target Python;
-reactor Child (
-    bank_index(0),
-    parent_bank_index(0)
-) {
-    output out;
-    reaction(startup) -> out {=
-        out.set(self.parent_bank_index * 2 + self.bank_index)
-    =}
+target Python
+reactor Child(bank_index=0, parent_bank_index=0) {
+  output out
+  reaction(startup) -> out {=
+    out.set(self.parent_bank_index * 2 + self.bank_index)
+  =}
 }
-reactor Parent (
-    bank_index(0)
-) {
-    c = new[2] Child(parent_bank_index = bank_index);
-    reaction(c.out) {=
-        for i, child in enumerate(c):
-            print(f"Received {child.out.value} from child {i}.")
-    =}
+reactor Parent(bank_index=0) {
+  c = new[2] Child(parent_bank_index=bank_index)
+  reaction(c.out) {=
+    for i, child in enumerate(c):
+        print(f"Received {child.out.value} from child {i}.")
+  =}
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent()
 }
-
 ```
 
 ```lf-ts
 target TypeScript
-reactor Child (
-    parentBankIndex:number(0)
-) {
-    output out:number;
-    reaction(startup) -> out {=
-        out = parentBankIndex * 2 + this.getBankIndex()
-    =}
+reactor Child(parentBankIndex: number = 0) {
+  output out: number
+  reaction(startup) -> out {=
+    out = parentBankIndex * 2 + this.getBankIndex()
+  =}
 }
 reactor Parent {
-    c = new[2] Child(parentBankIndex = {= this.getBankIndex() =})
-    reaction(c.out) {=
-        for (let i = 0; i < c.length; i++) {
-            console.log(`Received ${c[i].out} from child ${i}`)
-        }
-    =}
+  c = new[2] Child(parentBankIndex = {= this.getBankIndex() =})
+  reaction(c.out) {=
+    for (let i = 0; i < c.length; i++) {
+        console.log(`Received ${c[i].out} from child ${i}`)
+    }
+  =}
 }
 main reactor {
-    p = new[2] Parent();
+  p = new[2] Parent()
 }
-
 ```
 
 ```lf-rs
@@ -910,141 +858,122 @@ Banks of reactors may be combined with multiports, as in the following example:
 $start(MultiportToBank)$
 
 ```lf-c
-target C;
+target C
 reactor Source {
-    output[3] out:int;
-    reaction(startup) -> out {=
-        for(int i = 0; i < out_width; i++) {
-            lf_set(out[i], i);
-        }
-    =}
+  output[3] out: int
+  reaction(startup) -> out {=
+    for(int i = 0; i < out_width; i++) {
+      lf_set(out[i], i);
+    }
+  =}
 }
-reactor Destination(
-    bank_index:int(0)
-) {
-    input in:int;
-    reaction(in) {=
-        printf("Destination %d received %d.\n", self->bank_index, in->value);
-    =}
+reactor Destination(bank_index: int = 0) {
+  input in: int
+  reaction(in) {=
+    printf("Destination %d received %d.\n", self->bank_index, in->value);
+  =}
 }
-
 main reactor MultiportToBank {
-    a = new Source();
-    b = new[3] Destination();
-    a.out -> b.in;
+  a = new Source()
+  b = new[3] Destination()
+  a.out -> b.in
 }
-
 ```
 
 ```lf-cpp
-target Cpp;
-
+target Cpp
 reactor Source {
-    output[3] out: int;
-    reaction(startup) -> out {=
-        for(int i = 0; i < out.size(); i++) {
-            out[i].set(i);
-        }
-    =}
+  output[3] out: int
+  reaction(startup) -> out {=
+    for(int i = 0; i < out.size(); i++) {
+      out[i].set(i);
+    }
+  =}
 }
-reactor Destination(
-    bank_index:int(0)
-) {
-    input in:int;
-    reaction(in) {=
-        std::cout << "Destination " << bank_index << " received " << *in.get() << std::endl;
-    =}
+reactor Destination(bank_index: int(0)) {
+  input in: int
+  reaction(in) {=
+    std::cout << "Destination " << bank_index << " received " << *in.get() << std::endl;
+  =}
 }
-
 main reactor MultiportToBank {
-    a = new Source();
-    b = new[3] Destination();
-    a.out -> b.in;
+  a = new Source()
+  b = new[3] Destination()
+  a.out -> b.in
 }
-
 ```
 
 ```lf-py
-target Python;
+target Python
 reactor Source {
-    output[3] out;
-    reaction(startup) -> out {=
-        for i, port in enumerate(out):
-            port.set(i)
-    =}
+  output[3] out
+  reaction(startup) -> out {=
+    for i, port in enumerate(out):
+      port.set(i)
+  =}
 }
-reactor Destination(
-    bank_index(0)
-) {
-    input inp;
-    reaction(inp) {=
-        print(f"Destination {self.bank_index} received {inp.value}.")
-    =}
+reactor Destination(bank_index=0) {
+  input inp
+  reaction(inp) {=
+    print(f"Destination {self.bank_index} received {inp.value}.")
+  =}
 }
-
 main reactor MultiportToBank {
-    a = new Source();
-    b = new[3] Destination();
-    a.out -> b.inp;
+  a = new Source()
+  b = new[3] Destination()
+  a.out -> b.inp
 }
-
 ```
 
 ```lf-ts
 target TypeScript
 reactor Source {
-    output[3] out:number
-    reaction(startup) -> out {=
-         for (let i = 0 ; i < out.length; i++) {
-            out[i] = i
-        }
-    =}
+  output[3] out: number
+  reaction(startup) -> out {=
+     for (let i = 0 ; i < out.length; i++) {
+        out[i] = i
+    }
+  =}
 }
 reactor Destination {
-    input inp:number
-    reaction(inp) {=
-        console.log(`Destination ${this.getBankIndex()} received ${inp}`)
-    =}
+  input inp: number
+  reaction(inp) {=
+    console.log(`Destination ${this.getBankIndex()} received ${inp}`)
+  =}
 }
-
 main reactor MultiportToBank {
-    a = new Source()
-    b = new[3] Destination()
-    a.out -> b.inp
+  a = new Source()
+  b = new[3] Destination()
+  a.out -> b.inp
 }
-
 ```
 
 ```lf-rs
-target Rust;
+target Rust
 reactor Source {
-    output[3] out:usize;
-    reaction(startup) -> out {=
-        for (i, o) in out.into_iter().enumerate() {
-            ctx.set(o, i);
-        }
-    =}
+  output[3] out: usize
+  reaction(startup) -> out {=
+    for (i, o) in out.into_iter().enumerate() {
+      ctx.set(o, i);
+    }
+  =}
 }
-reactor Destination(
-    bank_index:usize(0)
-) {
-    state bank_index(bank_index);
-    input inp:usize;
-    reaction(inp) {=
-        println!(
-            "Destination {} received {}.",
-            self.bank_index,
-            ctx.get(inp).unwrap(),
-        );
-    =}
+reactor Destination(bank_index: usize = 0) {
+  state bank_index = bank_index
+  input inp: usize
+  reaction(inp) {=
+    println!(
+        "Destination {} received {}.",
+        self.bank_index,
+        ctx.get(inp).unwrap(),
+    );
+  =}
 }
-
 main reactor MultiportToBank {
-    a = new Source();
-    b = new[3] Destination();
-    a.out -> b.inp;
+  a = new Source()
+  b = new[3] Destination()
+  a.out -> b.inp
 }
-
 ```
 
 $end(MultiportToBank)$
@@ -1069,21 +998,21 @@ Occasionally, you will want to have fewer ports on the left of a connection and 
 
 ```lf
 reactor Source {
-	output out:int;
-	reaction(startup) -> out {=
-		... write to out ...
-	=}
+  output out:int;
+  reaction(startup) -> out {=
+    ... write to out ...
+  =}
 }
 reactor Destination {
-	input in:int;
-	reaction(in) {=
-		... read from in ...
-	=}
+  input in:int;
+  reaction(in) {=
+    ... read from in ...
+  =}
 }
 main reactor ThreadedThreaded(width:int(4)) {
-	a = new Source();
-	d = new[width] Destination();
-	(a.out)+ -> d.in;
+  a = new Source();
+  d = new[width] Destination();
+  (a.out)+ -> d.in;
 }
 ```
 
@@ -1091,111 +1020,94 @@ The syntax `(a.out)+` means "repeat the output port `a.out` one or more times as
 
 ## Interleaved Connections
 
+<div class="lf-c lf-cpp lf-py">
+
 Sometimes, we don't want to broadcast messages to all reactors, but need more fine-grained control as to which reactor within a bank receives a message. If we have separate source and destination reactors, this can be done by combining multiports and banks as was shown in [Combining Banks and Multiports](#Combining-Banks-and-Multiports). Setting a value on the index _n_ of the output multiport, will result in a message to the _n_-th reactor instance within the destination bank. However, this pattern gets slightly more complicated, if we want to exchange addressable messages between instances of the same bank. This pattern is shown in the following example:
 
 $start(Interleaved)$
 
 ```lf-c
-target C;
-reactor Node(
-    num_nodes: size_t(4),
-    bank_index: int(0)
-) {
-    input[num_nodes] in: int;
-    output[num_nodes] out: int;
-
-    reaction (startup) -> out {=
-        lf_set(out[1], 42);
-        printf("Bank index %d sent 42 on channel 1.\n", self->bank_index);
-    =}
-
-    reaction (in) {=
-        for (int i = 0; i < in_width; i++) {
-            if (in[i]->is_present) {
-                printf("Bank index %d received %d on channel %d.\n",
-                    self->bank_index, in[i]->value, i
-                );
-            }
-        }
-    =}
+target C
+reactor Node(num_nodes: size_t = 4, bank_index: int = 0) {
+  input[num_nodes] in: int
+  output[num_nodes] out: int
+  reaction(startup) -> out {=
+    lf_set(out[1], 42);
+    printf("Bank index %d sent 42 on channel 1.\n", self->bank_index);
+  =}
+  reaction(in) {=
+    for (int i = 0; i < in_width; i++) {
+      if (in[i]->is_present) {
+        printf("Bank index %d received %d on channel %d.\n",
+          self->bank_index, in[i]->value, i
+        );
+      }
+    }
+  =}
 }
-main reactor(num_nodes: size_t(4)) {
-    nodes = new[num_nodes] Node(num_nodes=num_nodes);
-    nodes.out -> interleaved(nodes.in);
+main reactor(num_nodes: size_t = 4) {
+  nodes = new[num_nodes] Node(num_nodes=num_nodes)
+  nodes.out -> interleaved(nodes.in)
 }
-
 ```
 
 ```lf-cpp
-target Cpp;
-reactor Node(
-    num_nodes: size_t(4),
-    bank_index: int(0)
-) {
-    input[num_nodes] in: int;
-    output[num_nodes] out: int;
-
-    reaction (startup) -> out {=
-        out[1].set(42);
-        std::cout << "Bank index " << bank_index << " sent 42 on channel 1." << std::endl;
-    =}
-
-    reaction (in) {=
-        for (auto i = 0ul; i < in.size(); i++) {
-            if (in[i].is_present()) {
-                std::cout << "Bank index " << bank_index
-                    << " received " << *in[i].get() << " on channel" << std::endl;
-            }
-        }
-    =}
+target Cpp
+reactor Node(num_nodes: size_t(4), bank_index: int(0)) {
+  input[num_nodes] in: int
+  output[num_nodes] out: int
+  reaction(startup) -> out {=
+    out[1].set(42);
+    std::cout << "Bank index " << bank_index << " sent 42 on channel 1." << std::endl;
+  =}
+  reaction(in) {=
+    for (auto i = 0ul; i < in.size(); i++) {
+      if (in[i].is_present()) {
+        std::cout << "Bank index " << bank_index
+          << " received " << *in[i].get() << " on channel" << std::endl;
+      }
+    }
+  =}
 }
 main reactor(num_nodes: size_t(4)) {
-    nodes = new[num_nodes] Node(num_nodes=num_nodes);
-    nodes.out -> interleaved(nodes.in);
+  nodes = new[num_nodes] Node(num_nodes=num_nodes)
+  nodes.out -> interleaved(nodes.in)
 }
-
 ```
 
 ```lf-py
-target Python;
-reactor Node(
-    num_nodes(4),
-    bank_index(0)
-) {
-    input[num_nodes] inp;
-    output[num_nodes] out;
-
-    reaction (startup) -> out {=
-        out[1].set(42)
-        print(f"Bank index {self.bank_index} sent 42 on channel 1.")
-    =}
-
-    reaction (inp) {=
-        for i, port in enumerate(inp):
-            if port.is_present:
-                print(
-                    f"Bank index {self.bank_index} received {port.value} on channel {i}.",
-                )
-    =}
+target Python
+reactor Node(num_nodes=4, bank_index=0) {
+  input[num_nodes] inp
+  output[num_nodes] out
+  reaction(startup) -> out {=
+    out[1].set(42)
+    print(f"Bank index {self.bank_index} sent 42 on channel 1.")
+  =}
+  reaction(inp) {=
+    for i, port in enumerate(inp):
+      if port.is_present:
+        print(
+          f"Bank index {self.bank_index} received {port.value} on channel {i}.",
+        )
+  =}
 }
-main reactor(num_nodes(4)) {
-    nodes = new[num_nodes] Node(num_nodes=num_nodes);
-    nodes.out -> interleaved(nodes.inp);
+main reactor(num_nodes=4) {
+  nodes = new[num_nodes] Node(num_nodes=num_nodes)
+  nodes.out -> interleaved(nodes.inp)
 }
-
 ```
 
 ```lf-ts
+WARNING: No source file found: ../code/ts/src/Interleaved.lf
 target TypeScript
 reactor Node(numNodes: number(4)) {
     input[numNodes] inp: number
     output[numNodes] out: number
-
     reaction (startup) -> out {=
         out[1] = 42
         console.log(`Bank index ${this.getBankIndex()} sent 42 on channel 1.`)
     =}
-
     reaction (inp) {=
         for (let i = 0; i < in.length; i++) {
             if (in[i] !== undefined) {
@@ -1208,7 +1120,6 @@ main reactor(numNodes: number(4)) {
     nodes = new[numNodes] Node(numNodes=numNodes);
     nodes.out -> interleaved(nodes.inp)
 }
-
 ```
 
 ```lf-rs
@@ -1243,3 +1154,11 @@ If we were to use a normal connection `nodes.out -> nodes.in;` instead of the $i
 <img alt="Lingua Franca diagram" src="../../../../../img/diagrams/AddressableNaiveDesugared.png" width="600"/>
 
 Effectively, this connects each reactor instance to itself, which isn't very useful.
+
+</div>
+
+<div class="lf-rs lf-ts">
+
+The $interleaved$ keyword is not supported by $target-language$.
+
+</div>

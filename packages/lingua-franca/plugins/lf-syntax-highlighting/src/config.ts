@@ -16,7 +16,7 @@ export class Config {
       canonicalName: "Lingua Franca",
       scopeName: "source.lf",
       grammarFile: path.join(
-        "..", "vscode-lingua-franca", "syntax", "lflang.tmLanguage.json"
+        "..", "vscode-lingua-franca", "syntaxes", "lflang.tmLanguage.json"
       ),
       aliases: ['LF']
     },

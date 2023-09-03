@@ -7,12 +7,12 @@
 */
 
 export interface SidebarNavItem {
-  title: string;
-  id: string;
-  permalink?: string;
-  chronological?: boolean;
-  oneline?: string;
-  items?: SidebarNavItem[];
+  title: string
+  id: string
+  permalink?: string
+  chronological?: boolean
+  oneline?: string
+  items?: SidebarNavItem[]
 }
 
 /** ---INSERT--- */
@@ -20,9 +20,9 @@ export interface SidebarNavItem {
 export function getDocumentationNavForLanguage(
   langRequest: string
 ): SidebarNavItem[] {
-  const langs = ["en"];
-  const lang = langs.includes(langRequest) ? langRequest : "en";
-  const navigations: Record<string, SidebarNavItem[]> = {};
+  const langs = ["en"]
+  const lang = langs.includes(langRequest) ? langRequest : "en"
+  const navigations: Record<string, SidebarNavItem[]> = {}
 
   navigations.en = [
     {
@@ -90,6 +90,12 @@ export function getDocumentationNavForLanguage(
           oneline: "Reactions and methods in Lingua Franca.",
         },
         {
+          title: "Reaction Declarations",
+          id: "1-reaction-declarations",
+          permalink: "/docs/handbook/reaction-declarations",
+          oneline: "Reaction declarations in Lingua Franca.",
+        },
+        {
           title: "Causality Loops",
           id: "1-causality-loops",
           permalink: "/docs/handbook/causality-loops",
@@ -130,6 +136,12 @@ export function getDocumentationNavForLanguage(
           id: "1-multiports-and-banks",
           permalink: "/docs/handbook/multiports-and-banks",
           oneline: "Multiports and Banks of Reactors.",
+        },
+        {
+          title: "Generic Reactors",
+          id: "1-generic-reactors",
+          permalink: "/docs/handbook/generics",
+          oneline: "Defining generic reactors in Lingua Franca.",
         },
         {
           title: "Preambles",
@@ -222,6 +234,34 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/containerized-execution",
           oneline: "Containerized Execution using Docker",
         },
+        {
+          title: "Security",
+          id: "3-security",
+          permalink: "/docs/handbook/security",
+          oneline: "Secure Federated Execution",
+        },
+      ],
+    },
+    {
+      title: "Embedded Platforms",
+      oneline:
+        "Documentation for developing Lingua Franca on Embedded Platforms.",
+      id: "embedded-platforms",
+      chronological: true,
+
+      items: [
+        {
+          title: "Arduino",
+          id: "4-arduino",
+          permalink: "/docs/handbook/arduino",
+          oneline: "Developing LF Programs on Arduino.",
+        },
+        {
+          title: "Zephyr",
+          id: "4-zephyr",
+          permalink: "/docs/handbook/zephyr",
+          oneline: "Developing LF Programs for Zephyr RTOS.",
+        },
       ],
     },
     {
@@ -233,46 +273,46 @@ export function getDocumentationNavForLanguage(
 
       items: [
         {
-          title: "Regression Tests",
-          id: "4-regression-tests",
-          permalink: "/docs/handbook/regression-tests",
-          oneline: "Regression Tests for Lingua Franca.",
-        },
-        {
           title: "Contributing",
-          id: "4-contributing",
+          id: "5-contributing",
           permalink: "/docs/handbook/contributing",
           oneline: "Contribute to Lingua Franca.",
         },
         {
-          title: "Downloading",
-          id: "4-downloading",
-          permalink: "/docs/handbook/download",
-          oneline: "Quick start with Lingua Franca.",
-        },
-        {
-          title: "Developer Eclipse Setup",
-          id: "4-developer-eclipse-setup",
-          permalink: "/docs/handbook/eclipse-oomph",
-          oneline: "Developer Eclipse setup with Oomph.",
+          title: "Developer Setup",
+          id: "5-developer-setup",
+          permalink: "/docs/handbook/developer-setup",
+          oneline: "Setting up Lingua Franca for developers.",
         },
         {
           title: "Developer IntelliJ Setup",
-          id: "4-developer-intellij-setup",
+          id: "5-developer-intellij-setup",
           permalink: "/docs/handbook/intellij",
           oneline: "Developer IntelliJ Setup.",
         },
         {
+          title: "Regression Tests",
+          id: "5-regression-tests",
+          permalink: "/docs/handbook/regression-tests",
+          oneline: "Regression Tests for Lingua Franca.",
+        },
+        {
           title: "Running Benchmarks",
-          id: "4-running-benchmarks",
+          id: "5-running-benchmarks",
           permalink: "/docs/handbook/running-benchmarks",
           oneline: "Running Benchmarks.",
         },
+        {
+          title: "Website Development",
+          id: "5-website-development",
+          permalink: "/docs/handbook/website-development",
+          oneline: "Development of the Lingua Franca website.",
+        },
       ],
     },
-  ];
+  ]
 
-  return navigations[lang];
+  return navigations[lang]
 }
 
 /** ---INSERT-END--- */
@@ -283,40 +323,40 @@ const findInNav = (
 ): SidebarNavItem | undefined => {
   if (Array.isArray(item)) {
     for (const subItem of item) {
-      const sub = findInNav(subItem, fun);
-      if (sub) return sub;
+      const sub = findInNav(subItem, fun)
+      if (sub) return sub
     }
   } else {
-    if (fun(item)) return item;
-    if (!item.items) return undefined;
+    if (fun(item)) return item
+    if (!item.items) return undefined
     for (const subItem of item.items) {
-      const sub = findInNav(subItem, fun);
-      if (sub) return sub;
+      const sub = findInNav(subItem, fun)
+      if (sub) return sub
     }
-    return undefined;
+    return undefined
   }
-};
+}
 
 export function getNextPageID(navs: SidebarNavItem[], currentID: string) {
   // prettier-ignore
   const section = findInNav(navs, (i) => i && !!i.items && !!i.items.find(i => i.id === currentID)) || false
-  if (!section) return undefined;
-  if (!section.chronological) return undefined;
-  if (!section.items) return;
+  if (!section) return undefined
+  if (!section.chronological) return undefined
+  if (!section.items) return
 
-  const currentIndex = section.items.findIndex((i) => i.id === currentID);
-  const next = section.items[currentIndex + 1];
+  const currentIndex = section.items.findIndex(i => i.id === currentID)
+  const next = section.items[currentIndex + 1]
   if (next) {
     if (next.items) {
       return {
         path: next.items[0].permalink,
         ...section.items[currentIndex + 1],
-      };
+      }
     } else {
       return {
         path: next.permalink,
         ...section.items[currentIndex + 1],
-      };
+      }
     }
   }
 }
@@ -325,17 +365,17 @@ export function getPreviousPageID(navs: SidebarNavItem[], currentID: string) {
   // prettier-ignore
   const section = findInNav(navs, (i) => i && !!i.items && !!i.items.find(i => i.id === currentID)) || false
 
-  if (!section) return undefined;
-  if (!section.chronological) return undefined;
-  if (!section.items) return;
+  if (!section) return undefined
+  if (!section.chronological) return undefined
+  if (!section.items) return
 
-  const currentIndex = section.items.findIndex((i) => i.id === currentID);
-  const prev = section.items[currentIndex - 1];
+  const currentIndex = section.items.findIndex(i => i.id === currentID)
+  const prev = section.items[currentIndex - 1]
 
   if (prev) {
     return {
       path: prev.permalink,
       ...section.items[currentIndex - 1],
-    };
+    }
   }
 }

@@ -1,34 +1,55 @@
 ---
-title: Downloading
+title: Developer Setup
 layout: docs
-permalink: /docs/handbook/download
-oneline: "Quick start with Lingua Franca."
+permalink: /docs/handbook/developer-setup
+oneline: "Setting up Lingua Franca for developers."
 preamble: >
 ---
 
-## Releases and Nightly Snapshots
+## Prerequisites
 
-To get started with Lingua Franca immediately, choose one or more of the following tools:
+- Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/))
 
-- [Visual Studio Code Extension](/docs/handbook/code-extension), a popular IDE from Microsoft.
-- [Epoch IDE](/docs/handbook/epoch-ide), an Eclipse-based IDE specifically for Lingua Franca.
-- [Command-line Tools](/docs/handbook/command-line-tools)
-- [Vim and Neovim plugins](https://github.com/lf-lang/lingua-franca.vim)
+## Cloning the Repository
 
-The VS Code plugin gives you the latest **release** of the Lingua Franca tools, including the diagram synthesis.
-If instead you want to use the **most recent development version** of Lingua Franca, then you will be given the option to download the Epoch IDE or the command-line tools from the nightly build. Just follow the above links.
-The Vim plugin provides syntax-directed editing, but it does not include the diagram synthesis that is available with Epoch and Code.
-The diagram synthesis is quite useful, so we recommend using Epoch or Code to develop LF programs.
+Please run the following commands to clone the repository and its submodules.
 
-## The Repository
+```sh
+git clone git@github.com:lf-lang/lingua-franca.git
+cd lingua-franca
+git submodule update --init --recursive
+```
 
-If you plan to contribute to Lingua Franca, or if you want to keep up to date as the project evolves, you will need to work from the git repository on GitHub. There are several ways to do this:
+## Building the command line tools
 
-1. [IntelliJ setup](/docs/handbook/intellij) (Recommended if you plan to do Kotlin development)
-2. [Oomph setup for Eclipse](/docs/handbook/eclipse-oomph) (This does not currently support Kotlin development, used in C++ and Rust code generators)
-3. [Clone the Repository](https://github.com/lf-lang/lingua-franca) and build manually using Gradle or Maven:
+We use [Gradle](https://docs.gradle.org/current/userguide/userguide.html) for building the code within our repository.
 
-   - Gradle: `./gradlew assemble` (the `build` also performs tests, which takes a long time)
-   - Maven: `mvn compile` (you need to install Maven first)
+For an easy start, the `bin/` directory contains scripts for building and running our compiler lfc and our code formatter lff.
+Try to run `./bin/lfc --version`.
+This will first build `lfc` and then execute it through Gradle.
+In fact, running `./bin/lfc <args>` is equivalent to running `./gradlew cli:lfc:run --args="<args>"`.
 
-Some of code generator components are written in Kotlin, which is not supported by Eclipse. If you want a Kotlin-friendly developer environment, we recommend using IntelliJ, as described [here](https://www.lf-lang.org/docs/handbook/intellij). <!-- To build the Lingua Franca IDE (Epoch) with Kotlin-based code generators enabled (which is not possible with the Eclipse setup), please see the instructions in [[Running Lingua Franca IDE (Epoch) with Kotlin based Code Generators Enabled (without Eclipse Environment)]]. -->
+To build the entire repository, you can simply run `./gradlew build`.
+This will build all tools and also run all formatting checks and unit tests.
+Note that this does not run our integration tests.
+For more details on our testing infrastructure, please refer to the [Regression Test](/docs/handbook/regression-tests) section.
+
+If you only want to build without running any tests, you can use `./gradlew assemble` instead.
+Both the assemble and the build task will create a distribution package containing our command line tools in `build/distribution`.
+There is also an installed version of this package in `build/install/lf-cli/`.
+If you run `build/install/lf-cli/bin/lfc` this will run lfc as it was last build.
+Thus, you can choose if you want to use `bin/lfc`, which runs lfc through gradle and always uses the latest code, or if you prefer to run `./gradlew build` and then directly invoke `build/install/lf-cli/bin/lfc`.
+
+## IDE Integration
+
+You can use any editor or IDE that you like to work with the code base.
+However, we would suggest to choose an IDE that comes with good Java (and
+ideally Kotlin) support and that integrates well with Gradle.
+We recommend to use our [IntelliJ setup](/docs/handbook/intellij).
+
+## Building IDEs
+
+Currently, we provide two IDEs that support Lingua Franca programs.
+Their source code is located in external repositories.
+We have a [Lingua Franca extension](https://github.com/lf-lang/vscode-lingua-franca) for VS code and an Eclipse based IDE called [Epoch](https://github.com/lf-lang/epoch).
+Please refer to the READMEs for build instructions.

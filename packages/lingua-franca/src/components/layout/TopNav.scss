@@ -6,7 +6,7 @@
 }
 
 #top-menu {
-  background-color: rgb(1, 49, 99);
+  background-color: $lf-main-blue-darker-color;
 
   user-select: none;
   clear: both;
@@ -122,7 +122,7 @@
 
 form.search {
   height: 4rem;
-  background-color: $lf-main-blue-color;
+  background-color: $lf-main-blue-darker-color;
   border-radius: 3px 0px 0px 3px;
 
   padding-left: 1rem;
@@ -151,13 +151,15 @@ form.search {
   }
 
   input {
+    outline: none;
+    border: none;
     width: 150px;
 
     &:focus-within {
       background-color: $lf-main-blue-lighter-color;
     }
     -webkit-appearance: none;
-    background-color: $lf-main-blue-color;
+    background-color: $lf-main-blue-darker-color;
 
     border-color: #152740;
     border-radius: 0;
@@ -340,18 +342,14 @@ form.search {
     /* Simplify the nav to a few buttons and home */
     .below-small nav {
       flex-grow: 1;
-      columns: 2;
+      overflow-x: scroll;
+      ul {
+        display: flex;
+        flex-wrap: nowrap;
 
-      @media (min-width: 450px) {
-        columns: 1;
-        ul {
-          display: flex;
-          flex-wrap: wrap;
-  
-          li {
-            flex: 1;
-            text-align: center;
-          }
+        li {
+          flex: 1;
+          text-align: center;
         }
       }
     }
@@ -369,7 +367,7 @@ form.search {
       display: flex;
 
       svg {
-        // width: 2.5rem;
+        height: 40%;
         position: relative;
         top: 1rem;
       }

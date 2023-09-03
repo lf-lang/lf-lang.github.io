@@ -20,6 +20,7 @@ The `<name>` gives the name of some Lingua Franca target language, which is the 
 
 A target specification may have optional parameters, the names and values of which depend on which specific target you are using. Each parameter is a key-value pair, where the supported keys are a subset of the following:
 
+- [**auth**](#auth): A boolean specifying to apply authorization between RTI and federates when federated execution.
 - [**build**](#build): A command to execute after code generation instead of the default compile command.
 - [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
@@ -48,6 +49,7 @@ Not all targets support all target parameters. The full set of target parameters
 
 ```lf-c
 target C {
+    auth: <true or false>
     build: <string>,
     build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
     cmake: <true or false>,
@@ -139,6 +141,20 @@ This specifies to use compiler `cc` instead of the default `gcc`, to use optimiz
 The comma on the last parameter is optional, as is the semicolon on the last line.
 A target may support overriding the target parameters on the [command line](#command-line-arguments) when invoking the compiled program.
 
+## auth
+
+<div class="lf-cpp lf-py lf-ts lf-rs">
+
+The $target-language$ target does not currently support the `auth` target option.
+
+</div>
+
+<div class="lf-c">
+
+The detailed documentation is [here](/docs/handbook/security).
+
+</div>
+
 ## build
 
 <div class="lf-cpp lf-py lf-ts lf-rs">
@@ -153,6 +169,7 @@ A command to execute after code generation instead of the default compile comman
 
 - `LF_CURRENT_WORKING_DIRECTORY`: The directory in which the command is invoked.
 - `LF_SOURCE_DIRECTORY`: The directory containing the .lf file being compiled.
+- `LF_PACKAGE_DIRECTORY`: The directory for the root of the project or package (normally the directory above the `src` directory).
 - `LF_SOURCE_GEN_DIRECTORY`: The directory in which generated files are placed.
 - `LF_BIN_DIRECTORY`: The directory into which to put binaries.
 
@@ -321,7 +338,7 @@ target Cpp {
 };
 ```
 
-This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](/docs/handbook/distributed-execution)</span>.
+This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](/docs/handbook/distributed-execution))</span>.
 
 The cmake-include target property can be used, for example, to add dependencies on various packages (e.g., by using the [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) and [`target_link_libraries`](https://cmake.org/cmake/help/latest/command/target_link_libraries.html) commands).
 
