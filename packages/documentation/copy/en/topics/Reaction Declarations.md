@@ -112,7 +112,7 @@ root (the parent of the `src` directory).
 </div>
 
 <div class="lf-cpp">
-FIXME
+The C++ target supports reaction declarations. Documentation of this feature is forthcoming.
 </div>
 
 <div class="lf-py lf-ts lf-rs">
