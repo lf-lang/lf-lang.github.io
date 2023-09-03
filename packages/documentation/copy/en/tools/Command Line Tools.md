@@ -6,58 +6,48 @@ oneline: "Command-line tools for Lingua Franca."
 preamble: >
 ---
 
-## Download the Command Line Tools
+## Installing the Command Line Tools
 
-The command-line compiler `lfc` can be installed in any directory, but it will be most convenient if add its directory to your <code>PATH</code> environment variable.
-To download the current development version of the command-line tools instead of the latest release, replace the following tar and zip files with those from the <a href="https://github.com/lf-lang/lingua-franca/releases/tag/nightly">nightly build</a>.
+The command-line tools (`lfc` for compilation, `lfd` for diagram synthesis, and `lff` for formatting), can be installed automatically using the following one-liner:
 
-### Linux and macOS
-
-Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/lf-cli-0.4.0.tar.gz">lfc 0.4.0 for Linux/Mac</a> and run:
-
-```shell
-    tar xvf lf-cli-0.4.0.tar.gz
-    ./lf-cli-0.4.0/bin/lfc --help
+```sh
+$ curl -Ls https://install.lf-lang.org | sh -s cli
 ```
 
-### Windows
+This installs the latest stable version.
+To install the nightly-built version, simply add `nightly` to the parameters passed to the installer:
 
-Download <a href="https://github.com/lf-lang/lingua-franca/releases/download/v0.4.0/lf-cli-0.4.0.zip">lfc 0.4.0 for Windows</a> and run:
-
-```powershell
-    unzip lf-cli-0.4.0.zip
-    .\lf-cli-0.4.0\bin\lfc.ps1 --version
+```sh
+$ curl -Ls https://install.lf-lang.org | sh -s nightly cli
 ```
 
-### Developer
+A default installation directory is chosen by the installer depending on the platform. You can also specify a prefix using the `--prefix=<path>` parameter. For instance, if you specify `--prefix=/usr` then the executables will be placed in `/usr/bin`.
+
+For a manual installation, refer to the artifacts published with our [releases](https://github.com/lf-lang/lingua-franca/releases/). (Just decompress the archive and find the executables in the `bin` directory.)
+
+### Building from Source
 
 Clone the repository using one of
 
-```shell
-    git clone git@github.com:lf-lang/lingua-franca.git
+```sh
+$ git clone git@github.com:lf-lang/lingua-franca.git
 ```
 
 or
 
 ```sh
-    git clone https://github.com/lf-lang/lingua-franca.git
+$ git clone https://github.com/lf-lang/lingua-franca.git
 ```
 
-Then build using `gradle` or `maven`:
+Then change directory to `lingua-franca` and build using `gradle`:
 
 ```sh
-    ./gradlew assemble
-```
-
-or
-
-```sh
-    mvn compile
+$ ./gradlew build
 ```
 
 **Note:** The Gradle build also performs tests, which takes a long time.
 
-The comnand-line tools will then be in a directory `lingua-franca/bin`.
+After building, the command-line tools will be in `./bin`.
 
 ## Using the Command Line Tools
 
@@ -66,19 +56,17 @@ such as `Example.lf` and putting that file with a directory called `src`.
 Then compile the program:
 
 ```sh
-    lfc src/Example.lf
+$ lfc src/Example.lf
 ```
 
 This will create two directories in parallel with the `src` directory, `src-gen` and `bin`. If your target language is a compiled one (like C and C++), then the `bin` directory should contain an executable that you can run:
 
 ```sh
-    bin/Example
+$ bin/Example
 ```
 
 To see the options that can be given to `lfc`, get help:
 
 ```sh
-    lfc --help
+$ lfc --help
 ```
-
-If you have installed the developer setup by cloning the GitHub repository, then there are a number of other command-line tools available in the `lingua-franca/bin` directory.
