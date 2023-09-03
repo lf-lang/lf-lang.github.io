@@ -13,7 +13,7 @@ Sometimes, it is inconvenient to mix Lingua Franca code with target code. Rather
 ## Example
 
 Consider the following program that has a single reaction named `hello` and is triggered at startup.
-It has no implementation. Instead, the `cmake-include` target property is used to make the build system aware of an externally supplied implementation. The `files` target property is used to make the file that has the implementation accessible.
+It has no implementation.
 
 ```lf-c
 target C {
@@ -29,9 +29,14 @@ main reactor HelloDecl {
 
 ```
 
+The `cmake-include` target property is used to make the build system aware of an externally supplied implementation. The contents of `hello.cmake` is as follows:
+
 ```cmake
 target_sources(${LF_MAIN_TARGET} PRIVATE hello.c)
 ```
+
+The `files` target property is used to make the file that has the implementation in `hello.c` accessible,
+which could look something like this:
 
 ```c
 #include <stdio.h>
