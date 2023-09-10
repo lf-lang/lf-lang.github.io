@@ -23,6 +23,12 @@ const Index: React.FC<Props> = (props) => {
 
 <p>In reverse chronological order: </p>
 <ul>
+<li><p><strong>VER&#39;23</strong>: Shaokai Lin, Yatin A. Manerkar, Marten Lohstroh, Elizabeth Polgreen, Sheng-Jung Yu, Chadlia Jerad, Edward A. Lee, Sanjit A. Seshia, &quot;<a href="https://dl.acm.org/doi/10.1145/3609134">Towards Building Verifiable CPS using Lingua Franca</a>,&quot; <i>ACM Transactions on Embedded Computing Systems</i> (TECS), Vol. 22, No. 5s, Sept. 9, 2023.</p>
+</li>
+<li><p><strong>CAL_CPS&#39;23</strong>: Edward A. Lee, Ravi Akella, Soroush Bateni, Shaokai Lin, Marten Lohstroh, Christian Menard, &quot;<a href="https://dl.acm.org/doi/10.1145/3609119">Consistency vs. Availability in Distributed Cyber-Physical Systems</a>,&quot; in <i>ACM Transactions on Embedded Computing Systems</i> (TECS), Vol. 22, No. 5s, Sept. 9, 2023.</p>
+</li>
+<li><p><strong>TACO&#39;23</strong>: Christian Menard , Marten Lohstroh , Soroush Bateni , Matthew Chorlian , Arthur Deng , Peter Donovan , Clément Fournier , Shaokai Lin , Felix Suchert , Tassilo Tanneberger , Hokeun Kim , Jeronimo Castrillon , Edward A. Lee, &quot;<a href="https://dl.acm.org/doi/10.1145/3617687">High-Performance Deterministic Concurrency using Lingua Franca</a>,&quot; <i>ACM Transactions on Architecture and Code Optimization</i> (TACO), Accepted Aug. 29, 2023</p>
+</li>
 <li><p><strong>LET&#39;23</strong>: Edward A. Lee and Marten Lohstroh, &quot;<a href="https://www.icyphy.org/publications/2023_LeeLohstroh/">Generalizing Logical Execution Time</a>,&quot; in <i>Principles of Systems Design - Essays Dedicated to Thomas A. Hensinzer on the Occasion of his 60th Birthday</i>, LNCS 13660, July 2023, to appear.</p>
 </li>
 <li><p><strong>CAL_IC&#39;23</strong>: Edward A. Lee, Soroush Bateni, Shaokai Lin, Marten Lohstroh, and Christian Menard,  &quot;<a href="https://doi.org/10.34133/icomputing.0013">Trading Off Consistency and Availability in Tiered Heterogeneous Distributed Systems</a>,&quot; Intelligent Computing, vol. 2, no. Article 0013, pp. 1-23, February 15 2023.</p>
