@@ -56,3 +56,4 @@ Users who edit LF programs with a Python target will benefit the most from Pytho
 ## Building from Source
 
 To build the extension from source, clone our [GitHub repository](https://github.com/lf-lang/vscode-lingua-franca) and run `npm install`.
+
