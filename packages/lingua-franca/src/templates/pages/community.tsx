@@ -88,6 +88,28 @@ const active = [
     continentish: "Europe",
     blurb: "Graduate student at Kiel University.",
   },
+  {
+    name: "Erling Rennemo Jellum",
+    url: "Please add",
+    image: "Please add",
+    country: "🇳🇴",
+    continentish: "Europe",
+    blurb: "Please add.",
+  },
+  {
+    name: "Dongha Kim",
+    image: "Please add",
+    country: "🇰🇷",
+    continentish: "East Asia",
+    blurb: "Please add",
+  },
+  {
+    name: "Byeonggil Jun",
+    image: "https://avatars.githubusercontent.com/u/78055940?s=400&v=4",
+    country: "🇰🇷",
+    continentish: "East Asia",
+    blurb: "Undergraduate student at Hanyang University.",
+  },
 ]
 
 const past = [
@@ -196,15 +218,15 @@ export const Comm: React.FC<Props> = props => {
         <div className="events">
 
           <div className="callouts">
-            {active.map(({name, image, country, url, twitter, blurb}, index) => (
+            {active.map(({ name, image, country, url, twitter, blurb }, index) => (
               <Col className="callout" key={index}>
                 <img src={image} className="icon img-square" alt={"logo of " + name} />
                 <div>
                   <h5 className="community-callout-headline">{name}</h5>
                   <h6 className="blurb">{blurb}</h6>
                   <div className="text">{country}<br />
-                    {" "}{url? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a> 
-                    : null}
+                    {" "}{url ? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a>
+                      : null}
                     {" "}{twitter ? <a rel="noopener" target="blank" href={twitter} title={"Twitter page for " + name}>Twitter</a> : null}
                   </div>
                 </div>
@@ -219,15 +241,15 @@ export const Comm: React.FC<Props> = props => {
         <div className="events">
 
           <div className="callouts">
-            {past.map(({name, image, country, url, twitter, blurb}, index) => (
+            {past.map(({ name, image, country, url, twitter, blurb }, index) => (
               <Col className="callout" key={index}>
                 <img src={image} className="icon img-square" alt={"logo of " + name} />
                 <div>
                   <h5 className="community-callout-headline">{name}</h5>
                   <h6 className="blurb">{blurb}</h6>
                   <div className="text">{country}<br />
-                    {" "}{url? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a> 
-                    : null}
+                    {" "}{url ? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a>
+                      : null}
                     {" "}{twitter ? <a rel="noopener" target="blank" href={twitter} title={"Twitter page for " + name}>Twitter</a> : null}
                   </div>
                 </div>
@@ -237,7 +259,7 @@ export const Comm: React.FC<Props> = props => {
         </div>
       </div>
     </Layout >
-    
+
   )
 }
 
