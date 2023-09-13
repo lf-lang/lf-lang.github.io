@@ -27,12 +27,34 @@ const active = [
     blurb: "Master student at TU Dresden.",
   },
   {
+    name: "Erling Rennemo Jellum",
+    url: "Please add",
+    image: "Please add",
+    country: "🇳🇴",
+    continentish: "Europe",
+    blurb: "Please add.",
+  },
+  {
+    name: "Byeonggil Jun",
+    image: "https://avatars.githubusercontent.com/u/78055940?s=400&v=4",
+    country: "🇰🇷",
+    continentish: "East Asia",
+    blurb: "Undergraduate student at Hanyang University.",
+  },
+  {
+    name: "Dongha Kim",
+    image: "Please add",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Ph.D. student at Arizona State University",
+  },
+  {
     name: "Hokeun Kim",
     url: "https://hokeun.github.io/",
     image: "https://avatars.githubusercontent.com/u/2585943?v=4",
-    country: "🇰🇷",
-    continentish: "East Asia",
-    blurb: "Assistant Professor at Hanyang University.",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Assistant Professor at Arizona State University.",
   },
   {
     name: "Edward A. Lee",
@@ -75,41 +97,12 @@ const active = [
     blurb: "Graduate Student at TU Dresden.",
   },
   {
-    name: "Anirudh Rengarajan",
-    image: "https://avatars.githubusercontent.com/u/44007330?v=4",
-    country: "🇺🇸",
-    continentish: "North America",
-    blurb: "M.S. student @ UC Berkeley.",
-  },
-  {
     name: "Alexander Schulz-Rosengarten",
     image: "https://avatars.githubusercontent.com/u/25612037?v=4",
     country: "🇩🇪",
     continentish: "Europe",
     blurb: "Graduate student at Kiel University.",
-  },
-  {
-    name: "Erling Rennemo Jellum",
-    url: "Please add",
-    image: "Please add",
-    country: "🇳🇴",
-    continentish: "Europe",
-    blurb: "Please add.",
-  },
-  {
-    name: "Dongha Kim",
-    image: "Please add",
-    country: "🇰🇷",
-    continentish: "East Asia",
-    blurb: "Please add",
-  },
-  {
-    name: "Byeonggil Jun",
-    image: "https://avatars.githubusercontent.com/u/78055940?s=400&v=4",
-    country: "🇰🇷",
-    continentish: "East Asia",
-    blurb: "Undergraduate student at Hanyang University.",
-  },
+  }
 ]
 
 const past = [
@@ -127,6 +120,13 @@ const past = [
     country: "🇺🇸",
     continentish: "North America",
     blurb: "Applied Math and CS student at UC Berkeley."
+  },
+  {
+    name: "Anirudh Rengarajan",
+    image: "https://avatars.githubusercontent.com/u/44007330?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "M.S. student @ UC Berkeley.",
   },
   {
     name: "Martin Schoeberl",
