@@ -28,6 +28,19 @@ export const AboveTheFold = () => {
   const [showCTALinks, setShowCTALinks] = useState(false)
   const i = createInternational<typeof indexCopy>(useIntl())
 
+  const [versionSubtitle, setVersionSubtitle] = useState(i("index_2_cta_install_fallback"));
+
+  useEffect(() => {
+    const fetchAndUpdateVersionNumber = async () => {
+      const version = (await (await fetch("https://api.github.com/repos/lf-lang/lingua-franca/releases/latest")).json())["tag_name"];
+      setVersionSubtitle(version != null ? `${i("index_2_cta_install_subtitle")} ${version}` : i("index_2_cta_install_fallback"));
+    };
+
+    fetchAndUpdateVersionNumber().catch(
+      (reason) => { console.log(reason); }
+    );
+  }, []);
+
   const Headline = () => {
     const onclick = (e) => {
       setShowCTALinks(false)
@@ -45,7 +58,7 @@ export const AboveTheFold = () => {
         <div className="call-to-action" style={{ justifyContent: "left" }}>
           <FluidButton
             title={i("index_2_cta_install")}
-            subtitle={i("index_2_cta_install_subtitle")}
+            subtitle={versionSubtitle}
             href="/download"
             icon={
               <svg width="21" height="5" viewBox="0 0 21 5" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -64,7 +77,7 @@ export const AboveTheFold = () => {
       <h2>Get Started With Lingua Franca</h2>
       <Row>
         <Col className="call-to-action hide-small">
-          <img src={require("../../../../../img/Lingua_Franca.png").default} width="100%"  />
+          <img src={require("../../../../../img/Lingua_Franca.png").default} width="100%" />
           <FluidButton
             title={i("index_2_cta_download")}
             subtitle={i("index_2_cta_download_subtitle")}
@@ -86,7 +99,7 @@ export const AboveTheFold = () => {
       <h2>Get Started<br />With Lingua Franca</h2>
       <Row>
         <Col className="call-to-action flex-column">
-          <img src={require("../../../../../img/Lingua_Franca.png").default} width="100%"  />
+          <img src={require("../../../../../img/Lingua_Franca.png").default} width="100%" />
           <div className="inline-buttons">
             <a className='flat-button' href="/docs/handbook/intro.html">Web</a>
             <a className='flat-button' href="/assets/lingua-franca-handbook.epub">Epub</a>
@@ -101,7 +114,7 @@ export const AboveTheFold = () => {
     const Content = window.innerWidth < 600 ? CTAHeadlineMobile : CTAHeadlines
     return (
       <div className="cta">
-        <a className="transparent-button" onClick={() => setShowCTALinks(false)}  href="#">
+        <a className="transparent-button" onClick={() => setShowCTALinks(false)} href="#">
           <svg width="21" height="14" viewBox="0 0 21 14" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M20.25 7.75L1.75 7.75M1.75 7.75L7.75 1.25M1.75 7.75L7.75 13.25" stroke="white" strokeWidth="2" />
           </svg>
