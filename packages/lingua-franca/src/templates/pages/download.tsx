@@ -55,11 +55,38 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
       <h2 id="download-epoch">Epoch IDE</h2>
-      <p>To install Epoch, open your terminal (in Windows, use WSL), and run the following command:
-        <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch</code></p>
-      </p>
-      <p>If your <code>PATH</code> is configured correctly, you should be able start Epoch by running the <code>epoch</code> command in your terminal.</p>
-      See <a href="/docs/handbook/epoch-ide">more details</a>.
+      <p>There are multiple options availabe for installing Epoch:</p>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>Install Script</h3>
+          <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
+              <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch</code></p>
+          </p>
+          <p>You can also install the nightly release:
+              <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch nightly</code></p>
+          </p>
+          <p>You can use the <code>--prefix=&lt;path&gt;</code> argument to change the default install location.</p>
+      </div>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>AUR</h3>
+          <p>There are binary packages availabe in the Arch user repository, which you can install using your favourite AUR helper. For instance, with yay:
+              <p><code>yay -S epoch-bin</code></p>
+          or for the nightly release:
+              <p><code>yay -S epoch-nightly-bin</code></p>
+          </p>
+      </div>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>Manual Download</h3>
+          <p>Regular and nightly release builds of Epoch can be downloaded from the <a href="https://github.com/lf-lang/epoch/releases">release page</a>. Download the archive that matches your OS and architecture, and extract the contents.</p>
+          <p>MacOS requires extra steps before being able to execute the app:
+              <p><code>xattr -cr Epoch.app</code></p>
+                  To install, drag the Epoch.app file to your Applications folder. You can then invoke the App as follows:
+                  <p><code>open -a Epoch.app</code></p>
+          </p>
+      </div>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>From Source</h3>
+          <p>Please refer to the <a href="https://github.com/lf-lang/epoch">Epoch GitHub repository</a> for build instructions.</p>
+      </div>
     </div>
 
     <div className="raised main-content-block">
