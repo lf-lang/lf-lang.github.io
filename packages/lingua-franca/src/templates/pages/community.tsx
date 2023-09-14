@@ -43,7 +43,7 @@ const active = [
   },
   {
     name: "Dongha Kim",
-    image: "Please add",
+    image: "https://avatars.githubusercontent.com/u/74869052?s=400&v=4",
     country: "🇺🇸",
     continentish: "North America",
     blurb: "Ph.D. student at Arizona State University",
