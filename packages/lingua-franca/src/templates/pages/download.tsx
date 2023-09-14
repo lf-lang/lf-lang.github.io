@@ -42,16 +42,22 @@ const Index: React.FC<Props> = (props) => {
     </div>
     <div className="raised main-content-block">
     <h2 id="vscode">Visual Studio Code</h2>
-      <p>Our Visual Studio Code extension is available on the <
-        a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a
-        > and <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
-        To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter:<p><code>ext install lf-lang.vscode-lingua-franca</code></p>
-      </p><p>
-        You can also run:
-        <p><code>code --install-extension lf-lang.vscode-lingua-franca</code></p> in your terminal to install the extension. To use the nightly pre-release of the extension instead of the latest release, find the Lingua Franca extension in the Extensions tab and click on the "Switch to Pre-Release Version" button.
-      </p><p>
-          See the <a href="/docs/handbook/code-extension">handbook</a> for usag instructions.
+      <p>Our Visual Studio Code extensios can be installed via the Marketplace or build from source as detailed below.
+         See the <a href="/docs/handbook/code-extension">handbook</a> for usage instructions.
       </p>
+      <div style={{borderTop: "1px lightgray solid"}}>
+        <h3>Marketplace</h3>
+        <p>The Lingua Franca extension is available on the <a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a> and the <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>. To install the extension, open VS Code, launch Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter:
+          <p><code>ext install lf-lang.vscode-lingua-franca</code></p>
+        </p><p>
+          Alternatively, you can run the following command in your terminal:
+          <p><code>code --install-extension lf-lang.vscode-lingua-franca</code></p>
+        </p><p>To use the nightly pre-release of the extension instead of the latest release, find the Lingua Franca extension in the Extensions tab and click on the "Switch to Pre-Release Version" button.</p>
+      </div>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>From Source</h3>
+          <p>Please refer to the <a href="https://github.com/lf-lang/vscode-lingua-franca">Lingua Franca Code Extension GitHub repository</a> for build instructions.</p>
+      </div>
     </div>
 
     <div className="raised main-content-block">
@@ -62,7 +68,7 @@ const Index: React.FC<Props> = (props) => {
           <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
               <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch</code></p>
           </p>
-          <p>You can also install the nightly release:
+          <p>You can also install the nightly pre-release:
               <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch nightly</code></p>
           </p>
           <p>You can use the <code>--prefix=&lt;path&gt;</code> argument to change the default install location.</p>
@@ -71,7 +77,7 @@ const Index: React.FC<Props> = (props) => {
           <h3>AUR</h3>
           <p>There are binary packages availabe in the Arch user repository, which you can install using your favourite AUR helper. For instance, with yay:
               <p><code>yay -S epoch-bin</code></p>
-          or for the nightly release:
+          or for the nightly pre-release:
               <p><code>yay -S epoch-nightly-bin</code></p>
           </p>
       </div>
@@ -98,7 +104,7 @@ const Index: React.FC<Props> = (props) => {
           <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
               <p><code>curl -Ls https://install.lf-lang.org | sh -s cli</code></p>
           </p>
-          <p>You can also install the nightly release:
+          <p>You can also install the nightly pre-release:
               <p><code>curl -Ls https://install.lf-lang.org | sh -s cli nightly</code></p>
           </p>
           <p>You can use the <code>--prefix=&lt;path&gt;</code> argument to change the default install location.</p>
@@ -107,7 +113,7 @@ const Index: React.FC<Props> = (props) => {
           <h3>AUR</h3>
           <p>There are binary packages availabe in the Arch user repository, which you can install using your favourite AUR helper. For instance, with yay:
               <p><code>yay -S lf-cli-bin</code></p>
-          or for the nightly release:
+          or for the nightly pre-release:
               <p><code>yay -S lf-cli-nightly-bin</code></p>
           </p>
       </div>
