@@ -46,16 +46,17 @@ const Index: React.FC<Props> = (props) => {
         a href="https://marketplace.visualstudio.com/items?itemName=lf-lang.vscode-lingua-franca">Visual Studio Marketplace</a
         > and <a href="https://open-vsx.org/extension/lf-lang/vscode-lingua-franca">VSX Registry</a>.
         To install this extension from the marketplace, launch VS Code Quick Open (<kbd>Ctrl</kbd> + <kbd>P</kbd>) and enter:<p><code>ext install lf-lang.vscode-lingua-franca</code></p>
-      </p><p>  
+      </p><p>
         You can also run:
         <p><code>code --install-extension lf-lang.vscode-lingua-franca</code></p> in your terminal to install the extension. To use the nightly pre-release of the extension instead of the latest release, find the Lingua Franca extension in the Extensions tab and click on the "Switch to Pre-Release Version" button.
+      </p><p>
+          See the <a href="/docs/handbook/code-extension">handbook</a> for usag instructions.
       </p>
-      See <a href="/docs/handbook/code-extension">more details</a>.
     </div>
 
     <div className="raised main-content-block">
-      <h2 id="download-epoch">Epoch IDE</h2>
-      <p>There are multiple options availabe for installing Epoch:</p>
+        <h2 id="download-epoch">Epoch IDE</h2>
+        <p>There are multiple options availabe for installing Epoch as listed below. See the <a href="docs/handbook/epoch-ide">handbook</a> for usage instructions.</p>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>Install Script</h3>
           <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
@@ -76,7 +77,7 @@ const Index: React.FC<Props> = (props) => {
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>Manual Download</h3>
-          <p>Regular and nightly release builds of Epoch can be downloaded from the <a href="https://github.com/lf-lang/epoch/releases">release page</a>. Download the archive that matches your OS and architecture, and extract the contents.</p>
+          <p>Regular and nightly release builds of Epoch can be downloaded from the <a href="https://github.com/lf-lang/epoch/releases">Epoch release page</a>. Download the archive that matches your OS and architecture, and extract the contents.</p>
           <p>MacOS requires extra steps before being able to execute the app:
               <p><code>xattr -cr Epoch.app</code></p>
                   To install, drag the Epoch.app file to your Applications folder. You can then invoke the App as follows:
@@ -91,17 +92,35 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
       <h2 id="download-cl">CLI Tools</h2>
-      <p>To install the Lingua Franca command line tools, open your terminal (in Windows, use WSL), and run the following command:
-      <p><code>curl -Ls https://install.lf-lang.org | sh -s cli</code></p>
-      </p>
-      See <a href="/docs/handbook/command-line-tools">more details</a>.
+      <p>There are multiple options availabe for installing the Lingua Franca compiler and other command line tools as listed below. . See the <a href="docs/handbook/command-line-tools">handbook</a> for usage instructions.</p>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>Install Script</h3>
+          <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
+              <p><code>curl -Ls https://install.lf-lang.org | sh -s cli</code></p>
+          </p>
+          <p>You can also install the nightly release:
+              <p><code>curl -Ls https://install.lf-lang.org | sh -s cli nightly</code></p>
+          </p>
+          <p>You can use the <code>--prefix=&lt;path&gt;</code> argument to change the default install location.</p>
+      </div>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>AUR</h3>
+          <p>There are binary packages availabe in the Arch user repository, which you can install using your favourite AUR helper. For instance, with yay:
+              <p><code>yay -S lf-cli-bin</code></p>
+          or for the nightly release:
+              <p><code>yay -S lf-cli-nightly-bin</code></p>
+          </p>
+      </div>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>Manual Download</h3>
+          <p>Regular and nightly release builds of the command line tools can be downloaded from the <a href="https://github.com/lf-lang/lingua-franca/releases">Lingua Franca release page</a>. Download the archive that matches your OS and architecture, and extract the contents.</p>
+      </div>
+      <div style={{borderTop: "1px lightgray solid"}}>
+          <h3>From Source</h3>
+          <p>Please refer to the <a href="https://github.com/lf-lang/lingua-franca">Lingua Franca GitHub repository</a> for build instructions.</p>
+          <p>If you'd like to contribute to Lingua Franca, you can find details about the recomended developer setup <a href="/docs/handbook/developer-setup">here</a>.</p>
+      </div>
     </div>
-
-    <div className="raised main-content-block">
-      <h2 id="developer">Developer Setup</h2>
-      <p>If you'd like to contribute to Lingua Franca and build our toolchain on your own, you can find details about the recomended developer setup <a href="/docs/handbook/developer-setup">here</a>.</p>
-    </div>
-
 
   </Layout>
 }
