@@ -28,11 +28,11 @@ const active = [
   },
   {
     name: "Erling Rennemo Jellum",
-    url: "Please add",
-    image: "Please add",
+    url: "https://erlingrj.github.io",
+    image: "https://backends.it.ntnu.no/user-profile-service/rest/files/139f11cf-c2bb-365e-bbbb-559165b9cb31",
     country: "🇳🇴",
     continentish: "Europe",
-    blurb: "Please add.",
+    blurb: "PhD Candidate at Norwegian University of Science and Technology",
   },
   {
     name: "Byeonggil Jun",
