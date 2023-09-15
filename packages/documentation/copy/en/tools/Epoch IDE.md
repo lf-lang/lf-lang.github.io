@@ -39,7 +39,7 @@ To install Epoch in WSL, just follow the [Linux installation instructions](#linu
 
 ## Downloading Epoch
 
-You can download the latest release of Epoch from the [Lingua Franca Release page](https://github.com/lf-lang/lingua-franca/releases/latest). 
+In case you prefer to not use the installation script (or are using Windows), you can download the latest release of Epoch from the [Lingua Franca Release page](https://github.com/lf-lang/lingua-franca/releases/latest) and install Epoch manually.
 
 After downloading the `.tar.gz` or `.zip` archive that matches your OS and system architecture, extract its contents.
 
