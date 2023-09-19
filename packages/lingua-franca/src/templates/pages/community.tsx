@@ -32,7 +32,7 @@ const active = [
     image: "https://backends.it.ntnu.no/user-profile-service/rest/files/139f11cf-c2bb-365e-bbbb-559165b9cb31",
     country: "🇳🇴",
     continentish: "Europe",
-    blurb: "PhD Candidate at Norwegian University of Science and Technology",
+    blurb: "PhD Candidate at Norwegian University of Science and Technology.",
   },
   {
     name: "Byeonggil Jun",
@@ -46,7 +46,7 @@ const active = [
     image: "https://avatars.githubusercontent.com/u/74869052?s=400&v=4",
     country: "🇺🇸",
     continentish: "North America",
-    blurb: "Ph.D. student at Arizona State University",
+    blurb: "Ph.D. student at Arizona State University.",
   },
   {
     name: "Hokeun Kim",
@@ -126,7 +126,7 @@ const past = [
     image: "https://avatars.githubusercontent.com/u/44007330?v=4",
     country: "🇺🇸",
     continentish: "North America",
-    blurb: "M.S. student @ UC Berkeley.",
+    blurb: "Software Engineer at Bloomberg.",
   },
   {
     name: "Martin Schoeberl",
