@@ -27,12 +27,34 @@ const active = [
     blurb: "Master student at TU Dresden.",
   },
   {
+    name: "Erling Rennemo Jellum",
+    url: "https://erlingrj.github.io",
+    image: "https://backends.it.ntnu.no/user-profile-service/rest/files/139f11cf-c2bb-365e-bbbb-559165b9cb31",
+    country: "🇳🇴",
+    continentish: "Europe",
+    blurb: "PhD Candidate at Norwegian University of Science and Technology.",
+  },
+  {
+    name: "Byeonggil Jun",
+    image: "https://avatars.githubusercontent.com/u/78055940?s=400&v=4",
+    country: "🇰🇷",
+    continentish: "East Asia",
+    blurb: "Undergraduate student at Hanyang University.",
+  },
+  {
+    name: "Dongha Kim",
+    image: "https://avatars.githubusercontent.com/u/74869052?s=400&v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Ph.D. student at Arizona State University.",
+  },
+  {
     name: "Hokeun Kim",
     url: "https://hokeun.github.io/",
     image: "https://avatars.githubusercontent.com/u/2585943?v=4",
-    country: "🇰🇷",
-    continentish: "East Asia",
-    blurb: "Assistant Professor at Hanyang University.",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Assistant Professor at Arizona State University.",
   },
   {
     name: "Edward A. Lee",
@@ -75,19 +97,12 @@ const active = [
     blurb: "Graduate Student at TU Dresden.",
   },
   {
-    name: "Anirudh Rengarajan",
-    image: "https://avatars.githubusercontent.com/u/44007330?v=4",
-    country: "🇺🇸",
-    continentish: "North America",
-    blurb: "M.S. student @ UC Berkeley.",
-  },
-  {
     name: "Alexander Schulz-Rosengarten",
     image: "https://avatars.githubusercontent.com/u/25612037?v=4",
     country: "🇩🇪",
     continentish: "Europe",
     blurb: "Graduate student at Kiel University.",
-  },
+  }
 ]
 
 const past = [
@@ -105,6 +120,13 @@ const past = [
     country: "🇺🇸",
     continentish: "North America",
     blurb: "Applied Math and CS student at UC Berkeley."
+  },
+  {
+    name: "Anirudh Rengarajan",
+    image: "https://avatars.githubusercontent.com/u/44007330?v=4",
+    country: "🇺🇸",
+    continentish: "North America",
+    blurb: "Software Engineer at Bloomberg.",
   },
   {
     name: "Martin Schoeberl",
@@ -196,15 +218,15 @@ export const Comm: React.FC<Props> = props => {
         <div className="events">
 
           <div className="callouts">
-            {active.map(({name, image, country, url, twitter, blurb}, index) => (
+            {active.map(({ name, image, country, url, twitter, blurb }, index) => (
               <Col className="callout" key={index}>
                 <img src={image} className="icon img-square" alt={"logo of " + name} />
                 <div>
                   <h5 className="community-callout-headline">{name}</h5>
                   <h6 className="blurb">{blurb}</h6>
                   <div className="text">{country}<br />
-                    {" "}{url? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a> 
-                    : null}
+                    {" "}{url ? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a>
+                      : null}
                     {" "}{twitter ? <a rel="noopener" target="blank" href={twitter} title={"Twitter page for " + name}>Twitter</a> : null}
                   </div>
                 </div>
@@ -219,15 +241,15 @@ export const Comm: React.FC<Props> = props => {
         <div className="events">
 
           <div className="callouts">
-            {past.map(({name, image, country, url, twitter, blurb}, index) => (
+            {past.map(({ name, image, country, url, twitter, blurb }, index) => (
               <Col className="callout" key={index}>
                 <img src={image} className="icon img-square" alt={"logo of " + name} />
                 <div>
                   <h5 className="community-callout-headline">{name}</h5>
                   <h6 className="blurb">{blurb}</h6>
                   <div className="text">{country}<br />
-                    {" "}{url? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a> 
-                    : null}
+                    {" "}{url ? <a rel="noopener" target="blank" href={url} title={"Website for " + name}>Website</a>
+                      : null}
                     {" "}{twitter ? <a rel="noopener" target="blank" href={twitter} title={"Twitter page for " + name}>Twitter</a> : null}
                   </div>
                 </div>
@@ -237,7 +259,7 @@ export const Comm: React.FC<Props> = props => {
         </div>
       </div>
     </Layout >
-    
+
   )
 }
 
