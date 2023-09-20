@@ -42,7 +42,7 @@ const Index: React.FC<Props> = (props) => {
     </div>
     <div className="raised main-content-block">
     <h2 id="vscode">Visual Studio Code</h2>
-      <p>Our Visual Studio Code extensios can be installed via the Marketplace or build from source as detailed below.
+      <p>Our Visual Studio Code extension can be installed via the Marketplace or build from source as detailed below.
          See the <a href="/docs/handbook/code-extension">handbook</a> for usage instructions.
       </p>
       <div style={{borderTop: "1px lightgray solid"}}>
@@ -56,7 +56,7 @@ const Index: React.FC<Props> = (props) => {
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>From Source</h3>
-          <p>Please refer to the <a href="https://github.com/lf-lang/vscode-lingua-franca">Lingua Franca Code Extension GitHub repository</a> for build instructions.</p>
+          <p>Please refer to the <a href="https://github.com/lf-lang/vscode-lingua-franca">Lingua Franca VS Code GitHub repository</a> for build instructions.</p>
       </div>
     </div>
 
@@ -111,7 +111,7 @@ const Index: React.FC<Props> = (props) => {
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>AUR</h3>
-          <p>There are binary packages availabe in the Arch user repository, which you can install using your favourite AUR helper. For instance, with yay:
+          <p>There are binary packages available in the Arch user repository, which you can install using your favorite AUR helper. For instance, with <code>yay</code>:
               <p><code>yay -S lf-cli-bin</code></p>
           or for the nightly pre-release:
               <p><code>yay -S lf-cli-nightly-bin</code></p>
