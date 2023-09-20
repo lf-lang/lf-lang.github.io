@@ -127,15 +127,15 @@ The general structure of a reactor definition is as follows:
 
 ```lf
 [main or federated] reactor <class-name> [(<parameters>)] {
-    input <name>:<type>
-    output <name>:<type>
-    state <name>:<type>(<value>)
-    timer <name>([<offset>, [<period>]])
-    logical action <name>[:<type>]
-    physical action <name>[:<type>]
-    reaction(<triggers>) [<uses>] [=> <effects>] {= ... body ...=}
+    input <name>: <type>
+    output <name>: <type>
+    state <name>: <type> [= <value>]
+    timer <name>([<offset>[, <period>]])
+    logical action <name>[: <type>]
+    physical action <name>[: <type>]
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] {= ... body ...=}
     <instance-name> = new <class-name>([<parameter-assignments>])
-    <instance-name> [, ...] => <instance-name> [, ...] [after <delay>]
+    <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
 ```
 
@@ -145,16 +145,16 @@ The general structure of a reactor definition is as follows:
 
 ```lf
 [main] reactor <class-name> [(<parameters>)] {
-    input <name>:<type>
-    output <name>:<type>
-    state <name>:<type>(<value>)
-    timer <name>([<offset>, [<period>]])
-    logical action <name>[:<type>]
-    physical action <name>[:<type>]
+    input <name>: <type>
+    output <name>: <type>
+    state <name>: <type> [= <value>]
+    timer <name>([<offset>[, <period>]])
+    logical action <name>[: <type>]
+    physical action <name>[: <type>]
     [const] method <name>(<parameters>):<type> {= ... body ...=}
-    reaction(<triggers>) [<uses>] [=> <effects>] {= ... body ...=}
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] {= ... body ...=}
     <instance-name> = new <class-name>([<parameter-assignments>])
-    <instance-name> [, ...] => <instance-name> [, ...] [after <delay>]
+    <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
 ```
 
@@ -164,16 +164,15 @@ The general structure of a reactor definition is as follows:
 
 ```lf
 [main or federated] reactor <class-name> [(<parameters>)] {
-    input <name>
-    output <name>
-    state <name>(<value>)
-    timer <name>([<offset>, [<period>]])
+    input <name>:
+    output <name>:
+    state <name> [= <value>]
+    timer <name>([<offset>[, <period>]])
     logical action <name>
     physical action <name>
-    [const] method <name>(<parameters>) {= ... body ...=}
-    reaction(<triggers>) [<uses>] [=> <effects>] {= ... body ...=}
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] {= ... body ...=}
     <instance-name> = new <class-name>([<parameter-assignments>])
-    <instance-name> [, ...] => <instance-name> [, ...] [after <delay>]
+    <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
 ```
 
