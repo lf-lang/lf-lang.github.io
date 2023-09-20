@@ -62,7 +62,7 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
         <h2 id="download-epoch">Epoch IDE</h2>
-        <p>There are multiple options availabe for installing Epoch as listed below. See the <a href="docs/handbook/epoch-ide">handbook</a> for usage instructions.</p>
+        <p>There are multiple options available for installing Epoch as listed below. See the <a href="docs/handbook/epoch-ide">handbook</a> for usage instructions.</p>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>Install Script</h3>
           <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
@@ -75,7 +75,7 @@ const Index: React.FC<Props> = (props) => {
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>AUR</h3>
-          <p>There are binary packages availabe in the Arch user repository, which you can install using your favourite AUR helper. For instance, with yay:
+          <p>There are binary packages available in the Arch user repository, which you can install using your favorite AUR helper. For instance, with yay:
               <p><code>yay -S epoch-bin</code></p>
           or for the nightly pre-release:
               <p><code>yay -S epoch-nightly-bin</code></p>
@@ -98,7 +98,7 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
       <h2 id="download-cl">CLI Tools</h2>
-      <p>There are multiple options availabe for installing the Lingua Franca compiler and other command line tools as listed below. . See the <a href="docs/handbook/command-line-tools">handbook</a> for usage instructions.</p>
+      <p>There are multiple options available for installing the Lingua Franca compiler and other command line tools as listed below. . See the <a href="docs/handbook/command-line-tools">handbook</a> for usage instructions.</p>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>Install Script</h3>
           <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
@@ -124,7 +124,7 @@ const Index: React.FC<Props> = (props) => {
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>From Source</h3>
           <p>Please refer to the <a href="https://github.com/lf-lang/lingua-franca">Lingua Franca GitHub repository</a> for build instructions.</p>
-          <p>If you'd like to contribute to Lingua Franca, you can find details about the recomended developer setup <a href="/docs/handbook/developer-setup">here</a>.</p>
+          <p>If you'd like to contribute to Lingua Franca, you can find details about the recommended developer setup <a href="/docs/handbook/developer-setup">here</a>.</p>
       </div>
     </div>
 
@@ -132,10 +132,3 @@ const Index: React.FC<Props> = (props) => {
 }
 
 export default (props: Props) => <Intl locale={props.pageContext.lang}><Index {...props} /></Intl>
-
-/*
-<QuickJump title="Learning Resources" lang={props.pageContext.lang} />
- <p>Some of code generator components are written in Kotlin, which is not supported by Eclipse.</p>
-          <p>If you want a Kotlin-friendly developer environment using IntelliJ, you can follow the Developer IntelliJ Setup instructions to set it up.</p>
-          <p>To build the Lingua Franca IDE (Epoch) with Kotlin-based code generators enabled (which is not possible with the Eclipse setup), please see the instructions in Running Lingua Franca IDE (Epoch) with Kotlin based Code Generators Enabled (without Eclipse Environment).</p>
- */
