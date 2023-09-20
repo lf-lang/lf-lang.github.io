@@ -42,7 +42,7 @@ const Index: React.FC<Props> = (props) => {
     </div>
     <div className="raised main-content-block">
     <h2 id="vscode">Visual Studio Code</h2>
-      <p>Our Visual Studio Code extension can be installed via the Marketplace or build from source as detailed below.
+      <p>Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below.
          See the <a href="/docs/handbook/code-extension">handbook</a> for usage instructions.
       </p>
       <div style={{borderTop: "1px lightgray solid"}}>
@@ -65,7 +65,7 @@ const Index: React.FC<Props> = (props) => {
         <p>There are multiple options available for installing Epoch as listed below. See the <a href="docs/handbook/epoch-ide">handbook</a> for usage instructions.</p>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>Install Script</h3>
-          <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
+          <p>Run the following command in your terminal to install the latest release (on Windows, use WSL):
               <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch</code></p>
           </p>
           <p>You can also install the nightly pre-release:
@@ -75,7 +75,7 @@ const Index: React.FC<Props> = (props) => {
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>AUR</h3>
-          <p>There are binary packages available in the Arch user repository, which you can install using your favorite AUR helper. For instance, with yay:
+          <p>There are binary packages available in the Arch user repository, which you can install using your favorite AUR helper. For instance, with <code>yay</code>:
               <p><code>yay -S epoch-bin</code></p>
           or for the nightly pre-release:
               <p><code>yay -S epoch-nightly-bin</code></p>
@@ -86,8 +86,8 @@ const Index: React.FC<Props> = (props) => {
           <p>Regular and nightly release builds of Epoch can be downloaded from the <a href="https://github.com/lf-lang/epoch/releases">Epoch release page</a>. Download the archive that matches your OS and architecture, and extract the contents.</p>
           <p>MacOS requires extra steps before being able to execute the app:
               <p><code>xattr -cr Epoch.app</code></p>
-                  To install, drag the Epoch.app file to your Applications folder. You can then invoke the App as follows:
-                  <p><code>open -a Epoch.app</code></p>
+              To install, drag the Epoch.app file to your Applications folder. You can then invoke the app as follows:
+              <p><code>open -a Epoch.app</code></p>
           </p>
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
@@ -98,10 +98,10 @@ const Index: React.FC<Props> = (props) => {
 
     <div className="raised main-content-block">
       <h2 id="download-cl">CLI Tools</h2>
-      <p>There are multiple options available for installing the Lingua Franca compiler and other command line tools as listed below. . See the <a href="docs/handbook/command-line-tools">handbook</a> for usage instructions.</p>
+      <p>There are multiple options available for installing the Lingua Franca compiler and other command line tools, as listed below. See the <a href="docs/handbook/command-line-tools">handbook</a> for usage instructions.</p>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>Install Script</h3>
-          <p>Run the following command in your terminal to install the latest release (in Windows, use WSL):
+          <p>Run the following command in your terminal to install the latest release (on Windows, use WSL):
               <p><code>curl -Ls https://install.lf-lang.org | sh -s cli</code></p>
           </p>
           <p>You can also install the nightly pre-release:
@@ -111,7 +111,7 @@ const Index: React.FC<Props> = (props) => {
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>AUR</h3>
-          <p>There are binary packages available in the Arch user repository, which you can install using your favorite AUR helper. For instance, with <code>yay</code>:
+    <p>There are binary packages available in the Arch user repository, which you can install using your favorite AUR helper. For instance, with <code>yay</code>:
               <p><code>yay -S lf-cli-bin</code></p>
           or for the nightly pre-release:
               <p><code>yay -S lf-cli-nightly-bin</code></p>
