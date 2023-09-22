@@ -213,7 +213,7 @@ Consider the following LF program:
 Setting `tracing: true` in this program and running it produces four `.lft` files. Running `fedsd` on those files:
 
 ```
-   fedsd *.lft
+   fedsd
 ```
 
 results in converting the files to `.csv` files and then generating a `trace_svg.html` file. Opening that file reveals a trace, the beginning of which looks like this:
