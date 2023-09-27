@@ -6,6 +6,27 @@ oneline: "Reactions and methods in Lingua Franca."
 preamble: >
 ---
 
+
+## Reaction Declaration
+
+A reaction declaration has the following form:
+
+```lf
+  reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
+```
+
+Each reaction declares its triggers, uses, and effects.
+Triggers are event sources such as timers, actions, ports, or special triggers like $startup$, $shutdown$, and $reset$.
+If any of the declared triggers is present at a given tag, the runtime scheduler automatically invokes the reaction.
+Uses are additional reactor elements like actions or ports that the reaction may read from but that do not trigger the reaction.
+Finally, effects are all actions or ports that may be scheduled or set by the reaction.
+
+Reactions may optionally be named. The name is cosmetic and may serve as additional documentation. Note that reactions cannot be called like functions, even if they are named.
+
+The reaction's behavior is defined by its body, which should be given in the target programming language. Note that the reaction body may only read from actions and ports that it has declared as triggers or uses, and it may only write to actions and ports that is has declared as an effect. The target code generators implement a scoping mechanism, such that only variables that are declared in the reaction signature are accessible in the reaction body.
+
+In some targets, the reaction body may be omitted and the body can be defined natively in the target language in an external file. See TODO... for details.
+
 ## Reaction Order
 
 A reactor may have multiple reactions, and more than one reaction may be enabled at any given tag. In Lingua Franca semantics, if two or more reactions of the same reactor are **simultaneously enabled**, then they will be invoked sequentially in the order in which they are declared. More strongly, the reactions of a reactor are **mutually exclusive** and are invoked in tag order primarily and declaration order secondarily. Consider the following example:

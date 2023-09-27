@@ -133,7 +133,7 @@ The general structure of a reactor definition is as follows:
     timer <name>([<offset>[, <period>]])
     logical action <name>[: <type>]
     physical action <name>[: <type>]
-    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] {= ... body ...=}
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
     <instance-name> = new <class-name>([<parameter-assignments>])
     <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
@@ -152,7 +152,7 @@ The general structure of a reactor definition is as follows:
     logical action <name>[: <type>]
     physical action <name>[: <type>]
     [const] method <name>(<parameters>):<type> {= ... body ...=}
-    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] {= ... body ...=}
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
     <instance-name> = new <class-name>([<parameter-assignments>])
     <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
@@ -170,7 +170,7 @@ The general structure of a reactor definition is as follows:
     timer <name>([<offset>[, <period>]])
     logical action <name>
     physical action <name>
-    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] {= ... body ...=}
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
     <instance-name> = new <class-name>([<parameter-assignments>])
     <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
