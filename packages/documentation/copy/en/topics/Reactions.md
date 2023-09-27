@@ -448,7 +448,7 @@ For details, see the [Modal Reactors](/docs/handbook/modal-models) section.
 
 ## Bodyless Reactions
 
-Sometimes, it is inconvenient to mix Lingua Franca code with target code. Rather than _defining_ reactions (i.e., complete with inlined target code), it is also possible to just _declare_ them, and provide implementations in a separate file. The syntax of reaction declarations is the same as for reaction definitions, except they have no implementation. Reaction declarations can be thought of as function prototypes.
+Sometimes, it is inconvenient to mix Lingua Franca code with target code. Rather than _defining_ reactions (i.e., complete with inlined target code), it is also possible to just _declare_ them and provide implementations in a separate file. The syntax of reaction declarations is the same as for reaction definitions, except they have no implementation. Reaction declarations can be thought of as function prototypes.
 
 <div class="lf-c">
 
@@ -598,9 +598,9 @@ src/
 └ sub/
   └ B.lf // defines Bar
 ```
-In this case, the compiler will generate two header files `A/Foo.hh` and `sub/B/Bar.hh`, which would need to be included by a an external implementation file.
+In this case, the compiler will generate two header files `A/Foo.hh` and `sub/B/Bar.hh`, which would need to be included by an external implementation file.
 
-The precise method signature depends on the name of the reactor, the name of the reactions and the precise triggers, sources and effects that are defined in the LF code.
+The precise method signature depends on the name of the reactor, the name of the reactions and the precise triggers, sources, and effects that are defined in the LF code.
 The return type is always void. A reaction `foo` in a reactor `Bar` will be named `Bar::Inner::foo`. Note that each reactor class in the C++ target defines an `Inner` class which contains all reactions as well as the parameters and state variables. This is done to deliberately restrict the scope of reaction bodies in order to avoid accidental violations of reactor semantics.
 Any declared triggers, sources or effects are given to the reaction method via method arguments. The precise arguments and their types depend on the LF code. If in doubt, please check the signature used in the generated header file under `src-gen/<lf-file>`, where `<lf-file>` corresponds to the LF file that you are compiling.
 </div>
