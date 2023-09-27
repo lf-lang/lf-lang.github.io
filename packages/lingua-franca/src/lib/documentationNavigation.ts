@@ -84,10 +84,16 @@ export function getDocumentationNavForLanguage(
           oneline: "Composing reactors in Lingua Franca.",
         },
         {
-          title: "Reactions and Methods",
-          id: "1-reactions-and-methods",
-          permalink: "/docs/handbook/reactions-and-methods",
-          oneline: "Reactions and methods in Lingua Franca.",
+          title: "Reactions",
+          id: "1-reactions",
+          permalink: "/docs/handbook/reactions",
+          oneline: "Reactions in Lingua Franca.",
+        },
+        {
+          title: "Methods",
+          id: "1-methods",
+          permalink: "/docs/handbook/methods",
+          oneline: "Methods in Lingua Franca.",
         },
         {
           title: "Reaction Declarations",
