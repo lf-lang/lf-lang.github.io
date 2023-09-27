@@ -15,11 +15,10 @@ A reaction declaration has the following form:
   reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
 ```
 
-Each reaction declares its triggers, uses, and effects.
-Triggers are event sources such as timers, actions, ports, or special triggers like $startup$, $shutdown$, and $reset$.
-If any of the declared triggers is present at a given tag, the runtime scheduler automatically invokes the reaction.
-Uses are additional reactor elements like actions or ports that the reaction may read from but that do not trigger the reaction.
-Finally, effects are all actions or ports that may be scheduled or set by the reaction.
+Each reaction declares its triggers, uses, and effects:
+- The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), [timers](/docs/handbook/time-and-timers#timers), [actions](/docs/handbook/actions), or the special events $startup$, $shutdown$, and $reset$ (explained [here](#startup-shutdown-and-reset-reactions)). There must be at least one trigger for each reaction.
+- The **uses** field, which is optional, specifies input ports (or output ports of contained reactors) that do not trigger execution of the reaction but may be read by the reaction.
+- The **effects** field, which is also optional, is a comma-separated lists of output ports ports, input ports of contained reactors, or [actions](/docs/handbook/actions).
 
 Reactions may optionally be named. The name is cosmetic and may serve as additional documentation. Note that reactions cannot be called like functions, even if they are named.
 
