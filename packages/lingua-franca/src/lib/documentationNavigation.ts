@@ -96,12 +96,6 @@ export function getDocumentationNavForLanguage(
           oneline: "Methods in Lingua Franca.",
         },
         {
-          title: "Reaction Declarations",
-          id: "1-reaction-declarations",
-          permalink: "/docs/handbook/reaction-declarations",
-          oneline: "Reaction declarations in Lingua Franca.",
-        },
-        {
           title: "Causality Loops",
           id: "1-causality-loops",
           permalink: "/docs/handbook/causality-loops",

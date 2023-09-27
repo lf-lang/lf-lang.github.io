@@ -49,7 +49,6 @@ const handbookPages = [
       { file: "topics/Composing Reactors.md" },
       { file: "topics/Reactions.md" },
       { file: "topics/Methods.md" },
-      { file: "topics/Reaction Declarations.md" },
       { file: "topics/Causality Loops.md" },
       { file: "topics/Extending Reactors.md" },
       { file: "topics/Actions.md" },
