@@ -72,7 +72,7 @@ const Index: React.FC<Props> = (props) => {
               <p><code>curl -Ls https://install.lf-lang.org | sudo sh -s epoch nightly</code></p>
           </p>
           <p>You can use the <code>--prefix=&lt;path&gt;</code> argument to change the default install location.</p>
-          <p>You may not need the <code>sudo</code> part if you permission to write to the install location.</p>
+          <p>You may not need the <code>sudo</code> part if you have permission to write to the install location.</p>
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>AUR</h3>
