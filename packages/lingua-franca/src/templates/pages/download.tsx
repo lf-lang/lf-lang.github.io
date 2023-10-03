@@ -66,12 +66,13 @@ const Index: React.FC<Props> = (props) => {
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>Install Script</h3>
           <p>Run the following command in your terminal to install the latest release (on Windows, use WSL):
-              <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch</code></p>
+              <p><code>curl -Ls https://install.lf-lang.org | sudo sh -s epoch</code></p>
           </p>
           <p>You can also install the nightly pre-release:
-              <p><code>curl -Ls https://install.lf-lang.org | sh -s epoch nightly</code></p>
+              <p><code>curl -Ls https://install.lf-lang.org | sudo sh -s epoch nightly</code></p>
           </p>
           <p>You can use the <code>--prefix=&lt;path&gt;</code> argument to change the default install location.</p>
+          <p>You may not need the <code>sudo</code> part if you permission to write to the install location.</p>
       </div>
       <div style={{borderTop: "1px lightgray solid"}}>
           <h3>AUR</h3>
