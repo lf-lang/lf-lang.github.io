@@ -164,8 +164,8 @@ The general structure of a reactor definition is as follows:
 
 ```lf
 [main or federated] reactor <class-name> [(<parameters>)] {
-    input <name>:
-    output <name>:
+    input <name>
+    output <name>
     state <name> [= <value>]
     timer <name>([<offset>[, <period>]])
     logical action <name>

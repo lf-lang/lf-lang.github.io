@@ -476,7 +476,7 @@ The `cmake-include` target property is used to make the build system aware of an
 target_sources(${LF_MAIN_TARGET} PRIVATE hello.c)
 ```
 
-The `files` target property is used to make the file that has the implementation in `hello.c` accessible,
+The `files` target property is used to make accessible the file that has the implementation in `hello.c,
 which could look something like this:
 
 ```c
@@ -490,8 +490,8 @@ void hello(hellodecl_self_t* self) {
 
 ### File Structure
 
-In the above example, the C file used `#include` to import a file called `HelloDecl.h`. This file
-was generated from the Lingua Franca source file when the LF program was compiled. The file
+In the above example, the C file uses `#include` to import a file called `HelloDecl.h`. The `HelloDecl.h` file
+is generated from the Lingua Franca source file when the LF program is compiled. The file
 `HelloDecl.h` is named after the main reactor, which is called `HelloDecl`, and its parent
 directory, `include/HelloDecl`, is named after the file, `HelloDecl.lf`.
 
@@ -499,8 +499,8 @@ In general, compiling a Lingua Franca program that uses reaction declarations wi
 directory in the `include` directory for each file in the program. This directory will contain a
 header file for each reactor that is defined in the file.
 
-As another example, if an LF program consists of files `F1` and `F2`, where `F1` defines reactors
-`A` and `B` and `F2` defines the reactor `C` and the main reactor `F2`, then the directory structure
+As another example, if an LF program consists of files `F1.lf` and `F2.lf`, where `F1.lf` defines reactors
+`A` and `B` and `F2.lf` defines the reactor `C` and the main reactor `F2`, then the directory structure
 will look something like this:
 
 ```
@@ -524,7 +524,7 @@ directory.
 ### The Generated Header Files
 
 The generated header files are necessary in order to separate your C code from your LF code because
-the describe the signatures of the reaction functions that you must implement.
+they describe the signatures of the reaction functions that you must implement.
 
 In addition, they define structs that will be referenced by the reaction bodies. This includes the
 `self` struct of the reactor to which the header file corresponds, as well as structs for its ports,
@@ -540,7 +540,7 @@ static variables.
 As with any Lingua Franca project that uses external C files, projects involving external reactions
 must use the `cmake-include` target property to link those files into the main target.
 
-This is done using the syntax
+The file referenced by the `cmake-include` target property has the following syntax:
 
 ```cmake
 target_sources(${LF_MAIN_TARGET} PRIVATE <files>)
@@ -582,6 +582,7 @@ void HelloDecl::Inner::hello([[maybe_unused]] const reactor::StartupTrigger& sta
 ```
 
 Using the `cmake-include` target property, we can make the build system aware of this externally supplied implementation. The contents of `hello.cmake` is as follows:
+
 ```cmake
 target_sources(${LF_MAIN_TARGET} PRIVATE hello.cc)
 ```
@@ -600,7 +601,7 @@ src/
 ```
 In this case, the compiler will generate two header files `A/Foo.hh` and `sub/B/Bar.hh`, which would need to be included by an external implementation file.
 
-The precise method signature depends on the name of the reactor, the name of the reactions and the precise triggers, sources, and effects that are defined in the LF code.
+The precise method signature depends on the name of the reactor, the name of the reactions, and the precise triggers, sources, and effects that are defined in the LF code.
 The return type is always void. A reaction `foo` in a reactor `Bar` will be named `Bar::Inner::foo`. Note that each reactor class in the C++ target defines an `Inner` class which contains all reactions as well as the parameters and state variables. This is done to deliberately restrict the scope of reaction bodies in order to avoid accidental violations of reactor semantics.
 Any declared triggers, sources or effects are given to the reaction method via method arguments. The precise arguments and their types depend on the LF code. If in doubt, please check the signature used in the generated header file under `src-gen/<lf-file>`, where `<lf-file>` corresponds to the LF file that you are compiling.
 </div>
