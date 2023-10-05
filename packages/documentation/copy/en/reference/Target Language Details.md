@@ -882,7 +882,6 @@ s = new Source(sequence = {= new Array<number() =});
 
 Parameters and state variables in Rust are accessed on the `self` structure, as shown in [Parameter Declaration](/docs/handbook/parameters-and-state-variables#parameter-declaration).
 
-
 </div>
 
 [comment]: <> (================= NEW SECTION =====================)
@@ -2935,10 +2934,9 @@ Another limitation of these schedulers is that they are constrained to process t
 
 The following schedulers are available:
 
-- `GEDF_NP` (global earliest-deadline-first): This scheduler is the default scheduler for programs that have deadlines. When the semantics of Lingua Franca allows for concurrent execution of two or more ready reactions with the same level at a particular tag, this scheduler will prioritize the reaction with the earliest deadline to run first (but with the limitation that reaction executions are non-preemptive). Reactions with no explicit deadline implicitly have an infinitely late deadline.
-- `NP` (non-preemptive): This scheduler is the default scheduler for programs that have no deadlines. It makes minimal guarantees about its behavior, and this allows it to include optimizations that can result in lower execution times than the GEDF_NP scheduler.
-- `adaptive`: This scheduler behaves similarly to the `NP` scheduler, with the additional limitation that it is designed for applications that can tolerate potentially wide variability in physical execution times. It performs experiments and measures execution times at runtime to determine the degree of exploitable parallelism in various parts of the program. This lets it automate judgments which are made more naively by the other schedulers and which are typically made by the programmer in general-purpose languages.
-- `GEDF_NP_CI` (global earliest-deadline-first, with chain ID): This scheduler implements the same policy as `GEDF_NP`, but it is designed for an optimization called chain ID that is described on page 92 [here](https://www2.eecs.berkeley.edu/Pubs/TechRpts/2020/EECS-2020-235.pdf). This optimization is currently disabled because it is not yet fully developed, so we advise against the use of this scheduler in practical applications.
+- `NP` (non-preemptive): This scheduler is the default scheduler. It ignores deadlines.
+- `GEDF_NP` (global earliest-deadline-first, non-preemptive): When the semantics of Lingua Franca allows for concurrent execution of two or more ready reactions with the same level at a particular tag, this scheduler will prioritize the reaction with the earliest deadline to run first. Reactions with no explicit deadline implicitly have an infinitely late deadline.
+- `adaptive`: This experimental scheduler behaves similarly to the `NP` scheduler, with the additional limitation that it is designed for applications that have potentially wide variability in physical execution times. It performs experiments to measure execution times at runtime to determine the degree of exploitable parallelism in various parts of the program. This lets it automate judgments which are made more naively by the other schedulers and which are typically made by the programmer in general-purpose languages.
 
 </div>
 

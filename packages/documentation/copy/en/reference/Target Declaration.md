@@ -40,6 +40,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**protobufs**](#protobufs): An array of .proto files that are to be compiled and included in the generated code.
 - [**runtime-version**](#runtime-version): Specify which version of the runtime system to use.
 - [**rust-include**](#rust-include): (Rust only) A set of Rust modules in the generated project.
+- [**scheduler**](#scheduler): (C only) Specification of the scheduler to us.
 - [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](#single-file-layout).
 - [**threading**](#threading): Whether to use multiple threads.
 - [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](/docs/handbook/termination).
@@ -650,7 +651,11 @@ This argument takes a string (with quotation marks) containing any tag, branch n
 
 ## rust-include
 
-set of Rust modules in the generated project. See [Linking support files](#linking-support-files).
+This specifies a set of Rust modules in the generated project. See [Linking support files](#linking-support-files).
+
+## scheduler
+
+This specifies the scheduler to use. See[Target Language Details](/docs/handbook/target-language-details?target=c#scheduler-target-property).
 
 ## single-file-project
 
