@@ -43,7 +43,7 @@ A method declaration has the forms:
 
 <div class="lf-cpp">
 
-The $method$ keyword can optionally be prefixed with the $const$ qualifier, which indicates that the method is read only.
+The $method$ keyword can optionally be prefixed with the $const$ qualifier, which indicates that the method has only read access to the reactor's state.
 
 </div>
 
