@@ -1,10 +1,30 @@
 ---
-title: "Reactions and Methods"
+title: "Reactions"
 layout: docs
-permalink: /docs/handbook/reactions-and-methods
-oneline: "Reactions and methods in Lingua Franca."
+permalink: /docs/handbook/reactions
+oneline: "Reactions in Lingua Franca."
 preamble: >
 ---
+
+
+## Reaction Declaration
+
+A reaction declaration has the following form:
+
+```lf
+  reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
+```
+
+Each reaction declares its triggers, uses, and effects:
+- The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), [timers](/docs/handbook/time-and-timers#timers), [actions](/docs/handbook/actions), or the special events $startup$, $shutdown$, and $reset$ (explained [here](#startup-shutdown-and-reset-reactions)). There must be at least one trigger for each reaction.
+- The **uses** field, which is optional, specifies input ports (or output ports of contained reactors) that do not trigger execution of the reaction but may be read by the reaction.
+- The **effects** field, which is also optional, is a comma-separated lists of output ports ports, input ports of contained reactors, or [actions](/docs/handbook/actions).
+
+Reactions may optionally be named. The name is cosmetic and may serve as additional documentation. Note that reactions cannot be called like functions, even if they are named.
+
+The reaction's behavior is defined by its body, which should be given in the target programming language. Note that the reaction body may only read from actions and ports that it has declared as triggers or uses, and it may only write to actions and ports that is has declared as an effect. The target code generators implement a scoping mechanism, such that only variables that are declared in the reaction signature are accessible in the reaction body.
+
+In some targets, the reaction body may be omitted and the body can be defined natively in the target language in an external file. See the section on [Bodyless Reactions](#bodyless-reactions) for details.
 
 ## Reaction Order
 
@@ -425,129 +445,169 @@ For details, see the [Modal Reactors](/docs/handbook/modal-models) section.
 
 </div>
 
-## Method Declaration
 
-<div class="lf-ts lf-rs">
+## Bodyless Reactions
 
-The $target-language$ target does not currently support methods.
+Sometimes, it is inconvenient to mix Lingua Franca code with target code. Rather than _defining_ reactions (i.e., complete with inlined target code), it is also possible to just _declare_ them and provide implementations in a separate file. The syntax of reaction declarations is the same as for reaction definitions, except they have no implementation. Reaction declarations can be thought of as function prototypes.
 
-</div>
+<div class="lf-c">
 
-<div class="lf-cpp lf-c lf-py">
+### Example
 
-<div class="lf-cpp lf-c">
+Consider the following program that has a single reaction named `hello` and is triggered at startup.
+It has no implementation.
 
-A method declaration has one of the forms:
+```lf-c
+target C {
+  cmake-include: ["hello.cmake"],
+  files: ["hello.c"]
+}
 
-```lf
-  method <name>() {= ... =}
-  method <name>():<type> {= ... =}
-  method <name>(<argument_name>:<type>, ...) {= ... =}
-  method <name>(<argument_name>:<type>, ...):<type> {= ... =}
+main reactor HelloDecl {
+
+  reaction hello(startup)
+
+}
 ```
 
-The first form defines a method with no arguments and no return value. The second form defines a method with the return type `<type>` but no arguments. The third form defines a method with a comma-separated list of arguments given by their name and type, but without a return value. Finally, the fourth form is similar to the third, but adds a return type.
+The `cmake-include` target property is used to make the build system aware of an externally supplied implementation. The contents of `hello.cmake` is as follows:
 
-</div>
-
-<div class="lf-py">
-
-A method declaration has the forms:
-
-```lf
-  method <name>() {= ... =}
+```cmake
+target_sources(${LF_MAIN_TARGET} PRIVATE hello.c)
 ```
+
+The `files` target property is used to make accessible the file that has the implementation in `hello.c,
+which could look something like this:
+
+```c
+#include <stdio.h>
+#include "../include/HelloDecl/HelloDecl.h"
+
+void hello(hellodecl_self_t* self) {
+    printf("Hello declaration!\n");
+}
+```
+
+### File Structure
+
+In the above example, the C file uses `#include` to import a file called `HelloDecl.h`. The `HelloDecl.h` file
+is generated from the Lingua Franca source file when the LF program is compiled. The file
+`HelloDecl.h` is named after the main reactor, which is called `HelloDecl`, and its parent
+directory, `include/HelloDecl`, is named after the file, `HelloDecl.lf`.
+
+In general, compiling a Lingua Franca program that uses reaction declarations will always generate a
+directory in the `include` directory for each file in the program. This directory will contain a
+header file for each reactor that is defined in the file.
+
+As another example, if an LF program consists of files `F1.lf` and `F2.lf`, where `F1.lf` defines reactors
+`A` and `B` and `F2.lf` defines the reactor `C` and the main reactor `F2`, then the directory structure
+will look something like this:
+
+```
+include/
+├ F1/
+│ ├ A.h
+│ └ B.h
+└ F2/
+  ├ C.h
+  └ F2.h
+src/
+├ F1.lf  // defines A and B
+└ F2.lf  // defines C and F2
+src-gen/
+```
+
+There is no particular location where you are required to place your C files or your CMake files.
+For example, you may choose to place them in a directory called `c` that is a sibling of the `src`
+directory.
+
+### The Generated Header Files
+
+The generated header files are necessary in order to separate your C code from your LF code because
+they describe the signatures of the reaction functions that you must implement.
+
+In addition, they define structs that will be referenced by the reaction bodies. This includes the
+`self` struct of the reactor to which the header file corresponds, as well as structs for its ports,
+its actions, and the ports of its child reactors.
+
+As with preambles, programmer discipline is required to avoid breaking the deterministic semantics
+of Lingua Franca. In particular, although the information exposed in these header files allows
+regular C code to operate on ports and self structs, such information must not be saved in global or
+static variables.
+
+### Linking Your C Code
+
+As with any Lingua Franca project that uses external C files, projects involving external reactions
+must use the `cmake-include` target property to link those files into the main target.
+
+The file referenced by the `cmake-include` target property has the following syntax:
+
+```cmake
+target_sources(${LF_MAIN_TARGET} PRIVATE <files>)
+```
+
+where `<files>` is a list of the C files you need to link, with paths given relative to the project
+root (the parent of the `src` directory).
 
 </div>
 
 <div class="lf-cpp">
 
-The $method$ keyword can optionally be prefixed with the $const$ qualifier, which indicates that the method is read only.
+### Example
 
-</div>
-
-Methods are particularly useful in reactors that need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to be implemented in a single reaction. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction bodies or from other methods. Methods may also recursively invoke themselves. Consider the following example:
-
-$start(Methods)$
-
-```lf-c
-target C
-main reactor Methods {
-  state foo: int = 2
-  method getFoo(): int {=
-    return self->foo;
-  =}
-  method add(x: int) {=
-    self->foo += x;
-  =}
-  reaction(startup) {=
-    lf_print("Foo is initialized to %d", getFoo());
-    add(40);
-    lf_print("2 + 40 = %d", getFoo());
-  =}
-}
-```
+Consider the following program that has a single reaction named `hello` and is triggered at startup.
+It has no implementation.
 
 ```lf-cpp
-target Cpp
-main reactor Methods {
-  state foo: int(2)
-  const method getFoo(): int {=
-    return foo;
-  =}
-  method add(x: int) {=
-    foo += x;
-  =}
-  reaction(startup) {=
-    std::cout << "Foo is initialized to " << getFoo() << '\n';
-    add(40);
-    std::cout << "2 + 40 = " << getFoo() << '\n';
-  =}
+target Cpp {
+  cmake-include: ["hello.cmake"],
+}
+
+main reactor HelloDecl {
+
+  reaction hello(startup)
+
 }
 ```
 
-```lf-py
-target Python
-main reactor Methods {
-  state foo = 2
-  method getFoo() {=
-    return self.foo
-  =}
-  method add(x) {=
-    self.foo += x
-  =}
-  reaction(startup) {=
-    print(f"Foo is initialized to {self.getFoo()}.")
-    self.add(40)
-    print(f"2 + 40 = {self.getFoo()}.")
-  =}
+The behavior of the `hello` reaction is provided using a method definition in an external C++ file `hello.cc`.
+
+```cpp
+#include "HelloDecl/HelloDecl.hh" // include the code generated reactor class
+
+// define the reaction implementation
+void HelloDecl::Inner::hello([[maybe_unused]] const reactor::StartupTrigger& startup) {
+  std::cout << "Hello World." << std::endl;
 }
 ```
 
-```lf-ts
-WARNING: No source file found: ../code/ts/src/Methods.lf
+Using the `cmake-include` target property, we can make the build system aware of this externally supplied implementation. The contents of `hello.cmake` is as follows:
+
+```cmake
+target_sources(${LF_MAIN_TARGET} PRIVATE hello.cc)
 ```
+Note that this mechanism can be used to add arbitrary additional resources such as additional headers and implementation files or 3rd party libraries to the compilation.
 
-```lf-rs
-WARNING: No source file found: ../code/rs/src/Methods.lf
+### Header Files and Method Signatures
+
+In order to provide an implementation of a reaction method, it is important to know the header file that declares the reactor class as well as the precise signature of the method implementing the reaction body.
+
+The LF compiler generates a header file for each reactor that gets defined in LF code. The header file is named after the corresponding reactor and prefixed by the path to the LF file that defines the reactor. Consider the following example project structure:
 ```
+src/
+├ A.lf   // defines Foo
+└ sub/
+  └ B.lf // defines Bar
+```
+In this case, the compiler will generate two header files `A/Foo.hh` and `sub/B/Bar.hh`, which would need to be included by an external implementation file.
 
-$end(Methods)$
+The precise method signature depends on the name of the reactor, the name of the reactions, and the precise triggers, sources, and effects that are defined in the LF code.
+The return type is always void. A reaction `foo` in a reactor `Bar` will be named `Bar::Inner::foo`. Note that each reactor class in the C++ target defines an `Inner` class which contains all reactions as well as the parameters and state variables. This is done to deliberately restrict the scope of reaction bodies in order to avoid accidental violations of reactor semantics.
+Any declared triggers, sources or effects are given to the reaction method via method arguments. The precise arguments and their types depend on the LF code. If in doubt, please check the signature used in the generated header file under `src-gen/<lf-file>`, where `<lf-file>` corresponds to the LF file that you are compiling.
+</div>
 
-This reactor defines two methods `getFoo` and `add`.
-<span class="lf-cpp">
-`getFoo` is qualified as a const method, which indicates that it has read-only
-access to the state variables. This is directly translated to a C++ const method
-in the code generation process.
-</span>
-The `getFoo` method receives no arguments and returns an integer (`int`)
-indicating the current value of the `foo` state variable. The `add` method
-returns nothing
-<span class="lf-cpp lf-c">
-(`void`)
-</span>
-and receives one integer argument, which it uses to increment `foo`. Both
-methods are visible in all reactions of the reactor. In this example, the
-reaction to startup calls both methods in order to read and modify its state.
+<div class="lf-py lf-ts lf-rs">
+
+The $target-language$ target does not currently support reaction declarations.
 
 </div>

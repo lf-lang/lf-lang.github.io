@@ -286,7 +286,7 @@ An example of this can be found in [PreambleFile.lf](https://github.com/lf-lang/
 Admittedly, the precise interactions of preambles and imports can become confusing. The preamble mechanism will likely be refined in future revisions.
 
 Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments.
-If access to the inner state of a reactor is required, [methods](/docs/handbook/reactions-and-methods#method-declaration) present a viable and easy to use alternative.
+If access to the inner state of a reactor is required, [methods](/docs/handbook/methods#method-declaration) present a viable and easy to use alternative.
 
 </div>
 

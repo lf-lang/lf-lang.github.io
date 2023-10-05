@@ -103,7 +103,7 @@ The **type** of a port is a type in the target language plus the special type $t
 
 </div>
 
-The $reaction$ declaration above indicates that an input event on port `x` is a **trigger** and that an output event on port `y` is a (potential) **effect**. A reaction can declare more than one trigger or effect by just listing them separated by commas. For example, the following reactor has two triggers and tests each input for presence before using it:
+The $reaction$ declaration above indicates that an input event on port `x` is a **trigger** and that an output event on port `y` is a (potential) **effect**. A reaction can declare more than one trigger or effect by just listing them separated by commas (See [Reactions](/docs/handbook/reactions) for details). For example, the following reactor has two triggers and tests each input for presence before using it:
 
 $start(Destination)$
 
@@ -203,23 +203,6 @@ $end(Destination)$
 <span class="lf-py">In the Python target, the value will be `None` if the input is not present.</span>
 <span class="lf-ts">In the TS target, the value will be **undefined** if the input is not present, a legitimate value in TypeScript.</span>
 <span class="lf-rs warning">FIXME.</span>
-
-## Triggers, Effects, and Uses
-
-The general form of a $reaction$ is
-
-```lf
-reaction (<triggers>) <uses> -> <effects> {=
-  <target language code>
-=}
-```
-
-The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](/docs/handbook/composing-reactors#hierarchy), [timers](/docs/handbook/time-and-timers#timers), [actions](/docs/handbook/actions), or the special events $startup$, $shutdown$, and $reset$. There must be at least one trigger for each reaction.
-For the special events, see the [Reactions and Methods](/docs/handbook/reactions-and-methods#startup-shutdown-and-reset-reactions) section.
-
-The **uses** field, which is optional, specifies input ports (or output ports of contained reactors) that do not trigger execution of the reaction but may be read by the reaction.
-
-The **effects** field, which is also optional, is a comma-separated lists of output ports ports, input ports of contained reactors, or [actions](/docs/handbook/actions).
 
 ## Setting an Output Multiple Times
 
