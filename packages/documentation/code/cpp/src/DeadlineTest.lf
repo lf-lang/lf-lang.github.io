@@ -2,19 +2,19 @@ target Cpp;
 import Deadline from "Deadline.lf";
 
 main reactor {
-    logical action a;
-    d = new Deadline();
-    reaction(startup) -> d.x, a {=
-        d.x.set(0);
-        a.schedule(0ms);
-    =}
+  logical action a;
+  d = new Deadline();
+  reaction(startup) -> d.x, a {=
+    d.x.set(0);
+    a.schedule(0ms);
+  =}
 
-    reaction(a) -> d.x {=
-        d.x.set(0);
-        std::this_thread::sleep_for(20ms);
-    =}
+  reaction(a) -> d.x {=
+    d.x.set(0);
+    std::this_thread::sleep_for(20ms);
+  =}
 
-    reaction(d.d) {=
-        std::cout << "Deadline reactor produced an output." << std::endl;
-    =}
+  reaction(d.d) {=
+    std::cout << "Deadline reactor produced an output." << std::endl;
+  =}
 }

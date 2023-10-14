@@ -20,7 +20,7 @@ const { read: readMarkdownFile } = require("gray-matter");
 // where it's used in the website / epub / etc
 //
 
-/* 
+/*
   Run this after any changes to propagate:
      yarn workspace documentation create-handbook-nav
 */
@@ -47,7 +47,8 @@ const handbookPages = [
       { file: "topics/Parameters and State Variables.md" },
       { file: "topics/Time and Timers.md" },
       { file: "topics/Composing Reactors.md" },
-      { file: "topics/Reactions and Methods.md" },
+      { file: "topics/Reactions.md" },
+      { file: "topics/Methods.md" },
       { file: "topics/Causality Loops.md" },
       { file: "topics/Extending Reactors.md" },
       { file: "topics/Actions.md" },
@@ -55,7 +56,8 @@ const handbookPages = [
       { file: "topics/Modal Models.md" },
       { file: "topics/Deadlines.md" },
       { file: "topics/Multiports and Banks.md" },
-      { file: "topics/Preambles and Methods.md" },
+      { file: "topics/Generics.md" },
+      { file: "topics/Preambles.md" },
       { file: "topics/Distributed Execution.md" },
       { file: "topics/Termination.md" },
     ],
@@ -68,7 +70,8 @@ const handbookPages = [
         { file: "tools/Code Extension.md"},
         { file: "tools/Epoch IDE.md"},
         { file: "tools/Command Line Tools.md" },
-    ],
+        { file: "tools/Troubleshooting.md" },
+      ],
   },
   {
     title: "Reference",
@@ -80,6 +83,16 @@ const handbookPages = [
       { file: "reference/Target Declaration.md" },
       { file: "reference/Tracing.md" },
       { file: "reference/Containerized Execution.md" },
+      { file: "reference/Security.md" },
+    ],
+  },
+  {
+    title: "Embedded Platforms",
+    summary: "Documentation for developing Lingua Franca on Embedded Platforms.",
+    chronological: true,
+    items: [
+      { file: "embedded/Arduino.md"},
+      { file: "embedded/Zephyr.md"},
     ],
   },
   {
@@ -87,12 +100,12 @@ const handbookPages = [
     summary: "Information for developers of the Lingua Franca language and tools.",
     chronological: true,
     items: [
-      { file: "developer/Regression Tests.md" },
       { file: "developer/Contributing.md" },
       { file: "developer/Downloading and Building.md" },
-      { file: "developer/Developer Eclipse Setup with Oomph.md" },
-      { file: "developer/Developer IntelliJ Setup (for Kotlin).md" },
+      { file: "developer/Developer IntelliJ Setup.md" },
+      { file: "developer/Regression Tests.md" },
       { file: "developer/Running Benchmarks.md" },
+      { file: "developer/Website Development.md"},
     ]
   },
 ]
@@ -131,7 +144,7 @@ const codeForTheHandbook = [
 export function getDocumentationNavForLanguage(langRequest: string): SidebarNavItem[] {
   const langs = ['${langs.join("', '")}']
   const lang = langs.includes(langRequest) ? langRequest : "en"
-  const navigations: Record<string, SidebarNavItem[]> = {} 
+  const navigations: Record<string, SidebarNavItem[]> = {}
 `,
 ];
 
@@ -140,7 +153,7 @@ for (const lang of langs) {
 
   handbookPages.forEach((section, sectionIndex) => {
     // Section metadata:
-    codeForTheHandbook.push(`{ 
+    codeForTheHandbook.push(`{
       title: "${section.title}",
       oneline: "${section.summary}",
       id: "${section.title.toLowerCase().replace(/\s/g, "-")}",

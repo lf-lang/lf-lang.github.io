@@ -16,7 +16,7 @@ Tracing is currently supported in the C, Python, and C++ targets. The mechanism 
 
 ## Tracing in C++
 
-Tracing in the Cpp target of Lingua Franca is based on three third-party tools. [LTTng](https://lttng.org/docs/v2.12/) is a Linux tool used to instrument the Lingua Franca program and to record traces in the [CTF](https://diamon.org/ctf/), which minimizes the overhead of instrumentation. Chrome (or Chromium) has a build in [trace viewer](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool) that is used to visualize the recorded trace data in a reactor-specific way. Since the Chrome trace-viewer cannot read CTF traces directly, we use [Babeltrace2](https://babeltrace.org/) to convert the recorded CTF trace to a json file that the Google trace viewer can load.
+Tracing in the C++ target of Lingua Franca is based on three third-party tools. [LTTng](https://lttng.org/docs/v2.12/) is a Linux tool used to instrument the Lingua Franca program and to record traces in the [CTF](https://diamon.org/ctf/), which minimizes the overhead of instrumentation. Chrome (or Chromium) has a build in [trace viewer](https://www.chromium.org/developers/how-tos/trace-event-profiling-tool) that is used to visualize the recorded trace data in a reactor-specific way. Since the Chrome trace-viewer cannot read CTF traces directly, we use [Babeltrace2](https://babeltrace.org/) to convert the recorded CTF trace to a JSON file that the Google trace viewer can load.
 
 ## Usage
 
@@ -37,7 +37,7 @@ Some helper scripts that we will use below, can be found in the [reactor-cpp rep
 
 4. Modify the target declaration of your Lingua Franca program to enable tracing:
 
-```
+```lf-cpp
 target Cpp {
     tracing: true
 };
@@ -47,8 +47,8 @@ target Cpp {
 6. Start a LTTng user space session by simply running the `start_tracing.sh` script. This will print the directory in which the recorded traces will be placed.
 7. Run your instrumented Lingua Franca application.
 8. Stop the LTTng session using `stop_tracing.sh`.
-9. Convert the recorded CTF trace to a json file using `ctf_to_json.py <lttng-session-dir>`. `<lttng-session-dir>` is the output directory reported by `start_tracing.sh`. By default, this produces a file `trace.json`. Optionally, the default output file can be overridden using `-o` or `--output`.
-10. Open Chrome (or Chromium) and go to `about://tracing`. Load the previously generated json file to visualize it.
+9. Convert the recorded CTF trace to a JSON file using `ctf_to_json.py <lttng-session-dir>`. `<lttng-session-dir>` is the output directory reported by `start_tracing.sh`. By default, this produces a file `trace.json`. Optionally, the default output file can be overridden using `-o` or `--output`.
+10. Open Chrome (or Chromium) and go to `about://tracing`. Load the previously generated JSON file to visualize it.
 
 ## The Trace View
 
@@ -66,7 +66,7 @@ This section gives a brief overview of trace viewers that could be applicable fo
 
 ### Google Trace Viewer
 
-The Google Trace Viewer is the only viewer currently supported. Since it reads json files, it is easy to use and a conversion script can easily tailor the trace data such that it is correctly displayed by the viewer. Documentation of the json trace format can be found [here](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#). There is also a list of available [color codes](https://github.com/catapult-project/catapult/blob/master/tracing/tracing/base/color_scheme.html). The approach of using LTTng for tracing, a converter and Google Trace Viewer can also be used to sample and visualize data live. This is shown in the [Scalapus project](https://clearpathrobotics.com/blog/2020/01/scalopus-tracing-framework-c-python/).
+The Google Trace Viewer is the only viewer currently supported. Since it reads JSON files, it is easy to use and a conversion script can easily tailor the trace data such that it is correctly displayed by the viewer. Documentation of the JSON trace format can be found [here](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#). There is also a list of available [color codes](https://github.com/catapult-project/catapult/blob/master/tracing/tracing/base/color_scheme.html). The approach of using LTTng for tracing, a converter and Google Trace Viewer can also be used to sample and visualize data live. This is shown in the [Scalapus project](https://clearpathrobotics.com/blog/2020/01/scalopus-tracing-framework-c-python/).
 
 ### Trace Compass
 
@@ -88,7 +88,7 @@ The Google Trace Viewer is the only viewer currently supported. Since it reads j
 
 The C and Python tracing mechanism depends only on the availability of the `pthread` library. Like C++ tracing, tracing is enabled by a target parameter:
 
-```
+```lf-c
 target C {
     tracing: true
 };
@@ -96,7 +96,7 @@ target C {
 
 Once it is enabled, when the compiled program, say `Foo.lf`, is executed, a trace file is created, `Foo.lft` (the extension is for "Lingua Franca trace"). If you wish to customize the root name of the trace file, you can specify the following target property instead:
 
-```
+```lf-c
 target C {
     tracing: {trace-file-name: "Bar"}
 };
@@ -104,17 +104,18 @@ target C {
 
 This will result in the trace file being named `Bar.lft`, regardless of the name of the `.lf` file.
 
-The trace file is a binary file. It is not human readable. There are three utilities for reading it:
+The trace file is a binary file. It is not human readable. There are  utilities for reading it:
 
 - `trace_to_csv`: This program creates a text file with one line per traced event in comma-separated list format.
 - `trace_to_chrome`: This program creates a text file in JSON format that is suitable for reading into the same Google Trace Viewer, which runs in Chrome, as used above in C++ tracing.
 - `trace_to_influxdb` : This program will send the traced event to a running InfluxDB database server. 
+- `fedsd`: This program creates a timed sequence diagram showing the interactions between components of a federated program (see [Tracing Federated Programs](#tracing-federated-programs) below).
 
-These two programs are located in reactor-c at `lingua-franca/core/src/main/resources/lib/c/reactor-c/util/tracing`. Running `sudo make install` in that directory will put executables into `usr/local/bin`.
+These four programs are located in reactor-c at `lingua-franca/core/src/main/resources/lib/c/reactor-c/util/tracing`. Running `sudo make install` in that directory will put executables into `usr/local/bin`.
 
 Consider for example the [ThreadedThreaded.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/concurrent/ThreadedThreaded.lf) test, which executes a number of heavyweight computations in parallel on multiple cores. If you enable tracing as shown above and run the program, a `ThreadedTheread.lft` file will appear. Running
 
-```
+```sh
    trace_to_csv ThreadedThreaded
 ```
 
@@ -143,7 +144,7 @@ The `trace_to_csv` utility will also create a summary file called `ThreadedThrea
 
 If you call
 
-```
+```sh
    trace_to_chrome ThreadedThreaded
 ```
 
@@ -153,13 +154,13 @@ then a ThreadedThreaded.json file is created. To visualize the data, point your 
 
 The tan-colored regions whose labels start with "A" and "W" represent time spent advancing logical time and waiting for activity on the reaction queue, respectively. When logical time advances, unless you have specified the `-fast` option, one of the worker threads blocks execution until physical time catches up with logical time. The remaining worker threads block waiting for reactions that are ready to execute appear on the reaction queue.
 
-The json trace format can be found [here](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#). There is also a list of available [color codes](https://github.com/catapult-project/catapult/blob/master/tracing/tracing/base/color_scheme.html).
+The JSON trace format can be found [here](https://docs.google.com/document/d/1CvAClvFfyA5R-PhYUmn5OOQtYMH4h6I0nSsKchNAySU/preview#). There is also a list of available [color codes](https://github.com/catapult-project/catapult/blob/master/tracing/tracing/base/color_scheme.html).
 
 ### User-Defined Tracepoints
 
 Users can add their own tracepoints in order to provide low-overhead recording of events and events with values that occur during the execution of reactions. To do this, the first step is to register the trace event in a **startup** reaction as follows:
 
-```
+```lf-c
     reaction(startup) {=
         if (!register_user_trace_event("Description of event")) {
             fprintf(stderr, "ERROR: Failed to register trace event.\n");
@@ -172,7 +173,7 @@ The description of the event is an arbitrary string, but the string must be uniq
 
 To then actually record an event, in a reaction, call `tracepoint_user_event`, passing it the same string. E.g.,
 
-```
+```lf-c
 	reaction(in) -> out {=
 	    ...
 	    tracepoint_user_event("Description of event");
@@ -182,7 +183,7 @@ To then actually record an event, in a reaction, call `tracepoint_user_event`, p
 
 You can also pass a value to the trace. The type of the value is `long long`, so it can be a time value or an int. For example,
 
-```
+```lf-c
 	reaction(in) -> out {=
 	    ...
 	    tracepoint_user_value("Description of event", 42);
@@ -200,5 +201,31 @@ shown first. The other four rows are just pure events (with no value). They are
 shown by (extremely) thin lines positioned at the physical time of the
 occurrence of the event. Dragging the mouse over those thin lines shows further
 details about the event in the window below.
+
+### Tracing Federated Programs
+
+When the `tracing` target parameter is set to `true` in a [federated program](https://www.lf-lang.org/docs/handbook/distributed-execution?target=c), then each federate plus the RTI will generate a binary trace file. The utility `fedsd` generates an HTML file containing an SVG graphic that shows the messages exchanged between components over time. Like the other utilities, `fedsd` is defined in `lingua_franca/util/tracing` and installed using `make install`.
+
+Consider the following LF program:
+
+<img src="../../../../../img/tracing/Feedback.svg" alt="Feedback example" width="300"/>
+
+Setting `tracing: true` in this program and running it produces four `.lft` files. Running `fedsd` on those files:
+
+```
+   fedsd
+```
+
+results in converting the files to `.csv` files and then generating a `trace_svg.html` file. Opening that file reveals a trace, the beginning of which looks like this:
+
+![Feedback trace](../../../../../img/tracing/SDstartup.png)
+
+This section of the trace shows only the initial negotiation for the start time for the federation. The vertical axis represents physical time, and the labels on that axis display physical time relative to the start time that is the result of this initial negotiation. The vertical axis is not linear so that more events can be displayed in a small space. The horizontal lines represent messages sent and received, with the message type and tag information (if any) shown.
+
+A more interesting part of the trace is shown here:
+
+![Feedback trace](../../../../../img/tracing/Messages.png)
+
+This shows `f1` (on the right) advancing time to 10 ms, and sending a message (in red, via the RTI) to `f2`, which then forwards it to `f3` (again, via the RTI).
 
 </div>

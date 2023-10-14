@@ -15,7 +15,7 @@ A reactor class definition can parameterized as follows:
 <div class="lf-c lf-cpp lf-ts lf-rs">
 
 ```lf
-reactor <class-name>(<param-name>:<type>(<expr>), ...) {
+reactor <class-name>(<param-name>:<type> = <expr>, ...) {
     ...
 }
 ```
@@ -25,7 +25,7 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 - An identifier, such as `int`<span class="lf-cpp">, possibly followed by a type argument, e.g. `vector<int>`</span>.
 - An array type `type[]`<span class="lf-c lf-cpp lf-rs"> and `type[integer]`</span>.
 - The keyword $time$, which designates a time value.
-- A code block delimitted by `{= ... =}`, where the contents is any valid type in the target language.
+- A code block delimited by `{= ... =}`, where the contents is any valid type in the target language.
 
 </div>
 
@@ -52,77 +52,75 @@ For example, `{= int | null =}` defines nullable integer type in TypeScript.
 <div class="lf-py">
 
 ```lf
-reactor <class-name>(<param-name>(<expr>), ... ) {
+reactor <class-name>(<param-name> = <expr>, ... ) {
     ...
 }
 ```
 
 </div>
 
-Each parameter must have a _default value_, written `(<expr>)`. An expression may be a numeric contant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
+Depending on the target, the type may be a [generic type](/docs/handbook/generics), which means that the type is parameter determined at the time the reactor class is instantiated.
+
+Each parameter must have a _default value_, written `<param-name> = <expr>`. An expression may be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](/docs/handbook/expressions) for full details on what expressions are valid.
 
 For example, the `Double` reactor on the [previous page](/docs/handbook/inputs-and-outputs) can be replaced with a more general parameterized reactor `Scale` as follows:
 
 $start(Scale)$
 
 ```lf-c
-target C;
-reactor Scale(factor:int(2)) {
-    input x:int;
-    output y:int;
-    reaction(x) -> y {=
-        lf_set(y, x->value * self->factor);
-    =}
+target C
+reactor Scale(factor: int = 2) {
+  input x: int
+  output y: int
+  reaction(x) -> y {=
+    lf_set(y, x->value * self->factor);
+  =}
 }
-
 ```
 
 ```lf-cpp
-target Cpp;
-
-reactor Scale(factor:int(2)) {
-    input x:int;
-    output y:int;
-    reaction(x) -> y {=
-        y.set(factor * *x.get());
-    =}
+target Cpp
+reactor Scale(factor: int(2)) {
+  input x: int
+  output y: int
+  reaction(x) -> y {=
+    y.set(factor * *x.get());
+  =}
 }
-
 ```
 
 ```lf-py
-target Python;
-reactor Scale(factor(2)) {
-    input x;
-    output y;
-    reaction(x) -> y {=
-        y.set(x.value * self.factor)
-    =}
+target Python
+reactor Scale(factor=2) {
+  input x
+  output y
+  reaction(x) -> y {=
+    y.set(x.value * self.factor)
+  =}
 }
 ```
 
 ```lf-ts
-target TypeScript;
-reactor Scale(factor:number(2)) {
-    input x:number;
-    output y:number;
-    reaction(x) -> y {=
-        if (x !== undefined) y = x * factor
-    =}
+target TypeScript
+reactor Scale(factor: number = 2) {
+  input x: number
+  output y: number
+  reaction(x) -> y {=
+    if (x !== undefined) y = x * factor
+  =}
 }
-
 ```
 
 ```lf-rs
-target Rust;
-reactor Scale(factor:u32(2)) {
-    state factor(factor);
-    input x:u32;
-    output y:u32;
-    reaction(x) -> y {=
-        let x = ctx.get(x).unwrap();
-        ctx.set(y, x * self.factor);
-    =}
+target Rust
+reactor Scale(factor: u32 = 2) {
+  state factor = factor
+  input x: u32
+  output y: u32
+  reaction(x) -> y {=
+    let x = ctx.get(x).unwrap();
+    ctx.set(y, x * self.factor);
+  =}
 }
 ```
 
@@ -139,7 +137,7 @@ A reactor declares a state variable as follows:
 <div class="lf-c lf-cpp lf-ts lf-rs">
 
 ```lf
-    state <name>:<type>(<value>);
+  state <name>:<type> = <value>
 ```
 
 The type can any of the same forms as for a parameter.
@@ -149,7 +147,7 @@ The type can any of the same forms as for a parameter.
 <div class="lf-py">
 
 ```lf
-    state <name>(<value>);
+  state <name> = <value>
 ```
 
 </div>
@@ -159,74 +157,91 @@ The `<value>` is an initial value and, like parameter values, can be given as an
 $start(Count)$
 
 ```lf-c
-target C;
+target C
 reactor Count {
-    state count:int(0);
-    output y:int;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        lf_set(y, self->count++);
-    =}
+  state count: int = 0
+  output y: int
+  timer t(0, 100 msec)
+  reaction(t) -> y {=
+    lf_set(y, self->count++);
+  =}
 }
-
 ```
 
 ```lf-cpp
-target Cpp;
-
+target Cpp
 reactor Count {
-    state count:int(0);
-    output y:int;
-    timer t(0, 100ms);
-
-    reaction(t) -> y {=
-        y.set(count++);
-    =}
+  state count: int(0)
+  output y: int
+  timer t(0, 100 ms)
+  reaction(t) -> y {=
+    y.set(count++);
+  =}
 }
-
 ```
 
 ```lf-py
-target Python;
+target Python
 reactor Count {
-    state count(0);
-    output y;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        y.set(self.count)
-        self.count += 1
-    =}
+  state count = 0
+  output y
+  timer t(0, 100 msec)
+  reaction(t) -> y {=
+    y.set(self.count)
+    self.count += 1
+  =}
 }
-
 ```
 
 ```lf-ts
 target TypeScript
 reactor Count {
-    state count:number(0)
-    output y:number
-    timer t(0, 100 msec)
-    reaction(t) -> y {=
-        y = count++
-    =}
+  state count: number = 0
+  output y: number
+  timer t(0, 100 msec)
+  reaction(t) -> y {=
+    y = count++
+  =}
 }
-
 ```
 
 ```lf-rs
-target Rust;
+target Rust
 reactor Count {
-    state count:u32(0);
-    output y:u32;
-    timer t(0, 100 msec);
-    reaction(t) -> y {=
-        ctx.set(y, self.count);
-        self.count += 1;
-    =}
+  state count: u32 = 0
+  output y: u32
+  timer t(0, 100 msec)
+  reaction(t) -> y {=
+    ctx.set(y, self.count);
+    self.count += 1;
+  =}
 }
-
 ```
 
 $end(Count)$
 
 This reactor has an integer state variable named `count`, and each time its reaction is invoked, it outputs the value of that state variable and increments it. The reaction is triggered by a $timer$, discussed in the next section.
+
+## Reset State Variables
+
+<div class="lf-cpp lf-ts lf-rs">
+
+The $reset$ keyword is not supported in $target-language$ because [modal reactors](/docs/handbook/modal-models) are not supported.
+
+</div>
+
+<div class="lf-c lf-py">
+
+A state variable declaration may be qualified with a $reset$ keyword as follows:
+
+```lf-c
+  reset state <name>:<type> = <value>
+```
+
+```lf-py
+  reset state <name> = <value>
+```
+
+When this is done, if the state variable or the reactor is within a mode of a [modal reactor](/docs/handbook/modal-models), then when the mode is entered via a reset transition, the state variable will be reset to its initial value. For details, see the [Modal Reactors](/docs/handbook/modal-models) section.
+
+</div>

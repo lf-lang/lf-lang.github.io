@@ -14,7 +14,7 @@ A Lingua Franca file, which has a .lf extension, contains the following:
 
 If one of the reactors in the file is designated `main` or `federated`, then the file defines an executable application. Otherwise, it defines one or more library reactors that can be imported into other LF files. For example, an LF file might be structured like this:
 
-```
+```lf-c
 target C;
 main reactor C {
     a = new A();
@@ -35,7 +35,7 @@ The name of the main reactor (`C` above) is optional. If given, it must match th
 
 This example specifies and instantiates two reactors, one of which sends messages to the other. A minimal but complete Lingua Franca file with one reactor is this:
 
-```
+```lf-c
 target C;
 main reactor HelloWorld {
     reaction(startup) {=
@@ -82,7 +82,7 @@ Each parameter may have a _type annotation_, written `:type`, and must have a _d
 
 The type annotation specifies a type in the target language, which is necessary for some target languages. For instance in C you might write
 
-```
+```lf-c
 reactor Foo(size: int(100)) {
     ...
 }
@@ -95,15 +95,15 @@ One useful type predefined by LF is the `time` type, which represents time durat
 
 For instance, you can write the following in any target language:
 
-```
+```lf
 reactor Foo(period: time(100 msec)) {
     ...
 }
 ```
 
-Container types may also be written eg `int[]`, which is translated to a target-specific array or list type. The acceptable expressions for these types vary across targets (see [Complex expressions](#complex-expressions)), for instance in C, you can initialize an array parameter as follows:
+Container types may also be written e.g. `int[]`, which is translated to a target-specific array or list type. The acceptable expressions for these types vary across targets (see [Complex expressions](#complex-expressions)), for instance in C, you can initialize an array parameter as follows:
 
-```
+```lf-c
 reactor Foo(my_array:int[](1, 2, 3)) {
    ...
 }
@@ -111,7 +111,7 @@ reactor Foo(my_array:int[](1, 2, 3)) {
 
 If the type or expression uses syntax that Lingua Franca does not support, you can use `{= ... =}` delimiters to enclose them and escape them. For instance to have a 2-dimensional array as a parameter in C:
 
-```
+```lf-c
 reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
     ...
 }
@@ -125,7 +125,7 @@ Other forms for types and expressions are described in [LF types](#appendix-lf-t
 
 How parameters may be used in the body of a reaction depends on the target. For example, in the [C target](writing-reactors-in-c#using-parameters), a `self` struct is provided that contains the parameter values. The following example illustrates this:
 
-```
+```lf-c
 target C;
 reactor Gain(scale:int(2)) {
     input x:int;
@@ -151,7 +151,7 @@ In the second form, the state variable inherits its type from the specified _par
 
 How state variables may be used in the body of a reaction depends on the target. For example, in the [C target](writing-reactors-in-c#using-state-variables), a `self` struct is provided that contains the state values. The following example illustrates this:
 
-```
+```lf-c
 reactor Count {
 	output c:int;
 	timer t(0, 1 sec);
@@ -174,7 +174,7 @@ A method declaration has one of the forms:
 
 The first form defines a method with no arguments and no return value. The second form defines a method with the return type _type_ but no arguments. The third form defines a method with arguments given by their name and type, but without a return value. Finally, the fourth form is similar to the third, but adds a return type.
 
-The **method** keywork can optionally be prefixed with the **const** qualifier, which indicates that the method is "read-only". This is relvant for some target languages such as C++.
+The **method** keyword can optionally be prefixed with the **const** qualifier, which indicates that the method is "read-only". This is relevant for some target languages such as C++.
 
 See the [C++ documentation](https://github.com/lf-lang/lingua-franca/wiki/Writing-Reactors-in-Cpp#using-methods) for a usage example.
 
@@ -212,7 +212,7 @@ A timer, like an input and an action, causes reactions to be invoked. Unlike an 
 
 For example,
 
-```
+```lf
 timer foo(10 msec, 100 msec);
 ```
 
@@ -225,7 +225,7 @@ whereas a value greater than zero specifies that they should be triggered repeat
 
 To cause a reaction to be invoked at the start of execution, a special **startup** trigger is provided:
 
-```
+```lf
 reactor Foo {
     reaction(startup) {=
         ... perform initialization ...
@@ -290,7 +290,7 @@ A reaction is defined within a reactor using the following syntax:
 
 The _uses_ and _effects_ fields are optional. A simple example appears in the "hello world" example given above:
 
-```
+```lf
     reaction(t) {=
         printf("Hello World.\n");
     =}
@@ -315,7 +315,7 @@ The target provides language-dependent mechanisms for referring to inputs, outpu
 
 In the [C target](Writing-Reactors-in-C#Reaction-Body), for example, the following reactor will add two inputs if they are present at the time of a reaction:
 
-```
+```lf
 reactor Add {
     input in1:int;
     input in2:int;
@@ -331,13 +331,13 @@ reactor Add {
 
 See the [C target](Writing-Reactors-in-C#Reaction-Body) for an example of how these things are specified in C.
 
-**NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is undefined and may be target dependent. In the C target, as of this writing, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the datatype of the input. In the TS target, the value will be **undefined**, a legitimate value in TypeScript.
+**NOTE:** if a reaction fails to test for the presence of an input and reads its value anyway, then the result it will get is undefined and may be target dependent. In the C target, as of this writing, the value read will be the most recently seen input value, or, if no input event has occurred at an earlier logical time, then zero or NULL, depending on the data type of the input. In the TS target, the value will be **undefined**, a legitimate value in TypeScript.
 
 ### Scheduling Future Reactions
 
 Each target language provides some mechanism for scheduling future reactions. Typically, this takes the form of a `schedule` function that takes as an argument an [action](#Action-Declaration), a time interval, and (perhaps optionally), a payload. For example, in the [C target](Writing-Reactors-in-C#Reaction-Body), in the following program, each reaction to the timer `t` schedules another reaction to occur 100 msec later:
 
-```
+```lf-c
 target C;
 main reactor Schedule {
     timer t(0, 1 sec);
@@ -362,7 +362,7 @@ Nanoseconds since start: 2100000000.
 ...
 ```
 
-This action has no datatype and carries no value, but, as explained below, an action can carry a value.
+This action has no data type and carries no value, but, as explained below, an action can carry a value.
 
 ### Asynchronous Callbacks
 
@@ -372,7 +372,7 @@ In targets that support multitasking, the `schedule` function, which schedules f
 
 Lingua Franca uses a concept known as **superdense time**, where two time values that appear to be the same are not logically simultaneous. At every logical time value, for example midnight on January 1, 1970, there exist a logical sequence of **microsteps** that are not simultaneous. The [Microsteps](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Microsteps.lf) example illustrates this:
 
-```
+```lf-c
 target C;
 reactor Destination {
     input x:int;
@@ -416,7 +416,7 @@ Note that the numerical time reported by `get_elapsed_logical_time()` has not ad
 
 Note that it is possible to write code that will prevent logical time from advancing except by microsteps. For example, we could replace the reaction to `repeat` in `Main` with this one:
 
-```
+```lf-c
     reaction(repeat) -> d.y, repeat {=
         lf_set(d.y, 1);
         schedule(repeat, 0);
@@ -441,13 +441,13 @@ Time since start: 0.
 
 Two special triggers are supported, **startup** and **shutdown**. A reaction that specifies the **startup** trigger will be invoked at the start of execution of the model. The following two syntaxes have exactly the same effect:
 
-```
+```lf
     reaction(startup) {= ... =}
 ```
 
 and
 
-```
+```lf
     timer t;
     reaction(t) {= ... =}
 ```
@@ -456,7 +456,7 @@ In other words, **startup** is a timer that triggers once at the first logical t
 
 The **shutdown** trigger is slightly different. A shutdown reaction is specified as follows:
 
-```
+```lf
    reaction(shutdown) {= ... =}
 ```
 
@@ -468,7 +468,7 @@ If the reaction produces outputs, then downstream reactors will also be invoked 
 
 Reactors can contain instances of other reactors defined in the same file or in an imported file. Assuming the above [Count reactor](#state-declaration) is stored in a file [Count.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/lib/Count.lf), then [CountTest](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/CountTest.lf) is an example that imports and instantiates it to test the reactor:
 
-```
+```lf-c
 target C;
 import Count.lf;
 reactor Test {
@@ -529,7 +529,7 @@ When there are multiports or banks of reactors, several channels can be connecte
 
 The following example defines a reactor that adds a counting sequence to its input. It uses the above Count and Add reactors (see [Hierarchy2](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Hierarchy2.lf)):
 
-```
+```lf
 import Count.lf;
 import Add.lf;
 reactor AddCount {
@@ -545,7 +545,7 @@ reactor AddCount {
 
 A reactor that contains other reactors may, within a reaction, send data to the contained reactor. The following example illustrates this (see [SendingInside](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SendingInside.lf)):
 
-```
+```lf-c
 target C;
 reactor Printer {
 	input x:int;
@@ -571,7 +571,7 @@ Inside reactor received: 1
 
 Lingua Franca includes a notion of a **deadline**, which is a relation between logical time and physical time. Specifically, a program may specify that the invocation of a reaction must occur within some physical-time interval of the logical timestamp of the message. If a reaction is invoked at logical time 12 noon, for example, and the reaction has a deadline of one hour, then the reaction is required to be invoked before the physical-time clock of the execution platform reaches 1 PM. If the deadline is violated, then the specified deadline handler is invoked instead of the reaction. For example (see [Deadline](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Deadline.lf)):
 
-```
+```lf
 reactor Deadline() {
     input x:int;
     output d:int; // Produced if the deadline is violated.
@@ -589,7 +589,7 @@ The amount of the deadline, of course, can be given by a parameter.
 
 A sometimes useful pattern is when a container reactor reacts to deadline violations in a contained reactor. The [DeadlineHandledAbove](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DeadlineHandledAbove.lf) example illustrates this:
 
-```
+```lf-c
 target C;
 reactor Deadline() {
     input x:int;
@@ -614,7 +614,7 @@ main reactor DeadlineHandledAbove {
 
 Lingua Franca files can have C/C++/Java-style comments and/or Python-style comments. All of the following are valid comments:
 
-```
+```lf
     // Single-line C-style comment.
     /*
        Multi-line C-style comment.
@@ -631,10 +631,10 @@ Type annotations may be written in many places in LF, including [parameter decla
 
 Assigning meaning to type annotations is entirely offloaded to the target compiler, as LF does not feature a type system (yet?). However, LF's syntax for types supports a few idioms that have target-specific meaning. Types may have the following forms:
 
-- the **time** type is reserved by LF, its values represent time durations. The **time** type accepts _time expressions_ for values, eg `100 msec`, or `0` (see [Basic expressions](#basic-expressions) for a reference).
-- identifiers are valid types (eg `int`, `size_t`), and may be followed by type arguments (eg `vector<int>`).
-- the syntactic forms `type[]` and `type[integer]` correspond to target-specific array types. The second form is available only in languages which support fixed-size array types (eg in C++, `std::array<5>`).
-- the syntactic form `{= some type =}` allows writing an arbitrary type as target code. This is useful in target languages which have complex type grammar (eg in TypeScript, `{= int | null =}`).
+- the **time** type is reserved by LF, its values represent time durations. The **time** type accepts _time expressions_ for values, e.g. `100 msec`, or `0` (see [Basic expressions](#basic-expressions) for a reference).
+- identifiers are valid types (e.g. `int`, `size_t`), and may be followed by type arguments (e.g. `vector<int>`).
+- the syntactic forms `type[]` and `type[integer]` correspond to target-specific array types. The second form is available only in languages which support fixed-size array types (e.g. in C++, `std::array<5>`).
+- the syntactic form `{= some type =}` allows writing an arbitrary type as target code. This is useful in target languages which have complex type grammar (e.g. in TypeScript, `{= int | null =}`).
 
 Also note that to use strings conveniently in the C target, the "type" `string` is an alias for `{=char*=}`.
 
@@ -644,19 +644,19 @@ Also note that to use strings conveniently in the C target, the "type" `string` 
 
 A subset of LF syntax is used to write _expressions_, which represent target language values. Expressions are used in [state variable](#State-declaration) initializers, default values for [parameters](#Parameter-declarations), and [parameter assignments](#Contained-reactors).
 
-Expressions in LF support only simple forms, that are intended to be common across languages. Their precise meaning (eg the target language types they are compatible with) is target-specific and not specified here.
+Expressions in LF support only simple forms, that are intended to be common across languages. Their precise meaning (e.g. the target language types they are compatible with) is target-specific and not specified here.
 
 ### Basic expressions
 
 The most basic expression forms, which are supported by all target languages, are the following:
 
 - Literals:
-  - Numeric literals, eg `1`, `-120`, `1.5`. Note that the sign, if any, is part of the literal and must not be separated by whitespace.
-  - String literals, eg `"abcd"`. String literals always use double-quotes, even in languages which support other forms (like Python).
-  - Character literals. eg `'a'`. Single-quoted literals must be exactly one character long --even in Python.
+  - Numeric literals, e.g. `1`, `-120`, `1.5`. Note that the sign, if any, is part of the literal and must not be separated by whitespace.
+  - String literals, e.g. `"abcd"`. String literals always use double-quotes, even in languages which support other forms (like Python).
+  - Character literals. e.g. `'a'`. Single-quoted literals must be exactly one character long --even in Python.
   - Boolean literals: `true`, `false`, `True`, `False`. The latter two are there for Python.
-- Parameter references, which are simple identifiers (eg `foo`). Any identifier in expression position must refer to a parameter of the enclosing reactor.
-- Time values, eg `1 msec` or `10 seconds`. The syntax of time values is `integer time_unit`, where `time_unit` is one of the following
+- Parameter references, which are simple identifiers (e.g. `foo`). Any identifier in expression position must refer to a parameter of the enclosing reactor.
+- Time values, e.g. `1 msec` or `10 seconds`. The syntax of time values is `integer time_unit`, where `time_unit` is one of the following
 
   - **nsec**: nanoseconds
   - **usec**: microseconds
@@ -667,23 +667,23 @@ The most basic expression forms, which are supported by all target languages, ar
   - **day**: 24 hours
   - **week**: 7 days
 
-  Each of these units also support a pluralized version (eg `nsecs`, `minutes`, `days`), which means the same thing.
+  Each of these units also support a pluralized version (e.g. `nsecs`, `minutes`, `days`), which means the same thing.
 
   The time value `0` may have no unit. Except in this specific case, the unit is always required.
 
   Time values are compatible with the `time` type.
 
-- Escaped target-language expression, eg `{= foo() =}`. This syntax is used to write any expression which does not fall into one of the other forms described here. The contents are not parsed and are used verbatim in the generated file.
+- Escaped target-language expression, e.g. `{= foo() =}`. This syntax is used to write any expression which does not fall into one of the other forms described here. The contents are not parsed and are used verbatim in the generated file.
 
   The variables in scope are target-specific.
 
 ### Complex expressions
 
-Some targets may make use of a few other syntactic forms for expressions. These syntactic forms may be acribed a different meaning by different targets, to keep the source language close in meaning to the target language.
+Some targets may make use of a few other syntactic forms for expressions. These syntactic forms may be ascribed a different meaning by different targets, to keep the source language close in meaning to the target language.
 
 We describe here these syntactic forms and what meaning they have in each target.
 
-- Bracket-list syntax, eg `[1, 2, 3]`. This syntax is used to create a list in Python. It is not supported by any other target at the moment.
+- Bracket-list syntax, e.g. `[1, 2, 3]`. This syntax is used to create a list in Python. It is not supported by any other target at the moment.
   ```python
   state x([1,2,3])
   ```
@@ -692,7 +692,7 @@ We describe here these syntactic forms and what meaning they have in each target
 
 Some "expression" forms are only acceptable as the initializer of a state variable or parameter, but not in other places (like inside a list expression). These are
 
-- Tuple syntax, eg `(1, 2, 3)`. This syntax is used:
+- Tuple syntax, e.g. `(1, 2, 3)`. This syntax is used:
 
   - in the Python target, to create a tuple value. Tuples are different from lists in that they are immutable.
   - in C++, to pass arguments to a constructor:
@@ -711,4 +711,4 @@ Some "expression" forms are only acceptable as the initializer of a state variab
     state x: int[]({= {1} =})  // one element array: `int x[] = {1};`
   ```
 
-- Brace-list syntax, eg `{1, 2, 3}`. This syntax is at the moment only supported by the C++ target. It's used to initialize a vector with the initializer list syntax instead of a constructor call.
+- Brace-list syntax, e.g. `{1, 2, 3}`. This syntax is at the moment only supported by the C++ target. It's used to initialize a vector with the initializer list syntax instead of a constructor call.
