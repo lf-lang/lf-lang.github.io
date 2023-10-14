@@ -2629,15 +2629,15 @@ The reactor-cpp library provides logging utilities in [logging.hh](https://githu
 
 In particular, reactor-cpp provides the following logging interfaces:
 
-- `reactor::Debug()`: for verbose debug messages
-- `reactor::Info()`: for info messages of general interest, info is the default severity level
-- `reactor::Warning()`: for warning messages
-- `reactor::Error()`: for errors
+- `reactor::log::Debug()`: for verbose debug messages
+- `reactor::log::Info()`: for info messages of general interest, info is the default severity level
+- `reactor::log::Warning()`: for warning messages
+- `reactor::log::Error()`: for errors
 
 These utilities can be used analogues to `std::cout`. For instance:
 
 ```lf-cpp
-reactor::Info() << "Hello World! It is " << get_physical_time();
+reactor::log::Info() << "Hello World! It is " << get_physical_time();
 ```
 
 Note that unlike `std::cout` the new line delimiter is automatically added to the end of the message.
