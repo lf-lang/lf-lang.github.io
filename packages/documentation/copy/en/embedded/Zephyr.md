@@ -11,38 +11,40 @@ programming [hundreds](https://docs.zephyrproject.org/latest/boards/index.html)
 of resource-constrained microcontrollers. In this guide we will see how LF
 programs can be built, programmed and debugged both in emulation and on real
 hardware. When developing LF programs for Zephyr we use a `west`-centric
-approach. Using `west`, which is the preferred build tool for Zephyr projects, 
-requires structuring the code base and development flow as expected by `west`. To interact
-with the Lingua Franca Compiler we provide custom `west`-extensions which invoke
-`lfc` before building the Zephyr application. This in contrast to our
-Arduino-support, which is `lfc`-centric.
+approach. Using `west`, which is the preferred build tool for Zephyr projects,
+requires structuring the code base and development flow as expected by `west`.
+To interact with the Lingua Franca Compiler we provide custom `west`-extensions
+which invoke `lfc` before building the Zephyr application.
 
 ## Prerequisites
-- Linux or macOS development system
+- Linux or macOS development system. (The guide is written for Linux)
 - nrf52 Development Kit (optional)
 
 # Getting started
+The first step is to set up a proper Zephyr development environment. This includes:
+1. Installing dependencies
+2. Installing Zephyr SDK 
 
-This section consists in part of borrowed sections from the [Zephyr Getting
-Started
+Follow the relevant parts of the official [Zephyr Getting Started
 Guide](https://docs.zephyrproject.org/latest/develop/getting_started/index.html).
-Please refer to the official Zephyr documentation for more background and
-specifics regarding the use of `west`.
+It is not necessary to perform the steps under "Get Zephyr and install Python
+dependencies" as we will do these steps with LF Zephyr workspace we are going to
+create next.
 
-## Pull the lf-west-template
+## Setting up the LF Zephyr workspace
+
+1. Clone the template repository 
 ```
-git clone https://github.com/lf-lang/lf-west-template lf-west && cd lf-west
+git clone https://github.com/lf-lang/lf-west-template lf-zephyr-workspace && cd lf-west
 ```
 
-## Install `west`
-
-1. Setup and activate a virtual environment
+2. Setup and activate a virtual environment
 ```
 python3 -m venv .venv
 source .venv/bin/activate
 ```
 
-2. Install `west`
+3. Install `west`
 ```
 pip3 install west
 ```
@@ -50,47 +52,17 @@ pip3 install west
 Now `west` is installed within a virtual environment. **This environment has to
 be activated every time you want to use west with LF**
 
-## Installing Zephyr SDK
-1. Download and install Zephyr SDK to `/opt`
-```
-cd ~
-wget https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.1/zephyr-sdk-0.16.1_linux-x86_64.tar.xz
-wget -O - https://github.com/zephyrproject-rtos/sdk-ng/releases/download/v0.16.1/sha256.sum | shasum --check --ignore-missing
-
-tar xvf zephyr-sdk-0.16.1_linux-x86_64.tar.xz --directory /opt/
-cd /opt/zephyr-sdk-0.16.1
-./setup.sh
-```
-
-2. Install udev rules for flashing and debugging boards
-```
-sudo cp /opt/zephyr-sdk-0.16.1/sysroots/x86_64-pokysdk-linux/usr/share/openocd/contrib/60-openocd.rules /etc/udev/rules.d
-sudo udevadm control --reload
-```
-
-## Download the Zephyr RTOS
-1. Remove old Zephyr installations from your system.
-```
-echo $ZEPHYR_BASE
-```
-should be empty.
-
-```
-ls ~/.cmake/packages
-```
-should not contain `Zephyr` or `ZephyrUnittest`. If they do, delete them. They will be replaced later when we do `west zephyr-export`.
-
-2. Download the Zephyr RTOS to the template repository. This step will take some time
+4. Get the Zephyr source code
 ```
 west update
 ```
 
-3. Export CMake packages for Zephyr
+5. Export CMake packages for Zephyr
 ```
 west zephyr-export
 ```
 
-4. Install Python dependencies
+6. Install Python dependencies
 ```
 pip install -r deps/zephyr/scripts/requirements.txt
 ```
@@ -98,7 +70,7 @@ pip install -r deps/zephyr/scripts/requirements.txt
 # Hello World!
 Now you should have the following installed:
 1. `west`; Verify with `west boards`
-2. Zephyr SDK located at `/opt/zephyr-sdk-0.16.1`
+2. Zephyr SDK located at `/opt/zephyr-sdk-VERSION`
 3. Zephyr RTOS pulled down to `/deps/zephyr`
 
 You should now be able to build and emulate a simple Hello World! LF program:
