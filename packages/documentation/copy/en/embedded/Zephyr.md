@@ -150,7 +150,7 @@ a `Kconfig` file. Both are copied into the `src-gen` folder when invoking
 # The `west lfc` command
 The custom `lfc` west command has already been used in previous sections.
 It can be inspected in `scripts/lf_build.py`.
-It invokes `lfc` on the provided LF source file. it also copies `prj.conf` and `Kconfig`
+It invokes `lfc` on the provided LF source file. It also copies `prj.conf` and `Kconfig`
 into the src-gen directory before it, optionally, calls `west build` on the
 resulting project.
 
