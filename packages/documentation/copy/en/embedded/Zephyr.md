@@ -150,7 +150,7 @@ a `Kconfig` file. Both are copied into the `src-gen` folder when invoking
 # The `west lfc` command
 The custom `lfc` west command has already been used in previous sections.
 It can be inspected in `scripts/lf_build.py`.
-It invokes `lfc` on the provided LF source file. Copies `prj.conf` and `Kconfig`
+It invokes `lfc` on the provided LF source file. it also copies `prj.conf` and `Kconfig`
 into the src-gen directory before it, optionally, calls `west build` on the
 resulting project.
 
@@ -195,7 +195,7 @@ This causes the emulation of threaded programs to appear as if the `fast` target
 ## Troubleshooting
 
 ### Multiple Zephyr installations
-If the follwing warning is shown when invoking `west lfc` or any other `west` command:
+If the following warning is shown when invoking `west lfc` or any other `west` command:
 ```
 WARNING: ZEPHYR_BASE=/path/to/zephyr in the calling environment will be used,
 but the zephyr.base config option in /path/to/lf-west-template is "deps/zephyr"
