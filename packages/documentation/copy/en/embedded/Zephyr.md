@@ -30,9 +30,9 @@ The first step is to set up a proper Zephyr development environment. This includ
 
 Follow the relevant parts of the official [Zephyr Getting Started
 Guide](https://docs.zephyrproject.org/latest/develop/getting_started/index.html).
-It is not necessary to perform the steps under "Get Zephyr and install Python
-dependencies" as we will do these steps inside the LF Zephyr workspace we are
-going to create next.
+**It is not necessary to perform the steps under "Get Zephyr and install Python
+dependencies"**. These steps will be performed inside the LF Zephyr workspace we
+are going to create next.
 
 ## Setting up the LF Zephyr workspace
 
