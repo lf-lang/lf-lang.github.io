@@ -13,6 +13,11 @@ programs can be built, programmed and debugged both in emulation and on real
 hardware. When developing LF programs for Zephyr we use a `west`-centric
 approach. Using `west`, which is the preferred build tool for Zephyr projects,
 requires structuring the code base and development flow as expected by `west`.
+We use a [T2 Star Topology West
+Workspace](https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-t2).
+This means creating a workspace for our LF Zephyr applications where we manage
+both LF source files and the Zephyr RTOS sources.
+
 To interact with the Lingua Franca Compiler we provide custom `west`-extensions
 which invoke `lfc` before building the Zephyr application.
 
@@ -28,8 +33,8 @@ The first step is to set up a proper Zephyr development environment. This includ
 Follow the relevant parts of the official [Zephyr Getting Started
 Guide](https://docs.zephyrproject.org/latest/develop/getting_started/index.html).
 It is not necessary to perform the steps under "Get Zephyr and install Python
-dependencies" as we will do these steps with LF Zephyr workspace we are going to
-create next.
+dependencies" as we will do these steps inside the LF Zephyr workspace we are
+going to create next.
 
 ## Setting up the LF Zephyr workspace
 
@@ -67,16 +72,23 @@ west zephyr-export
 pip install -r deps/zephyr/scripts/requirements.txt
 ```
 
-# Hello World!
+## Workspace organization
 Now you should have the following installed:
-1. `west`; Verify with `west boards`
-2. Zephyr SDK located at `/opt/zephyr-sdk-VERSION`
-3. Zephyr RTOS pulled down to `/deps/zephyr`
+-`west`; Verify with `west boards`
+- Zephyr SDK located at `/opt/zephyr-sdk-VERSION`
+- Zephyr RTOS pulled down to `deps/zephyr`
+- A few example applications under `apps/`
+
+This workspace is meant to house all of your different LF Zephyr projects,
+as long as they are using the same version of Zephyr.
+
+
+# Hello World!
 
 You should now be able to build and emulate a simple Hello World! LF program:
 
 ```
-cd application
+cd apps/HelloWorld
 lfc src/HelloWorld.lf -n
 west build src-gen/HelloWorld -t run
 ```
@@ -100,7 +112,7 @@ the following installation guide
 [here](https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools/download).
 
 ```
-cd application
+cd apps/NrfBliny
 west lfc src/NrfBlinky.lf --build "-p always -b nrf52dk_nrf52832"
 west flash
 ```
