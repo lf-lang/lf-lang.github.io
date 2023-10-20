@@ -13,10 +13,10 @@ programs can be built, programmed and debugged both in emulation and on real
 hardware. When developing LF programs for Zephyr we use a `west`-centric
 approach. Using `west`, which is the preferred build tool for Zephyr projects,
 requires structuring the code base and development flow as expected by `west`.
-We use a [T2 Star Topology West
-Workspace](https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-t2).
-This means creating a workspace for our LF Zephyr applications where we manage
-both LF source files and the Zephyr RTOS sources.
+We use a [T3 Forest
+Topology](https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-t3).
+for the workspace. This means creating a workspace for our LF Zephyr
+applications where we manage both LF source files and the Zephyr RTOS sources.
 
 To interact with the Lingua Franca Compiler we provide custom `west`-extensions
 which invoke `lfc` before building the Zephyr application.
