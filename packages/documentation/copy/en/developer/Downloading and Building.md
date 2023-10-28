@@ -20,6 +20,14 @@ cd lingua-franca
 git submodule update --init --recursive
 ```
 
+If you plan to commit to submodules, then you will likely want to change the submodule repos to use ssh rather than https. For example, to simplify committing to `reactor-c`, you can do this:
+
+```sh
+cd core/src/main/resources/lib/c/reactor-c
+git remote remove origin
+git remote add origin git@github.com:lf-lang/reactor-c.git
+```
+
 ## Building the command line tools
 
 We use [Gradle](https://docs.gradle.org/current/userguide/userguide.html) for building the code within our repository.
