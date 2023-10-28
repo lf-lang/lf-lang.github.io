@@ -14,7 +14,7 @@ hardware. When developing LF programs for Zephyr we use a `west`-centric
 approach. Using `west`, which is the preferred build tool for Zephyr projects,
 requires structuring the code base and development flow as expected by `west`.
 We use a [T3 Forest
-Topology](https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-t3).
+Topology](https://docs.zephyrproject.org/latest/develop/west/workspaces.html#west-t3)
 for our workspace. This means that we create a workspace where multiple
 different LF Zephyr projects can be hosted together with a single copy of the
 Zephyr RTOS sources.
