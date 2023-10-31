@@ -20,7 +20,7 @@ cd lingua-franca
 git submodule update --init --recursive
 ```
 
-If you plan to commit to submodules, then you will likely want to change the submodule repos to use ssh rather than https. For example, to simplify committing to `reactor-c`, you can do this:
+Submodules are checked out over HTTPS by default. In case you want to commit to a submodule and use SSH instead, you can simply change the remote. For example, to change the remote of the `reactor-c` submodule, you can do this:
 
 ```sh
 cd core/src/main/resources/lib/c/reactor-c
