@@ -16,50 +16,47 @@ A minimal but complete Lingua Franca file with one reactor is this:
 $start(HelloWorld)$
 
 ```lf-c
-target C;
+target C
 main reactor {
-    reaction(startup) {=
-        printf("Hello World.\n");
-    =}
+  reaction(startup) {=
+    printf("Hello World.\n");
+  =}
 }
 ```
 
 ```lf-cpp
-target Cpp;
-
+target Cpp
 main reactor {
-    reaction(startup) {=
-        std::cout << "Hello World." << std::endl;
-    =}
+  reaction(startup) {=
+    std::cout << "Hello World." << std::endl;
+  =}
 }
-
 ```
 
 ```lf-py
-target Python;
+target Python
 main reactor {
-    reaction(startup) {=
-        print("Hello World.")
-    =}
+  reaction(startup) {=
+    print("Hello World.")
+  =}
 }
 ```
 
 ```lf-ts
 target TypeScript
 main reactor {
-    reaction(startup) {=
-        console.log("Hello World.")
-    =}
+  reaction(startup) {=
+    console.log("Hello World.")
+  =}
 }
-
 ```
 
 ```lf-rs
-target Rust;
+target Rust
 main reactor {
-    reaction(startup) {=
-        println!("Hello World.");
-    =}
+  reaction(startup) {=
+    println!("Hello World.");
+  =}
 }
 ```
 
@@ -69,11 +66,11 @@ Every Lingua Franca program begins with a [target declaration](/docs/handbook/ta
 
 Every LF program also has a $main$ [ or $federated$]{federated} reactor, which is the top level of a hierarchy of contained and interconnected reactors. The above simple example has no contained reactors.
 
-The $main$ reactor above has a single $reaction$, which is triggered by the $startup$ trigger. This trigger causes the reaction to execute at the start of the program. The body of the reaction, delimitted by `{= ... =}`, is ordinary $target-language$ code which, as we will see, has access to a number of functions and variables specific to Lingua Franca.
+The $main$ reactor above has a single $reaction$, which is triggered by the $startup$ trigger. This trigger causes the reaction to execute at the start of the program. The body of the reaction, delimited by `{= ... =}`, is ordinary $target-language$ code which, as we will see, has access to a number of functions and variables specific to Lingua Franca.
 
 ## Examples
 
-Examples of Lingua Franca programs can be found in [the examples-lingua-franca repository](https://github.com/lf-lang/examples-lingua-franca/tree/main/).
+Examples of Lingua Franca programs can be found in the [Lingua Franca Playground](https://github.com/lf-lang/playground-lingua-franca/tree/main).
 
 The [regression tests](https://github.com/lf-lang/lingua-franca/tree/master/test/) have a rich set of examples that illustrate every feature of the language.
 
@@ -82,19 +79,23 @@ The [regression tests](https://github.com/lf-lang/lingua-franca/tree/master/test
 The Lingua Franca tools assume that LF programs are put into a file with a `.lf` extension that is stored somewhere within a directory called `src`. To compile and run the above example, choose a **project root** directory, create a `src` directory within that, and put the above code into a file called, say, `src/HelloWorld.lf`. You can compile the code on the [command line](/docs/handbook/command-line-tools), within [Visual Studio Code](/docs/handbook/code-extension), or within the [Epoch IDE](/docs/handbook/epoch-ide). On the command line this will look like this:
 
 ```
-    > lfc src/Minimal.lf
+    > lfc src/HelloWorld.lf
     ... output from the code generator and compiler ...
 ```
 
 <div class="lf-c lf-cpp lf-rs">
 
-After this completes, two additional directories will have been created within the projet root, `bin` and `src-gen`. The `bin` directory has an executable file called `HelloWorld`. Executing that file will result, not surprisingly, in printing "Hello World". The generated source files will be within the directory `src-gen`.
+After this completes, two additional directories will have been created within
+the project root, `bin` and `src-gen`. The `bin` directory has an
+executable file called `HelloWorld`. Executing that file will result, not
+surprisingly, in printing "Hello World". The generated source files will be
+in a subdirectory called `HelloWorld` within `src-gen`.
 
 </div>
 
 <div class="lf-ts lf-py">
 
-After this completes, an additional `src-gen` directory will have been created within the projet root. The generated code will be in subdirectory called `HelloWorld` within `src-gen`. The output from the code generator will include instructions for executing the generated code:
+After this completes, an additional `src-gen` directory will have been created within the project root. The generated code will be in subdirectory called `HelloWorld` within `src-gen`. The output from the code generator will include instructions for executing the generated code:
 
 ```lf-ts
 #####################################
@@ -126,15 +127,15 @@ The general structure of a reactor definition is as follows:
 
 ```lf
 [main or federated] reactor <class-name> [(<parameters>)] {
-    input <name>:<type>
-    output <name>:<type>
-    state <name>:<type>(<value>)
-    timer <name>([<offset>, [<period>]])
-    logical action <name>[:<type>]
-    physical action <name>[:<type>]
-    reaction(<triggers>) [<uses>] [=> <effects>] {= ... body ...=}
+    input <name>: <type>
+    output <name>: <type>
+    state <name>: <type> [= <value>]
+    timer <name>([<offset>[, <period>]])
+    logical action <name>[: <type>]
+    physical action <name>[: <type>]
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
     <instance-name> = new <class-name>([<parameter-assignments>])
-    <instance-name> [, ...] => <instance-name> [, ...] [after <delay>]
+    <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
 ```
 
@@ -144,16 +145,16 @@ The general structure of a reactor definition is as follows:
 
 ```lf
 [main] reactor <class-name> [(<parameters>)] {
-    input <name>:<type>
-    output <name>:<type>
-    state <name>:<type>(<value>)
-    timer <name>([<offset>, [<period>]])
-    logical action <name>[:<type>]
-    physical action <name>[:<type>]
+    input <name>: <type>
+    output <name>: <type>
+    state <name>: <type> [= <value>]
+    timer <name>([<offset>[, <period>]])
+    logical action <name>[: <type>]
+    physical action <name>[: <type>]
     [const] method <name>(<parameters>):<type> {= ... body ...=}
-    reaction(<triggers>) [<uses>] [=> <effects>] {= ... body ...=}
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
     <instance-name> = new <class-name>([<parameter-assignments>])
-    <instance-name> [, ...] => <instance-name> [, ...] [after <delay>]
+    <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
 ```
 
@@ -165,14 +166,13 @@ The general structure of a reactor definition is as follows:
 [main or federated] reactor <class-name> [(<parameters>)] {
     input <name>
     output <name>
-    state <name>(<value>)
-    timer <name>([<offset>, [<period>]])
+    state <name> [= <value>]
+    timer <name>([<offset>[, <period>]])
     logical action <name>
     physical action <name>
-    [const] method <name>(<parameters>) {= ... body ...=}
-    reaction(<triggers>) [<uses>] [=> <effects>] {= ... body ...=}
+    reaction [<name>] (<triggers>) [<uses>] [-> <effects>] [{= ... body ...=}]
     <instance-name> = new <class-name>([<parameter-assignments>])
-    <instance-name> [, ...] => <instance-name> [, ...] [after <delay>]
+    <port-name> [, ...] -> <port-name> [, ...] [after <delay>]
 }
 ```
 
@@ -190,13 +190,10 @@ Reactors may extend other reactors, inheriting their properties, and a file may 
 
 Lingua Franca files can have C/C++/Java-style comments and/or Python-style comments. All of the following are valid comments:
 
-```lf
+```
     // Single-line C-style comment.
     /*
      * Multi-line C-style comment.
      */
     # Single-line Python-style comment.
-    '''
-       Multi-line Python-style comment.
-    '''
 ```

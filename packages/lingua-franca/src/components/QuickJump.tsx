@@ -31,7 +31,7 @@ export const QuickJump = (props: Props) => {
             <IntlLink to="/docs/handbook/overview">Overview</IntlLink>
           </li>
           <li>
-            <IntlLink to="/docs/handbook/download">Download and Build</IntlLink>
+            <IntlLink to="/docs/handbook/developer-setup">Download and Build</IntlLink>
           </li>
           <li>
             <IntlLink to="/docs/handbook/tutorial-video">Tutorial Video (EMSOFT 2021)</IntlLink>

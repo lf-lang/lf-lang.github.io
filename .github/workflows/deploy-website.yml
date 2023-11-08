@@ -40,6 +40,13 @@ jobs:
         env:
           YARN_CHECKSUM_BEHAVIOR: ignore
 
+      # Checks for known security vulnerabilities
+      - uses: GuillaumeFalourd/assert-command-line-output@v2
+        with:
+          command_line: yarn npm audit
+          contains: No audit suggestions
+          expected_result: PASSED
+
       # Deploy to lf-lang.org
       - name: Deploy + Publish to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3.8.0

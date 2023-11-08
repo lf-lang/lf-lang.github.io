@@ -34,6 +34,7 @@
 
   // Page title
   & > h2 {
+    color: #0D5CA8;
     font-size: 3.5rem;
     line-height: 3.5rem;
     font-weight: 400;
@@ -359,7 +360,7 @@
 }
 
 .circle-bg {
-  background-color: #719af4;
+  background-color: #{$lf-main-blue-lightest-color};
   color: black;
   width: 32px;
   height: 32px;

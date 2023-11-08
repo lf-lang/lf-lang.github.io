@@ -43,9 +43,9 @@ The most basic expression forms, which are supported by all target languages, ar
 
 For instance, to have a 2-dimensional array as a parameter in C:
 
-```
+```lf-c
 reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
-    ...
+  ...
 }
 ```
 
@@ -60,7 +60,7 @@ in the Python target:
 
 ```lf-py
 reactor Foo(param({= ((1, 2, 3), (4, 5, 6)) =})) {
-    ...
+  ...
 }
 ```
 
@@ -68,25 +68,29 @@ reactor Foo(param({= ((1, 2, 3), (4, 5, 6)) =})) {
 
 ## Collections
 
-$page-showing-target$
+<div class="lf-c lf-cpp lf-ts lf-rs">
 
 To avoid the awkwardness of using the code delimiters `{= ... =}`, Lingua Franca supports initialization of simple arrays and similar structures. The interpretation is slightly different in each target language.
+
+</div>
 
 <div class="lf-c">
 
 In C, a parameter or state may be given an array value as in the following example:
 
-```lf
-reactor Foo(param:double[](0.0, 1.0, 2.0)) {
-    ...
+```lf-c
+reactor Foo(param: double[] = {0.0, 1.0, 2.0}) {
+  reaction(startup) {=
+    printf("%f %f %f\n", self->param[0], self->param[1], self->param[2]);
+  =}
 }
 ```
 
-This will become an array of length three. When instantiating this reactor, the default parameter value can be overridden using a similar syntax:
+The parameter named `param` will become an array of length three. When instantiating this reactor, the default parameter value can be overridden using a similar syntax:
 
-```lf
+```lf-c
 main reactor {
-    f = new Foo(param = (3.3, 4.4, 5.5));
+  f = new Foo(param = {3.3, 4.4, 5.5});
 }
 ```
 
@@ -99,46 +103,36 @@ See the [Target Language Details](/docs/handbook/target-language-details) for de
 In C++, initial values for a parameter or state can be used to pass arguments to a constructor, as in the following example:
 
 ```lf-cpp
-    state x: int[](1,2);
+  state x: int[](2, 0);
 ```
 
-Here, the type `int[]` is translated by the code generator into `std::vector` and the `(1,2)` to constructor arguments, as in `new std::vector(1,2)`. See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
+Here, the type `int[]` is translated by the code generator into `std::vector` and the `(2, 0)` to constructor arguments, as in `new std::vector(2,0)`, which creates a vector of length 2 filled with elements with value 0. See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
 
 </div>
 
 <div class="lf-py">
 
-In Python, a parameter or state variable may be assigned an array expression as its initial value, as in the following example:
+In Python, a parameter or state variable may be assigned a list expression as its initial value, as in the following example:
 
 ```lf-py
-reactor Foo(param(1, 2, 3)) {
-    state x(1, 2, 3)
-    ...
+reactor Foo(param = {= [1, 2, 3] =}) {
+  state x = {= [1, 2, 3] =}
+  ...
 }
 ```
 
-The Python target interprets the `(1, 2, 3)` expression differently depending on
-whether the assignee is a parameter or a state variable. For parameters, the
-`(1, 2, 3)` expression will translate into an immutable Python tuple (i.e.,
-`param = (1, 2, 3)`). For state variables, the `(1, 2, 3)` expression will
-translate into a mutable Python list (i.e., `x = [1, 2, 3])`). The reason behind
-this discrepancy is that parameters are assumed to be immutable after
-instantiation (in fact, they are also read-only in reaction bodies), but state
-variables usually need to be updated during execution.
+The `param` parameter and `x` state variable become Python lists.
+Their elements may be accessed as arrays, for example `self.x[i]`, where `i` is an array index.
 
-<!-- In Python, `[1, 2, 3]` defines a list, which is mutable, whereas `(1, 2, 3)` defines a tuple, which is not mutable. To support this distinction, both syntaxes are available in Lingua Franca without code delimiters. For example, -->
-
-Notice that even though the tuple assigned to the parameter is immutable (you
-cannot assign new values to its elements), the parameter itself can be
-overridden with _another_ immutable tuple when instantiating the reactor:
+The parameter may be overridden with a different list at instantiation:
 
 ```lf-py
 main reactor {
-    f = new Foo(param = (3, 4, 5))
+  f = new Foo(param = {= [3, 4, 5, 6]} )
 }
 ```
 
-See the [Target Language Details](/docs/handbook/target-language-details) for details and alternative syntaxes.
+See the [Target Language Details](/docs/handbook/target-language-details) for more details.
 
 </div>
 
@@ -148,7 +142,7 @@ In TypeScript, a parameter or state variable may be assigned an array expression
 
 ```lf-ts
 reactor Foo(param:{=Array<number>=}({= [1, 2, 3] =})) {
-    state x:{=Array<number>=}({= [0.1, 0.2, 0.3] =});
+  state x:{=Array<number>=} = {= [0.1, 0.2, 0.3] =}
 }
 ```
 

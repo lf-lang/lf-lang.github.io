@@ -13,9 +13,9 @@
   },
   "dependencies": {
     "@orta/streampub": "1.9.0",
-    "fs-jetpack": "^2.4.0",
-    "playwright": "^1.17.*",
-    "sass": "*",
-    "ts-node": "*"
+    "fs-jetpack": "^5.1.0",
+    "playwright": "^1.27.1",
+    "sass": "^1.55.0",
+    "ts-node": "^10.9.1"
   }
 }
