@@ -262,6 +262,12 @@ export function getDocumentationNavForLanguage(
           permalink: "/docs/handbook/zephyr",
           oneline: "Developing LF Programs for Zephyr RTOS.",
         },
+        {
+          title: "RP2040",
+          id: "4-rp2040",
+          permalink: "/docs/handbook/rp2040",
+          oneline: "Developing LF Programs for the Raspberry Pi RP2040.",
+        },
       ],
     },
     {

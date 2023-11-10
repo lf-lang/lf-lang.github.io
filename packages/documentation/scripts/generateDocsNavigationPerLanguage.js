@@ -93,6 +93,7 @@ const handbookPages = [
     items: [
       { file: "embedded/Arduino.md"},
       { file: "embedded/Zephyr.md"},
+      { file: "embedded/RP2040.md"},
     ],
   },
   {
