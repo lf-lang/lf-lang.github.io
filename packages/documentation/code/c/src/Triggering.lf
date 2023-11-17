@@ -2,7 +2,7 @@ target C
 reactor Inside {
   input x: int
   reaction(x) {=
-    printf("Received %d\n", x->value);=
+    printf("Received %d\n", x->value);
   =}
 }
 main reactor {
