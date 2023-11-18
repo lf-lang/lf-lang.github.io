@@ -1,0 +1,6 @@
+target TypeScript
+main reactor {
+  reaction(startup) {=
+    console.log("Sehr geehrte Fahrgäste, ICE 1234, planmäßige Abfahrt: 10:00 Uhr, voraussichtlich 2147483647 Minuten später.\n");
+  =}
+}
