@@ -25,6 +25,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-markdown": "^9.0.1",
+    "shikiji": "^0.7.4",
     "unist-util-visit": "^5.0.0"
   },
   "devDependencies": {

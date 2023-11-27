@@ -4,6 +4,7 @@ import TabItem from '@theme/TabItem';
 import styles from './styles.module.css';
 import CodeBlock from '@theme/CodeBlock';
 import { ReactNode, useEffect, useState } from 'react';
+import { ShikijiLFHighlighter } from '../ShikijiLFHighlighter';
 
 interface WebpackImportedRawModule {
   default: { readonly [key: string]: string };
@@ -38,13 +39,14 @@ export const LangSpecific = (
 
 export const NoSelectorTargetCodeBlock = (
   props:
-    ({ allowAsync?: false } & Record<TargetsType, string>) |
-    ({ allowAsync: true } & Record<TargetsType, string | Promise<WebpackImportedRawModule>>)
+    ({ allowAsync?: false; lf: boolean } & Record<TargetsType, string>) |
+    ({ allowAsync: true; lf: boolean } & Record<TargetsType, string | Promise<WebpackImportedRawModule>>)
 ): JSX.Element => {
+  const Component = props.lf ? ShikijiLFHighlighter : CodeBlock;
   // I know, using === on boolean looks dumb, but this makes TS discriminated union work!
   if (props.allowAsync === true) {
     // Idem. I would like to do destruction above, but that will affect TS type system!
-    const { allowAsync, ...targetToCode } = props;
+    const { allowAsync, lf, ...targetToCode } = props;
     // Although honestly, this is not really needed. We should prefer static import over this async one.
     const [newProps, setNewProps] = useState<Record<TargetsType, ReactNode>>({} as Record<
       TargetsType,
@@ -56,7 +58,7 @@ export const NoSelectorTargetCodeBlock = (
         Object.entries(targetToCode).forEach(async ([target, content]: [TargetsType, string | Promise<WebpackImportedRawModule>]) => {
           const resolvedContent = await Promise.resolve(content);
           setNewProps(prev => ({
-            [target]: <CodeBlock language={target}>{typeof resolvedContent === "string" ? resolvedContent : resolvedContent.default.toString()}</CodeBlock>,
+            [target]: <Component language={target}>{typeof resolvedContent === "string" ? resolvedContent : resolvedContent.default.toString()}</Component>,
             ...prev
           }));
         });
@@ -65,13 +67,13 @@ export const NoSelectorTargetCodeBlock = (
 
     return <LangSpecific {...newProps} />;
   } else {
-    const { allowAsync, ...targetToCode } = props;
+    const { allowAsync, lf, ...targetToCode } = props;
     const newProps: Record<TargetsType, ReactNode> = {} as Record<
       TargetsType,
       ReactNode
     >;
     Object.entries(targetToCode).forEach(([target, content]: [TargetsType, string]) => {
-      newProps[target] = <CodeBlock language={target}>{content}</CodeBlock>;
+      newProps[target] = <Component language={target}>{content}</Component>;
     });
 
     return <LangSpecific {...newProps} />;

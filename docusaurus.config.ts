@@ -19,7 +19,7 @@ const config: Config = {
   organizationName: 'facebook', // Usually your GitHub org/user name.
   projectName: 'docusaurus', // Usually your repo name.
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
 
   // Even if you don't use internationalization, you can use this field to set
@@ -41,7 +41,8 @@ const config: Config = {
           editUrl:
             'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
           beforeDefaultRemarkPlugins: [
-            TransformDynamicLFFileImportToStatic
+            // Honestly, I recommend not using this because I am not confident with my coding skill......
+            // TransformDynamicLFFileImportToStatic
           ]
         },
         blog: {
@@ -148,7 +149,11 @@ const config: Config = {
         },
       })
     })
-  ]
+  ],
+
+  clientModules: [
+    "src/components/ShikijiLFHighlighter/shikijiloader.ts"
+  ],
 };
 
 export default config;
