@@ -4,13 +4,15 @@ import {
   ShowIfs,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<ShowIfs>
-  <ShowIf c cpp>
-    
-    ```c
-    123
-    ```
+import CodeBlock from '@theme/CodeBlock';
 
-  </ShowIf>
-  <ShowIf ts>456</ShowIf>
-</ShowIfs>
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
+
+<Tabs
+  defaultValue="apple"
+  values={[
+    {label: 'Apple 1', value: 'apple'},
+    {label: 'Orange 1', value: 'orange'},
+    {label: 'Banana 1', value: 'banana'},
+  ]} />

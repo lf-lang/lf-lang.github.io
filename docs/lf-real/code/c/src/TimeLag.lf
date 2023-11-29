@@ -1,0 +1,14 @@
+target C
+
+main reactor TimeLag {
+  timer t(0, 1 s)
+
+  reaction(t) {=
+    interval_t t = lf_time_logical_elapsed();
+    interval_t T = lf_time_physical_elapsed();
+    printf(
+        "Elapsed logical time: %lld, physical time: %lld, lag: %lld\n",
+        t, T, T-t
+    );
+  =}
+}
