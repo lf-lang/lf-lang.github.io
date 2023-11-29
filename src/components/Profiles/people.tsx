@@ -1,0 +1,93 @@
+export const active = [
+    {
+      name: "Peter Donovan",
+      image: "https://avatars.githubusercontent.com/u/33707478?v=4",
+      country: "🇺🇸",
+      continentish: "North America",
+      blurb: "Student Assistant at UC Berkeley.",
+    },
+    {
+      name: "Clément Fournier",
+      image: "https://avatars.githubusercontent.com/u/24524930?v=4",
+      country: "🇩🇪",
+      continentish: "Europe",
+      blurb: "Master student at TU Dresden.",
+    },
+    {
+      name: "Erling Rennemo Jellum",
+      url: "https://erlingrj.github.io",
+      image: "https://backends.it.ntnu.no/user-profile-service/rest/files/139f11cf-c2bb-365e-bbbb-559165b9cb31",
+      country: "🇳🇴",
+      continentish: "Europe",
+      blurb: "PhD Candidate at Norwegian University of Science and Technology.",
+    },
+    {
+      name: "Byeonggil Jun",
+      image: "https://avatars.githubusercontent.com/u/78055940?s=400&v=4",
+      country: "🇰🇷",
+      continentish: "East Asia",
+      blurb: "Undergraduate student at Hanyang University.",
+    },
+    {
+      name: "Dongha Kim",
+      image: "https://avatars.githubusercontent.com/u/74869052?s=400&v=4",
+      country: "🇺🇸",
+      continentish: "North America",
+      blurb: "Ph.D. student at Arizona State University.",
+    },
+    {
+      name: "Hokeun Kim",
+      url: "https://hokeun.github.io/",
+      image: "https://avatars.githubusercontent.com/u/2585943?v=4",
+      country: "🇺🇸",
+      continentish: "North America",
+      blurb: "Assistant Professor at Arizona State University.",
+    },
+    {
+      name: "Edward A. Lee",
+      url: "http://people.eecs.berkeley.edu/~eal/",
+      image: "https://avatars.githubusercontent.com/u/8513334?v=4",
+      country: "🇺🇸",
+      continentish: "North America",
+      blurb: "Professor in the Graduate School at UC Berkeley."
+    },
+    {
+      name: "Shaokai Lin",
+      url: "https://shaokai.io",
+      image: "https://avatars.githubusercontent.com/u/7968955?v=4",
+      country: "🇺🇸",
+      continentish: "North America",
+      blurb: "Graduate Student at UC Berkeley."
+    },
+    {
+      name: "Marten Lohstroh",
+      url: "http://people.eecs.berkeley.edu/~marten/",
+      image: "https://avatars.githubusercontent.com/u/19938940?v=4",
+      twitter: "https://twitter.com/martenlohstroh",
+      country: "🇺🇸",
+      continentish: "North America",
+      blurb: "Postdoctoral researcher at UC Berkeley.",
+    },
+    {
+      name: "Johannes Hayeß",
+      image: "https://avatars.githubusercontent.com/u/7195008?v=4",
+      country: "🇩🇪",
+      continentish: "Europe",
+      blurb: "Master's Student at TU Dresden.",
+    },
+    {
+      name: "Christian Menard",
+      url: "https://cfaed.tu-dresden.de/investigators-institutions/compiler-construction/ccc-staff/christian-menard",
+      image: "https://avatars.githubusercontent.com/u/6460123?v=4",
+      country: "🇩🇪",
+      continentish: "Europe",
+      blurb: "Graduate Student at TU Dresden.",
+    },
+    {
+      name: "Alexander Schulz-Rosengarten",
+      image: "https://avatars.githubusercontent.com/u/25612037?v=4",
+      country: "🇩🇪",
+      continentish: "Europe",
+      blurb: "Graduate student at Kiel University.",
+    }
+  ]
