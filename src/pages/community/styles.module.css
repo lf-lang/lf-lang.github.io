@@ -1,0 +1,26 @@
+/**
+ * Copyright (c) Facebook, Inc. and its affiliates.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+ .section {
+  padding: 40px 0;
+}
+
+.sectionAlt {
+  background-color: var(--ifm-color-emphasis-100);
+}
+
+/* Since some browsers might not support Emoji we use Google Fonts to assist...... */
+@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
+@import url('https://fonts.cdnfonts.com/css/segoe-ui-4');
+
+.googleemoji {
+  font-family: 'Segoe UI Emoji', sans-serif;
+}
+
+.pushUp {
+  margin-top: -8px;
+}
