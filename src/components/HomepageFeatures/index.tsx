@@ -10,12 +10,11 @@ type FeatureItem = {
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Reactor-oriented',
+    title: 'Composable',
     Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
     description: (
       <>
-        Reactors are reactive and composable concurrent software components with
-        inputs, outputs, and local state.
+        Reactors are composable software components with inputs, outputs, and local state.
       </>
     ),
   },
@@ -38,7 +37,7 @@ const FeatureList: FeatureItem[] = [
         to test.
       </>
     ),
-  },
+  }
 ];
 
 function Feature({ title, Svg, description }: FeatureItem) {
