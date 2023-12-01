@@ -1,0 +1,90 @@
+/**
+ * Copyright (c) the Lingua Franca contributors.
+ *
+ * This source code is licensed under the BSD licence found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+/*
+ * Copyright 2023 Hydroflow Contributors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ */
+
+.section {
+    padding: 40px 0;
+}
+
+
+.paperContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.paperThumbnail {
+    display: block;
+    margin-right: 20px;
+    position: relative;
+    flex-shrink: 0;
+}
+
+@media screen and (max-width: 1000px) {
+    .paperContainer .paperThumbnail {
+        display: none !important;
+    }
+
+    .paperContainer .paper-desc-extended {
+        display: none;
+    }
+}
+
+.paperContainer .paperThumbnail:hover .cardIcon {
+    background-color: rgba(47, 128, 237, 0.75);
+}
+
+.cardIcon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 100px;
+    background-color: rgba(51, 51, 51, 0.75);
+    transition: background 0.25s;
+    border-radius: 50%;
+}
+
+.paperPreviewImage {
+    position: static;
+    background: white;
+    width: 225px;
+    height: auto;
+    display: block;
+    border-radius: 10px;
+    border: 1px solid #0a0a0a;
+    overflow: hidden;
+}
+
+.authors {
+    margin: 0; 
+    margin-top: -5px;
+    margin-bottom: 5px;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.titleLink {
+    color: inherit;
+    text-decoration: none;
+}
+
+.smallLinks {
+    margin: 0; 
+    margin-top: -20px; 
+    font-size: 20px;
+}

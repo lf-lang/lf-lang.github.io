@@ -4,7 +4,7 @@ import type * as Preset from '@docusaurus/preset-classic';
 import { TransformDynamicLFFileImportToStatic } from './src/remark/TransformDynamicLFFileImportToStatic'
 
 const config: Config = {
-  title: 'My Site',
+  title: 'Lingua Franca',
   tagline: 'Dinosaurs are cool',
   favicon: 'img/favicon.ico',
 
@@ -65,7 +65,7 @@ const config: Config = {
     navbar: {
       title: 'My Site',
       logo: {
-        alt: 'My Site Logo',
+        alt: 'The Lingua Franca Logo',
         src: 'img/logo.svg',
       },
       items: [
@@ -75,9 +75,12 @@ const config: Config = {
           position: 'left',
           label: 'Tutorial',
         },
+        {to: '/installation', label: 'Install', position: 'left'},
         {to: '/blog', label: 'Blog', position: 'left'},
+        {to: '/publications', label: 'Publications', position: 'left'},
+        {to: '/community', label: 'Community', position: 'left'},
         {
-          href: 'https://github.com/facebook/docusaurus',
+          href: 'https://github.com/lf-lang/',
           label: 'GitHub',
           position: 'right',
         },
@@ -135,6 +138,7 @@ const config: Config = {
   } satisfies Preset.ThemeConfig,
 
   plugins: [
+    ['@docusaurus/plugin-ideal-image', {}],
     (context, options) => ({
       name: 'read-lf-source-code-files',
       configureWebpack: (config, isServer, utils) => ({

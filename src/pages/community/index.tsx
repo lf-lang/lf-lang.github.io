@@ -9,9 +9,7 @@ import Heading from '@theme/Heading';
 import { TeamRow } from './profiles';
 import { active, past } from './people';
 
-import styles from './styles.module.css';
-import Head from '@docusaurus/Head';
-import { ReactElement } from 'react';
+import { ReactNode } from 'react';
 import Link from '@docusaurus/Link';
 
 const zulipLogo = "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNTYiIGhlaWdodD0iMjU2IiBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJ4TWlkWU1pZCIgdmlld0JveD0iMCAwIDI1NiAyNTYiPjxkZWZzPjxsaW5lYXJHcmFkaWVudCBpZD0icHJlZml4X19hIiB4MT0iNTAlIiB4Mj0iNTAlIiB5MT0iMCUiIHkyPSIxMDAlIj48c3RvcCBvZmZzZXQ9IjAlIiBzdG9wLWNvbG9yPSIjMjRBREZGIi8+PHN0b3Agb2Zmc2V0PSIxMDAlIiBzdG9wLWNvbG9yPSIjN0I3MUZGIi8+PC9saW5lYXJHcmFkaWVudD48L2RlZnM+PHBhdGggZmlsbD0idXJsKCNwcmVmaXhfX2EpIiBkPSJNMTI4IDBjNzAuNjkyIDAgMTI4IDU3LjMwOCAxMjggMTI4IDAgNzAuNjkyLTU3LjMwOCAxMjgtMTI4IDEyOEM1Ny4zMDggMjU2IDAgMTk4LjY5MiAwIDEyOCAwIDU3LjMwOCA1Ny4zMDggMCAxMjggMFptLTYuMzIgMTE4LjIyMi00NS44OTIgNDAuOTc5Yy00LjcyOCAzLjcyLTcuODMgOS44Ni03LjgzIDE2Ljc2NiAwIDExLjI3OSA4LjI3NCAyMC41MDggMTguMzg2IDIwLjUwOGg4Ni4yNDdjMTAuMTEyIDAgMTguMzg2LTkuMjMgMTguMzg2LTIwLjUwOCAwLTExLjI4LTguMjc0LTIwLjUwNy0xOC4zODYtMjAuNTA3SDEwNy4zYy0uOTY4IDAtMS41OC0xLjE2LTEuMTA4LTIuMTA0bDE2LjgzMy0zMy43MDNjLjYxNS0uOTgzLS40OTMtMi4xNjEtMS4zNDUtMS40M1ptNTAuOTEtNTguODZIODYuMzQ1Yy0xMC4xMTIgMC0xOC4zODYgOS4yMjctMTguMzg2IDIwLjUwOCAwIDExLjI3OSA4LjI3NCAyMC41MDggMTguMzg2IDIwLjUwOGg2NS4yOTJjLjk2OCAwIDEuNTggMS4xNiAxLjEwOCAyLjEwM2wtMTYuODM0IDMzLjcwNGMtLjYxNS45ODMuNDk0IDIuMTYxIDEuMzQ2IDEuNDNsNDUuODkyLTQwLjk4NGM0LjcyNy0zLjcyMyA3LjgyOS05Ljg2IDcuODI5LTE2Ljc2NyAwLTExLjI3OC04LjI3NC0yMC41MDctMTguMzg2LTIwLjUwMVoiLz48L3N2Zz4=";
@@ -21,7 +19,7 @@ const githubLogo = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAA
 export const SocialMediaCard = ({imageSrc, name, children}: {
   imageSrc: string,
   name: string,
-  children: ReactElement
+  children: ReactNode
 }) => {
   return (
     <div className='col col--4 margin-bottom--lg'>
@@ -52,7 +50,7 @@ export default function Community(): JSX.Element {
     <Layout>
       {/* Social media */}
       {/* Active contributors */}
-      <div className={clsx(styles.section)}>
+      <div className="section">
         <div className="container">
           <Heading
             as="h2"
@@ -84,7 +82,7 @@ export default function Community(): JSX.Element {
       </div>
 
       {/* Active contributors */}
-      <div className={clsx(styles.section, styles.sectionAlt)}>
+      <div className="section sectionAlt">
         <div className="container">
           <Heading
             as="h2"
@@ -97,7 +95,7 @@ export default function Community(): JSX.Element {
       </div>
 
       {/* Past contributors */}
-      <div className={clsx(styles.section)}>
+      <div className="section">
         <div className="container">
           <Heading
             as="h2"
