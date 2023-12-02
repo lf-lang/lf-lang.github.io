@@ -6,7 +6,13 @@ oneline: "Expressions in Lingua Franca."
 preamble: >
 ---
 
-$page-showing-target$
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py ts rs />
 
 A subset of LF syntax is used to write _expressions_, which represent values in the target language. Expressions are used to initialize state variable and to give values to parameters. Arbitrary expressions in the target language can always be given within delimiters `{= ... =}`, but simple forms do not require the delimiters. These simple forms are documented here.
 
@@ -39,7 +45,8 @@ The most basic expression forms, which are supported by all target languages, ar
 
 - Escaped target-language expression, e.g. `{= foo() =}`. This syntax is used to write any expression which does not fall into one of the other forms described here. The contents are not parsed and are used verbatim in the generated file.
 
-<div class="lf-c">
+<ShowIfs>
+<ShowIf c>
 
 For instance, to have a 2-dimensional array as a parameter in C:
 
@@ -51,9 +58,9 @@ reactor Foo(param:{= int[][] =}({= { {1}, {2} } =})) {
 
 Both `int[][]` and `{ {1}, {2} }` are C fragments here, not LF.
 
-</div>
+</ShowIf>
 
-<div class="lf-py">
+<ShowIf py>
 
 For instance, to assign a 2-dimensional list as an initial value to a parameter
 in the Python target:
@@ -64,17 +71,18 @@ reactor Foo(param({= ((1, 2, 3), (4, 5, 6)) =})) {
 }
 ```
 
-</div>
+</ShowIf>
+</ShowIfs>
 
 ## Collections
 
-<div class="lf-c lf-cpp lf-ts lf-rs">
 
+<ShowOnly c cpp ts rs>
 To avoid the awkwardness of using the code delimiters `{= ... =}`, Lingua Franca supports initialization of simple arrays and similar structures. The interpretation is slightly different in each target language.
+</ShowOnly>
 
-</div>
-
-<div class="lf-c">
+<ShowIfs>
+<ShowIf c>
 
 In C, a parameter or state may be given an array value as in the following example:
 
@@ -96,9 +104,9 @@ main reactor {
 
 See the [Target Language Details](<../reference/Target Language Details.mdx>) for details and alternative syntaxes.
 
-</div>
+</ShowIf>
 
-<div class="lf-cpp">
+<ShowIf cpp>
 
 In C++, initial values for a parameter or state can be used to pass arguments to a constructor, as in the following example:
 
@@ -108,9 +116,9 @@ In C++, initial values for a parameter or state can be used to pass arguments to
 
 Here, the type `int[]` is translated by the code generator into `std::vector` and the `(2, 0)` to constructor arguments, as in `new std::vector(2,0)`, which creates a vector of length 2 filled with elements with value 0. See the [Target Language Details](<../reference/Target Language Details.mdx>) for details and alternative syntaxes.
 
-</div>
+</ShowIf>
 
-<div class="lf-py">
+<ShowIf py>
 
 In Python, a parameter or state variable may be assigned a list expression as its initial value, as in the following example:
 
@@ -134,9 +142,9 @@ main reactor {
 
 See the [Target Language Details](<../reference/Target Language Details.mdx>) for more details.
 
-</div>
+</ShowIf>
 
-<div class="lf-ts">
+<ShowIf ts>
 
 In TypeScript, a parameter or state variable may be assigned an array expression as its initial value, as in the following example:
 
@@ -148,10 +156,13 @@ reactor Foo(param:{=Array<number>=}({= [1, 2, 3] =})) {
 
 See the [TypeScript reactor documentation](<../reference/Target Language Details.mdx>) for details and alternative syntaxes.
 
-</div>
+</ShowIf>
 
-<div class="lf-rs warning">
+<ShowIf rs>
 
+:::danger
 FIXME: Rust
+:::
 
-</div>
+</ShowIf>
+</ShowIfs>

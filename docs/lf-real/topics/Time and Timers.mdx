@@ -63,7 +63,7 @@ import TS_SlowingClock from '../code/ts/src/SlowingClock.lf';
 
 <NoSelectorTargetCodeBlock c={C_SlowingClock} cpp={Cpp_SlowingClock} py={Py_SlowingClock} rs={Rs_SlowingClock} ts={TS_SlowingClock} lf />
 
-This has two time parameters, `start` and `incr`, each with default value `100 ms` <span class="lf-c lf-cpp lf-rs">and type $time$</span>. This parameter is used to initialize the `interval` state variable, which also stores a time. The $logical$ $action$ `a`, explained in [Actions](<../topics/Actions.mdx#logical-actions>), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
+This has two time parameters, `start` and `incr`, each with default value `100 ms` <ShowOnly c cpp rs inline>and type $time$</ShowOnly>. This parameter is used to initialize the `interval` state variable, which also stores a time. The $logical$ $action$ `a`, explained in [Actions](<../topics/Actions.mdx#logical-actions>), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
 
 ```
 Logical time since start: 100000000 nsec.
@@ -95,12 +95,13 @@ import TS_Timer from '../code/ts/src/Timer.lf';
 
 This specifies a timer named `t` that will first trigger at the start of execution and then repeatedly trigger at intervals of one second. Notice that the time units can be left off if the value is zero.
 
-This target provides a built-in function for retrieving the logical time at which the reaction is invoked, <ShowOnly c>`get_logical_time()`</ShowOnly>
-<span class="lf-c">`get_logical_time()`</span>
-<span class="lf-cpp warning">FIXME</span>
-<span class="lf-py warning">lf.time.logical()</span>
-<span class="lf-ts">util.getCurrentLogicalTime()</span>
-<span class="lf-rs warning">FIXME</span>.
+This target provides a built-in function for retrieving the logical time at which the reaction is invoked, 
+<ShowOnly c inline>`get_logical_time()`</ShowOnly>
+<ShowOnly cpp inline>`FIXME`</ShowOnly>
+<ShowOnly py inline>`lf.time.logical()`</ShowOnly>
+<ShowOnly ts inline>`util.getCurrentLogicalTime()`</ShowOnly>
+<ShowOnly rs inline>`get_logical_time()`</ShowOnly>
+
 On most platforms (with the exception of some embedded platforms), the returned value is a 64-bit number representing the number of nanoseconds that have elapsed since January 1, 1970. Executing the above displays something like the following:
 
 ```
