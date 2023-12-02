@@ -26,7 +26,6 @@ type ProfileProps = {
   twitterUrl?: string;
   personalSiteUrl?: string;
   avatar: string;
-  country: string;
 };
 
 // The div below are NOT bootstrap despite of their names, it's in styles.css for docusaurus theme classic.
@@ -40,7 +39,6 @@ function TeamProfileCard({
   githubUrl,
   twitterUrl,
   personalSiteUrl,
-  country,
 }: ProfileProps) {
   return (
     <div className={className}>
@@ -56,8 +54,6 @@ function TeamProfileCard({
               <Heading as="h4" className="avatar__name">
                 {name}
               </Heading>
-              {/* I know, inlining style is kinda bad, but this is a one-off thing, trust me...... This is to make the "country" closer to the name. */}
-              <div className={`${style.pushUp}`}>{country}</div>
             </div>
           </div>
         </div>
