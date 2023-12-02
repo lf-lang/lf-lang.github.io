@@ -31,13 +31,15 @@ function HeroBanner() {
               __html: translate({
                 id: 'homepage.hero.title',
                 message:
-                  '<b>Deterministic currency</b> that is <b>cool</b>, no more <b>screwing around</b> with mutex',
+                'Build <b>concurrent</b> and <b>distributed</b> software in a <b>simple</b>, <b>modular</b> way',
+                // 'Build <b>concurrent</b>, <b>time-sensitive</b>, and <b>distributed</b> software with ease',
                 description:
                   'Home page hero title, can contain simple html tags',
               }),
             }}
           />
         </Heading>
+        Lingua Franca allows you to write powerful concurrent software without any expertise in programming with threads. You can turn a Lingua Franca program into a distributed system with the change of a single keyword—no distributed systems programming skills required.
         <div className={styles.indexCtas}>
           <Link className="button button--primary" to="/installation">
             <Translate>Get Started</Translate>
