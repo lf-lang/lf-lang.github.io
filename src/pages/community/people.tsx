@@ -13,7 +13,7 @@ export const active = [
     name: 'Clément Fournier',
     avatar: 'https://avatars.githubusercontent.com/u/24524930?v=4',
     country: '🇩🇪',
-    blurb: <Translate>Master student at TU Dresden.</Translate>,
+    blurb: <Translate>PhD student at TU Dresden.</Translate>,
   },
   {
     name: 'Erling Rennemo Jellum',
@@ -70,7 +70,7 @@ export const active = [
     avatar: 'https://avatars.githubusercontent.com/u/19938940?v=4',
     twitterUrl: 'https://twitter.com/martenlohstroh',
     country: '🇺🇸',
-    blurb: <Translate>Postdoctoral researcher at UC Berkeley.</Translate>,
+    blurb: <Translate>Assistant Researcher at UC Berkeley.</Translate>,
   },
   {
     name: 'Johannes Hayeß',

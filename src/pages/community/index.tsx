@@ -69,12 +69,12 @@ export default function Community(): JSX.Element {
             </SocialMediaCard>
             <SocialMediaCard imageSrc={githubLogo} name="GitHub" >
               <>
-                Stay up to date. Follow us on Twitter <Link href="https://twitter.com/thelflang" title="Lingua Franca on Twitter" target="_blank">@thelflang</Link>!
+                Found a bug, or want to provide feedback? <Link href="https://github.com/lf-lang/lingua-franca/issues/new/choose">Tell us on GitHub.</Link>
               </>
             </SocialMediaCard>
             <SocialMediaCard imageSrc={XLogo} name="X/Twitter" >
               <>
-                Found a bug, or want to provide feedback? <Link href="https://github.com/lf-lang/lingua-franca/issues/new/choose">Tell us on GitHub.</Link>
+                Stay up to date. Follow us on Twitter <Link href="https://twitter.com/thelflang" title="Lingua Franca on Twitter" target="_blank">@thelflang</Link>!
               </>
             </SocialMediaCard>
           </div>
