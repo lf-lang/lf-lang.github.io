@@ -1,6 +1,7 @@
 import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
+import { ReactElement } from 'react';
 
 type FeatureItem = {
   title: string;
@@ -49,6 +50,25 @@ function Feature({ title, Svg, description }: FeatureItem) {
       <div className="text--center padding-horiz--md">
         <Heading as="h3">{title}</Heading>
         <p>{description}</p>
+      </div>
+    </div>
+  );
+}
+
+export function TwoColumns({ col1, col2, alt }: {
+  col1: ReactElement,
+  col2: ReactElement,
+  alt?: boolean,
+}) {
+  return (
+    <div className={clsx("container", "section", {"sectionAlt": alt})}>
+      <div className='row'>
+        <div className='col col--6'>
+          {col1}
+        </div>
+        <div className='col col--6'>
+          {col2}
+        </div>
       </div>
     </div>
   );
