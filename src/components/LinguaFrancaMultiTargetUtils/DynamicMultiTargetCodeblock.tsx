@@ -22,7 +22,7 @@ export const DynamicMultiTargetCodeblock = ({
   useEffect(() => {
     const getCode = async (targetLang: TargetsType) => {
       const content: WebpackImportedRawModule = await import(
-        `@site/docs/lingua-franca/codes/${targetLang}/${file}.lf`
+        `@site/docs/assets/code/${targetLang}/${file}.lf`
       );
       setTargetToCodeState((prevState) => ({
         ...prevState,

@@ -1,6 +1,0 @@
-target TypeScript
-main reactor {
-  reaction(startup) {=
-    console.log("Hello World.")
-  =}
-}

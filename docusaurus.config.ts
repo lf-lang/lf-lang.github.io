@@ -36,7 +36,7 @@ const config: Config = {
       {
         debug: true,
         docs: {
-          sidebarPath: './sidebars.ts',
+          sidebarPath: './docs/sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
@@ -44,7 +44,7 @@ const config: Config = {
           beforeDefaultRemarkPlugins: [
             // Honestly, I recommend not using this because I am not confident with my coding skill......
             // TransformDynamicLFFileImportToStatic
-          ]
+          ],
         },
         blog: {
           showReadingTime: true,
@@ -72,11 +72,11 @@ const config: Config = {
       items: [
         {
           type: 'docSidebar',
-          sidebarId: 'tutorialSidebar',
+          sidebarId: 'handbookSidebar',
           position: 'left',
-          label: 'Tutorial',
+          label: 'Handbook',
         },
-        {to: '/installation', label: 'Install', position: 'left'},
+        {to: '/docs/installation', label: 'Install', position: 'left'},
         {to: '/blog', label: 'Blog', position: 'left'},
         {to: '/publications', label: 'Publications', position: 'left'},
         {to: '/community', label: 'Community', position: 'left'},
@@ -149,8 +149,10 @@ const config: Config = {
           ],
         },
       })
-    })
+    }),
   ],
+
+  
 
   clientModules: [
     "src/components/ShikijiLFHighlighter/shikijiloader.ts"
