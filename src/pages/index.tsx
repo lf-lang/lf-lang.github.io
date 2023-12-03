@@ -31,7 +31,7 @@ function HeroBanner() {
               __html: translate({
                 id: 'homepage.hero.title',
                 message:
-                'Build <b>concurrent</b> and <b>distributed</b> software in a <b>simple</b>, <b>modular</b> way',
+                'Build <b>concurrent</b> and <b>distributed</b> software, <b>effortlessly</b>',
                 // 'Build <b>concurrent</b>, <b>time-sensitive</b>, and <b>distributed</b> software with ease',
                 description:
                   'Home page hero title, can contain simple html tags',
@@ -39,7 +39,7 @@ function HeroBanner() {
             }}
           />
         </Heading>
-        Lingua Franca allows you to write powerful concurrent software without any expertise in programming with threads. You can turn a Lingua Franca program into a distributed system with the change of a single keyword—no distributed systems programming skills required.
+        Lingua Franca (LF) allows you to write blazing-fast, deterministic, multi-threaded code without any knowledge about threads or mutexes. Timing is an integral part of the semantics of LF. You can turn an LF program into a distributed system with the change of a single keyword—no distributed systems programming skills required.
         <div className={styles.indexCtas}>
           <Link className="button button--primary" to="/installation">
             <Translate>Get Started</Translate>
@@ -127,7 +127,7 @@ export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Hello from ${siteConfig.title}`}
+      title={`Welcome`}
       description="Description will go into a meta tag in <head />"
     >
       <main>

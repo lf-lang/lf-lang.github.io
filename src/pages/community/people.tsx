@@ -60,7 +60,6 @@ export const active = [
     name: 'Marten Lohstroh',
     personalSiteUrl: 'http://people.eecs.berkeley.edu/~marten/',
     avatar: 'https://avatars.githubusercontent.com/u/19938940?v=4',
-    twitterUrl: 'https://twitter.com/martenlohstroh',
     blurb: <Translate>Assistant Researcher at UC Berkeley.</Translate>,
   },
   {

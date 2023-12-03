@@ -1,4 +1,4 @@
-# Download and Install Lingua Franca
+# Download and Install
 
 The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](https://www.lf-lang.org/docs/handbook/target-language-details#requirements) page and select your target language).
 
