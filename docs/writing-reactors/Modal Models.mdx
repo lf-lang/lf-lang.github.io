@@ -122,7 +122,9 @@ As a consequence, a mode has a notion of local time that elapses only when the m
 From the perspective of timers and actions, time is suspended when a mode is inactive.
 This also applies to indirectly nested reactors within modes and connections with logical delays, if their source lies within a mode.
 
-<img alt="Illustration of local time (model)" src="./../assets/images/modal_models/local_time.svg" width="400"/>
+import local_timeSVG from "./../assets/images/modal_models/local_time.svg"
+
+<local_timeSVG title="Illustration of local time (model): local_time"   />
 
 The above LF model illustrates the different characteristics of local time affecting timers and actions in the presence of the two transition types.
 
@@ -135,7 +137,9 @@ This action triggers the second reaction, which writes to the output `out`.
 The main difference between the modes is that `One` is entered via a history transition, continuing its behavior, while `Two` is reset.
 (History behavior is indicated by an "H" on the transition edge because it enters into the entire history of the mode.)
 
-<img alt="Illustration of local time (trace)" src="./../assets/images/modal_models/local_time_trace.svg" width="600"/>
+import local_time_traceSVG from "./../assets/images/modal_models/local_time_trace.svg"
+
+<local_time_traceSVG title="Illustration of local time (trace): local_time_trace"   />
 
 Above is the execution trace of the first 4 seconds of this program.
 Below the timeline is the currently active mode and above the timeline are the model elements that are executed at certain points in time, together with indicating triggering and their relation through time.
@@ -145,7 +149,9 @@ The timing diagram illustrates the different handling of time between history tr
 Specifically, when mode `One` is re-entered via a history transition, at time 2000 msec, the action triggered by `T1` before, at time 850 msec, resumes.
 In contrast, when mode `Two` is re-entered via a reset transition, at time 3000 msec, the action triggered by `T2` before, at time 1850 msec, gets discarded.
 
-<img alt="Illustration of local time (plot)" src="./../assets/images/modal_models/local_time_plot.svg" width="300"/>
+import local_time_plotSVG from "./../assets/images/modal_models/local_time_plot.svg"
+
+<local_time_plotSVG title="Illustration of local time (plot): local_time_plot"   />
 
 The above plot illustrates the relation between global time in the environment and the localized time for each timer in the model.
 Since the top-level reactor `TimingExample` is not enclosed by any mode, its time always corresponds to the global time.

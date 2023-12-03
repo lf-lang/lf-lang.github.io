@@ -26,7 +26,9 @@ import TS_Microsteps from '../assets/code/ts/src/Microsteps.lf';
 
 <NoSelectorTargetCodeBlock c={C_Microsteps} cpp={Cpp_Microsteps} py={Py_Microsteps} rs={Rs_Microsteps} ts={TS_Microsteps} lf />
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/Microsteps.svg" width="150"/>
+import MicrostepsSVG from "./../assets/images/diagrams/Microsteps.svg"
+
+<MicrostepsSVG title="Lingua Franca diagram: Microsteps" role="img" width="150" />
 
 Executing this program will yield something like this:
 
@@ -52,7 +54,9 @@ import TS_Simultaneous from '../assets/code/ts/src/Simultaneous.lf';
 
 <NoSelectorTargetCodeBlock c={C_Simultaneous} cpp={Cpp_Simultaneous} py={Py_Simultaneous} rs={Rs_Simultaneous} ts={TS_Simultaneous} lf />
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/Simultaneous.svg" width="400"/>
+import SimultaneousSVG from "./../assets/images/diagrams/Simultaneous.svg"
+
+<SimultaneousSVG title="Lingua Franca diagram: Simultaneous" role="img" width="400" />
 
 The `Destination` reactor has two inputs, `x` and `y`, and it reports in a reaction to either input what is the logical time, the microstep, and which input is present. The main reactor reacts to $startup$ by sending data to the `x` input of `Destination`. It then schedules a `repeat` action with an `<offset>` of zero. The `repeat` reaction is invoked **strictly later**, one **microstep** later. The output printed, therefore, will look like this:
 

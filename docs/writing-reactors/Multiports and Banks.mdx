@@ -45,7 +45,9 @@ import TS_Multiport from '../assets/code/ts/src/Multiport.lf';
 
 <NoSelectorTargetCodeBlock c={C_Multiport} cpp={Cpp_Multiport} py={Py_Multiport} rs={Rs_Multiport} ts={TS_Multiport} lf />
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/Multiport.svg" width="300"/>
+import MultiportSVG from "./../assets/images/diagrams/Multiport.svg"
+
+<MultiportSVG title="Lingua Franca diagram: Multiport" role="img" width="300" />
 
 Executing this program will yield:
 
@@ -152,7 +154,9 @@ main reactor {
 }
 ```
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/BankToBankMultiport.svg" width="300"/>
+import BankToBankMultiportSVG from "./../assets/images/diagrams/BankToBankMultiport.svg"
+
+<BankToBankMultiportSVG title="Lingua Franca diagram: BankToBankMultiport" role="img" width="300" />
 
 If the `Source` and `Destination` reactors have multiport inputs and outputs, as in the examples above, then a warning will be issued if the total width on the left does not match the total width on the right. For example, the following is balanced:
 
@@ -224,7 +228,9 @@ import TS_ChildBank from '../assets/code/ts/src/ChildBank.lf';
 
 <NoSelectorTargetCodeBlock c={C_ChildBank} cpp={Cpp_ChildBank} py={Py_ChildBank} rs={Rs_ChildBank} ts={TS_ChildBank} lf />
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/ChildBank.svg" width="150"/>
+import ChildBankSVG from "./../assets/images/diagrams/ChildBank.svg"
+
+<ChildBankSVG title="Lingua Franca diagram: ChildBank" role="img" width="150" />
 
 In this program, the `Parent` reactor contains a bank of `Child` reactor instances
 with a width of 2. In the main reactor, a bank of `Parent` reactors is
@@ -275,7 +281,9 @@ import TS_ChildParentBank2 from '../assets/code/ts/src/ChildParentBank2.lf';
 
 <NoSelectorTargetCodeBlock c={C_ChildParentBank2} cpp={Cpp_ChildParentBank2} py={Py_ChildParentBank2} rs={"ChildParentBank2.lf missing for Rust"} ts={TS_ChildParentBank2} lf />
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/ChildParentBank2.svg" width="250"/>
+import ChildParentBank2SVG from "./../assets/images/diagrams/ChildParentBank2.svg"
+
+<ChildParentBank2SVG title="Lingua Franca diagram: ChildParentBank2" role="img" width="250" />
 
 Running this program will give something like the following:
 
@@ -323,7 +331,9 @@ import TS_MultiportToBank from '../assets/code/ts/src/MultiportToBank.lf';
 
 <NoSelectorTargetCodeBlock c={C_MultiportToBank} cpp={Cpp_MultiportToBank} py={Py_MultiportToBank} rs={Rs_MultiportToBank} ts={TS_MultiportToBank} lf />
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/MultiportToBank.svg" width="300"/>
+import MultiportToBankSVG from "./../assets/images/diagrams/MultiportToBank.svg"
+
+<MultiportToBankSVG title="Lingua Franca diagram: MultiportToBank" role="img" width="300" />
 
 The three outputs from the `Source` instance `a` will be sent, respectively, to each of three instances of `Destination`, `b[0]`, `b[1]`, and `b[2]`. The result of the program will be something like the following:
 
@@ -376,7 +386,9 @@ import Py_Interleaved from '../assets/code/py/src/Interleaved.lf';
 
 <NoSelectorTargetCodeBlock c={C_Interleaved} cpp={Cpp_Interleaved} py={Py_Interleaved} lf />
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/Interleaved.svg" width="250"/>
+import InterleavedSVG from "./../assets/images/diagrams/Interleaved.svg"
+
+<InterleavedSVG title="Lingua Franca diagram: Interleaved" role="img" width="250" />
 
 In the above program, four instance of `Node` are created, and, at startup, each instance sends 42 to its second (index 1) output channel. The result is that the second bank member (`bank_index` 1) will receive the number 42 on each input channel of its multiport input. Running this program gives something like the following:
 
@@ -395,11 +407,11 @@ In bank index 1, the 0-th channel receives from `bank_index` 0, the 1-th channel
 
 This style of connection is accomplished using the new keyword $interleaved$ in the connection. Normally, a port reference such as `nodes.out` where `nodes` is a bank and `out` is a multiport, would list all the individual ports by first iterating over the banks and then, for each bank index, iterating over the ports. If we consider the tuple (b,p) to denote the index b within the bank and the index p within the multiport, then the following list is created: (0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (2,3), (3,0), (3,1), (3,2), (3,3). However, if we use $interleaved$`(nodes.out)` instead, the connection logic will iterate over the ports first and then the banks, creating the following list: (0,0), (1,0), (2,0), (3,0), (0,1), (1,1), (2,1), (3,1), (0,2), (1,2), (2,2), (3,2), (0,3), (1,3), (2,3), (3,3). By combining a normal port reference with a interleaved reference, we can construct a fully connected network. The figure below visualizes this how this pattern would look without banks or multiports:
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/AddressableDesugared.png" width="600"/>
+![Lingua Franca diagram: AddressableDesugared](../assets/images/diagrams/AddressableDesugared.png)
 
 If we were to use a normal connection `nodes.out -> nodes.in;` instead of the $interleaved$ connection, then the following pattern would be created:
 
-<img alt="Lingua Franca diagram" src="./../assets/images/diagrams/AddressableNaiveDesugared.png" width="600"/>
+![Lingua Franca diagram: AddressableNaiveDesugared](../assets/images/diagrams/AddressableNaiveDesugared.png)
 
 Effectively, this connects each reactor instance to itself, which isn't very useful.
 

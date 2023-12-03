@@ -62,9 +62,10 @@ function HeroBanner() {
 }
 
 import CycleSVG from "@site/static/img/diagram/Cycle.svg"
+
 const Intro = (): JSX.Element => (
   <TwoColumns 
-    col1={<CycleSVG style={{width: "100%", height: "100%"}} role="img" />} 
+    col1={<CycleSVG height="100%" width="100%" role="img" title="LF Diagram"/>} 
     col2={
       <>
         <Heading as="h2">
@@ -81,9 +82,10 @@ const Intro = (): JSX.Element => (
 );
 
 import CycleSVG1 from "@site/static/img/diagram/Cycle.svg"
+
 const First = (): JSX.Element => (
   <TwoColumns 
-    col1={<CycleSVG1 style={{width: "100%", height: "100%"}} role="img" />} 
+    col1={<CycleSVG1 height="100%" width="100%" role="img" />} 
     col2={
       <>
         <Heading as="h2">
@@ -100,6 +102,7 @@ const First = (): JSX.Element => (
 );
 
 import CycleSVG2 from "@site/static/img/diagram/Cycle.svg"
+
 const Second = (): JSX.Element => (
   <TwoColumns 
     col1={
@@ -115,7 +118,7 @@ const Second = (): JSX.Element => (
       </>
     } 
     col2={
-      <CycleSVG2 style={{width: "100%", height: "100%"}} role="img" />
+      <CycleSVG2 height="100%" width="100%" role="img" />
     }
   />
 );
