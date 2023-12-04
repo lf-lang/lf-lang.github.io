@@ -8,7 +8,7 @@ import redirects from "./docs/lagacy_routing";
 const config: Config = {
   title: 'Lingua Franca',
   tagline: 'The system design language',
-  favicon: 'img/lf-icon.png',
+  favicon: 'img/favicon.png',
 
   // Set the production url of your site here
   url: 'https://www.lf-lang.org',
@@ -36,13 +36,12 @@ const config: Config = {
     [
       'classic',
       {
-        debug: true,
         docs: {
           sidebarPath: './docs/sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+            'https://github.com/axmmisaka/lf-docs-docusaurus/tree/master/docs/',
           beforeDefaultRemarkPlugins: [
             // Honestly, I recommend not using this because I am not confident with my coding skill......
             // TransformDynamicLFFileImportToStatic
@@ -52,9 +51,8 @@ const config: Config = {
           showReadingTime: true,
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
-          editUrl:
-            'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
-        },
+          // editUrl: 'https://github.com/facebook/docusaurus/tree/main/packages/create-docusaurus/templates/shared/',
+          },
         theme: {
           customCss: './src/css/custom.css',
         },
@@ -128,7 +126,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Copyright © ${new Date().getFullYear()} The Lingua Franca project. Built with Docusaurus.`,
+      copyright: `Made with ♥ in Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson.</br>Copyright © ${new Date().getFullYear()} The Lingua Franca project. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
