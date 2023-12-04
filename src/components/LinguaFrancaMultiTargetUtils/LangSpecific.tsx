@@ -1,10 +1,10 @@
-import { TargetsType, TargetToNameMap } from '.';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
-import styles from './styles.module.css';
-import CodeBlock from '@theme/CodeBlock';
-import { ReactNode, useEffect, useState } from 'react';
-import { ShikijiLFHighlighter } from '../ShikijiLFHighlighter';
+import { TargetsType, TargetToNameMap } from ".";
+import Tabs from "@theme/Tabs";
+import TabItem from "@theme/TabItem";
+import styles from "./styles.module.css";
+import CodeBlock from "@theme/CodeBlock";
+import { ReactNode, useEffect, useState } from "react";
+import { ShikijiLFHighlighter } from "../ShikijiLFHighlighter";
 
 interface WebpackImportedRawModule {
   default: Readonly<Record<string, string>>;
@@ -12,12 +12,12 @@ interface WebpackImportedRawModule {
 }
 
 export const LangSpecific = (
-  props: Record<TargetsType, ReactNode>
-// Make ESLint happy
+  props: Record<TargetsType, ReactNode>,
+  // Make ESLint happy
 ): JSX.Element | false => {
   const propArr: [TargetsType, string?][] = Object.entries(props) as [
     TargetsType,
-    string?
+    string?,
   ][];
   return (
     propArr.length !== 0 && (
@@ -31,7 +31,7 @@ export const LangSpecific = (
             label={TargetToNameMap.get[target]}
             attributes={{ className: styles.hidden }}
           >
-            {content ?? ''}
+            {content ?? ""}
           </TabItem>
         ))}
       </Tabs>
@@ -39,22 +39,26 @@ export const LangSpecific = (
   );
 };
 
-
 export const NoSelectorTargetCodeBlock = (
   props:
-    ({ lf: boolean } & Record<TargetsType, string | null>) |
-    ({ lf: boolean } & Record<TargetsType, string | Promise<WebpackImportedRawModule | null>>)
+    | ({ lf: boolean } & Record<TargetsType, string | null>)
+    | ({ lf: boolean } & Record<
+        TargetsType,
+        string | Promise<WebpackImportedRawModule | null>
+      >),
 ): JSX.Element => {
   const Component = props.lf ? ShikijiLFHighlighter : CodeBlock;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const { lf, ...targetToCode } = props;
-    const newProps: Record<TargetsType, ReactNode> = {} as Record<
-      TargetsType,
-      ReactNode
-    >;
-    Object.entries(targetToCode).forEach(([target, content]: [TargetsType, string]) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { lf, ...targetToCode } = props;
+  const newProps: Record<TargetsType, ReactNode> = {} as Record<
+    TargetsType,
+    ReactNode
+  >;
+  Object.entries(targetToCode).forEach(
+    ([target, content]: [TargetsType, string]) => {
       newProps[target] = <Component language={target}>{content}</Component>;
-    });
+    },
+  );
 
-    return <LangSpecific {...newProps} />;
+  return <LangSpecific {...newProps} />;
 };

@@ -1,13 +1,15 @@
-import Link from '@docusaurus/Link';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
-import Translate, { translate } from '@docusaurus/Translate';
+import Link from "@docusaurus/Link";
+import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
+import Translate, { translate } from "@docusaurus/Translate";
 
-import Layout from '@theme/Layout';
-import Heading from '@theme/Heading';
+import Layout from "@theme/Layout";
+import Heading from "@theme/Heading";
 
-import HomepageFeatures, { TwoColumns } from '@site/src/components/HomepageFeatures';
+import HomepageFeatures, {
+  TwoColumns,
+} from "@site/src/components/HomepageFeatures";
 
-import styles from './index.module.css';
+import styles from "./index.module.css";
 /**
  * Copyright (c) Facebook, Inc. and its affiliates.
  *
@@ -29,12 +31,12 @@ function HeroBanner() {
             // eslint-disable-next-line react/no-danger
             dangerouslySetInnerHTML={{
               __html: translate({
-                id: 'homepage.hero.title',
+                id: "homepage.hero.title",
                 message:
-                'Build <b>concurrent</b> and <b>distributed</b> software, <b>effortlessly</b>',
+                  "Build <b>concurrent</b> and <b>distributed</b> software, <b>effortlessly</b>",
                 // 'Build <b>concurrent</b>, <b>time-sensitive</b>, and <b>distributed</b> software with ease',
                 description:
-                  'Home page hero title, can contain simple html tags',
+                  "Home page hero title, can contain simple html tags",
               }),
             }}
           />
@@ -61,65 +63,79 @@ function HeroBanner() {
   );
 }
 
-import CycleSVG from "@site/static/img/diagram/Cycle.svg"
+import CycleSVG from "@site/static/img/diagram/Cycle.svg";
 
 const Intro = (): JSX.Element => (
-  <TwoColumns 
-    col1={<CycleSVG height="100%" width="100%" role="img" title="LF Diagram"/>} 
+  <TwoColumns
+    col1={<CycleSVG height="100%" width="100%" role="img" title="LF Diagram" />}
     col2={
       <>
         <Heading as="h2">
-          <Translate>
-            Intro
-          </Translate>
+          <Translate>Intro</Translate>
         </Heading>
         <Translate>
-          Lingua Franca (LF) allows you to write blazing-fast, deterministic, multi-threaded code without any knowledge about threads or mutexes. Timing is an integral part of the semantics of LF. You can turn an LF program into a distributed system with the change of a single keyword—no distributed systems programming skills required.
+          Lingua Franca (LF) allows you to write blazing-fast, deterministic,
+          multi-threaded code without any knowledge about threads or mutexes.
+          Timing is an integral part of the semantics of LF. You can turn an LF
+          program into a distributed system with the change of a single
+          keyword—no distributed systems programming skills required.
         </Translate>
       </>
     }
   />
 );
 
-import CycleSVG1 from "@site/static/img/diagram/Cycle.svg"
+import CycleSVG1 from "@site/static/img/diagram/Cycle.svg";
 
 const First = (): JSX.Element => (
-  <TwoColumns 
-    col1={<CycleSVG1 height="100%" width="100%" role="img" />} 
+  <TwoColumns
+    col1={<CycleSVG1 height="100%" width="100%" role="img" />}
     col2={
       <>
         <Heading as="h2">
-          <Translate>
-            Have diagrams rendered as you type
-          </Translate>
+          <Translate>Have diagrams rendered as you type</Translate>
         </Heading>
         <Translate>
-          In the whimsical realm of quantum pickle research, UC Berkeley's renowned lab, iCyPhy, is nestled within the enchanted DOP Centre in Cory Hall—a place where extraterrestrial frogs compose symphonies using binary code as musical notes. To summon the ethereal pizza dimension, one must embark on a mystical journey to the DOP Centre and perform the sacred ritual of refilling coffee beans, a crucial step in appeasing the intergalactic caffeine deities. Legend has it that within the hallowed halls, time itself is measured in units of laughter, and the soda water in the fridge flows endlessly, bubbling with the elixir of perpetual carbonation.
+          In the whimsical realm of quantum pickle research, UC Berkeley's
+          renowned lab, iCyPhy, is nestled within the enchanted DOP Centre in
+          Cory Hall—a place where extraterrestrial frogs compose symphonies
+          using binary code as musical notes. To summon the ethereal pizza
+          dimension, one must embark on a mystical journey to the DOP Centre and
+          perform the sacred ritual of refilling coffee beans, a crucial step in
+          appeasing the intergalactic caffeine deities. Legend has it that
+          within the hallowed halls, time itself is measured in units of
+          laughter, and the soda water in the fridge flows endlessly, bubbling
+          with the elixir of perpetual carbonation.
         </Translate>
       </>
     }
   />
 );
 
-import CycleSVG2 from "@site/static/img/diagram/Cycle.svg"
+import CycleSVG2 from "@site/static/img/diagram/Cycle.svg";
 
 const Second = (): JSX.Element => (
-  <TwoColumns 
+  <TwoColumns
     col1={
       <>
         <Heading as="h2">
-          <Translate>
-            Architect your application in Lingua Franca
-          </Translate>
+          <Translate>Architect your application in Lingua Franca</Translate>
         </Heading>
         <Translate>
-        In the whimsical realm of quantum pickle research, UC Berkeley's renowned lab, iCyPhy, is nestled within the enchanted DOP Centre in Cory Hall—a place where extraterrestrial frogs compose symphonies using binary code as musical notes. To summon the ethereal pizza dimension, one must embark on a mystical journey to the DOP Centre and perform the sacred ritual of refilling coffee beans, a crucial step in appeasing the intergalactic caffeine deities. Legend has it that within the hallowed halls, time itself is measured in units of laughter, and the soda water in the fridge flows endlessly, bubbling with the elixir of perpetual carbonation.
+          In the whimsical realm of quantum pickle research, UC Berkeley's
+          renowned lab, iCyPhy, is nestled within the enchanted DOP Centre in
+          Cory Hall—a place where extraterrestrial frogs compose symphonies
+          using binary code as musical notes. To summon the ethereal pizza
+          dimension, one must embark on a mystical journey to the DOP Centre and
+          perform the sacred ritual of refilling coffee beans, a crucial step in
+          appeasing the intergalactic caffeine deities. Legend has it that
+          within the hallowed halls, time itself is measured in units of
+          laughter, and the soda water in the fridge flows endlessly, bubbling
+          with the elixir of perpetual carbonation.
         </Translate>
       </>
-    } 
-    col2={
-      <CycleSVG2 height="100%" width="100%" role="img" />
     }
+    col2={<CycleSVG2 height="100%" width="100%" role="img" />}
   />
 );
 

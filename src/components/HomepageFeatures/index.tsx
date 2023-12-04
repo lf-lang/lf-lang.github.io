@@ -1,31 +1,32 @@
-import clsx from 'clsx';
-import Heading from '@theme/Heading';
-import styles from './styles.module.css';
-import { ReactElement } from 'react';
-import Translate from '@docusaurus/Translate';
+import clsx from "clsx";
+import Heading from "@theme/Heading";
+import styles from "./styles.module.css";
+import { ReactElement } from "react";
+import Translate from "@docusaurus/Translate";
 
 interface FeatureItem {
   title: string;
-  Svg: React.ComponentType<React.ComponentProps<'svg'>>;
+  Svg: React.ComponentType<React.ComponentProps<"svg">>;
   description: JSX.Element;
 }
 
-import Mountain from '@site/static/img/undraw_docusaurus_mountain.svg';
+import Mountain from "@site/static/img/undraw_docusaurus_mountain.svg";
 import Tree from "@site/static/img/undraw_docusaurus_tree.svg";
 import SaurusReact from "@site/static/img/undraw_docusaurus_react.svg";
 
 const FeatureList: FeatureItem[] = [
   {
-    title: 'Composable',
+    title: "Composable",
     Svg: Mountain,
     description: (
       <Translate>
-        Reactors are composable software components with inputs, outputs, and local state.
+        Reactors are composable software components with inputs, outputs, and
+        local state.
       </Translate>
     ),
   },
   {
-    title: 'Concurrent',
+    title: "Concurrent",
     Svg: Tree,
     description: (
       <Translate>
@@ -35,7 +36,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: 'Deterministic',
+    title: "Deterministic",
     Svg: SaurusReact,
     description: (
       <Translate>
@@ -43,12 +44,12 @@ const FeatureList: FeatureItem[] = [
         to test.
       </Translate>
     ),
-  }
+  },
 ];
 
 function Feature({ title, Svg, description }: FeatureItem) {
   return (
-    <div className={clsx('col col--4')}>
+    <div className={clsx("col col--4")}>
       <div className="text--center">
         <Svg className={styles.featureSvg} role="img" />
       </div>
@@ -60,20 +61,20 @@ function Feature({ title, Svg, description }: FeatureItem) {
   );
 }
 
-export function TwoColumns({ col1, col2, alt }: {
-  col1: ReactElement,
-  col2: ReactElement,
-  alt?: boolean,
+export function TwoColumns({
+  col1,
+  col2,
+  alt,
+}: {
+  col1: ReactElement;
+  col2: ReactElement;
+  alt?: boolean;
 }) {
   return (
-    <div className={clsx("container", "section", {"sectionAlt": alt})}>
-      <div className='row'>
-        <div className='col col--6'>
-          {col1}
-        </div>
-        <div className='col col--6'>
-          {col2}
-        </div>
+    <div className={clsx("container", "section", { sectionAlt: alt })}>
+      <div className="row">
+        <div className="col col--6">{col1}</div>
+        <div className="col col--6">{col2}</div>
       </div>
     </div>
   );

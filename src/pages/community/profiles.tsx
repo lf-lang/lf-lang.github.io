@@ -13,10 +13,10 @@
  * LICENSE file in the root directory of this source tree.
  */
 
-import React, {type ReactNode} from 'react';
-import Link from '@docusaurus/Link';
-import Heading from '@theme/Heading';
-import style from './styles.module.css';
+import React, { type ReactNode } from "react";
+import Link from "@docusaurus/Link";
+import Heading from "@theme/Heading";
+import style from "./styles.module.css";
 
 type ProfileProps = {
   className?: string;

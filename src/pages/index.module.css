@@ -3,7 +3,7 @@
  * and scoped locally.
  */
 
- .heroBanner {
+.heroBanner {
   padding: 4rem 0;
   text-align: center;
   position: relative;
@@ -105,7 +105,7 @@
   border-color: rgb(152 0 255);
 }
 
-html[data-theme='dark'] .topBannerTitleText {
+html[data-theme="dark"] .topBannerTitleText {
   background: linear-gradient(
     90deg,
     rgb(152 0 255) 0%,
@@ -258,5 +258,5 @@ html[data-theme='dark'] .topBannerTitleText {
 
 /* Used to test CSS insertion order */
 .test-marker-site-index-page {
-  content: 'site-index-page';
+  content: "site-index-page";
 }

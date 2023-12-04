@@ -1,7 +1,7 @@
 // Using Children is not encouraged, but I can't think of other ways......
-import { ReactNode, Children, ReactElement } from 'react';
-import { ShowOnly, targets, TargetsType } from '.';
-import { LangSpecific } from './LangSpecific';
+import { ReactNode, Children, ReactElement } from "react";
+import { ShowOnly, targets, TargetsType } from ".";
+import { LangSpecific } from "./LangSpecific";
 
 export const ShowIf = ({
   children,
@@ -51,8 +51,13 @@ export const ShowIfsInline = ({
       if (propArr[target] != null)
         throw Error(`Target language ${target} included more than once`);
       // Modify propArr
-      const languageProp = {[target]: true} as Record<"c" | "cpp" | "py" | "rs" | "ts", boolean>;
-      <ShowOnly {...languageProp} inline >{e.props.children}</ShowOnly>
+      const languageProp = { [target]: true } as Record<
+        "c" | "cpp" | "py" | "rs" | "ts",
+        boolean
+      >;
+      <ShowOnly {...languageProp} inline>
+        {e.props.children}
+      </ShowOnly>;
     });
   });
 

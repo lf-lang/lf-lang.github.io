@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
-import { TargetsType, } from './index';
-import { NoSelectorTargetCodeBlock } from './LangSpecific';
-import Translate from '@docusaurus/Translate';
+import React, { useState, useEffect } from "react";
+import { TargetsType } from "./index";
+import { NoSelectorTargetCodeBlock } from "./LangSpecific";
+import Translate from "@docusaurus/Translate";
 
 interface WebpackImportedRawModule {
   default: Readonly<Record<string, string>>;
@@ -41,18 +41,24 @@ export const DynamicMultiTargetCodeblock = ({
           if (pred == true) {
             getCode(t).catch((e) => console.log(e));
           }
-        }
+        },
       );
     }
   });
 
-  return <>
-    { !doNotTransformInMDX && <b>
-      <Translate>
-        Warning: DynamicMultiTargetCodeblock is present, but DynamicMultiTargetCodeblock is not set. This means corresponding MDX plugin that transforms it into code selector and import statements is not working correctly!
-      </Translate>
-      </b> 
-    }
-    <NoSelectorTargetCodeBlock {...targetToCodeState} lf />
-  </>;
+  return (
+    <>
+      {!doNotTransformInMDX && (
+        <b>
+          <Translate>
+            Warning: DynamicMultiTargetCodeblock is present, but
+            DynamicMultiTargetCodeblock is not set. This means corresponding MDX
+            plugin that transforms it into code selector and import statements
+            is not working correctly!
+          </Translate>
+        </b>
+      )}
+      <NoSelectorTargetCodeBlock {...targetToCodeState} lf />
+    </>
+  );
 };

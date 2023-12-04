@@ -6,11 +6,11 @@
  */
 
 /* Since some browsers might not support Emoji we use Google Fonts to assist...... */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap');
-@import url('https://fonts.cdnfonts.com/css/segoe-ui-4');
+@import url("https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&display=swap");
+@import url("https://fonts.cdnfonts.com/css/segoe-ui-4");
 
 .googleemoji {
-  font-family: 'Segoe UI Emoji', sans-serif;
+  font-family: "Segoe UI Emoji", sans-serif;
 }
 
 .pushUp {
