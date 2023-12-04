@@ -14,7 +14,7 @@ import Link from "@docusaurus/Link";
 
 import ZulipLogo from "@site/static/img/external-logos/zulip-icon-circle.svg";
 import GithubLogo from "@site/static/img/external-logos/github-mark.svg";
-import XLogo from "@site/static/img/external-logos/x-logo.svg";
+import RedditLogo from "@site/static/img/external-logos/reddit-logo.svg";
 
 export const SocialMediaCard = ({
   renderedImage,
@@ -113,24 +113,19 @@ export default function Community(): JSX.Element {
                     backgroundColor: "#242526", // Set the background to black
                   }}
                 >
-                  <XLogo
-                    title="X"
-                    width="100%"
-                    height="100%"
-                    style={{ transform: "scale(0.5)" }}
-                  />
+                  <RedditLogo title="Reddit" width="100%" height="100%" />
                 </div>
               }
-              name="X/Twitter"
+              name="Reddit"
             >
               <>
-                Stay up to date. Follow us on Twitter{" "}
+                Stay up to date. Find us on Reddit{" "}
                 <Link
-                  href="https://twitter.com/thelflang"
+                  href="https://reddit.com/r/thelflang"
                   title="Lingua Franca on Twitter"
                   target="_blank"
                 >
-                  @thelflang
+                  r/thelflang
                 </Link>
                 !
               </>

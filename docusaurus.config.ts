@@ -98,8 +98,8 @@ const config: Config = {
               href: 'https://zulip.lf-lang.org',
             },
             {
-              label: 'Twitter',
-              href: 'https://twitter.com/thelflang',
+              label: 'Reddit',
+              href: 'https://reddit.com/r/thelflang',
             },
           ],
         },
