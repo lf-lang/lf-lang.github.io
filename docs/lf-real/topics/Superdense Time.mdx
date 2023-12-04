@@ -6,7 +6,13 @@ oneline: "Superdense time in Lingua Franca."
 preamble: >
 ---
 
-$page-showing-target$
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
 
 ## Tag vs. Time
 
@@ -14,91 +20,13 @@ The model of time in Lingua Franca is a bit more sophisticated than we have hint
 
 A [$logical$ $action$](<../topics/Actions.mdx#logical-actions>) may have a `<min_delay>` of zero, and the `<offset>` argument to the `schedule()` function may be zero. In this case, the call to `schedule(>)` appears to be requesting that the action trigger at the _current logical time_. Here is where superdense time comes in. The action will indeed trigger at the current logical time, but one microstep later. Consider the following example:
 
-$start(Microsteps)$
+import C_Microsteps from '../code/c/src/Microsteps.lf';
+import Cpp_Microsteps from '../code/cpp/src/Microsteps.lf';
+import Py_Microsteps from '../code/py/src/Microsteps.lf';
+import Rs_Microsteps from '../code/rs/src/Microsteps.lf';
+import TS_Microsteps from '../code/ts/src/Microsteps.lf';
 
-```lf-c
-target C
-main reactor {
-  state count: int = 1
-  logical action a
-  reaction(startup, a) -> a {=
-    printf("%d. Logical time is %lld. Microstep is %d.\n",
-        self->count, lf_tag().time, lf_tag().microstep
-    );
-    if (self->count++ < 5) {
-      lf_schedule(a, 0);
-    }
-  =}
-}
-```
-
-```lf-cpp
-target Cpp
-main reactor {
-  state count: int(1)
-  logical action a
-  reaction(startup, a) -> a {=
-    std::cout << count << " Logical time is " << get_logical_time() << " Microstep: " << get_microstep() <<std::endl;
-    if (count++ < 5) {
-      a.schedule();
-    }
-  =}
-}
-```
-
-```lf-py
-target Python
-main reactor {
-  state count = 1
-  logical action a
-  reaction(startup, a) {=
-    print(
-        f"{self.count}. Logical time is {lf.tag().time}. "
-        f"Microstep is {lf.tag().microstep}."
-    )
-    if self.count < 5:
-      a.schedule(0)
-    self.count += 1
-  =}
-}
-```
-
-```lf-ts
-target TypeScript
-main reactor {
-  state count: number = 1
-  logical action a
-  reaction(startup, a) -> a {=
-    console.log(`${count}. Logical time is ${util.getCurrentLogicalTime()}. Microstep is ${util.getCurrentTag().microstep}.`)
-    if (count++ < 5) {
-      actions.a.schedule(TimeValue.zero(), null)
-    }
-  =}
-}
-```
-
-```lf-rs
-target Rust
-main reactor {
-  state count: u32 = 1
-  logical action a
-  reaction(startup, a) -> a {=
-    let tag = ctx.get_tag();
-    println!(
-        "{}. Logical time is {}. Microstep is {}.",
-        self.count,
-        tag.offset_from_t0.as_nanos(),
-        tag.microstep(),
-    );
-    if self.count < 5 {
-      self.count += 1;
-      ctx.schedule(a, Asap);
-    }
-  =}
-}
-```
-
-$end(Microsteps)$
+<NoSelectorTargetCodeBlock c={C_Microsteps} cpp={Cpp_Microsteps} py={Py_Microsteps} rs={Rs_Microsteps} ts={TS_Microsteps} lf />
 
 <img alt="Lingua Franca diagram" src="../../img/diagrams/Microsteps.svg" width="150"/>
 
@@ -118,147 +46,13 @@ Notice that the logical time is not advancing, but the microstep is (the logical
 
 Two events are **logically simultaneous** only if _both_ the logical time and the microstep are equal. The following example illustrates this:
 
-$start(Simultaneous)$
+import C_Simultaneous from '../code/c/src/Simultaneous.lf';
+import Cpp_Simultaneous from '../code/cpp/src/Simultaneous.lf';
+import Py_Simultaneous from '../code/py/src/Simultaneous.lf';
+import Rs_Simultaneous from '../code/rs/src/Simultaneous.lf';
+import TS_Simultaneous from '../code/ts/src/Simultaneous.lf';
 
-```lf-c
-target C
-reactor Destination {
-  input x: int
-  input y: int
-  reaction(x, y) {=
-    printf("Time since start: %lld, microstep: %d\n",
-        lf_time_logical_elapsed(), lf_tag().microstep
-    );
-    if (x->is_present) {
-      printf("  x is present.\n");
-    }
-    if (y->is_present) {
-      printf("  y is present.\n");
-    }
-  =}
-}
-main reactor {
-  logical action repeat
-  d = new Destination()
-  reaction(startup) -> d.x, repeat {=
-    lf_set(d.x, 1);
-    lf_schedule(repeat, 0);
-  =}
-  reaction(repeat) -> d.y {= lf_set(d.y, 1); =}
-}
-```
-
-```lf-cpp
-target Cpp
-reactor Destination {
-  input x: int
-  input y: int
-  reaction(x, y) {=
-    std::cout << "Time since start: " << get_elapsed_logical_time() << " Current Microstep: " << get_microstep() << std::endl;
-    if (x.is_present()) {
-      std::cout << "x is present" << std::endl;
-    }
-    if (y.is_present()) {
-      std::cout << "y is present" << std::endl;
-    }
-  =}
-}
-main reactor {
-  logical action repeat
-  d = new Destination()
-  reaction(startup) -> d.x, repeat {=
-    d.x.set(1);
-    repeat.schedule(0ms);
-  =}
-  reaction(repeat) -> d.y {= d.y.set(1); =}
-}
-```
-
-```lf-py
-target Python
-reactor Destination {
-  input x
-  input y
-  reaction(x, y) {=
-    print(
-        f"Time since start: {lf.time.logical_elapsed()}, "
-        f"microstep: {lf.tag().microstep}"
-    )
-    if x.is_present:
-      print("  x is present.")
-    if y.is_present:
-      print("  y is present.")
-  =}
-}
-main reactor {
-  logical action repeat
-  d = new Destination()
-  reaction(startup) -> d.x, repeat {=
-    d.x.set(1)
-    repeat.schedule(0)
-  =}
-  reaction(repeat) -> d.y {= d.y.set(1) =}
-}
-```
-
-```lf-ts
-target TypeScript
-reactor Destination {
-  input x: number
-  input y: number
-  reaction(x, y) {=
-    console.log(`Time since start: ${util.getElapsedLogicalTime()}, microstep: ${util.getCurrentTag().microstep}`)
-    if (x !== undefined) {
-      console.log("  x is present.")
-    }
-    if (y !== undefined) {
-      console.log("  y is present.")
-    }
-  =}
-}
-main reactor {
-  logical action repeat
-  d = new Destination()
-  reaction(startup) -> d.x, repeat {=
-    d.x = 1
-    actions.repeat.schedule(0, null)
-  =}
-  reaction(repeat) -> d.y {= d.y = 1 =}
-}
-```
-
-```lf-rs
-target Rust
-reactor Destination {
-  input x: u32
-  input y: u32
-  reaction(x, y) {=
-    let tag = ctx.get_tag();
-    println!(
-        "Time since start: {}, microstep: {}",
-        tag.offset_from_t0.as_nanos(),
-        tag.microstep,
-    );
-    if ctx.is_present(x) {
-      println!("  x is present.");
-    }
-    if ctx.is_present(y) {
-      println!("  y is present.");
-    }
-  =}
-}
-main reactor {
-  logical action repeat
-  d = new Destination()
-  reaction(startup) -> d.x, repeat {=
-    ctx.set(d__x, 1);
-    ctx.schedule(repeat, Asap);
-  =}
-  reaction(repeat) -> d.y {= ctx.set(d__y, 1); =}
-}
-```
-
-$end(Simultaneous)$
+<NoSelectorTargetCodeBlock c={C_Simultaneous} cpp={Cpp_Simultaneous} py={Py_Simultaneous} rs={Rs_Simultaneous} ts={TS_Simultaneous} lf />
 
 <img alt="Lingua Franca diagram" src="../../img/diagrams/Simultaneous.svg" width="400"/>
 

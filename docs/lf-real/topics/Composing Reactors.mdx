@@ -6,101 +6,26 @@ oneline: "Composing reactors in Lingua Franca."
 preamble: >
 ---
 
-$page-showing-target$
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
 
 ## Contained Reactors
 
 Reactors can contain instances of other reactors defined in the same file or in an imported file. Assume the `Count` and `Scale` reactors defined in [Parameters and State Variables](<../topics/Parameters and State Variables.mdx>) are stored in files `Count.lf` and `Scale.lf`, respectively,
 and that the `TestCount` reactor from [Time and Timers](<../topics/Time and Timers.mdx>) is stored in `TestCount.lf`. Then the following program composes one instance of each of the three:
 
-$start(RegressionTest)$
+import C_RegressionTest from '../code/c/src/RegressionTest.lf';
+import Cpp_RegressionTest from '../code/cpp/src/RegressionTest.lf';
+import Py_RegressionTest from '../code/py/src/RegressionTest.lf';
+import Rs_RegressionTest from '../code/rs/src/RegressionTest.lf';
+import TS_RegressionTest from '../code/ts/src/RegressionTest.lf';
 
-```lf-c
-target C {
-  timeout: 1 sec,
-  fast: true
-}
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-main reactor RegressionTest {
-  c = new Count()
-  s = new Scale(factor=4)
-  t = new TestCount(stride=4, num_inputs=11)
-  c.y -> s.x
-  s.y -> t.x
-}
-```
-
-```lf-cpp
-target Cpp {
-  timeout: 1 sec,
-  fast: true
-}
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-main reactor RegressionTest {
-  c = new Count()
-  s = new Scale(factor=4)
-  t = new TestCount(stride=4, num_inputs=11)
-  c.y -> s.x
-  s.y -> t.x
-}
-```
-
-```lf-py
-target Python {
-  timeout: 1 sec,
-  fast: true
-}
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-main reactor RegressionTest {
-  c = new Count()
-  s = new Scale(factor=4)
-  t = new TestCount(stride=4, num_inputs=11)
-  c.y -> s.x
-  s.y -> t.x
-}
-```
-
-```lf-ts
-target TypeScript {
-  timeout: 1 sec,
-  fast: true
-}
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-main reactor RegressionTest {
-  c = new Count()
-  s = new Scale(factor=4)
-  t = new TestCount(stride=4, numInputs=11)
-  c.y -> s.x
-  s.y -> t.x
-}
-```
-
-```lf-rs
-target Rust {
-  timeout: 1 sec,
-  fast: true
-}
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-main reactor RegressionTest {
-  c = new Count()
-  s = new Scale(factor=4)
-  t = new TestCount(stride=4, num_inputs=11)
-  c.y -> s.x
-  s.y -> t.x
-}
-```
-
-$end(RegressionTest)$
+<NoSelectorTargetCodeBlock c={C_RegressionTest} cpp={Cpp_RegressionTest} py={Py_RegressionTest} rs={Rs_RegressionTest} ts={TS_RegressionTest} lf />
 
 ## Diagrams
 
@@ -149,45 +74,44 @@ In addition, some targets require the types of all the ports to be the same.
 
 A destination port (on the right) can only be connected to a single source port (on the left). However, a source port may be connected to multiple destinations, as in the following example:
 
-<div class="lf-py">
+<ShowIfs>
+  <ShowIf c cpp ts rs>
 
-```lf
-reactor A {
-  output y
-}
-reactor B {
-  input x
-}
-main reactor {
-  a = new A()
-  b1 = new B()
-  b2 = new B()
-  a.y -> b1.x
-  a.y -> b2.x
-}
-```
+    ```lf
+    reactor A {
+      output y:int
+    }
+    reactor B {
+      input x:int
+    }
+    main reactor {
+      a = new A()
+      b1 = new B()
+      b2 = new B()
+      a.y -> b1.x
+      a.y -> b2.x
+    }
+    ```
 
-</div>
-
-<div class="lf-c lf-cpp lf-ts lf-rs">
-
-```lf
-reactor A {
-  output y:int
-}
-reactor B {
-  input x:int
-}
-main reactor {
-  a = new A()
-  b1 = new B()
-  b2 = new B()
-  a.y -> b1.x
-  a.y -> b2.x
-}
-```
-
-</div>
+  </ShowIf>
+  <ShowIf py>
+    ```lf
+    reactor A {
+      output y
+    }
+    reactor B {
+      input x
+    }
+    main reactor {
+      a = new A()
+      b1 = new B()
+      b2 = new B()
+      a.y -> b1.x
+      a.y -> b2.x
+    }
+    ```
+  </ShowIf>
+</ShowIfs>
 
 <img alt="Lingua Franca diagram" src="../../img/diagrams/Multicast.svg" width="250"/>
 
@@ -213,104 +137,13 @@ where `<classname>` and `<alias>` can be a comma-separated list to import multip
 
 Reactors can be composed in arbitrarily deep hierarchies. For example, the following program combines the `Count` and `Scale` reactors within on `Container`:
 
-$start(Hierarchy)$
+import C_Hierarchy from '../code/c/src/Hierarchy.lf';
+import Cpp_Hierarchy from '../code/cpp/src/Hierarchy.lf';
+import Py_Hierarchy from '../code/py/src/Hierarchy.lf';
+import Rs_Hierarchy from '../code/rs/src/Hierarchy.lf';
+import TS_Hierarchy from '../code/ts/src/Hierarchy.lf';
 
-```lf-c
-target C
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-reactor Container(stride: int = 2) {
-  output y: int
-  c = new Count()
-  s = new Scale(factor=stride)
-  c.y -> s.x
-  s.y -> y
-}
-main reactor Hierarchy {
-  c = new Container(stride=4)
-  t = new TestCount(stride=4, num_inputs=11)
-  c.y -> t.x
-}
-```
-
-```lf-cpp
-target Cpp
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-reactor Container(stride: int(2)) {
-  output y: int
-  c = new Count()
-  s = new Scale(factor=stride)
-  c.y -> s.x
-  s.y -> y
-}
-main reactor Hierarchy {
-  c = new Container(stride=4)
-  t = new TestCount(stride=4, num_inputs=11)
-  c.y -> t.x
-}
-```
-
-```lf-py
-target Python
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-reactor Container(stride=2) {
-  output y
-  c = new Count()
-  s = new Scale(factor=stride)
-  c.y -> s.x
-  s.y -> y
-}
-main reactor Hierarchy {
-  c = new Container(stride=4)
-  t = new TestCount(stride=4, num_inputs=11)
-  c.y -> t.x
-}
-```
-
-```lf-ts
-target TypeScript
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-reactor Container(stride: number = 2) {
-  output y: number
-  c = new Count()
-  s = new Scale(factor=stride)
-  c.y -> s.x
-  s.y -> y
-}
-main reactor Hierarchy {
-  c = new Container(stride=4)
-  t = new TestCount(stride=4, numInputs=11)
-  c.y -> t.x
-}
-```
-
-```lf-rs
-target Rust
-import Count from "Count.lf"
-import Scale from "Scale.lf"
-import TestCount from "TestCount.lf"
-reactor Container(stride: u32 = 2) {
-  output y: u32
-  c = new Count()
-  s = new Scale(factor=stride)
-  c.y -> s.x
-  s.y -> y
-}
-main reactor Hierarchy {
-  c = new Container(stride=4)
-  t = new TestCount(stride=4, num_inputs=11)
-  c.y -> t.x
-}
-```
-
-$end(Hierarchy)$
+<NoSelectorTargetCodeBlock c={C_Hierarchy} cpp={Cpp_Hierarchy} py={Py_Hierarchy} rs={Rs_Hierarchy} ts={TS_Hierarchy} lf />
 
 <img alt="Lingua Franca diagram" src="../../img/diagrams/Hierarchy.svg" width="500"/>
 

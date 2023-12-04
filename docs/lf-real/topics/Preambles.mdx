@@ -6,13 +6,20 @@ oneline: "Defining preambles in Lingua Franca."
 preamble: >
 ---
 
-$page-showing-target$
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
 
 ## Preamble
 
 Reactions may contain arbitrary target-language code, but often it is convenient for that code to invoke external libraries or to share procedure definitions. For either purpose, a reactor may include a $preamble$ section.
 
-<div class="lf-c">
+<ShowIfs>
+<ShowIf c>
 
 For example, the following reactor uses the `math` C library for its trigonometric functions:
 
@@ -201,9 +208,9 @@ main reactor {
 }
 ```
 
-</div>
+</ShowIf>
 
-<div class="lf-cpp">
+<ShowIf cpp>
 
 For example, the following reactor uses the `charconv` header from the c++ standard library to convert a string to an integer:
 
@@ -288,9 +295,9 @@ Admittedly, the precise interactions of preambles and imports can become confusi
 Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments.
 If access to the inner state of a reactor is required, [methods](<../topics/Methods.mdx#method-declaration>) present a viable and easy to use alternative.
 
-</div>
+</ShowIf>
 
-<div class="lf-py">
+<ShowIf py>
 
 For example, the following reactor uses the `platform` module to print the platform information and a defined method to add 42 to an integer:
 
@@ -372,9 +379,9 @@ main reactor {
 
 Within the $preamble$, we specify to import the `threading` Python module and define a function that will be started in a separate thread in the reaction to $startup$. The thread function named `external` blocks when `input()` is called until the user types something and hits the return or enter key. Usually, you do not want a Lingua Franca program to block waiting for input. In the above reactor, a $timer$ is used to repeatedly trigger a reaction that reminds the user that it is waiting for input.
 
-</div>
+</ShowIf>
 
-<div class="lf-ts">
+<ShowIf ts>
 
 For example, the following reactor uses Node's built-in path module to extract the base name from a path:
 
@@ -432,10 +439,13 @@ Installing Node.js modules for TypeScript reactors with `npm` is essentially the
 
 The important takeaway here is with the package.json file and the compiled JavaScript in the Foo/dist/ directory, you have a standard Node.js program that executes as such. You can modify and debug it just as you would a Node.js program.
 
-</div>
+</ShowIf>
 
-<div class="lf-rs warning">
+<ShowIf rs>
 
+:::danger
 FIXME: Add $preamble$ example.
+:::
 
-</div>
+</ShowIf>
+</ShowIfs>

@@ -6,17 +6,19 @@ oneline: "Distributed Execution (preliminary)"
 preamble: >
 ---
 
-<div class="lf-cpp lf-rs">
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-**Federated execution is not supported in $target-language$.**
+<LanguageSelector c py ts />
 
-</div>
+:::note
 
-<div class="lf-c lf-py lf-ts">
+Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on macOS and Linux, and there are no plans currently to support Windows systems.
 
-$page-showing-target$
-
-**NOTE:** Distributed execution of Lingua Franca programs is at an early stage of development with many missing capabilities and a rather brittle execution. It is ready for experimentation, but not yet for deployment of serious systems. The capability has been tested on macOS and Linux, and there are no plans currently to support Windows systems.
+:::
 
 A distributed Lingua Franca program is called a **federation**. Each reactor within the main reactor is called a **federate**. The LF compiler generates a separate program for each federate and synthesizes the code for the federates to communicate. The federates can be distributed across networks and eventually will be able to be written in different target languages, although this is not yet supported.
 
@@ -44,225 +46,142 @@ The above will create a program called `RTI` and install it at `/usr/local/bin/R
 
 A minimal federated execution is specified by using the $federated$ keyword instead of $main$ for the main federate. An example is given below:
 
-$start(Federated)$
+import C_Federated from '../code/c/src/Federated.lf';
+import Py_Federated from '../code/py/src/Federated.lf';
+import TS_Federated from '../code/ts/src/Federated.lf';
 
-```lf-c
-target C
-reactor Count {
-  output out: int
-  state c: int = 0
-  timer t(0, 1 sec)
-  reaction(t) -> out {=
-    lf_set(out, self->c++);
-  =}
-}
-reactor Print {
-  input in: int
-  reaction(in) {=
-    lf_print("Received: %d at (%lld, %d)", in->value,
-        lf_time_logical_elapsed(), lf_tag().microstep
-    );
-  =}
-}
-federated reactor {
-  c = new Count()
-  p = new Print()
-  c.out -> p.in
-}
-```
-
-```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Federated.lf
-```
-
-```lf-py
-target Python
-reactor Count {
-  output out
-  state c = 0
-  timer t(0, 1 sec)
-  reaction(t) -> out {=
-    out.set(self.c)
-    self.c += 1
-  =}
-}
-reactor Print {
-  input inp
-  reaction(inp) {=
-    print(
-        f"Received: {inp.value} "
-        f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
-    )
-  =}
-}
-federated reactor {
-  c = new Count()
-  p = new Print()
-  c.out -> p.inp
-}
-```
-
-```lf-ts
-target TypeScript {
-  timeout: 1 msec  // FIXME: This should work with timeout: 0 msec.
-}
-reactor Source {
-  output out: string
-  reaction(startup) -> out {=
-    out = "Hello World!";
-  =}
-}
-reactor Destination {
-  input inp: string
-  reaction(inp) {=
-    console.log("Received: " + inp);
-  =}
-}
-federated reactor Federated {
-  s = new Source()
-  d = new Destination()
-  s.out -> d.inp
-}
-```
-
-```lf-rs
-WARNING: No source file found: ../code/rs/src/Federated.lf
-```
-
-$end(Federated)$
+<NoSelectorTargetCodeBlock c={C_Federated} py={Py_Federated} ts={TS_Federated} lf />
 
 The $federated$ keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor.
 
 When you run the code generator on `src/Federated.lf` containing the above code, the following three programs will appear:
 
-<div class="lf-c">
 
-```
-bin/Federated
-bin/Federated_s
-bin/Federated_d
-```
+<ShowIfs>
+  <ShowIf c>
 
-</div>
+  ```
+  bin/Federated
+  bin/Federated_s
+  bin/Federated_d
+  ```
 
-<div class="lf-py">
+  </ShowIf>
+  <ShowIf py>
 
-```
-bin/Federated
-src-gen/Federated/s/Federated_s.py
-src-gen/Federated/d/Federated_d.py
-```
+  ```
+  bin/Federated
+  src-gen/Federated/s/Federated_s.py
+  src-gen/Federated/d/Federated_d.py
+  ```
 
-</div>
+  </ShowIf>
+  <ShowIf ts>
 
-<div class="lf-ts">
+  ```
+  bin/Federated
+  src-gen/dist/Federated/Federated_s.js
+  src-gen/dist/Federated/Federated_d.js
+  ```
 
-```
-bin/Federated
-src-gen/dist/Federated/Federated_s.js
-src-gen/dist/Federated/Federated_d.js
-```
-
-</div>
+  </ShowIf>
+</ShowIfs>
 
 The root name, `Federated`, is the name of the .lf file from which these are generated (and the name of the main reactor, which is required to match if it is specified). The suffixes "\_s" and "\_d" come from the names of the top-level instances. There will always be one federate for each top-level reactor instance.
 
 To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s` and `Federated_d`.
 Alternatively, you can manually execute the RTI followed by the two federate programs by starting them on the command line. It is best to use three separate terminal windows (so that outputs from the three programs do not get jumbled together) to execute the following commands:
 
-<div class="lf-c">
+<ShowIfs>
+  <ShowIf c>
 
-```sh
-RTI -n 2
-bin/Federated_s
-bin/Federated_d
-```
+  ```sh
+  RTI -n 2
+  bin/Federated_s
+  bin/Federated_d
+  ```
 
-</div>
+  </ShowIf>
 
-<div class="lf-py">
+  <ShowIf py>
 
-```sh
-RTI -n 2
-python3 src-gen/Federated/s/Federated_s.py
-python3 src-gen/Federated/d/Federated_d.py
-```
+  ```sh
+  RTI -n 2
+  python3 src-gen/Federated/s/Federated_s.py
+  python3 src-gen/Federated/d/Federated_d.py
+  ```
 
-</div>
+  </ShowIf>
 
-<div class="lf-ts">
+  <ShowIf ts>
 
-```sh
-RTI -n 2
-node src-gen/Federated/dist/Federated_s.js
-node src-gen/Federated/dist/Federated_d.js
-```
+  ```sh
+  RTI -n 2
+  node src-gen/Federated/dist/Federated_s.js
+  node src-gen/Federated/dist/Federated_d.js
+  ```
 
-</div>
+  </ShowIf>
+</ShowIfs>
 
 The `-n` argument to the `RTI` specifies that there it should expect two federates to join the federation.
 
 Upon running the program, you will see information printed about the starting and ending of the federation, and buried in the output will be this line:
 
-<div class="lf-c">
+<ShowIfs>
+  <ShowIf c>
 
-```
-Federate 1: Received: Hello World!
-```
+  ```
+  Federate 1: Received: Hello World!
+  ```
 
-The prefix `Federate 1` is automatically added by the built-in `lf_print` function to help disambiguate the outputs from multiple concurrent federates.
+  The prefix `Federate 1` is automatically added by the built-in `lf_print` function to help disambiguate the outputs from multiple concurrent federates.
 
-</div>
+  </ShowIf>
 
-<div class="lf-py">
+  <ShowIf py ts>
 
-```
-Received: Hello World!
-```
+  ```
+  Received: Hello World!
+  ```
 
-</div>
-
-<div class="lf-ts">
-
-```
-Received: Hello World!
-```
-
-</div>
+  </ShowIf>
+</ShowIfs>
 
 ## Federation ID
 
 You may have several federations running on the same machine(s) or even several instances of the same federation. In this case, it is necessary to distinguish between the federations. To accomplish this, you can pass a `-i` or `--id` parameter to the RTI and its federates with an identifier that is unique to the particular federation. For example,
+<ShowIfs>
+  <ShowIf c>
 
-<div class="lf-c">
+  ```sh
+  RTI -n 2 -i myFederation
+  bin/Federated_s -i myFederation
+  bin/Federated_d -i myFederation
+  ```
 
-```sh
-RTI -n 2 -i myFederation
-bin/Federated_s -i myFederation
-bin/Federated_d -i myFederation
-```
+  </ShowIf>
 
-</div>
+  <ShowIf py>
 
-<div class="lf-py">
+  ```sh
+  RTI -n 2 -i myFederation
+  python3 src-gen/Federated/s/Federated_s.py -i myFederation
+  python3 src-gen/Federated/d/Federated_d.py -i myFederation
+  ```
 
-```sh
-RTI -n 2 -i myFederation
-python3 src-gen/Federated/s/Federated_s.py -i myFederation
-python3 src-gen/Federated/d/Federated_d.py -i myFederation
-```
+  </ShowIf>
 
-</div>
+  <ShowIf ts>
 
-<div class="lf-ts">
+  ```sh
+  RTI -n 2 -i myFederation
+  node src-gen/Federated/dist/Federated_s.js -i myFederation
+  node src-gen/Federated/dist/Federated_d.js -i myFederation
+  ```
 
-```sh
-RTI -n 2 -i myFederation
-node src-gen/Federated/dist/Federated_s.js -i myFederation
-node src-gen/Federated/dist/Federated_d.js -i myFederation
-```
-
-</div>
+  </ShowIf>
+</ShowIfs>
 
 Each federate must have the same ID as the RTI in order to join the federation.
 The `bash` script that executes each of the components of the federation automatically generates a unique federation ID each time you run it.
@@ -311,13 +230,13 @@ With centralized coordination, all messages (except those on [physical connectio
 
 The default coordination between mechanisms is **centralized**, equivalent to specifying the target property:
 
-```lf
+```
   coordination: centralized
 ```
 
 An alternative is **decentralized** coordination, which extends a technique realized in [PTIDES](https://ptolemy.berkeley.edu/publications/papers/07/RTAS/) and [Google Spanner](https://dl.acm.org/doi/10.1145/2491245), a globally distributed database system:
 
-```lf
+```
   coordination: decentralized
 ```
 
@@ -327,134 +246,26 @@ In decentralized coordination, each federate and some reactions have a **safe-to
 
 By default, the STP is zero. An STP of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large $after$ clause, or the federate has only one upstream federate sending it messages and it has no local timers or actions. The value of the $after$ delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a $deadline$. For example:
 
-$start(DecentralizedTimerAfter)$
+import C_DecentralizedTimerAfter from '../code/c/src/DecentralizedTimerAfter.lf';
+import Py_DecentralizedTimerAfter from '../code/py/src/DecentralizedTimerAfter.lf';
 
-```lf-c
-target C {
-  timeout: 5 sec,
-  coordination: decentralized
-}
-import Count, Print from "Federated.lf"
-reactor PrintTimer extends Print {
-  timer t(0, 1 sec)
-  reaction(t) {=
-    lf_print("Timer ticked at (%lld, %d).",
-        lf_time_logical_elapsed(), lf_tag().microstep
-    );
-  =}
-}
-federated reactor {
-  c = new Count()
-  p = new PrintTimer()
-  c.out -> p.in after 10 msec
-}
-```
-
-```lf-cpp
-WARNING: No source file found: ../code/cpp/src/DecentralizedTimerAfter.lf
-```
-
-```lf-py
-target Python {
-  timeout: 5 sec,
-  coordination: decentralized
-}
-import Count, Print from "Federated.lf"
-reactor PrintTimer extends Print {
-  timer t(0, 1 sec)
-  reaction(t) {=
-    print(
-        f"Timer ticked at "
-        f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
-    )
-  =}
-}
-federated reactor {
-  c = new Count()
-  p = new PrintTimer()
-  c.out -> p.inp after 10 msec
-}
-```
-
-```lf-ts
-WARNING: No source file found: ../code/ts/src/DecentralizedTimerAfter.lf
-```
-
-```lf-rs
-WARNING: No source file found: ../code/rs/src/DecentralizedTimerAfter.lf
-```
-
-$end(DecentralizedTimerAfter)$
+<NoSelectorTargetCodeBlock c={C_DecentralizedTimerAfter} py={Py_DecentralizedTimerAfter} ts={"DecentralizedTimerAfter.lf missing for TypeScript"} lf />
 
 This example inherits from the Federated example above.
 In this example, as long as the messages from federate `c` arrive at federate `p` within 10 msec, all messages will be processed in tag order, as with an unfederated program.
 
 An alternative to the $after$ delays is to add an STP offset to downstream federates, as in the following example:
 
-$start(DecentralizedTimerSTP)$
+import C_DecentralizedTimerSTP from '../code/c/src/DecentralizedTimerSTP.lf';
+import Py_DecentralizedTimerSTP from '../code/py/src/DecentralizedTimerSTP.lf';
 
-```lf-c
-target C {
-  timeout: 5 sec,
-  coordination: decentralized
-}
-import Count, Print from "Federated.lf"
-reactor PrintTimer(STP_offset: time = 10 msec) extends Print {
-  timer t(0, 1 sec)
-  reaction(t) {=
-    lf_print("Timer ticked at (%lld, %d).",
-        lf_time_logical_elapsed(), lf_tag().microstep
-    );
-  =}
-}
-federated reactor {
-  c = new Count()
-  p = new PrintTimer()
-  c.out -> p.in
-}
-```
-
-```lf-cpp
-WARNING: No source file found: ../code/cpp/src/DecentralizedTimerSTP.lf
-```
-
-```lf-py
-target Python {
-  timeout: 5 sec,
-  coordination: decentralized
-}
-import Count, Print from "Federated.lf"
-reactor PrintTimer(STP_offset = 10 msec) extends Print {
-  timer t(0, 1 sec)
-  reaction(t) {=
-    print(
-        "Timer ticked at "
-        f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
-    )
-  =}
-}
-federated reactor {
-  c = new Count()
-  p = new PrintTimer()
-  c.out -> p.inp
-}
-```
-
-```lf-ts
-WARNING: No source file found: ../code/ts/src/DecentralizedTimerSTP.lf
-```
-
-```lf-rs
-WARNING: No source file found: ../code/rs/src/DecentralizedTimerSTP.lf
-```
-
-$end(DecentralizedTimerSTP)$
+<NoSelectorTargetCodeBlock c={C_DecentralizedTimerSTP} py={Py_DecentralizedTimerSTP} ts={"DecentralizedTimerSTP.lf missing for TypeScript"} lf />
 
 Here, a parameter named `STP_offset` (not case sensitive) gives a time value, and the federate waits this specified amount of time (physical time) beyond a logical time _t_ before advancing its logical time to _t_. In the above example, reactions to the timer events will be delayed by the amount specified by the `STP_offset` parameter. Just as with the use of $after$, if the `STP_offset` exceeds the sum of network latency, clock synchronization error, and execution times, then all events will be processed in tag order.
 
 Of course, the assumptions about network latency, etc., can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation by providing an STP violation handler. The pattern is:
 
-```lf-c
+```lf
 reaction(in) {=
     // User code
 =} STP (0) {=
@@ -464,90 +275,10 @@ reaction(in) {=
 
 If the tag at which this reaction is to be invoked (the value returned by `lf_tag()`) exceeds the tag of an incoming message `in` (the current tag has already advanced beyond the intended tag of `in`), then the `STP` violation handler will be invoked instead of the normal reaction. Within the body of the STP handler, the code can access the intended tag of `in` using `in->intended_tag`, which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly. For example:
 
-$start(DecentralizedTimerAfterHandler)$
+import C_DecentralizedTimerAfterHandler from '../code/c/src/DecentralizedTimerAfterHandler.lf';
+import Py_DecentralizedTimerAfterHandler from '../code/py/src/DecentralizedTimerAfterHandler.lf';
 
-```lf-c
-target C {
-  timeout: 5 sec,
-  coordination: decentralized
-}
-import Count from "Federated.lf"
-reactor PrintTimer {
-  timer t(0, 1 sec)
-  input in: int
-  reaction(in) {=
-    lf_print("Received: %d at (%lld, %d)", in->value,
-        lf_time_logical_elapsed(), lf_tag().microstep
-    );
-  =} STP(0) {=
-    lf_print("****** STP violation handler invoked at (%lld, %d). "
-        "Intended tag was (%lld, %d).",
-        lf_time_logical_elapsed(), lf_tag().microstep,
-        in->intended_tag.time - lf_time_start(), in->intended_tag.microstep
-    );
-  =}
-  reaction(t) {=
-    lf_print("Timer ticked at (%lld, %d).",
-        lf_time_logical_elapsed(), lf_tag().microstep
-    );
-  =}
-}
-federated reactor {
-  c = new Count()
-  p = new PrintTimer()
-  c.out -> p.in after 10 msec
-}
-```
-
-```lf-cpp
-WARNING: No source file found: ../code/cpp/src/DecentralizedTimerAfterHandler.lf
-```
-
-```lf-py
-target Python {
-  timeout: 5 sec,
-  coordination: decentralized
-}
-import Count from "Federated.lf"
-reactor PrintTimer {
-  timer t(0, 1 sec)
-  input inp
-  reaction(inp) {=
-    print(
-        f"Received: {inp.value} "
-        f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
-    )
-  =} STP(0) {=
-    print(
-        "****** STP violation handler invoked at "
-        f"({lf.time.logical_elapsed()}, {lf.tag().microstep}). "
-        "Intended tag was "
-        f"({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep})."
-    )
-  =}
-  reaction(t) {=
-    print(
-        "Timer ticked at "
-        f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
-    )
-  =}
-}
-federated reactor {
-  c = new Count()
-  p = new PrintTimer()
-  c.out -> p.inp after 10 msec
-}
-```
-
-```lf-ts
-WARNING: No source file found: ../code/ts/src/DecentralizedTimerAfterHandler.lf
-```
-
-```lf-rs
-WARNING: No source file found: ../code/rs/src/DecentralizedTimerAfterHandler.lf
-```
-
-$end(DecentralizedTimerAfterHandler)$
+<NoSelectorTargetCodeBlock c={C_DecentralizedTimerAfterHandler} py={Py_DecentralizedTimerAfterHandler} ts={"DecentralizedTimerAfterHandler.lf missing for TypeScript"} lf />
 
 For more advanced users, the LF API provides two functions that can be used to dynamically adjust the STP:
 
@@ -693,5 +424,3 @@ The supported options are:
 - `attenuation`: A positive integer specifying a divisor applied to the estimated clock error during runtime clock synchronization when adjusting the clock offset. The default is `10`. Making this number bigger reduces each adjustment to the clock. Making the number equal to `1` means that each round of clock synchronization fully applies its estimated clock synchronization error.
 
 - `trials`: The number of rounds of message exchange with the RTI in each clock synchronization round. This defaults to `10`.
-
-</div>

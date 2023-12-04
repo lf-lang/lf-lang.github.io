@@ -6,96 +6,24 @@ oneline: "Extending reactors in Lingua Franca."
 preamble: >
 ---
 
-$page-showing-target$
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c py ts rs />
 
 ## Extending a Base Reactor
 
-<div class="lf-cpp">
-
-**The Cpp target does not yet support extending reactors.**
-
-</div>
-
-<div class="lf-c lf-py lf-ts lf-rs">
-
 Lingua Franca supports defining a reactor class as an extension (or subclass), as in the following example:
 
-$start(Extends)$
+import C_Extends from '../code/c/src/Extends.lf';
+import Py_Extends from '../code/py/src/Extends.lf';
+import Rs_Extends from '../code/rs/src/Extends.lf';
+import TS_Extends from '../code/ts/src/Extends.lf';
 
-```lf-c
-target C;
-reactor A {
-  input a:int;
-  output out:int;
-  reaction(a) -> out {=
-    lf_set(out, a->value);
-  =}
-}
-reactor B extends A {
-  input b:int;
-  reaction(a, b) -> out {=
-    lf_set(out, a->value + b->value);
-  =}
-}
-```
-
-```lf-cpp
-WARNING: No source file found: ../code/cpp/src/Extends.lf
-// the cpp target currently does not support reactor extends
-```
-
-```lf-py
-target Python;
-reactor A {
-  input a;
-  output out;
-  reaction(a) -> out {=
-    out.set(a.value)
-  =}
-}
-reactor B extends A {
-  input b;
-  reaction(a, b) -> out {=
-    out.set(a.value + b.value)
-  =}
-}
-```
-
-```lf-ts
-target TypeScript
-reactor A {
-  input a:number
-  output out:number
-  reaction(a) -> out {=
-    out = a
-  =}
-}
-reactor B extends A {
-  input b:number
-  reaction(a, b) -> out {=
-    out = a + b
-  =}
-}
-```
-
-```lf-rs
-target Rust;
-reactor A {
-  input a:u32;
-  output out:u32;
-  reaction(a) -> out {=
-    ctx.set(out, ctx.get(a).unwrap());
-  =}
-}
-reactor B extends A {
-  input b:u32;
-  reaction(a, b) -> out {=
-    ctx.set(out, ctx.get(a).unwrap() + ctx.get(b).unwrap());
-  =}
-}
-```
-
-$end(Extends)$
+<NoSelectorTargetCodeBlock c={C_Extends} py={Py_Extends} rs={Rs_Extends} ts={TS_Extends} lf />
 
 <img alt="Lingua Franca diagram" src="../../img/diagrams/Extends.svg" width="350"/>
 
@@ -105,4 +33,3 @@ One limitation is that a subclass cannot have ports, actions, or state variables
 
 A subclass can extend more than one base class by just providing a comma-separated list of base classes. If reactions in multiple base classes are triggered at the same tag, they will be invoked in the same order that they appear in the comma-separated list.
 
-</div>

@@ -6,15 +6,13 @@ oneline: "Modal Reactors"
 preamble: >
 ---
 
-<div class="lf-cpp lf-rs lf-ts">
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-**Modal Reactors are currently not supported in $target-language$.**
-
-</div>
-
-<div class="lf-c lf-py">
-
-$page-showing-target$
+<LanguageSelector c py />
 
 The basic idea of _modal reactors_ is to partition a reactor into disjoint subsets of reactions (or other components) that are associated with mutually exclusive _modes_.
 In a modal reactor, only a single mode can be active at a particular logical time instant, meaning that activity in other modes is automatically suspended.
@@ -49,6 +47,9 @@ Mode transitions are declared within reactions.
 If a reactor has modes, reactions inside modes are allowed to list them as effects.
 Such an effect enables the use of the target language API to set the next mode.
 
+<ShowIfs>
+<ShowIf c>
+
 ```lf-c
 reaction(trig) -> Two {=
   if (trig->value) {
@@ -57,12 +58,18 @@ reaction(trig) -> Two {=
 =}
 ```
 
+</ShowIf>
+<ShowIf py>
+
 ```lf-py
 reaction(trig) -> Two {=
   if trig.value:
     Two.set()
 =}
 ```
+
+</ShowIf>
+</ShowIfs>
 
 You can also specify the type of the transition by adding the modifier `reset(<mode>)` or `history(<mode>)` in the effects of the
 reaction signature (i.e., after the `->`). For example, a history transition to the state `Two` is enabled by listing `history(Two)`
@@ -103,13 +110,8 @@ In case a mode is entered with the reset behavior:
 Note that _contained_ refers to all contents defined locally in the mode and in local reactor instances (recursively) that are not otherwise enclosed in modes of lower levels.
 
 Whenever a mode is entered with a reset transition, the subsequent timing behavior is as if the mode was never executed before.
-If there are state variables that need to be reset or reinitialized, then this can be done in a reaction triggered by `reset` or by marking the state variable for automatic reset (e.g.,
-<span class="lf-c">`reset state x:int(0)`</span>
-<span class="lf-cpp warning">FIXME</span>
-<span class="lf-py">`reset state x(0)`</span>
-<span class="lf-ts warning">FIXME</span>
-<span class="lf-rs warning">FIXME</span>
-).
+If there are state variables that need to be reset or reinitialized, then this can be done in a reaction triggered by `reset` or by marking the state variable for automatic reset (e.g., <ShowOnly c inline>`reset state x:int(0)`</ShowOnly><ShowOnly py inline>`reset state x(0)`</ShowOnly>).
+
 State variables are not reset automatically to their initial conditions because it is idiomatic for reactors to allocate resources or initialize subsystems (e.g., allocate memory or sockets, register an interrupt, or start a server) in reactions triggered by the `startup`, and to store references to these resources in state variables.
 If these were to be automatically reset, those references would be lost.
 
@@ -171,5 +173,3 @@ Note that this may have unexpected implications:
 - Startup behavior inside modes may occur during execution and not only at program start.
 - Multiple shutdown reactions may be executed, bypassing mutual exclusion of modes.
 - Reactors that are designed without consideration of modes and use only `startup` (not `reset`) to trigger an execution chain, may not work in modes and cease to function if re-entered with a reset.
-
-</div>

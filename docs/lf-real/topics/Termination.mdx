@@ -6,6 +6,14 @@ oneline: "Terminating a Lingua Franca execution."
 preamble: >
 ---
 
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
+
 ## Shutdown Reactions
 
 There are several mechanisms for terminating a Lingua Franca in an orderly fashion.
@@ -34,17 +42,17 @@ If a Lingua Franca program has no [physical actions](<../topics/Actions.mdx#phys
 
 One subtlety is that reactions triggered by $shutdown$ will be invoked one microstep later than the last tag at which there was an event. They cannot be invoked at the same tag because it is only after that last tag has completed that the runtime system can be sure that there are no future events. It would not be correct to trigger the $shutdown$ reactions at that point because it would be impossible to respect the required reaction ordering.
 
-<div class="lf-c lf-py lf-ts">
+<ShowOnly c py ts>
 
 Starvation termination is not currently implemented for federated execution. You will need to use one of the other mechanisms to terminate a federated program.
 
-</div>
+</ShowOnly>
 
 ## Stop Request
 
 If a reaction calls the built-in `request_stop()` function, then it is requesting that the program cease execution as soon as possible. This cessation will normally occur in the next microstep. The current tag will be completed as normal. Then the tag will be advanced by one microstep, and reactions triggered by $shutdown$ will be executed, along with any other reactions with triggers at that tag, with all reactions executed in precedence order.
 
-<div class="lf-c lf-py lf-ts">
+<ShowOnly c py ts>
 
 In a federated execution, things are more complicated. In general, it is not possible to cease execution in the next microstep because this would mean that every federate has a communication channel to every other with delay equal to one microstep. This does not create a causality loop, but it means that all federates have to advance time in lockstep, which creates a global barrier synchronization that would likely kill performance. It would also make decentralized coordination impossible because the safe-to-process (STP) threshold for all federates would diverge to infinity.
 
@@ -54,13 +62,13 @@ When the RTI receives a **STOP_REQUEST** message from a federate, it forwards it
 
 When a federate receives a **STOP_REQUEST** message, it replies with its current logical time _t_, completes its current tag (if one is progress), and blocks, waiting for a **STOP_GRANTED** message from the RTI. When it gets the reply with payload _s_, if _s_ > _t_, then it sets `timeout` = _s_ and continues executing, using the timeout mechanism (see above) to stop. If _s_ = _t_, then it schedules the shutdown phase to occur one microstep later, as in the unfederated case.
 
-</div>
+</ShowOnly>
 
 ## External Signal
 
 A control-C or other kill signal to a running Lingua Franca program will cause execution to stop immediately.
 
-<div class="lf-c lf-py lf-ts">
+<ShowOnly c py ts>
 
 For federated programs, each federate and the RTI catches external signals to shut down in an orderly way.
 
@@ -68,4 +76,4 @@ When a federate gets such an external signal (e.g. control-C), it sends a **RESI
 
 When the RTI gets such an external signal (e.g. control-C), it broadcasts a **STOP_REQUEST** message to all federates, waits for their replies (with a timeout in case the federate or the network has failed), chooses the maximum timestamp _s_ on the replies, broadcasts a **STOP_GRANTED** message to all federates with payload _s_, and waits for **LOGICAL_TIME_COMPLETE** messages as above.
 
-</div>
+</ShowOnly>
