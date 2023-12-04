@@ -26,7 +26,7 @@ export const LangSpecific = (
             key={target}
             value={target}
             label={TargetToNameMap.get[target]}
-          // attributes={{ className: styles.hidden }}
+            attributes={{ className: styles.hidden }}
           >
             {content ?? ''}
           </TabItem>

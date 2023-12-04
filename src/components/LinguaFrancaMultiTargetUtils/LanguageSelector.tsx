@@ -1,9 +1,9 @@
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
-import { type Targets, TargetToNameMap } from './index';
+import { type TargetsType, TargetToNameMap } from './index';
 
 // String-like keys will preserve insertion ordering. This is hacky but it looks nicer.
-export const LanguageSelector = (props: Record<Targets, boolean | null>): JSX.Element => {
+export const LanguageSelector = (props: Record<TargetsType, boolean | null>): JSX.Element => {
   if (Object.values(props).every((val) => (val == false))) {
     throw (new class extends Error {
       constructor() {
@@ -26,17 +26,11 @@ export const LanguageSelector = (props: Record<Targets, boolean | null>): JSX.El
   return (
     <>
       <p>This article has examples in the following target languages:</p>
-      <Tabs groupId="target-languages" queryString>
-        {Object.entries(ordered).map(
-          (e: [Targets, boolean], i) => {
-            return e[1] && (
-              <TabItem key={e[0]} value={e[0]} label={TargetToNameMap.get(e[0])}>
-                <></>
-              </TabItem>
-            );
-          }
-        )}
-      </Tabs>
+      <Tabs groupId="target-languages" 
+      queryString 
+      values={Object.entries(ordered).map(
+          ([lang, exist]: [TargetsType, boolean], i) => (exist && {value: lang, label: TargetToNameMap.get(lang)})
+        )} children={[]} />
     </>
   );
 };

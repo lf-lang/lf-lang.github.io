@@ -1,9 +1,13 @@
 import React, { useState, useEffect, ReactNode } from 'react';
+import { LangSpecific } from './LangSpecific';
+// This is a rather dirty hack, but it's kinda a necessary evil......
+import { useTabs, type TabsProps } from '@docusaurus/theme-common/internal';
+import style from "./styles.module.css";
+
 export { LanguageSelector } from './LanguageSelector';
 export { DynamicMultiTargetCodeblock } from './DynamicMultiTargetCodeblock';
 export { LangSpecific, NoSelectorTargetCodeBlock } from './LangSpecific';
 export { ShowIf, ShowIfs } from './ShowIf';
-import { LangSpecific } from './LangSpecific';
 
 // See https://danielbarta.com/literal-iteration-typescript/
 export const targets = ['c', 'cpp', 'py', 'rs', 'ts'] as const;
@@ -30,18 +34,41 @@ export const ShowOnly = ({
 }: Record<TargetsType, boolean> & {
   children: ReactNode;
 }): JSX.Element => {
-  const newProp: Record<TargetsType, ReactNode> = {} as Record<
-    TargetsType,
-    ReactNode
-  >;
-  targets.forEach((e) => {
-    // Convert JSX.Element[] to be JSX.Element
-    newProp[e] = suppliedTargets[e] ? children : null;
-  });
+  // We "fake" a tab here to receive metadata. This way the website doesn't look weird when things are hidden......
+  // useTabs is supposed to be internal though.... But we use it anyway. It could break I guess??
+  const fakeTabProps: TabsProps = {
+    values: [...TargetToNameMap].map(([target, targetName]) => ({ value: target, label: targetName })),
+    children: [],
+    groupId: "target-languages",
+  };
+  const { selectedValue, selectValue, tabValues } = useTabs(fakeTabProps);
 
-  useEffect(() => {
-    console.log(newProp);
-  }, []);
+  return (
+    <div className={suppliedTargets[selectedValue] === true ? null : style.hidden}>
+      {children}
+    </div>
+  );
 
-  return <LangSpecific {...newProp} />;
 };
+
+export const LangSpecificInlineForString = (contents: Record<TargetsType, ReactNode>): JSX.Element => {
+  // We show all and hide some of them to not hurt SEO.
+  const fakeTabProps: TabsProps = {
+    values: [...TargetToNameMap].map(([target, targetName]) => ({ value: target, label: targetName })),
+    children: [],
+    groupId: "target-languages",
+  };
+  const { selectedValue, selectValue, tabValues } = useTabs(fakeTabProps);
+
+  const propArr: [TargetsType, string?][] = Object.entries(contents) as [
+    TargetsType,
+    string?
+  ][];
+
+  // Because it's inline, we use span instead of div.
+  return (<>
+    {propArr.map(([target, content]) => (
+      <span className={target === selectedValue ? null : style.hidden}>{content}</span>
+    ))}
+  </>);
+}

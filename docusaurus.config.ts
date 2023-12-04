@@ -142,7 +142,7 @@ const config: Config = {
           rules: [
             {
               // Any LF file that lies in path where some directory is named "codes"
-              test: /codes\/.*\.lf$/,
+              test: /codes?\/.*\.lf$/,
               type: "asset/source",
             },
           ],

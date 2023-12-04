@@ -21,7 +21,7 @@ export const ShowIfs = ({
   Children.forEach(children, (e) => {
     // TODO: Change to hasOwn
     targets.forEach((target) => {
-      // If children doesn't dontain target language or is false, do nothing
+      // If children doesn't contain target language or is false, do nothing
       if (!(e.props[target] ?? false)) return;
       // Children does contain target language, but it has been declared and propArr contains it
       if (propArr[target] != null)
