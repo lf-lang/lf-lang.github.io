@@ -34,6 +34,7 @@ const config: Config = {
     [
       'classic',
       {
+        debug: true,
         docs: {
           sidebarPath: './sidebars.ts',
           // Please change this to your repo.
@@ -63,10 +64,10 @@ const config: Config = {
     // Replace with your project's social card
     image: 'img/docusaurus-social-card.jpg',
     navbar: {
-      title: 'My Site',
       logo: {
         alt: 'The Lingua Franca Logo',
-        src: 'img/logo.svg',
+        src: 'img/lf-forlight.svg',
+        srcDark: "img/lf-fordark.svg",
       },
       items: [
         {
