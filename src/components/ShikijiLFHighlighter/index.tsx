@@ -22,6 +22,7 @@ export const ShikijiLFHighlighter = ({ children, ...props }: { children: string 
     // You can try moving it in but you will discover https://stackoverflow.com/a/57931828/22274983
     useEffect(() => {
         (async () => {
+            if (!isBrowser) return;
             const shiki = await loadShikiji();
             setCode(
                 shiki.codeToHtml(children, {
@@ -33,21 +34,6 @@ export const ShikijiLFHighlighter = ({ children, ...props }: { children: string 
     }, [colorMode]);
 
     if (isBrowser) {
-        // Show unhighlighted code first for SEO???
-        const [code, setCode] = useState(`<div>${children}</div>`);
-    
-        useEffect(() => {
-            (async () => {
-                const shiki = await loadShikiji();
-                setCode(
-                    shiki.codeToHtml(children, {
-                        lang: 'Lingua Franca',
-                        theme: (colorMode === "light") ? 'material-theme-lighter' : 'material-theme-darker',
-                    })
-                );
-            })();
-        }, [colorMode]);
-    
         return <div dangerouslySetInnerHTML={{ __html: code }} />;
     } else {
         return <div>{children}</div>
