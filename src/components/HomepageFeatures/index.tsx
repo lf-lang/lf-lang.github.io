@@ -2,41 +2,46 @@ import clsx from 'clsx';
 import Heading from '@theme/Heading';
 import styles from './styles.module.css';
 import { ReactElement } from 'react';
+import Translate from '@docusaurus/Translate';
 
-type FeatureItem = {
+interface FeatureItem {
   title: string;
   Svg: React.ComponentType<React.ComponentProps<'svg'>>;
   description: JSX.Element;
-};
+}
+
+import Mountain from '@site/static/img/undraw_docusaurus_mountain.svg';
+import Tree from "@site/static/img/undraw_docusaurus_tree.svg";
+import SaurusReact from "@site/static/img/undraw_docusaurus_react.svg";
 
 const FeatureList: FeatureItem[] = [
   {
     title: 'Composable',
-    Svg: require('@site/static/img/undraw_docusaurus_mountain.svg').default,
+    Svg: Mountain,
     description: (
-      <>
+      <Translate>
         Reactors are composable software components with inputs, outputs, and local state.
-      </>
+      </Translate>
     ),
   },
   {
     title: 'Concurrent',
-    Svg: require('@site/static/img/undraw_docusaurus_tree.svg').default,
+    Svg: Tree,
     description: (
-      <>
+      <Translate>
         Reactions to events are concurrent unless there is an explicit
         dependency between them.
-      </>
+      </Translate>
     ),
   },
   {
     title: 'Deterministic',
-    Svg: require('@site/static/img/undraw_docusaurus_react.svg').default,
+    Svg: SaurusReact,
     description: (
-      <>
+      <Translate>
         Lingua Franca programs are deterministic by default and therefore easy
         to test.
-      </>
+      </Translate>
     ),
   }
 ];

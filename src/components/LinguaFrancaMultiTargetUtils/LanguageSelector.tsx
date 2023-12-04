@@ -1,6 +1,6 @@
 import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 import { type TargetsType, TargetToNameMap } from './index';
+import Translate from '@docusaurus/Translate';
 
 // String-like keys will preserve insertion ordering. This is hacky but it looks nicer.
 export const LanguageSelector = (props: Record<TargetsType, boolean | null>): JSX.Element => {
@@ -25,11 +25,17 @@ export const LanguageSelector = (props: Record<TargetsType, boolean | null>): JS
 
   return (
     <>
-      <p>This article has examples in the following target languages:</p>
+      <p>
+        <Translate>
+          This article has examples in the following target languages:
+        </Translate>
+      </p>
       <Tabs groupId="target-languages" 
       queryString 
-      values={Object.entries(ordered).map(
-          ([lang, exist]: [TargetsType, boolean], i) => (exist && {value: lang, label: TargetToNameMap.get(lang)})
+      values={Object.entries(ordered)
+        .filter(([lang, exist]: [TargetsType, boolean]) => (exist))
+        .map(
+          ([lang, exist]: [TargetsType, boolean]) => ({value: lang, label: TargetToNameMap.get(lang)})
         )} children={[]} />
     </>
   );

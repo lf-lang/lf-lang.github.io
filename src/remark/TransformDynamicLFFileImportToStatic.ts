@@ -69,7 +69,7 @@ const getStaticCodeBlock = (targetToExpression: [string, string][]) => {
             }
           }
         }
-      }
+      } as never // This looks like a disaster! But otherwise TS will complain lmao
     );
   });
 

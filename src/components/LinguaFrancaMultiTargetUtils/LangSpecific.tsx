@@ -7,13 +7,14 @@ import { ReactNode, useEffect, useState } from 'react';
 import { ShikijiLFHighlighter } from '../ShikijiLFHighlighter';
 
 interface WebpackImportedRawModule {
-  default: { readonly [key: string]: string };
+  default: Readonly<Record<string, string>>;
   [key: string]: unknown;
 }
 
 export const LangSpecific = (
   props: Record<TargetsType, ReactNode>
-): JSX.Element => {
+// Make ESLint happy
+): JSX.Element | false => {
   const propArr: [TargetsType, string?][] = Object.entries(props) as [
     TargetsType,
     string?
@@ -25,6 +26,8 @@ export const LangSpecific = (
           <TabItem
             key={target}
             value={target}
+            // Idk what happened here
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             label={TargetToNameMap.get[target]}
             attributes={{ className: styles.hidden }}
           >
@@ -39,35 +42,12 @@ export const LangSpecific = (
 
 export const NoSelectorTargetCodeBlock = (
   props:
-    ({ allowAsync?: false; lf: boolean } & Record<TargetsType, string>) |
-    ({ allowAsync: true; lf: boolean } & Record<TargetsType, string | Promise<WebpackImportedRawModule>>)
+    ({ lf: boolean } & Record<TargetsType, string | null>) |
+    ({ lf: boolean } & Record<TargetsType, string | Promise<WebpackImportedRawModule | null>>)
 ): JSX.Element => {
   const Component = props.lf ? ShikijiLFHighlighter : CodeBlock;
-  // I know, using === on boolean looks dumb, but this makes TS discriminated union work!
-  if (props.allowAsync === true) {
-    // Idem. I would like to do destruction above, but that will affect TS type system!
-    const { allowAsync, lf, ...targetToCode } = props;
-    // Although honestly, this is not really needed. We should prefer static import over this async one.
-    const [newProps, setNewProps] = useState<Record<TargetsType, ReactNode>>({} as Record<
-      TargetsType,
-      ReactNode
-    >);
-
-    useEffect(() => {
-      (async () => {
-        Object.entries(targetToCode).forEach(async ([target, content]: [TargetsType, string | Promise<WebpackImportedRawModule>]) => {
-          const resolvedContent = await Promise.resolve(content);
-          setNewProps(prev => ({
-            [target]: <Component language={target}>{typeof resolvedContent === "string" ? resolvedContent : resolvedContent.default.toString()}</Component>,
-            ...prev
-          }));
-        });
-      })();
-    }, []);
-
-    return <LangSpecific {...newProps} />;
-  } else {
-    const { allowAsync, lf, ...targetToCode } = props;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { lf, ...targetToCode } = props;
     const newProps: Record<TargetsType, ReactNode> = {} as Record<
       TargetsType,
       ReactNode
@@ -77,5 +57,4 @@ export const NoSelectorTargetCodeBlock = (
     });
 
     return <LangSpecific {...newProps} />;
-  }
 };

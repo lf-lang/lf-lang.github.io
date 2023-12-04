@@ -1,6 +1,7 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TransformDynamicLFFileImportToStatic } from './src/remark/TransformDynamicLFFileImportToStatic';
 import redirects from "./docs/lagacy_routing";
 
@@ -144,9 +145,9 @@ const config: Config = {
         // We don't use createRedirects because directory structure has changed.
       },
     ],
-    (context, options) => ({
+    () => ({
       name: 'read-lf-source-code-files',
-      configureWebpack: (config, isServer, utils) => ({
+      configureWebpack: () => ({
         module: {
           rules: [
             {
