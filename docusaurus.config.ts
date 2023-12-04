@@ -1,7 +1,8 @@
 import {themes as prismThemes} from 'prism-react-renderer';
 import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
-import { TransformDynamicLFFileImportToStatic } from './src/remark/TransformDynamicLFFileImportToStatic'
+import { TransformDynamicLFFileImportToStatic } from './src/remark/TransformDynamicLFFileImportToStatic';
+import redirects from "./docs/lagacy_routing";
 
 const config: Config = {
   title: 'Lingua Franca',
@@ -136,6 +137,13 @@ const config: Config = {
 
   plugins: [
     ['@docusaurus/plugin-ideal-image', {}],
+    [
+      '@docusaurus/plugin-client-redirects',
+      {
+        redirects: redirects,
+        // We don't use createRedirects because directory structure has changed.
+      },
+    ],
     (context, options) => ({
       name: 'read-lf-source-code-files',
       configureWebpack: (config, isServer, utils) => ({

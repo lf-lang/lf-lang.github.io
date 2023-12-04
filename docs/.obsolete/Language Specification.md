@@ -1,6 +1,5 @@
 ---
 title: Language Specification
-permalink: /docs/handbook/language-specification
 description: Language Specification for Lingua Franca.
 ---
 

@@ -1,6 +1,5 @@
 ---
 title: Overview
-permalink: /docs/handbook/overview
 description: Overview of Lingua Franca.
 ---
 
