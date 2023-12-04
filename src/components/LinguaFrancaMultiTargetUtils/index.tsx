@@ -7,7 +7,7 @@ import style from "./styles.module.css";
 export { LanguageSelector } from './LanguageSelector';
 export { DynamicMultiTargetCodeblock } from './DynamicMultiTargetCodeblock';
 export { LangSpecific, NoSelectorTargetCodeBlock } from './LangSpecific';
-export { ShowIf, ShowIfs } from './ShowIf';
+export { ShowIf, ShowIfs, ShowIfsInline } from './ShowIf';
 
 // See https://danielbarta.com/literal-iteration-typescript/
 export const targets = ['c', 'cpp', 'py', 'rs', 'ts'] as const;
@@ -30,9 +30,11 @@ export const TargetToOrderingMap: Map<TargetsType, number> = new Map([
 
 export const ShowOnly = ({
   children,
+  inline,
   ...suppliedTargets
 }: Record<TargetsType, boolean> & {
   children: ReactNode;
+  inline?: boolean;
 }): JSX.Element => {
   // We "fake" a tab here to receive metadata. This way the website doesn't look weird when things are hidden......
   // useTabs is supposed to be internal though.... But we use it anyway. It could break I guess??
@@ -42,33 +44,11 @@ export const ShowOnly = ({
     groupId: "target-languages",
   };
   const { selectedValue, selectValue, tabValues } = useTabs(fakeTabProps);
+  const ShowOnlyTag = inline === true ? "span" : "div";
 
   return (
-    <div className={suppliedTargets[selectedValue] === true ? null : style.hidden}>
+    <ShowOnlyTag className={suppliedTargets[selectedValue] === true ? undefined : style.hidden}>
       {children}
-    </div>
+    </ShowOnlyTag>
   );
-
 };
-
-export const LangSpecificInlineForString = (contents: Record<TargetsType, ReactNode>): JSX.Element => {
-  // We show all and hide some of them to not hurt SEO.
-  const fakeTabProps: TabsProps = {
-    values: [...TargetToNameMap].map(([target, targetName]) => ({ value: target, label: targetName })),
-    children: [],
-    groupId: "target-languages",
-  };
-  const { selectedValue, selectValue, tabValues } = useTabs(fakeTabProps);
-
-  const propArr: [TargetsType, string?][] = Object.entries(contents) as [
-    TargetsType,
-    string?
-  ][];
-
-  // Because it's inline, we use span instead of div.
-  return (<>
-    {propArr.map(([target, content]) => (
-      <span className={target === selectedValue ? null : style.hidden}>{content}</span>
-    ))}
-  </>);
-}
