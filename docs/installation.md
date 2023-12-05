@@ -1,8 +1,8 @@
 ---
-title: Installing Lingua Franca
+title: Installation
 ---
 
-# Download and Install
+# Installation
 
 The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](<./reference/Target Language Details.mdx#requirements>) page and select your target language).
 
@@ -56,8 +56,8 @@ Run the following command in your terminal to install the latest release (on Win
 curl -Ls https://install.lf-lang.org | bash -s epoch
 ```
 
-```
 You can also install the nightly pre-release:
+```
 curl -Ls https://install.lf-lang.org | bash -s epoch nightly
 ```
 

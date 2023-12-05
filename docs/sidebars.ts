@@ -22,7 +22,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       "type": "doc",
-      "id": "Tutorial Video"
+      "id": "Tutorial Videos"
     },
     {
       "type": "category",
