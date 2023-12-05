@@ -24,7 +24,7 @@ import {
 <ShowIfs>
 <ShowIf c>
 
-In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on macOS, Linux, Windows, and at least one bare-iron embedded platform. The single-threaded version (which you get by setting the [`threading` target parameter](<./Target Declaration.mdx#threading) to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the POSIX thread library (`pthreads`>) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
+In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on macOS, Linux, Windows, and at least one bare-iron embedded platform. The single-threaded version (which you get by setting the `threading` target parameter to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the POSIX thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
 
 Note that C is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Here, we provide some guidelines for a style for writing reactors that will be safe.
 
@@ -289,8 +289,7 @@ Note that for all LF statements, a final semicolon is optional. If you are writi
 Reactor parameters and state variables are referenced in the C code using the
 `self` struct. The following
 [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/Stride.lf)
-example modifies the `Count` reactor in [State
-Declaration](<../writing-reactors/Parameters and State Variables.mdx#state-declaration>) to
+example modifies the `Count` reactor in [State Declaration](<../writing-reactors/Parameters and State Variables.mdx>) to
 include both a parameter and a state variable:
 
 ```lf-c
@@ -567,8 +566,7 @@ Reactor parameters and state variables are referenced in the Python code using
 the syntax `self.<name>`, where `<name>` is the name of the parameter or state
 variable. The following
 [Stride](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/Stride.lf)
-example modifies the `Count` reactor in [State
-Declaration](<../writing-reactors/Parameters and State Variables.mdx#state-declaration>) to
+example modifies the `Count` reactor in [State Declaration](<../writing-reactors/Parameters and State Variables.mdx#state-declaration>) to
 include both a parameter and a state variable:
 
 ```lf-py
@@ -586,8 +584,7 @@ reactor Count(stride=1) {
 This defines a `stride` parameter with initial value `1` and a `count` state
 variable with the same initial value. These are referenced in the reaction with
 the syntax `self.stride` and `self.count` respectively. Note that state
-variables and parameters do not have types in the Python reactor target. See [Parameters
-and State](<../writing-reactors/Parameters and State Variables.mdx>) for more examples.
+variables and parameters do not have types in the Python reactor target. See [Parameters and State](<../writing-reactors/Parameters and State Variables.mdx>) for more examples.
 
 **The Reactor Class:**
 The code generator synthesizes a class in Python for each reactor class in LF,
@@ -884,7 +881,7 @@ Parameters and state variables in Rust are accessed on the `self` structure, as 
 
 In the body of a reaction in the C target, the value of an input is obtained using the syntax `name->value`, where `name` is the name of the input port. See, for example, the `Destination` reactor in [Input and Output Declarations](<../writing-reactors/Inputs and Outputs.mdx#input-and-output-declarations>).
 
-To set the value of outputs, use `lf_set`. See, for example, the `Double` reactor in [Input and Output Declarations](<../writing-reactors/Inputs and Outputs.mdx#input-and-output-declarations).>)
+To set the value of outputs, use `lf_set`. See, for example, the `Double` reactor in [Input and Output Declarations](<../writing-reactors/Inputs and Outputs.mdx#input-and-output-declarations)>).
 
 An output may even be set in different reactions of the same reactor at the same tag. In this case, one reaction may wish to test whether the previously invoked reaction has set the output. It can check `name->is_present` to determine whether the output has been set. For example, the `Source` reactor in the test case [TestForPreviousOutput](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/TestForPreviousOutput.lf) will always produce the output 42:
 
@@ -1394,8 +1391,7 @@ In the body of a reaction in the Python target, the value of an input is
 obtained using the syntax `name.value`, where `name` is the name of the input
 port. To determine whether an input is present, use `name.is_present`. To
 produce an output, use the syntax `name.set(value)`. The `value` can be any
-valid Python object. For simple examples, see [Inputs and
-Outputs](<../writing-reactors/Inputs and Outputs.mdx>).
+valid Python object. For simple examples, see [Inputs and Outputs](<../writing-reactors/Inputs and Outputs.mdx>).
 
 ### Sending and Receiving Objects
 
@@ -2170,7 +2166,7 @@ FIXME: details needed here on time in Rust.
 <ShowIfs>
 <ShowIf c>
 
-Actions are described in [Actions](<../writing-reactors/Actions.mdx>). If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
+Actions are described in [Actions](../writing-reactors/Actions.mdx). If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
 
 Recall from [Composing Reactors](<../writing-reactors/Composing Reactors.mdx>) that the $after$ keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayInt.lf) example:
 
@@ -2252,7 +2248,7 @@ Of course, to produce a counting sequence, it would be more efficient to use a s
 </ShowIf>
 <ShowIf cpp>
 
-The C++ provides a simple interface for scheduling actions via a `schedule()` method. Actions are described in the [Actions](<../writing-reactors/Actions.mdx>) document. Consider the [Schedule](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Schedule.lf) reactor:
+The C++ provides a simple interface for scheduling actions via a `schedule()` method. Actions are described in the [Actions](../writing-reactors/Actions.mdx) document. Consider the [Schedule](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/Schedule.lf) reactor:
 
 ```lf-cpp
 reactor Schedule {
@@ -2290,13 +2286,13 @@ then when the reaction to `a` is triggered, the input `x` will be absent (it was
 
 As discussed above the he metric time is visible to the programmer and can be obtained in a reaction using either `get_elapsed_logical_time()` or `get_logical_time()`.
 
-As described in the [Action](<../writing-reactors/Actions.mdx>) document, action declarations can have a _min_delay_ parameter. This modifies the timestamp further. Also, the action declaration may be **physical** rather than **logical**, in which case, the assigned timestamp will depend on the physical clock of the executing platform.
+As described in the [Action](../writing-reactors/Actions.mdx) document, action declarations can have a _min_delay_ parameter. This modifies the timestamp further. Also, the action declaration may be **physical** rather than **logical**, in which case, the assigned timestamp will depend on the physical clock of the executing platform.
 
 ### Actions With Values
 
 If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
 
-Recall from the [Composing Reactors](<../writing-reactors/Composing Reactors.mdx#connections-with-logical-delays) section that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/DelayInt.lf>) example:
+Recall from the [Composing Reactors](<../writing-reactors/Composing Reactors.mdx#connections-with-logical-delays>) section that the **after** keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/DelayInt.lf) example:
 
 ```lf-cpp
 reactor Delay(delay: time = 100 ms) {
@@ -2368,7 +2364,7 @@ Of course, to produce a counting sequence, it would be more efficient to use a s
 </ShowIf>
 <ShowIf py>
 
-Actions are described [here](<../writing-reactors/Actions.mdx>). Actions can carry a
+Actions are described [here](../writing-reactors/Actions.mdx). Actions can carry a
 **value**, a Python object that becomes available to any reaction triggered by
 the action. This is particularly useful for physical actions that are externally
 triggered because it enables the action to convey information to the reactor.
@@ -2775,7 +2771,7 @@ Which type of messages are actually produced by the compiled program can be cont
 </ShowIf>
 <ShowIf py>
 
-The Python supports the [logging](<../reference/Target Declaration.mdx#logging) target specification. This will cause the runtime to produce more or less information about the execution. However, user-facing functions for different logging levels are not yet implemented (see issue [#619](https://github.com/lf-lang/lingua-franca/issues/619)>).
+The Python supports the [logging](<../reference/Target Declaration.mdx#logging>) target specification. This will cause the runtime to produce more or less information about the execution. However, user-facing functions for different logging levels are not yet implemented (see issue [#619](https://github.com/lf-lang/lingua-franca/issues/619)).
 
 </ShowIf>
 <ShowIf ts>
@@ -2975,7 +2971,7 @@ The execution algorithm ensures that no reaction executes until all reactions th
 
 ### Single Threaded Implementation
 
-By giving the `single-threaded` (target option)[/docs/handbook/target-declaration#single-threaded] or the `--single-threaded` (command-line argument)[/docs/handbook/target-declaration#command-line-arguments], the generated program will execute the program using only a single thread. This option is most useful for creating programs to run on bare-metal microprocessors that have no threading support. On such platforms, mutual exclusion is typically realized by disabling interrupts.
+By giving the `single-threaded` [target option](<../reference/Target Declaration.mdx#single-threaded>) or the `--single-threaded` [command-line argument](<../reference/Target Declaration.mdx#command-line-arguments>), the generated program will execute the program using only a single thread. This option is most useful for creating programs to run on bare-metal microprocessors that have no threading support. On such platforms, mutual exclusion is typically realized by disabling interrupts.
 
 The execution strategy is to have two queues of pending accessor invocations, one that is sorted by
 tag (the **event queue**) and one that is sorted by priority (the **reaction queue**).
@@ -2983,9 +2979,9 @@ Execution proceeds as follows:
 
 1. At initialization, an event for each timer is put on the event queue and logical time is initialized to the current time, represented as the number of nanoseconds elapsed since January 1, 1970.
 
-2. At each logical time, pull all events from event queue that have the same earliest tag, find the reactions that these events trigger, and put them on the reaction queue. If there are no events on the event queue, then exit the program (unless the `--keepalive true` (command-line argument)[/docs/handbook/target-declaration#command-line-arguments] is given).
+2. At each logical time, pull all events from event queue that have the same earliest tag, find the reactions that these events trigger, and put them on the reaction queue. If there are no events on the event queue, then exit the program (unless the `--keepalive true` [command-line argument](<../reference/Target Declaration.mdx#command-line-arguments>) is given).
 
-3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` (command-line argument)[/docs/handbook/target-declaration#command-line-arguments] is given). Then advance logical time to match that earliest timestamp.
+3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` [command-line argument](<../reference/Target Declaration.mdx#command-line-arguments>) is given). Then advance logical time to match that earliest timestamp.
 
 4. Execute reactions in order of priority from the reaction queue. These reactions may produce outputs, which results in more events getting put on the reaction queue. Those reactions are assured of having lower priority than the reaction that is executing. If a reaction calls `lf_schedule()`, an event will be put on the event queue, not the reaction queue.
 

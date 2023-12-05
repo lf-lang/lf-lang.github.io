@@ -20,9 +20,9 @@ A reaction declaration has the following form:
 ```
 
 Each reaction declares its triggers, uses, and effects:
-- The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](<../writing-reactors/Composing Reactors.mdx#hierarchy>), [timers](<../writing-reactors/Time and Timers.mdx#timers>), [actions](<../writing-reactors/Actions.mdx>), or the special events $startup$, $shutdown$, and $reset$ (explained [here](#startup-shutdown-and-reset-reactions)>). There must be at least one trigger for each reaction.
+- The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](<../writing-reactors/Composing Reactors.mdx#hierarchy>), [timers](<../writing-reactors/Time and Timers.mdx#timers>), [actions](../writing-reactors/Actions.mdx), or the special events $startup$, $shutdown$, and $reset$ (explained [here](#startup-shutdown-and-reset-reactions)>). There must be at least one trigger for each reaction.
 - The **uses** field, which is optional, specifies input ports (or output ports of contained reactors) that do not trigger execution of the reaction but may be read by the reaction.
-- The **effects** field, which is also optional, is a comma-separated lists of output ports ports, input ports of contained reactors, or [actions](<../writing-reactors/Actions.mdx>).
+- The **effects** field, which is also optional, is a comma-separated lists of output ports ports, input ports of contained reactors, or [actions](../writing-reactors/Actions.mdx).
 
 Reactions may optionally be named. The name is cosmetic and may serve as additional documentation. Note that reactions cannot be called like functions, even if they are named.
 
@@ -107,7 +107,7 @@ This reaction will be logically simultaneous with reactions to [timers](<../writ
 As usual, for logically simultaneous reactions declared within the same reactor, the order in which they are invoked will be governed by the order in which they are declared.
 
 A reaction to $shutdown$ is invoked at program termination.
-See the [Termination](<../writing-reactors/Termination.mdx>) section for details.
+See the [Termination](../writing-reactors/Termination.mdx) section for details.
 
 <ShowIfs>
 

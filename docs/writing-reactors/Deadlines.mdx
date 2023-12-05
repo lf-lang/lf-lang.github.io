@@ -61,7 +61,7 @@ Notice that the deadline is annotated in the diagram with a small clock symbol.
 
 <ShowOnly c>
 
-Notice that the deadline violation here is caused by an invocation of `lf_sleep`, defined in `"platform.h"` (see [Libraries Available to Programmers](/docs/handbook/target-language-details?target=c#libraries-available-to-programmers)).
+Notice that the deadline violation here is caused by an invocation of `lf_sleep`, defined in `"platform.h"` (see [Libraries Available to Programmers](<../reference/Target Language Details.mdx#libraries-available-to-programmers>)).
 It is not generally advisable for a reaction to sleep because this can block other reactions from executing.
 But this is exactly what we are trying to accomplish here in order to force a deadline to be violated.
 

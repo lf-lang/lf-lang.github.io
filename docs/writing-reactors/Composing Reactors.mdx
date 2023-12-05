@@ -50,7 +50,7 @@ The `<parameters>` argument is a comma-separated list of assignments:
     <parameter_name> = <value>, ...
 ```
 
-Like the default value for parameters, `<value>` can be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, target-language code enclosed in `{= ... =}`, or any of the list forms described in [Expressions](<../reference/Expressions.mdx>).
+Like the default value for parameters, `<value>` can be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, target-language code enclosed in `{= ... =}`, or any of the list forms described in [Expressions](../reference/Expressions.mdx).
 
 ## Connections
 
@@ -170,7 +170,7 @@ Connections may include a **logical delay** using the $after$ keyword, as follow
   <source_port_reference> -> <destination_port_reference> after <time_value>
 ```
 
-where `<time_value>` can be any of the forms described in [Expressions](<../reference/Expressions.mdx>).
+where `<time_value>` can be any of the forms described in [Expressions](../reference/Expressions.mdx).
 
 The $after$ keyword specifies that the logical time of the event delivered to the destination port will be larger than the logical time of the reaction that wrote to source port. The time value is required to be non-negative, but it can be zero, in which case the input event at the receiving end will be one [microstep](<../writing-reactors/Actions.mdx#superdense-time>) later than the event that triggered it.
 

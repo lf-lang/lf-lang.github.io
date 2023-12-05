@@ -46,7 +46,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**scheduler**](#scheduler): (C only) Specification of the scheduler to us.
 - [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](#single-file-layout).
 - [**threading**](#threading): Whether to use multiple threads.
-- [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](<../writing-reactors/Termination.mdx>).
+- [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](../writing-reactors/Termination.mdx).
 - [**workers**](#workers): If using multiple threads, how many worker threads to create.
 
 Not all targets support all target parameters. The full set of target parameters supported by the target is:
@@ -146,7 +146,7 @@ A target may support overriding the target parameters on the [command line](#com
 
 <ShowIfs>
 <ShowIf c>
-The detailed documentation is [here](<../reference/Security.mdx>).
+The detailed documentation is [here](../reference/Security.mdx).
 </ShowIf>
 <ShowIf cpp py ts rs>
 This target does not currently support the `auth` target option.
@@ -539,7 +539,7 @@ This target does not support the `logging` parameter.
 <ShowIf c py>
 By default, when executing a generated Lingua Franca program, error messages, warnings, and informational messages are printed to standard out. You can get additional information printed by setting the `logging` parameter to `LOG` or `DEBUG` (or `log` or `debug`). The latter is more verbose. If you set the `logging` parameter to `warn`, then warnings and errors will be printed, but informational messages will not (e.g. message produced using the `info_print` utility function). If you set `logging` to `error`, then warning messages will also not be printed.
 
-The C and Python targets also support [tracing](<../reference/Tracing.mdx>), which outputs binary traces of an execution rather than human-readable text and is designed to have minimal impact on performance.
+The C and Python targets also support [tracing](../reference/Tracing.mdx), which outputs binary traces of an execution rather than human-readable text and is designed to have minimal impact on performance.
 <ShowOnly cpp>
 The `logging` option is one of `error`, `warn`, `info`, `log` or `debug`. It specifies the level of diagnostic messages about execution to print to the console. A message will print if this parameter is greater than or equal to the level of the message, where `error` < `warn` < `info` < `log` < `debug`. The default value is `info`, which means that messages log or debug messages will not print.
 </ShowOnly>
@@ -621,7 +621,7 @@ This specifies a set of Rust modules in the generated project. See [Linking supp
 This target does not support the `scheduler` target option.
 </ShowIf>
 <ShowIf rs>
-This specifies the scheduler to use. See[Target Language Details](/docs/handbook/target-language-details?target=c#scheduler-target-property).
+This specifies the scheduler to use. See[Target Language Details](<../reference/Target Language Details.mdx#scheduler-target-property>).
 </ShowIf>
 </ShowIfs>
 
@@ -658,7 +658,7 @@ See [workers](#workers).
 
 ## timeout
 
-A time value (with units) specifying the logical stop time of execution. See [Termination](<../writing-reactors/Termination.mdx>).
+A time value (with units) specifying the logical stop time of execution. See [Termination](../writing-reactors/Termination.mdx).
 
 ## workers
 

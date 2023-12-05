@@ -4,7 +4,7 @@ title: Installing Lingua Franca
 
 # Download and Install
 
-The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](https://www.lf-lang.org/docs/handbook/target-language-details#requirements) page and select your target language).
+The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](<./reference/Target Language Details.mdx#requirements>) page and select your target language).
 
 You can use Lingua Franca:
 
@@ -22,7 +22,7 @@ Have a look at the [Lingua Franca playground](https://github.com/lf-lang/playgro
 
 ## Visual Studio Code
 
-Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below. See the [handbook](https://www.lf-lang.org/docs/handbook/code-extension) for usage instructions.
+Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below. See the [handbook](<./tools/Code Extension.mdx>) for usage instructions.
 
 ### Marketplace
 
@@ -101,7 +101,7 @@ Please refer to the [Epoch GitHub repository](https://github.com/lf-lang/epoch) 
 
 ## CLI Tools
 
-There are multiple options available for installing the Lingua Franca compiler and other command line tools, as listed below. See the [handbook](https://www.lf-lang.org/docs/handbook/command-line-tools) for usage instructions.
+There are multiple options available for installing the Lingua Franca compiler and other command line tools, as listed below. See the [handbook](<./tools/Command Line Tools.mdx>) for usage instructions.
 
 ### Install Script
 

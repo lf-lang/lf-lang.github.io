@@ -150,11 +150,11 @@ Physical actions are the mechanism for obtaining input from the outside world. B
 
 In the above example, at $startup$, the main reactor creates an external thread that schedules a physical action roughly every 200 msec.
 
-First, the [file-level $preamble$](<../writing-reactors/Preambles.mdx>) has `#include "platform.h"`, which includes the declarations for functions it uses, `lf_sleep` and `lf_thread_create` (see [Libraries Available to Programmers](/docs/handbook/target-language-details?target=c#libraries-available-to-programmers)).
+First, the [file-level $preamble$](../writing-reactors/Preambles.mdx) has `#include "platform.h"`, which includes the declarations for functions it uses, `lf_sleep` and `lf_thread_create` (see [Libraries Available to Programmers](<../reference/Target Language Details.mdx#libraries-available-to-programmers>)).
 
 Second, the thread uses a function `lf_sleep()`, which abstracts platform-specific mechanisms for stalling the thread for a specified amount of time, and `lf_thread_create()`, which abstracts platform-specific mechanisms for creating threads.
 
-The `external` function executed by the thread is defined in a reactor-level $preamble$ section. See [Preambles](<../writing-reactors/Preambles.mdx>).
+The `external` function executed by the thread is defined in a reactor-level $preamble$ section. See [Preambles](../writing-reactors/Preambles.mdx).
 
 </ShowOnly>
 
