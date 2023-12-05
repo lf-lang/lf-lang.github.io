@@ -34,13 +34,18 @@ function HeroBanner() {
                 id: "homepage.hero.title",
                 message:
                   "Build <b>concurrent</b> and <b>distributed</b> software, <b>effortlessly</b>",
-                // 'Build <b>concurrent</b>, <b>time-sensitive</b>, and <b>distributed</b> software with ease',
                 description:
                   "Home page hero title, can contain simple html tags",
               }),
             }}
           />
         </Heading>
+        <div className={styles.subHero}>
+            <Translate>
+            Lingua Franca (LF) allows you to write blazing-fast, deterministic,
+            multi-threaded and distributed code without any knowledge about threads or mutexes. Focus on your application, not elusive concurrency bugs.
+            </Translate>
+        </div>
         <div className={styles.indexCtas}>
           <Link className="button button--primary" to="/docs/installation">
             <Translate>Get Started</Translate>
