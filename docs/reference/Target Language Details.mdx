@@ -6,7 +6,7 @@ description: Detailed reference for each target langauge.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 
@@ -148,15 +148,15 @@ You can use a development version of the runtime library by setting the LFC opti
 <ShowIfs>
 <ShowIf c>
 
-- The C target does make any distinction between $private$ and $public$ $preamble$.
+- The C target does make any distinction between `private` and `public` `preamble`.
 
 </ShowIf>
 <ShowIf cpp>
 
 The C++ target does not yet implement:
 
-- $extends$
-- $federated$
+- `extends`
+- `federated`
 - [Modal reactors](<../writing-reactors/Modal Models.mdx>)
 
 </ShowIf>
@@ -167,7 +167,7 @@ The C++ target does not yet implement:
 </ShowIf>
 <ShowIf ts>
 
-- The $federated$ implementation in the TypeScript target is still quite preliminary.
+- The `federated` implementation in the TypeScript target is still quite preliminary.
 
 - The TypeScript target does not yet implement methods.
 
@@ -178,7 +178,7 @@ The C++ target does not yet implement:
 
 The Rust target does not yet implement:
 
-- $federated$
+- `federated`
 - [Modal reactors](<../writing-reactors/Modal Models.mdx>)
 
 </ShowIf>
@@ -311,7 +311,7 @@ These are referenced in the reaction with the syntax `self->stride` and `self->c
 **The self Struct:**
 The code generator synthesizes a struct type in C for each reactor class and a constructor that creates an instance of this struct. By convention, these instances are called `self` and are visible within each reactor body. The `self` struct contains the parameters, state variables, and values associated with actions and ports of the reactor. Parameters and state variables are accessed directly on the `self` struct, whereas ports and actions are directly in scope by name, as we will see below. Let's begin with parameters.
 
-It may be tempting to declare state variables in the $preamble$, as follows:
+It may be tempting to declare state variables in the `preamble`, as follows:
 
 ```lf-c
 reactor FlawedCount {
@@ -349,7 +349,7 @@ reactor Source(sequence: int[] = {0, 1, 2}, n_sequence: int = 3) {
 }
 ```
 
-This uses a [$logical$ $action$](<../writing-reactors/Actions.mdx#logical-actions>) to repeat the reaction, sending one element of the array in each invocation.
+This uses a [`logical` `action`](<../writing-reactors/Actions.mdx#logical-actions>) to repeat the reaction, sending one element of the array in each invocation.
 
 In C, arrays do not encode their own length, so a separate parameter `n_sequence` is used for the array length. Obviously, there is potential here for errors, where the array length doesn't match the length parameter.
 
@@ -412,7 +412,7 @@ main reactor StructAsState {
 }
 ```
 
-Notice that state `s` is given type `hello_t`, which is defined in the $preamble$. The initial value just lists the initial values of each of the fields of the struct in the order they are declared.
+Notice that state `s` is given type `hello_t`, which is defined in the `preamble`. The initial value just lists the initial values of each of the fields of the struct in the order they are declared.
 
 Parameters are similar:
 
@@ -594,7 +594,7 @@ variables](https://docs.python.org/3/tutorial/classes.html#class-and-instance-va
 These parameters and state variables can then subsequently be accessed directly
 using the `self` reference in the body of reactions.
 
-It may be tempting to declare state variables in the $preamble$, as follows:
+It may be tempting to declare state variables in the `preamble`, as follows:
 
 ```lf-py
 reactor FlawedCount {
@@ -674,7 +674,7 @@ Notice that a class `hello` is defined in the preamble. The state variable `s` i
 </ShowIf>
 <ShowIf ts>
 
-In the TypeScript target, all [TypeScript types](https://www.typescriptlang.org/docs/handbook/basic-types.html) are generally acceptable for parameters and state variables. Custom types (and classes) must be defined in the $preamble$ before they may be used.
+In the TypeScript target, all [TypeScript types](https://www.typescriptlang.org/docs/handbook/basic-types.html) are generally acceptable for parameters and state variables. Custom types (and classes) must be defined in the `preamble` before they may be used.
 
 **To benefit from type checking, you should declare types for your reactor elements.** If a type isn't declared for a state variable, it is assigned the type [`unknown`](https://www.typescriptlang.org/docs/handbook/release-notes/typescript-3-0.html#new-unknown-top-type).
 
@@ -928,7 +928,7 @@ reactor StructAsType {
 }
 ```
 
-The $preamble$ code defines a struct data type. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `lf_set` macro.
+The `preamble` code defines a struct data type. In the reaction to `startup`, the reactor creates an instance of this struct on the stack (as a local variable named `temp`) and then copies that struct to the output using the `lf_set` macro.
 
 For large structs, it may be inefficient to create a struct on the stack and copy it to the output, as done above. You can use a pointer type instead. See [below](#dynamically-allocated-data) for details.
 
@@ -1203,7 +1203,7 @@ reactor ArrayScale(scale:int(2)) {
 }
 ```
 
-Here, the input is declared $mutable$, which means that any reaction is free to
+Here, the input is declared `mutable`, which means that any reaction is free to
 modify the input. If this reactor is the only recipient of the array or the last
 recipient of the array, then this will not make a copy of the array but rather use
 the original array. Otherwise, it will use a copy. By default, `memcpy` is used to copy the data. However, the sender can also specify
@@ -1297,7 +1297,7 @@ Specify the destructor `destructor` used to deallocate any dynamic data set on t
 
 > `lf_set_copy_constructor(<out>, <copy_constructor>);`
 
-Specify the `copy_constructor` used to copy construct any dynamic data set on the output port `out` if the receiving port is $mutable$.
+Specify the `copy_constructor` used to copy construct any dynamic data set on the output port `out` if the receiving port is `mutable`.
 
 `lf_set` (and `lf_set_token`) will overwrite any output value previously set at the same logical time and will cause the final output value to be sent to all reactors connected to the output. They also set a local `<out>->is_present` variable to true. This can be used to subsequently test whether the output value has been set.
 
@@ -1329,7 +1329,7 @@ reactor StructAsType {
 }
 ```
 
-The $public$ $preamble$ code defines a struct data type. In the reaction to $startup$, the reactor creates an instance of this struct on the stack (as a local variable named `hello`) and then copies that instance to the output using the `set()` method. For this reason, the C++ reactor runtime provides more sophisticated ways to allocate objects and send them via ports.
+The `public` `preamble` code defines a struct data type. In the reaction to `startup`, the reactor creates an instance of this struct on the stack (as a local variable named `hello`) and then copies that instance to the output using the `set()` method. For this reason, the C++ reactor runtime provides more sophisticated ways to allocate objects and send them via ports.
 
 The C++ library defines two types of smart pointers that the runtime uses internally to implement the exchange of data between ports. These are `reactor::MutableValuePtr<T>` and `reactor::ImmutableValuePtr<T>`. `reactor::MutableValuePtr<T>` is a wrapper around [`std::unique_ptr`](https://en.cppreference.com/w/cpp/memory/unique_ptr) and provides read and write access to the value hold, while ensuring that the value has a unique owner. In contrast, `reactor::ImmutableValuePtr<T>` is a wrapper around [`std::shared_pointer`](https://en.cppreference.com/w/cpp/memory/shared_ptr) and provides read only (const) access to the value it holds. This allows data to be shared between reactions of various reactors, while guarantee data consistency. Similar to `std::make_unique` and `std::make_shared`, the reactor library provides convenient function for creating mutable and immutable values pointers: `reactor::make_mutable_value<T>(...)` and `reactor::make_immutable_value<T>(...)`.
 
@@ -1558,7 +1558,7 @@ reactor CustomType {
 }
 ```
 
-The $preamble$ code defines a custom union type of `string` and `null`.
+The `preamble` code defines a custom union type of `string` and `null`.
 
 </ShowIf>
 <ShowIf rs>
@@ -2168,7 +2168,7 @@ FIXME: details needed here on time in Rust.
 
 Actions are described in [Actions](../writing-reactors/Actions.mdx). If an action is declared with a data type, then it can carry a **value**, a data value that becomes available to any reaction triggered by the action. This is particularly useful for physical actions that are externally triggered because it enables the action to convey information to the reactor. This could be, for example, the body of an incoming network message or a numerical reading from a sensor.
 
-Recall from [Composing Reactors](<../writing-reactors/Composing Reactors.mdx>) that the $after$ keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayInt.lf) example:
+Recall from [Composing Reactors](<../writing-reactors/Composing Reactors.mdx>) that the `after` keyword on a connection between ports introduces a logical delay. This is actually implemented using a logical action. We illustrate how this is done using the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayInt.lf) example:
 
 ```lf-c
 reactor Delay(delay: time = 100 ms) {
@@ -2373,7 +2373,7 @@ numerical reading from a sensor. Note that actions do not have a data
 type in the Python target, even when they carry a value.
 
 Recall from [Composing Reactors](<../writing-reactors/Composing Reactors.mdx>) that the
-$after$ keyword on a connection between ports introduces a logical delay. This
+`after` keyword on a connection between ports introduces a logical delay. This
 is actually implemented using a logical action. We illustrate how this is done
 using the
 `Delay` reactor in the [DelayInt](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/DelayInt.lf)
@@ -2857,7 +2857,7 @@ Hence, programmers are free to use functions from these libraries without explic
 
 #### Available Libraries Requiring #include
 
-More sophisticated library functions require a `#include` statement in a $preamble$.
+More sophisticated library functions require a `#include` statement in a `preamble`.
 Specifically, [platform.h](https://www.lf-lang.org/reactor-c/de/d03/platform_8h.html) includes the following:
 
 - Sleep functions such as `lf_sleep`

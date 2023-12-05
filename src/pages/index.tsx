@@ -148,9 +148,9 @@ export default function Home(): JSX.Element {
     >
       <main>
         <HeroBanner />
+        <HomepageFeatures />
         <Intro />
         <Second />
-        <HomepageFeatures />
       </main>
     </Layout>
   );

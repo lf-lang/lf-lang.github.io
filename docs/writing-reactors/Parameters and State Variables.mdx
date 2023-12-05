@@ -6,7 +6,7 @@ description: Parameters and state variables in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -28,7 +28,7 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 
 - An identifier, such as `int`<span class="lf-cpp">, possibly followed by a type argument, e.g. `vector<int>`</span>.
 - An array type `type[]`<span class="lf-c lf-cpp lf-rs"> and `type[integer]`</span>.
-- The keyword $time$, which designates a time value.
+- The keyword `time`, which designates a time value.
 - A code block delimited by `{= ... =}`, where the contents is any valid type in the target language.
 
 <ShowOnly c cpp>
@@ -116,17 +116,17 @@ import TS_Count from '../assets/code/ts/src/Count.lf';
 
 <NoSelectorTargetCodeBlock c={C_Count} cpp={Cpp_Count} py={Py_Count} rs={Rs_Count} ts={TS_Count} lf />
 
-This reactor has an integer state variable named `count`, and each time its reaction is invoked, it outputs the value of that state variable and increments it. The reaction is triggered by a $timer$, discussed in the next section.
+This reactor has an integer state variable named `count`, and each time its reaction is invoked, it outputs the value of that state variable and increments it. The reaction is triggered by a `timer`, discussed in the next section.
 
 ## Reset State Variables
 
 <ShowIfs>
   <ShowIf cpp ts rs>
-    The $reset$ keyword is not supported in $target-language$ because [modal reactors](<../writing-reactors/Modal Models.mdx>) are not supported.
+    The `reset` keyword is not supported in $target-language$ because [modal reactors](<../writing-reactors/Modal Models.mdx>) are not supported.
   </ShowIf>
 
   <ShowIf c py>
-    A state variable declaration may be qualified with a $reset$ keyword as follows:
+    A state variable declaration may be qualified with a `reset` keyword as follows:
     <NoSelectorTargetCodeBlock lf
       c="reset state <name>:<type> = <value>" 
       py="reset state <name> = <value>" 

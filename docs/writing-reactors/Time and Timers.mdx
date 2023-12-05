@@ -6,7 +6,7 @@ description: Time and timers in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -19,8 +19,8 @@ The **lag** is allowed to go negative only if the [`fast` target property](<../r
 
 <ShowOnly c cpp rs>
 
-  In Lingua Franca, $time$ is a data type.
-  A parameter, state variable, port, or action may have type $time$.
+  In Lingua Franca, `time` is a data type.
+  A parameter, state variable, port, or action may have type `time`.
   <ShowOnly c>
     In the C target, time values internally have type `instant_t` or `interval_t`,
     both of which are (usually) equivalent to the C type `long long`.
@@ -60,7 +60,7 @@ import TS_SlowingClock from '../assets/code/ts/src/SlowingClock.lf';
 
 <NoSelectorTargetCodeBlock c={C_SlowingClock} cpp={Cpp_SlowingClock} py={Py_SlowingClock} rs={Rs_SlowingClock} ts={TS_SlowingClock} lf />
 
-This has two time parameters, `start` and `incr`, each with default value `100 ms` <ShowOnly c cpp rs inline>and type $time$</ShowOnly>. This parameter is used to initialize the `interval` state variable, which also stores a time. The $logical$ $action$ `a`, explained in [Actions](<../writing-reactors/Actions.mdx#logical-actions>), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
+This has two time parameters, `start` and `incr`, each with default value `100 ms` <ShowOnly c cpp rs inline>and type `time`</ShowOnly>. This parameter is used to initialize the `interval` state variable, which also stores a time. The `logical` `action` `a`, explained in [Actions](<../writing-reactors/Actions.mdx#logical-actions>), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
 
 ```
 Logical time since start: 100000000 nsec.
@@ -72,13 +72,13 @@ Logical time since start: 1000000000 nsec.
 
 ## Timers
 
-The simplest use of logical time in Lingua Franca is to invoke a reaction periodically. This is done by first declaring a $timer$ using this syntax:
+The simplest use of logical time in Lingua Franca is to invoke a reaction periodically. This is done by first declaring a `timer` using this syntax:
 
 ```lf
   timer <name>(<offset>, <period>)
 ```
 
-The `<period>`, which is optional, specifies the time interval between timer events. The `<offset>`, which is also optional, specifies the (logical) time interval between when the program starts executing and the first timer event. If no period is given, then the timer event occurs only once. If neither an offset nor a period is specified, then one timer event occurs at program start, simultaneous with the $startup$ event.
+The `<period>`, which is optional, specifies the time interval between timer events. The `<offset>`, which is also optional, specifies the (logical) time interval between when the program starts executing and the first timer event. If no period is given, then the timer event occurs only once. If neither an offset nor a period is specified, then one timer event occurs at program start, simultaneous with the `startup` event.
 
 The period and offset are given by a number and a units, for example, `10 ms`. See the [expressions documentation](<../reference/Expressions.mdx#basic-expressions>) for allowable units. Consider the following example:
 
@@ -213,6 +213,6 @@ import TS_TestCount from '../assets/code/ts/src/TestCount.lf';
 
 <NoSelectorTargetCodeBlock c={C_TestCount} cpp={Cpp_TestCount} py={Py_TestCount} rs={Rs_TestCount} ts={TS_TestCount} lf />
 
-This reactor tests its inputs against expected values, which are expected to start with the value given by the `start` parameter and increase by `stride` with each successive input. It expects to receive a total of `num_inputs` input events. It checks the total number of inputs received in its $shutdown$ reaction.
+This reactor tests its inputs against expected values, which are expected to start with the value given by the `start` parameter and increase by `stride` with each successive input. It expects to receive a total of `num_inputs` input events. It checks the total number of inputs received in its `shutdown` reaction.
 
 The **shutdown** trigger typically occurs at [microstep](<../writing-reactors/Actions.mdx#superdense-time>) 0, but may occur at a larger microstep. See [Superdense Time](<../writing-reactors/Actions.mdx#superdense-time>) and [Termination](../writing-reactors/Termination.mdx).

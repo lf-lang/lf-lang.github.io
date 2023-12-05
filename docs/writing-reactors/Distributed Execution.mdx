@@ -6,7 +6,7 @@ description: Distributed Execution (preliminary)
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c py ts />
@@ -41,7 +41,7 @@ The above will create a program called `RTI` and install it at `/usr/local/bin/R
 
 ## Minimal Example
 
-A minimal federated execution is specified by using the $federated$ keyword instead of $main$ for the main federate. An example is given below:
+A minimal federated execution is specified by using the `federated` keyword instead of `main` for the main federate. An example is given below:
 
 import C_Federated from '../assets/code/c/src/Federated.lf';
 import Py_Federated from '../assets/code/py/src/Federated.lf';
@@ -49,7 +49,7 @@ import TS_Federated from '../assets/code/ts/src/Federated.lf';
 
 <NoSelectorTargetCodeBlock c={C_Federated} py={Py_Federated} ts={TS_Federated} lf />
 
-The $federated$ keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor.
+The `federated` keyword tells the code generator that the program is to be split into several distinct programs, one for each top level reactor.
 
 When you run the code generator on `src/Federated.lf` containing the above code, the following three programs will appear:
 
@@ -217,7 +217,7 @@ Suppose that the communication latency is _L_. That is, it takes _L_ time units 
 
 Assume the RTI has granted a time advance to _t_ to federate `s`. Hence, `s` is able to send a message with timestamp _t_. The RTI now cannot grant any time advance to `p` that is greater than or equal to _t_ + _a_ until the message has been delivered to `p`. In centralized coordination, all messages flow through the RTI, so the RTI will deliver a **Tag Advance Grant** (**TAG**) message to `p` only after it has delivered the message.
 
-If _a_ > _E_ + _L_, then the existence of this communication does not cause `p`'s logical time to lag behind physical time. This means that if we were to modify `p` to have a **physical action**, the RTI will be able to immediately grant a **TAG** to `p` to advance the timestamp of that physical action. However, if _a_ < _E_ + _L_, then the RTI will delay granting a time advance to `p` by at least _E_ + _L_ - _a_. Hence, _E_ + _L_ - _a_ represents an additional latency in the processing of physical actions! This latency could present a problem for meeting deadlines. For this reason, if there are physical actions or deadlines at a federate that receives network messages, it is desirable to have $after$ delays on the connection to that federate larger than any expected _E_ + _L_. This way, there is no additional latency to processing physical actions at this federate and no additional risk of missing deadlines.
+If _a_ > _E_ + _L_, then the existence of this communication does not cause `p`'s logical time to lag behind physical time. This means that if we were to modify `p` to have a **physical action**, the RTI will be able to immediately grant a **TAG** to `p` to advance the timestamp of that physical action. However, if _a_ < _E_ + _L_, then the RTI will delay granting a time advance to `p` by at least _E_ + _L_ - _a_. Hence, _E_ + _L_ - _a_ represents an additional latency in the processing of physical actions! This latency could present a problem for meeting deadlines. For this reason, if there are physical actions or deadlines at a federate that receives network messages, it is desirable to have `after` delays on the connection to that federate larger than any expected _E_ + _L_. This way, there is no additional latency to processing physical actions at this federate and no additional risk of missing deadlines.
 
 If, in addition, the physical clocks on the hosts are allowed to drift with respect to one another, then _E_ can grow without bound, and hence the lag between logical time and physical time in processing events can grow without bound. This is mitigated either by hosts that themselves realize some clock synchronization algorithm, such as [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) or [PTP](https://en.wikipedia.org/wiki/Precision_Time_Protocol), or by utilizing Lingua Franca's own built in [clock synchronization](#clock-synchronization). If the federates lack physical actions and deadlines, however, then unsynchronized clocks present no semantic problem if you are using centralized coordination. However, because of logical time chases physical time, federates will slow to match the slowest clock of federates upstream of them.
 
@@ -241,7 +241,7 @@ With decentralized coordination, the RTI coordinates startup, shutdown, and cloc
 
 In decentralized coordination, each federate and some reactions have a **safe-to-process** (**STP**) offset. When one federate communicates with another, it does so directly through a dedicated socket without going through the RTI. Moreover, it does not consult the RTI to advance logical time. Instead, it can advance its logical time to _t_ when its physical clock matches or exceeds _t_ + STP.
 
-By default, the STP is zero. An STP of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large $after$ clause, or the federate has only one upstream federate sending it messages and it has no local timers or actions. The value of the $after$ delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a $deadline$. For example:
+By default, the STP is zero. An STP of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large `after` clause, or the federate has only one upstream federate sending it messages and it has no local timers or actions. The value of the `after` delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a `deadline`. For example:
 
 import C_DecentralizedTimerAfter from '../assets/code/c/src/DecentralizedTimerAfter.lf';
 import Py_DecentralizedTimerAfter from '../assets/code/py/src/DecentralizedTimerAfter.lf';
@@ -251,14 +251,14 @@ import Py_DecentralizedTimerAfter from '../assets/code/py/src/DecentralizedTimer
 This example inherits from the Federated example above.
 In this example, as long as the messages from federate `c` arrive at federate `p` within 10 msec, all messages will be processed in tag order, as with an unfederated program.
 
-An alternative to the $after$ delays is to add an STP offset to downstream federates, as in the following example:
+An alternative to the `after` delays is to add an STP offset to downstream federates, as in the following example:
 
 import C_DecentralizedTimerSTP from '../assets/code/c/src/DecentralizedTimerSTP.lf';
 import Py_DecentralizedTimerSTP from '../assets/code/py/src/DecentralizedTimerSTP.lf';
 
 <NoSelectorTargetCodeBlock c={C_DecentralizedTimerSTP} py={Py_DecentralizedTimerSTP} ts={"DecentralizedTimerSTP.lf missing for TypeScript"} lf />
 
-Here, a parameter named `STP_offset` (not case sensitive) gives a time value, and the federate waits this specified amount of time (physical time) beyond a logical time _t_ before advancing its logical time to _t_. In the above example, reactions to the timer events will be delayed by the amount specified by the `STP_offset` parameter. Just as with the use of $after$, if the `STP_offset` exceeds the sum of network latency, clock synchronization error, and execution times, then all events will be processed in tag order.
+Here, a parameter named `STP_offset` (not case sensitive) gives a time value, and the federate waits this specified amount of time (physical time) beyond a logical time _t_ before advancing its logical time to _t_. In the above example, reactions to the timer events will be delayed by the amount specified by the `STP_offset` parameter. Just as with the use of `after`, if the `STP_offset` exceeds the sum of network latency, clock synchronization error, and execution times, then all events will be processed in tag order.
 
 Of course, the assumptions about network latency, etc., can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation by providing an STP violation handler. The pattern is:
 

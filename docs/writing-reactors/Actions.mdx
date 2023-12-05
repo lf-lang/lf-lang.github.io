@@ -6,7 +6,7 @@ description: Actions in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -37,7 +37,7 @@ If the action is to carry a payload, then a type must be given as well:
 
 Timers are useful to trigger reactions once or periodically. Actions are used to trigger reactions more irregularly. An action, like an output or input port, can carry data, but unlike a port, an action is visible only within the reactor that defines it.
 
-There are two kinds of actions, **logical** and **physical**. A $logical$ $action$ is used by a reactor to schedule a trigger at a fixed logical time interval _d_ into the future. The time interval _d_, which is called a **delay**, is relative to the logical time _t_ at which the scheduling occurs. If a reaction executes at logical time _t_ and schedules an action `a` with delay _d_, then any reaction that is triggered by `a` will be invoked at logical time _t_ + _d_. For example, the following reaction schedules something (printing the current elapsed logical time) 200 msec after an input `x` arrives:
+There are two kinds of actions, **logical** and **physical**. A `logical` `action` is used by a reactor to schedule a trigger at a fixed logical time interval _d_ into the future. The time interval _d_, which is called a **delay**, is relative to the logical time _t_ at which the scheduling occurs. If a reaction executes at logical time _t_ and schedules an action `a` with delay _d_, then any reaction that is triggered by `a` will be invoked at logical time _t_ + _d_. For example, the following reaction schedules something (printing the current elapsed logical time) 200 msec after an input `x` arrives:
 
 import C_Schedule from '../assets/code/c/src/Schedule.lf';
 import Cpp_Schedule from '../assets/code/cpp/src/Schedule.lf';
@@ -103,7 +103,7 @@ FIXME
 
 ## Physical Actions
 
-A $physical$ $action$ is used to schedule reactions at logical times determined by the local physical clock. If a physical action with delay _d_ is scheduled at _physical_ time _T_, then the _logical time_ assigned to the event is _T_ + _d_. For example, the following reactor schedules the physical action `p` to trigger at a **logical time** equal to the **physical time** at which the input `x` arrives:
+A `physical` `action` is used to schedule reactions at logical times determined by the local physical clock. If a physical action with delay _d_ is scheduled at _physical_ time _T_, then the _logical time_ assigned to the event is _T_ + _d_. For example, the following reactor schedules the physical action `p` to trigger at a **logical time** equal to the **physical time** at which the input `x` arrives:
 
 import C_Physical from '../assets/code/c/src/Physical.lf';
 import Cpp_Physical from '../assets/code/cpp/src/Physical.lf';
@@ -148,13 +148,13 @@ Physical actions are the mechanism for obtaining input from the outside world. B
 
 <ShowOnly c>
 
-In the above example, at $startup$, the main reactor creates an external thread that schedules a physical action roughly every 200 msec.
+In the above example, at `startup`, the main reactor creates an external thread that schedules a physical action roughly every 200 msec.
 
-First, the [file-level $preamble$](../writing-reactors/Preambles.mdx) has `#include "platform.h"`, which includes the declarations for functions it uses, `lf_sleep` and `lf_thread_create` (see [Libraries Available to Programmers](<../reference/Target Language Details.mdx#libraries-available-to-programmers>)).
+First, the [file-level `preamble`](../writing-reactors/Preambles.mdx) has `#include "platform.h"`, which includes the declarations for functions it uses, `lf_sleep` and `lf_thread_create` (see [Libraries Available to Programmers](<../reference/Target Language Details.mdx#libraries-available-to-programmers>)).
 
 Second, the thread uses a function `lf_sleep()`, which abstracts platform-specific mechanisms for stalling the thread for a specified amount of time, and `lf_thread_create()`, which abstracts platform-specific mechanisms for creating threads.
 
-The `external` function executed by the thread is defined in a reactor-level $preamble$ section. See [Preambles](../writing-reactors/Preambles.mdx).
+The `external` function executed by the thread is defined in a reactor-level `preamble` section. See [Preambles](../writing-reactors/Preambles.mdx).
 
 </ShowOnly>
 
@@ -162,7 +162,7 @@ The `external` function executed by the thread is defined in a reactor-level $pr
 
 An action will trigger at a logical time that depends on the arguments given to the schedule function, the `<min_delay>`, `<min_spacing>`, and `<policy>` arguments in the action declaration, and whether the action is physical or logical.
 
-For a $logical$ action `a`, the tag assigned to the event resulting from a call to `schedule()` is computed as follows. First, let _t_ be the _current logical time_. For a logical action, _t_ is just the logical time at which the reaction calling `schedule()` is called. The **preliminary time** of the action is then just _t_ + `<min_delay>` + `<offset>`. This preliminary time may be further modified, as explained below.
+For a `logical` action `a`, the tag assigned to the event resulting from a call to `schedule()` is computed as follows. First, let _t_ be the _current logical time_. For a logical action, _t_ is just the logical time at which the reaction calling `schedule()` is called. The **preliminary time** of the action is then just _t_ + `<min_delay>` + `<offset>`. This preliminary time may be further modified, as explained below.
 
 For a **physical** action, the preliminary time is similar, except that _t_ is replaced by the current _physical_ time _T_ when `schedule()` is called.
 

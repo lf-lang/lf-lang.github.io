@@ -6,7 +6,7 @@ description: Inputs, outputs, and reactions in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py ts rs />
@@ -51,11 +51,11 @@ Setting an output within a reaction will trigger downstream reactions at the sam
 
 <ShowOnly c cpp ts rs>
 
-The **type** of a port is a type in the target language plus the special type $time$. A type may also be specified using a **code block**, delimited by the same delimiters `{= ... =}` that separate target language code from Lingua Franca code in reactions. Any valid target-language type designator can be given within these delimiters.
+The **type** of a port is a type in the target language plus the special type `time`. A type may also be specified using a **code block**, delimited by the same delimiters `{= ... =}` that separate target language code from Lingua Franca code in reactions. Any valid target-language type designator can be given within these delimiters.
 
 </ShowOnly>
 
-The $reaction$ declaration above indicates that an input event on port `x` is a **trigger** and that an output event on port `y` is a (potential) **effect**. A reaction can declare more than one trigger or effect by just listing them separated by commas (See [Reactions](../writing-reactors/Reactions.mdx) for details). For example, the following reactor has two triggers and tests each input for presence before using it:
+The `reaction` declaration above indicates that an input event on port `x` is a **trigger** and that an output event on port `y` is a (potential) **effect**. A reaction can declare more than one trigger or effect by just listing them separated by commas (See [Reactions](../writing-reactors/Reactions.mdx) for details). For example, the following reactor has two triggers and tests each input for presence before using it:
 
 import C_Destination from '../assets/code/c/src/Destination.lf';
 import Cpp_Destination from '../assets/code/cpp/src/Destination.lf';
@@ -101,7 +101,7 @@ If a reaction wishes to test whether an output has been previously set at the cu
 
 Normally, a reaction does not modify the value of an input. An input is said to be **immutable**. The degree to which this is enforced varies by target language. Most of the target languages make it rather difficult to enforce, so the programmer needs to avoid modifying the input. Modifying an input value may lead to nondeterministic results.
 
-Occasionally, it is useful to modify an input. For example, the input may be a large data structure, and a reaction may wish to make a small modification and forward the result to an output. To accomplish this, the programmer should declare the input $mutable$ as follows:
+Occasionally, it is useful to modify an input. For example, the input may be a large data structure, and a reaction may wish to make a small modification and forward the result to an output. To accomplish this, the programmer should declare the input `mutable` as follows:
 
 <ShowIfs>
   <ShowIf c ts rs cpp>

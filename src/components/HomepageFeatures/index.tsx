@@ -16,32 +16,29 @@ import SaurusReact from "@site/static/img/undraw_docusaurus_react.svg";
 
 const FeatureList: FeatureItem[] = [
   {
-    title: "Composable",
+    title: "Deterministic Concurrency",
     Svg: Mountain,
     description: (
       <Translate>
-        Reactors are composable software components with inputs, outputs, and
-        local state.
+        Lingua Franca offers a straightforward way to write multi-threaded applications that ensure determinism by default, eliminating concerns about thread management, synchronization, and race conditions.
       </Translate>
     ),
   },
   {
-    title: "Concurrent",
+    title: "Built-In Timing Semantics",
     Svg: Tree,
     description: (
       <Translate>
-        Reactions to events are concurrent unless there is an explicit
-        dependency between them.
+        Timing is embedded within Lingua Franca's core, empowering developers to handle time-sensitive tasks with precision and without the complex timing logic typically required in concurrent programming.
       </Translate>
     ),
   },
   {
-    title: "Deterministic",
+    title: "Simplified Distribution",
     Svg: SaurusReact,
     description: (
       <Translate>
-        Lingua Franca programs are deterministic by default and therefore easy
-        to test.
+        Lingua Franca enables seamless transition from single to distributed system architectures with minimal modifications, abstracting away the complexities of distributed systems programming.
       </Translate>
     ),
   },

@@ -6,7 +6,7 @@ description: Composing reactors in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -32,7 +32,7 @@ import RegressionTestSVG from "./../assets/images/diagrams/RegressionTest.svg"
 
 <RegressionTestSVG title="Lingua Franca diagram: RegressionTest" role="img" width="500" />
 
-In this diagram, the timer is represented by a clock-like icon, the reactions by chevron shapes, and the $shutdown$ event by a diamond. If there were a $startup$ event in this program, it would appear as a circle.
+In this diagram, the timer is represented by a clock-like icon, the reactions by chevron shapes, and the `shutdown` event by a diamond. If there were a `startup` event in this program, it would appear as a circle.
 
 ## Creating Reactor Instances
 
@@ -132,7 +132,7 @@ An import statement has the form:
   import <classname> as <alias> from "<path>"
 ```
 
-where `<classname>` and `<alias>` can be a comma-separated list to import multiple reactors from the same file. The `<path>` specifies another `.lf` file relative to the location of the current file. The `as <alias>` portion is optional and specifies alternative class names to use in the $new$ statements.
+where `<classname>` and `<alias>` can be a comma-separated list to import multiple reactors from the same file. The `<path>` specifies another `.lf` file relative to the location of the current file. The `as <alias>` portion is optional and specifies alternative class names to use in the `new` statements.
 
 ## Hierarchy
 
@@ -164,7 +164,7 @@ establishes a connection across levels of the hierarchy. This propagates the out
 
 ## Connections with Logical Delays
 
-Connections may include a **logical delay** using the $after$ keyword, as follows:
+Connections may include a **logical delay** using the `after` keyword, as follows:
 
 ```lf
   <source_port_reference> -> <destination_port_reference> after <time_value>
@@ -172,7 +172,7 @@ Connections may include a **logical delay** using the $after$ keyword, as follow
 
 where `<time_value>` can be any of the forms described in [Expressions](../reference/Expressions.mdx).
 
-The $after$ keyword specifies that the logical time of the event delivered to the destination port will be larger than the logical time of the reaction that wrote to source port. The time value is required to be non-negative, but it can be zero, in which case the input event at the receiving end will be one [microstep](<../writing-reactors/Actions.mdx#superdense-time>) later than the event that triggered it.
+The `after` keyword specifies that the logical time of the event delivered to the destination port will be larger than the logical time of the reaction that wrote to source port. The time value is required to be non-negative, but it can be zero, in which case the input event at the receiving end will be one [microstep](<../writing-reactors/Actions.mdx#superdense-time>) later than the event that triggered it.
 
 ## Physical Connections
 

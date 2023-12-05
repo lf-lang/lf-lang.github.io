@@ -6,7 +6,7 @@ description: Multiports and Banks of Reactors.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -204,7 +204,7 @@ import Py_BankIndex from '../assets/code/py/src/BankIndex.lf';
 
 <NoSelectorTargetCodeBlock c={C_BankIndex}  py={Py_BankIndex} lf />
 
-The global `table` defined in the $preamble$ is used to initialize the `value` parameter of each bank member. The result of running this is something like:
+The global `table` defined in the `preamble` is used to initialize the `value` parameter of each bank member. The result of running this is something like:
 
 ```
 bank_index: 0, value: 4
@@ -404,11 +404,11 @@ Bank index 1 received 42 on channel 3.
 
 In bank index 1, the 0-th channel receives from `bank_index` 0, the 1-th channel from `bank_index` 1, etc. In effect, the choice of output channel specifies the destination reactor in the bank, and the input channel specifies the source reactor from which the input comes.
 
-This style of connection is accomplished using the new keyword $interleaved$ in the connection. Normally, a port reference such as `nodes.out` where `nodes` is a bank and `out` is a multiport, would list all the individual ports by first iterating over the banks and then, for each bank index, iterating over the ports. If we consider the tuple (b,p) to denote the index b within the bank and the index p within the multiport, then the following list is created: (0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (2,3), (3,0), (3,1), (3,2), (3,3). However, if we use $interleaved$`(nodes.out)` instead, the connection logic will iterate over the ports first and then the banks, creating the following list: (0,0), (1,0), (2,0), (3,0), (0,1), (1,1), (2,1), (3,1), (0,2), (1,2), (2,2), (3,2), (0,3), (1,3), (2,3), (3,3). By combining a normal port reference with a interleaved reference, we can construct a fully connected network. The figure below visualizes this how this pattern would look without banks or multiports:
+This style of connection is accomplished using the new keyword `interleaved` in the connection. Normally, a port reference such as `nodes.out` where `nodes` is a bank and `out` is a multiport, would list all the individual ports by first iterating over the banks and then, for each bank index, iterating over the ports. If we consider the tuple (b,p) to denote the index b within the bank and the index p within the multiport, then the following list is created: (0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (2,3), (3,0), (3,1), (3,2), (3,3). However, if we use `interleaved``(nodes.out)` instead, the connection logic will iterate over the ports first and then the banks, creating the following list: (0,0), (1,0), (2,0), (3,0), (0,1), (1,1), (2,1), (3,1), (0,2), (1,2), (2,2), (3,2), (0,3), (1,3), (2,3), (3,3). By combining a normal port reference with a interleaved reference, we can construct a fully connected network. The figure below visualizes this how this pattern would look without banks or multiports:
 
 ![Lingua Franca diagram: AddressableDesugared](../assets/images/diagrams/AddressableDesugared.png)
 
-If we were to use a normal connection `nodes.out -> nodes.in;` instead of the $interleaved$ connection, then the following pattern would be created:
+If we were to use a normal connection `nodes.out -> nodes.in;` instead of the `interleaved` connection, then the following pattern would be created:
 
 ![Lingua Franca diagram: AddressableNaiveDesugared](../assets/images/diagrams/AddressableNaiveDesugared.png)
 
@@ -417,6 +417,6 @@ Effectively, this connects each reactor instance to itself, which isn't very use
 </ShowIf>
 
 <ShowIf ts rs>
-The $interleaved$ keyword is not supported by this target language.
+The `interleaved` keyword is not supported by this target language.
 </ShowIf>
 </ShowIfs>

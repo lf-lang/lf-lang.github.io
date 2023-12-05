@@ -6,7 +6,7 @@ description: The target declaration and its parameters in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -346,7 +346,7 @@ target_link_libraries( ${LF_MAIN_TARGET} m ) # Links the m library
 
 **Note**: For a general tutorial on finding packages in CMake, see [this](https://cmake.org/cmake/help/latest/command/find_package.html) external documentation entry. For a list of CMake find modules, see [this](https://cmake.org/cmake/help/latest/manual/cmake-modules.7.html#find-modules).
 
-The `cmake-include` parameter works in conjunction with the $import$ statement. If any imported `.lf` file has `cmake-include` among its target properties, the specified text files will be appended to the current list of `cmake-include`s. These files will be resolved relative to the imported `.lf` file using the same search procedure as for the [files](#files) parameter. This helps resolve dependencies in imported reactors automatically and makes the code more modular.
+The `cmake-include` parameter works in conjunction with the `import` statement. If any imported `.lf` file has `cmake-include` among its target properties, the specified text files will be appended to the current list of `cmake-include`s. These files will be resolved relative to the imported `.lf` file using the same search procedure as for the [files](#files) parameter. This helps resolve dependencies in imported reactors automatically and makes the code more modular.
 
 <ShowOnly c>
 
@@ -503,7 +503,7 @@ Sometimes, you will need access to these files from target code in a reaction. F
 
 where `path` is the full path to the directory containing these files. This can be used in reactions, for example, to read those files.
 </ShowOnly>
-Moreover, the `files` target specification works in conjunction with the $import$ statement. If a `.lf` file is imported and has designated supporting files using the `files` target parameter, those files will be resolved relative to that `.lf` file and copied to the directory that contains the generated sources. This is done to make code that imports other `.lf` files more modular. [Rhythm.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/Rhythm/Rhythm.lf) is an example that demonstrates most of these features.
+Moreover, the `files` target specification works in conjunction with the `import` statement. If a `.lf` file is imported and has designated supporting files using the `files` target parameter, those files will be resolved relative to that `.lf` file and copied to the directory that contains the generated sources. This is done to make code that imports other `.lf` files more modular. [Rhythm.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/Rhythm/Rhythm.lf) is an example that demonstrates most of these features.
 </ShowIf>
 </ShowIfs>
 

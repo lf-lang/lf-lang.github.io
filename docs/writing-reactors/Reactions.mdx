@@ -6,7 +6,7 @@ description: Reactions in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -20,7 +20,7 @@ A reaction declaration has the following form:
 ```
 
 Each reaction declares its triggers, uses, and effects:
-- The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](<../writing-reactors/Composing Reactors.mdx#hierarchy>), [timers](<../writing-reactors/Time and Timers.mdx#timers>), [actions](../writing-reactors/Actions.mdx), or the special events $startup$, $shutdown$, and $reset$ (explained [here](#startup-shutdown-and-reset-reactions)>). There must be at least one trigger for each reaction.
+- The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](<../writing-reactors/Composing Reactors.mdx#hierarchy>), [timers](<../writing-reactors/Time and Timers.mdx#timers>), [actions](../writing-reactors/Actions.mdx), or the special events `startup`, `shutdown`, and `reset` (explained [here](#startup-shutdown-and-reset-reactions)>). There must be at least one trigger for each reaction.
 - The **uses** field, which is optional, specifies input ports (or output ports of contained reactors) that do not trigger execution of the reaction but may be read by the reaction.
 - The **effects** field, which is also optional, is a comma-separated lists of output ports ports, input ports of contained reactors, or [actions](../writing-reactors/Actions.mdx).
 
@@ -88,12 +88,12 @@ import TS_Triggering from '../assets/code/ts/src/Triggering.lf';
 
 <NoSelectorTargetCodeBlock c={C_Triggering} cpp={Cpp_Triggering} py={Py_Triggering} rs={Rs_Triggering} ts={TS_Triggering} lf />
 
-The reaction to $startup$ declares the input port of the inside reactor as an effect and then sets it with value 42.
+The reaction to `startup` declares the input port of the inside reactor as an effect and then sets it with value 42.
 This will cause the inside reactor's reaction to execute and print `Received 42`.
 
 ## Startup, Shutdown, and Reset Reactions
 
-Reactions may be triggered by the special events $startup$, $shutdown$, or $reset$.
+Reactions may be triggered by the special events `startup`, `shutdown`, or `reset`.
 For example,
 
 ```lf
@@ -102,24 +102,24 @@ For example,
   =}
 ```
 
-A reaction to $startup$ is triggered at the very first tag when the program begins (or, if within a mode of a [modal reactor](<../writing-reactors/Modal Models.mdx>), when the mode is first entered).
+A reaction to `startup` is triggered at the very first tag when the program begins (or, if within a mode of a [modal reactor](<../writing-reactors/Modal Models.mdx>), when the mode is first entered).
 This reaction will be logically simultaneous with reactions to [timers](<../writing-reactors/Time and Timers.mdx>) that have a zero offset.
 As usual, for logically simultaneous reactions declared within the same reactor, the order in which they are invoked will be governed by the order in which they are declared.
 
-A reaction to $shutdown$ is invoked at program termination.
+A reaction to `shutdown` is invoked at program termination.
 See the [Termination](../writing-reactors/Termination.mdx) section for details.
 
 <ShowIfs>
 
 <ShowIf cpp ts rs>
 
-Reactions to the $reset$ event are not supported in $target-language$ because [modal reactors](<../writing-reactors/Modal Models.mdx>) are not supported.
+Reactions to the `reset` event are not supported in $target-language$ because [modal reactors](<../writing-reactors/Modal Models.mdx>) are not supported.
 
 </ShowIf>
 
 <ShowIf c py>
 
-A reaction to the $reset$ event is invoked if the reaction or reactor is within a mode of a [modal reactor](<../writing-reactors/Modal Models.mdx>) and the mode is entered via a reset transition.
+A reaction to the `reset` event is invoked if the reaction or reactor is within a mode of a [modal reactor](<../writing-reactors/Modal Models.mdx>) and the mode is entered via a reset transition.
 For details, see the [Modal Reactors](<../writing-reactors/Modal Models.mdx>) section.
 
 </ShowIf>

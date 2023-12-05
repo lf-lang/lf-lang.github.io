@@ -6,14 +6,14 @@ description: Defining preambles in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
 
 ## Preamble
 
-Reactions may contain arbitrary target-language code, but often it is convenient for that code to invoke external libraries or to share procedure definitions. For either purpose, a reactor may include a $preamble$ section.
+Reactions may contain arbitrary target-language code, but often it is convenient for that code to invoke external libraries or to share procedure definitions. For either purpose, a reactor may include a `preamble` section.
 
 <ShowIfs>
 <ShowIf c>
@@ -37,8 +37,8 @@ This will print:
 The cosine of 1 is 0.540302.
 ```
 
-By putting the `#include` in the $preamble$, the library becomes available in all reactions of this reactor.
-If you wish to have the library available in all reactors in the same file, you can provide the $preamble$ outside the reactor, as shown here:
+By putting the `#include` in the `preamble`, the library becomes available in all reactions of this reactor.
+If you wish to have the library available in all reactors in the same file, you can provide the `preamble` outside the reactor, as shown here:
 
 ```lf-c
 preamble {=
@@ -60,7 +60,7 @@ main reactor {
 }
 ```
 
-You can also use the $preamble$ to define functions that are shared across reactions within a reactor, as in this example:
+You can also use the `preamble` to define functions that are shared across reactions within a reactor, as in this example:
 
 ```lf-c
 main reactor {
@@ -88,7 +88,7 @@ Not surprisingly, this will print:
 (The order in which these are printed is arbitrary because the reactions can execute in parallel.)
 
 To share a function across _reactors_, however, is a bit trickers.
-A $preamble$ that is put outside the $reactor$ definition can only contain
+A `preamble` that is put outside the `reactor` definition can only contain
 _declarations_ not _definitions_ of functions or variables.
 The following code, for example will **fail to compile**:
 
@@ -146,7 +146,7 @@ main reactor {
 The function _definition_ here is put into the main reactor, but it can be put in any reactor defined in the file.
 
 Most header files contain only declarations, and hence can be safely included
-using `#include` in a file-level $preamble$. If you wish to use a header file that includes both declarations and definitions, then you will need to include it within each reactor that uses it.
+using `#include` in a file-level `preamble`. If you wish to use a header file that includes both declarations and definitions, then you will need to include it within each reactor that uses it.
 
 If you wish to share _variables_ across reactors, similar constraints apply.
 Note that sharing variables across reactors is **strongly discouraged** because it can undermine the determinacy of Lingua Franca, and you may have to implement mutual-exclusion locks to access such variables. But it is occassionaly justfiable, as in the following example:
@@ -176,7 +176,7 @@ main reactor {
 
 Notice the use of the `extern` keyword in C, which is required because the _definition_ of the `shared_string` variable will be in a separate (code-generated) C file, the one for `main`, not the ones for `A` and `B`.
 
-One subtlety is that if you define symbols that you will use in $input$, $output$, or $state$ declarations, then the symbols _must_ be defined in a file-level $preamble$.
+One subtlety is that if you define symbols that you will use in `input`, `output`, or `state` declarations, then the symbols _must_ be defined in a file-level `preamble`.
 Specifically, the following code will **fail to compile**:
 
 ```lf-c
@@ -191,7 +191,7 @@ main reactor {
 }
 ```
 
-The compiler will issue an **unknown type name** error. To correct this, just move the declaration to a file-level $preamble$:
+The compiler will issue an **unknown type name** error. To correct this, just move the declaration to a file-level `preamble`:
 
 ```lf-c
 preamble {=
@@ -324,11 +324,11 @@ Converted string 42 to int 42.
 Your platform is Linux
 ```
 
-By putting import in the $preamble$, the module becomes available in all reactions of this reactor using the `self` modifier.
+By putting import in the `preamble`, the module becomes available in all reactions of this reactor using the `self` modifier.
 
 **Note:** Preambles will be put in the generated Python class for the given reactor, and thus is part of the instance of the reactor. This means that anything you put in the preamble will be specific to a particular reactor instance and cannot be used to share information between different instantiations of the reactor (this is a feature, not a bug, because it helps ensure determinacy). For more information about implementation details of the Python target, see [Implementation Details](<../reference/Target Language Details.mdx#python-target-implementation-details>).
 
-Alternatively, you can define a $preamble$ outside any reactor definition. Such a $preamble$ can be used for functions such as import or to define a global function. The following example shows importing the [hello](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/include/hello.py) module:
+Alternatively, you can define a `preamble` outside any reactor definition. Such a `preamble` can be used for functions such as import or to define a global function. The following example shows importing the [hello](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/include/hello.py) module:
 
 ```lf-py
 target Python {
@@ -374,7 +374,7 @@ main reactor {
 }
 ```
 
-Within the $preamble$, we specify to import the `threading` Python module and define a function that will be started in a separate thread in the reaction to $startup$. The thread function named `external` blocks when `input()` is called until the user types something and hits the return or enter key. Usually, you do not want a Lingua Franca program to block waiting for input. In the above reactor, a $timer$ is used to repeatedly trigger a reaction that reminds the user that it is waiting for input.
+Within the `preamble`, we specify to import the `threading` Python module and define a function that will be started in a separate thread in the reaction to `startup`. The thread function named `external` blocks when `input()` is called until the user types something and hits the return or enter key. Usually, you do not want a Lingua Franca program to block waiting for input. In the above reactor, a `timer` is used to repeatedly trigger a reaction that reminds the user that it is waiting for input.
 
 </ShowIf>
 
@@ -441,7 +441,7 @@ The important takeaway here is with the package.json file and the compiled JavaS
 <ShowIf rs>
 
 :::danger
-FIXME: Add $preamble$ example.
+FIXME: Add `preamble` example.
 :::
 
 </ShowIf>

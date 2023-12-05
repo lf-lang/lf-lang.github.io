@@ -7,7 +7,7 @@ import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
   ShowIf, ShowIfs, ShowOnly,
-  ShowOnlyInline
+  ShowOnlyInline,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 ## Method Declaration
@@ -38,7 +38,7 @@ A method declaration has the forms:
 </ShowIfs>
 
 <ShowOnly cpp>
-The $method$ keyword can optionally be prefixed with the $const$ qualifier, which indicates that the method has only read access to the reactor's state.
+The `method` keyword can optionally be prefixed with the `const` qualifier, which indicates that the method has only read access to the reactor's state.
 </ShowOnly>
 
 Methods are particularly useful in reactors that need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to be implemented in a single reaction. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction bodies or from other methods. Methods may also recursively invoke themselves. Consider the following example:

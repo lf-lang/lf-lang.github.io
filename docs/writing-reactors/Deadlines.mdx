@@ -6,7 +6,7 @@ description: Deadlines in Lingua Franca.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -55,7 +55,7 @@ Deadline violation detected.
 Deadline reactor produced an output.
 ```
 
-The first reaction of the `Deadline` reactor does not violate the deadline, but the second does. Notice that the sleep in the $main$ reactor occurs _after_ setting the output, but because of the deterministic semantics of LF, this does not matter. The actual value of an output cannot be known until every reaction that sets that output _completes_ its execution. Since this reaction takes at least 20 msec to complete, the deadline is assured of being violated.
+The first reaction of the `Deadline` reactor does not violate the deadline, but the second does. Notice that the sleep in the `main` reactor occurs _after_ setting the output, but because of the deterministic semantics of LF, this does not matter. The actual value of an output cannot be known until every reaction that sets that output _completes_ its execution. Since this reaction takes at least 20 msec to complete, the deadline is assured of being violated.
 
 Notice that the deadline is annotated in the diagram with a small clock symbol.
 

@@ -6,7 +6,7 @@ description: Terminating a Lingua Franca execution.
 import {
   LanguageSelector,
   NoSelectorTargetCodeBlock,
-  ShowIf, ShowIfs, ShowOnly
+  ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 <LanguageSelector c cpp py rs ts />
@@ -14,9 +14,9 @@ import {
 ## Shutdown Reactions
 
 There are several mechanisms for terminating a Lingua Franca in an orderly fashion.
-All of these mechanisms result in a **final tag** at which any reaction that declares $shutdown$ as a trigger will be invoked (recall that a **tag** is a tuple (**logical time**, **microstep**)). Other reactions may also be invoked at this final tag, and the order in which reactions are invoked will be constrained by the normal precedence rules.
+All of these mechanisms result in a **final tag** at which any reaction that declares `shutdown` as a trigger will be invoked (recall that a **tag** is a tuple (**logical time**, **microstep**)). Other reactions may also be invoked at this final tag, and the order in which reactions are invoked will be constrained by the normal precedence rules.
 
-If a reaction triggered by $shutdown$ produces outputs, then downstream reactors will also be invoked at the final tag. If the reaction schedules any actions by calling `schedule()`, those will be ignored. In fact, any event after the final tag will be ignored. After the completion of the final tag, the program will exit.
+If a reaction triggered by `shutdown` produces outputs, then downstream reactors will also be invoked at the final tag. If the reaction schedules any actions by calling `schedule()`, those will be ignored. In fact, any event after the final tag will be ignored. After the completion of the final tag, the program will exit.
 
 There are four ways to terminate a program:
 
@@ -37,7 +37,7 @@ There is a significant subtlety when using [physical connections](<../writing-re
 
 If a Lingua Franca program has no [physical actions](<../writing-reactors/Actions.mdx#physical-actions>), and if at any time during execution there are no future events waiting to be processed, then there is no possibility for any more reactions to occur and the program will exit. This situation is called **starvation**. If there is a **timer** anywhere in the program with a period, then this condition never occurs.
 
-One subtlety is that reactions triggered by $shutdown$ will be invoked one microstep later than the last tag at which there was an event. They cannot be invoked at the same tag because it is only after that last tag has completed that the runtime system can be sure that there are no future events. It would not be correct to trigger the $shutdown$ reactions at that point because it would be impossible to respect the required reaction ordering.
+One subtlety is that reactions triggered by `shutdown` will be invoked one microstep later than the last tag at which there was an event. They cannot be invoked at the same tag because it is only after that last tag has completed that the runtime system can be sure that there are no future events. It would not be correct to trigger the `shutdown` reactions at that point because it would be impossible to respect the required reaction ordering.
 
 <ShowOnly c py ts>
 
@@ -47,7 +47,7 @@ Starvation termination is not currently implemented for federated execution. You
 
 ## Stop Request
 
-If a reaction calls the built-in `request_stop()` function, then it is requesting that the program cease execution as soon as possible. This cessation will normally occur in the next microstep. The current tag will be completed as normal. Then the tag will be advanced by one microstep, and reactions triggered by $shutdown$ will be executed, along with any other reactions with triggers at that tag, with all reactions executed in precedence order.
+If a reaction calls the built-in `request_stop()` function, then it is requesting that the program cease execution as soon as possible. This cessation will normally occur in the next microstep. The current tag will be completed as normal. Then the tag will be advanced by one microstep, and reactions triggered by `shutdown` will be executed, along with any other reactions with triggers at that tag, with all reactions executed in precedence order.
 
 <ShowOnly c py ts>
 
