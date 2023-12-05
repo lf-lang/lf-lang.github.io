@@ -3,7 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TransformDynamicLFFileImportToStatic } from './src/remark/TransformDynamicLFFileImportToStatic';
-import redirects from "./docs/lagacy_routing";
+import redirects from "./docs/legacy_routing";
 
 const config: Config = {
   title: 'Lingua Franca',
@@ -76,7 +76,6 @@ const config: Config = {
           position: 'left',
           label: 'Handbook',
         },
-        {to: '/docs/installation', label: 'Install', position: 'left'},
         {to: '/blog', label: 'Blog', position: 'left'},
         {to: '/publications', label: 'Publications', position: 'left'},
         {to: '/community', label: 'Community', position: 'left'},
