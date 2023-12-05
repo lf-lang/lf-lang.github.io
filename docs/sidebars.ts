@@ -14,7 +14,7 @@ const sidebars: SidebarsConfig = {
   handbookSidebar: [
     {
       "type": "doc",
-      "id": "Overview"
+      "id": "Introduction"
     },
     {
       "type": "doc",
