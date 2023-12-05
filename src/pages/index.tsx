@@ -50,7 +50,7 @@ function HeroBanner() {
           <Link className="button button--primary" to="/docs/installation">
             <Translate>Get Started</Translate>
           </Link>
-          <Link className="button button--info" to="/docs/Overview">
+          <Link className="button button--info" to="/docs/Introduction">
             <Translate>Read the Docs</Translate>
           </Link>
           <span className={styles.indexCtasGitHubButtonWrapper}>
