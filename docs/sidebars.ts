@@ -14,7 +14,7 @@ const sidebars: SidebarsConfig = {
   handbookSidebar: [
     {
       "type": "doc",
-      "id": "Introduction"
+      "id": "introduction"
     },
     {
       "type": "doc",
@@ -22,7 +22,7 @@ const sidebars: SidebarsConfig = {
     },
     {
       "type": "doc",
-      "id": "Tutorial Videos"
+      "id": "tutorial-videos"
     },
     {
       "type": "category",
@@ -32,81 +32,81 @@ const sidebars: SidebarsConfig = {
       "items": [
         {
           "type": "doc",
-          "id": "writing-reactors/A First Reactor"
+          "id": "writing-reactors/a-first-reactor"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Inputs and Outputs"
+          "id": "writing-reactors/inputs-and-outputs"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Parameters and State Variables"
+          "id": "writing-reactors/parameters-and-state-variables"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Time and Timers"
+          "id": "writing-reactors/time-and-timers"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Composing Reactors"
+          "id": "writing-reactors/composing-reactors"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Reactions"
+          "id": "writing-reactors/reactions"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Reaction Declarations"
+          "id": "writing-reactors/reaction-declarations"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Methods"
+          "id": "writing-reactors/methods"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Causality Loops"
+          "id": "writing-reactors/causality-loops"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Extending Reactors"
+          "id": "writing-reactors/extending-reactors"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Actions"
+          "id": "writing-reactors/actions"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Superdense Time"
+          "id": "writing-reactors/superdense-time"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Modal Models"
+          "id": "writing-reactors/modal-models"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Deadlines"
-        },
-
-        {
-          "type": "doc",
-          "id": "writing-reactors/Multiports and Banks"
-        },
-        {
-          "type": "doc",
-          "id": "writing-reactors/Generics"
+          "id": "writing-reactors/deadlines"
         },
 
         {
           "type": "doc",
-          "id": "writing-reactors/Preambles"
+          "id": "writing-reactors/multiports-and-banks"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Distributed Execution"
+          "id": "writing-reactors/generics"
+        },
+
+        {
+          "type": "doc",
+          "id": "writing-reactors/preambles"
         },
         {
           "type": "doc",
-          "id": "writing-reactors/Termination"
+          "id": "writing-reactors/distributed-execution"
+        },
+        {
+          "type": "doc",
+          "id": "writing-reactors/termination"
         },
       ]
     },
@@ -118,19 +118,19 @@ const sidebars: SidebarsConfig = {
       "items": [
         {
           "type": "doc",
-          "id": "tools/Code Extension"
+          "id": "tools/code-extension"
         },
         {
           "type": "doc",
-          "id": "tools/Epoch IDE"
+          "id": "tools/epoch-ide"
         },
         {
           "type": "doc",
-          "id": "tools/Command Line Tools"
+          "id": "tools/command-line-tools"
         },
         {
           "type": "doc",
-          "id": "tools/Troubleshooting"
+          "id": "tools/troubleshooting"
         }
       ]
     },
@@ -142,27 +142,27 @@ const sidebars: SidebarsConfig = {
       "items": [
         {
           "type": "doc",
-          "id": "reference/Expressions"
+          "id": "reference/expressions"
         },
         {
           "type": "doc",
-          "id": "reference/Target Language Details"
+          "id": "reference/target-language-details"
         },
         {
           "type": "doc",
-          "id": "reference/Target Declaration"
+          "id": "reference/target-declaration"
         },
         {
           "type": "doc",
-          "id": "reference/Tracing"
+          "id": "reference/tracing"
         },
         {
           "type": "doc",
-          "id": "reference/Containerized Execution"
+          "id": "reference/containerized-execution"
         },
         {
           "type": "doc",
-          "id": "reference/Security"
+          "id": "reference/security"
         },
       ]
     },
@@ -174,11 +174,11 @@ const sidebars: SidebarsConfig = {
       "items": [
         {
           "type": "doc",
-          "id": "embedded/Arduino"
+          "id": "embedded/arduino"
         },
         {
           "type": "doc",
-          "id": "embedded/Zephyr"
+          "id": "embedded/zephyr"
         }
       ]
     },
@@ -190,31 +190,31 @@ const sidebars: SidebarsConfig = {
       "items": [
         {
           "type": "doc",
-          "id": "developer/Contributing"
+          "id": "developer/contributing"
         },
         {
           "type": "doc",
-          "id": "developer/Developer Eclipse Setup with Oomph"
+          "id": "developer/developer-eclipse-setup-with-oomph"
         },
         {
           "type": "doc",
-          "id": "developer/Developer IntelliJ Setup"
+          "id": "developer/developer-intellij-setup"
         },
         {
           "type": "doc",
-          "id": "developer/Downloading and Building"
+          "id": "developer/downloading-and-building"
         },
         {
           "type": "doc",
-          "id": "developer/Regression Tests"
+          "id": "developer/regression-tests"
         },
         {
           "type": "doc",
-          "id": "developer/Running Benchmarks"
+          "id": "developer/running-benchmarks"
         },
         {
           "type": "doc",
-          "id": "developer/Website Development"
+          "id": "developer/website-development"
         }
       ]
     }

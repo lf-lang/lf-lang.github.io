@@ -1,10 +1,10 @@
 export default [
   {
-    "to": "/docs/Tutorial Videos",
+    "to": "/docs/tutorial-videos",
     "from": "/docs/handbook/tutorial-video"
   },
   {
-    "to": "/docs/Introduction",
+    "to": "/docs/introduction",
     "from": "/docs/handbook/overview"
   },
   {
@@ -12,19 +12,19 @@ export default [
     "from": "/docs/handbook/language-specification"
   },
   {
-    "to": "/docs/tools/Epoch IDE",
+    "to": "/docs/tools/epoch-ide",
     "from": "/docs/handbook/epoch-ide"
   },
   {
-    "to": "/docs/tools/Code Extension",
+    "to": "/docs/tools/code-extension",
     "from": "/docs/handbook/code-extension"
   },
   {
-    "to": "/docs/tools/Troubleshooting",
+    "to": "/docs/tools/troubleshooting",
     "from": "/docs/handbook/troubleshooting"
   },
   {
-    "to": "/docs/tools/Command Line Tools",
+    "to": "/docs/tools/command-line-tools",
     "from": "/docs/handbook/command-line-tools"
   },
   {
@@ -44,131 +44,131 @@ export default [
     "from": "/docs/handbook/generic-types-interfaces-inheritance"
   },
   {
-    "to": "/docs/reference/Containerized Execution",
+    "to": "/docs/reference/containerized-execution",
     "from": "/docs/handbook/containerized-execution"
   },
   {
-    "to": "/docs/reference/Expressions",
+    "to": "/docs/reference/expressions",
     "from": "/docs/handbook/expressions"
   },
   {
-    "to": "/docs/reference/Target Language Details",
+    "to": "/docs/reference/target-language-details",
     "from": "/docs/handbook/target-language-details"
   },
   {
-    "to": "/docs/reference/Target Declaration",
+    "to": "/docs/reference/target-declaration",
     "from": "/docs/handbook/target-declaration"
   },
   {
-    "to": "/docs/reference/Tracing",
+    "to": "/docs/reference/tracing",
     "from": "/docs/handbook/tracing"
   },
   {
-    "to": "/docs/reference/Security",
+    "to": "/docs/reference/security",
     "from": "/docs/handbook/security"
   },
   {
-    "to": "/docs/developer/Website Development",
+    "to": "/docs/developer/website-development",
     "from": "/docs/handbook/website-development"
   },
   {
-    "to": "/docs/developer/Developer IntelliJ Setup",
+    "to": "/docs/developer/developer-intellij-setup",
     "from": "/docs/handbook/intellij"
   },
   {
-    "to": "/docs/developer/Developer Eclipse Setup with Oomph",
+    "to": "/docs/developer/developer-eclipse-setup-with-oomph",
     "from": "/docs/handbook/eclipse-oomph"
   },
   {
-    "to": "/docs/developer/Downloading and Building",
+    "to": "/docs/developer/downloading-and-building",
     "from": "/docs/handbook/developer-setup"
   },
   {
-    "to": "/docs/developer/Running Benchmarks",
+    "to": "/docs/developer/running-benchmarks",
     "from": "/docs/handbook/running-benchmarks"
   },
   {
-    "to": "/docs/developer/Contributing",
+    "to": "/docs/developer/contributing",
     "from": "/docs/handbook/contributing"
   },
   {
-    "to": "/docs/developer/Regression Tests",
+    "to": "/docs/developer/regression-tests",
     "from": "/docs/handbook/regression-tests"
   },
   {
-    "to": "/docs/writing-reactors/Time and Timers",
+    "to": "/docs/writing-reactors/time-and-timers",
     "from": "/docs/handbook/time-and-timers"
   },
   {
-    "to": "/docs/writing-reactors/Parameters and State Variables",
+    "to": "/docs/writing-reactors/parameters-and-state-variables",
     "from": "/docs/handbook/parameters-and-state-variables"
   },
   {
-    "to": "/docs/writing-reactors/Causality Loops",
+    "to": "/docs/writing-reactors/causality-loops",
     "from": "/docs/handbook/causality-loops"
   },
   {
-    "to": "/docs/writing-reactors/Inputs and Outputs",
+    "to": "/docs/writing-reactors/inputs-and-outputs",
     "from": "/docs/handbook/inputs-and-outputs"
   },
   {
-    "to": "/docs/writing-reactors/Methods",
+    "to": "/docs/writing-reactors/methods",
     "from": "/docs/handbook/methods"
   },
   {
-    "to": "/docs/writing-reactors/Actions",
+    "to": "/docs/writing-reactors/actions",
     "from": "/docs/handbook/actions"
   },
   {
-    "to": "/docs/writing-reactors/Distributed Execution",
+    "to": "/docs/writing-reactors/distributed-execution",
     "from": "/docs/handbook/distributed-execution"
   },
   {
-    "to": "/docs/writing-reactors/Reactions",
+    "to": "/docs/writing-reactors/reactions",
     "from": "/docs/handbook/reactions"
   },
   {
-    "to": "/docs/writing-reactors/Deadlines",
+    "to": "/docs/writing-reactors/deadlines",
     "from": "/docs/handbook/deadlines"
   },
   {
-    "to": "/docs/writing-reactors/Superdense Time",
+    "to": "/docs/writing-reactors/superdense-time",
     "from": "/docs/handbook/superdense-time"
   },
   {
-    "to": "/docs/writing-reactors/Multiports and Banks",
+    "to": "/docs/writing-reactors/multiports-and-banks",
     "from": "/docs/handbook/multiports-and-banks"
   },
   {
-    "to": "/docs/writing-reactors/Reaction Declarations",
+    "to": "/docs/writing-reactors/reaction-declarations",
     "from": "/docs/handbook/reaction-declarations"
   },
   {
-    "to": "/docs/writing-reactors/A First Reactor",
+    "to": "/docs/writing-reactors/a-first-reactor",
     "from": "/docs/handbook/a-first-reactor"
   },
   {
-    "to": "/docs/writing-reactors/Termination",
+    "to": "/docs/writing-reactors/termination",
     "from": "/docs/handbook/termination"
   },
   {
-    "to": "/docs/writing-reactors/Extending Reactors",
+    "to": "/docs/writing-reactors/extending-reactors",
     "from": "/docs/handbook/extending-reactors"
   },
   {
-    "to": "/docs/writing-reactors/Composing Reactors",
+    "to": "/docs/writing-reactors/composing-reactors",
     "from": "/docs/handbook/composing-reactors"
   },
   {
-    "to": "/docs/writing-reactors/Generics",
+    "to": "/docs/writing-reactors/generics",
     "from": "/docs/handbook/generics"
   },
   {
-    "to": "/docs/writing-reactors/Modal Models",
+    "to": "/docs/writing-reactors/modal-models",
     "from": "/docs/handbook/modal-models"
   },
   {
-    "to": "/docs/writing-reactors/Preambles",
+    "to": "/docs/writing-reactors/preambles",
     "from": "/docs/handbook/preambles"
   },
   {
@@ -192,11 +192,11 @@ export default [
     "from": "/docs/handbook/tools"
   },
   {
-    "to": "/docs/embedded/Arduino",
+    "to": "/docs/embedded/arduino",
     "from": "/docs/handbook/arduino"
   },
   {
-    "to": "/docs/embedded/Zephyr",
+    "to": "/docs/embedded/zephyr",
     "from": "/docs/handbook/zephyr"
   }
 ]

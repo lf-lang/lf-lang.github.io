@@ -15,7 +15,7 @@ import {
 
 The model of time in Lingua Franca is a bit more sophisticated than we have hinted at. Specifically, a **superdense** model of time is used. In particular, instead of a **timestamp**, LF uses a **tag**, which consists of a **logical time** _t_ and a **microstep** _m_.
 
-A [`logical` `action`](<../writing-reactors/Actions.mdx#logical-actions>) may have a `<min_delay>` of zero, and the `<offset>` argument to the `schedule()` function may be zero. In this case, the call to `schedule(>)` appears to be requesting that the action trigger at the _current logical time_. Here is where superdense time comes in. The action will indeed trigger at the current logical time, but one microstep later. Consider the following example:
+A [`logical` `action`](<../writing-reactors/actions.mdx#logical-actions>) may have a `<min_delay>` of zero, and the `<offset>` argument to the `schedule()` function may be zero. In this case, the call to `schedule(>)` appears to be requesting that the action trigger at the _current logical time_. Here is where superdense time comes in. The action will indeed trigger at the current logical time, but one microstep later. Consider the following example:
 
 import C_Microsteps from '../assets/code/c/src/Microsteps.lf';
 import Cpp_Microsteps from '../assets/code/cpp/src/Microsteps.lf';

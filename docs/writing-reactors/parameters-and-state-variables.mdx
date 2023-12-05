@@ -39,7 +39,7 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 
 <ShowOnly c>
 
-Types ending with a `*` are treated specially by the C target. See the [Target Language Details](<../reference/Target Language Details.mdx>).
+Types ending with a `*` are treated specially by the C target. See the [Target Language Details](../reference/target-language-details.mdx).
 
 To use strings conveniently in the C target, the "type" `string` is an alias for `{=const char*=}`.
 
@@ -65,11 +65,11 @@ reactor <class-name>(<param-name> = <expr>, ... ) {
 </ShowIfs>
 
 
-Depending on the target, the type may be a [generic type](../writing-reactors/Generics.mdx), which means that the type is parameter determined at the time the reactor class is instantiated.
+Depending on the target, the type may be a [generic type](../writing-reactors/generics.mdx), which means that the type is parameter determined at the time the reactor class is instantiated.
 
-Each parameter must have a _default value_, written `<param-name> = <expr>`. An expression may be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](../reference/Expressions.mdx) for full details on what expressions are valid.
+Each parameter must have a _default value_, written `<param-name> = <expr>`. An expression may be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](../reference/expressions.mdx) for full details on what expressions are valid.
 
-For example, the `Double` reactor on the [previous page](<../writing-reactors/Inputs and Outputs.mdx>) can be replaced with a more general parameterized reactor `Scale` as follows:
+For example, the `Double` reactor on the [previous page](../writing-reactors/inputs-and-outputs.mdx) can be replaced with a more general parameterized reactor `Scale` as follows:
 
 import C_Scale from '../assets/code/c/src/Scale.lf';
 import Cpp_Scale from '../assets/code/cpp/src/Scale.lf';
@@ -106,7 +106,7 @@ A reactor declares a state variable as follows:
 
 The type can any of the same forms as for a parameter.
 
-The `<value>` is an initial value and, like parameter values, can be given as an [expression](../reference/Expressions.mdx) or target language code with delimiters `{= ... =}`. The initial value can also be given as a parameter name. The value can be accessed and modified in a target-language-dependent way as illustrated by the following example:
+The `<value>` is an initial value and, like parameter values, can be given as an [expression](../reference/expressions.mdx) or target language code with delimiters `{= ... =}`. The initial value can also be given as a parameter name. The value can be accessed and modified in a target-language-dependent way as illustrated by the following example:
 
 import C_Count from '../assets/code/c/src/Count.lf';
 import Cpp_Count from '../assets/code/cpp/src/Count.lf';
@@ -122,7 +122,7 @@ This reactor has an integer state variable named `count`, and each time its reac
 
 <ShowIfs>
   <ShowIf cpp ts rs>
-    The `reset` keyword is not supported in $target-language$ because [modal reactors](<../writing-reactors/Modal Models.mdx>) are not supported.
+    The `reset` keyword is not supported in $target-language$ because [modal reactors](../writing-reactors/modal-models.mdx) are not supported.
   </ShowIf>
 
   <ShowIf c py>
@@ -131,7 +131,7 @@ This reactor has an integer state variable named `count`, and each time its reac
       c="reset state <name>:<type> = <value>" 
       py="reset state <name> = <value>" 
     />
-    When this is done, if the state variable or the reactor is within a mode of a [modal reactor](<../writing-reactors/Modal Models.mdx>), then when the mode is entered via a reset transition, the state variable will be reset to its initial value. For details, see the [Modal Reactors](<../writing-reactors/Modal Models.mdx>) section.
+    When this is done, if the state variable or the reactor is within a mode of a [modal reactor](../writing-reactors/modal-models.mdx), then when the mode is entered via a reset transition, the state variable will be reset to its initial value. For details, see the [Modal Reactors](../writing-reactors/modal-models.mdx) section.
 
   </ShowIf>
 </ShowIfs>

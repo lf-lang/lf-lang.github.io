@@ -290,7 +290,7 @@ An example of this can be found in [PreambleFile.lf](https://github.com/lf-lang/
 Admittedly, the precise interactions of preambles and imports can become confusing. The preamble mechanism will likely be refined in future revisions.
 
 Note that functions defined in the preamble cannot access members such as state variables of the reactor unless they are explicitly passed as arguments.
-If access to the inner state of a reactor is required, [methods](<../writing-reactors/Methods.mdx#method-declaration>) present a viable and easy to use alternative.
+If access to the inner state of a reactor is required, [methods](<../writing-reactors/methods.mdx#method-declaration>) present a viable and easy to use alternative.
 
 </ShowIf>
 
@@ -326,7 +326,7 @@ Your platform is Linux
 
 By putting import in the `preamble`, the module becomes available in all reactions of this reactor using the `self` modifier.
 
-**Note:** Preambles will be put in the generated Python class for the given reactor, and thus is part of the instance of the reactor. This means that anything you put in the preamble will be specific to a particular reactor instance and cannot be used to share information between different instantiations of the reactor (this is a feature, not a bug, because it helps ensure determinacy). For more information about implementation details of the Python target, see [Implementation Details](<../reference/Target Language Details.mdx#python-target-implementation-details>).
+**Note:** Preambles will be put in the generated Python class for the given reactor, and thus is part of the instance of the reactor. This means that anything you put in the preamble will be specific to a particular reactor instance and cannot be used to share information between different instantiations of the reactor (this is a feature, not a bug, because it helps ensure determinacy). For more information about implementation details of the Python target, see [Implementation Details](<../reference/target-language-details.mdx#python-target-implementation-details>).
 
 Alternatively, you can define a `preamble` outside any reactor definition. Such a `preamble` can be used for functions such as import or to define a global function. The following example shows importing the [hello](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/include/hello.py) module:
 

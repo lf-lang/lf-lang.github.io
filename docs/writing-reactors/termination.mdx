@@ -29,13 +29,13 @@ We address each of these in turn.
 
 ## Timeout
 
-The [target property `timeout`](<../reference/Target Declaration.mdx#timeout>) specifies the last logical time at which reactions should be triggered. The last invocation of reactions will be at tag (`timeout`, 0).
+The [target property `timeout`](<../introduction#timeout>) specifies the last logical time at which reactions should be triggered. The last invocation of reactions will be at tag (`timeout`, 0).
 
-There is a significant subtlety when using [physical connections](<../writing-reactors/Composing Reactors.mdx#physical-connections>), which are connections using the syntax `~>`. Such connections specify that the tag at the receiving end will be based on the physical time at which the message is received. If the tag assigned at the receiving end is greater than the final tag, then the message is lost. Hence, **messages sent near the `timeout` time are likely to be lost!**
+There is a significant subtlety when using [physical connections](<../writing-reactors/composing-reactors.mdx#physical-connections>), which are connections using the syntax `~>`. Such connections specify that the tag at the receiving end will be based on the physical time at which the message is received. If the tag assigned at the receiving end is greater than the final tag, then the message is lost. Hence, **messages sent near the `timeout` time are likely to be lost!**
 
 ## Starvation
 
-If a Lingua Franca program has no [physical actions](<../writing-reactors/Actions.mdx#physical-actions>), and if at any time during execution there are no future events waiting to be processed, then there is no possibility for any more reactions to occur and the program will exit. This situation is called **starvation**. If there is a **timer** anywhere in the program with a period, then this condition never occurs.
+If a Lingua Franca program has no [physical actions](<../writing-reactors/actions.mdx#physical-actions>), and if at any time during execution there are no future events waiting to be processed, then there is no possibility for any more reactions to occur and the program will exit. This situation is called **starvation**. If there is a **timer** anywhere in the program with a period, then this condition never occurs.
 
 One subtlety is that reactions triggered by `shutdown` will be invoked one microstep later than the last tag at which there was an event. They cannot be invoked at the same tag because it is only after that last tag has completed that the runtime system can be sure that there are no future events. It would not be correct to trigger the `shutdown` reactions at that point because it would be impossible to respect the required reaction ordering.
 

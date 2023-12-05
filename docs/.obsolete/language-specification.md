@@ -498,7 +498,7 @@ An instance is created with the syntax:
 
 > _instance_name_ = **new** _class_name_(_parameters_);
 
-A bank with several instances can be created in one such statement, as explained in the [banks of reactors documentation](<../writing-reactors/Multiports and Banks.mdx#banks-of-reactors>).
+A bank with several instances can be created in one such statement, as explained in the [banks of reactors documentation](<../writing-reactors/multiports-and-banks.mdx#banks-of-reactors>).
 
 The _parameters_ argument has the form:
 
@@ -512,7 +512,7 @@ where the ports are either _instance_name.port_name_ or just _port_name_, where 
 
 ### Physical Connections
 
-A subtle and rarely used variant is a **physical connection**, denoted `~>`. In such a connection, the logical time at the recipient is derived from the local physical clock rather than being equal to the logical time at the sender. The physical time will always exceed the logical time of the sender, so this type of connection incurs a nondeterministic positive logical time delay. Physical connections are useful sometimes in [Distributed Execution](<../writing-reactors/Distributed Execution.mdx>) in situations where the nondeterministic logical delay is tolerable. Such connections are more efficient because timestamps need not be transmitted and messages do not need to flow through through a centralized coordinator (if a centralized coordinator is being used).
+A subtle and rarely used variant is a **physical connection**, denoted `~>`. In such a connection, the logical time at the recipient is derived from the local physical clock rather than being equal to the logical time at the sender. The physical time will always exceed the logical time of the sender, so this type of connection incurs a nondeterministic positive logical time delay. Physical connections are useful sometimes in [Distributed Execution](../writing-reactors/distributed-execution.mdx) in situations where the nondeterministic logical delay is tolerable. Such connections are more efficient because timestamps need not be transmitted and messages do not need to flow through through a centralized coordinator (if a centralized coordinator is being used).
 
 ### Connections with Delays
 

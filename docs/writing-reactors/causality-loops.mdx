@@ -33,7 +33,7 @@ The diagram highlights a **causality loop** in the program. At each tag, in reac
 
 ## Cycles with Delays
 
-One way to break the causality loop and get an executable program is to introduce a [logical delay](<../writing-reactors/Composing Reactors.mdx#connections-with-logical-delays>) into the loop, as shown below:
+One way to break the causality loop and get an executable program is to introduce a [logical delay](<../writing-reactors/composing-reactors.mdx#connections-with-logical-delays>) into the loop, as shown below:
 
 import C_CycleWithDelay from '../assets/code/c/src/CycleWithDelay.lf';
 import Cpp_CycleWithDelay from '../assets/code/cpp/src/CycleWithDelay.lf';
@@ -47,7 +47,7 @@ import CycleWithDelaySVG from "./../assets/images/diagrams/CycleWithDelay.svg"
 
 <CycleWithDelaySVG title="Lingua Franca diagram: CycleWithDelay" role="img" width="400" />
 
-Here, we have used a delay of 0, which results in a delay of one [microstep](<../writing-reactors/Superdense Time.mdx>). We could equally well have specified a positive time value.
+Here, we have used a delay of 0, which results in a delay of one [microstep](../writing-reactors/superdense-time.mdx). We could equally well have specified a positive time value.
 
 ## Reaction Order
 

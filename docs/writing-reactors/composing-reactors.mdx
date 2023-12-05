@@ -13,8 +13,8 @@ import {
 
 ## Contained Reactors
 
-Reactors can contain instances of other reactors defined in the same file or in an imported file. Assume the `Count` and `Scale` reactors defined in [Parameters and State Variables](<../writing-reactors/Parameters and State Variables.mdx>) are stored in files `Count.lf` and `Scale.lf`, respectively,
-and that the `TestCount` reactor from [Time and Timers](<../writing-reactors/Time and Timers.mdx>) is stored in `TestCount.lf`. Then the following program composes one instance of each of the three:
+Reactors can contain instances of other reactors defined in the same file or in an imported file. Assume the `Count` and `Scale` reactors defined in [Parameters and State Variables](../writing-reactors/parameters-and-state-variables.mdx) are stored in files `Count.lf` and `Scale.lf`, respectively,
+and that the `TestCount` reactor from [Time and Timers](../writing-reactors/time-and-timers.mdx) is stored in `TestCount.lf`. Then the following program composes one instance of each of the three:
 
 import C_RegressionTest from '../assets/code/c/src/RegressionTest.lf';
 import Cpp_RegressionTest from '../assets/code/cpp/src/RegressionTest.lf';
@@ -39,10 +39,10 @@ In this diagram, the timer is represented by a clock-like icon, the reactions by
 An instance is created with the syntax:
 
 ```lf
-    <instance_name> = new <class_name>(<parameters>)
+    <instance_name> = new <class_name>(parameters)
 ```
 
-A bank with several instances can be created in one such statement, as explained in the [banks of reactors documentation](<../writing-reactors/Multiports and Banks.mdx#banks-of-reactors>).
+A bank with several instances can be created in one such statement, as explained in the [banks of reactors documentation](<../writing-reactors/multiports-and-banks.mdx#banks-of-reactors>).
 
 The `<parameters>` argument is a comma-separated list of assignments:
 
@@ -50,7 +50,7 @@ The `<parameters>` argument is a comma-separated list of assignments:
     <parameter_name> = <value>, ...
 ```
 
-Like the default value for parameters, `<value>` can be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, target-language code enclosed in `{= ... =}`, or any of the list forms described in [Expressions](../reference/Expressions.mdx).
+Like the default value for parameters, `<value>` can be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, target-language code enclosed in `{= ... =}`, or any of the list forms described in [Expressions](../reference/expressions.mdx).
 
 ## Connections
 
@@ -170,9 +170,9 @@ Connections may include a **logical delay** using the `after` keyword, as follow
   <source_port_reference> -> <destination_port_reference> after <time_value>
 ```
 
-where `<time_value>` can be any of the forms described in [Expressions](../reference/Expressions.mdx).
+where `<time_value>` can be any of the forms described in [Expressions](../reference/expressions.mdx).
 
-The `after` keyword specifies that the logical time of the event delivered to the destination port will be larger than the logical time of the reaction that wrote to source port. The time value is required to be non-negative, but it can be zero, in which case the input event at the receiving end will be one [microstep](<../writing-reactors/Actions.mdx#superdense-time>) later than the event that triggered it.
+The `after` keyword specifies that the logical time of the event delivered to the destination port will be larger than the logical time of the reaction that wrote to source port. The time value is required to be non-negative, but it can be zero, in which case the input event at the receiving end will be one [microstep](<../writing-reactors/actions.mdx#superdense-time>) later than the event that triggered it.
 
 ## Physical Connections
 
@@ -192,4 +192,4 @@ import PhysicalConnectionSVG from "./../assets/images/diagrams/PhysicalConnectio
 
 <PhysicalConnectionSVG title="Lingua Franca diagram: PhysicalConnection" role="img" width="200" />
 
-In such a connection, the logical time at the recipient is derived from the local physical clock rather than being equal to the logical time at the sender. The physical time will always exceed the logical time of the sender (unless fast is set to `true`), so this type of connection incurs a nondeterministic positive logical time delay. Physical connections are useful sometimes in [Distributed-Execution](<../writing-reactors/Distributed Execution.mdx>) in situations where the nondeterministic logical delay is tolerable. Such connections are more efficient because timestamps need not be transmitted and messages do not need to flow through through a centralized coordinator (if a centralized coordinator is being used).
+In such a connection, the logical time at the recipient is derived from the local physical clock rather than being equal to the logical time at the sender. The physical time will always exceed the logical time of the sender (unless fast is set to `true`), so this type of connection incurs a nondeterministic positive logical time delay. Physical connections are useful sometimes in [Distributed-Execution](../writing-reactors/distributed-execution.mdx) in situations where the nondeterministic logical delay is tolerable. Such connections are more efficient because timestamps need not be transmitted and messages do not need to flow through through a centralized coordinator (if a centralized coordinator is being used).
