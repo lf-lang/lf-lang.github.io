@@ -61,9 +61,11 @@ export default function Community(): JSX.Element {
             <Translate>Online</Translate>
           </Heading>
           <div className={"text--center"}>
+            <Translate>
             Tap into our online resources to learn more about Lingua Franca,
             provide feedback, connect with our developers, and find out about
             new updates.
+            </Translate>
           </div>
           <div className={clsx("row")}>
             <SocialMediaCard
@@ -99,6 +101,7 @@ export default function Community(): JSX.Element {
                 <Link href="https://github.com/lf-lang/lingua-franca/issues/new/choose">
                   Tell us on GitHub.
                 </Link>
+                
               </>
             </SocialMediaCard>
             {/* Tweak X white logo so that its background is always black and it's smaller and centred. */}
@@ -119,7 +122,7 @@ export default function Community(): JSX.Element {
               name="Reddit"
             >
               <>
-                Stay up to date. Find us on Reddit{" "}
+                Stay up to date. Find us on Reddit at{" "}
                 <Link
                   href="https://reddit.com/r/thelflang"
                   title="Lingua Franca on Twitter"
