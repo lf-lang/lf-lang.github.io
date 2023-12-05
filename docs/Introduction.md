@@ -7,7 +7,7 @@ Lingua Franca (LF) is a polyglot coordination language built enrich mainstream t
 
 A Lingua Franca program specifies the interactions between components called reactors. The logic of each reactor is written in plain target code. A code generator synthesizes one or more programs in the target language, which are then compiled using standard tool chains. If the application has exploitable parallelism, then it executes transparently on multiple cores without compromising determinacy. A distributed application translates into multiple programs and scripts to launch those programs on distributed machines. The communication fabric connecting components is synthesized as part of the programs.
 
-## Reactor-oriented programming
+## Reactor-Oriented Programming
 Lingua Franca programs are compositions of reactors, which are stateful
 components with event-triggered routines that may read inputs, write outputs, manipulate the reactor's state and schedule future events. 
 Reactors are similar to actors, software components that send each other messages, but unlike classical actors, messages are timestamped, and concurrent composition of reactors is deterministic by default. When nondeterministic interactions are tolerable or desired, they must be explicitly coded. LF itself is a polyglot composition language, not a complete programming language. LF describes the interfaces and composition of reactors. See our [publications and presentations](/publications) on reactors and Lingua Franca.
@@ -23,5 +23,5 @@ The reactor-oriented programming paradigm is informally described via the follow
 7. _Determinism_ — A Lingua Franca program is deterministic unless the programmer explicit uses nondeterministic constructs. Given the same input data, a composition of reactors has exactly one correct behavior. This makes Lingua Franca programs _testable_.
 8. _Concurrency_ — Dependencies between reactions are explicitly declared in a Lingua Franca program, and reactions that are not dependent on one another can be executed in parallel on a multi-core machine. If the target provides a support for federated execution, then execution can also be distributed across networks.
 
-## Getting started
-To get started with Lingua Franca, [set up a development environment](installation.md) and learn how to write [a first reactor](writing-reactors/A%20First%20Reactor.mdx). There are also a number of useful [tutorial videos](Tutorial%20Video.mdx) available.
+## Getting Started
+To get started with Lingua Franca, [set up a development environment](installation.md) and learn how to write [a first reactor](writing-reactors/A%20First%20Reactor.mdx). There are also a number of useful [tutorial videos](Tutorial%20Videos.mdx) available.

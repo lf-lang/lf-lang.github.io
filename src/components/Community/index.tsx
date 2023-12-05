@@ -58,14 +58,16 @@ export default function Community(): JSX.Element {
             as="h2"
             className={clsx("margin-bottom--lg", "text--center")}
           >
-            <Translate>Online</Translate>
+            <Translate>Online Places</Translate>
           </Heading>
           <div className={"text--center"}>
-            <Translate>
-            Tap into our online resources to learn more about Lingua Franca,
-            provide feedback, connect with our developers, and find out about
-            new updates.
-            </Translate>
+            <p>
+              <Translate>
+                Tap into our online resources to learn more about Lingua Franca,
+                provide feedback, connect with our developers, and find out about
+                new updates.
+              </Translate>
+            </p>
           </div>
           <div className={clsx("row")}>
             <SocialMediaCard
