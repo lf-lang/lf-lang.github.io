@@ -8,6 +8,7 @@ import Heading from "@theme/Heading";
 import HomepageFeatures, {
   TwoColumns,
 } from "@site/src/components/HomepageFeatures";
+import { CodeContainer } from '@site/src/components/HomepageSlider';
 
 import styles from "./index.module.css";
 /**
@@ -20,12 +21,13 @@ function HeroBanner() {
   return (
     <div className={styles.hero} data-theme="dark">
       <div className={styles.heroInner}>
+      <CodeContainer className={styles.heroLogo} />
         <Heading as="h1" className={styles.heroProjectTagline}>
-          <img
+        {/*<img
             alt="Nadeshiko sleeping"
             className={styles.heroLogo}
             src="https://github.com/axmmisaka/axmmisaka/blob/master/nadeshiko1.gif?raw=true"
-          />
+          /> */}
           <span
             className={styles.heroTitleTextHtml}
             // eslint-disable-next-line react/no-danger
@@ -39,7 +41,9 @@ function HeroBanner() {
               }),
             }}
           />
+          
         </Heading>
+        
         <div className={styles.subHero}>
             <Translate>
             Lingua Franca (LF) allows you to write blazing-fast, deterministic,

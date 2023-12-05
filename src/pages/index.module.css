@@ -11,7 +11,8 @@
 }
 
 .subHero {
-  font-size: 20px;
+  color: var(--ifm-color-secondary-lightest);
+  font-size: 1.2rem;
 }
 
 @media screen and (max-width: 996px) {
@@ -59,7 +60,7 @@
 
 .announcementDark {
   background-color: #20232a;
-  color: #fff;
+  color: var(--ifm-color-secondary-lightest);
   /* Reapply the primary color, because it has been locally overridden as
    * the dark theme color */
   --ifm-link-color: var(--ifm-color-primary);
@@ -137,12 +138,12 @@ html[data-theme="dark"] .topBannerTitleText {
 
 .heroInner {
   margin: 0 auto;
-  max-width: 1100px;
+  max-width: 1400px;
   padding: 0 20px;
 }
 
 .heroProjectTagline {
-  color: #fff;
+  color: var(--ifm-color-secondary-lightest);
   font-size: 60px;
   margin: 0;
 }
