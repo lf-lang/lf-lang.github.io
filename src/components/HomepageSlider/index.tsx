@@ -1,108 +1,114 @@
+import Translate from "@docusaurus/Translate";
+
 const codeHTML: JSX.Element = (
-  <pre
+    <pre
     className="shiki material-theme-darker"
-    style={{ backgroundColor: 'transparent', color: '#EEFFFF' }}
+    style={{ backgroundColor: "transparent", color: "#EEFFFF" }}
     tabIndex={0}
-  >
+    >
     <code>
-      <span className="line">
-        <span style={{ color: '#89DDFF', fontStyle: 'italic' }}>target</span>
-        <span style={{ color: '#89DDFF' }}> C</span>
-        <span style={{ color: '#EEFFFF' }}>;</span>
+    <span style={{ color: "#89DDFF", fontStyle: "italic" }}>target</span>
+      <span style={{ color: "#EEFFFF" }}>
+        {" "}C
       </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#C792EA' }}>reactor</span>
-        <span style={{ color: '#FFCB6B' }}> Adder</span>
-        <span style={{ color: '#EEFFFF' }}> {'{'}</span>
+      <br/>
+    <span style={{ color: "#EEFFFF" }}>
+        import B, C from "Foo.lf"
       </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#C792EA' }}>{'    '}input</span>
-        <span style={{ color: '#EEFFFF' }}>[4] i: </span>
-        <span style={{ color: '#C792EA' }}>int</span>
+      <br/>
+    <span style={{ color: "#EEFFFF" }}>
+        reactor A {"{"}
+    </span>
+    <br/>
+    <span style={{ color: "#C792EA" }}>{"    "}timer</span>
+      <span style={{ color: "#EEFFFF" }}> t(</span>
+      <span style={{ color: "#F78C6C" }}>0</span>
+      <span style={{ color: "#EEFFFF" }}>, 10ms)</span>
+      <br/>
+      <span style={{ color: "#C792EA" }}>{"    "}output</span>
+      <span style={{ color: "#EEFFFF" }}> o: </span>
+      <span style={{ color: "#C792EA" }}>int</span>
+      <br/>
+      <span style={{ color: "#C792EA" }}>{"    "}state</span>
+      <span style={{ color: "#C792EA" }}> s</span>
+      <span style={{ color: "#EEFFFF" }}>: </span>
+      <span style={{ color: "#C792EA" }}>int</span>
+      <span style={{ color: "#89DDFF" }}> =</span>
+      <span style={{ color: "#F78C6C" }}> 0</span>
+      <br/>
+      <span style={{ color: "#89DDFF", fontStyle: "italic" }}>
+        {"    "}reaction
       </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#89DDFF', fontStyle: 'italic' }}>
-          {'    '}reaction
+      <span style={{ color: "#EEFFFF" }}>(t) </span>
+      <span style={{ color: "#89DDFF" }}>-&gt;</span>
+      <span style={{ color: "#EEFFFF" }}> o {"{="}</span>
+      <br/>
+      
+      <span style={{ color: "#EEFFFF" }}>{"      "}self</span>
+      <span style={{ color: "#89DDFF" }}>-&gt;</span>
+      <span style={{ color: "#EEFFFF" }}>s</span>
+      <span style={{ color: "#89DDFF" }}>++</span>
+      <span style={{ color: "#EEFFFF" }}>;</span>
+      <br/>
+      <span style={{ color: "#EEFFFF" }}>{"      "}lf_set(o, self</span>
+      <span style={{ color: "#89DDFF" }}>-&gt;</span>
+      <span style={{ color: "#EEFFFF" }}>s);</span>
+      <br/>
+      <span style={{ color: "#EEFFFF" }}>{"    "}</span>
+      <span style={{ color: "#89DDFF" }}>=</span>
+      <span style={{ color: "#EEFFFF" }}>
+        {"}"}
+      <br/>
+        {"}"}
+      </span>
+      <br/>  
+        <span style={{ color: "#C792EA" }}>main</span>
+        <span style={{ color: "#C792EA" }}> reactor</span>
+        <span style={{ color: "#EEFFFF" }}>
+            {" "}
+            {"{"}
+            <br/>
+            {"    "}a{" "}
         </span>
-        <span style={{ color: '#EEFFFF' }}>(i) {'{'}=</span>
-      </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#C792EA' }}>{'      '}int</span>
-        <span style={{ color: '#EEFFFF' }}> sum </span>
-        <span style={{ color: '#89DDFF' }}>=</span>
-        <span style={{ color: '#EEFFFF' }}> i</span>
-        <span style={{ color: '#89DDFF' }}>[</span>
-        <span style={{ color: '#F78C6C' }}>0</span>
-        <span style={{ color: '#89DDFF' }}>]-&gt;</span>
-        <span style={{ color: '#EEFFFF' }}>value</span>
-        <span style={{ color: '#89DDFF' }}>;</span>
-      </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#89DDFF', fontStyle: 'italic' }}>
-          {'      '}for
-        </span>
-        <span style={{ color: '#89DDFF' }}> (</span>
-        <span style={{ color: '#C792EA' }}>int</span>
-        <span style={{ color: '#EEFFFF' }}> j</span>
-        <span style={{ color: '#89DDFF' }}>=</span>
-        <span style={{ color: '#F78C6C' }}>1</span>
-        <span style={{ color: '#89DDFF' }}>;</span>
-        <span style={{ color: '#EEFFFF' }}> j </span>
-        <span style={{ color: '#89DDFF' }}>&lt;</span>
-        <span style={{ color: '#EEFFFF' }}> i_width</span>
-        <span style={{ color: '#89DDFF' }}>;</span>
-        <span style={{ color: '#EEFFFF' }}> j</span>
-        <span style={{ color: '#89DDFF' }}>++)</span>
-        <span style={{ color: '#89DDFF' }}> {'{'}</span>
-      </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#F07178' }}>{'        '}sum </span>
-        <span style={{ color: '#89DDFF' }}>+=</span>
-        <span style={{ color: '#EEFFFF' }}> i</span>
-        <span style={{ color: '#89DDFF' }}>[</span>
-        <span style={{ color: '#F07178' }}>j</span>
-        <span style={{ color: '#89DDFF' }}>]-&gt;</span>
-        <span style={{ color: '#EEFFFF' }}>value</span>
-        <span style={{ color: '#89DDFF' }}>;</span>
-      </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#89DDFF' }}>
-          {'      '}
-          {'}'}
-        </span>
-      </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#82AAFF' }}>{'      '}printf</span>
-        <span style={{ color: '#89DDFF' }}>(</span>
-        <span style={{ color: '#89DDFF' }}>"</span>
-        <span style={{ color: '#C3E88D' }}>Sum: %d\n</span>
-      </span>
-      <span className="line">
-        <span style={{ color: '#89DDFF' }}>"</span>
-        <span style={{ color: '#89DDFF' }}>,</span>
-        <span style={{ color: '#EEFFFF' }}> sum</span>
-        <span style={{ color: '#89DDFF' }}>);</span>
-      </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#EEFFFF' }}>
-          {'    '}={'}'}
-        </span>
-      </span>
-      <br />
-      <span className="line">
-        <span style={{ color: '#EEFFFF' }}>{'}'}</span>
-      </span>
+        <span style={{ color: "#89DDFF" }}>=</span>
+        <span style={{ color: "#89DDFF", fontStyle: "italic" }}> new</span>
+        <span style={{ color: "#FFCB6B" }}> A</span>
+        <span style={{ color: "#EEFFFF" }}>()
+        <br/>
+        {"    "}b </span>
+        <span style={{ color: "#89DDFF" }}>=</span>
+        <span style={{ color: "#89DDFF", fontStyle: "italic" }}> new</span>
+        <span style={{ color: "#EEFFFF" }}>[</span>
+        <span style={{ color: "#F78C6C" }}>4</span>
+        <span style={{ color: "#EEFFFF" }}>] B()
+        <br/>
+        {"    "}c </span>
+        <span style={{ color: "#89DDFF" }}>=</span>
+        <span style={{ color: "#89DDFF", fontStyle: "italic" }}> new</span>
+        <span style={{ color: "#FFCB6B" }}> C</span>
+        <span style={{ color: "#EEFFFF" }}>()
+        <br/>
+        {"    "}(a</span>
+        <span style={{ color: "#89DDFF" }}>.</span>
+        <span style={{ color: "#EEFFFF" }}>o)</span>
+        <span style={{ color: "#89DDFF" }}>+</span>
+        <span style={{ color: "#89DDFF" }}> -&gt;</span>
+        <span style={{ color: "#EEFFFF" }}> b</span>
+        <span style={{ color: "#89DDFF" }}>.</span>
+        <span style={{ color: "#EEFFFF" }}>i
+        <br/>
+        {"    "}b</span>
+        <span style={{ color: "#89DDFF" }}>.</span>
+        <span style={{ color: "#EEFFFF" }}>o </span>
+        <span style={{ color: "#89DDFF" }}>-&gt;</span>
+        <span style={{ color: "#EEFFFF" }}> c</span>
+        <span style={{ color: "#89DDFF" }}>.</span>
+        <span style={{ color: "#EEFFFF" }}>i
+        <br/>
+        {"}"}</span>
     </code>
   </pre>
+  
 );
 
 export const CodeContainer = ({
@@ -121,6 +127,16 @@ export const CodeContainer = ({
       }}
       className={className}
     >
+      <div
+        style={{
+          fontSize: "1.2rem",
+          color: "white",
+          backgroundColor: "#242526"
+      }}>
+            <Translate>
+            Architect your application in Lingua Franca
+            </Translate>
+        </div>
       {codeHTML}
     </div>
   );
