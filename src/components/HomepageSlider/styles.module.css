@@ -1,0 +1,79 @@
+.codeContainer {
+    min-width: 600px;
+    height: 150px;
+    background-color: #10425d;
+    font-size: 1rem;
+    border-radius: 8px;
+    padding: 0 !important;
+
+    position: relative;
+}
+
+.codeContainer.title {
+    max-height: 2rem;
+    border-radius: 8px 8px 0 0;
+    font-size: 1.2rem;
+    color: white;
+    background-color: #242526;
+    padding-left: 1rem !important;
+}
+
+.advance {
+    position: absolute;
+    right: -1.5rem;
+    bottom: -1.5rem;
+    background-color: #c4820e;
+    height: 3rem;
+    width: 3rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.codeContent {
+    height: 30rem;
+}
+
+.fadeIn {
+    animation: fadeIn ease 2s;
+}
+
+.fadeOut {
+    animation: fadeOut ease 2s;
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    0% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.diagramSVG {
+    padding: var(--ifm-pre-padding);
+    width: 100%;
+    height: auto;
+    transform: rotate(90deg) scale(0.6);
+    float: right;
+}
+.diagramSVGContainer {
+    max-width: 600px;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
