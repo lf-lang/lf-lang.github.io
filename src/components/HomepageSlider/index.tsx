@@ -123,19 +123,24 @@ export const CodeContainer = ({
         minHeight: '337px',
         backgroundColor: '#10425D',
         fontSize: '1rem',
-        borderRadius: "1rem"
+        borderRadius: ".5rem",
+        padding: 0,
       }}
       className={className}
-    >
-      <div
+    > <div
         style={{
+          borderRadius: ".5rem .5rem 0     0",
           fontSize: "1.2rem",
           color: "white",
-          backgroundColor: "#242526"
+          backgroundColor: "#242526",
       }}>
+        <span style={{
+            padding: "1rem"
+        }}>
             <Translate>
             Architect your application in Lingua Franca
             </Translate>
+        </span>
         </div>
       {codeHTML}
     </div>
