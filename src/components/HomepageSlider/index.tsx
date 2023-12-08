@@ -1,5 +1,6 @@
 import clsx from 'clsx';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import { SwitchTransition, CSSTransition } from "react-transition-group";
 
 import Translate from '@docusaurus/Translate';
 
@@ -33,6 +34,7 @@ export const CodeContainer = ({
   className: string;
 }): JSX.Element => {
   const [page, setPage] = useState(1);
+  const refs = [useRef(null), useRef(null), useRef(null)] as (React.LegacyRef<HTMLDivElement> | undefined)[];
 
   return (
     <div className={clsx(className, styles.codeContainer)}>
@@ -40,11 +42,29 @@ export const CodeContainer = ({
       <div className={clsx(styles.codeContainer, styles.title)}>
         <span>{titles[page]}</span>
       </div>
-      <div className={clsx(styles.codeContent, styles.fadeIn)}>
-        {codes[page]}
+      <div style={{overflowX: "hidden"}}>
+        <SwitchTransition mode={"out-in"}>
+            <CSSTransition
+              key={page}
+              nodeRef={refs[page]}
+              addEndListener={(done) => {
+                refs[page]!.current.addEventListener("transitionend", done, false);
+              }}
+              classNames={{
+                enter: styles.fadeEnter,
+                enterActive: styles.fadeEnterActive,
+                exit: styles.fadeExit,
+                exitActive: styles.fadeExitActive,
+              }}
+            >
+              <div ref={refs[page]} className={clsx(styles.codeContent)}>
+                {codes[page]}
+              </div>
+            </CSSTransition>
+          </SwitchTransition>
       </div>
       <button
-        className={styles.advance}
+        className={clsx(styles.advance, "button", "button--primary")}
         onClick={() => {
           setPage((page) => (page + 1) % 3);
         }}
