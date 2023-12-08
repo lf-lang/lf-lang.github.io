@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.2" baseProfile="tiny"
+	 id="keith-diagram_x5F_sprotty_x5F_file:_x2F__x2F__x2F_workspace_x2F_playground-lingua-franca_x2F_lf_x2F_src_x2F_Example.lf"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 242.2 204.5"
+	 overflow="visible" xml:space="preserve">
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a" transform="translate(6, 56.87998580932617)">
+	<g id="R1892336170">
+		<path fill="#F2F2F2" stroke="#BEBEBE" d="M2.5-56.4h186c4.4,0,8,3.6,8,8v66.5c0,4.4-3.6,8-8,8H2.5c-4.4,0-8-3.6-8-8v-66.5
+			C-5.5-52.8-1.9-56.4,2.5-56.4z"/>
+		<g transform="translate(6,6)">
+			<g transform="translate(83,0)">
+				<g id="R1892336170_x24_R1156336184_x24_R1968179698_x24_R391554161">
+					<text transform="matrix(1 0 0 1 -5.5 -47.94)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">Foo</text>
+				</g>
+			</g>
+		</g>
+		<g id="R1892336170_x24_R563105933">
+			
+				<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24_Nmain_x5F_a_x5F_t" transform="translate(20.33333396911621, 28.879985809326172)">
+				<g id="R1409842139">
+					<ellipse fill="#F2F2F2" stroke="#000000" cx="9.5" cy="-41.4" rx="15" ry="15"/>
+					<g id="R1409842139_x24_R1937867829">
+						<path fill="none" stroke="#000000" d="M9.5-53.4v12l6,6"/>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24_Nmain_x5F_a_x5F_t_x24__x24_L1175259735" transform="translate(-14.333333969116211, 35)">
+					<g id="R813768593">
+						<text transform="matrix(1 0 0 1 -5.5 -49.6281)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">(0, 10 msec)</text>
+					</g>
+				</g>
+			</g>
+			
+				<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24_Nmain_x5F_a_x5F_reaction_x5F_1" transform="translate(71.66667175292969, 28.879985809326172)">
+				<g id="R402180822">
+					<path fill="#A6A6A6" stroke="#737373" d="M-5.5-56.4h117.3l6,15.1l-6,15.1H-5.5l6-15.1L-5.5-56.4z"/>
+					<g transform="translate(6,0)">
+						<g id="R402180822_x24_R2055593048_x24_R1770920949">
+							<rect x="-0.5" y="-51.4" fill="none" width="53.3" height="9.5"/>
+							<text transform="matrix(1 0 0 1 -0.5002 -44.515)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="8px">self-&gt;s++;</text>
+							<rect x="-0.5" y="-41.3" fill="none" width="101.3" height="9.5"/>
+							<text transform="matrix(1 0 0 1 -0.5002 -34.387)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="8px">lf_set(o,self-&gt;s);</text>
+						</g>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24_Nmain_x5F_a_x5F_reaction_x5F_1_x24__x24_P1205406622" transform="translate(6, 15)">
+					<g id="R802062915">
+						<polygon stroke="#000000" points="-5.5,-56.4 -5.5,-56.4 -5.5,-56.4 						"/>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24_Nmain_x5F_a_x5F_reaction_x5F_1_x24__x24_P293907205" transform="translate(123.33333587646484, 15)">
+					<g id="R1392412640">
+						<polygon stroke="#000000" points="-5.5,-56.4 -5.5,-56.4 -5.5,-56.4 						"/>
+					</g>
+				</g>
+			</g>
+			<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24_Nmain_x5F_a_x5F_t_x24__x24_E967730184">
+				<g id="R646106316">
+					<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M44.8-12.5l27.3,0"/>
+				</g>
+			</g>
+			
+				<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24_Nmain_x5F_a_x5F_reaction_x5F_1_x24__x24_E19986569">
+				<g id="R1777178337">
+					<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M189.5-12.5l3.7,0"/>
+				</g>
+			</g>
+		</g>
+	</g>
+	
+		<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24__x24_P793315160" transform="translate(198.70001220703125, 40)">
+		<g id="R280150479">
+			<path stroke="#000000" d="M-5.5-56.4l8,4l-8,4V-56.4z"/>
+		</g>
+		
+			<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_a_x24__x24_P793315160_x24__x24_L294184992" transform="translate(10, -10.503826141357422)">
+			<g id="R510727160">
+				<text transform="matrix(1 0 0 1 -5.5 -49.6281)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">o</text>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b" transform="translate(236.40000915527344, 25.879985809326172)">
+	<g>
+		<g id="R1299311707_x24_R886292426" transform="translate(6,9)">
+			<path fill="#F2F2F2" stroke="#BEBEBE" d="M-218.5,77.4h150.3c4.4,0,8,3.6,8,8v75c0,4.4-3.6,8-8,8h-150.3c-4.4,0-8-3.6-8-8v-75
+				C-226.5,81-223,77.4-218.5,77.4z"/>
+		</g>
+		<g id="R1299311707_x24_R1716909005" transform="translate(4,6)">
+			<path fill="#F2F2F2" stroke="#BEBEBE" d="M-218.5,77.4h150.3c4.4,0,8,3.6,8,8v75c0,4.4-3.6,8-8,8h-150.3c-4.4,0-8-3.6-8-8v-75
+				C-226.5,81-223,77.4-218.5,77.4z"/>
+		</g>
+		<g id="R1299311707_x24_R612681832" transform="translate(2,3)">
+			<path fill="#F2F2F2" stroke="#BEBEBE" d="M-218.5,77.4h150.3c4.4,0,8,3.6,8,8v75c0,4.4-3.6,8-8,8h-150.3c-4.4,0-8-3.6-8-8v-75
+				C-226.5,81-223,77.4-218.5,77.4z"/>
+		</g>
+		<g id="R1299311707_x24_R433143044">
+			<path fill="#F2F2F2" stroke="#BEBEBE" d="M-218.5,77.4h150.3c4.4,0,8,3.6,8,8v75c0,4.4-3.6,8-8,8h-150.3c-4.4,0-8-3.6-8-8v-75
+				C-226.5,81-223,77.4-218.5,77.4z"/>
+			<g transform="translate(6,6)">
+				<g transform="translate(66.66668,0)">
+					<g id="R1299311707_x24_R433143044_x24_R926498219_x24_R1214687061_x24_R325183616">
+						<text transform="matrix(1 0 0 1 -226.5333 85.8711)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">Bar</text>
+					</g>
+				</g>
+			</g>
+			<g id="R1299311707_x24_R433143044_x24_R889633931">
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_startup" transform="translate(34, 38.87998580932617)">
+					<g id="R571704651">
+						<ellipse fill="#FFFFFF" stroke="#000000" cx="-217.5" cy="86.4" rx="9" ry="9"/>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_1" transform="translate(59, 28.879985809326172)">
+					<g id="R1344320927">
+						<path fill="#A6A6A6" stroke="#737373" d="M-226.5,77.4h90.7l6,18.5l-6,18.5h-90.7l6-18.5L-226.5,77.4z"/>
+						<g transform="translate(6,0)">
+							<g id="R1344320927_x24_R1188137523_x24_R1565613612">
+								<text transform="matrix(1 0 0 1 -187.325 95.9353)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">1</text>
+							</g>
+							<g id="R1344320927_x24_R1188137523_x24_R1977299598">
+								<rect x="-221.5" y="99.3" fill="none" width="74.7" height="9.5"/>
+								<text transform="matrix(1 0 0 1 -221.533 106.1764)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="8px">lf_set(o,42);</text>
+							</g>
+						</g>
+					</g>
+					
+						<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_1_x24__x24_P988800485" transform="translate(6, 19)">
+						<g id="R1295679363">
+							<polygon stroke="#000000" points="-226.5,77.4 -226.5,77.4 -226.5,77.4 							"/>
+						</g>
+					</g>
+					
+						<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_1_x24__x24_P345902941" transform="translate(96.66667175292969, 19)">
+						<g id="R1050768030">
+							<polygon stroke="#000000" points="-226.5,77.4 -226.5,77.4 -226.5,77.4 							"/>
+						</g>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_2" transform="translate(7, 63.87998580932617)">
+					<g id="R1299788688">
+						<path fill="#A6A6A6" stroke="#737373" d="M-226.5,77.4h39l6,11l-6,11h-39l6-11L-226.5,77.4z"/>
+						<g transform="translate(6,0)">
+							<g id="R1299788688_x24_R976592764_x24_R1767304024">
+								<text transform="matrix(1 0 0 1 -214.2417 88.4311)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">2</text>
+							</g>
+						</g>
+					</g>
+					
+						<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_2_x24__x24_P97652294" transform="translate(6, 11)">
+						<g id="R2147434909">
+							<polygon stroke="#000000" points="-226.5,77.4 -226.5,77.4 -226.5,77.4 							"/>
+						</g>
+					</g>
+					
+						<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_2_x24__x24_P796667727" transform="translate(45, 11)">
+						<g id="R1630007174">
+							<polygon stroke="#000000" points="-226.5,77.4 -226.5,77.4 -226.5,77.4 							"/>
+						</g>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_startup_x24__x24_E1619759213">
+					<g id="R1614785197">
+						<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M-174.5,125.3l13,0"/>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_1_x24__x24_E1825027294">
+					<g id="R922931437">
+						<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M-70.9,125.3h3.5v27h3.9"/>
+					</g>
+					<g transform="translate(159.16667485237122,74.87998580932617)">
+						<g id="R922931437_x24_J" transform="translate(-2,-2)">
+							<ellipse stroke="#000000" cx="-224.5" cy="79.4" rx="2" ry="2"/>
+						</g>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_1_x24__x24_E454325163">
+					<g id="R75938986">
+						<path fill="none" stroke="#FF7F24" stroke-width="1.5" stroke-dasharray="1.5" d="M-167,141.7l-11.2,3.9"/>
+						<g id="R75938986_x24_R1404608759" transform="rotate(160.5433471534518,50.25068629388495,67.54945023514884)">
+							<path fill="#FF7F24" stroke="#FF7F24" stroke-linejoin="round" d="M283.6,67l3.2,3l-3.2,3l8-3L283.6,67z"/>
+						</g>
+					</g>
+				</g>
+				
+					<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24_Nmain_x5F_b_x5F_reaction_x5F_2_x24__x24_E1558021762">
+					<g id="R595396133">
+						<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M-174.5,152.3l111,0"/>
+					</g>
+				</g>
+				<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24__x24_E688766789">
+					<g id="R598386518">
+						<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M-223.2,152.3l9.7,0"/>
+					</g>
+				</g>
+			</g>
+		</g>
+		<g transform="translate(12,91)">
+			<g id="R1299311707_x24_R1269566437_x24_R819330075">
+				<text transform="matrix(1 0 0 1 -226.5333 85.9311)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="8px">4</text>
+			</g>
+		</g>
+	</g>
+	
+		<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24__x24_P1169146729" transform="translate(-4.699999809265137, 71)">
+		<g id="R458630068">
+			<path stroke="#000000" d="M-226.5,77.4l8,4l-8,4V77.4z"/>
+		</g>
+		
+			<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24__x24_P1169146729_x24__x24_L225290371" transform="translate(-4.6666669845581055, -10.503826141357422)">
+			<g id="R768342053">
+				<rect x="-226.5" y="97" fill="none" width="2.7" height="11.5"/>
+				<text transform="matrix(1 0 0 1 -226.5335 106.195)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">i</text>
+			</g>
+		</g>
+	</g>
+	
+		<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24__x24_P1237598030" transform="translate(163.03334045410156, 71)">
+		<g id="R227935585">
+			<path stroke="#000000" d="M-226.5,77.4l8,4l-8,4V77.4z"/>
+		</g>
+		
+			<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24__x24_P1237598030_x24__x24_L2040352617" transform="translate(10, -10.503826141357422)">
+			<g id="R1828935701">
+				<text transform="matrix(1 0 0 1 -226.5333 84.183)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">o</text>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_c" transform="translate(431.13336181640625, 87.87998580932617)">
+	<g id="R1421039625">
+		<path fill="#F2F2F2" stroke="#BEBEBE" d="M-216.1,78.8h18.7c4.4,0,8,3.6,8,8v10.9c0,4.4-3.6,8-8,8h-18.7c-4.4,0-8-3.6-8-8V86.8
+			C-224.1,82.4-220.6,78.8-216.1,78.8z"/>
+		<g transform="translate(6,6)">
+			<g>
+				<g id="R1421039625_x24_R1063951264_x24_R510956085_x24_R141601266">
+					<text transform="matrix(1 0 0 1 -224.1495 87.2577)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">Baz</text>
+				</g>
+			</g>
+		</g>
+	</g>
+	
+		<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_c_x24__x24_P733672688" transform="translate(-4.699999809265137, 9)">
+		<g id="R785140711">
+			<path stroke="#000000" d="M-224.1,78.8l8,4l-8,4V78.8z"/>
+		</g>
+		
+			<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_c_x24__x24_P733672688_x24__x24_L756185697" transform="translate(-4.6666669845581055, -10.503826141357422)">
+			<g id="R159957286">
+				<rect x="-224.1" y="76.4" fill="none" width="2.7" height="11.5"/>
+				<text transform="matrix(1 0 0 1 -224.1496 85.5817)" font-family="Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">i</text>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nmain_x5F_main_x24_Nmain_x5F_b_x24__x24_E302155142">
+	<g id="R473344802">
+		<path fill="none" stroke="#000000" d="M183.3,179.7l19,0"/>
+	</g>
+</g>
+<polyline fill="none" stroke="#000000" stroke-miterlimit="10" points="207.2,44.5 219.9,44.5 219.9,95.7 2.1,95.7 2.1,178.3 
+	4.7,178.3 "/>
+</svg>
