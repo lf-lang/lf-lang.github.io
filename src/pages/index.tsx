@@ -153,6 +153,16 @@ const Second = (): JSX.Element => (
   />
 );
 
+import WorldMap from "@site/static/img/world-map.svg";
+const People = () => (
+  <div className="container section">
+    <Heading as="h3" className="text--center padding-horiz--md">
+      <Translate>Made with ♥ in Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson.</Translate>
+    </Heading>
+    <WorldMap role="img" title="A world map with Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson highlighted." />
+  </div>
+);
+
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
@@ -165,6 +175,7 @@ export default function Home(): JSX.Element {
         <HomepageFeatures />
         <Intro />
         <Second />
+        <People />
       </main>
     </Layout>
   );

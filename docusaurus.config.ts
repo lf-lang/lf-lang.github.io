@@ -116,7 +116,7 @@ const config: Config = {
           ],
         },
       ],
-      copyright: `Made with ♥ in Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson.</br>Copyright © ${new Date().getFullYear()} The Lingua Franca project. Built with Docusaurus.`,
+      copyright: `Copyright © ${new Date().getFullYear()} The Lingua Franca project. Built with Docusaurus.`,
     },
     prism: {
       theme: prismThemes.github,
