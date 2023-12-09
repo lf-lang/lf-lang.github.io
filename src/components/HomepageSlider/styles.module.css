@@ -22,58 +22,55 @@
     position: absolute;
     right: -1.5rem;
     bottom: -1.5rem;
-    background-color: #c4820e;
     height: 3rem;
     width: 3rem;
     border-radius: 8px;
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0 !important;
+    /* Override Infima's button */
 }
 
 .codeContent {
     height: 30rem;
 }
 
-.fadeIn {
-    animation: fadeIn ease 2s;
-}
-
-.fadeOut {
-    animation: fadeOut ease 2s;
-}
-
-@keyframes fadeIn {
-    0% {
-        opacity: 0;
-    }
-
-    100% {
-        opacity: 1;
-    }
-}
-
-@keyframes fadeOut {
-    0% {
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 0;
-    }
-}
-
 .diagramSVG {
     padding: var(--ifm-pre-padding);
     width: 100%;
     height: auto;
-    transform: rotate(90deg) scale(0.6);
-    float: right;
 }
+
 .diagramSVGContainer {
     max-width: 600px;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
+}
+
+.fadeEnter {
+    opacity: 0;
+    transform: translateX(100%);
+}
+
+.fadeEnterActive {
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+.fadeExit {
+    opacity: 1;
+    transform: translateX(0%);
+}
+
+.fadeExitActive {
+    opacity: 0;
+    transform: translateX(-100%);
+}
+
+.fadeEnterActive,
+.fadeExitActive {
+  transition: opacity 500ms, transform 500ms;
 }

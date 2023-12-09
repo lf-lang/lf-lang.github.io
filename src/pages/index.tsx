@@ -35,13 +35,13 @@ function HeroBanner() {
               __html: translate({
                 id: "homepage.hero.title",
                 message:
-                  "Build <b>time-sensitive</b>, <b>concurrent</b>, and <b>distributed</b> systems",
+                  "Build <b>time-sensitive</b>, <b>concurrent</b>, and <b>distributed</b> systems — <b style='color: #ccff66'>effortlessly</b>",
                 description:
                   "Home page hero title, can contain simple html tags",
               }),
             }}
           />
-          
+          {/* #78cc2a */}
         </Heading>
         
         <div className={styles.subHero}>
