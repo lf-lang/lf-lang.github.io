@@ -10,14 +10,14 @@ interface FeatureItem {
   description: JSX.Element;
 }
 
-import Mountain from "@site/static/img/undraw_docusaurus_mountain.svg";
-import Tree from "@site/static/img/undraw_docusaurus_tree.svg";
-import SaurusReact from "@site/static/img/undraw_docusaurus_react.svg";
+import Determinism from "@site/static/img/deterministic.svg";
+import Timing from "@site/static/img/timing.svg";
+import Distribution from "@site/static/img/distribution.svg";
 
 const FeatureList: FeatureItem[] = [
   {
     title: "Deterministic Concurrency",
-    Svg: Mountain,
+    Svg: Determinism,
     description: (
       <Translate>
         Lingua Franca offers a straightforward way to write multi-threaded applications that ensure determinism by default, eliminating concerns about thread management, synchronization, and race conditions.
@@ -26,7 +26,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Built-In Timing Semantics",
-    Svg: Tree,
+    Svg: Timing,
     description: (
       <Translate>
         Timing is embedded within Lingua Franca's core, empowering developers to handle time-sensitive tasks with precision and without the complex timing logic typically required in concurrent programming.
@@ -35,7 +35,7 @@ const FeatureList: FeatureItem[] = [
   },
   {
     title: "Simplified Distribution",
-    Svg: SaurusReact,
+    Svg: Distribution,
     description: (
       <Translate>
         Lingua Franca enables seamless transition from single to distributed system architectures with minimal modifications, abstracting away the complexities of distributed systems programming.
