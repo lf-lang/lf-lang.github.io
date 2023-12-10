@@ -8,151 +8,125 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
-        <strong>VER'23</strong>: Shaokai Lin, Yatin A. Manerkar, Marten
+        <strong>MEMOCODE '23</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng Wong,
+        Hokeun Kim, Shaokai Lin, Christian Menard, Edward A. Lee, "
+        <Link href="https://dl.acm.org/doi/10.1145/3609134">
+        Risk and Mitigation of Nondeterminism in Distributed Cyber-Physical Systems
+        </Link>
+        ," in <i>Proceedings of the 21st ACM-IEEE International Conference on Formal Methods and Models for System Design (MEMOCODE '23)</i>. Association for Computing Machinery, New York, NY, USA, 1–11.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>TECS '23</strong>: Shaokai Lin, Yatin A. Manerkar, Marten
         Lohstroh, Elizabeth Polgreen, Sheng-Jung Yu, Chadlia Jerad, Edward A.
         Lee, Sanjit A. Seshia, "
         <Link href="https://dl.acm.org/doi/10.1145/3609134">
           Towards Building Verifiable CPS using Lingua Franca
         </Link>
-        ,"
+        ," in 
         <i>ACM Transactions on Embedded Computing Systems</i> (TECS), Vol. 22,
         No. 5s, Sept. 9, 2023.
       </p>
     </li>
     <li>
       <p>
-        <strong>CAL_CPS'23</strong>: Edward A. Lee, Ravi Akella, Soroush Bateni,
+        <strong>EMSOFT '23</strong>: Edward A. Lee, Ravi Akella, Soroush Bateni,
         Shaokai Lin, Marten Lohstroh, Christian Menard, "
         <Link href="https://dl.acm.org/doi/10.1145/3609119">
           Consistency vs. Availability in Distributed Cyber-Physical Systems
         </Link>
-        ," in
+        ," in 
         <i>ACM Transactions on Embedded Computing Systems</i> (TECS), Vol. 22,
         No. 5s, Sept. 9, 2023.
       </p>
     </li>
     <li>
       <p>
-        <strong>TACO'23</strong>: Christian Menard, Marten Lohstroh, Soroush
+        <strong>TACO '23</strong>: Christian Menard, Marten Lohstroh, Soroush
         Bateni, Matthew Chorlian, Arthur Deng, Peter Donovan, Clément Fournier,
         Shaokai Lin, Felix Suchert, Tassilo Tanneberger, Hokeun Kim, Jeronimo
         Castrillon, Edward A. Lee, "
         <Link href="https://dl.acm.org/doi/10.1145/3617687">
           High-Performance Deterministic Concurrency using Lingua Franca
         </Link>
-        ,"
+        ," in 
         <i>ACM Transactions on Architecture and Code Optimization</i> (TACO),
         Accepted Aug. 29, 2023
       </p>
     </li>
     <li>
       <p>
-        <strong>LET'23</strong>: Edward A. Lee and Marten Lohstroh, "
-        <Link href="https://www.icyphy.org/publications/2023_LeeLohstroh/">
-          Generalizing Logical Execution Time
-        </Link>
-        ," in
-        <i>
-          Principles of Systems Design - Essays Dedicated to Thomas A. Hensinzer
-          on the Occasion of his 60th Birthday
-        </i>
-        , LNCS 13660, July 2023, to appear.
+        <strong>CPS-IoT Week '23</strong>: Alexander Schulz-Rosengarten, Reinhard von
+        Hanxleden, Marten Lohstroh, Soroush Bateni, Edward A. Lee, "
+        <Link href="https://dl.acm.org/doi/abs/10.1145/3576914.3587498">Polyglot Modal Models through Lingua Franca</Link>," in 
+        <i>Proceedings of Cyber-Physical Systems and Internet of Things Week 2023 (CPS-IoT Week '23)</i>. Association for Computing Machinery, New York, NY, USA, 337–342.
       </p>
     </li>
     <li>
       <p>
-        <strong>CAL_IC'23</strong>: Edward A. Lee, Soroush Bateni, Shaokai Lin,
+        <strong>PSD '23</strong>: Edward A. Lee and Marten Lohstroh, "
+        <Link href="https://doi.org/10.1007/978-3-031-22337-2_8">
+          Generalizing Logical Execution Time
+        </Link>
+        ," in 
+        <i>
+          Principles of Systems Design - Essays Dedicated to Thomas A. Henzinger
+          on the Occasion of his 60th Birthday
+        </i>
+        , Lecture Notes in Computer Science, vol 13660. Springer, Cham.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>IC '23</strong>: Edward A. Lee, Soroush Bateni, Shaokai Lin,
         Marten Lohstroh, and Christian Menard, "
         <Link href="https://doi.org/10.34133/icomputing.0013">
           Trading Off Consistency and Availability in Tiered Heterogeneous
           Distributed Systems
-        </Link>
-        ," Intelligent Computing, vol. 2, no. Article 0013, pp. 1-23, February
+        </Link>," in 
+        <i>Intelligent Computing</i>, vol. 2, no. Article 0013, pp. 1-23, February
         15 2023.
       </p>
     </li>
     <li>
       <p>
-        <strong>Modes'23</strong>: Alexander Schulz-Rosengarten, Reinhard von
-        Hanxleden,Marten Lohstroh, Soroush Bateni, Edward A. Lee, "
-        <Link href="https://arxiv.org/abs/2301.09597">Modal Reactors</Link>,"
-        arXiv:2301.09597 [cs.PL], January 23, 2023.
-      </p>
-    </li>
-    <li>
-      <p>
-        <strong>CAL'23</strong>: Edward A. Lee, Ravi Akella, Soroush Bateni,
-        Shaokai Lin, Marten Lohstroh, Christian Menard, "
-        <Link href="https://arxiv.org/abs/2301.08906">
-          Consistency vs. Availability in Distributed Real-Time Systems
-        </Link>
-        ," arXiv:2301.08906 [cs.DC], January 21, 2023.
-      </p>
-    </li>
-    <li>
-      <p>
-        <strong>NG-RES'23</strong>: Erling Rennemo Jellum, Shaokai Lin, Peter
+        <strong>NG-RES '23</strong>: Erling Rennemo Jellum, Shaokai Lin, Peter
         Donovan, Efsane Soyer, Fuzail Shakir, Torleiv Bryne, Milica Orlandic,
         Marten Lohstroh, Edward A. Lee, "
         <Link href="https://doi.org/10.4230/OASIcs.NG-RES.2023.3">
           Beyond the Threaded Programming Model on Real-Time Operating Systems
         </Link>
-        ," Workshop on Next Generation Real-Time Embedded Systems (NG-RES),
+        ," in 
+        <i>Workshop on Next Generation Real-Time Embedded Systems (NG-RES)</i>,
         January 18 2023.
       </p>
     </li>
     <li>
       <p>
-        <strong>Perf'23</strong>: Christian Menard, Marten Lohstroh, Soroush
-        Bateni, Matthew Chorlian, Arthur Deng, Peter Donovan, Clément Fournier,
-        Shaokai Lin, Felix Suchert, Tassilo Tanneberger, Hokeun Kim, Jeronimo
-        Castrillon and Edward A. Lee, "
-        <Link href="https://arxiv.org/abs/2301.02444">
-          High-Performance Deterministic Concurrency using Lingua Franca
-        </Link>
-        ," arXiv:2301.02444 [cs.PL], Jan. 9, 2023
-      </p>
-    </li>
-    <li>
-      <p>
-        <strong>Xronos'22</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng
-        Wong, Rohan Tabish, Hokeun Kim, Shaokai Lin, Christian Menard, Cong Liu,
-        and Edward A. Lee, "
-        <Link href="https://arxiv.org/abs/2207.09555">
-          Xronos: Predictable Coordination for Safety-Critical Distributed
-          Embedded Systems
-        </Link>
-        ," arXiv:2207.09555 [cs.DC], July 19, 2022.
-      </p>
-    </li>
-    <li>
-      <p>
-        <strong>ISoLA'21</strong>: Edward A. Lee and Marten Lohstroh, "
+        <strong>ISoLA '21</strong>: Edward A. Lee and Marten Lohstroh, "
         <Link href="https://doi.org/10.1007/978-3-030-89159-6_15">
           Time for All Programs, Not Just Real-Time Programs
-        </Link>
-        ," Proc. Int. Symp. on Leveraging Applications of Formal Methods
-        (ISoLA), Rhodes, Greece, October 17-29, 2021.
+        </Link>," in <i>Proc. Int. Symp. on Leveraging Applications of Formal Methods
+        (ISoLA)</i>, Rhodes, Greece, October 17-29, 2021.
       </p>
     </li>
     <li>
       <p>
-        <strong>CAL'21</strong>: Edward A. Lee, Soroush Bateni, Shaokai Lin,
+        <strong>CAL '21</strong>: Edward A. Lee, Soroush Bateni, Shaokai Lin,
         Marten Lohstroh, Christian Menard, "
         <Link href="https://arxiv.org/abs/2109.07771">
           Quantifying and Generalizing the CAP Theorem
-        </Link>
-        ," arXiv:2109.07771 [cs.DC], Sep. 16, 2021.
+        </Link>," arXiv:2109.07771 [cs.DC], Sep. 16, 2021.
       </p>
     </li>
     <li>
       <p>
-        <strong>TECS'21</strong>: Marten Lohstroh, Christian Menard, Soroush
+        <strong>TECS '21</strong>: Marten Lohstroh, Christian Menard, Soroush
         Bateni, and Edward A. Lee, "
         <Link href="https://dl.acm.org/doi/10.1145/3448128">
           Toward a Lingua Franca for Deterministic Concurrent Systems
-        </Link>
-        ," <em>ACM Transactions on Embedded Computing Systems</em> (TECS),
+        </Link>," in <i>ACM Transactions on Embedded Computing Systems</i> (TECS),
         20(4), May 2021.
       </p>
     </li>
@@ -168,32 +142,26 @@ export const copypastaPublications: ReactNode = (
     </li>
     <li>
       <p>
-        <strong>FDL'20:</strong> Marten Lohstroh, Christian Menard, Alexander
+        <strong>FDL '20:</strong> Marten Lohstroh, Christian Menard, Alexander
         Schulz-Rosengarten, Matthew Weber, Jeronimo Castrillon, Edward A. Lee, "
         <Link href="https://people.eecs.berkeley.edu/~marten/pdf/Lohstroh_etAl_FDL20.pdf">
           A Language for Deterministic Coordination Across Multiple Timelines
-        </Link>
-        ," Forum on Design Languages (FDL), Kiel, Germany, September, 2020.
+        </Link>," in Forum on Design Languages (FDL), Kiel, Germany, September, 2020.
       </p>
     </li>
     <li>
       <p>
-        <strong>DATE'20:</strong> Christian Menard, Andrés Goens, Marten
+        <strong>DATE '20:</strong> Christian Menard, Andrés Goens, Marten
         Lohstroh, Jeronimo Castrillon, "
-        <Link href="https://arxiv.org/pdf/1912.01367">
-          Achieving Determinism in Adaptive AUTOSAR
-        </Link>
-        ," Proceedings of the 2020 Design, Automation and Test in Europe
-        Conference (DATE), EDA Consortium, Mar 2020, doi:
         <Link href="https://doi.org/10.23919/DATE48585.2020.9116430">
-          10.23919/DATE48585.2020.9116430
-        </Link>
-        .
+          Achieving Determinism in Adaptive AUTOSAR
+        </Link>," in <i>Proceedings of the 2020 Design, Automation and Test in Europe
+        Conference (DATE)</i>, EDA Consortium, Mar 2020.
       </p>
     </li>
     <li>
       <p>
-        <strong>RTSS'19:</strong> Marten Lohstroh and Edward A. Lee, "
+        <strong>RTSS '19:</strong> Marten Lohstroh and Edward A. Lee, "
         <Link href="https://ieeexplore.ieee.org/document/9052189">
           Work-in-Progress: Real-Time Reactors in C
         </Link>
@@ -207,44 +175,41 @@ export const copypastaPublications: ReactNode = (
     </li>
     <li>
       <p>
-        <strong>CyPhy'19:</strong> Marten Lohstroh, Iñigo Incer Romeo, Andrés
+        <strong>CyPhy '19:</strong> Marten Lohstroh, Iñigo Incer Romeo, Andrés
         Goens, Patricia Derler, Jeronimo Castrillon, Edward A. Lee, and Alberto
         Sangiovanni-Vincentelli, "
         <Link href="https://people.eecs.berkeley.edu/~marten/pdf/Lohstroh_etAl_CyPhy19.pdf">
           Reactors: A Deterministic Model for Composable Reactive Systems
-        </Link>
-        ," Model-Based Design of Cyber Physical Systems (CyPhy'19), Held in
+        </Link>," in <i>Model-Based Design of Cyber Physical Systems (CyPhy'19)</i>, Held in
         conjunction with ESWEEK 2019, New York, NY, Oct. 17-18, 2019.
       </p>
     </li>
     <li>
       <p>
-        <strong>EMSOFT'19:</strong> Marten Lohstroh, Martin Schoeberl, Mathieu
+        <strong>EMSOFT '19:</strong> Marten Lohstroh, Martin Schoeberl, Mathieu
         Jan, Edward Wang, Edward A. Lee "
         <Link href="https://ptolemy.berkeley.edu/publications/papers/19/LohstrohEtAl_IroncladTiming_EMSOFT_2019.pdf">
           Work-in-Progress: Programs with Ironclad Timing Guarantees
-        </Link>
-        ," ACM SIGBED International Conference on Embedded Software (EMSOFT),
+        </Link>," in <i>ACM SIGBED International Conference on Embedded Software (EMSOFT)</i>,
         New York, NY, October 13-18, 2019.
       </p>
     </li>
     <li>
       <p>
-        <strong>FDL'19:</strong> Marten Lohstroh and Edward A. Lee, "
+        <strong>FDL '19:</strong> Marten Lohstroh and Edward A. Lee, "
         <Link href="https://ptolemy.berkeley.edu/publications/papers/19/Lohstroh_Lee_DeterministicActors_FDL_2019.pdf">
           Deterministic Actors
         </Link>
-        ," Forum on Design Languages (FDL), Southampton, UK, September, 2019.
+        ," in <i>Forum on Design Languages (FDL)</i>, Southampton, UK, September, 2019.
       </p>
     </li>
     <li>
       <p>
-        <strong>DAC'19</strong> Marten Lohstroh, Martin Schoeberl, Andres Goens,
+        <strong>DAC '19</strong> Marten Lohstroh, Martin Schoeberl, Andres Goens,
         Armin Wasicek, Christopher Gill, Marjan Sirjani, Edward A. Lee, "
         <Link href="https://ptolemy.berkeley.edu/publications/papers/19/LohstrohEtAl_Reactors_DAC_2019.pdf">
           Invited: Actors Revisited for Time-Critical Systems
-        </Link>
-        ," Design Automation Conference (DAC), June, 2019.
+        </Link>," in <i>Design Automation Conference (DAC)</i>, June, 2019.
       </p>
     </li>
   </ul>
