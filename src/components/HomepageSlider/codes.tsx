@@ -25,7 +25,7 @@ export const main: JSX.Element = (<pre
       <span style={{ color: "#FFCB6B" }}> Player</span>
       <span style={{ color: "#EEFFFF" }}>(id</span>
       <span style={{ color: "#89DDFF" }}>=</span>
-      <span style={{ color: "#F78C6C" }}>2</span>
+      <span style={{ color: "#F78C6C" }}>1</span>
       <span style={{ color: "#EEFFFF" }}>)</span>
     </span>
     <br />
@@ -36,7 +36,7 @@ export const main: JSX.Element = (<pre
       <span style={{ color: "#FFCB6B" }}> Player</span>
       <span style={{ color: "#EEFFFF" }}>(id</span>
       <span style={{ color: "#89DDFF" }}>=</span>
-      <span style={{ color: "#F78C6C" }}>1</span>
+      <span style={{ color: "#F78C6C" }}>2</span>
       <span style={{ color: "#EEFFFF" }}>)</span>
     </span>
     <br />
