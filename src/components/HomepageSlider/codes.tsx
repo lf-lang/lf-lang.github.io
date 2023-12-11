@@ -97,7 +97,7 @@ export const click = (<pre
       <span style={{ color: "#C792EA" }}>symbol_t</span>
     </span>
     <br />
-    <span className="line" style={{"backgroundColor": "#000080"}}>
+    <span className="line">
       <span style={{ color: "#C792EA" }}>{"  "}logical</span>
       <span style={{ color: "#C792EA" }}> action</span>
       <span style={{ color: "#EEFFFF" }}> repeat(</span>
