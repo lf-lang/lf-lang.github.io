@@ -159,7 +159,7 @@ const People = () => (
     <Heading as="h3" className="text--center padding-horiz--md">
       <Translate>Made with ♥ in Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson.</Translate>
     </Heading>
-    <WorldMap role="img" title="A world map with Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson highlighted." />
+    <WorldMap role="img" width="100%" title="A world map showing where key Lingua Franca contributors reside." />
   </div>
 );
 

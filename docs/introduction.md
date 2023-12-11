@@ -10,7 +10,7 @@ A Lingua Franca program specifies the interactions between components called rea
 ## Reactor-Oriented Programming
 Lingua Franca programs are compositions of reactors, which are stateful
 components with event-triggered routines that may read inputs, write outputs, manipulate the reactor's state and schedule future events. 
-Reactors are similar to actors, software components that send each other messages, but unlike classical actors, messages are timestamped, and concurrent composition of reactors is deterministic by default. When nondeterministic interactions are tolerable or desired, they must be explicitly coded. LF itself is a polyglot composition language, not a complete programming language. LF describes the interfaces and composition of reactors. See our [publications and presentations](/publications) on reactors and Lingua Franca.
+Reactors are similar to actors, software components that send each other messages, but unlike classical actors, messages are timestamped, and concurrent composition of reactors is deterministic by default. When nondeterministic interactions are tolerable or desired, they must be explicitly coded. LF itself is a polyglot composition language, not a complete programming language. LF describes the interfaces and composition of reactors. See our [publications and presentations](/research) on reactors and Lingua Franca.
 
 The reactor-oriented programming paradigm is informally described via the following principles:
 
