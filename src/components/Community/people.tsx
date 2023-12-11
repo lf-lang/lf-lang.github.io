@@ -82,7 +82,7 @@ export const active = [
   {
     name: "axmmisaka",
     avatar:
-      "https://github.com/axmmisaka/axmmisaka/blob/master/TV%E3%82%A2%E3%83%8B%E3%83%A1%E3%80%8C%E3%81%BC%E3%81%A3%E3%81%A1%E3%83%BB%E3%81%96%E3%83%BB%E3%82%8D%E3%81%A3%E3%81%8F%EF%BC%81%E3%80%8D%E7%AC%AC11%E8%A9%B1%E3%80%8C%E5%8D%81%E4%BA%8C%E9%80%B2%E6%B3%95%E3%81%AE%E5%A4%95%E6%99%AF%E3%80%8DWEB%E4%BA%88%E5%91%8A_CuteGIF_20221216_174206.gif?raw=true",
+      "https://github.com/axmmisaka/axmmisaka/blob/master/nadeshiko_noodle.jpg?raw=true",
     blurb: (
       <Translate>
         I built most parts of this website. Bad news: I'm not a web developer
