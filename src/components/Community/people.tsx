@@ -62,11 +62,7 @@ export const active = [
     avatar: "https://avatars.githubusercontent.com/u/19938940?v=4",
     blurb: <Translate>Assistant Researcher at UC Berkeley.</Translate>,
   },
-  {
-    name: "Johannes Hayeß",
-    avatar: "https://avatars.githubusercontent.com/u/7195008?v=4",
-    blurb: <Translate>Master's Student at TU Dresden.</Translate>,
-  },
+
   {
     name: "Christian Menard",
     personalSiteUrl:
@@ -78,6 +74,18 @@ export const active = [
     name: "Alexander Schulz-Rosengarten",
     avatar: "https://avatars.githubusercontent.com/u/25612037?v=4",
     blurb: <Translate>Postdoc at Kiel University.</Translate>,
+  },
+  {
+    name: "Tassilo Tanneberger",
+    avatar:
+      "https://avatars.githubusercontent.com/u/32239737?v=4",
+    blurb: (
+      <Translate>
+        Student at TU Dresden
+      </Translate>
+    ),
+    personalSiteUrl: "https://tanneberger.me",
+    githubUrl: "https://github.com/tanneberger",
   },
   {
     name: "axmmisaka",
@@ -125,5 +133,10 @@ export const past = [
     name: "Hou Seng (Steven) Wong",
     avatar: "https://avatars.githubusercontent.com/u/46389172?v=4",
     blurb: <Translate>Software Development Engineer at Amazon AWS.</Translate>,
+  },
+  {
+    name: "Johannes Hayeß",
+    avatar: "https://avatars.githubusercontent.com/u/7195008?v=4",
+    blurb: <Translate>Master's Student at TU Dresden.</Translate>,
   },
 ];
