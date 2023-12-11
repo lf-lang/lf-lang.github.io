@@ -77,7 +77,7 @@ const config: Config = {
           label: 'Handbook',
         },
         {to: '/blog', label: 'Blog', position: 'left'},
-        {to: '/publications', label: 'Publications', position: 'left'},
+        {to: '/research', label: 'Research', position: 'left'},
         {to: '/community', label: 'Community', position: 'left'},
         {
           href: 'https://github.com/lf-lang/',
