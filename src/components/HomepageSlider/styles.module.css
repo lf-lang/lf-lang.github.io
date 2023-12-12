@@ -18,6 +18,10 @@
     padding-left: 1rem !important;
 }
 
+.codeAbove {
+    margin-top: -32px;
+}
+
 .advance {
     position: absolute;
     right: -1.5rem;
@@ -45,7 +49,6 @@
 .diagramSVGContainer {
     max-width: 600px;
     width: 100%;
-    height: 100%;
     display: flex;
     justify-content: center;
 }

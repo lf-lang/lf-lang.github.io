@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 27.2.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.2" baseProfile="tiny"
+	 id="keith-diagram_x5F_sprotty_x5F_file:_x2F__x2F__x2F_workspace_x2F_playground-lingua-franca_x2F_examples_x2F_C_x2F_src_x2F_RockPaperScissors.lf"
+	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 449.2 168.8"
+	 overflow="visible" xml:space="preserve">
+<path fill="#f5f6f8" stroke="#BEBEBE" d="M7.6,0.5h434c3.9,0,7.1,3.6,7.1,8v151.8c0,4.4-3.2,8-7.1,8H7.6c-3.9,0-7.1-3.6-7.1-8V8.5
+	C0.5,4.1,3.7,0.5,7.6,0.5z"/>
+<g transform="translate(6,6)">
+	<g transform="translate(188.06667,0)">
+		<g id="R751749858_x24_R368968205_x24_R277024080_x24_R507363919">
+			<text transform="matrix(1 0 0 1 0.5 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">R</text>
+			<text transform="matrix(1 0 0 1 7.4663 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">o</text>
+			<text transform="matrix(1 0 0 1 14.4976 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">c</text>
+			<text transform="matrix(1 0 0 1 20.1353 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">k</text>
+			<text transform="matrix(1 0 0 1 26.1963 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">P</text>
+			<text transform="matrix(1 0 0 1 32.7979 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">a</text>
+			<text transform="matrix(1 0 0 1 39.1846 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">p</text>
+			<text transform="matrix(1 0 0 1 46.1899 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">e</text>
+			<text transform="matrix(1 0 0 1 52.8242 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">r</text>
+			<text transform="matrix(1 0 0 1 57.4727 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">S</text>
+			<text transform="matrix(1 0 0 1 63.5986 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">c</text>
+			<text transform="matrix(1 0 0 1 69.2368 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">i</text>
+			<text transform="matrix(1 0 0 1 72.2969 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">s</text>
+			<text transform="matrix(1 0 0 1 77.5112 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">s</text>
+			<text transform="matrix(1 0 0 1 82.7261 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">o</text>
+			<text transform="matrix(1 0 0 1 89.7573 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">r</text>
+			<text transform="matrix(1 0 0 1 94.1782 8.94)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">s</text>
+		</g>
+	</g>
+</g>
+<path fill="#F2F2F2" stroke="#BEBEBE" d="M310.1,115.4h86.7c4.4,0,8,3.6,8,8v10.9c0,4.4-3.6,8-8,8h-86.7c-4.4,0-8-3.6-8-8v-10.9
+	C302.1,119,305.6,115.4,310.1,115.4z"/>
+<g transform="translate(6,6)">
+	<g>
+		<g id="R1604920443_x24_R1805788877_x24_R1659475032_x24_R517851685">
+			<text transform="matrix(1 0 0 1 306.0666 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">p</text>
+			<text transform="matrix(1 0 0 1 313.072 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">l</text>
+			<text transform="matrix(1 0 0 1 316.1316 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">a</text>
+			<text transform="matrix(1 0 0 1 322.2712 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">y</text>
+			<text transform="matrix(1 0 0 1 328.1433 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">e</text>
+			<text transform="matrix(1 0 0 1 334.7776 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">r</text>
+			<text transform="matrix(1 0 0 1 339.426 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">2</text>
+			<text transform="matrix(1 0 0 1 346.1838 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px"> </text>
+			<text transform="matrix(1 0 0 1 349.198 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">:</text>
+			<text transform="matrix(1 0 0 1 352.7658 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px"> </text>
+			<text transform="matrix(1 0 0 1 355.78 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">P</text>
+			<text transform="matrix(1 0 0 1 362.6682 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">l</text>
+			<text transform="matrix(1 0 0 1 365.7278 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">a</text>
+			<text transform="matrix(1 0 0 1 371.8669 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">y</text>
+			<text transform="matrix(1 0 0 1 377.7395 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">e</text>
+			<text transform="matrix(1 0 0 1 384.3737 125.8199)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">r</text>
+		</g>
+	</g>
+</g>
+<g id="R1766444717">
+	<path stroke="#000000" d="M297.4,124.4l8,4l-8,4V124.4z"/>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player2_x24__x24_P1937962514_x24__x24_L325333723" transform="translate(-39.333335876464844, -10.503826141357422)">
+	<g id="R54033072">
+		<text transform="matrix(1 0 0 1 305.4005 150.2677)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">o</text>
+		<text transform="matrix(1 0 0 1 311.0255 150.2677)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">b</text>
+		<text transform="matrix(1 0 0 1 316.5777 150.2677)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">s</text>
+		<text transform="matrix(1 0 0 1 320.7496 150.2677)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+		<text transform="matrix(1 0 0 1 326.0567 150.2677)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">r</text>
+		<text transform="matrix(1 0 0 1 329.8746 150.2677)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">v</text>
+		<text transform="matrix(1 0 0 1 334.588 150.2677)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+	</g>
+</g>
+<g id="R715819458">
+	<path stroke="#000000" d="M401.4,124.4l8,4l-8,4V124.4z"/>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player2_x24__x24_P1018081122_x24__x24_L274064559" transform="translate(10, -10.503826141357422)">
+	<g id="R459249162">
+		<text transform="matrix(1 0 0 1 399.433 150.3637)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">r</text>
+		<text transform="matrix(1 0 0 1 403.0112 150.3637)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+		<text transform="matrix(1 0 0 1 408.2665 150.3637)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">v</text>
+		<text transform="matrix(1 0 0 1 412.9799 150.3637)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+		<text transform="matrix(1 0 0 1 418.287 150.3637)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">a</text>
+		<text transform="matrix(1 0 0 1 423.3964 150.3637)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">l</text>
+	</g>
+</g>
+<path fill="#F2F2F2" stroke="#BEBEBE" d="M66,34.4h187.3c4.4,0,8,3.6,8,8v112.8c0,4.4-3.6,8-8,8H66c-4.4,0-8-3.6-8-8V42.4
+	C58,38,61.6,34.4,66,34.4z"/>
+<g transform="translate(6,6)">
+	<g transform="translate(51.666664,0)">
+		<g id="R2092940497_x24_R548010753_x24_R435949303_x24_R1834870682">
+			<text transform="matrix(1 0 0 1 58.0333 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">p</text>
+			<text transform="matrix(1 0 0 1 65.0387 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">l</text>
+			<text transform="matrix(1 0 0 1 68.0983 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">a</text>
+			<text transform="matrix(1 0 0 1 74.2379 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">y</text>
+			<text transform="matrix(1 0 0 1 80.11 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">e</text>
+			<text transform="matrix(1 0 0 1 86.7443 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">r</text>
+			<text transform="matrix(1 0 0 1 91.3927 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">1</text>
+			<text transform="matrix(1 0 0 1 98.1505 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px"> </text>
+			<text transform="matrix(1 0 0 1 101.1647 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">:</text>
+			<text transform="matrix(1 0 0 1 104.7326 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px"> </text>
+			<text transform="matrix(1 0 0 1 107.7467 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">P</text>
+			<text transform="matrix(1 0 0 1 114.6349 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">l</text>
+			<text transform="matrix(1 0 0 1 117.6945 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">a</text>
+			<text transform="matrix(1 0 0 1 123.8336 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">y</text>
+			<text transform="matrix(1 0 0 1 129.7062 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">e</text>
+			<text transform="matrix(1 0 0 1 136.3405 42.82)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">r</text>
+		</g>
+	</g>
+</g>
+<g transform="translate(6,26.879986)">
+	<g>
+		<g id="R2092940497_x24_R2036744878_x24_R385408880_x24_R789654238">
+			<text transform="matrix(1 0 0 1 68.0333 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">c</text>
+			<text transform="matrix(1 0 0 1 72.5436 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">h</text>
+			<text transform="matrix(1 0 0 1 78.1481 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">o</text>
+			<text transform="matrix(1 0 0 1 83.7731 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">i</text>
+			<text transform="matrix(1 0 0 1 86.2208 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">c</text>
+			<text transform="matrix(1 0 0 1 90.7311 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+			<text transform="matrix(1 0 0 1 96.0387 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">:</text>
+			<text transform="matrix(1 0 0 1 98.8927 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">s</text>
+			<text transform="matrix(1 0 0 1 102.8717 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">y</text>
+			<text transform="matrix(1 0 0 1 107.6998 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">m</text>
+			<text transform="matrix(1 0 0 1 116.2208 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">b</text>
+			<text transform="matrix(1 0 0 1 121.8253 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">o</text>
+			<text transform="matrix(1 0 0 1 127.4503 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">l</text>
+			<text transform="matrix(1 0 0 1 129.8981 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">_</text>
+			<text transform="matrix(1 0 0 1 135.2106 41.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">t</text>
+		</g>
+		<g id="R2092940497_x24_R2036744878_x24_R385408880_x24_R1862983918" transform="translate(1.5,3.751913)">
+			<ellipse fill="#FFFFFF" stroke="#000000" cx="61" cy="37.4" rx="3" ry="3"/>
+			<g id="R2092940497_x24_R2036744878_x24_R385408880_x24_R1862983918_x24_R1844034466" transform="translate(1.75,1.75)">
+				<ellipse stroke="#000000" stroke-width="0.5" cx="59.3" cy="35.6" rx="1.2" ry="1.2"/>
+			</g>
+		</g>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_startup" transform="translate(34, 54.383811950683594)">
+	<g id="R2110335494">
+		<ellipse fill="#FFFFFF" stroke="#000000" cx="67" cy="43.4" rx="9" ry="9"/>
+	</g>
+</g>
+<path fill="#A6A6A6" stroke="#737373" d="M209.4,80.8h39l6,11l-6,11h-39l6-11L209.4,80.8z"/>
+<g transform="translate(6,0)">
+	<g id="R907754662_x24_R1465656305_x24_R1206330799">
+		<text transform="matrix(1 0 0 1 222.9917 94.7638)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">1</text>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_1_x24__x24_P42121758" transform="translate(6, 11)">
+	<g id="R1398530689">
+		<polygon stroke="#000000" points="209.4,80.8 209.4,80.8 209.4,80.8 		"/>
+	</g>
+</g>
+<path fill="#A6A6A6" stroke="#737373" d="M209.4,117.8h39l6,11l-6,11h-39l6-11L209.4,117.8z"/>
+<g transform="translate(6,0)">
+	<g id="R1314997104_x24_R1839813660_x24_R551229951">
+		<text transform="matrix(1 0 0 1 223.6583 131.7638)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">2</text>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_2_x24__x24_P20671747" transform="translate(4, 7)">
+	<g id="R335915626">
+		<polygon stroke="#000000" points="209.4,117.8 209.4,117.8 209.4,117.8 		"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_2_x24__x24_P1190035432" transform="translate(4, 15)">
+	<g id="R415632769">
+		<polygon stroke="#000000" points="209.4,117.8 209.4,117.8 209.4,117.8 		"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_2_x24__x24_P689588113" transform="translate(45, 11)">
+	<g id="R1613425543">
+		<polygon stroke="#000000" points="209.4,117.8 209.4,117.8 209.4,117.8 		"/>
+	</g>
+</g>
+<path fill="#A6A6A6" stroke="#737373" d="M65,121.8h39l6,11l-6,11H65l6-11L65,121.8z"/>
+<g transform="translate(6,0)">
+	<g id="R208157941_x24_R486371171_x24_R1110925998">
+		<text transform="matrix(1 0 0 1 79.325 135.7638)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="13.3333px">3</text>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_3_x24__x24_P1053782781" transform="translate(6, 11)">
+	<g id="R2069419640">
+		<polygon stroke="#000000" points="65,121.8 65,121.8 65,121.8 		"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_3_x24__x24_P1567581361" transform="translate(45, 11)">
+	<g id="R1398433431">
+		<polygon stroke="#000000" points="65,121.8 65,121.8 65,121.8 		"/>
+	</g>
+</g>
+<g id="R665204811">
+	<path fill="#ffffff" stroke="#000000" stroke-width="2" d="M159.7,123.8l9,18h-18L159.7,123.8z"/>
+	<g id="R665204811_x24_R1679542696">
+		<text transform="matrix(1 0 0 1 158.0333 137.4638)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">L</text>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_repeat_x24__x24_P1211888640" transform="translate(4.5, 9)">
+	<g id="R490796439">
+		<polygon stroke="#000000" points="150.7,123.8 150.7,123.8 150.7,123.8 		"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_repeat_x24__x24_P564160838" transform="translate(13.5, 9)">
+	<g id="R546704209">
+		<polygon stroke="#000000" points="150.7,123.8 150.7,123.8 150.7,123.8 		"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_repeat_x24__x24_L2012232625" transform="translate(-25.666667938232422, 23)">
+	<g id="R527269500">
+		<text transform="matrix(1 0 0 1 150.7 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">m</text>
+		<text transform="matrix(1 0 0 1 158.1556 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">i</text>
+		<text transform="matrix(1 0 0 1 160.2977 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">n</text>
+		<text transform="matrix(1 0 0 1 165.2015 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px"> </text>
+		<text transform="matrix(1 0 0 1 167.3113 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">d</text>
+		<text transform="matrix(1 0 0 1 172.2151 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">e</text>
+		<text transform="matrix(1 0 0 1 176.8587 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">l</text>
+		<text transform="matrix(1 0 0 1 179.0008 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">a</text>
+		<text transform="matrix(1 0 0 1 183.2981 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">y</text>
+		<text transform="matrix(1 0 0 1 187.5228 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">:</text>
+		<text transform="matrix(1 0 0 1 190.0203 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px"> </text>
+		<text transform="matrix(1 0 0 1 192.1302 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">1</text>
+		<text transform="matrix(1 0 0 1 196.8606 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px"> </text>
+		<text transform="matrix(1 0 0 1 198.9705 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">s</text>
+		<text transform="matrix(1 0 0 1 202.6209 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">e</text>
+		<text transform="matrix(1 0 0 1 207.2649 129.6718)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="9.3333px">c</text>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_startup_x24__x24_E150783284">
+	<g id="R1388767577">
+		<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M109.6,94.9l8-0.2v-3h97.8"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_startup_x24__x24_E321192242">
+	<g id="R934572255">
+		<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M109.6,100.6l8,0.2v14h84.3v10h11.5"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_1_x24__x24_E257895351">
+	<g>
+		<g transform="rotate(90.00000419434348,173.8333282470703,81.3838119506836)">
+		</g>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_2_x24__x24_E882658588">
+	<g id="R1444353676">
+		<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M254.4,128.8l3.7,0"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_2_x24__x24_E1690716179">
+	<g>
+		<g transform="rotate(178.41252568487386,53.66417608976842,97.71414044430234)">
+		</g>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_reaction_x5F_3_x24__x24_E344560770">
+	<g id="R1838342951">
+		<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M110,132.8l45.2,0"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24_Nrockpaperscissors_x5F_player1_x5F_repeat_x24__x24_E2134639513">
+	<g id="R13642752">
+		<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M164.2,132.8l49.2,0"/>
+	</g>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24__x24_E1288141870">
+	<g id="R1574368535">
+		<path fill="none" stroke="#000000" stroke-dasharray="3,1" d="M61.3,132.8l9.7,0"/>
+	</g>
+</g>
+<g id="R675203915">
+	<path stroke="#000000" d="M53.3,128.4l8,4l-8,4V128.4z"/>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24__x24_P791885625_x24__x24_L716083600" transform="translate(-39.333335876464844, -10.503826141357422)">
+	<g id="R1318834888">
+		<text transform="matrix(1 0 0 1 58.2153 138.8839)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">o</text>
+		<text transform="matrix(1 0 0 1 63.8403 138.8839)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">b</text>
+		<text transform="matrix(1 0 0 1 69.3925 138.8839)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">s</text>
+		<text transform="matrix(1 0 0 1 73.5644 138.8839)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+		<text transform="matrix(1 0 0 1 78.8715 138.8839)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">r</text>
+		<text transform="matrix(1 0 0 1 82.6894 138.8839)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">v</text>
+		<text transform="matrix(1 0 0 1 87.4028 138.8839)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+	</g>
+</g>
+<g id="R398675554">
+	<path stroke="#000000" d="M258.1,124.4l8,4l-8,4V124.4z"/>
+</g>
+<g id="keith-diagram_x5F_sprotty_x5F__x24_root_x24_Nrockpaperscissors_x5F_main_x24_Nrockpaperscissors_x5F_player1_x24__x24_P314265080_x24__x24_L2001112025" transform="translate(10, -10.503826141357422)">
+	<g id="R1008171342">
+		<text transform="matrix(1 0 0 1 252.0669 133.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">r</text>
+		<text transform="matrix(1 0 0 1 255.645 133.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+		<text transform="matrix(1 0 0 1 260.9004 133.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">v</text>
+		<text transform="matrix(1 0 0 1 265.6138 133.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">e</text>
+		<text transform="matrix(1 0 0 1 270.9209 133.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">a</text>
+		<text transform="matrix(1 0 0 1 276.0303 133.1319)" font-family="Calibri, Ubuntu, Cantarell, Noto Sans, sans-serif, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif," font-size="10.6667px">l</text>
+	</g>
+</g>
+<path fill="none" stroke="#000000" d="M405.1,128.4h32v-102H16.3v106h39.9"/>
+<path fill="none" stroke="#000000" d="M266.1,128.4l31.5,0"/>
+</svg>

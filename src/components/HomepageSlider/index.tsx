@@ -6,7 +6,7 @@ import Translate from '@docusaurus/Translate';
 
 import styles from './styles.module.css';
 
-import { codeHTML, anotherCode } from './codes';
+import { main, click, target } from './codes';
 
 const titles = [
   <Translate>Architect your application in Lingua Franca</Translate>,
@@ -14,18 +14,32 @@ const titles = [
   <Translate>Write reactive code in the language you like</Translate>,
 ];
 
-import ExampleSVG from '@site/static/img/diagram/SliderExample.svg';
+import RockPaperScissor from '@site/static/img/diagram/rps.svg';
+import ElaboratedRPS from  '@site/static/img/diagram/elaborate.svg';
 
 const codes = [
-  codeHTML,
-  <div className={styles.diagramSVGContainer}>
-    <ExampleSVG
-      title="Lingua Franca Diagram for the Program"
+  <>
+    {main}
+    <div className={clsx(styles.diagramSVGContainer, styles.codeAbove)}>
+      <RockPaperScissor
+        title="Lingua Franca Diagram for the RockPaperScissor Program"
+        role="img"
+        className={styles.diagramSVG}
+      />
+    </div>
+  </>
+  ,
+  <>
+  {click}
+  <div className={clsx(styles.diagramSVGContainer, styles.codeAbove)}>
+    <ElaboratedRPS
+      title="Lingua Franca Diagram for the RockPaperScissor Program with details shown"
       role="img"
       className={styles.diagramSVG}
     />
-  </div>,
-  anotherCode,
+  </div>
+</>,
+  target
 ];
 
 export const CodeContainer = ({
@@ -33,7 +47,7 @@ export const CodeContainer = ({
 }: {
   className: string;
 }): JSX.Element => {
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(0);
   const refs = [useRef(null), useRef(null), useRef(null)] as (React.LegacyRef<HTMLDivElement> | undefined)[];
 
   return (
