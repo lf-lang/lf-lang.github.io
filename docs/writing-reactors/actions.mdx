@@ -20,7 +20,12 @@ An action declaration has one of the following forms:
   physical action <name>(<min_delay>, <min_spacing>, <policy>)
 ```
 
-The `min_delay`, `min_spacing`, and `policy` are all optional. If only one argument is given in parentheses, then it is interpreted as an `min_delay`, if two are given, then they are interpreted as `min_delay` and `min_spacing`. The `min_delay` and `min_spacing` are time values. The `policy` argument is a string that can be one of the following: `"defer"` (the default), `"drop"`, or `"replace"`. Note that the quotation marks are needed.
+The `min_delay`, `min_spacing`, and `policy` are all optional.
+If only one argument is given in parentheses, then it is interpreted as an `min_delay`,
+if two are given, then they are interpreted as `min_delay` and `min_spacing`.
+The `min_delay` and `min_spacing` are time values.
+The `policy` argument is a string that can be one of the following:
+`"defer"` (the default), `"drop"`, or `"replace"`. Note that the quotation marks are needed.
 
 <ShowOnly c cpp ts rs>
 
@@ -171,6 +176,14 @@ interval between the tags of two subsequently scheduled events. If the
 preliminary time is closer than `<min_spacing>` to the time of the previously
 scheduled event (if there is one), then `<policy>` (if supported by the target)
 determines how the minimum spacing constraint is enforced.
+Note that "previously scheduled" here means specifically the tag resulting from
+the most recent call to `lf_schedule` for the same action.
+:::warning
+Since calls to `lf_schedule` can specify arbitrary extra delays,
+`<min_spacing>` does not necessarily result in events with minimum spacing between them.
+If your calls to `lf_schedule` result in monotonically increasing tags, however, you will
+get events with minimum spacing between them.
+:::
 
 <ShowIfs>
 <ShowIf c py>
