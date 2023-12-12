@@ -38,7 +38,7 @@ export const copypastaPublications: ReactNode = (
         </Link>
         ," in 
         <i>ACM Transactions on Embedded Computing Systems</i> (TECS), Vol. 22,
-        No. 5s, Sept. 9, 2023.
+        No. 5s, Sept. 9, 2023.  (Presented at EMSOFT '23, Hamburg, Germany, September, 2023)
       </p>
     </li>
     <li>
