@@ -19,6 +19,12 @@ export const main: JSX.Element = (<pre
     </span>
     <br />
     <span className="line">
+      <span style={{ color: "#545454", fontStyle: "italic" }}>
+        {"  "}// Instantiate two Player reactors here
+      </span>
+    </span>
+    <br />
+    <span className="line">
       <span style={{ color: "#EEFFFF" }}>{"  "}player1 </span>
       <span style={{ color: "#89DDFF" }}>=</span>
       <span style={{ color: "#89DDFF", fontStyle: "italic" }}> new</span>
@@ -41,6 +47,12 @@ export const main: JSX.Element = (<pre
     </span>
     <br />
     <span className="line" />
+    <br />
+    <span className="line">
+      <span style={{ color: "#545454", fontStyle: "italic" }}>
+        {"  "}// Make connections between them
+      </span>
+    </span>
     <br />
     <span className="line">
       <span style={{ color: "#EEFFFF" }}>{"  "}player2</span>
@@ -170,8 +182,8 @@ export const target = (<pre
     <span className="line">
       <span style={{ color: "#C792EA" }}>{"    "}const</span>
       <span style={{ color: "#C792EA" }}> char</span>
-      <span style={{ color: "#89DDFF" }}>*</span>
-      <span style={{ color: "#EEFFFF" }}> symbol_names[] </span>
+      <span style={{ color: "#89DDFF" }}>**</span>
+      <span style={{ color: "#EEFFFF" }}> symbol_names </span>
       <span style={{ color: "#89DDFF" }}>=</span>
       <span style={{ color: "#89DDFF" }}> {"{"}</span>
       <span style={{ color: "#89DDFF" }}>"</span>

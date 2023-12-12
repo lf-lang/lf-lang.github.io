@@ -16,10 +16,12 @@ const titles = [
 
 import RockPaperScissor from '@site/static/img/diagram/rps.svg';
 import ElaboratedRPS from  '@site/static/img/diagram/elaborate.svg';
+import Link from '@docusaurus/Link';
 
 const codes = [
   <>
     {main}
+    <div>{"\n\n\n\n\n"}</div>
     <div className={clsx(styles.diagramSVGContainer, styles.codeAbove)}>
       <RockPaperScissor
         title="Lingua Franca Diagram for the RockPaperScissor Program"
@@ -77,6 +79,11 @@ export const CodeContainer = ({
             </CSSTransition>
           </SwitchTransition>
       </div>
+      <div className={clsx(styles.linkButton)}>
+      <Link href="https://gitpod.io/new#https://github.com/lf-lang/playground-lingua-franca/tree/main">
+        <img src="https://raw.githubusercontent.com/gitpod-io/gitpod/30da76375c996109f243491b23e47feefab7217f/components/dashboard/public/button/open-in-gitpod.svg" />
+      </Link>
+    </div>
       <button
         className={clsx(styles.advance, "button", "button--primary")}
         onClick={() => {
