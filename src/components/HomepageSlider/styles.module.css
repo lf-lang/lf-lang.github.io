@@ -36,6 +36,12 @@
     /* Override Infima's button */
 }
 
+.linkButton {
+    position: absolute;
+    right: 1rem;
+    top: 3rem;
+}
+
 .codeContent {
     height: 30rem;
 }
