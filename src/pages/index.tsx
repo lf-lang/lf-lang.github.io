@@ -102,7 +102,7 @@ const Intro = (): JSX.Element => (
 
 import WorldMap from "@site/static/img/world-map.svg";
 
-const Second = (): JSX.Element => (
+const Contributors = (): JSX.Element => (
   <TwoColumns
     col1={
       <>
@@ -149,7 +149,7 @@ export default function Home(): JSX.Element {
         <HeroBanner />
         <HomepageFeatures />
         <Intro />
-        <Second />
+        <Contributors />
       </main>
     </Layout>
   );
