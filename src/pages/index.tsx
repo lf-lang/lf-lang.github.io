@@ -125,7 +125,7 @@ const Second = (): JSX.Element => (
         </Link>
       </>
     }
-    col2={<WorldMap role="img" width="100%" title="A world map showing where key Lingua Franca contributors reside." />}
+    col2={<WorldMap role="img" width="100%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />}
   />
 );
 
