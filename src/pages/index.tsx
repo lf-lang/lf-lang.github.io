@@ -24,7 +24,7 @@ function HeroBanner() {
       <div className={styles.heroInner}>
       {/* <CodeContainer className={styles.heroLogo} /> */}
         <Heading as="h1" className={styles.heroProjectTagline}>
-        <Logo className={styles.heroLogo} height="350px" width="350px" role="img" />
+        <Logo className={styles.heroLogo} height="375px" width="375px" role="img" />
           <span
             className={styles.heroTitleTextHtml}
             // eslint-disable-next-line react/no-danger

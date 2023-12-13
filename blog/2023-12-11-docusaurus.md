@@ -5,11 +5,13 @@ authors: [axmmisaka, lhstrh]
 tags: [docusaurus, website, lingua franca, docs]
 ---
 
+![Lingua Franca](../static/img/lf-logo.svg)
+![Plus](../static/img/blog/plus.svg)
+![Docusaurus](../static/img/blog/docusaurus-logo.svg)
+
 We have a new website! Most importantly, this website is the home of our documentation. 
 
 After careful consideration, we realized that our original website had become overly intricate to maintain due to its numerous customizations and dependencies. Writing comprehensive documentation is already a challenging and time-consuming task, and we were keen on avoiding additional complexity that could hinder our progress. Additionally, we had a wishlist of new features, including the ability to version our documentation, incorporate a blog page, and provide support for [MDX](https://mdxjs.com/). In pursuit of solutions, we explored various options.
-
-![Docusaurus Logo](https://docusaurus.io/img/docusaurus_keytar.svg)
 
 Fortunately, we discovered a framework that encompassed all the features we desired: [Docusaurus](https://docusaurus.io/). The adoption of this framework allowed us to streamline our infrastructure significantly. Remarkably, we were able to retain essential functionalities, such as our [Algolia](https://www.algolia.com)-based search bar and Markdown-based documentation pages, which are now more accessible for reading and editing.
 

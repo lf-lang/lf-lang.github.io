@@ -5,7 +5,7 @@ authors: [tassilo, lhstrh]
 tags: [lingo, lingua franca, packaging, build tool]
 ---
 
-![Test](../static/img/blog/lingo-release-post.png)
+![Banner](../static/img/blog/lingo-release-post.png)
 
 Programming languages like Python, Rust, or JavaScript are popular not only because of particular language features, but also thanks to the quality of the tools and packages they offer access to.
 A good and mature ecosystem includes features such as developer support, mainly through IDEs or LSPs. Lingua Franca already shines in this area with its VSCode integration that offers functionality like code highlighting, error handling, build support, and diagram synthesis. Another important aspect of a modern language's ecosystem concerns package management. Although it is possible to import reactors from files in the local file system, support for packaging in Lingua Franca is still in its infancy.
