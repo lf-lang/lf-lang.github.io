@@ -10,7 +10,7 @@ import { main, click, target } from './codes';
 
 const titles = [
   <Translate>Architect your application in Lingua Franca</Translate>,
-  <Translate>Have diagrams rendered as you type</Translate>,
+  <Translate>Have interactive diagrams rendered as you type</Translate>,
   <Translate>Write reactive code in the language you like</Translate>,
 ];
 

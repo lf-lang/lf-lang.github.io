@@ -25,7 +25,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: "Built-In Timing Semantics",
+    title: "Built-in Timing Semantics",
     Svg: Timing,
     description: (
       <Translate>

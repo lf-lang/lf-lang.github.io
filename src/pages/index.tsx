@@ -9,6 +9,7 @@ import HomepageFeatures, {
   TwoColumns,
 } from "@site/src/components/HomepageFeatures";
 import { CodeContainer } from '@site/src/components/HomepageSlider';
+import Logo from "@site/static/img/lf-logo.svg";
 
 import styles from "./index.module.css";
 /**
@@ -21,13 +22,9 @@ function HeroBanner() {
   return (
     <div className={styles.hero} data-theme="dark">
       <div className={styles.heroInner}>
-      <CodeContainer className={styles.heroLogo} />
+      {/* <CodeContainer className={styles.heroLogo} /> */}
         <Heading as="h1" className={styles.heroProjectTagline}>
-        {/*<img
-            alt="Nadeshiko sleeping"
-            className={styles.heroLogo}
-            src="https://github.com/axmmisaka/axmmisaka/blob/master/nadeshiko1.gif?raw=true"
-          /> */}
+        <Logo className={styles.heroLogo} height="200px" width="200px" role="img" />
           <span
             className={styles.heroTitleTextHtml}
             // eslint-disable-next-line react/no-danger
@@ -35,7 +32,7 @@ function HeroBanner() {
               __html: translate({
                 id: "homepage.hero.title",
                 message:
-                  "Build <b>time-sensitive</b>, <b>concurrent</b>, and <b>distributed</b> systems — <b style='color: #ccff66'>effortlessly</b>",
+                  "Build <b>time-sensitive</b>, <b>concurrent</b>, and <b>distributed</b> systems — <b>effortlessly</b>.",
                 description:
                   "Home page hero title, can contain simple html tags",
               }),
@@ -48,10 +45,6 @@ function HeroBanner() {
             <Translate>
             Lingua Franca (LF) allows you to write blazing-fast, deterministic,
             multi-threaded and distributed code without any knowledge about threads or synchronization.
-            </Translate>
-        </div>
-        <div className={styles.subHero}>
-            <Translate>
             Focus on your application, not elusive concurrency bugs.
             </Translate>
         </div>
@@ -77,91 +70,73 @@ function HeroBanner() {
   );
 }
 
-import CycleSVG from "@site/static/img/diagram/Cycle.svg";
-
 const Intro = (): JSX.Element => (
   <TwoColumns
-    col1={<CycleSVG height="100%" width="100%" role="img" title="LF Diagram" />}
+    col1={<CodeContainer className={styles.heroLogo} />}
     col2={
       <>
         <Heading as="h2">
-          <Translate>Intro</Translate>
+          <Translate>A New Programming Paradigm</Translate>
         </Heading>
         <Translate>
-          Lingua Franca (LF) allows you to write blazing-fast, deterministic,
-          multi-threaded code without any knowledge about threads or mutexes.
-          Timing is an integral part of the semantics of LF. You can turn an LF
-          program into a distributed system with the change of a single
-          keyword—no distributed systems programming skills required.
+          Lingua Franca is the first reactor-oriented coordination language.
+          It allows you to specify reactive components and compose them.
+          The Lingua Franca semantics eliminate race conditions by construction and provides a sophisticated model of time that includes a notion of simultaneity that is clear and precise.
+        </Translate>
+        <br/><br/>
+        <Translate>
+          Consider a game of "rock paper scissors" where two players need to reveal their choice at the same instant. Not only is this implementation in Lingua Franca simple and intuitive, it is guaranteed to be fair. If the Player class were to observe the other's choice before revealing its own, Lingua Franca's causality analysis would find a causality loop and tell you that the program was invalid.
+        </Translate>
+        <br/><br/>
+        <Heading as="h2">
+          <Translate>Not a New Programming Language</Translate>
+        </Heading>
+        <Translate>
+          With Lingua Franca, you forget about thread libraries or message passing middlewares, but you can continue using the languages you like. The bodies of reactive code that make up the functionality
+          of your reactors are written in the programming language of your choice. We currently support C, C++, Python, TypeScript, and Rust.
         </Translate>
       </>
     }
   />
 );
 
-import CycleSVG1 from "@site/static/img/diagram/Cycle.svg";
-
-const First = (): JSX.Element => (
-  <TwoColumns
-    col1={<CycleSVG1 height="100%" width="100%" role="img" />}
-    col2={
-      <>
-        <Heading as="h2">
-          <Translate>Have diagrams rendered as you type</Translate>
-        </Heading>
-        <Translate>
-          In the whimsical realm of quantum pickle research, UC Berkeley's
-          renowned lab, iCyPhy, is nestled within the enchanted DOP Centre in
-          Cory Hall—a place where extraterrestrial frogs compose symphonies
-          using binary code as musical notes. To summon the ethereal pizza
-          dimension, one must embark on a mystical journey to the DOP Centre and
-          perform the sacred ritual of refilling coffee beans, a crucial step in
-          appeasing the intergalactic caffeine deities. Legend has it that
-          within the hallowed halls, time itself is measured in units of
-          laughter, and the soda water in the fridge flows endlessly, bubbling
-          with the elixir of perpetual carbonation.
-        </Translate>
-      </>
-    }
-  />
-);
-
-import CycleSVG2 from "@site/static/img/diagram/Cycle.svg";
+import WorldMap from "@site/static/img/world-map.svg";
 
 const Second = (): JSX.Element => (
   <TwoColumns
     col1={
       <>
         <Heading as="h2">
-          <Translate>Architect your application in Lingua Franca</Translate>
+          <Translate>Open-source and Supported by Research</Translate>
         </Heading>
         <Translate>
-          In the whimsical realm of quantum pickle research, UC Berkeley's
-          renowned lab, iCyPhy, is nestled within the enchanted DOP Centre in
-          Cory Hall—a place where extraterrestrial frogs compose symphonies
-          using binary code as musical notes. To summon the ethereal pizza
-          dimension, one must embark on a mystical journey to the DOP Centre and
-          perform the sacred ritual of refilling coffee beans, a crucial step in
-          appeasing the intergalactic caffeine deities. Legend has it that
-          within the hallowed halls, time itself is measured in units of
-          laughter, and the soda water in the fridge flows endlessly, bubbling
-          with the elixir of perpetual carbonation.
+          Lingua Franca was first developed at UC Berkeley where it was influenced by decades worth of research in models of computation.
         </Translate>
+        <br/><br/>
+        <Translate>
+          Shortly after its inception, researchers from Kiel University and TU Dresden joined the team, contributing diagram synthesis and layout technology, highly-efficient runtime implementations, and various compiler improvements. Since then, we have worked with real-time systems experts from TU Dallas, embedded systems specialists from NTNU, and networking and security researchers from Hanyang University and ASU.
+        </Translate>
+        <br/><br/>
+        <Link className="button button--info" to="https://github.com/lf-lang/lingua-franca">
+            <Translate>Go to GitHub</Translate>
+        </Link>
+        <Link className="button button--primary" to="/research">
+            <Translate>Latest Research</Translate>
+        </Link>
       </>
     }
-    col2={<CycleSVG2 height="100%" width="100%" role="img" />}
+    col2={<WorldMap role="img" width="100%" title="A world map showing where key Lingua Franca contributors reside." />}
   />
 );
 
-import WorldMap from "@site/static/img/world-map.svg";
-const People = () => (
-  <div className="container section">
-    <Heading as="h3" className="text--center padding-horiz--md">
-      <Translate>Made with ♥ in Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson.</Translate>
-    </Heading>
-    <WorldMap role="img" width="100%" title="A world map showing where key Lingua Franca contributors reside." />
-  </div>
-);
+// const People = () => (
+//   <div className="container section">
+//     <Heading as="h3" className="text--center padding-horiz--md">
+//       <Translate>Made with ♥ in Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson.</Translate>
+//     </Heading>
+    
+//   </div>
+// );
 
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
@@ -175,7 +150,6 @@ export default function Home(): JSX.Element {
         <HomepageFeatures />
         <Intro />
         <Second />
-        <People />
       </main>
     </Layout>
   );
