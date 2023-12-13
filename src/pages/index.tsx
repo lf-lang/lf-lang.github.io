@@ -101,6 +101,7 @@ const Intro = (): JSX.Element => (
 );
 
 import WorldMap from "@site/static/img/world-map.svg";
+import clsx from "clsx";
 
 const Contributors = (): JSX.Element => (
   <TwoColumns
@@ -117,12 +118,14 @@ const Contributors = (): JSX.Element => (
           Shortly after its inception, researchers from Kiel University and TU Dresden joined the team, contributing diagram synthesis and layout technology, highly-efficient runtime implementations, and various compiler improvements. Since then, we have worked with real-time systems experts from TU Dallas, embedded systems specialists from NTNU, and networking and security researchers from Hanyang University and ASU.
         </Translate>
         <br/><br/>
-        <Link className="button button--info" to="https://github.com/lf-lang/lingua-franca">
-            <Translate>Go to GitHub</Translate>
-        </Link>
-        <Link className="button button--primary" to="/research">
-            <Translate>Latest Research</Translate>
-        </Link>
+        <div className={clsx(styles.buttonContainer)} data-theme="dark">
+          <Link className={clsx("button", "button--info", styles.button)} to="https://github.com/lf-lang/lingua-franca">
+              <Translate>Go to GitHub</Translate>
+          </Link>
+          <Link className={clsx("button", "button--primary", styles.button)} to="/research">
+              <Translate>Latest Research</Translate>
+          </Link>
+        </div>
       </>
     }
     col2={<WorldMap role="img" width="100%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />}

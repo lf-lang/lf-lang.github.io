@@ -265,3 +265,18 @@ html[data-theme="dark"] .topBannerTitleText {
 .test-marker-site-index-page {
   content: "site-index-page";
 }
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.buttonContainer .button,
+.buttonContainer .button:hover {
+  color: black;
+}
+
+.buttonContainer .button:last-of-type {
+  margin: 0px 36px;
+}
