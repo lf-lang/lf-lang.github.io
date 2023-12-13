@@ -24,7 +24,7 @@ function HeroBanner() {
       <div className={styles.heroInner}>
       {/* <CodeContainer className={styles.heroLogo} /> */}
         <Heading as="h1" className={styles.heroProjectTagline}>
-        <Logo className={styles.heroLogo} height="200px" width="200px" role="img" />
+        <Logo className={styles.heroLogo} height="350px" width="350px" role="img" />
           <span
             className={styles.heroTitleTextHtml}
             // eslint-disable-next-line react/no-danger
@@ -100,7 +100,7 @@ const Intro = (): JSX.Element => (
   />
 );
 
-import WorldMap from "@site/static/img/world-map.svg";
+import WorldMap from "@site/static/img/world-map-places.svg";
 import clsx from "clsx";
 
 const Contributors = (): JSX.Element => (

@@ -176,9 +176,10 @@ html[data-theme="dark"] .topBannerTitleText {
 .heroLogo {
   animation-duration: 2s;
   animation-name: jack-in-the-box;
-  float: right;
-  margin-top: 20px;
-  padding: 0 20px 20px;
+  float: left;
+  margin-top: 100px;
+  margin-right: 35px;
+  padding: 0 75px 75px;
   height: auto;
 }
 
