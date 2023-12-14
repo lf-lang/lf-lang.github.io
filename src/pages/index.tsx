@@ -141,15 +141,6 @@ const Contributors = (): JSX.Element => (
   />
 );
 
-// const People = () => (
-//   <div className="container section">
-//     <Heading as="h3" className="text--center padding-horiz--md">
-//       <Translate>Made with ♥ in Berkeley, Dallas, Dresden, Kiel, Seoul, and Tucson.</Translate>
-//     </Heading>
-    
-//   </div>
-// );
-
 export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (

@@ -8,12 +8,6 @@
   font-size: 1.2rem;
 }
 
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .hero {
   background-color: #2b3137;
   padding: 48px;
