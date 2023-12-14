@@ -103,7 +103,8 @@ const Intro = (): JSX.Element => (
 );
 
 import WorldMap from "@site/static/img/world-map-places.svg";
-import Universities from "@site/static/img/universities-fordark.svg";
+import UniversitiesForDark from "@site/static/img/universities-fordark.svg";
+import UniversitiesForLight from "@site/static/img/universities.svg";
 
 import clsx from "clsx";
 
@@ -118,8 +119,10 @@ const Contributors = (): JSX.Element => (
           Lingua Franca was first developed at UC Berkeley where it was influenced by decades worth of research in models of computation.
         </Translate>
         <br/>
-        <Universities role="img" width="80%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />
-        <br/>
+        <div className={clsx(styles.universityContainer)}>
+          <UniversitiesForDark className={clsx(styles.darkThemeOnly)} role="img" width="80%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />
+          <UniversitiesForLight className={clsx(styles.lightThemeOnly)} role="img" width="80%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />
+        </div>
         <Translate>
           Shortly after its inception, researchers from Kiel University and TU Dresden joined the team, contributing diagram synthesis and layout technology, highly-efficient runtime implementations, and various compiler improvements. Since then, we have worked with real-time systems experts from TU Dallas, embedded systems specialists from NTNU, and networking and security researchers from Hanyang University and ASU.
         </Translate>

@@ -159,3 +159,13 @@
     justify-content: center;
   }
 }
+
+.universityContainer {
+  text-align: center;
+}
+
+/* https://docusaurus.io/docs/markdown-features/assets#github-style-themed-images */
+[data-theme='light'] .darkThemeOnly,
+[data-theme='dark'] .lightThemeOnly {
+  display: none;
+}
