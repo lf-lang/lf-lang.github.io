@@ -76,7 +76,7 @@ const Intro = (): JSX.Element => (
     alt
     col1={<CodeContainer />}
     col2={
-      <>
+      <div className={clsx(styles.topMarginIfCol6BecameVertical)}>
         <Heading as="h2">
           <Translate>A New Programming Paradigm</Translate>
         </Heading>
@@ -97,7 +97,7 @@ const Intro = (): JSX.Element => (
           With Lingua Franca, you forget about thread libraries or message passing middlewares, but you continue using the languages you like. The bodies of reactive code that make up the functionality
           of reactors are written in the programming language of your choice. We currently support C, C++, Python, TypeScript, and Rust.
         </Translate>
-      </>
+      </div>
     }
   />
 );
@@ -120,7 +120,7 @@ const Contributors = (): JSX.Element => (
           Shortly after its inception, researchers from Kiel University and TU Dresden joined the team, contributing diagram synthesis and layout technology, highly-efficient runtime implementations, and various compiler improvements. Since then, we have worked with real-time systems experts from TU Dallas, embedded systems specialists from NTNU, and networking and security researchers from Hanyang University and ASU.
         </Translate>
         <br/><br/>
-        <div className={clsx(styles.buttonContainer)} data-theme="dark">
+        <div className={clsx(styles.buttonContainer, styles.centreIfCol6BecameVertical)} data-theme="dark">
           <Link className={clsx("button", "button--info", styles.button)} to="https://github.com/lf-lang/lingua-franca">
               <Translate>Go to GitHub</Translate>
           </Link>
@@ -130,7 +130,7 @@ const Contributors = (): JSX.Element => (
         </div>
       </>
     }
-    col2={<WorldMap role="img" width="100%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />}
+    col2={<WorldMap role="img" className={clsx(styles.topMarginIfCol6BecameVertical)} width="100%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />}
   />
 );
 
