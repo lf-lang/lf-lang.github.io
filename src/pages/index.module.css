@@ -156,7 +156,11 @@
 }
 
 /* https://docusaurus.io/docs/markdown-features/assets#github-style-themed-images */
-[data-theme='light'] .darkThemeOnly,
-[data-theme='dark'] .lightThemeOnly {
+[data-theme='light'] .showInDarkThemeOnly,
+[data-theme='dark'] .showInLightThemeOnly {
   display: none;
+}
+
+[data-theme='dark'] .recolourWorldMapPinInDarkTheme [fill="#003164"] {
+  fill: #e3e3e3;
 }

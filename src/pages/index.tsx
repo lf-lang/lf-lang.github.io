@@ -120,8 +120,8 @@ const Contributors = (): JSX.Element => (
         </Translate>
         <br/>
         <div className={clsx(styles.universityContainer)}>
-          <UniversitiesForDark className={clsx(styles.darkThemeOnly)} role="img" width="80%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />
-          <UniversitiesForLight className={clsx(styles.lightThemeOnly)} role="img" width="80%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />
+          <UniversitiesForDark className={clsx(styles.showInDarkThemeOnly)} role="img" width="80%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />
+          <UniversitiesForLight className={clsx(styles.showInLightThemeOnly)} role="img" width="80%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />
         </div>
         <Translate>
           Shortly after its inception, researchers from Kiel University and TU Dresden joined the team, contributing diagram synthesis and layout technology, highly-efficient runtime implementations, and various compiler improvements. Since then, we have worked with real-time systems experts from TU Dallas, embedded systems specialists from NTNU, and networking and security researchers from Hanyang University and ASU.
@@ -137,7 +137,7 @@ const Contributors = (): JSX.Element => (
         </div>
       </>
     }
-    col2={<WorldMap role="img" className={clsx(styles.topMarginIfCol6BecameVertical)} width="100%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />}
+    col2={<WorldMap role="img" className={clsx(styles.topMarginIfCol6BecameVertical, styles.recolourWorldMapPinInDarkTheme)} width="100%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />}
   />
 );
 
