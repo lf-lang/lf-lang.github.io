@@ -82,8 +82,10 @@ const config: Config = {
         {to: '/community', label: 'Community', position: 'left'},
         {
           href: 'https://github.com/lf-lang/',
-          label: 'GitHub',
           position: 'right',
+          // https://github.com/facebook/docusaurus/blob/61116e2ad6f675d0ba1abef98484712b14834bdb/website/docusaurus.config.ts#L615-L620
+          className: "header-github-link",
+          'aria-label': 'GitHub repository',
         },
       ],
     },
