@@ -41,7 +41,7 @@ const config: Config = {
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
-            'https://github.com/axmmisaka/lf-docs-docusaurus/tree/master/docs/',
+            'https://github.com/lf-lang/lf-lang.github.io/tree/master/',
           beforeDefaultRemarkPlugins: [
             // Honestly, I recommend not using this because I am not confident with my coding skill......
             // TransformDynamicLFFileImportToStatic
