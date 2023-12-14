@@ -31,7 +31,7 @@
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1" /><defs
+     inkscape:current-layer="g2" /><defs
      id="defs1"><linearGradient
        id="SVGID_5_"
        gradientUnits="userSpaceOnUse"
@@ -307,7 +307,7 @@
        transform="matrix(13.585683,0,0,13.585683,260.12821,-26.700319)"><path
          d="m 8,4 a 0.5,0.5 0 0 1 0.5,0.5 v 3 h 3 a 0.5,0.5 0 0 1 0,1 h -3 v 3 a 0.5,0.5 0 0 1 -1,0 v -3 h -3 a 0.5,0.5 0 0 1 0,-1 h 3 v -3 A 0.5,0.5 0 0 1 8,4"
          id="path1-5"
-         style="fill:#2495d2;fill-opacity:1" /></g><g
+         style="fill:#3b7da1;fill-opacity:1" /></g><g
        fill="none"
        fill-rule="evenodd"
        id="g15"
