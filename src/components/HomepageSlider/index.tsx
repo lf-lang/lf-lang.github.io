@@ -9,9 +9,9 @@ import styles from './styles.module.css';
 import { main, click, target } from './codes';
 
 const titles = [
-  <Translate>Architect your application in Lingua Franca</Translate>,
-  <Translate>Have interactive diagrams rendered as you type</Translate>,
-  <Translate>Write reactive code in the language you like</Translate>,
+  <Translate>System design in Lingua Franca</Translate>,
+  <Translate>Interactive diagrams in IDE</Translate>,
+  <Translate>Code in the language you like</Translate>,
 ];
 
 import RockPaperScissor from '@site/static/img/diagram/rps.svg';
