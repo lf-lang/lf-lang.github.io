@@ -47,7 +47,7 @@ const codes = [
 export const CodeContainer = ({
   className,
 }: {
-  className: string;
+  className?: string;
 }): JSX.Element => {
   const [page, setPage] = useState(0);
   const refs = [useRef(null), useRef(null), useRef(null)] as (React.LegacyRef<HTMLDivElement> | undefined)[];

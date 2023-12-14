@@ -1,6 +1,6 @@
 .codeContainer {
     min-width: 600px;
-    height: 150px;
+    height: auto;
     background-color: #38546c;
     font-size: 1rem;
     border-radius: 8px;

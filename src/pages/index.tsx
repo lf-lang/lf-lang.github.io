@@ -72,7 +72,7 @@ function HeroBanner() {
 
 const Intro = (): JSX.Element => (
   <TwoColumns
-    col1={<CodeContainer className={styles.heroLogo} />}
+    col1={<CodeContainer />}
     col2={
       <>
         <Heading as="h2">
