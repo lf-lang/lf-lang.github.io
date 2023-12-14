@@ -93,8 +93,8 @@ const Intro = (): JSX.Element => (
           <Translate>Not a New Programming Language</Translate>
         </Heading>
         <Translate>
-          With Lingua Franca, you forget about thread libraries or message passing middlewares, but you can continue using the languages you like. The bodies of reactive code that make up the functionality
-          of your reactors are written in the programming language of your choice. We currently support C, C++, Python, TypeScript, and Rust.
+          With Lingua Franca, you forget about thread libraries or message passing middlewares, but you continue using the languages you like. The bodies of reactive code that make up the functionality
+          of reactors are written in the programming language of your choice. We currently support C, C++, Python, TypeScript, and Rust.
         </Translate>
       </>
     }
