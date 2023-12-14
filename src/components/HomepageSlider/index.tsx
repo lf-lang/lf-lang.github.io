@@ -9,8 +9,8 @@ import styles from './styles.module.css';
 import { main, click, target } from './codes';
 
 const titles = [
-  <Translate>System design in Lingua Franca</Translate>,
-  <Translate>Interactive diagrams in IDE</Translate>,
+  <Translate>Architect your application in LF</Translate>,
+  <Translate>Navigate your code graphically</Translate>,
   <Translate>Code in the language you like</Translate>,
 ];
 
