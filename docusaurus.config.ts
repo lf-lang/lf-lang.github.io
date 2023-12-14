@@ -68,6 +68,7 @@ const config: Config = {
         alt: 'The Lingua Franca Logo',
         src: 'img/lf-forlight-mono.svg',
         srcDark: "img/lf-fordark-mono.svg",
+        style: {marginLeft: "20px"},
       },
       items: [
         {
