@@ -103,7 +103,6 @@ const Intro = (): JSX.Element => (
 );
 
 import WorldMap from "@site/static/img/world-map.svg";
-// import WorldMapForDark from "@site/static/img/world-map-forlight.svg";
 import UniversitiesForDark from "@site/static/img/universities-fordark.svg";
 import UniversitiesForLight from "@site/static/img/universities.svg";
 
