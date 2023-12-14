@@ -24,7 +24,7 @@ function HeroBanner() {
       <div className={styles.heroInner}>
       {/* <CodeContainer className={styles.heroLogo} /> */}
         <Heading as="h1" className={styles.heroProjectTagline}>
-        <Logo className={styles.heroLogo} height="375px" width="375px" role="img" />
+        <Logo className={styles.heroLogo} height="350px" width="350px" role="img" />
           <span
             className={styles.heroTitleTextHtml}
             // eslint-disable-next-line react/no-danger
@@ -42,8 +42,9 @@ function HeroBanner() {
         </Heading>
         
         <div className={styles.subHero}>
+            <br/>
             <Translate>
-            Lingua Franca (LF) allows you to write blazing-fast, deterministic,
+            Lingua Franca allows you to write blazing-fast, deterministic,
             multi-threaded and distributed code without any knowledge about threads or synchronization.
             Focus on your application, not elusive concurrency bugs.
             </Translate>
