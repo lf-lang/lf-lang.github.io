@@ -3,132 +3,9 @@
  * and scoped locally.
  */
 
-.heroBanner {
-  padding: 4rem 0;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-
 .subHero {
   color: var(--ifm-color-secondary-lightest);
   font-size: 1.2rem;
-}
-
-@media screen and (max-width: 996px) {
-  .heroBanner {
-    padding: 2rem;
-  }
-}
-
-.buttons {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.section {
-  padding: 40px 0;
-}
-
-.sectionAlt {
-  background-color: var(--ifm-color-emphasis-100);
-}
-
-.sectionInner {
-  margin: 0 auto;
-}
-
-.featureImage {
-  width: auto;
-  max-height: 128px;
-  margin: 0 auto;
-}
-
-.featureHeading {
-  font-size: var(--ifm-h3-font-size);
-  padding-top: 1rem;
-}
-
-.announcement {
-  font-weight: bold;
-  font-size: 24px;
-  padding: 48px;
-  margin: 0 auto;
-  text-align: center;
-}
-
-.announcementDark {
-  background-color: #20232a;
-  color: var(--ifm-color-secondary-lightest);
-  /* Reapply the primary color, because it has been locally overridden as
-   * the dark theme color */
-  --ifm-link-color: var(--ifm-color-primary);
-}
-
-.announcementInner {
-  margin: 0 auto;
-  max-width: 768px;
-}
-
-.topBanner {
-  font-size: 20px;
-  padding: 30px 20px;
-  max-width: 900px;
-  margin: 0 auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.topBannerTitle {
-  font-size: 54px;
-  font-weight: bold;
-  margin-bottom: 0.4rem;
-}
-
-@media only screen and (max-width: 768px) {
-  .topBannerTitle {
-    font-size: 40px;
-  }
-}
-
-.topBannerTitleText {
-  background: linear-gradient(
-    90deg,
-    rgb(131 58 180 / 100%) 0%,
-    rgb(253 29 29 / 100%) 50%,
-    rgb(252 176 69 / 100%) 100%
-  );
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.topBannerTitleText:hover {
-  border-bottom: solid 2px;
-  border-color: rgb(152 0 255);
-}
-
-html[data-theme="dark"] .topBannerTitleText {
-  background: linear-gradient(
-    90deg,
-    rgb(152 0 255) 0%,
-    rgb(246 41 41) 50%,
-    rgb(255 169 8) 100%
-  );
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.topBannerDescription {
-  font-size: 20px;
-}
-@media only screen and (max-width: 768px) {
-  .topBannerDescription {
-    font-size: 16px;
-    white-space: normal;
-  }
 }
 
 .hero {
@@ -138,13 +15,13 @@ html[data-theme="dark"] .topBannerTitleText {
 
 .heroInner {
   margin: 0 auto;
-  max-width: 1400px;
+  max-width: 1200px;
   padding: 0 20px;
 }
 
 .heroProjectTagline {
   color: var(--ifm-color-secondary-lightest);
-  font-size: 60px;
+  font-size: 56px;
   margin: 0;
 }
 
@@ -176,9 +53,10 @@ html[data-theme="dark"] .topBannerTitleText {
 .heroLogo {
   animation-duration: 2s;
   animation-name: jack-in-the-box;
-  float: right;
-  margin-top: 20px;
-  padding: 0 20px 20px;
+  float: left;
+  margin-top: 100px;
+  margin-right: 35px;
+  padding: 0 75px 75px;
   height: auto;
 }
 
@@ -211,7 +89,7 @@ html[data-theme="dark"] .topBannerTitleText {
   color: var(--ifm-color-primary);
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 960px) {
   .hero {
     padding-left: 20px;
     padding-right: 20px;
@@ -245,23 +123,44 @@ html[data-theme="dark"] .topBannerTitleText {
   }
 }
 
-.tweetsSection > :global(.col) > * {
-  margin-bottom: 2rem;
-}
-
-@media (max-width: 996px) {
-  .tweetsSection > :global(.col:last-child) > *:last-child {
-    margin-bottom: 0;
-  }
-}
-
-@media (min-width: 997px) {
-  .tweetsSection > :global(.col) > *:last-child {
-    margin-bottom: 0;
-  }
-}
-
 /* Used to test CSS insertion order */
 .test-marker-site-index-page {
   content: "site-index-page";
+}
+
+.buttonContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.buttonContainer .button,
+.buttonContainer .button:hover {
+  color: black;
+}
+
+.buttonContainer .button:last-of-type {
+  margin: 0px 36px;
+}
+
+/* Hardcode stuff */
+@media only screen and (max-width: 997px) {
+  .topMarginIfCol6BecameVertical {
+    margin-top: 2rem;
+  }
+}
+
+.universityContainer {
+  text-align: center;
+}
+
+/* https://docusaurus.io/docs/markdown-features/assets#github-style-themed-images */
+[data-theme='light'] .showInDarkThemeOnly,
+[data-theme='dark'] .showInLightThemeOnly {
+  display: none;
+}
+
+[data-theme='dark'] .recolourWorldMapPinInDarkTheme [fill="#003164"] {
+  fill: #e3e3e3;
 }

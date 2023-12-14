@@ -25,7 +25,7 @@ const FeatureList: FeatureItem[] = [
     ),
   },
   {
-    title: "Built-In Timing Semantics",
+    title: "Built-in Timing Semantics",
     Svg: Timing,
     description: (
       <Translate>
@@ -68,10 +68,12 @@ export function TwoColumns({
   alt?: boolean;
 }) {
   return (
-    <div className={clsx("container", "section", { sectionAlt: alt })}>
-      <div className="row">
-        <div className="col col--6">{col1}</div>
-        <div className="col col--6">{col2}</div>
+    <div className={clsx("section", { sectionAlt: alt })}>
+      <div className="container">
+        <div className="row">
+          <div className="col col--6">{col1}</div>
+          <div className="col col--6">{col2}</div>
+        </div>
       </div>
     </div>
   );

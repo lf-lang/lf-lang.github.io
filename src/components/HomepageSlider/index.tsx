@@ -10,7 +10,7 @@ import { main, click, target } from './codes';
 
 const titles = [
   <Translate>Architect your application in Lingua Franca</Translate>,
-  <Translate>Have diagrams rendered as you type</Translate>,
+  <Translate>Have interactive diagrams rendered as you type</Translate>,
   <Translate>Write reactive code in the language you like</Translate>,
 ];
 
@@ -47,7 +47,7 @@ const codes = [
 export const CodeContainer = ({
   className,
 }: {
-  className: string;
+  className?: string;
 }): JSX.Element => {
   const [page, setPage] = useState(0);
   const refs = [useRef(null), useRef(null), useRef(null)] as (React.LegacyRef<HTMLDivElement> | undefined)[];

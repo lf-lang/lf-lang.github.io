@@ -19,7 +19,7 @@ export const main: JSX.Element = (<pre
     </span>
     <br />
     <span className="line">
-      <span style={{ color: "#545454", fontStyle: "italic" }}>
+      <span style={{ color: "#242526", fontStyle: "italic" }}>
         {"  "}// Instantiate two Player reactors here
       </span>
     </span>
@@ -49,7 +49,7 @@ export const main: JSX.Element = (<pre
     <span className="line" />
     <br />
     <span className="line">
-      <span style={{ color: "#545454", fontStyle: "italic" }}>
+      <span style={{ color: "#242526", fontStyle: "italic" }}>
         {"  "}// Make connections between them
       </span>
     </span>
