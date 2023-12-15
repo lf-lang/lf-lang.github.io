@@ -131,7 +131,7 @@ const config: Config = {
       // Public API key: it is safe to commit it
       apiKey: '4c0c2881412ae05e0663742765d5a0d3',
       indexName: 'lf-lang', //TODO: change this otherwise 404
-      contextualSearch: true,
+      contextualSearch: false,
     }
   } satisfies Preset.ThemeConfig,
 
