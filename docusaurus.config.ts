@@ -129,7 +129,7 @@ const config: Config = {
       // The application ID provided by Algolia
       appId: 'U5IWIJW31Z',
       // Public API key: it is safe to commit it
-      apiKey: '0e594ee25f8bd7d73ae16a1af7076554',
+      apiKey: '4c0c2881412ae05e0663742765d5a0d3',
       indexName: 'lf-lang', //TODO: change this otherwise 404
       contextualSearch: true,
     }
