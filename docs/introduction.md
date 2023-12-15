@@ -1,6 +1,7 @@
 ---
 title: Introduction
 description: Introduction to Lingua Franca.
+slug: /
 ---
 
 Lingua Franca (LF) is a polyglot coordination language built enrich mainstream target programming languages (currently C, C++, Python, TypeScript, and Rust) with deterministic reactive concurrency and the ability to specify timed behavior. LF is supported by a runtime system that is capable of concurrent and distributed execution of reactive programs that are deployable on the Cloud, the Edge, and even on bare-iron embedded platforms.
