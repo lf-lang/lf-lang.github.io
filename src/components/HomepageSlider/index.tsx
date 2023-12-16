@@ -79,7 +79,7 @@ export const CodeContainer = ({
             </CSSTransition>
           </SwitchTransition>
       </div>
-      <div className={clsx(styles.linkButton)}>
+      <div className={clsx(styles.gitPodLinkButton)}>
       <Link href="https://gitpod.io/new#https://github.com/lf-lang/playground-lingua-franca/tree/main">
         <img src="https://raw.githubusercontent.com/gitpod-io/gitpod/30da76375c996109f243491b23e47feefab7217f/components/dashboard/public/button/open-in-gitpod.svg" />
       </Link>

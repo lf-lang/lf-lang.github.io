@@ -9,7 +9,7 @@
 }
 
 .codeContainer.title {
-    max-height: 2rem;
+    height: auto;
     border-radius: 8px 8px 0 0;
     font-size: 1.2rem;
     color: white;
@@ -35,10 +35,32 @@
     /* Override Infima's button */
 }
 
-.linkButton {
+/* Why 996? 996 is Docusaurus and Infima's breakpoint */
+/* If the container is extended to the full width of the screen having the advance button 1.5rem more to the right will cause layout issues. */
+@media only screen and (max-width: 996px) {
+    .advance {
+        right: 0;
+    }
+}
+
+.gitPodLinkButton {
     position: absolute;
     right: 1rem;
     top: 3rem;
+}
+
+/* Why 575? Because Bootstrap 5 uses 575px as "xs" and 575 px looks fine with gitpod */
+@media only screen and (max-width: 575px) {
+    .gitPodLinkButton {
+        display: none;
+    }
+}
+
+/* For screens narrower than 256px reading code is like crap honestly */
+@media only screen and (max-width: 256px) {
+    .codeContainer {
+        display: none;
+    }
 }
 
 .codeContent {
