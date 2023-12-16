@@ -133,6 +133,16 @@ or for the nightly pre-release:
 yay -S lf-cli-nightly-bin
 ```
 
+### Nix and NixOS
+
+The Lingua Franca compiler is packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/development/compilers/lingua-franca/default.nix#L28) and is available via the binary cache.
+
+Run
+```
+ nix shell nixpkgs#lingua-franca
+```
+to temporarily install `lfc` in your current shell environment.
+
 ### Manual Download
 
 Regular and nightly release builds of the command line tools can be downloaded from the [Lingua Franca release page](https://github.com/lf-lang/lingua-franca/releases). Download the archive that matches your OS and architecture, and extract the contents.
