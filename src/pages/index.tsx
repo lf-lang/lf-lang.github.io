@@ -32,7 +32,7 @@ function HeroBanner() {
               __html: translate({
                 id: "homepage.hero.title",
                 message:
-                  "Build <b>time-sensitive</b>, <b>concurrent</b>, and <b>distributed</b> systems — <b>effortlessly</b>.",
+                  "Build <b>time-sensitive</b>, <b>concurrent</b>, and <b>distributed</b> systems — <b>effortlessly</b>",
                 description:
                   "Home page hero title, can contain simple html tags",
               }),
