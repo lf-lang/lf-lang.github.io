@@ -15,8 +15,10 @@ page, we explain exactly how to do this.
 
 ## Prerequisites
 
-- You need a development system that runs on macOS or Linux (there is currently no Windows support).
-- [Arduino CLI](https://arduino.github.io/arduino-cli/) must be installed on your development system. Confirm that your installation works by running:
+- You need a development system that runs on macOS or Linux (there is currently
+  no Windows support).
+- [Arduino CLI](https://arduino.github.io/arduino-cli/) must be installed on
+  your development system. Confirm that your installation works by running:
 
 ```
 arduino-cli version
@@ -58,10 +60,11 @@ execution, a reaction triggered by the built-in `startup` trigger can be used.
 
 ## Platform Options
 
-The `platform` property can also be used so specify more details. Along with `name: "arduino"`,
-you can specify which `board`, `port`, and `baud-rate` you are using. If you want the program
-to be flashed onto the board automatically after compilation, specify `flash: true`.
-Here a target declaration that specifies all of these options:
+The `platform` property can also be used so specify more details. Along with
+`name: "arduino"`, you can specify which `board`, `port`, and `baud-rate` you
+are using. If you want the program to be flashed onto the board automatically
+after compilation, specify `flash: true`. Here a target declaration that
+specifies all of these options:
 
 ```lf
 target C {
@@ -75,7 +78,8 @@ target C {
 }
 ```
 
-The `board` is necessary for [building](#building) and the `port` is necessary for [flashing](#flashing).
+The `board` is necessary for [building](#building) and the `port` is necessary
+for [flashing](#flashing).
 
 ### Baud rate of the serial port
 
@@ -94,17 +98,21 @@ the board that you have plugged in using the following command:
 
 `arduino-cli board list`
 
-To see the list of all FQBN's installed on your device (all FQBNs supported by the libraries you have installed), run the following command:
+To see the list of all FQBN's installed on your device (all FQBNs supported by
+the libraries you have installed), run the following command:
 
 `arduino-cli board listall`
 
-You likely need to install support for your board first, which you can do using the following command:
+You likely need to install support for your board first, which you can do using
+the following command:
 
 `arduino-cli core install arduino:[BOARD_FAMILY]`
 
 The common board families include `avr`, `megaAVR`, `sam`, `samd`, and `mbed`.
 
-If you specify your FQBN under `board` in the `platform` target property, `lfc` will automatically invoke `arduino-cli` on the generated sketch. To invoke `arduino-cli` manually
+If you specify your FQBN under `board` in the `platform` target property, `lfc`
+will automatically invoke `arduino-cli` on the generated sketch. To invoke
+`arduino-cli` manually
 
 - for unthreaded programs (most arduino flavors), run:
   `arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags="-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10" --build-property compiler.cpp.extra_flags="-DLF_UNTHREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10"`
@@ -114,10 +122,14 @@ If you specify your FQBN under `board` in the `platform` target property, `lfc` 
 
 # Flashing
 
-Arduino's can be flashed via USB. To find the port oto which your device is connected, run the following command:
+Arduino's can be flashed via USB. To find the port oto which your device is
+connected, run the following command:
 
 `arduino-cli board list`
 
-You can either use `arduino-cli` to flash the code onto your device after the sketch file has been built, or you can set `flash:true` and provide a `port` in your Lingua Franca file. To flash manually using `arduino-cli`, enter the subdirectory of `src-gen` in which the generated sketch file is located and run:
+You can either use `arduino-cli` to flash the code onto your device after the
+sketch file has been built, or you can set `flash:true` and provide a `port` in
+your Lingua Franca file. To flash manually using `arduino-cli`, enter the
+subdirectory of `src-gen` in which the generated sketch file is located and run:
 
 `arduino-cli upload -p PORT -b FQBN .`

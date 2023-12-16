@@ -4,7 +4,7 @@ title: Installation
 
 # Installation
 
-The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](<./reference/target-language-details.mdx#requirements>) page and select your target language).
+The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](./reference/target-language-details.mdx#requirements) page and select your target language).
 
 You can use Lingua Franca:
 
@@ -16,7 +16,7 @@ You can also spin up one of our pre-configured Cloud-based dev environments:
 
 [![Gitpod Link](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/new#https://github.com/lf-lang/playground-lingua-franca/tree/main)
 
-[![GH Codespace](https://github.com/codespaces/badge.svg)](<https://github.com/codespaces/new?hide_repo_select=true&repo=477928779&ref=main&skip_quickstart=true&devcontainer_path=.devcontainer%2Fnightly%2Fdevcontainer.json>)
+[![GH Codespace](https://github.com/codespaces/badge.svg)](https://github.com/codespaces/new?hide_repo_select=true&repo=477928779&ref=main&skip_quickstart=true&devcontainer_path=.devcontainer%2Fnightly%2Fdevcontainer.json)
 
 Have a look at the [Lingua Franca playground](https://github.com/lf-lang/playground-lingua-franca) for more details.
 
@@ -57,6 +57,7 @@ curl -Ls https://install.lf-lang.org | bash -s epoch
 ```
 
 You can also install the nightly pre-release:
+
 ```
 curl -Ls https://install.lf-lang.org | bash -s epoch nightly
 ```
