@@ -49,4 +49,18 @@ jobs:
         id: deployment
         uses: actions/deploy-pages@v3
 
+  prettier-markdown:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out  repository
+        uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: yarn
+      - name: Install dependencies
+        run: yarn
+      - name: Run prettier on md and mdx
+        run: npx prettier --check --prose-wrap=always "docs/**/*.md" "docs/**/*.mdx"
+
 # TODO: Deploy to some third-party place for preview?
