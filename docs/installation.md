@@ -133,15 +133,15 @@ or for the nightly pre-release:
 yay -S lf-cli-nightly-bin
 ```
 
-### Nixos
+### Nix and NixOS
 
-LFC is packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/development/compilers/lingua-franca/default.nix#L28) and is available via the binary cache.
+The Lingua Franca compiler is packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/development/compilers/lingua-franca/default.nix#L28) and is available via the binary cache.
 
 Run
 ```
  nix shell nixpkgs#lingua-franca
 ```
-to temporarily install lfc in your current shell environment.
+to temporarily install `lfc` in your current shell environment.
 
 ### Manual Download
 
