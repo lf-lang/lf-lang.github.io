@@ -3,6 +3,7 @@ title: Website Development
 description: Development of the Lingua Franca website.
 ---
 
+
 ## Getting Started
 
 First, for simple changes to the website, such as fixing typos, the easiest way is to scroll to the bottom of the page, follow the link at the bottom to send a pull request, edit the resulting page, and issue a pull request.
@@ -12,3 +13,31 @@ For more elaborate changes, including adding new pages, you will need to clone t
 ## Editing the Handbook
 
 The handbook is the most updated part of the website and it includes quite a bit of infrastructure to support writing pages that describe features in any or all of the target languages. The root of the handbook pages in the `packages/documentation` part of the repo. That directory has a useful [README file](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/README.md) that describes the structure and provides instructions for inserting code examples in any target language and target-specific text within a body of target-independent text.
+
+## Infrastructure
+
+### Docusaurus
+
+Our new website is built on top of [Docusaurus](https://docusaurus.io/), a documentation website generator maintained by Meta. Most of the functionalities are built with Docusaurus or plugins made for it to ensure that we spent minimal effort touching actual infrastructure code. You can find documentation on their website. Most of the website customisation can be done by tweaking configurations without touching any code with docusaurus.
+
+Below are some components we made to accomodate our special needs.
+
+### Syntax highlighting
+
+Highlighting is handled by two separate plugins:
+
+For languages other than Lingua Franca, highlighting is handled by Prism, which is included in Docusaurus. You can find more details in Docusaurus documentation.
+
+For Lingua Franca, highlighting is handled by [Shikiji](https://github.com/antfu/shikiji). This is mainly because we only have TextMate grammar definition and it is not easy to convert from it to Prism
+
+Like Prism, we are running Shikiji in browser and the code is updated in browser by React after it is highlighted. Shikiji can, but is not encouraged to, run in browsers, since it is big in size and expensive in computation power. Yet running it in browser might help SEO and makes maintenance easier.
+
+The component we created is `ShikijiLFHighlighter` in `src/components/ShikijiLFHighlighter/index.tsx`. As Shikiji highlights code asynchorously, the component will display the unhighlighted code first, and asynchorously update the HTML to be the one with highlighted code with React.
+
+Upon loading the webpage, Shikiji will be initialised in the browser, loading grammars of all target languages and Lingua Franca, as configured in `clientModules` section in `docusaurus.config.js` and `src/components/ShikijiLFHighlighter/shikijiloader.ts`. 
+
+We further swizzled Docusaurus' `CodeBlock` to use `ShikijiLFHighlighter` if the code language matches a pattern that indicates the code language is Lingua Franca, so using ``` notation in Markdown with language `lf` could give us the correct highlight result.
+
+:::info
+Unlike the custom syntax highlighter in our old website, without specifying `target C`, the highlighter will not be able to highlight target language code correctly as it lacks context - even if the language speficied is `lf-c`. This will be solved in future updates to the highlighter.
+:::
