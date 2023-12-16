@@ -498,7 +498,7 @@ An instance is created with the syntax:
 
 > _instance_name_ = **new** _class_name_(_parameters_);
 
-A bank with several instances can be created in one such statement, as explained in the [banks of reactors documentation](<../writing-reactors/multiports-and-banks.mdx#banks-of-reactors>).
+A bank with several instances can be created in one such statement, as explained in the [banks of reactors documentation](../writing-reactors/multiports-and-banks.mdx#banks-of-reactors).
 
 The _parameters_ argument has the form:
 
