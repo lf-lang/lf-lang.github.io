@@ -32,7 +32,7 @@ For Lingua Franca, highlighting is handled by [Shikiji](https://github.com/antfu
 
 Like Prism, we are running Shikiji in browser and the code is updated in browser by React after it is highlighted. Shikiji has a relatively large footprint, so its not necessarily encourage to run in browsers. Yet running it in browser might help SEO and makes maintenance easier.
 
-The component we created is `ShikijiLFHighlighter` in `src/components/ShikijiLFHighlighter/index.tsx`. As Shikiji highlights code asynchorously, the component will display the unhighlighted code first, and asynchorously update the HTML to be the one with highlighted code with React.
+The component we created is `ShikijiLFHighlighter` in `src/components/ShikijiLFHighlighter/index.tsx`. As Shikiji highlights code asynchorously, the component will display the unhighlighted code first, and asynchronously update the HTML to be the one with highlighted code with React.
 
 Upon loading the webpage, Shikiji will be initialised in the browser, loading grammars of all target languages and Lingua Franca, as configured in `clientModules` section in `docusaurus.config.js` and `src/components/ShikijiLFHighlighter/shikijiloader.ts`. 
 
