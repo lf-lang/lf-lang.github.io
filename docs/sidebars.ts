@@ -179,6 +179,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "doc",
           "id": "embedded/zephyr"
+        },
+        {
+          "type": "doc",
+          "id": "embedded/rp2040"
         }
       ]
     },
