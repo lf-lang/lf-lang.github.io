@@ -206,6 +206,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "developer/debugging-generated-code"
+        },
+        {
+          "type": "doc",
           "id": "developer/regression-tests"
         },
         {
