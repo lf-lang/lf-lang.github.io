@@ -126,7 +126,7 @@ the following installation guide
 [here](https://www.nordicsemi.com/Products/Development-tools/nrf-command-line-tools/download).
 
 ```
-cd apps/NrfBliny
+cd apps/NrfBlinky
 west lfc src/NrfBlinky.lf --build "-p always -b nrf52dk_nrf52832"
 west flash
 ```
