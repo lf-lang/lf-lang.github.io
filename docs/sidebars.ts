@@ -129,6 +129,10 @@ const sidebars: SidebarsConfig = {
           "id": "tools/command-line-tools"
         },
         {
+            "type": "doc",
+            "id": "tools/documentation"
+        },
+        {
           "type": "doc",
           "id": "tools/troubleshooting"
         }
