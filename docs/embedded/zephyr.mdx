@@ -237,7 +237,7 @@ CONFIG_PICOLIBC=y
 ```
 
 With some additional work we could also get the LF runtime working with Minimal
-libc.
+libc. It should reduce the code size considerably.
 
 # Debugging LF Zephyr programs using QEMU and GDB
 In this section we will see how a LF program can be debugged while running in
@@ -286,10 +286,10 @@ appear as if the `fast` target property was set to `true`.
 ## Troubleshooting
 
 ### ESP32
-Several users have reported problems with using ESP32 and newlibc, which is the
+Several users have reported problems with using ESP32 and Newlib , which is the
 default C library used by LF programs targeting Zephyr. A workaround is to use
-picolibc instead. See the chapter on "C libraries" for a description of how to
-change C library.
+Picolibc instead. See the chapter on "C libraries" for a description of how to
+change C library implementation.
 
 ### Multiple Zephyr installations
 If the following warning is shown when invoking `west lfc` or any other `west`
