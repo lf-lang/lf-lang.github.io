@@ -150,10 +150,21 @@ hi-resolution timing. These required configurations are stored in a file called
 `prj_lf.conf` which `lfc` generates into the `src-gen` folder. You can provide
 your own configurations through the following three files that `west lfc`
 expects to find at the root of each app:
-1. `prj.conf`, see [Seeting symbols in configuration files](https://docs.zephyrproject.org/latest/build/kconfig/setting.html#setting-symbols-in-configuration-files) 
+1. `prj.conf`, see [Seeting symbols in Configuration systems (Kconfig)](https://docs.zephyrproject.org/latest/build/kconfig/setting.html#setting-symbols-in-configuration-files) 
 2. `Kconfig`, see [Configuration system (Kconfig)](https://docs.zephyrproject.org/latest/build/kconfig/index.html)
 3. `app.overlay`, see [Devicetree](https://docs.zephyrproject.org/latest/build/dts/index.html#devicetree)
 
+The config options provided by you will be merged with those provided by `lfc`
+and default settings for the board. It is very useful to inspect the final
+version of the Kconfig and devicetree. After compilation, these are found in
+`build/zephyr/.config` and `build/zephyr/zephyr.dts`. You can also inspect the
+Kconfig options and devicetree by calling:
+```
+west build -t menuconfig
+west build -t guiconfig
+```
+These are very powerful tools and give you alot of insight into the application
+you have just build.
 
 # The `west lfc` command
 The custom `lfc` west command has already been used in previous sections. It can
@@ -203,6 +214,31 @@ cd src-gen/LfcCentricZephyr
 west build -t run
 ```
 
+# C libraries
+Zephyr has support for three C library implementations. 
+- Newlib (Default library used by LF)
+- Picolibc (Supported by LF)
+- Minmal libc (Not supported yet by LF)
+
+For LF programs targeting Zephyr, Newlib is the default C library. You can
+inspect the file `lf_prj.conf` which will be copied into the `src-gen` by `lfc`
+when compiling a LF program with Zephyr as the target platform. Here you will find:"
+```
+CONFIG_NEWLIB_LIBC=y
+CONFIG_NEWLIB_LIBC_FLOAT_PRINTF=y
+```
+
+This setting can be overridden in the user-written `prj.conf` file. If you wish
+to use Picolibc instead put the following in your `prj.conf` file:
+```
+CONFIG_NEWLIB_LIBC=n
+CONFIG_NEWLIB_LIBC_FLOAT_PRINTF=n
+CONFIG_PICOLIBC=y
+```
+
+With some additional work we could also get the LF runtime working with Minimal
+libc.
+
 # Debugging LF Zephyr programs using QEMU and GDB
 In this section we will see how a LF program can be debugged while running in
 QEMU emulation.
@@ -248,6 +284,12 @@ QEMU fast-forwards time. This causes the emulation of threaded programs to
 appear as if the `fast` target property was set to `true`. 
 
 ## Troubleshooting
+
+### ESP32
+Several users have reported problems with using ESP32 and newlibc, which is the
+default C library used by LF programs targeting Zephyr. A workaround is to use
+picolibc instead. See the chapter on "C libraries" for a description of how to
+change C library.
 
 ### Multiple Zephyr installations
 If the following warning is shown when invoking `west lfc` or any other `west`
