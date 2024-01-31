@@ -1,0 +1,17 @@
+target C;
+reactor Sparse {
+  @sparse
+  input[100] in:int;
+  reaction(in) {=
+    // Create an iterator over the input channels.
+    struct lf_multiport_iterator_t i = lf_multiport_iterator(in);
+    // Get the least index of a channel with present inputs.
+    int channel = lf_multiport_next(&i);
+    // Iterate until no more channels have present inputs.
+    while(channel >= 0) {
+      printf("Received %d on channel %d\n", in[channel]->value, channel);
+      // Get the next channel with a present input.
+      channel = lf_multiport_next(&i);
+    }
+  =}
+}

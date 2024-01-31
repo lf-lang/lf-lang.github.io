@@ -1,0 +1,131 @@
+---
+title: Reactions
+description: Reactions in Lingua Franca.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
+
+## Reaction Declaration
+
+A reaction declaration has the following form:
+
+```lf
+  reaction [<name>] (triggers) [<uses>] [-> <effects>] [{= ... body ...=}]
+```
+
+Each reaction declares its triggers, uses, and effects:
+- The **triggers** field can be a comma-separated list of input ports, [output ports of contained reactors](<../writing-reactors/composing-reactors.mdx#hierarchy>), [timers](<../writing-reactors/time-and-timers.mdx#timers>), [actions](../writing-reactors/actions.mdx), or the special events `startup`, `shutdown`, and `reset` (explained [here](#startup-shutdown-and-reset-reactions)>). There must be at least one trigger for each reaction.
+- The **uses** field, which is optional, specifies input ports (or output ports of contained reactors) that do not trigger execution of the reaction but may be read by the reaction.
+- The **effects** field, which is also optional, is a comma-separated lists of output ports ports, input ports of contained reactors, or [actions](../writing-reactors/actions.mdx).
+
+Reactions may optionally be named. The name is cosmetic and may serve as additional documentation. Note that reactions cannot be called like functions, even if they are named.
+
+The reaction's behavior is defined by its body, which should be given in the target programming language. Note that the reaction body may only read from actions and ports that it has declared as triggers or uses, and it may only write to actions and ports that is has declared as an effect. The target code generators implement a scoping mechanism, such that only variables that are declared in the reaction signature are accessible in the reaction body.
+
+In some targets, the reaction body may be omitted and the body can be defined natively in the target language in an external file. See the section on [Bodyless Reactions](#bodyless-reactions) for details.
+
+## Reaction Order
+
+A reactor may have multiple reactions, and more than one reaction may be enabled at any given tag. In Lingua Franca semantics, if two or more reactions of the same reactor are **simultaneously enabled**, then they will be invoked sequentially in the order in which they are declared. More strongly, the reactions of a reactor are **mutually exclusive** and are invoked in tag order primarily and declaration order secondarily. Consider the following example:
+
+import C_Alignment from '../assets/code/c/src/Alignment.lf';
+import Cpp_Alignment from '../assets/code/cpp/src/Alignment.lf';
+import Py_Alignment from '../assets/code/py/src/Alignment.lf';
+import Rs_Alignment from '../assets/code/rs/src/Alignment.lf';
+import TS_Alignment from '../assets/code/ts/src/Alignment.lf';
+
+<NoSelectorTargetCodeBlock c={C_Alignment} cpp={Cpp_Alignment} py={Py_Alignment} rs={Rs_Alignment} ts={TS_Alignment} lf />
+
+Every 100 ms, this increments the state variable `s` by 1, every 200 ms, it decrements `s` by 2, and every 400 ms, it prints the value of `s`. When these reactions align, they are invoked in declaration order, and, as a result, the printed value of `s` is always 0.
+
+## Overwriting Outputs
+
+Just as the reactions of the `Alignment` reactor overwrite the state variable `s`, logically simultaneous reactions can overwrite outputs. Consider the following example:
+
+import C_Overwriting from '../assets/code/c/src/Overwriting.lf';
+import Cpp_Overwriting from '../assets/code/cpp/src/Overwriting.lf';
+import Py_Overwriting from '../assets/code/py/src/Overwriting.lf';
+import Rs_Overwriting from '../assets/code/rs/src/Overwriting.lf';
+import TS_Overwriting from '../assets/code/ts/src/Overwriting.lf';
+
+<NoSelectorTargetCodeBlock c={C_Overwriting} cpp={Cpp_Overwriting} py={Py_Overwriting} rs={Rs_Overwriting} ts={TS_Overwriting} lf />
+
+Here, the reaction to `t1` will set the output to 1 or 2, but every time it sets it to 2, the second reaction (to `t2`) will overwrite the output with the value 0. As a consequence, the outputs will be 1, 0, 1, 0, ... deterministically.
+
+## Reacting to Outputs of Contained Reactors
+
+A reaction may be triggered by the an input to the reactor, but also by an output of a contained reactor, as illustrated in the following example:
+
+import C_Contained from '../assets/code/c/src/Contained.lf';
+import Cpp_Contained from '../assets/code/cpp/src/Contained.lf';
+import Py_Contained from '../assets/code/py/src/Contained.lf';
+import Rs_Contained from '../assets/code/rs/src/Contained.lf';
+import TS_Contained from '../assets/code/ts/src/Contained.lf';
+
+<NoSelectorTargetCodeBlock c={C_Contained} cpp={Cpp_Contained} py={Py_Contained} rs={Rs_Contained} ts={TS_Contained} lf />
+
+import ContainedSVG from "./../assets/images/diagrams/Contained.svg"
+
+<ContainedSVG title="Lingua Franca diagram: Contained" role="img" width="300" />
+
+This instantiates the above `Overwriting` reactor and monitors its outputs.
+
+## Triggering Contained Reactors
+
+A reaction can set the input of a contained reactor, thereby triggering its reactions, as illustrated in the following example:
+
+import C_Triggering from '../assets/code/c/src/Triggering.lf';
+import Cpp_Triggering from '../assets/code/cpp/src/Triggering.lf';
+import Py_Triggering from '../assets/code/py/src/Triggering.lf';
+import Rs_Triggering from '../assets/code/rs/src/Triggering.lf';
+import TS_Triggering from '../assets/code/ts/src/Triggering.lf';
+
+<NoSelectorTargetCodeBlock c={C_Triggering} cpp={Cpp_Triggering} py={Py_Triggering} rs={Rs_Triggering} ts={TS_Triggering} lf />
+
+The reaction to `startup` declares the input port of the inside reactor as an effect and then sets it with value 42.
+This will cause the inside reactor's reaction to execute and print `Received 42`.
+
+## Startup, Shutdown, and Reset Reactions
+
+Reactions may be triggered by the special events `startup`, `shutdown`, or `reset`.
+For example,
+
+```lf
+  reaction(startup) {=
+    // ... Do something
+  =}
+```
+
+A reaction to `startup` is triggered at the very first tag when the program begins (or, if within a mode of a [modal reactor](../writing-reactors/modal-models.mdx), when the mode is first entered).
+This reaction will be logically simultaneous with reactions to [timers](../writing-reactors/time-and-timers.mdx) that have a zero offset.
+As usual, for logically simultaneous reactions declared within the same reactor, the order in which they are invoked will be governed by the order in which they are declared.
+
+A reaction to `shutdown` is invoked at program termination.
+See the [Termination](../writing-reactors/termination.mdx) section for details.
+
+<ShowIfs>
+
+<ShowIf cpp ts rs>
+
+Reactions to the `reset` event are not supported in $target-language$ because [modal reactors](../writing-reactors/modal-models.mdx) are not supported.
+
+</ShowIf>
+
+<ShowIf c py>
+
+A reaction to the `reset` event is invoked if the reaction or reactor is within a mode of a [modal reactor](../writing-reactors/modal-models.mdx) and the mode is entered via a reset transition.
+For details, see the [Modal Reactors](../writing-reactors/modal-models.mdx) section.
+
+</ShowIf>
+</ShowIfs>
+
+
+## Bodyless Reactions
+
+See [Reaction Declarations](./reaction-declarations.mdx).
