@@ -71,9 +71,9 @@ const config: Config = {
     navbar: {
       logo: {
         alt: 'The Lingua Franca Logo',
-        src: 'img/lf-forlight-mono.svg',
-        srcDark: "img/lf-fordark-mono.svg",
-        style: {marginLeft: "20px"},
+        src: 'img/lf-forlight.svg',
+        srcDark: "img/lf-fordark.svg",
+        className: "lf-navbar-logo",
       },
       items: [
         {
