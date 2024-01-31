@@ -37,6 +37,11 @@ const config: Config = {
       'classic',
       {
         docs: {
+          versions: {
+            current: {
+              label: 'Nightly 🚧',
+            },
+          },
           sidebarPath: './docs/sidebars.ts',
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
@@ -80,6 +85,12 @@ const config: Config = {
         {to: '/blog', label: 'Blog', position: 'left'},
         {to: '/research', label: 'Research', position: 'left'},
         {to: '/community', label: 'Community', position: 'left'},
+        {
+          type: 'docsVersionDropdown',
+          position: 'right',
+          // dropdownItemsAfter: [{to: '/versions', label: 'All versions'}],
+          dropdownActiveClassDisabled: true,
+        },
         {
           href: 'https://github.com/lf-lang/',
           position: 'right',

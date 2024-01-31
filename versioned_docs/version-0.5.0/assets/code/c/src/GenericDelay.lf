@@ -1,0 +1,27 @@
+target C
+
+reactor Delay<T>(delay: time = 0) {
+  input in: T
+  output out: T
+  logical action a(delay): T
+
+  reaction(a) -> out {=
+    lf_set(out, a->value);
+  =}
+
+  reaction(in) -> a {=
+    lf_schedule_copy(a, self->delay, &in->value, 1);
+  =}
+}
+
+main reactor {
+  d = new Delay<int>(delay = 100 ms)
+
+  reaction(startup) -> d.in {=
+    lf_set(d.in, 42);
+  =}
+
+  reaction(d.out) {=
+    printf("Received %d at time %lld.\n", d.out->value, lf_time_logical_elapsed());
+  =}
+}
