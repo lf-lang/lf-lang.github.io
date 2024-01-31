@@ -120,5 +120,5 @@ target C {
 ```
 
 :::note
-To use a local image that is based on source of the RTI provided by `lfc`, use `rti-image: "lflang/rti:rti"`.
+The value of the `FROM` and `rti-image` entry should follow Docker's `<user-name>/<image-name>:<tag-name>` naming convention for image names. Docker will resolve the name and pull the image from your local registry, or, if it cannot be found, from DockerHub.
 :::
