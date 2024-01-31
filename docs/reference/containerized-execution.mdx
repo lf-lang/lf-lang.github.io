@@ -8,7 +8,7 @@ For the `C` target at least, the Lingua Franca code generator is able to generat
 ```lf-c
 target C {
     docker: true
-};
+}
 ```
 
 The generated Docker file has the same name as the LF file except that the extension is `.Dockerfile` and will be put in the `src-gen` directory. You can also specify options. Currently, only the base image (`FROM`) can be customized, but this will be extended to allow further customization is the future. To customize the Docker file, instead of just `true` above, which gives default options, specify the options as in the following example:
@@ -16,7 +16,7 @@ The generated Docker file has the same name as the LF file except that the exten
 ```lf-c
 target C {
     docker: {FROM: "alpine:latest"}
-};
+}
 ```
 
 This specifies that the base image is the latest version of `alpine`, a very small Linux. In fact, `alpine:latest` is the default value for this option, so you only need to specify this option if you need something other than `alpine:latest`.
@@ -24,10 +24,13 @@ This specifies that the base image is the latest version of `alpine`, a very sma
 How to use this depends on whether your application is federated. You will need to [install Docker](https://docs.docker.com/get-docker/) if you haven't already in order to use this.
 
 ## Unfederated Execution
+Suppose your LF source file is `src/Foo.lf`. When you run `lfc` or use the IDE to generate code, a file called `Dockerfile` and a file called `docker-compose.yml` will appear in the `src_gen/Foo` directory, see [Structure of an LF project](/docs/handbook/a-first-reactor#structure-of-an-lf-project) for more info.
+
+### Using docker compose up
+After running `lfc`, change to the directory that contains the generated sources. Then, use `docker compose up --build` to automatically build the Docker image and run the container. Once the container finishes execution, use `docker compose down` in the same directory where `docker-compose.yml` is located to remove the container.
 
 ### Using docker build and docker run
-
-Suppose your LF source file is `src/Foo.lf`. When you run `lfc` or use the IDE to generate code, a file called `Dockerfile` will appear in the `src_gen/Foo` directory, see [Structure of an LF project](<../writing-reactors/a-first-reactor.mdx#structure-of-an-lf-project>) for more info. You can build a Docker image as follows. First, navigate into the directory where `Dockerfile` is located. Then issue the command:
+You can also build the image and run the container in separate steps. Again, make sure that you have changed directory to the location of the `Dockerfile`. Then issue the command:
 
 ```sh
    docker build -t foo .
@@ -38,7 +41,7 @@ This will create a Docker image with tag `foo`. The tag is required to be all lo
 You can then use this tag to run the image in a container:
 
 ```sh
-    docker run -t --rm foo
+   docker run -t --rm foo
 ```
 
 The `-t` option creates a pseudo terminal, which is necessary for you to see any output produced by your program to `stdout`. If your program also reads from `stdin`, then you will need to give the `-i` option as well, or combine the two as `it`.
@@ -53,64 +56,51 @@ The above run command can include any supported command-line arguments to the LF
     docker run -t --rm foo --timeout 20 sec
 ```
 
-### Using docker compose up
-
-When you use `lfc` to compile `Foo.lf`, a file called `docker-compose.yml` will also appear in the same directory where `Foo.Dockerfile` is located. `cd` to that directory. Then, use `docker compose up` to automatically build and run the container. Once the container finishes execution, use `docker compose down` in the same directory where `docker-compose.yml` is located to remove the container.
-
 ## Federated Execution
+Suppose your LF source file is `src/Fed.lf`. When you run `lfc` or use the IDE to generate code, a file called `Dockerfile` is created for each federate alongside its sources. Just like in the unfederated case, a single `docker-compose.yml` will appear in the `src_gen/Fed` directory, see [Structure of an LF project](/docs/handbook/a-first-reactor#structure-of-an-lf-project) for more info.
+
+### Using docker compose up
+Change directory to where the `docker-compose.yml` is located, and simply run:
+```sh
+    docker compose up --build 
+```
+This will build images for all the federates (and the RTI, which is pulled from [Docker Hub](https://hub.docker.com/r/lflang/rti)), and run them on jointly on a shared network.
 
 ### Using docker build and docker run
+You can also build the images and run the containers in separate steps, for each container individually. 
 
-For a federated Lingua Franca program, one Dockerfile is created for each federate plus an additional one for the RTI. The Dockerfile for the RTI will be generated at `src-gen/RTI`. You will need to run `docker build` for each of these. For example, to build the image for the RTI, you can do this:
+To build a particular federate that we assume is called `foo`, change directory to `src-gen/Fed/federate__foo` (there should be a `Dockerfile` in this directory). Then issue the command:
 
 ```sh
-docker build -t distributedcountcontainerized_rti -f src-gen/DistributedCountContainerized_RTI.Dockerfile .
+   docker build -t foo .
 ```
 
-This is for the [DistributedCountContainerized.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/docker/federated/DistributedCountContainerized.lf), a federated that automatically runs in multiple Docker containers (one for the RTI and one for each federate) in continuous integration.
+Assuming there is one more federate in the program that is called `bar`, change directory to `src-gen/Fed/federate__bar` and run:
 
-Now, there are several options for how to proceed. One is to create a named network on which to run your federation. For example, to create a network named `lf`, do this:
+```sh
+   docker build -t bar .
+```
+
+To pull the RTI from DockerHub, run this command:
+```sh
+   docker pull lflang/rti:rti
+```
+Now, create a named network on which to run your federation. For example, to create a network named `lf`, do this:
 
 ```sh
     docker network create lf
 ```
 
-You can then run the RTI on this network and assign the RTI a name that the federates can use to find the RTI:
+You can then launch the RTI on this network (do this in a separate terminal):
 
 ```sh
-    docker run -t --rm --network lf --name distributedcount-rti distributedcount_rti
+     docker run -t --rm --name rti --network lf lflang/rti:rti -n 2 -i 1234
 ```
 
-Here, the assigned name is not quite the same as the tag that was specified when building the image (the last argument is the tag of the image to run in a container) because a host name is not allowed to have an underscore in it.
+Here, the `-n 2` indicates that the total number of federates is two and `-i 1234` assigns an identifier for the federation.
 
-Currently, you will also have to specify this host name in the LF source file so that the federates know where to find the RTI. E.g., in [DistributedCount.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/DistributedCount.lf), change the end of the file to read as follows:
-
-```lf
-federated reactor DistributedCount at distributedcount-rti {
-    c = new Count();
-    p = new Print();
-    c.out -> p.in after 200 msec;
-}
-```
-
-Notice the `at distributedcount-rti`, which must match the name you use when running the RTI. **FIXME:** We should find a way to make this more automatic!
-
-In two other terminals, you can now run the other federates on the same network:
-
+The federates `foo` and `bar`, the images of which have already been built, can be started using the following commands:
 ```sh
-docker run -t --rm --network lf distributedcount_c
+docker run -t --rm --network lf foo
+docker run -t --rm --network lf bar
 ```
-
-and
-
-```sh
-docker run -t --rm --network lf distributedcount_p
-```
-
-### Using docker compose up
-
-For a federated Lingua Franca program, once you use `lfc` to compile `Foo.lf`, on top of the `docker-compose.yml` for the reactors, an additional `docker-compose.yml` will be generated for the RTI and placed in `src-gen/RTI`.
-
-To run the federated program, open two terminals. In the first terminal, go to `src-gen/RTI` and use `docker compose up` to build and run the containerized RTI. Wait until the RTI is booted up. Then, open a second terminal and `cd` to the top level folder of the program (this is the folder that contains one folder for each of the federated reactors). You should see a `docker-compose.yml` there. Run `docker compose up` to build and run the containers.
-
-Once the program finished executing, run `docker compose down` in both the folder that contains the `docker-compose.yml` for the RTI as well as the folder that contains the `docker-compose.yml` for the reactors to remove the containers.
