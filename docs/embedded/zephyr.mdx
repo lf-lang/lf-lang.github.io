@@ -163,8 +163,8 @@ Kconfig options and devicetree by calling:
 west build -t menuconfig
 west build -t guiconfig
 ```
-These are very powerful tools and give you alot of insight into the application
-you have just build.
+These are very powerful tools that give you a lot of insight into the application
+you have just built.
 
 # The `west lfc` command
 The custom `lfc` west command has already been used in previous sections. It can
@@ -218,7 +218,7 @@ west build -t run
 Zephyr has support for three C library implementations. 
 - Newlib (Default library used by LF)
 - Picolibc (Supported by LF)
-- Minmal libc (Not supported yet by LF)
+- Minimal libc (Not supported yet by LF)
 
 For LF programs targeting Zephyr, Newlib is the default C library. You can
 inspect the file `lf_prj.conf` which will be copied into the `src-gen` by `lfc`
@@ -286,7 +286,7 @@ appear as if the `fast` target property was set to `true`.
 ## Troubleshooting
 
 ### ESP32
-Several users have reported problems with using ESP32 and Newlib , which is the
+Several users have reported problems with using ESP32 and Newlib, which is the
 default C library used by LF programs targeting Zephyr. A workaround is to use
 Picolibc instead. See the chapter on "C libraries" for a description of how to
 change C library implementation.
