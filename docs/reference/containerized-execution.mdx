@@ -3,7 +3,7 @@ title: Containerized Execution
 description: Containerized Execution using Docker
 ---
 
-For the `C` target at least, the Lingua Franca code generator is able to generate a Dockerfile when it generates the C source files. To enable this, include the `docker` property in your target specification, as follows:
+The `C`, `Python`, and `TypeScript` target support the generation of a Dockerfile to conveniently run the generated code in a container. To enable this feature, include the `docker` property in your target specification, as follows:
 
 ```lf-c
 target C {
