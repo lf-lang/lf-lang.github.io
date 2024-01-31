@@ -87,7 +87,7 @@ Not surprisingly, this will print:
 
 (The order in which these are printed is arbitrary because the reactions can execute in parallel.)
 
-To share a function across _reactors_, however, is a bit trickers.
+To share a function across _reactors_, however, is a bit trickier.
 A `preamble` that is put outside the `reactor` definition can only contain
 _declarations_ not _definitions_ of functions or variables.
 The following code, for example will **fail to compile**:
