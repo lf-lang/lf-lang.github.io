@@ -11,17 +11,8 @@ target C {
 }
 ```
 
-The generated Docker file has the same name as the LF file except that the extension is `.Dockerfile` and will be put in the `src-gen` directory. You can also specify options. Currently, only the base image (`FROM`) can be customized, but this will be extended to allow further customization is the future. To customize the Docker file, instead of just `true` above, which gives default options, specify the options as in the following example:
+The generated Docker file is simply called `Dockerfile` and will be put in the `src-gen` directory. You will need to [install Docker](https://docs.docker.com/get-docker/) in order to use this.
 
-```lf-c
-target C {
-    docker: {FROM: "alpine:latest"}
-}
-```
-
-This specifies that the base image is the latest version of `alpine`, a very small Linux. In fact, `alpine:latest` is the default value for this option, so you only need to specify this option if you need something other than `alpine:latest`.
-
-How to use this depends on whether your application is federated. You will need to [install Docker](https://docs.docker.com/get-docker/) if you haven't already in order to use this.
 
 ## Unfederated Execution
 Suppose your LF source file is `src/Foo.lf`. When you run `lfc` or use the IDE to generate code, a file called `Dockerfile` and a file called `docker-compose.yml` will appear in the `src_gen/Foo` directory, see [Structure of an LF project](/docs/handbook/a-first-reactor#structure-of-an-lf-project) for more info.
@@ -104,3 +95,30 @@ The federates `foo` and `bar`, the images of which have already been built, can 
 docker run -t --rm --network lf foo
 docker run -t --rm --network lf bar
 ```
+
+## Configuration Options
+You can further customize the generated Docker file through the `docker` target property. Instead of just enabling Docker support using `true`, specify configuration options in a dictionary.
+
+### Select a Base Image
+You can specify a base image (`FROM`) as follows:
+
+```lf-c
+target C {
+    docker: {FROM: "alpine:latest"}
+}
+```
+
+This specifies that the base image is the latest version of `alpine`, a very small Linux. In fact, `alpine:latest` is the default value for this option, so you only need to specify this option if you need something other than `alpine:latest`.
+
+### Select an RTI
+By default, an image is pulled from DockerHub that contains the RTI. An alternative image can be specified using the `rti-image` entry as follows:
+
+```lf-c
+target C {
+    docker: {rti-image: "lflang/rti:latest"}
+}
+```
+
+:::note
+To use a local image that is based on source of the RTI provided by `lfc` or `lfc-dev`, use `rti-image: "lflang/rti:rti"`.
+:::
