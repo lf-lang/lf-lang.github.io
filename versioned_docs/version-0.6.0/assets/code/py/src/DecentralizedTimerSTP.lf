@@ -1,0 +1,23 @@
+target Python {
+  timeout: 5 sec,
+  coordination: decentralized
+}
+
+import Count, Print from "Federated.lf"
+
+reactor PrintTimer(STP_offset = 10 msec) extends Print {
+  timer t(0, 1 sec)
+
+  reaction(t) {=
+    print(
+        "Timer ticked at "
+        f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
+    )
+  =}
+}
+
+federated reactor {
+  c = new Count()
+  p = new PrintTimer()
+  c.out -> p.inp
+}
