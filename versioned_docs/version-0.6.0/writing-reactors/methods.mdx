@@ -1,0 +1,64 @@
+---
+title: Methods
+description: Methods in Lingua Franca.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+  ShowOnlyInline,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+## Method Declaration
+
+<LanguageSelector c cpp py />
+
+
+<ShowIfs>
+<ShowIf c cpp>
+Sometimes logic needs to be shared between reactions. In this case, methods can be used to implement the shared logic, and these methods can then be called from reaction bodies. A method declaration has one of the forms:
+
+```lf
+  method <name>() {= ... =}
+  method <name>():<type> {= ... =}
+  method <name>(<argument_name>:<type>, ...) {= ... =}
+  method <name>(<argument_name>:<type>, ...):<type> {= ... =}
+```
+
+The first form defines a method with no arguments and no return value. The second form defines a method with the return type `<type>` but no arguments. The third form defines a method with a comma-separated list of arguments given by their name and type, but without a return value. Finally, the fourth form is similar to the third, but adds a return type.
+</ShowIf>
+<ShowIf py>
+A method declaration has the forms:
+
+```lf
+  method <name>() {= ... =}
+```
+</ShowIf>
+</ShowIfs>
+
+<ShowOnly cpp>
+The `method` keyword can optionally be prefixed with the `const` qualifier, which indicates that the method has only read access to the reactor's state.
+</ShowOnly>
+
+Methods are particularly useful in reactors that need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to be implemented in a single reaction. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction bodies or from other methods. Methods may also recursively invoke themselves. Consider the following example:
+
+import C_Methods from '../assets/code/c/src/Methods.lf';
+import Cpp_Methods from '../assets/code/cpp/src/Methods.lf';
+import Py_Methods from '../assets/code/py/src/Methods.lf';
+
+<NoSelectorTargetCodeBlock c={C_Methods} cpp={Cpp_Methods} py={Py_Methods} lf />
+
+This reactor defines two methods `getFoo` and `add`.
+
+<ShowOnly cpp>
+`getFoo` is qualified as a const method, which indicates that it has read-only
+access to the state variables. This is directly translated to a C++ const method
+in the code generation process.
+</ShowOnly>
+
+The `getFoo` method receives no arguments and returns an integer (`int`)
+indicating the current value of the `foo` state variable. The `add` method
+returns nothing <ShowOnly c cpp inline>(`void`)</ ShowOnly> and receives one integer argument, which it uses to increment `foo`. Both
+methods are visible in all reactions of the reactor. In this example, the
+reaction to startup calls both methods in order to read and modify its state.

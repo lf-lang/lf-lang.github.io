@@ -1,0 +1,13 @@
+target C
+reactor Inside {
+  input x: int
+  reaction(x) {=
+    printf("Received %d\n", x->value);
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    lf_set(i.x, 42);
+  =}
+}
