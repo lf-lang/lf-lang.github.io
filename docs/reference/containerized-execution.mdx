@@ -15,7 +15,7 @@ The generated Docker file is simply called `Dockerfile` and will be put in the `
 
 
 ## Unfederated Execution
-Suppose your LF source file is `src/Foo.lf`. When you run `lfc` or use the IDE to generate code, a file called `Dockerfile` and a file called `docker-compose.yml` will appear in the `src_gen/Foo` directory, see [Structure of an LF project](/docs/handbook/a-first-reactor#structure-of-an-lf-project) for more info.
+Suppose your LF source file is `src/Foo.lf`. When you run `lfc` or use the IDE to generate code, a file called `Dockerfile` and a file called `docker-compose.yml` will appear in the `src_gen/Foo` directory, see [Structure of an LF project](/docs/writing-reactors/a-first-reactor#structure-of-an-lf-project) for more info.
 
 ### Using docker compose up
 After running `lfc`, change to the directory that contains the generated sources. Then, use `docker compose up --build` to automatically build the Docker image and run the container. Once the container finishes execution, use `docker compose down` in the same directory where `docker-compose.yml` is located to remove the container.
@@ -48,7 +48,7 @@ The above run command can include any supported command-line arguments to the LF
 ```
 
 ## Federated Execution
-Suppose your LF source file is `src/Fed.lf`. When you run `lfc` or use the IDE to generate code, a file called `Dockerfile` is created for each federate alongside its sources. Just like in the unfederated case, a single `docker-compose.yml` will appear in the `src_gen/Fed` directory, see [Structure of an LF project](/docs/handbook/a-first-reactor#structure-of-an-lf-project) for more info.
+Suppose your LF source file is `src/Fed.lf`. When you run `lfc` or use the IDE to generate code, a file called `Dockerfile` is created for each federate alongside its sources. Just like in the unfederated case, a single `docker-compose.yml` will appear in the `src_gen/Fed` directory, see [Structure of an LF project](/docs/writing-reactors/a-first-reactor#structure-of-an-lf-project) for more info.
 
 ### Using docker compose up
 Change directory to where the `docker-compose.yml` is located, and simply run:
