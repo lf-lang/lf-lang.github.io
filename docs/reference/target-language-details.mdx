@@ -1118,12 +1118,6 @@ reactor Source {
 
 The first reaction specifies the destructor and copy constructor (the latter of which will be used if any downstream reactor has a mutable input or wishes to make a writable copy).
 
-**IMPORTANT:** The array constructed should be sent to only one output port using `lf_set`. If you need to send it to more than one output port or to use it as the payload of an action, you should use `lf_set_token`.
-
-:::warning
-**FIXME:** Show how to do this.
-:::
-
 A reactor receiving this array is straightforward. It just references the array elements as usual in C, as illustrated by this example:
 
 ```lf-c
@@ -1141,6 +1135,10 @@ reactor Print() {
 ```
 
 The deallocation of memory for the data will occur automatically after the last reactor that receives a pointer to the data has finished using it, using the destructor specified by `lf_set_destructor` or `free` if none specified.
+
+Sometimes, it is not necessary to explicitly provide a destructor or copy constructor for a data type.
+Suppose your output port has type `foo*` for some data type `foo`.
+If the dynamically allocated memory pointed to has size `sizeof(foo)` and resides in contiguous memory, then the default destructor and copy constructor will suffice.
 
 Occasionally, you will want an input or output type to be a pointer, but you don't want the automatic memory allocation and deallocation. A simple example is a string type, which in C is `char*`. Consider the following (erroneous) reactor:
 
@@ -1185,6 +1183,38 @@ reactor SendsPointer  {
 ```
 
 The above technique can be used to abuse the reactor model of computation by communicating pointers to shared variables. This is generally a bad idea unless those shared variables are immutable. The result will likely be nondeterministic. Also, communicating pointers across machines that do not share memory will not work at all.
+
+Finally, sometimes, you will want to use the same dynamically allocated data structure for multiple purposes over time.
+In this case, you can explicitly create a token to carry the data, and the token mechanism will take care of reference counting and freeing the allocated memory only after all users are done with it.
+For example, suppose that your reaction wishes to produce and output and schedule an action with the same payload.
+This can be accomplished as follows:
+
+```lf-c
+reactor TokenSource2 {
+  output out: int_array_t*
+  state count: int = 0
+  timer t(0, 2 ms)
+  logical action a(1 ms): int_array_t*
+
+  reaction(startup) -> out {=
+    lf_set_destructor(out, int_array_destructor);
+    lf_set_copy_constructor(out, int_array_copy_constructor);
+  =}
+
+  reaction(t, a) -> out, a {=
+    int_array_t* array =  int_array_constructor(3);
+    for (size_t i = 0; i < array->length; i++) {
+      array->data[i] = self->count++;
+    }
+    lf_token_t* token = lf_new_token((lf_port_base_t*)out, array, 1);
+    lf_set_token(out, token);
+    lf_schedule_token(a, 0, token);
+  =}
+}
+```
+
+The call to `lf_new_token` creates a token with the `int_array_t` struct as its payload (technically, it creates a token with an array of length 1, where the one element is the dynamically allocated array).
+The cast in `(lf_port_base_t*)out` is necessary to suppress warnings because C does not support inheritance.
 
 ### Mutable Inputs
 
