@@ -1186,7 +1186,7 @@ The above technique can be used to abuse the reactor model of computation by com
 
 Finally, sometimes, you will want to use the same dynamically allocated data structure for multiple purposes over time.
 In this case, you can explicitly create a token to carry the data, and the token mechanism will take care of reference counting and freeing the allocated memory only after all users are done with it.
-For example, suppose that your reaction wishes to produce and output and schedule an action with the same payload.
+For example, suppose that your reaction wishes to produce an output and schedule an action with the same payload.
 This can be accomplished as follows:
 
 ```lf-c
