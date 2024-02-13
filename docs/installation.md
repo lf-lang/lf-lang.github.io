@@ -149,6 +149,4 @@ Regular and nightly release builds of the command line tools can be downloaded f
 
 ### From Source
 
-Please refer to the [Lingua Franca GitHub repository](https://github.com/lf-lang/lingua-franca) for build instructions.
-
-If you'd like to contribute to Lingua Franca, you can find details about the recommended developer setup here.
+If you would like to build from source or contribute to Lingua Franca, you can find further instructions in the [developer section].(./developer/downloading-and-building.mdx).
