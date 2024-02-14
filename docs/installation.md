@@ -149,4 +149,4 @@ Regular and nightly release builds of the command line tools can be downloaded f
 
 ### From Source
 
-If you would like to build from source or contribute to Lingua Franca, you can find further instructions in the [developer section].(./developer/downloading-and-building.mdx).
+If you would like to build from source or contribute to Lingua Franca, you can find further instructions in the [developer section](./developer/downloading-and-building.mdx).
