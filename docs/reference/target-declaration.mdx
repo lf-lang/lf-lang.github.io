@@ -496,15 +496,11 @@ preamble {=
 
 Your reactions can then invoke functions defined in that `.c` file.
 
-Sometimes, you will need access to these files from target code in a reaction. For the C target (at least), the generated program will contain a line like this:
-
-```c
-    #define TARGET_FILES_DIRECTORY "path"
-```
-
-where `path` is the full path to the directory containing these files. This can be used in reactions, for example, to read those files.
+Sometimes, you will need access to these files from target code in a reaction. For the C target (at least), the generated program can use a variable `LF_TARGET_FILES_DIRECTORY`, which evaluates to a string giving the full path of the directory containing the supporting files. For example, the `audio_loop_mac.c` file will be located in the directory given by the string `LF_TARGET_FILES_DIRECTORY`. This can be used in reactions, for example, to read those files.
 </ShowOnly>
-Moreover, the `files` target specification works in conjunction with the `import` statement. If a `.lf` file is imported and has designated supporting files using the `files` target parameter, those files will be resolved relative to that `.lf` file and copied to the directory that contains the generated sources. This is done to make code that imports other `.lf` files more modular. [Rhythm.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/Rhythm/Rhythm.lf) is an example that demonstrates most of these features.
+Moreover, the `files` target specification works in conjunction with the `import` statement. If a `.lf` file is imported and has designated supporting files using the `files` target parameter, those files will be resolved relative to that `.lf` file and copied to the directory that contains the generated sources. This is done to make code that imports other `.lf` files more modular.
+
+[Rhythm.lf, which imports PlayWaveform.lf](https://github.com/lf-lang/playground-lingua-franca/tree/main/examples/C/src/rhythm) is an example that demonstrates most of these features.
 </ShowIf>
 </ShowIfs>
 
