@@ -150,7 +150,7 @@ hi-resolution timing. These required configurations are stored in a file called
 `prj_lf.conf` which `lfc` generates into the `src-gen` folder. You can provide
 your own configurations through the following three files that `west lfc`
 expects to find at the root of each app:
-1. `prj.conf`, see [Seeting symbols in Configuration systems (Kconfig)](https://docs.zephyrproject.org/latest/build/kconfig/setting.html#setting-symbols-in-configuration-files) 
+1. `prj.conf`, see [Setting symbols in Configuration systems (Kconfig)](https://docs.zephyrproject.org/latest/build/kconfig/setting.html#setting-symbols-in-configuration-files) 
 2. `Kconfig`, see [Configuration system (Kconfig)](https://docs.zephyrproject.org/latest/build/kconfig/index.html)
 3. `app.overlay`, see [Devicetree](https://docs.zephyrproject.org/latest/build/dts/index.html#devicetree)
 
@@ -168,7 +168,7 @@ you have just built.
 
 # The `west lfc` command
 The custom `lfc` west command has already been used in previous sections. It can
-be inspected in `scripts/lf_build.py`. It invokes `lfc` on the provided LF
+be inspected in `scripts/lfc.py`. It invokes `lfc` on the provided LF
 source file. It also copies `app.overlay`,`prj.conf` and `Kconfig` into the
 src-gen directory before it, optionally, calls `west build` on the resulting
 project.
