@@ -28,15 +28,14 @@ A target specification may have optional parameters, the names and values of whi
 - [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
 - [**cargo-features**](#cargo-features): (Rust only) List of string names of features to include.
-- [**cmake**](#cmake): Whether to use cmake for building.
 - [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
+- [**compiler-flags**](#compiler-flags): An arrays of strings giving options to be passed to the target compiler.
 - [**docker**](#docker): A boolean to generate a Dockerfile.
 - [**external-runtime-path**](#external-runtime-path): Specify a pre-compiled external runtime library located to link to instead of the default.
 - [**export-dependency-graph**](#export-dependency-graph): To export the reaction dependency graph as a dot graph (for debugging).
 - [**fast**](#fast): A boolean specifying to execute as fast as possible without waiting for physical time to match logical time.
 - [**files**](#files): An array of paths to files or directories to be copied to the directory that contains the generated sources.
-- [**flags**](#flags): An arrays of strings giving options to be passed to the target compiler.
 - [**logging**](#logging): An indicator of how much information to print when executing the program.
 - [**no-compile**](#no-compile): If true, then do not invoke a target language compiler. Just generate code.
 - [**no-runtime-validation**](#no-runtime-validation): If true, disable runtime validation.
@@ -57,13 +56,12 @@ c={
     auth: <true or false>
     build: <string>,
     build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
-    cmake: <true or false>,
     cmake-include: <string or list of strings>,
     compiler: <string>,
+    compiler-flags: <string or list of strings>,
     docker: <true or false>,
     fast: <true or false>,
     files: <string or list of strings>,
-    flags: <string or list of strings>,
     logging: <error, warning, info, log, debug>,
     no-compile: <true or false>,
     protobufs: <string or list of strings>,
@@ -75,6 +73,7 @@ c={
 cpp={
 `target Cpp {
     build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
+    compiler: <string>,
     cmake-include: <string or list of strings>,
     external-runtime-path: <string>,
     export-dependency-graph <true or false>,
