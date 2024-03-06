@@ -36,31 +36,37 @@ are going to create next.
 git clone https://github.com/lf-lang/lf-west-template lf-zephyr-workspace && cd lf-zephyr-workspace
 ```
 
-2. Setup and activate a virtual environment
+2. Setup the virtual environment
 ```
 python3 -m venv .venv
-source .venv/bin/activate
 ```
 
-3. Install `west`
+3. Activate the virtual environment and source Zephyr's environment
+```
+source .venv/bin/activate
+source deps/zephyr/zephyr-env.sh
+```
+
+4. Install `west`
 ```
 pip3 install west
 ```
 
 Now `west` is installed within a virtual environment. **This environment has to
-be activated every time you want to use west with LF**
+be activated every time you want to use west with LF; use `source env.sh` as a
+shorthand to activate both.**
 
-4. Get the Zephyr source code
+5. Get the Zephyr source code
 ```
 west update
 ```
 
-5. Export CMake packages for Zephyr
+6. Export CMake packages for Zephyr
 ```
 west zephyr-export
 ```
 
-6. Install Python dependencies
+7. Install Python dependencies
 ```
 pip install -r deps/zephyr/scripts/requirements.txt
 ```
@@ -181,7 +187,8 @@ In this guide we have shown how LF Zephyr apps can be developed in a
 approach. When you give `lfc` a LF program with the `platform` target property
 set to `Zephyr`, it will generate a Zephyr project that can be built with
 `west`. For this to work, the environment variable `ZEPHYR_BASE` must be set to
-point to the Zephyr RTOS sources. To demonstrate this, create a simple example
+point to the Zephyr RTOS sources. This is done by sourcing `zephyr-env.sh` at
+the root of the Zephyr repository. To demonstrate this, create a simple example
 program:
 ```
 cat >> LfcCentricZephyr.lf << 'END'
@@ -200,8 +207,7 @@ If `west` is installed in a virtual environment, activate it, and set up the
 environment. Assuming that the template is located at `/home/lf-zephyr-workspace`
 
 ```
-source /home/lf-zephyr-workspace/.venv/bin/activate
-export ZEPHYR_BASE=/home/lf-zephyr-workspace/deps/zephyr
+source /home/lf-zephyr-workspace/env.sh
 lfc LfcCentricZephyr.lf
 ```
 
