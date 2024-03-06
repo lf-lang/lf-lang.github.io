@@ -286,35 +286,6 @@ This is a list of features of the generated crate. Supported are:
 </ShowIf>
 </ShowIfs>
 
-## cmake
-
-<ShowIfs>
-<ShowIf py rs ts>
-This target does not support the `cmake` target option.
-</ShowIf>
-<ShowIf cpp>
-The C++ target does not support the `cmake` target option because it always uses `cmake`.
-</ShowIf>
-<ShowIf c>
-```lf-c
-target C {
-    cmake: <true or false>
-};
-```
-
-This will enable or disable the CMake-based build system (the default is `true`). Enabling the CMake build system will result in a `CMakeLists.txt` being generated in the `src-gen` directory. This `CMakeLists.txt` is then used when `cmake` is invoked by the LF runtime (either the `lfc` or the IDE). Alternatively, the generated program can be built manually. To do so, in the `src-gen/ProgramName` directory, run:
-
-```sh
-mkdir build && cd build
-cmake ../
-make
-```
-
-If `cmake` is disabled, `gcc` is directly invoked after code generation by default. In this case, additional target properties, such as [compiler](#compiler) and [flags](#flags) can be used to gain finer control over the compilation process.
-</ShowIf>
-</ShowIfs>
-
-
 <ShowOnly c cpp>
 
 ## cmake-include
@@ -371,25 +342,33 @@ See [`AsyncCallback.lf`](https://github.com/lf-lang/lingua-franca/blob/master/te
 <ShowIf ts py rs>
 This target does not support the `compiler` target option.
 </ShowIf>
+<ShowIf c cpp>
+This parameter is a string giving the name of the compiler to use. Normally
+CMake selects the best compiler for your system, but you can use this parameter
+to point to your preferred compiler. Possible values are, for instance, `gcc`,
+`g++`, `clang`, or `clang++`.
+</ShowIf>
+</ShowIfs>
+
+## compiler-flags
+
+<ShowIfs>
+<ShowIf cpp py ts rs>
+This target does not support the `compiler-flags` parameter.
+</ShowIf>
 <ShowIf c>
-This parameter is a string giving the name of the C compiler to use.
-It is used only when [cmake](#cmake) is set to `false`. For example:
+This parameter is a list of strings giving additional arguments to pass to the target language compiler. For example:
 
 ```lf-c
 target C {
-    cmake: false,
-    compiler: "cc",
+    compiler-flags: ["-g", "-I/usr/local/include", "-L/usr/local/lib", "-lpaho-mqtt3c"],
 };
 ```
 
-The `compiler` option here specifies to use `cc` rather than `gcc`.
-</ShowIf>
-<ShowIf cpp>
-This parameter is a string giving the name of the C++ compiler to use. Normally
-CMake selects the best compiler for your system, but you can use this parameter
-to point it to your preferred C++ compiler.
-</ShowIf>
+The `compiler-flags` option specifies to include debug information in the compiled code (`-g`); a directory to search for include files (`-I/usr/local/include`); a directory to search for library files (`-L/usr/local/lib`); a library to link with (`-lpaho-mqtt3c`, which will link with file `libpaho-mqtt3c.so`).
 
+**Note**: Using the `compiler-flags` parameter is strongly discouraged, although supported. Flags are compiler-specific, and thus interfere with CMake's ability to find the most suitable compiler for each platform. In a similar fashion, we recommend against the use of the `compiler` standard parameter for the same reason. A better solution is to provide a `cmake-include` file.
+</ShowIf>
 </ShowIfs>
 
 ## docker
@@ -505,29 +484,6 @@ Sometimes, you will need access to these files from target code in a reaction. F
 where `path` is the full path to the directory containing these files. This can be used in reactions, for example, to read those files.
 </ShowOnly>
 Moreover, the `files` target specification works in conjunction with the `import` statement. If a `.lf` file is imported and has designated supporting files using the `files` target parameter, those files will be resolved relative to that `.lf` file and copied to the directory that contains the generated sources. This is done to make code that imports other `.lf` files more modular. [Rhythm.lf](https://github.com/lf-lang/examples-lingua-franca/blob/main/C/src/Rhythm/Rhythm.lf) is an example that demonstrates most of these features.
-</ShowIf>
-</ShowIfs>
-
-## flags
-
-<ShowIfs>
-<ShowIf cpp py ts rs>
-This target does not support the `flags` parameter.
-</ShowIf>
-<ShowIf c>
-This parameter is a list of strings giving additional arguments to pass to the target language compiler.
-It is used only when [cmake](#cmake) is set to `false`. For example:
-
-```lf-c
-target C {
-    cmake: false,
-    flags: ["-g", "-I/usr/local/include", "-L/usr/local/lib", "-lpaho-mqtt3c"],
-};
-```
-
-The `flags` option specifies to include debug information in the compiled code (`-g`); a directory to search for include files (`-I/usr/local/include`); a directory to search for library files (`-L/usr/local/lib`); a library to link with (`-lpaho-mqtt3c`, which will link with file `libpaho-mqtt3c.so`).
-
-**Note**: Using the `flags` standard parameter when `cmake` is enabled is strongly discouraged, although supported. Flags are compiler-specific, and thus interfere with CMake's ability to find the most suitable compiler for each platform. In a similar fashion, we recommend against the use of the `compiler` standard parameter for the same reason. A better solution is to provide a `cmake-include` file, as described next.
 </ShowIf>
 </ShowIfs>
 
