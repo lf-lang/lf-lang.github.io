@@ -30,7 +30,6 @@ A target specification may have optional parameters, the names and values of whi
 - [**cargo-features**](#cargo-features): (Rust only) List of string names of features to include.
 - [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
-- [**compiler-flags**](#compiler-flags): An arrays of strings giving options to be passed to the target compiler.
 - [**docker**](#docker): A boolean to generate a Dockerfile.
 - [**external-runtime-path**](#external-runtime-path): Specify a pre-compiled external runtime library located to link to instead of the default.
 - [**export-dependency-graph**](#export-dependency-graph): To export the reaction dependency graph as a dot graph (for debugging).
@@ -58,7 +57,6 @@ c={
     build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
     cmake-include: <string or list of strings>,
     compiler: <string>,
-    compiler-flags: <string or list of strings>,
     docker: <true or false>,
     fast: <true or false>,
     files: <string or list of strings>,
@@ -128,7 +126,6 @@ For example:
 target C {
     cmake: false,
     compiler: "cc",
-    flags: "-O3",
     fast: true,
     logging: log,
     timeout: 1 secs,
@@ -346,27 +343,6 @@ This parameter is a string giving the name of the compiler to use. Normally
 CMake selects the best compiler for your system, but you can use this parameter
 to point to your preferred compiler. Possible values are, for instance, `gcc`,
 `g++`, `clang`, or `clang++`.
-</ShowIf>
-</ShowIfs>
-
-## compiler-flags
-
-<ShowIfs>
-<ShowIf cpp py ts rs>
-This target does not support the `compiler-flags` parameter.
-</ShowIf>
-<ShowIf c>
-This parameter is a list of strings giving additional arguments to pass to the target language compiler. For example:
-
-```lf-c
-target C {
-    compiler-flags: ["-g", "-I/usr/local/include", "-L/usr/local/lib", "-lpaho-mqtt3c"],
-};
-```
-
-The `compiler-flags` option specifies to include debug information in the compiled code (`-g`); a directory to search for include files (`-I/usr/local/include`); a directory to search for library files (`-L/usr/local/lib`); a library to link with (`-lpaho-mqtt3c`, which will link with file `libpaho-mqtt3c.so`).
-
-**Note**: Using the `compiler-flags` parameter is strongly discouraged, although supported. Flags are compiler-specific, and thus interfere with CMake's ability to find the most suitable compiler for each platform. In a similar fashion, we recommend against the use of the `compiler` standard parameter for the same reason. A better solution is to provide a `cmake-include` file.
 </ShowIf>
 </ShowIfs>
 
