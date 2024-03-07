@@ -25,7 +25,7 @@ A target specification may have optional parameters, the names and values of whi
 
 - [**auth**](#auth): A boolean specifying to apply authorization between RTI and federates when federated execution.
 - [**build**](#build): A command to execute after code generation instead of the default compile command.
-- [**build-type**](#build-type): One of Release (the default), Debug, RelWithDebInfo and MinSizeRel.
+- [**build-type**](#build-type): One of Debug (the default), Release, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
 - [**cargo-features**](#cargo-features): (Rust only) List of string names of features to include.
 - [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
@@ -54,7 +54,7 @@ c={
 `target C {
     auth: <true or false>
     build: <string>,
-    build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
+    build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
     cmake-include: <string or list of strings>,
     compiler: <string>,
     docker: <true or false>,
@@ -70,9 +70,9 @@ c={
 } 
 cpp={
 `target Cpp {
-    build-type: <Release, Debug, RelWithDebInfo, or MinSizeRel>,
-    compiler: <string>,
+    build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
     cmake-include: <string or list of strings>,
+    compiler: <string>,
     external-runtime-path: <string>,
     export-dependency-graph <true or false>,
     fast: <true or false>,
@@ -217,25 +217,15 @@ This target does not currently support the `build` target option.
 <ShowIf ts py>
 This target does not currently support the `build-type` target option.
 </ShowIf>
-<ShowIf rs>
-This parameter works with `cargo` to specify how to compile the code. The following options are supported:
+<ShowIf rs c cpp>
+This parameter specifies how to compile the code. The following options are supported:
 
-- `Release`: Optimization is turned on and debug information is missing.
-- `Debug`: Debug information is included in the executable.
+- `Debug`: Optimization is disabled and debug information is included in the executable.
+- `Release`: Optimization is enabled and debug information is missing.
 - `RelWithDebInfo`: Optimization with debug information.
 - `MinSizeRel`: Optimize for smallest size.
 
-This defaults to `Release`.
-</ShowIf>
-<ShowIf c cpp>
-This parameter works with `cmake` to specify how to compile the code. The following options are supported:
-
-- `Release`: Optimization is turned on and debug information is missing.
-- `Debug`: Debug information is included in the executable.
-- `RelWithDebInfo`: Optimization with debug information.
-- `MinSizeRel`: Optimize for smallest size.
-
-This defaults to `Release`.
+This defaults to `Debug`.
 </ShowIf>
 </ShowIfs>
 
