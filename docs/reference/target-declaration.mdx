@@ -128,7 +128,6 @@ For example:
 target C {
     cmake: false,
     compiler: "cc",
-    flags: "-O3",
     fast: true,
     logging: log,
     timeout: 1 secs,
@@ -336,27 +335,6 @@ This parameter is a string giving the name of the compiler to use. Normally
 CMake selects the best compiler for your system, but you can use this parameter
 to point to your preferred compiler. Possible values are, for instance, `gcc`,
 `g++`, `clang`, or `clang++`.
-</ShowIf>
-</ShowIfs>
-
-## compiler-flags
-
-<ShowIfs>
-<ShowIf cpp py ts rs>
-This target does not support the `compiler-flags` parameter.
-</ShowIf>
-<ShowIf c>
-This parameter is a list of strings giving additional arguments to pass to the target language compiler. For example:
-
-```lf-c
-target C {
-    compiler-flags: ["-g", "-I/usr/local/include", "-L/usr/local/lib", "-lpaho-mqtt3c"],
-};
-```
-
-The `compiler-flags` option specifies to include debug information in the compiled code (`-g`); a directory to search for include files (`-I/usr/local/include`); a directory to search for library files (`-L/usr/local/lib`); a library to link with (`-lpaho-mqtt3c`, which will link with file `libpaho-mqtt3c.so`).
-
-**Note**: Using the `compiler-flags` parameter is strongly discouraged, although supported. Flags are compiler-specific, and thus interfere with CMake's ability to find the most suitable compiler for each platform. In a similar fashion, we recommend against the use of the `compiler` standard parameter for the same reason. A better solution is to provide a `cmake-include` file.
 </ShowIf>
 </ShowIfs>
 
