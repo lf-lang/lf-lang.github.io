@@ -10,7 +10,7 @@ export const copypastaPublications: ReactNode = (
       <p>
         <strong>MEMOCODE '23</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng Wong,
         Hokeun Kim, Shaokai Lin, Christian Menard, Edward A. Lee, "
-        <Link href="https://dl.acm.org/doi/10.1145/3609134">
+        <Link href="https://doi.org/10.1145/3610579.3613219">
         Risk and Mitigation of Nondeterminism in Distributed Cyber-Physical Systems
         </Link>
         ," in <i>Proceedings of the 21st ACM-IEEE International Conference on Formal Methods and Models for System Design (MEMOCODE '23)</i>. Association for Computing Machinery, New York, NY, USA, 1–11.
