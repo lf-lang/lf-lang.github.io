@@ -36,39 +36,38 @@ are going to create next.
 git clone https://github.com/lf-lang/lf-west-template lf-zephyr-workspace && cd lf-zephyr-workspace
 ```
 
-2. Setup the virtual environment
+2. Setup the virtual environment and activate it
 ```
 python3 -m venv .venv
-```
-
-3. Activate the virtual environment and source Zephyr's environment
-```
 source .venv/bin/activate
-source deps/zephyr/zephyr-env.sh
 ```
 
-4. Install `west`
+3. Install `west`
 ```
 pip3 install west
 ```
 
 Now `west` is installed within a virtual environment. **This environment has to
-be activated every time you want to use west with LF; use `source env.sh` as a
-shorthand to activate both.**
+be activated every time you want to use west with LF.**
 
-5. Get the Zephyr source code
+4. Get the Zephyr source code
 ```
 west update
 ```
 
-6. Export CMake packages for Zephyr
+5. Export CMake packages for Zephyr
 ```
 west zephyr-export
 ```
 
-7. Install Python dependencies
+6. Install Python dependencies
 ```
 pip install -r deps/zephyr/scripts/requirements.txt
+```
+
+7. Source Zephyr's environment
+```
+source deps/zephyr/zephyr-env.sh
 ```
 
 ## Workspace organization
