@@ -214,6 +214,34 @@ cd src-gen/LfcCentricZephyr
 west build -t run
 ```
 
+# Timing-precision
+There exists two different Zephyr implementations of the LF timing API. The
+default is based on the [Zephyr Kernel
+Timing](https://docs.zephyrproject.org/latest/kernel/services/timing/clocks.html).
+It is simple and supported on all boards with Zephyr support. However it is not
+that precise. E.g. for the nRF52 boards it is based on a 32KHz timer, while for
+many other boards is a 10Khz timer. This limits the timing-precision to 10s-100s
+of microseconds.
+
+If this is not sufficient, the LF timing API based on the [Zephyr
+Counter](https://docs.zephyrproject.org/latest/hardware/peripherals/counter.html)
+can be used. This is an abstraction of a generic timer peripheral which is found
+on many MCUs. The Counter API can give time-precision in the order of 10s of
+nanoseconds. Not all boards have implemented the Counter API, and not all
+implementations includes all the features that is needed to implement the LF 
+timing API. Currently we have only tested with nRF52, iMXRT1170 and ESP32.
+
+To compile with the Counter API, we must enable the counter device in the `prj.conf` file:
+```
+CONFIG_COUNTER=y
+```
+and pass an extra flag to CMake:
+
+```
+cd apps/NrfBlinky
+west lfc src/NrfBlinky.lf --build "-p always -b nrf52dk_nrf52832 -- -DLF_ZEPHYR_CLOCK_COUNTER=1"
+```
+
 # C libraries
 Zephyr has support for three C library implementations. 
 - Newlib (Default library used by LF)
@@ -234,6 +262,7 @@ to use Picolibc instead put the following in your `prj.conf` file:
 CONFIG_NEWLIB_LIBC=n
 CONFIG_NEWLIB_LIBC_FLOAT_PRINTF=n
 CONFIG_PICOLIBC=y
+CONFIG_PICOLIBC_IO_FLOAT=y
 ```
 
 With some additional work we could also get the LF runtime working with Minimal
@@ -276,12 +305,9 @@ From here you can step through the LF program. To get a more visual interface yo
 ## Timing in QEMU emulations
 The QEMU emulation is not cycle-accurate and implements optimizations such that
 if the system goes to sleep, like when the last active thread in the program
-calls `k_sleep()`, then the emulator fast-forwards time. This does not affect
-the QEMU-emulation of the *unthreaded* runtime since it implements sleeping
-between events using *busy-waits*. However, the *threaded* runtime sleeps
-between events using a call to `k_cond_timedwait` which has the side-effect that
-QEMU fast-forwards time. This causes the emulation of threaded programs to
-appear as if the `fast` target property was set to `true`. 
+calls `k_sleep()`, then the emulator fast-forwards time. This causes the
+emulation of threaded programs to appear as if the `fast` target property was
+set to `true`. 
 
 ## Troubleshooting
 
