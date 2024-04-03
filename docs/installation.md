@@ -150,3 +150,15 @@ Regular and nightly release builds of the command line tools can be downloaded f
 ### From Source
 
 If you would like to build from source or contribute to Lingua Franca, you can find further instructions in the [developer section](./developer/downloading-and-building.mdx).
+
+
+## Lingo
+
+Lingo is the package manager and build tool of the lingua franca ecosystem. It is currently under 
+development and is not yet fully stabilized. The latest information can be found in the 
+[Lingo Github Repository](https://github.com/lf-lang/lingo).
+
+```
+    cargo install lingua-franca
+    PATH=$PATH:~/.cargo/bin
+```
