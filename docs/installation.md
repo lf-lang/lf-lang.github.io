@@ -154,11 +154,13 @@ If you would like to build from source or contribute to Lingua Franca, you can f
 
 ## Lingo
 
-Lingo is the package manager and build tool of the lingua franca ecosystem. It is currently under 
+Lingo is the package manager and build tool of the Lingua Franca ecosystem. It is currently under 
 development and is not yet fully stabilized. The latest information can be found in the 
 [Lingo Github Repository](https://github.com/lf-lang/lingo).
 
+Assuming that `~/.cargo/bin` is on your `$PATH`, you can install `lingo` using the following command:
+
+
 ```
     cargo install lingua-franca
-    PATH=$PATH:~/.cargo/bin
 ```
