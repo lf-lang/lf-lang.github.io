@@ -217,6 +217,10 @@ const sidebars: SidebarsConfig = {
           "id": "developer/debugging-generated-code"
         },
         {
+            "type": "doc",
+            "id": "developer/on-target-development"
+        },
+        {
           "type": "doc",
           "id": "developer/regression-tests"
         },
