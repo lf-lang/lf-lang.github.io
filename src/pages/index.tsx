@@ -146,7 +146,7 @@ export default function Home(): JSX.Element {
   return (
     <Layout
       title={`Welcome`}
-      description="Description will go into a meta tag in <head />"
+      description="Intuitive concurrent programming in any language"
     >
       <main>
         <HeroBanner />
