@@ -69,6 +69,14 @@ While debugging, you can run code step-by-step by using the debugger tools.
 
 By clicking the play button, `lfc` will be invoked, and if compilation is successful, its output can be found, relative to package root of the file under compilation, in `bin` if the target is a compiled language (e.g., C) or in `src-gen` if the target is an interpreted language (e.g., TypeScript).  For the `HelloWorld.lf` example above, the binary can be found in `test/Cpp/bin/HelloWorld` and can be executed in the terminal.
 
+## Starting and Debugging the Language Server
+
+There should a predefined run configuration called <kbd>LanguageDiagramServer</kbd> available, which executes the main method the `LanguageDiagramServer` class, which, as a result, starts the language server.
+
+![](./../assets/images/intellij/run_config_language_server.png)
+
+Per default it uses the port `7670`. This port should be the same as the port specified by the vscode-lingua-franca extension in its [launch configuration](https://github.com/lf-lang/vscode-lingua-franca/blob/38515b4aa0de68383a88a0d4daf56cdb8c5b9b4c/.vscode/launch.json#L25).
+
 ## Integration Tests
 
 You can also run the integration test from IntelliJ. You will find the <kbd>targetTest</kbd> and <kbd>singleTest</kbd> tasks in the Gradle tab under <kbd>org.lflang \> Tasks \> other</kbd>. Make sure to add a run configuration as shown above and append `-Ptarget=...'` to the `targetTest` command or `-DsingleTest=...` to your `singleTest` command to specify the target (e.g., `C`) or the specific test that you would like to run.
