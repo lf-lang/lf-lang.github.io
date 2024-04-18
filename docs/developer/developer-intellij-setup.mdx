@@ -77,6 +77,14 @@ There should a predefined run configuration called <kbd>LanguageDiagramServer</k
 
 Per default it uses the port `7670`. This port should be the same as the port specified by the vscode-lingua-franca extension in its [launch configuration](https://github.com/lf-lang/vscode-lingua-franca/blob/38515b4aa0de68383a88a0d4daf56cdb8c5b9b4c/.vscode/launch.json#L25).
 
+After start-up it should output the following:
+
+```
+Connection to: localhost:7670
+Starting language server socket
+Language Server Socket ready!
+```
+
 ## Integration Tests
 
 You can also run the integration test from IntelliJ. You will find the <kbd>targetTest</kbd> and <kbd>singleTest</kbd> tasks in the Gradle tab under <kbd>org.lflang \> Tasks \> other</kbd>. Make sure to add a run configuration as shown above and append `-Ptarget=...'` to the `targetTest` command or `-DsingleTest=...` to your `singleTest` command to specify the target (e.g., `C`) or the specific test that you would like to run.
