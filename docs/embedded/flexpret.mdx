@@ -95,3 +95,73 @@ TODO: Describe and create example program
 2. interrupt temporal isolation
 
 
+
+# Troubleshooting
+
+## Environment not set up
+
+```
+lfc: warning: No FP_PATH environment variable found
+lfc: warning: No FP_SDK_PATH environment variable found
+```
+
+You probably forgot to `source env.bash` or `source env.fish`.
+
+## FlexPRET not installed to SDK
+
+This message means that the SDK did not find a FlexPRET installation.
+
+```
+Could not find
+  <path to workspace>/lf-flexpret-workspace/flexpret/sdk/flexpret/fp-emu.
+  Please build FlexPRET and install it here with `cmake --install` to
+  continue.
+```
+
+In this case, you need to step into the FlexPRET directory, build FlexPRET (if
+not built already) and install it to the SDK.
+
+```
+cd $FP_PATH
+cmake -B build && cd build && make all install
+```
+
+## Instruction memory full
+
+An error that looks like this means your program (i.e., your instructions) are 
+too large to fit inside the instruction memory.
+
+```
+/opt/riscv/lib/gcc/riscv32-unknown-elf/11.1.0/../../../../riscv32-unknown-elf/bin/ld: HelloWorld.riscv section `.text' will not fit in region `ROM'
+/opt/riscv/lib/gcc/riscv32-unknown-elf/11.1.0/../../../../riscv32-unknown-elf/bin/ld: region `ROM' overflowed by 70664 bytes
+```
+
+There are two possible solutions to this issue:
+1. Reduce the size of your program. `printf` is notorious for taking up a lot of
+space, so consider replacing it with a lower footprint version. Tip: To inspect
+what takes up space in your final executible, use `nm`, like so:
+`nm HelloWorld.riscv --size-sort`.
+2. Increase the size of the instruction memory. This is done in FlexPRET's
+configs (see TODO: LINK: ./flexpret/README.md#Configuration). This is easily
+done when emulating FlexPRET, but might not be so simple on an FPGA.
+
+## Bootloader not found
+
+This error should only occur if you have specified `fpga` in the board target
+property. It means that you do not have a bootloader installed to the FlexPRET
+SDK. 
+
+```
+Could not find
+  /home/magnus/ntnu/mttk/var2024/master/lf-flexpret/flexpret/sdk/flexpret/bootloader.cmake,
+  which is required to build software for FlexPRET on FPGA using the
+  bootloader.
+```
+
+The solution is to build the SDK; it will build the bootloder and automatically
+install it.
+
+```
+cd $FP_SDK_PATH
+cmake -B build && cd build && make
+```
