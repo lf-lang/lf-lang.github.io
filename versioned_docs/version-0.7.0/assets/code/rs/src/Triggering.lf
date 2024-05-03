@@ -1,0 +1,13 @@
+target Rust
+reactor Inside {
+  input x: u32
+  reaction(x) {=
+    println!("Received {}", ctx.get(x).unwrap());
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    ctx.set(i__x, 42);
+  =}
+}

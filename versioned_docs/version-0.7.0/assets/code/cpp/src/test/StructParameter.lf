@@ -1,0 +1,37 @@
+target Cpp;
+
+public preamble {=
+    struct Hello {
+        std::string name;
+        int value;
+     };
+
+    auto operator<<(std::ostream& stream, const Hello& hello) noexcept -> std::ostream&;
+    auto operator>>(std::stringstream& stream, Hello& hello) noexcept -> std::stringstream&;
+=}
+
+
+private preamble {=
+    auto operator<<(std::ostream& stream, const Hello& hello) noexcept -> std::ostream& {
+        stream << "Parameter p.name= " << hello.name << ", value= " << hello.value;
+        return stream;
+    }
+
+    auto operator>>(std::stringstream& stream, Hello& hello) noexcept -> std::stringstream& {
+        //stream << "Parameter p.name= " << hello.name << ", value= " << hello.value;
+        hello.name = std::string("Earth");
+        hello.value = 42;
+
+        return stream;
+    }
+=}
+
+main reactor(p_input:Hello{"Earth", 42}) {
+    reaction(startup) {=
+        std::cout << p_input << std::endl;
+        if (p_input.value != 42) {
+            std::cerr << "ERROR: Expected 42" << std::endl;
+            exit(1);
+        }
+    =}
+}
