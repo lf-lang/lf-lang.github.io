@@ -1,0 +1,28 @@
+target Python {
+    timeout: 1 sec,
+    fast: true
+}
+import Count from "../Count.lf";
+import TestCount from "../TestCount.lf";
+
+reactor A {
+    input a;
+    output out;
+    reaction(a) -> out {=
+        out.set(a.value)
+    =}
+}
+reactor B extends A {
+    input b;
+    reaction(a, b) -> out {=
+        out.set(a.value + b.value)
+    =}
+}
+
+main reactor {
+    c = new Count();
+    b = new B();
+    t = new TestCount(start = 0, stride = 2, num_inputs = 11);
+    (c.y)+ -> b.a, b.b;
+    b.out -> t.x;
+}
