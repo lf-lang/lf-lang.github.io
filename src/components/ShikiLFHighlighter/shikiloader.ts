@@ -1,8 +1,8 @@
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-import { LanguageRegistration, getHighlighter } from "shikiji";
+import { LanguageRegistration, getHighlighter } from "shiki";
 import { targets } from "@site/src/components/LinguaFrancaMultiTargetUtils";
 import LFTextMateLanguageDefinition from "./lflang.tmLanguage.json";
-import { HighlighterGeneric, BuiltinLanguage, BuiltinTheme } from "shikiji";
+import { HighlighterGeneric, BuiltinLanguage, BuiltinTheme } from "shiki";
 
 declare global {
   interface Window {
@@ -12,11 +12,11 @@ declare global {
   }
 }
 
-export const loadShikiji = async () => {
+export const loadShiki = async () => {
   if (window.LFWebsite?.shikijiInstance != null) {
     return window.LFWebsite.shikijiInstance;
   }
-  const shikiji = await getHighlighter({
+  const shiki = await getHighlighter({
     themes: ["material-theme-lighter", "material-theme-darker"],
     langs: [
       ...targets,
@@ -27,19 +27,19 @@ export const loadShikiji = async () => {
   if (window.LFWebsite == null) {
     window.LFWebsite = {};
   }
-  window.LFWebsite.shikijiInstance = shikiji;
-  return shikiji;
+  window.LFWebsite.shikijiInstance = shiki;
+  return shiki;
 };
 
 if (ExecutionEnvironment.canUseDOM) {
   // As soon as the site loads in the browser, check if a Shikiji instance is created. If not, create one and save to global.
 
   // Don't catch. Let it throw~ let it throw~
-  loadShikiji().then((v) => {
+  loadShiki().then((v) => {
     if (v != null) {
-      console.log("Shikiji is loaded.");
+      console.log("Shiki loaded.");
     } else {
-      throw Error("Shikiji not loaded correctly.");
+      throw Error("Shiki did loaded correctly.");
     }
   });
 }

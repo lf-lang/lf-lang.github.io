@@ -4,7 +4,7 @@ import TabItem from "@theme/TabItem";
 import styles from "./styles.module.css";
 import CodeBlock from "@theme/CodeBlock";
 import { ReactNode, useEffect, useState } from "react";
-import { ShikijiLFHighlighter } from "../ShikijiLFHighlighter";
+import { ShikiLFHighlighter } from "../ShikiLFHighlighter";
 
 interface WebpackImportedRawModule {
   default: Readonly<Record<string, string>>;
@@ -47,7 +47,7 @@ export const NoSelectorTargetCodeBlock = (
         string | Promise<WebpackImportedRawModule | null>
       >),
 ): JSX.Element => {
-  const Component = props.lf ? ShikijiLFHighlighter : CodeBlock;
+  const Component = props.lf ? ShikiLFHighlighter : CodeBlock;
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { lf, ...targetToCode } = props;
   const newProps: Record<TargetsType, ReactNode> = {} as Record<
