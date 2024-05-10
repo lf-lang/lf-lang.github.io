@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { HighlighterGeneric, BuiltinLanguage, BuiltinTheme } from "shikiji";
-import { loadShikiji } from "./shikijiloader";
+import { HighlighterGeneric, BuiltinLanguage, BuiltinTheme } from "shiki";
+import { loadShiki } from "./shikiloader";
 import { useColorMode } from "@docusaurus/theme-common";
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 
@@ -12,7 +12,7 @@ declare global {
   }
 }
 
-export const ShikijiLFHighlighter = ({
+export const ShikiLFHighlighter = ({
   children,
   ...props
 }: { children: string } & Record<string, unknown>) => {
@@ -28,7 +28,7 @@ export const ShikijiLFHighlighter = ({
   useEffect(() => {
     (async () => {
       if (!isBrowser) return;
-      const shiki = await loadShikiji();
+      const shiki = await loadShiki();
       setCode(
         shiki.codeToHtml(children, {
           lang: "Lingua Franca",
