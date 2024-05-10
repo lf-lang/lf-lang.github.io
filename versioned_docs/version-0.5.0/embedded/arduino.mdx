@@ -3,7 +3,7 @@ title: Arduino
 description: Developing LF Programs on Arduino.
 ---
 
-# Overview
+## Overview
 
 To run Lingua Franca on an Arduino-compatible microcontroller, you can use the
 `C` target with the `platform` target property set to `arduino`. The Lingua
@@ -22,7 +22,7 @@ page, we explain exactly how to do this.
 arduino-cli version
 ```
 
-# Writing a simple Arduino Program
+## Writing a simple Arduino Program
 
 The most basic Arduino program (Blink) can be defined in LF like so:
 
@@ -84,7 +84,7 @@ USART), and some have several. By default, Lingua Franca will assume a default
 baud rate of 9600. This parameter is tunable by adjusting the `baud-rate`
 parameter in platform options.
 
-# Building
+## Building
 
 In order to have `arduino-cli` compile the generated sketch file, a `board` must
 be specified. If no `board` is set, `lfc` will run in `no-compile` mode, meaning
@@ -112,7 +112,7 @@ If you specify your FQBN under `board` in the `platform` target property, `lfc` 
 - for threaded programs (`arduino:mbed` boards), run:
   `arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags="-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10" --build-property compiler.cpp.extra_flags="-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10"`
 
-# Flashing
+## Flashing
 
 Arduino's can be flashed via USB. To find the port oto which your device is connected, run the following command:
 

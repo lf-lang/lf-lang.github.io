@@ -2801,7 +2801,7 @@ Which type of messages are actually produced by the compiled program can be cont
 </ShowIf>
 <ShowIf py>
 
-The Python supports the [logging](<../introduction.md#logging>) target specification. This will cause the runtime to produce more or less information about the execution. However, user-facing functions for different logging levels are not yet implemented (see issue [#619](https://github.com/lf-lang/lingua-franca/issues/619)).
+The Python supports the logging target specification. This will cause the runtime to produce more or less information about the execution. However, user-facing functions for different logging levels are not yet implemented (see issue [#619](https://github.com/lf-lang/lingua-franca/issues/619)).
 
 </ShowIf>
 <ShowIf ts>
@@ -2818,7 +2818,7 @@ The executable reacts to the environment variable `RUST_LOG`, which sets the log
 
 Error and warning logs are on by default. Enabling a level enables all greater levels (i.e., `RUST_LOG=info` also enables `warn` and `error`, but not `trace` or `debug`).
 
-Logging can also be turned on with the `--log-level` CLI option, if the application features a [CLI](<../introduction.md#command-line-arguments>).
+Logging can also be turned on with the `--log-level` CLI option, if the application features a [CLI](target-declaration.mdx#command-line-arguments).
 
 Note that the `logging` target property is ignored, as its levels do not match the Rust standard levels we use (those of the [`log` crate](https://docs.rs/log/)).
 
@@ -2992,7 +2992,7 @@ primitives and sleep functions.
 
 ### Multithreaded Implementation
 
-By default, the C runtime system uses multiple worker threads in order to take advantage of multicore execution. The number of worker threads will match the number of cores on the machine unless the `workers` argument is given in the [target](<../introduction.md#threading>) statement or the `--workers` [command-line argument](<../introduction.md#command-line-arguments>) is given.
+By default, the C runtime system uses multiple worker threads in order to take advantage of multicore execution. The number of worker threads will match the number of cores on the machine unless the `workers` argument is given in the [target](<../introduction.md#threading>) statement or the `--workers` [command-line argument](target-declaration.mdx#command-line-arguments) is given.
 
 Upon initialization, the main thread will create the specified number of worker threads.
 Execution proceeds in a manner similar to the [single threaded implementation](#single-threaded-implementation)
@@ -3001,7 +3001,7 @@ The execution algorithm ensures that no reaction executes until all reactions th
 
 ### Single Threaded Implementation
 
-By giving the `single-threaded` [target option](<../introduction.md#single-threaded>) or the `--single-threaded` [command-line argument](<../introduction.md#command-line-arguments>), the generated program will execute the program using only a single thread. This option is most useful for creating programs to run on bare-metal microprocessors that have no threading support. On such platforms, mutual exclusion is typically realized by disabling interrupts.
+By giving the `single-threaded` [target option](<../introduction.md#single-threaded>) or the `--single-threaded` [command-line argument](target-declaration.mdx#command-line-arguments), the generated program will execute the program using only a single thread. This option is most useful for creating programs to run on bare-metal microprocessors that have no threading support. On such platforms, mutual exclusion is typically realized by disabling interrupts.
 
 The execution strategy is to have two queues of pending accessor invocations, one that is sorted by
 tag (the **event queue**) and one that is sorted by priority (the **reaction queue**).
@@ -3009,9 +3009,9 @@ Execution proceeds as follows:
 
 1. At initialization, an event for each timer is put on the event queue and logical time is initialized to the current time, represented as the number of nanoseconds elapsed since January 1, 1970.
 
-2. At each logical time, pull all events from event queue that have the same earliest tag, find the reactions that these events trigger, and put them on the reaction queue. If there are no events on the event queue, then exit the program (unless the `--keepalive true` [command-line argument](<../introduction.md#command-line-arguments>) is given).
+2. At each logical time, pull all events from event queue that have the same earliest tag, find the reactions that these events trigger, and put them on the reaction queue. If there are no events on the event queue, then exit the program (unless the `--keepalive true` [command-line argument](target-declaration.mdx#command-line-arguments) is given).
 
-3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` [command-line argument](<../introduction.md#command-line-arguments>) is given). Then advance logical time to match that earliest timestamp.
+3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` [command-line argument](target-declaration.mdx#command-line-arguments) is given). Then advance logical time to match that earliest timestamp.
 
 4. Execute reactions in order of priority from the reaction queue. These reactions may produce outputs, which results in more events getting put on the reaction queue. Those reactions are assured of having lower priority than the reaction that is executing. If a reaction calls `lf_schedule()`, an event will be put on the event queue, not the reaction queue.
 
@@ -3381,7 +3381,7 @@ See [Target Declaration](../introduction.md) for the full list of supported targ
 
 ### The Executable
 
-The executable name is the name of the main reactor _transformed to snake_case_: `main reactor RustProgram` will generate `rust_program`. See [Command-Line Arguments](<../introduction.md#command-line-arguments>) for details.
+The executable name is the name of the main reactor _transformed to snake_case_: `main reactor RustProgram` will generate `rust_program`. See [Command-Line Arguments](target-declaration.mdx#command-line-arguments) for details.
 
 ### File layout
 

@@ -44,7 +44,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**runtime-version**](#runtime-version): Specify which version of the runtime system to use.
 - [**rust-include**](#rust-include): (Rust only) A set of Rust modules in the generated project.
 - [**scheduler**](#scheduler): (C only) Specification of the scheduler to us.
-- [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](#single-file-layout).
+- [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](target-language-details.mdx#single-file-layout).
 - [**threading**](#threading): Whether to use multiple threads.
 - [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](../writing-reactors/termination.mdx).
 - [**workers**](#workers): If using multiple threads, how many worker threads to create.
@@ -140,7 +140,7 @@ This specifies to use compiler `cc` instead of the default `gcc`, to use optimiz
 </ShowOnly>
 
 The comma on the last parameter is optional, as is the semicolon on the last line.
-A target may support overriding the target parameters on the [command line](#command-line-arguments) when invoking the compiled program.
+A target may support overriding the target parameters on the [command line](target-declaration.mdx#command-line-arguments) when invoking the compiled program.
 
 ## auth
 
@@ -280,7 +280,7 @@ This target does not support the `cargo-features` target option.
 <ShowIf rs>
 This is a list of features of the generated crate. Supported are:
 
-- "cli" - enable [command-line argument parsing](#command-line-arguments)
+- "cli" - enable [command-line argument parsing](target-declaration.mdx#command-line-arguments)
 
 </ShowIf>
 </ShowIfs>
@@ -436,7 +436,7 @@ This target does not support the `export-dependency-graph` target option.
 <ShowIf cpp rs>
 This parameter takes arguments `true` or `false` to specify whether the compiled binary will export its internal dependency graph as a dot graph when executed. This is a debugging utility.
 <ShowOnly rs>
-If a [CLI](#command-line-arguments) is generated, the target property is ignored, and the user should instead use the `--export-graph` flag of the generated program.
+If a [CLI](target-declaration.mdx#command-line-arguments) is generated, the target property is ignored, and the user should instead use the `--export-graph` flag of the generated program.
 </ShowOnly>
 </ShowIf>
 </ShowIfs>
@@ -632,7 +632,7 @@ This specifies the scheduler to use. See[Target Language Details](<../reference/
 This target does not support the `single-file-project` target option.
 </ShowIf>
 <ShowIf rs>
-If true, enables [single-file project layout](#single-file-layout).
+If true, enables [single-file project layout](target-language-details.mdx#single-file-layout).
 </ShowIf>
 </ShowIfs>
 
