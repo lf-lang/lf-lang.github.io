@@ -22,6 +22,7 @@ const config: Config = {
   projectName: 'lingua-franca', // Usually your repo name.
 
   onBrokenLinks: 'throw',
+  onBrokenAnchors: 'throw',
   onBrokenMarkdownLinks: 'throw',
 
   // Even if you don't use internationalization, you can use this field to set
