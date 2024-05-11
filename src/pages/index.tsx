@@ -83,11 +83,12 @@ const Intro = (): JSX.Element => (
         <Translate>
           Lingua Franca is the first reactor-oriented coordination language.
           It allows you to specify reactive components and compose them.
-          The Lingua Franca semantics eliminate race conditions by construction and provides a sophisticated model of time that includes a notion of simultaneity that is clear and precise.
+          Lingua Franca eliminates race conditions by construction, makes it easy to specify timed behavior, and it removes the need to perform manual synchronization.
         </Translate>
         <br/><br/>
         <Translate>
-          Consider a game of "rock paper scissors" where two players need to reveal their choice at the same instant. Not only is this implementation in Lingua Franca simple and intuitive, it is guaranteed to be fair. If the Player class were to observe the other's choice before revealing its own, Lingua Franca's causality analysis would find a causality loop and tell you that the program was invalid.
+          Consider a game of "rock paper scissors" where two players need to reveal their choice simultaneously. In Lingua Franca, "at the same time" has a clear and precise meaning.
+          This makes the implementation simple and intuitive, and guarantees it to be fair. If the Player class were to observe the other's choice before revealing its own, Lingua Franca's causality analysis would find a causality loop and tell you that the program was invalid.
         </Translate>
         <br/><br/>
         <Heading as="h2">
@@ -124,7 +125,7 @@ const Contributors = (): JSX.Element => (
           <UniversitiesForLight className={clsx(styles.showInLightThemeOnly)} role="img" width="80%" height="auto" title="A world map showing where key Lingua Franca contributors reside." />
         </div>
         <Translate>
-          Shortly after its inception, researchers from Kiel University and TU Dresden joined the team, contributing diagram synthesis and layout technology, highly-efficient runtime implementations, and various compiler improvements. Since then, we have worked with real-time systems experts from TU Dallas, embedded systems specialists from NTNU, and networking and security researchers from Hanyang University and ASU.
+          Shortly after its inception, researchers from Kiel University and TU Dresden joined the team, contributing diagram synthesis and layout technology, highly-efficient runtime implementations, and various compiler improvements. Since then, we have worked with real-time systems experts from UT Dallas, embedded systems specialists from NTNU, and networking and security researchers from Hanyang University and ASU.
         </Translate>
         <br/><br/>
         <div className={clsx(styles.buttonContainer, styles.centreIfCol6BecameVertical)} data-theme="dark">
