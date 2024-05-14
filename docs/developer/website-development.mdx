@@ -1,8 +1,15 @@
 ---
 title: Website Development
 description: Development of the Lingua Franca website.
+toc_max_heading_level: 5
 ---
 
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+  DynamicMultiTargetCodeblock,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
 ## Getting Started
 
@@ -28,16 +35,305 @@ Highlighting is handled by two separate plugins:
 
 For languages other than Lingua Franca, highlighting is handled by Prism, which is included in Docusaurus. You can find more details in Docusaurus documentation.
 
-For Lingua Franca, highlighting is handled by [Shikiji](https://github.com/antfu/shikiji). This is mainly because we only have TextMate grammar definition and it is not easy to convert from it to Prism
+For Lingua Franca, highlighting is handled by [Shiki](https://github.com/shikijs/shiki). This is mainly because we only have TextMate grammar definition and it is not easy to convert from it to Prism.
 
-Like Prism, we are running Shikiji in browser and the code is updated in browser by React after it is highlighted. Shikiji has a relatively large footprint, so its not necessarily encourage to run in browsers. Yet running it in browser might help SEO and makes maintenance easier.
+Like Prism, we are running Shiki in browser and the code is updated in browser by React after it is highlighted. Shiki has a relatively large footprint, so its not necessarily encourage to run in browsers. Yet running it in browser might help SEO and makes maintenance easier.
 
-The component we created is `ShikijiLFHighlighter` in `src/components/ShikijiLFHighlighter/index.tsx`. As Shikiji highlights code asynchorously, the component will display the unhighlighted code first, and asynchronously update the HTML to be the one with highlighted code with React.
+The component we created is `ShikiLFHighlighter` in `src/components/ShikiLFHighlighter/index.tsx`. As Shiki highlights code asynchorously, the component will display the unhighlighted code first (for a very short period of time), and asynchronously update the HTML to be the one with highlighted code with React. This will not hurt SEO as the highlight will not be considered by search engines.
 
-Upon loading the webpage, Shikiji will be initialised in the browser, loading grammars of all target languages and Lingua Franca, as configured in `clientModules` section in `docusaurus.config.js` and `src/components/ShikijiLFHighlighter/shikijiloader.ts`. 
+Upon loading the webpage, Shiki will be initialised in the browser, loading grammars of all target languages and Lingua Franca, as configured in `clientModules` section in `docusaurus.config.js` and `src/components/ShikiLFHighlighter/shikiloader.ts`. 
 
-We further swizzled Docusaurus' `CodeBlock` to use `ShikijiLFHighlighter` if the code language matches a pattern that indicates the code language is Lingua Franca, so using ``` notation in Markdown with language `lf` could give us the correct highlight result.
+We further swizzled Docusaurus' `CodeBlock` to use `ShikiLFHighlighter` if the code language matches a pattern that indicates the code language is Lingua Franca, so using ``` notation in Markdown with language `lf` could give us the correct highlight result. You can check `src/theme/CodeBlock/index.js` for more details.
 
-:::info
+:::note
 Unlike the custom syntax highlighter in our old website, without specifying `target C`, the highlighter will not be able to highlight target language code correctly as it lacks context - even if the language speficied is `lf-c`. This will be solved in future updates to the highlighter.
 :::
+
+#### Syntaxes for Lingua Franca Syntax Highlighting
+##### In Markdown
+
+In Markdown, the only possible way to highlight Lingua Franca code is to use the ``` notation with `lf-*` language designation, e.g.:
+`````markdown
+```lf-c
+target C;
+main reactor Troll {
+    // ....
+}
+```
+`````
+
+##### In MDX
+
+Apart from the markdown syntax, you can also use `<CodeBlock />` component which is provided by Docusaurus. You can check [here](https://docusaurus.io/docs/markdown-features/code-blocks#usage-in-jsx) for more notermation.
+
+Alternatively, we have created a bunch of useful utility components to aid the target selection.
+
+### Multi-Target Utilities
+
+Our whole Multi-Target infrastructure is built on top of docusaurus' [Tabs](https://docusaurus.io/docs/markdown-features/tabs) component. 
+
+In general, different targets are just a bunch of `Tab` components with `groupId='target-languages'`. 
+
+#### LanguageSelector
+The target selector, which appears on the top, is a `Tab` component with no content. It is defined in `src/components/LinguaFrancaMultiTargetUtils/LanguageSelector.tsx`.
+
+##### Usage
+`<LanguageSelector c cpp py rs ts />` where the target languages could be a subset of all targets which we support. The ordering is guaranteed to be `C C++ Python Rust TypeScript`, regardless of the ordering supplied as argument.
+
+##### Examples
+`<LanguageSelector rs c ts />`
+:::note[Rendered as]
+
+<LanguageSelector rs c ts />
+
+:::
+
+`<LanguageSelector rs c ts cpp py />`
+:::note[Rendered as]
+
+<LanguageSelector rs c ts cpp py  />
+
+:::
+
+#### LangSpecific
+`LangSpecific` generates a `Tab` and a bunch of `TabItem`. It is defined in `src/components/LinguaFrancaMultiTargetUtils/LangSpecific.tsx`.
+
+##### Usage
+It's not really used as a group of `ShowIfs` + `ShowIf` would look better, or, if codes are to be displayed, you should use `NoSelectorTargetCodeBlock`. In general, it looks like `<LangSpecific c={<div>hello</div>} cpp={<div>std::hello</div>}/>` where, for the props, the keys are target languages, and values are `ReactNode` to be displayed.
+
+#### NoSelectorTargetCodeBlock
+`NoSelectorTargetCodeBlock` is shorthand for `LangSpecific` with `CodeBlock` or `ShikiLFHighlighter` inside of it.
+
+##### Usage
+`NoSelectorTargetCodeBlock` takes this type of props:
+```
+interface prop {
+    [...target]: string;
+    lf: boolean;
+}
+```
+Where the target languages as key could be a subset of all targets, and the value should be the code to be rendered.
+And when `lf=true`, the codes are rendered as Lingua Franca with target language set to the designated target language.
+
+##### Examples
+```jsx
+<NoSelectorTargetCodeBlock c='printf("hi!")' cpp='std::cout<<"hi!"' rs='println!("Hi!")' />
+```
+:::note[Rendered as]
+
+<NoSelectorTargetCodeBlock c='printf("hi!");' cpp='std::cout<<"hi!";' rs='println!("Hi!");' />
+
+:::
+
+```jsx
+<NoSelectorTargetCodeBlock lf c='target C;' cpp='target Cpp;' rs='target Rust;' ts='target TypeScript;' />
+```
+:::note[Rendered as]
+
+<NoSelectorTargetCodeBlock lf c='target C;' cpp='target Cpp;' rs='target Rust;' ts='target TypeScript;' />
+
+:::
+
+#### ShowIfs/ShowIf
+`ShowIfs` and `ShowIf` form a `Tab` and a number of `TabItem`. They are defined in `src/components/LinguaFrancaMultiTargetUtils/ShowIf.tsx`.
+
+Specifically - you MUST use `ShowIf` inside of a `ShowIfs`, and a `ShowIfs` MUST contain at least one `ShowIf` as its child.
+
+##### Usage
+```jsx
+    <ShowIfs>
+        <ShowIf c>
+            {/* Markdown contents */}
+        </ShowIf>
+        <ShowIf cpp py ts>
+            {/* Markdown contents */}
+        </ShowIf>
+    </ShowIfs>
+```
+Where the target languages could be a subset of all targets which we support but must NOT collide. 
+As long as you have more than one `ShowIf` inside you can have as many as you like.
+
+##### Example
+```jsx
+    <ShowIfs>
+        <ShowIf c>
+            This is shown when the C target is chosen.
+        </ShowIf>
+        <ShowIf cpp py ts>
+            C++, Python and Typescript-related content is shown here.
+        </ShowIf>
+    </ShowIfs>
+    {/* No Rust here! If you choose Rust from the language selector, you will get what you chose before you chose Rust. */}
+```
+
+:::note[Rendered as]
+
+<ShowIfs>
+    <ShowIf c>
+        This is shown when the C target is chosen.
+    </ShowIf>
+    <ShowIf cpp py ts>
+        C++, Python and Typescript-related content is shown here.
+    </ShowIf>
+</ShowIfs>
+
+:::
+
+#### ShowOnly
+
+:::warning
+`ShowOnly` uses hacky Docusaurus-internal methods for the time being. To ensure better compatibility, you should prefer `ShowIf`.
+:::
+
+Sometimes, you want to display a piece of information only for one language. While you can use `ShowIfs` and one `ShowIf` inside of it, the issue people typically discover is that the rendered result looks miserable, because each `Tab` will add some sort of padding above and below it. 
+
+For this, we built `ShowOnly` which reads the selected tab from `@docusaurus/theme-common/internal/useTabs` and displays the information inside if the target selected matches, and the output is a `<div>` or a `<span>` so that it looks like it's blended in. This is hacky and could break any time if docusaurus decides to change how their `Tabs` work.
+
+##### Usage
+```jsx
+    <ShowOnly c cpp
+    inline>
+    {/* Markdown contents */}
+    </ShowOnly>
+```
+Where the target languages could be a subset of all targets which we support.  
+If you include `inline` it will result in a `<span>`, if not, a `<div>`.
+
+##### Examples
+```jsx
+The language which you used yells:
+<ShowOnly c cpp >Segfault!!!!!!</ShowOnly>
+```
+
+:::note[Rendered as]
+
+The language which you used yells:
+<ShowOnly c cpp >Segfault!!!!!!</ShowOnly>
+
+:::
+
+```jsx
+I am <ShowOnly c cpp inline>not</ShowOnly> memory safe!
+```
+
+:::note[Rendered as]
+
+I am <ShowOnly c cpp inline>not</ShowOnly> memory safe!
+
+:::
+
+#### ShowIfsInline
+
+:::warning
+`ShowIfsInline` uses hacky Docusaurus-internal methods for the time being. To ensure better compatibility, you should prefer `ShowIf`.
+:::
+
+:::danger
+TBD, I didn't find any usage for now; maybe drop it?
+:::
+
+
+### Code Importation
+
+Unlike the previous website where a preprocessor is needed for the code to be displayed correctly, for this website we used MDX with Webpack loader. This allows us to "import" the Lingua Franca source code as a string.
+
+To ensure proper imporation in Webpack 5 (there are other ways, by adding magic after the filename, in Webpack 4), in `docusaurus.config.ts` we have this small plugin:
+
+```ts
+plugins: [
+() => ({
+    name: 'read-lf-source-code-files',
+    configureWebpack: () => ({
+    module: {
+        rules: [
+        {
+            // Any LF file that lies in path where some directory is named "codes"
+            test: /codes?\/.*\.lf$/,
+            type: "asset/source",
+        },
+        ],
+    },
+    })
+}),
+],
+```
+
+With this, if you use the statement like `import C_Schedule from '../assets/code/c/src/Schedule.lf';` you will get a TS string which Webpack loads when building. Then, you could use [`NoSelectorTargetCodeBlock`](#noselectortargetcodeblock) to show a bunch of lf code.
+
+:::info
+Remember to use relative import! If you don't, you will mess up the versioning.
+:::
+
+#### Example with NoSelectorTargetCodeBlock
+
+```tsx
+import C_HelloWorld from '../assets/code/c/src/HelloWorld.lf';
+import Cpp_HelloWorld from '../assets/code/cpp/src/HelloWorld.lf';
+import Py_HelloWorld from '../assets/code/py/src/HelloWorld.lf';
+import Rs_HelloWorld from '../assets/code/rs/src/HelloWorld.lf';
+import TS_HelloWorld from '../assets/code/ts/src/HelloWorld.lf';
+
+<NoSelectorTargetCodeBlock c={C_HelloWorld} cpp={Cpp_HelloWorld} py={Py_HelloWorld} rs={Rs_HelloWorld} ts={TS_HelloWorld} lf />
+```
+
+:::note[Rendered as]
+
+import C_HelloWorld from '../assets/code/c/src/HelloWorld.lf';
+import Cpp_HelloWorld from '../assets/code/cpp/src/HelloWorld.lf';
+import Py_HelloWorld from '../assets/code/py/src/HelloWorld.lf';
+import Rs_HelloWorld from '../assets/code/rs/src/HelloWorld.lf';
+import TS_HelloWorld from '../assets/code/ts/src/HelloWorld.lf';
+
+<NoSelectorTargetCodeBlock c={C_HelloWorld} cpp={Cpp_HelloWorld} py={Py_HelloWorld} rs={Rs_HelloWorld} ts={TS_HelloWorld} lf />
+
+:::
+
+#### DynamicMultiTargetCodeblock
+
+:::danger
+This is not working properly with versioning and will have issues with Webpack performance!
+:::
+
+:::danger
+This is not working properly now! Need to fix the file path in `content` in `DynamicMultiTargetCodeblock.tsx`.
+:::
+
+If you are **really** lazy, there is a utility which I wrote, `DynamicMultiTargetCodeblock`, that allows you to only supply a LF filename and all files will be dynamically imported. The issue is Webpack is not intelligent enough so if you use it, it will probably load all LF files in `assets`. Also, because relative import appears to be impossible, using it will always get you the latest code examples. See `src/components/LinguaFrancaMultiTargetUtils/DynamicMultiTargetCodeblock.tsx`.
+
+##### Examples
+
+```tsx
+<DynamicMultiTargetCodeblock c cpp ts rs py file="HelloWorld" />
+```
+
+To suppress warning, add 
+
+```tsx
+<DynamicMultiTargetCodeblock doNotTransformInMDX c cpp ts rs py file="HelloWorld" />
+```
+
+#### DynamicMultiTargetCodeblock with TransformDynamicLFFileImportToStatic
+
+:::danger
+This is an experiment and should not be used in production!
+:::
+
+A way to make `DynamicMultiTargetCodeblock` more sane is to use remark and preprocess it into a bunch of import statements and a `NoSelectorTargetCodeBlock`.
+
+`src/remark/TransformDynamicLFFileImportToStatic.ts` is a remark plugin that does so. It looks like a disaster and I don't understand it anymore 5 months after writing it.
+
+To use it, add it to `docusaurus.config.ts` as a ReMark preprocessor.
+
+But don't use it. 
+
+## Routing from the Legacy Site
+
+`docs/legacy_routing.ts` contains the old-to-new URL mappings which allows people to access the correct content if they used a URL from the old website. It is then imported in `docusaurus.config.ts` For more, check `@docusaurus/plugin-client-redirects`.
+
+## Maintenance, and point-of-contact
+
+For docusaurus-related question, you should redirect your question to [them](https://github.com/facebook/docusaurus).
+
+The LF syntax file is fetched [here](https://github.com/lf-lang/vscode-lingua-franca/blob/main/syntaxes/lflang.tmLanguage.json) and should be updated from time to time. If the syntax highlighting is not working properly, check the TextMate grammar, then check with [shiki](https://github.com/shikijs/shiki).
+
+For website-specific utilities, you can open an issue on GitHub or [ask @axmmisaka directly](/community). The TS code quality is not great and needs to be improved.
