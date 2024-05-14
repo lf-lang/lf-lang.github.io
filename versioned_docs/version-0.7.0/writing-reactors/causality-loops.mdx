@@ -1,0 +1,68 @@
+---
+title: Causality Loops
+description: Causality loops in Lingua Franca.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
+
+## Cycles
+
+The interconnection pattern for a collection of reactors can form a cycle, but some care is required. Consider the following example:
+
+import C_Cycle from '../assets/code/c/src/Cycle.lf';
+import Cpp_Cycle from '../assets/code/cpp/src/Cycle.lf';
+import Py_Cycle from '../assets/code/py/src/Cycle.lf';
+import Rs_Cycle from '../assets/code/rs/src/Cycle.lf';
+import TS_Cycle from '../assets/code/ts/src/Cycle.lf';
+
+<NoSelectorTargetCodeBlock c={C_Cycle} cpp={Cpp_Cycle} py={Py_Cycle} rs={Rs_Cycle} ts={TS_Cycle} lf />
+
+This program yields the following diagram:
+
+import CycleSVG from "./../assets/images/diagrams/Cycle.svg"
+
+<CycleSVG title="Lingua Franca diagram: Cycle" role="img" width="400" />
+
+The diagram highlights a **causality loop** in the program. At each tag, in reactor `B`, the first reaction has to execute before the second if it is enabled, a precedence indicated with the red dashed arrow. But the first can't execute until the reaction of `A` has executed, and that reaction cannot execute until the second reaction `B` has executed. There is no way to satisfy these requirements, so the tools refuse to generated code.
+
+## Cycles with Delays
+
+One way to break the causality loop and get an executable program is to introduce a [logical delay](<../writing-reactors/composing-reactors.mdx#connections-with-logical-delays>) into the loop, as shown below:
+
+import C_CycleWithDelay from '../assets/code/c/src/CycleWithDelay.lf';
+import Cpp_CycleWithDelay from '../assets/code/cpp/src/CycleWithDelay.lf';
+import Py_CycleWithDelay from '../assets/code/py/src/CycleWithDelay.lf';
+import Rs_CycleWithDelay from '../assets/code/rs/src/CycleWithDelay.lf';
+import TS_CycleWithDelay from '../assets/code/ts/src/CycleWithDelay.lf';
+
+<NoSelectorTargetCodeBlock c={C_CycleWithDelay} cpp={Cpp_CycleWithDelay} py={Py_CycleWithDelay} rs={Rs_CycleWithDelay} ts={TS_CycleWithDelay} lf />
+
+import CycleWithDelaySVG from "./../assets/images/diagrams/CycleWithDelay.svg"
+
+<CycleWithDelaySVG title="Lingua Franca diagram: CycleWithDelay" role="img" width="400" />
+
+Here, we have used a delay of 0, which results in a delay of one [microstep](../writing-reactors/superdense-time.mdx). We could equally well have specified a positive time value.
+
+## Reaction Order
+
+Frequently, a program will have such cycles, but you don't want a logical delay in the loop. To get a cycle without logical delays, the reactions need to be reordered, as shown below:
+
+import C_CycleReordered from '../assets/code/c/src/CycleReordered.lf';
+import Cpp_CycleReordered from '../assets/code/cpp/src/CycleReordered.lf';
+import Py_CycleReordered from '../assets/code/py/src/CycleReordered.lf';
+import Rs_CycleReordered from '../assets/code/rs/src/CycleReordered.lf';
+import TS_CycleReordered from '../assets/code/ts/src/CycleReordered.lf';
+
+<NoSelectorTargetCodeBlock c={C_CycleReordered} cpp={Cpp_CycleReordered} py={Py_CycleReordered} rs={Rs_CycleReordered} ts={TS_CycleReordered} lf />
+
+import CycleReorderedSVG from "./../assets/images/diagrams/CycleReordered.svg"
+
+<CycleReorderedSVG title="Lingua Franca diagram: CycleReordered" role="img" width="400" />
+
+There is no longer any causality loop.

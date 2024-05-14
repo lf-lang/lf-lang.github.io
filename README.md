@@ -24,3 +24,14 @@ In our [deployment workflow](https://github.com/lf-lang/lf-lang.github.io/blob/m
 $ yarn build
 ```
 This generates static content in the `build` directory, which gets served using GitHub's static contents hosting service, GitHub Pages.
+
+### Versioning
+Instructions for "freezing" the current docs and filing them under a version number, can be found [here](https://docusaurus.io/docs/versioning). Normally, the steps are:
+```
+git switch main
+git pull
+git checkout -b v<major>.<minor>.<patch>
+yarn docusaurus docs:version <major>.<minor>.<patch>
+git add versioned_docs/*
+git commit -a -m 'Docs v<major>.<minor>.<patch>'
+```

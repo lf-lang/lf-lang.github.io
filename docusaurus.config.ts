@@ -174,7 +174,7 @@ const config: Config = {
   
 
   clientModules: [
-    "src/components/ShikijiLFHighlighter/shikijiloader.ts"
+    "src/components/ShikiLFHighlighter/shikiloader.ts"
   ],
 };
 

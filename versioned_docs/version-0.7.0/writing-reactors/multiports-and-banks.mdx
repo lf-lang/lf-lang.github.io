@@ -1,0 +1,422 @@
+---
+title: Multiports and Banks
+description: Multiports and Banks of Reactors.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
+
+Lingua Franca provides a compact syntax for ports that can send or receive over multiple channels and another syntax for multiple instances of a reactor class. These are respectively called **multiports** and **banks of reactors**.
+
+## Multiports
+
+To declare an input or output port to be a **multiport**, use the following syntax:
+
+<ShowIfs>
+  <ShowIf c cpp ts rs>
+
+```lf
+  input[<width>] <name>:<type>;
+  output[<width>] <name>:<type>;
+```
+
+  </ShowIf>
+  <ShowIf py>
+    ```lf
+      input[<width>] <name>
+      output[<width>] <name>
+    ```
+  </ShowIf>
+</ShowIfs>
+
+where `<width>` is a positive integer. This can be given either as an integer literal or a parameter name. <ShowOnly cpp inline> The width can also be given by target code enclosed in `{=...=}`.</ShowOnly> Consider the following example:
+
+import C_Multiport from '../assets/code/c/src/Multiport.lf';
+import Cpp_Multiport from '../assets/code/cpp/src/Multiport.lf';
+import Py_Multiport from '../assets/code/py/src/Multiport.lf';
+import Rs_Multiport from '../assets/code/rs/src/Multiport.lf';
+import TS_Multiport from '../assets/code/ts/src/Multiport.lf';
+
+<NoSelectorTargetCodeBlock c={C_Multiport} cpp={Cpp_Multiport} py={Py_Multiport} rs={Rs_Multiport} ts={TS_Multiport} lf />
+
+import MultiportSVG from "./../assets/images/diagrams/Multiport.svg"
+
+<MultiportSVG title="Lingua Franca diagram: Multiport" role="img" width="300" />
+
+Executing this program will yield:
+
+```
+Sum of received: 6.
+```
+
+The `Source` reactor has a four-way multiport output and the `Destination` reactor has a four-way multiport input. These channels are connected all at once on one line, the second line from the last. Notice that the generated diagram shows multiports with hollow triangles. Whether it shows the widths is controlled by an option in the diagram generator.
+
+The `Source` reactor specifies `out` as an effect of its reaction using the syntax `-> out`. This brings into scope of the reaction body a way to access the width of the port and a way to write to each channel of the port.
+
+:::note
+In `Destination`, the reaction is triggered by `in`, not by some individual channel of the multiport input. Hence, it is important when using multiport inputs to test for presence of the input on each channel, as done above with the syntax:
+
+<NoSelectorTargetCodeBlock
+  c="if (in[i]->is_present) ..." 
+  cpp="if (in[i]->is_present()) ..."
+  py="if port.is_present: ..."
+  rs="if (val) ..."
+  ts="if let Some(v) = ctx.get(&i) ..."
+/>
+:::
+
+An event on any one of the channels is sufficient to trigger the reaction.
+
+<ShowOnly py>
+
+In the Python target, multiports can be iterated on in a for loop (e.g., `for p in out`) or enumerated (e.g., `for i, p in enumerate(out)`) and the length of the multiport can be obtained by using the `len()` (e.g., `len(out)`) expression.
+
+</ShowOnly>
+
+<ShowOnly c>
+
+## Sparse Inputs
+
+Sometimes, a program needs a wide multiport input, but when reactions are triggered by this input, few of the channels are present.
+In this case, it can be inefficient to iterate over all the channels to determine which are present.
+If you know that a multiport input will be **sparse** in this way, then you can provide a hint to the compiler and use a more efficient iterator to access the port. For example:
+
+import C_Sparse from '../assets/code/c/src/Sparse.lf';
+
+<NoSelectorTargetCodeBlock c={C_Sparse} lf />
+
+Notice the `@sparse` annotation on the input declaration.
+This provides a hint to the compiler to optimize for sparse inputs.
+Then, instead of iterating over all input channels, this code uses the built-in function `lf_multiport_iterator()` to construct an iterator. The function `lf_multiport_next()` returns the first (and later, the next) channel index that is present. It returns -1 when no more channels have present inputs.
+
+The multiport iterator can be used for any input multiport, even if it is not marked sparse.
+But if it is not marked sparse, then the `lf_multiport_next()` function will not optimize for sparse inputs and will simply iterate over the channels until it finds one that is present.
+
+</ShowOnly>
+
+## Parameterized Widths
+
+The width of a port may be given by a parameter. For example, the above `Source` reactor can be rewritten
+
+```lf
+reactor Source(width:int = 4) {
+  output[width] out:int;
+  reaction(startup) -> out {=
+    ...
+  =}
+}
+```
+
+<ShowOnly cpp>
+
+Parameters to the main reactor can be overwritten on the command line interface when running the generated program. As a consequence, the scale of the application can be determined at run time rather than at compile time.
+
+</ShowOnly>
+
+## Connecting Reactors with Different Widths
+
+Assume that the `Source` and `Destination` reactors above both use a parameter `width` to specify the width of their ports. Then the following connection is valid:
+
+```lf
+main reactor {
+  a1 = new Source(width = 3);
+  a2 = new Source(width = 2);
+  b = new Destination(width = 5);
+  a1.out, a2.out -> b.in;
+}
+```
+
+The first three ports of `b` will received input from `a1`, and the last two ports will receive input from `a2`. Parallel composition can appear on either side of a connection. For example:
+
+```lf
+  a1.out, a2.out -> b1.out, b2.out, b3.out;
+```
+
+If the total width on the left does not match the total width on the right, then a warning is issued. If the left side is wider than the right, then output data will be discarded. If the right side is wider than the left, then input channels will be absent.
+
+Any given port can appear only once on the right side of the `->` connection operator, so all connections to a multiport destination must be made in one single connection statement.
+
+## Banks of Reactors
+
+Using a similar notation, it is possible to create a bank of reactors. For example, we can create a bank of four instances of `Source` and four instances of `Destination` and connect them as follows:
+
+```lf
+main reactor {
+  a = new[4] Source();
+  b = new[4] Destination();
+  a.out -> b.in;
+}
+```
+
+import BankToBankMultiportSVG from "./../assets/images/diagrams/BankToBankMultiport.svg"
+
+<BankToBankMultiportSVG title="Lingua Franca diagram: BankToBankMultiport" role="img" width="300" />
+
+If the `Source` and `Destination` reactors have multiport inputs and outputs, as in the examples above, then a warning will be issued if the total width on the left does not match the total width on the right. For example, the following is balanced:
+
+```lf
+main reactor {
+  a = new[3] Source(width = 4);
+  b = new[4] Destination(width = 3);
+  a.out -> b.in;
+}
+```
+
+There will be three instances of `Source`, each with an output of width four, and four instances of `Destination`, each with an input of width 3, for a total of 12 connections.
+
+To distinguish the instances in a bank of reactors, the reactor can define a parameter called **bank_index**<span class="lf-c lf-cpp lf-rs"> with any type that can be assigned a non-negative integer value (for example, `int`, `size_t`, or `uint32_t`)</span>. If such a parameter is defined for the reactor, then when the reactor is instantiated in a bank, each instance will be assigned a number between 0 and _n_-1, where _n_ is the number of reactor instances in the bank. For example, the following source reactor increments the output it produces by the value of `bank_index` on each reaction to the timer:
+
+import C_MultiportSource from '../assets/code/c/src/MultiportSource.lf';
+import Cpp_MultiportSource from '../assets/code/cpp/src/MultiportSource.lf';
+import Py_MultiportSource from '../assets/code/py/src/MultiportSource.lf';
+import Rs_MultiportSource from '../assets/code/rs/src/MultiportSource.lf';
+import TS_MultiportSource from '../assets/code/ts/src/MultiportSource.lf';
+
+<NoSelectorTargetCodeBlock c={C_MultiportSource} cpp={Cpp_MultiportSource} py={Py_MultiportSource} rs={Rs_MultiportSource} ts={TS_MultiportSource} lf />
+
+The width of a bank may also be given by a parameter, as in
+
+```lf
+main reactor(
+  source_bank_width:int = 3,
+  destination_bank_width:int = 4
+) {
+  a = new[source_bank_width] Source(width = 4);
+  b = new[destination_bank_width] Destination(width = 3);
+  a.out -> b.in;
+}
+```
+
+<ShowOnly c py>
+
+## Initializing Bank Members from a Table
+
+It is often convenient to initialize parameters of bank members from a table.
+Here is an example:
+
+import C_BankIndex from '../assets/code/c/src/BankIndex.lf';
+import Py_BankIndex from '../assets/code/py/src/BankIndex.lf';
+
+<NoSelectorTargetCodeBlock c={C_BankIndex}  py={Py_BankIndex} lf />
+
+The global `table` defined in the `preamble` is used to initialize the `value` parameter of each bank member. The result of running this is something like:
+
+```
+bank_index: 0, value: 4
+bank_index: 1, value: 3
+bank_index: 2, value: 2
+bank_index: 3, value: 1
+```
+
+</ShowOnly>
+
+## Contained Banks
+
+Banks of reactors can be nested. For example, note the following program:
+
+import C_ChildBank from '../assets/code/c/src/ChildBank.lf';
+import Cpp_ChildBank from '../assets/code/cpp/src/ChildBank.lf';
+import Py_ChildBank from '../assets/code/py/src/ChildBank.lf';
+import Rs_ChildBank from '../assets/code/rs/src/ChildBank.lf';
+import TS_ChildBank from '../assets/code/ts/src/ChildBank.lf';
+
+<NoSelectorTargetCodeBlock c={C_ChildBank} cpp={Cpp_ChildBank} py={Py_ChildBank} rs={Rs_ChildBank} ts={TS_ChildBank} lf />
+
+import ChildBankSVG from "./../assets/images/diagrams/ChildBank.svg"
+
+<ChildBankSVG title="Lingua Franca diagram: ChildBank" role="img" width="150" />
+
+In this program, the `Parent` reactor contains a bank of `Child` reactor instances
+with a width of 2. In the main reactor, a bank of `Parent` reactors is
+instantiated with a width of 2, therefore, creating 4 `Child` instances in the program in total.
+The output of this program will be:
+
+```
+My bank index: 0.
+My bank index: 1.
+My bank index: 0.
+My bank index: 1.
+```
+
+The order of these outputs will be nondeterministic if the execution is multithreaded (which it will be by default) because there is no dependence between the reactions, and, hence, they can execute in parallel.
+
+The bank index of a container (parent) reactor can be passed down to
+contained (child) reactors. For example, note the following program:
+
+import C_ChildParentBank from '../assets/code/c/src/ChildParentBank.lf';
+import Cpp_ChildParentBank from '../assets/code/cpp/src/ChildParentBank.lf';
+import Py_ChildParentBank from '../assets/code/py/src/ChildParentBank.lf';
+import Rs_ChildParentBank from '../assets/code/rs/src/ChildParentBank.lf';
+import TS_ChildParentBank from '../assets/code/ts/src/ChildParentBank.lf';
+
+<NoSelectorTargetCodeBlock c={C_ChildParentBank} cpp={Cpp_ChildParentBank} py={Py_ChildParentBank} rs={Rs_ChildParentBank} ts={TS_ChildParentBank} lf />
+
+In this example, the bank index of the `Parent` reactor is passed to the
+`parent_bank_index` parameter of the `Child` reactor instances.
+The output from this program will be:
+
+```
+My bank index: 1. My parent's bank index: 1.
+My bank index: 0. My parent's bank index: 0.
+My bank index: 0. My parent's bank index: 1.
+My bank index: 1. My parent's bank index: 0.
+```
+
+Again, note that the order of these outputs is nondeterministic.
+
+Finally, members of contained banks of reactors can be individually addressed in
+the body of reactions of the parent reactor if their input/output port appears
+in the reaction signature. For example, note the following program:
+
+import C_ChildParentBank2 from '../assets/code/c/src/ChildParentBank2.lf';
+import Cpp_ChildParentBank2 from '../assets/code/cpp/src/ChildParentBank2.lf';
+import Py_ChildParentBank2 from '../assets/code/py/src/ChildParentBank2.lf';
+import TS_ChildParentBank2 from '../assets/code/ts/src/ChildParentBank2.lf';
+
+<NoSelectorTargetCodeBlock c={C_ChildParentBank2} cpp={Cpp_ChildParentBank2} py={Py_ChildParentBank2} rs={"ChildParentBank2.lf missing for Rust"} ts={TS_ChildParentBank2} lf />
+
+import ChildParentBank2SVG from "./../assets/images/diagrams/ChildParentBank2.svg"
+
+<ChildParentBank2SVG title="Lingua Franca diagram: ChildParentBank2" role="img" width="250" />
+
+Running this program will give something like the following:
+
+```
+Received 0 from child 0.
+Received 1 from child 1.
+Received 2 from child 0.
+Received 3 from child 1.
+```
+<ShowIfs>
+  <ShowIf c>
+    Note the usage of `c_width`, which holds the width of the `c` bank of reactors.
+  </ShowIf>
+
+  <ShowIf py>
+    Note that `len(c)` can be used to get the width of the bank, and `for p in c` or `for (i, p) in enumerate(c)` can be used to iterate over the bank members.
+  </ShowIf>
+
+  <ShowIf cpp>
+    Note that `c.size()` can be used to get the width of the bank `c`.
+  </ShowIf>
+
+  <ShowIf ts>
+    Note that that bank instance `c` in TypeScript is an array, so `c.length` is the width of the bank, and the bank members are referenced by indexing the array, as in `c[i]`.
+  </ShowIf>
+
+  <ShowIf rs>
+
+  :::danger
+  FIXME: How to get the width of the bank in target code?
+  :::
+
+  </ShowIf>
+</ShowIfs>
+
+## Combining Banks and Multiports
+
+Banks of reactors may be combined with multiports, as in the following example:
+
+import C_MultiportToBank from '../assets/code/c/src/MultiportToBank.lf';
+import Cpp_MultiportToBank from '../assets/code/cpp/src/MultiportToBank.lf';
+import Py_MultiportToBank from '../assets/code/py/src/MultiportToBank.lf';
+import Rs_MultiportToBank from '../assets/code/rs/src/MultiportToBank.lf';
+import TS_MultiportToBank from '../assets/code/ts/src/MultiportToBank.lf';
+
+<NoSelectorTargetCodeBlock c={C_MultiportToBank} cpp={Cpp_MultiportToBank} py={Py_MultiportToBank} rs={Rs_MultiportToBank} ts={TS_MultiportToBank} lf />
+
+import MultiportToBankSVG from "./../assets/images/diagrams/MultiportToBank.svg"
+
+<MultiportToBankSVG title="Lingua Franca diagram: MultiportToBank" role="img" width="300" />
+
+The three outputs from the `Source` instance `a` will be sent, respectively, to each of three instances of `Destination`, `b[0]`, `b[1]`, and `b[2]`. The result of the program will be something like the following:
+
+```
+Destination 0 received 0.
+Destination 1 received 1.
+Destination 2 received 2.
+```
+
+Again, the order is nondeterministic in a multithreaded context.
+
+The reactors in a bank may themselves have multiports. In all cases, the number of ports on the left of a connection must match the number on the right, unless the ones on the left are iterated, as explained next.
+
+## Broadcast Connections
+
+Occasionally, you will want to have fewer ports on the left of a connection and have their outputs used repeatedly to broadcast to the ports on the right. In the following example, the outputs from an ordinary port are broadcast to the inputs of all instances of a bank of reactors:
+
+```lf
+reactor Source {
+  output out:int;
+  reaction(startup) -> out {=
+    ... write to out ...
+  =}
+}
+reactor Destination {
+  input in:int;
+  reaction(in) {=
+    ... read from in ...
+  =}
+}
+main reactor ThreadedThreaded(width:int(4)) {
+  a = new Source();
+  d = new[width] Destination();
+  (a.out)+ -> d.in;
+}
+```
+
+The syntax `(a.out)+` means "repeat the output port `a.out` one or more times as needed to supply all the input ports of `d.in`." The content inside the parentheses can be a comma-separated list of ports, the ports inside can be ordinary ports or multiports, and the reactors inside can be ordinary reactors or banks of reactors. In all cases, the number of ports inside the parentheses on the left must divide the number of ports on the right.
+
+## Interleaved Connections
+
+<ShowIfs>
+<ShowIf c cpp py>
+
+Sometimes, we don't want to broadcast messages to all reactors, but need more fine-grained control as to which reactor within a bank receives a message. If we have separate source and destination reactors, this can be done by combining multiports and banks as was shown in [Combining Banks and Multiports](#Combining-Banks-and-Multiports). Setting a value on the index _n_ of the output multiport, will result in a message to the _n_-th reactor instance within the destination bank. However, this pattern gets slightly more complicated, if we want to exchange addressable messages between instances of the same bank. This pattern is shown in the following example:
+
+import C_Interleaved from '../assets/code/c/src/Interleaved.lf';
+import Cpp_Interleaved from '../assets/code/cpp/src/Interleaved.lf';
+import Py_Interleaved from '../assets/code/py/src/Interleaved.lf';
+
+<NoSelectorTargetCodeBlock c={C_Interleaved} cpp={Cpp_Interleaved} py={Py_Interleaved} lf />
+
+import InterleavedSVG from "./../assets/images/diagrams/Interleaved.svg"
+
+<InterleavedSVG title="Lingua Franca diagram: Interleaved" role="img" width="250" />
+
+In the above program, four instance of `Node` are created, and, at startup, each instance sends 42 to its second (index 1) output channel. The result is that the second bank member (`bank_index` 1) will receive the number 42 on each input channel of its multiport input. Running this program gives something like the following:
+
+```
+Bank index 0 sent 42 on channel 1.
+Bank index 1 sent 42 on channel 1.
+Bank index 2 sent 42 on channel 1.
+Bank index 3 sent 42 on channel 1.
+Bank index 1 received 42 on channel 0.
+Bank index 1 received 42 on channel 1.
+Bank index 1 received 42 on channel 2.
+Bank index 1 received 42 on channel 3.
+```
+
+In bank index 1, the 0-th channel receives from `bank_index` 0, the 1-th channel from `bank_index` 1, etc. In effect, the choice of output channel specifies the destination reactor in the bank, and the input channel specifies the source reactor from which the input comes.
+
+This style of connection is accomplished using the new keyword `interleaved` in the connection. Normally, a port reference such as `nodes.out` where `nodes` is a bank and `out` is a multiport, would list all the individual ports by first iterating over the banks and then, for each bank index, iterating over the ports. If we consider the tuple (b,p) to denote the index b within the bank and the index p within the multiport, then the following list is created: (0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (2,3), (3,0), (3,1), (3,2), (3,3). However, if we use `interleaved``(nodes.out)` instead, the connection logic will iterate over the ports first and then the banks, creating the following list: (0,0), (1,0), (2,0), (3,0), (0,1), (1,1), (2,1), (3,1), (0,2), (1,2), (2,2), (3,2), (0,3), (1,3), (2,3), (3,3). By combining a normal port reference with a interleaved reference, we can construct a fully connected network. The figure below visualizes this how this pattern would look without banks or multiports:
+
+![Lingua Franca diagram: AddressableDesugared](../assets/images/diagrams/AddressableDesugared.png)
+
+If we were to use a normal connection `nodes.out -> nodes.in;` instead of the `interleaved` connection, then the following pattern would be created:
+
+![Lingua Franca diagram: AddressableNaiveDesugared](../assets/images/diagrams/AddressableNaiveDesugared.png)
+
+Effectively, this connects each reactor instance to itself, which isn't very useful.
+
+</ShowIf>
+
+<ShowIf ts rs>
+The `interleaved` keyword is not supported by this target language.
+</ShowIf>
+</ShowIfs>
