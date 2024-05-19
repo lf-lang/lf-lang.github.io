@@ -1,0 +1,48 @@
+---
+title: Generic Reactors
+description: Defining generic reactors in Lingua Franca.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+
+<LanguageSelector c cpp />
+
+## Generic Reactors
+
+Sometimes it is useful to implement a generic pattern without knowing the concrete types used. For instance, it could be useful to implement a delay reactor that forwards all values it receives with a fixed delay, regardless of their datatype. For this pattern, it is not required to know the concrete type in advance, and we would like to reuse the same logic for different types. This can be achieved with generic reactors in LF. Consider the following example:
+
+import C_GenericDelay from '../assets/code/c/src/GenericDelay.lf';
+import Cpp_GenericDelay from '../assets/code/cpp/src/GenericDelay.lf';
+
+<NoSelectorTargetCodeBlock c={C_GenericDelay} cpp={Cpp_GenericDelay} lf />
+
+The example above defines a generic reactor `Delay` which has a type parameter named `T`. Its input, output and logical action are all of type `T`. The logic implemented in the reactions is straightforward. The reaction to `in` schedules the logical action `a` with the configured delay and the received value. The reaction to `a` simply forwards this value to the output port at a later tag. The concrete type `T`, however, is not relevant for this implementation and will be filled in only when the reactor is instantiated. In our example, the main reactor instantiates `Delay`, specifying `int` as the type to be assigned to `T`. As a consequence, we can set an integer on `d`'s input port and receive an integer on its output. If we wanted instead to delay a string, we can do this as follows:
+
+import C_GenericString from '../assets/code/c/src/GenericString.lf';
+import Cpp_GenericString from '../assets/code/cpp/src/GenericString.lf';
+
+<NoSelectorTargetCodeBlock c={C_GenericString} cpp={Cpp_GenericString} lf />
+
+Reactor definitions may also specify multiple type parameters. Moreover, type parameters are not limited to ports and actions, but can also be used in state variables, parameters, or methods. For instance, we can define the following reactor:
+
+```lf
+reactor Generic<T, U, V>(bar: T) {
+  state baz: U
+
+  input in: V
+
+  method (x: T, y: U): V {= /* ... */ =}
+}
+```
+
+This reactor could be instantiated for example like this:
+
+```lf
+g = new Generic<float, int, bool>()
+```
+
