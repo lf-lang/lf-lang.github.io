@@ -187,6 +187,10 @@ const sidebars: SidebarsConfig = {
         {
           "type": "doc",
           "id": "embedded/rp2040"
+        },
+        {
+          "type": "doc",
+          "id": "embedded/flexpret"
         }
       ]
     },
