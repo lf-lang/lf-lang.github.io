@@ -8,6 +8,16 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>ICSE '24</strong>: Alexander Schulz-Rosengarten, Benjamin Asch, Gustavo Quiros, 
+        Akash Ahmad, Marten Lohstroh, Ankit Shukla, Malte Clement, Edward A. Lee,
+        and Reinhard von Hanxleden,
+        "<Link href="https://dl.acm.org/doi/10.1145/3639478.3643093">Behavior Trees with Dataflow: Coordinating Reactive Tasks in Lingua Franca</Link>",
+        in <i>Companion Proceedings of the International Conference on Software Engineering (ICSE-Companion)</i>,
+        Lisbon, Portugal, April 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>MEMOCODE '23</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng Wong,
         Hokeun Kim, Shaokai Lin, Christian Menard, Edward A. Lee, "
         <Link href="https://doi.org/10.1145/3610579.3613219">
