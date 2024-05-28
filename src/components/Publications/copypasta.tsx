@@ -8,6 +8,27 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>BERKUN '24</strong>: Samuel Berkun.
+        "<Link href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2024/EECS-2024-112.html">Concurrency Without Threads for Multicore Microprocessors</Link>."
+        Master's thesis, University of California, Berkeley, 2024.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>KWOK '24</strong>: Jacky Kwok.
+        "<Link href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2024/EECS-2024-76.html">Towards Efficient and Deterministic Dataflow Systems for Machine Learning</Link>."
+        Master's thesis, University of California, Berkeley, 2024.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>SOYER '24</strong>: Efsane Soyer.
+        "<Link href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2024/EECS-2024-131.html">Dealing with Time: Measuring Real-Time Capabilities of Lingua Franca</Link>."
+        Master's thesis, University of California, Berkeley, 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>ICSE '24</strong>: Alexander Schulz-Rosengarten, Benjamin Asch, Gustavo Quiros, 
         Akash Ahmad, Marten Lohstroh, Ankit Shukla, Malte Clement, Edward A. Lee,
         and Reinhard von Hanxleden,
@@ -34,8 +55,7 @@ export const copypastaPublications: ReactNode = (
         <Link href="https://dl.acm.org/doi/10.1145/3609134">
           Towards Building Verifiable CPS using Lingua Franca
         </Link>
-        ," in 
-        <i>ACM Transactions on Embedded Computing Systems</i> (TECS), Vol. 22,
+        ," in <i>ACM Transactions on Embedded Computing Systems</i> (TECS), Vol. 22,
         No. 5s, Sept. 9, 2023.  (Presented at EMSOFT '23, Hamburg, Germany, September, 2023)
       </p>
     </li>
