@@ -8,6 +8,14 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>DDE '24</strong>: Peter Donovan, Erling Jellum, Byeonggil Jun, Hokeun Kim, Edward A. Lee,
+Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
+        "<Link href="https://arxiv.org/abs/2405.12117">Strongly-Consistent Distributed Discrete-event Systems</Link>."
+        arXiv:2405.12117v1 [cs.DC] 20 May 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>BERKUN '24</strong>: Samuel Berkun.
         "<Link href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2024/EECS-2024-112.html">Concurrency Without Threads for Multicore Microprocessors</Link>."
         Master's thesis, University of California, Berkeley, 2024.
