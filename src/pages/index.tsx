@@ -83,7 +83,7 @@ const Intro = (): JSX.Element => (
         <Translate>
           Lingua Franca is the first reactor-oriented coordination language.
           It allows you to specify reactive components and compose them.
-          Lingua Franca eliminates race conditions by construction, makes it easy to specify timed behavior, and it removes the need to perform manual synchronization.
+          Lingua Franca eliminates race conditions by construction, makes it easy to specify timed behavior, and removes the need to perform manual synchronization.
         </Translate>
         <br/><br/>
         <Translate>
