@@ -37,7 +37,7 @@ For languages other than Lingua Franca, highlighting is handled by Prism, which 
 
 For Lingua Franca, highlighting is handled by [Shiki](https://github.com/shikijs/shiki). This is mainly because we only have TextMate grammar definition and it is not easy to convert from it to Prism.
 
-Like Prism, we are running Shiki in browser and the code is updated in browser by React after it is highlighted. Shiki has a relatively large footprint, so its not necessarily encourage to run in browsers. Yet running it in browser might help SEO and makes maintenance easier.
+Like Prism, we are running Shiki in browser and the code is updated in browser by React after it is highlighted. Shiki has a relatively large footprint, so its not necessarily encouraged to run in browsers. Yet running it in browser might help SEO and makes maintenance easier.
 
 The component we created is `ShikiLFHighlighter` in `src/components/ShikiLFHighlighter/index.tsx`. As Shiki highlights code asynchorously, the component will display the unhighlighted code first (for a very short period of time), and asynchronously update the HTML to be the one with highlighted code with React. This will not hurt SEO as the highlight will not be considered by search engines.
 
