@@ -235,7 +235,7 @@ TBD, I didn't find any usage for now; maybe drop it?
 
 ### Code Importation
 
-Unlike the previous website where a preprocessor is needed for the code to be displayed correctly, for this website we used MDX with Webpack loader. This allows us to "import" the Lingua Franca source code as a string.
+Unlike the previous website that used a preprocessor to correctly display the code, this website we uses MDX with Webpack loader. This allows us to "import" the Lingua Franca source code as a string.
 
 To ensure proper imporation in Webpack 5 (there are other ways, by adding magic after the filename, in Webpack 4), in `docusaurus.config.ts` we have this small plugin:
 
