@@ -190,6 +190,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "embedded/nRF52"
+        },
+        {
+          "type": "doc",
           "id": "embedded/flexpret"
         }
       ]
