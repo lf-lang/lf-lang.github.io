@@ -61,3 +61,17 @@ If, for example, your federated program is in `src/Foo.lf` and it has a top-leve
 then you will find the generated code for the `bar` federate in `fed-gen/Foo/src-gen/federate__bar`.
 You can then run and debug that individual federate from within VS Code, but you will also have
 to manually run the RTI and the other federates in order for the code to start executing.
+
+### Adding Arguments
+
+To add arguments using VS code, you should add a directory `.vscode` right below the opened `src-gen` directory, and add a `settings.json` file such as below.
+```
+{
+    "cmake.debugConfig": {
+        "args": [
+            "-i",
+            "federation_id"
+        ]
+    }
+}
+```
