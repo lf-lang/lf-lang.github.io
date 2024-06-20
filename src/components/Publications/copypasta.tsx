@@ -8,6 +8,13 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>Doctoral Thesis</strong>: Christian Menard, 
+	"<Link href="https://nbn-resolving.org/urn:nbn:de:bsz:14-qucosa2-916872">Deterministic Reactive Programming for Cyber-physical Systems</Link>"
+        , TU Dresden, 03 June 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>DDE '24</strong>: Peter Donovan, Erling Jellum, Byeonggil Jun, Hokeun Kim, Edward A. Lee,
 Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
         "<Link href="https://arxiv.org/abs/2405.12117">Strongly-Consistent Distributed Discrete-event Systems</Link>."
@@ -16,23 +23,23 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
     </li>
     <li>
       <p>
-        <strong>BERKUN '24</strong>: Samuel Berkun.
+        <strong>Master's Thesis</strong>: Samuel Berkun.
         "<Link href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2024/EECS-2024-112.html">Concurrency Without Threads for Multicore Microprocessors</Link>."
-        Master's thesis, University of California, Berkeley, 2024.
+       , University of California, Berkeley, 2024.
       </p>
     </li>
     <li>
       <p>
-        <strong>KWOK '24</strong>: Jacky Kwok.
+        <strong>Master's Thesis</strong>: Jacky Kwok.
         "<Link href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2024/EECS-2024-76.html">Towards Efficient and Deterministic Dataflow Systems for Machine Learning</Link>."
-        Master's thesis, University of California, Berkeley, 2024.
+        , University of California, Berkeley, 2024.
       </p>
     </li>
     <li>
       <p>
-        <strong>SOYER '24</strong>: Efsane Soyer.
+        <strong>Master's Thesis</strong>: Efsane Soyer.
         "<Link href="https://www2.eecs.berkeley.edu/Pubs/TechRpts/2024/EECS-2024-131.html">Dealing with Time: Measuring Real-Time Capabilities of Lingua Franca</Link>."
-        Master's thesis, University of California, Berkeley, 2024.
+        , University of California, Berkeley, 2024.
       </p>
     </li>
     <li>
@@ -43,6 +50,14 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
         "<Link href="https://dl.acm.org/doi/10.1145/3639478.3643093">Behavior Trees with Dataflow: Coordinating Reactive Tasks in Lingua Franca</Link>",
         in <i>Companion Proceedings of the International Conference on Software Engineering (ICSE-Companion)</i>,
         Lisbon, Portugal, April 2024.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>VSSTE '23</strong>: Marcus Rossel, Shaokai Lin, Marten Lohstroh, Jeronimo Castrillon, Andrés Goens, "
+        <Link href="https://cfaed.tu-dresden.de/files/Images/people/chair-cc/publications/2310_Rossel_VSSTE.pdf">
+	  Provable Determinism for Software in Cyber-Physical Systems</Link>," in 
+        <i>Proceedings of the 15th International Conference on Verified Software: Theories, Tools, and Experiments</i>, October 2023.
       </p>
     </li>
     <li>
@@ -117,6 +132,13 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
     </li>
     <li>
       <p>
+        <strong>Master's Thesis</strong>: Johannes Hayeß,
+        "<Link href="https://cfaed.tu-dresden.de/files/Images/people/chair-cc/theses/2303_Hayess_MA.pdf">Verifying the Rust Runtime of Lingua Franca</Link>."
+       , TU Dresden, 06 March 2023.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>IC '23</strong>: Edward A. Lee, Soroush Bateni, Shaokai Lin,
         Marten Lohstroh, and Christian Menard, "
         <Link href="https://doi.org/10.34133/icomputing.0013">
@@ -138,6 +160,13 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
         ," in 
         <i>Workshop on Next Generation Real-Time Embedded Systems (NG-RES)</i>,
         January 18 2023.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>Master's Thesis</strong>: Clément Fournier,
+        "<Link href="https://cfaed.tu-dresden.de/files/Images/people/chair-cc/theses/2112_Fournier_DA.pdf">A Rust Backend for Lingua Franca</Link>."
+       , TU Dresden, 06 December 2021.
       </p>
     </li>
     <li>
@@ -185,6 +214,13 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
         <Link href="https://people.eecs.berkeley.edu/~marten/pdf/Lohstroh_etAl_FDL20.pdf">
           A Language for Deterministic Coordination Across Multiple Timelines
         </Link>," in Forum on Design Languages (FDL), Kiel, Germany, September, 2020.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>Bachelor's Thesis</strong>: Marcus Rossel,
+        "<Link href="https://cfaed.tu-dresden.de/files/Images/people/chair-cc/theses/2104_Rossel_BA.pdf">Provable Determinism in Reactors</Link>."
+       , TU Dresden, 01 April 2021.
       </p>
     </li>
     <li>
