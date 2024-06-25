@@ -2916,9 +2916,29 @@ FIXME: Details needed here.
 </ShowIf>
 <ShowIf py>
 
-:::warning
-FIXME: Details needed here.
-:::
+A few utility libraries are provided.
+
+- **File Access**
+
+  - `lf.source_directory()`: Returns a string giving the full path to the directory containing the `.lf` file of the program.
+  - `lf.package_directory()`: Returns a string giving the full path to the directory that is the root of the project or package (normally, the directory above the `src` directory).
+
+The above can be used to find supporting files, as shown in the following example:
+
+```lf-py
+target Python
+preamble {=
+  import os
+=}
+main reactor {
+  state source_path = {= os.path.join(lf.source_directory(), "PythonPaths.lf") =}
+  reaction(startup) {=
+    file = open(self.source_path, "r");
+    print(file.read());
+    file.close();
+  =}
+}
+```
 
 </ShowIf>
 <ShowIf ts>
