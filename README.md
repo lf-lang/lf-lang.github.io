@@ -33,5 +33,6 @@ git pull
 git checkout -b v<major>.<minor>.<patch>
 yarn docusaurus docs:version <major>.<minor>.<patch>
 git add versioned_docs/*
+git add versioned_sidebars/*
 git commit -a -m 'Docs v<major>.<minor>.<patch>'
 ```
