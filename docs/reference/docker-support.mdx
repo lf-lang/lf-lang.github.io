@@ -100,7 +100,7 @@ You can further customize the generated Docker file through the `docker` target 
 ### Option `builder-base`
 You can specify a custom base image (used in the Docker `FROM` command) for building as follows:
 
-```lf-c
+```
   docker: {
     builder-base: "ubuntu:latest"
   }
@@ -113,6 +113,18 @@ The default is `"alpine:latest"`.
 
 Note that the generated `Dockerfile` uses a separate build and run stage. The `builder-base` applies to the former and _also_ the latter, _unless_ the option `runner-base` is specified.
 
+### Option `env-file`
+Docker Compose has a feature that [allows you to set environment variables using a `.env` file](https://docs.docker.com/compose/environment-variables/set-environment-variables/#use-the-env_file-attribute). The `docker` target property has a configuration option that lets you specify such file to be used in the generated `docker-compose.yml`. For example, point Docker Compose to an environment file called `foo.env`, specify:
+```
+  docker: {
+    env-file: "foo.env"
+  }
+```
+
+:::caution
+In Docker, the attribute is named `env_file` (with an underscore), but conforming to the formatting of Lingua Franca target properties, this option is named `env-file`.
+:::
+
 ### Option `no-build`
 If you only want to generated code and configuration files but do not want to the Lingua Franca to compiler also build the generated code in a container for you, you can disable it as follows:
 
@@ -123,6 +135,12 @@ If you only want to generated code and configuration files but do not want to th
 ```
 
 By default, `no-build` is `false` and hence building is enabled.
+
+### Option `post-build-script`
+
+### Option `pre-build-script`
+
+### Option `post-run-script`
 
 ### Option `runner-base`
 To pick a base image for the run stage in the generated `Dockerfile`, use the `runner-base` option:
