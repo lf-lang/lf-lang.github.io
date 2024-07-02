@@ -44,7 +44,7 @@ export default [
     "from": "/docs/handbook/generic-types-interfaces-inheritance"
   },
   {
-    "to": "/docs/reference/containerized-execution",
+    "to": "/docs/next/reference/docker-support",
     "from": "/docs/handbook/containerized-execution"
   },
   {
