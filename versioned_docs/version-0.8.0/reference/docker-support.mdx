@@ -1,0 +1,261 @@
+---
+title: Docker Support
+description: Building and running Lingua Franca programs using Docker
+---
+
+:::tip
+You will need to [install Docker](https://docs.docker.com/get-docker/) in order to use this feature.
+:::
+
+The `C`, `Cpp`, `Python`, and `TypeScript` target allow you to conveniently build and run your Lingua Franca code in a Docker container. To enable this feature, include the `docker` property in your target specification, as follows:
+
+```lf-c
+target C {
+    docker: true
+}
+```
+
+When Docker support is enabled, the produced target code will be built inside of a Docker container, and the executable produced in the `bin` directory will invoke [Docker Compose](https://docs.docker.com/compose/) in order to run the containerized application.
+
+## Where to find the Docker configuration files
+
+### Regular LF applications
+
+For an unfederated application `src/Main.lf`, like this:
+
+```lf-c
+target C {
+  docker: true
+};
+
+main reactor Main {
+  reaction (startup)  {=
+    printf("Hello World!\n");
+  =}
+} 
+```
+
+the following extra Docker-related files are produced:
+
+```sh
+.
+├── bin
+│   └── Main
+...
+└── src-gen
+    └── Main
+        ...
+        ├── docker-compose.yml
+        ├── Dockerfile
+        ...
+```
+
+### Federated LF applications
+A federated version of `src/Main.lf` like this:
+
+```lf-c
+target C {
+  docker: true
+};
+
+reactor Hello {
+  reaction (startup)  {=
+    printf("Hello World!\n");
+  =}
+}
+
+federated reactor Main {
+    hello1 = new Hello();
+    hello2 = new Hello();
+} 
+```
+
+would produce the following Docker-related files:
+
+```sh
+.
+├── bin
+│   └── Main
+├── fed-gen
+│   └── Main
+|       ...
+│       └── src-gen
+│           ├── docker-compose.yml
+│           ├── federate__hello1
+│           │   ...
+│           │   ├── Dockerfile
+|           ...
+│           └── federate__hello2
+│               ...
+│               ├── Dockerfile
+...             ...
+```
+
+## Configuration options
+
+You can further customize the generated Docker file through the `docker` target property. Instead of just enabling Docker support using `true`, specify configuration options in a dictionary.
+
+### Option `builder-base`
+You can specify a custom base image (used in the Docker `FROM` command) for building as follows:
+
+```
+  docker: {
+    builder-base: "ubuntu:latest"
+  }
+```
+:::caution
+The `builder-base` option replaces the `FROM` option, which is no longer supported in version `0.8.0` and on.
+:::
+
+The default is `"alpine:latest"`.
+
+Note that the generated `Dockerfile` uses a separate build and run stage. The `builder-base` applies to the former and _also_ the latter, _unless_ the option `runner-base` is specified.
+
+### Option `env-file`
+Docker Compose has a feature that [allows you to set environment variables using a `.env` file](https://docs.docker.com/compose/environment-variables/set-environment-variables/#use-the-env_file-attribute). The `docker` target property has a configuration option that lets you specify such file to be used in the generated `docker-compose.yml`. For example, point Docker Compose to an environment file called `foo.env`, specify:
+```
+  docker: {
+    env-file: "foo.env"
+  }
+```
+
+:::caution
+In Docker, the attribute is named `env_file` (with an underscore), but conforming to the formatting of Lingua Franca target properties, this option is named `env-file`.
+:::
+
+### Option `no-build`
+If you only want to generated code and configuration files but do not want to the Lingua Franca to compiler also build the generated code in a container for you, you can disable it as follows:
+
+```
+  docker: {
+    no-build: true
+  }
+```
+
+By default, `no-build` is `false` and hence building is enabled.
+
+### Option `post-build-script`
+If any actions need to be performed at the end of the build stage (such as any cleanups or additional installation steps), you can put these in a shell script and pass it as an option in the `docker` target property. Example:
+
+```
+  docker: {
+    post-build-script: "path/to/post-build.sh"
+  }
+```
+
+:::note
+The given path should either be relative to the package root or relative to the `.lf` file in which the target property is given.
+:::
+
+### Option `pre-build-script`
+If any actions need to be performed at the beginning of the build stage (such as setting environment variables), you can put these in a shell script and pass it as an option in the `docker` target property. Example:
+
+```
+  docker: {
+    pre-build-script: "path/to/pre-build.sh"
+  }
+```
+
+:::note
+The given path should either be relative to the package root or relative to the `.lf` file in which the target property is given.
+:::
+
+### Option `pre-run-script`
+If any actions need to be performed (such as setting environment variables) at the beginning of the entrypoint in the run stage, you can put these in a shell script and pass it as an option in the `docker` target property. Example:
+
+
+```
+  docker: {
+    pre-run-script: "path/to/pre-run.sh"
+  }
+```
+
+:::note
+The given path should either be relative to the package root or relative to the `.lf` file in which the target property is given.
+:::
+
+
+### Option `runner-base`
+To pick a base image for the run stage in the generated `Dockerfile`, use the `runner-base` option:
+
+```lf-c
+  docker: {
+    runner-base: "archlinux:latest"
+  }
+```
+
+Note that this will _not_ affect the build stage. To change the base image of the build stage, use the [`builder-base` option](#option-builder-base).
+
+By default, `runner-base` is `"alpine:latest"`. However, if `builder-base` is defined, then `runner-base` defaults to the value that was assigned to `builder-base`.
+
+:::tip
+You can also use the builder stage as the base for the running stage (and inherit all the installed dependencies and created build artifacts). To do this, simply use `runner-base: "builder"`.
+:::
+
+### Option `rti-image`
+To run a federated program, an RTI process must run to support it. By default, an image for the RTI is pulled from DockerHub. An alternative image can be specified using the `rti-image` entry.
+
+The default is `"lflang/rti:latest"`, which is available on DockerHub. To instruct the compiler to _not_ pull an image from DockerHub and build the RTI locally, use `rti-image: "rti:local"`.
+
+:::note
+The value of the `builder-base`, `runner-base`, and `rti-image` entry should follow Docker's `<user-name>/<image-name>:<tag-name>` naming convention for image names. Docker will resolve the name and pull the image from your local registry, or, if it cannot be found, from DockerHub.
+:::
+
+## Manually building and running
+The generated executable simply invokes `docker compose up --abort-on-container-failure`, but this might not be what you want. Here are some guidelines for building and running manually.
+If you instead want to build manually after code generation has completed, you can instruct to Lingua Franca compiler to skip building using the `no-build` option in the `docker` target property. More information can be found [here](#option-no-build).
+
+### Using `docker build` and `docker run`
+You can build images and run containers in separate steps. First, change directory to [the location of the `Dockerfile`](#where-to-find-the-docker-configuration-files).
+
+```sh
+docker build -t foo .
+```
+
+This will create a Docker image with tag `foo`. The tag is required to be all lower-case letters. By convention, we advise using the LF source file name, converted to lower case.
+
+You can then use this tag to run the image in a container:
+
+```sh
+docker run -t --rm foo
+```
+
+The `-t` option creates a pseudo terminal, which is necessary for you to see any output produced by your program to `stdout`. If your program also reads from `stdin`, then you will need to give the `-i` option as well, or combine the two as `it`.
+
+The `--rm` option is important. This removes the container upon completion of the run. If you omit this option, the container will continue to exist even after your program has terminated. You can alternatively remove the container after the run using `docker rm`.
+
+If you wish for your program to run in the background, give a `-d` option as well (for "detached"). In this case, you will not see any output from your run.
+
+The above run command can include any supported command-line arguments to the LF program. For example, to specify a logical timeout, you can do this:
+
+```sh
+docker run -t --rm foo --timeout 20 sec
+```
+
+#### Manually launching a federation
+In addition to building the images and running each individual container, launching a federation requires a few additional steps.
+
+##### Create a network and launch RTI
+To pull the RTI from DockerHub, run this command:
+```sh
+docker pull lflang/rti:rti
+```
+Now, create a named network on which to run your federation. For example, to create a network named `lf`, do this:
+
+```sh
+docker network create lf
+```
+
+You can then launch the RTI on this network (do this in a separate terminal):
+
+```sh
+docker run -t --rm --name rti --network lf lflang/rti:rti -n 2 -i 1234
+```
+
+Here, the `-n 2` indicates that the total number of federates is two and `-i 1234` assigns an identifier for the federation.
+
+The federates `foo` and `bar`, the images of which have already been built, can be started using the following commands:
+```sh
+docker run -t --rm --network lf foo
+docker run -t --rm --network lf bar
+```

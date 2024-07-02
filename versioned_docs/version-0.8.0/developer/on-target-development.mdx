@@ -1,0 +1,75 @@
+---
+title: On-target Development
+description: Using VS Code for "on-target" development.
+---
+
+# Develop Lingua Franca on Remote Targets
+Microsoft Visual Studio Code can be used to connect to a remote target or a virtual machine, which provides a convenient way of developing Lingua Franca applications "on target". The steps here are an alternative to cross-compilation or installing local toolchains, as the tools run natively on a remote target or virtual machine.
+
+<p align="center">
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yg_sudCyzV4?si=b--gaS0q9e9gbMv-" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; display:block;clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+</p>
+
+## Configure your Target
+
+You may [manually install Lingua Franca](./../installation), or, if you want to use a provisioning tool, see [xronos-inc/xronos_lfc_ansible](https://github.com/xronos-inc/xronos_lfc_ansible) for an Ansible script to install Lingua Franca tools on a remote target.
+
+If you would like to configure a virtual machine, see [xronos-inc/lfc-multipass](https://github.com/xronos-inc/lfc-multipass) for a cloud-init script to install Lingua Franca tools using multipass.
+
+Once you have your remote target, be it a virtual machine or a machine accessible over a network, you can connect to it using Visual Studio Code and the Remote SSH extension.
+
+## Install the Microsoft Remote-SSH extension
+
+Open VS Code, launch Quick Open (Ctrl + P) and enter:
+
+`ext install ms-vscode-remote.remote-ssh`
+
+After installation is complete you'll see the Remote SSH status bar icon:
+
+![remote status bar](./../assets/images/remote-ssh/remote-status-bar.png)
+
+## Connect VS Code to your remote system via SSH
+
+In VS Code, click on the "Remote SSH" status bar icon and select "Connect to Host..." then "Add New SSH Host".  When prompted for the host, enter
+
+`ssh ubuntu@[remotehost]`
+
+where `remotehost` is the hostname or IP address of your remote target.
+
+A new VS Code window will open, and the address of your remote target should appear in the Remote SSH status bar:
+
+![remote status bar](./../assets/images/remote-ssh/ssh-status-bar.png)
+
+## Install the Lingua Franca VS Code extension
+
+open VS Code, launch Quick Open (Ctrl + P) and enter:
+
+`ext install lf-lang.vscode-lingua-franca`
+
+## Run the Hello World Application
+
+In VS Code, create the folder `helloworld` on your remote target, then create a file within that folder called `helloworld.lf` with the following contents:
+
+```lf-cpp
+target Cpp
+
+main reactor {
+    reaction(startup) {=
+        std::cout << "Hello World." << std::endl;
+    =}
+}
+```
+
+Similar hello world programs can be created for any of the supported target languages.
+
+Open `helloworld.lf`. You should see the visual rendering of the application on the right pane of Visual Studio. On remote targets with slow internet connections, or slower processors, this may take a few seconds for the first rendering.
+
+Build by pressing Ctrl + Shift + P followed by `Lingua Franca: Build and Run`. The program will be compiled and executed on your remote target with build output and terminal output visible within VS Code.
+
+![hello world example](./../assets/images/remote-ssh/helloworld.png)
+
+## References
+
+- [How to set up Lingua Franca](./../installation)
+- [How to create a VSCode Linux remote environment](https://ubuntu.com/blog/how-to-create-a-vscode-linux-remote-environment)
+- [Remote development over SSH](https://code.visualstudio.com/docs/remote/ssh-tutorial)
