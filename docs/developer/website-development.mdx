@@ -19,7 +19,7 @@ For more elaborate changes, including adding new pages, you will need to clone t
 
 ## Editing the Handbook
 
-The handbook is the most updated part of the website and it includes quite a bit of infrastructure to support writing pages that describe features in any or all of the target languages. The root of the handbook pages in the `packages/documentation` part of the repo. That directory has a useful [README file](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/README.md) that describes the structure and provides instructions for inserting code examples in any target language and target-specific text within a body of target-independent text.
+The handbook is the most updated part of the website and it includes quite a bit of infrastructure to support writing pages that describe features in any or all of the target languages. The root of the handbook pages is the `packages/documentation` part of the repo. That directory has a useful [README file](https://github.com/lf-lang/website-lingua-franca/blob/main/packages/documentation/README.md) that describes the structure and provides instructions for inserting code examples in any target language and target-specific text within a body of target-independent text.
 
 ## Infrastructure
 
@@ -37,16 +37,16 @@ For languages other than Lingua Franca, highlighting is handled by Prism, which 
 
 For Lingua Franca, highlighting is handled by [Shiki](https://github.com/shikijs/shiki). This is mainly because we only have TextMate grammar definition and it is not easy to convert from it to Prism.
 
-Like Prism, we are running Shiki in browser and the code is updated in browser by React after it is highlighted. Shiki has a relatively large footprint, so its not necessarily encouraged to run in browsers. Yet running it in browser might help SEO and makes maintenance easier.
+Like Prism, we are running Shiki in the browser, and the code is updated in the browser by React after it is highlighted. Shiki has a relatively large footprint, so its not necessarily encouraged to run in browsers. However, running it in browser might help SEO and makes maintenance easier.
 
-The component we created is `ShikiLFHighlighter` in `src/components/ShikiLFHighlighter/index.tsx`. As Shiki highlights code asynchorously, the component will display the unhighlighted code first (for a very short period of time), and asynchronously update the HTML to be the one with highlighted code with React. This will not hurt SEO as the highlight will not be considered by search engines.
+The component we created is `ShikiLFHighlighter` in `src/components/ShikiLFHighlighter/index.tsx`. As Shiki highlights code asynchronously, the component will display the unhighlighted code first (for a very short period of time), and then asynchronously update the HTML with highlighted code using React. This will not hurt SEO because the highlight will not be considered by search engines.
 
-Upon loading the webpage, Shiki will be initialised in the browser, loading grammars of all target languages and Lingua Franca, as configured in `clientModules` section in `docusaurus.config.js` and `src/components/ShikiLFHighlighter/shikiloader.ts`. 
+Upon loading the webpage, Shiki will be initialised in the browser, loading grammars of all target languages and Lingua Franca, as configured in `clientModules` section in `docusaurus.config.js` and `src/components/ShikiLFHighlighter/shikiloader.ts`.
 
-We further swizzled Docusaurus' `CodeBlock` to use `ShikiLFHighlighter` if the code language matches a pattern that indicates the code language is Lingua Franca, so using ``` notation in Markdown with language `lf` could give us the correct highlight result. You can check `src/theme/CodeBlock/index.js` for more details.
+We further changed Docusaurus' `CodeBlock` to use `ShikiLFHighlighter` if the code language matches a pattern that indicates the code language is Lingua Franca, so using ``` notation in Markdown with language `lf` could give us the correct highlight result. You can check `src/theme/CodeBlock/index.js` for more details.
 
 :::note
-Unlike the custom syntax highlighter in our old website, without specifying `target C`, the highlighter will not be able to highlight target language code correctly as it lacks context - even if the language speficied is `lf-c`. This will be solved in future updates to the highlighter.
+Unlike the custom syntax highlighter in our old website, without specifying `target C`, the highlighter will not be able to highlight target language code correctly as it lacks context - even if the language specified is `lf-c`. This will be solved in future updates to the highlighter.
 :::
 
 #### Syntaxes for Lingua Franca Syntax Highlighting
@@ -70,9 +70,9 @@ We have also created a bunch of useful utility components to aid the target sele
 
 ### Multi-Target Utilities
 
-Our whole Multi-Target infrastructure is built on top of docusaurus' [Tabs](https://docusaurus.io/docs/markdown-features/tabs) component. 
+Our whole Multi-Target infrastructure is built on top of Docusaurus' [Tabs](https://docusaurus.io/docs/markdown-features/tabs) component.
 
-In general, different targets are just a bunch of `Tab` components with `groupId='target-languages'`. 
+In general, different targets are just a bunch of `Tab` components with `groupId='target-languages'`.
 
 #### LanguageSelector
 The target selector, which appears on the top, is a `Tab` component with no content. It is defined in `src/components/LinguaFrancaMultiTargetUtils/LanguageSelector.tsx`.
@@ -150,7 +150,7 @@ Specifically - you MUST use `ShowIf` inside of a `ShowIfs`, and a `ShowIfs` MUST
         </ShowIf>
     </ShowIfs>
 ```
-Where the target languages could be a subset of all targets which we support but must NOT collide. 
+Where the target languages could be a subset of all targets which we support but must NOT collide.
 As long as you have more than one `ShowIf` inside you can have as many as you like.
 
 ##### Example
@@ -185,7 +185,7 @@ As long as you have more than one `ShowIf` inside you can have as many as you li
 `ShowOnly` uses hacky Docusaurus-internal methods for the time being. To ensure better compatibility, you should prefer `ShowIf`.
 :::
 
-Sometimes, you want to display a piece of information only for one language. While you can use `ShowIfs` and one `ShowIf` inside of it, the issue people typically discover is that the rendered result looks miserable, because each `Tab` will add some sort of padding above and below it. 
+Sometimes, you want to display a piece of information only for one language. While you can use `ShowIfs` and one `ShowIf` inside of it, the issue people typically discover is that the rendered result looks miserable, because each `Tab` will add some sort of padding above and below it.
 
 For this, we built `ShowOnly` which reads the selected tab from `@docusaurus/theme-common/internal/useTabs` and displays the information inside if the target selected matches, and the output is a `<div>` or a `<span>` so that it looks like it's blended in. This is hacky and could break any time if docusaurus decides to change how their `Tabs` work.
 
@@ -196,7 +196,7 @@ For this, we built `ShowOnly` which reads the selected tab from `@docusaurus/the
     {/* Markdown contents */}
     </ShowOnly>
 ```
-Where the target languages could be a subset of all targets which we support.  
+Where the target languages could be a subset of all targets which we support.
 If you include `inline` it will result in a `<span>`, if not, a `<div>`.
 
 ##### Examples
