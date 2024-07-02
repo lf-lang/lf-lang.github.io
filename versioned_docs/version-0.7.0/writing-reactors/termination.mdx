@@ -47,13 +47,13 @@ Starvation termination is not currently implemented for federated execution. You
 
 ## Stop Request
 
-If a reaction calls the built-in `request_stop()` function, then it is requesting that the program cease execution as soon as possible. This cessation will normally occur in the next microstep. The current tag will be completed as normal. Then the tag will be advanced by one microstep, and reactions triggered by `shutdown` will be executed, along with any other reactions with triggers at that tag, with all reactions executed in precedence order.
+If a reaction calls the built-in `lf_request_stop()` function, then it is requesting that the program cease execution as soon as possible. This cessation will normally occur in the next microstep. The current tag will be completed as normal. Then the tag will be advanced by one microstep, and reactions triggered by `shutdown` will be executed, along with any other reactions with triggers at that tag, with all reactions executed in precedence order.
 
 <ShowOnly c py ts>
 
 In a federated execution, things are more complicated. In general, it is not possible to cease execution in the next microstep because this would mean that every federate has a communication channel to every other with delay equal to one microstep. This does not create a causality loop, but it means that all federates have to advance time in lockstep, which creates a global barrier synchronization that would likely kill performance. It would also make decentralized coordination impossible because the safe-to-process (STP) threshold for all federates would diverge to infinity.
 
-For **centralized coordination**, when a reaction in a federate calls `request_stop()`, the federate sends a **STOP_REQUEST** message to the RTI with its current timestamp _t_ as a payload and completes execution of any other reactions triggered at the current tag. It then blocks, waiting for a **STOP_GRANTED** message with a timestamp payload _s_. If _s_ > _t_, then it sets `timeout` = _s_ and continues executing, using the timeout mechanism (see above) to stop. If _s_ = _t_, then schedules the shutdown phase to occur one microstep later, as in the unfederated case.
+For **centralized coordination**, when a reaction in a federate calls `lf_request_stop()`, the federate sends a **STOP_REQUEST** message to the RTI with its current timestamp _t_ as a payload and completes execution of any other reactions triggered at the current tag. It then blocks, waiting for a **STOP_GRANTED** message with a timestamp payload _s_. If _s_ > _t_, then it sets `timeout` = _s_ and continues executing, using the timeout mechanism (see above) to stop. If _s_ = _t_, then schedules the shutdown phase to occur one microstep later, as in the unfederated case.
 
 When the RTI receives a **STOP_REQUEST** message from a federate, it forwards it to all other federates and waits for a reply from all. Each reply will have a timestamp payload. The RTI chooses _s_, the largest of these timestamps, and sends a **STOP_GRANTED** message to all federates with payload _s_.
 
