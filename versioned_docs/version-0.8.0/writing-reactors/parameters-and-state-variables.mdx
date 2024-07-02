@@ -1,0 +1,137 @@
+---
+title: Parameters and State Variables
+description: Parameters and state variables in Lingua Franca.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
+
+## Parameter Declaration
+
+A reactor class definition can parameterized as follows:
+
+<ShowIfs>
+<ShowIf c cpp ts rs>
+
+```lf
+reactor <class-name>(<param-name>:<type> = <expr>, ...) {
+    ...
+}
+```
+
+Each parameter has a _type annotation_, written `:<type>`, where `<type>` has one of the following forms:
+
+- An identifier, such as `int`<span class="lf-cpp">, possibly followed by a type argument, e.g. `vector<int>`</span>.
+- An array type `type[]`<span class="lf-c lf-cpp lf-rs"> and `type[integer]`</span>.
+- The keyword `time`, which designates a time value.
+- A code block delimited by `{= ... =}`, where the contents is any valid type in the target language.
+
+<ShowOnly c cpp>
+
+- A pointer type, such as `int*`.
+
+</ShowOnly>
+
+<ShowOnly c>
+
+Types ending with a `*` are treated specially by the C target. See the [Target Language Details](../reference/target-language-details.mdx).
+
+To use strings conveniently in the C target, the "type" `string` is an alias for `{=const char*=}`.
+
+</ShowOnly>
+
+<ShowOnly ts>
+
+For example, `{= int | null =}` defines nullable integer type in TypeScript.
+
+</ShowOnly>
+</ShowIf>
+
+
+<ShowIf py>
+
+```lf
+reactor <class-name>(<param-name> = <expr>, ... ) {
+    ...
+}
+```
+
+</ShowIf>
+</ShowIfs>
+
+
+Depending on the target, the type may be a [generic type](../writing-reactors/generics.mdx), which means that the type is parameter determined at the time the reactor class is instantiated.
+
+Each parameter must have a _default value_, written `<param-name> = <expr>`. An expression may be a numeric constant, a string enclosed in quotation marks, a time value such as `10 msec`, a list of values, or target-language code enclosed in `{= ... =}`, for example. See [Expressions](../reference/expressions.mdx) for full details on what expressions are valid.
+
+For example, the `Double` reactor on the [previous page](../writing-reactors/inputs-and-outputs.mdx) can be replaced with a more general parameterized reactor `Scale` as follows:
+
+import C_Scale from '../assets/code/c/src/Scale.lf';
+import Cpp_Scale from '../assets/code/cpp/src/Scale.lf';
+import Py_Scale from '../assets/code/py/src/Scale.lf';
+import Rs_Scale from '../assets/code/rs/src/Scale.lf';
+import TS_Scale from '../assets/code/ts/src/Scale.lf';
+
+<NoSelectorTargetCodeBlock c={C_Scale} cpp={Cpp_Scale} py={Py_Scale} rs={Rs_Scale} ts={TS_Scale} lf />
+
+This reactor, given any input event `x` will produce an output `y` with value equal to the input scaled by the `factor` parameter. The default value of the `factor` parameter is 2, but this can be changed when the `Scale` reactor is instantiated.
+
+Notice how, within the body of a reaction, the code accesses the parameter value. This is different for each target language. <span class="lf-c">In the C target, a `self` struct is provided that contains the parameter values.</span>
+
+## State Declaration
+
+A reactor declares a state variable as follows:
+
+<ShowIfs>
+<ShowIf c cpp ts rs>
+
+```lf
+  state <name>:<type> = <value>
+```
+
+</ShowIf>
+<ShowIf py>
+
+```lf
+  state <name> = <value>
+```
+
+</ShowIf>
+</ShowIfs>
+
+The type can any of the same forms as for a parameter.
+
+The `<value>` is an initial value and, like parameter values, can be given as an [expression](../reference/expressions.mdx) or target language code with delimiters `{= ... =}`. The initial value can also be given as a parameter name. The value can be accessed and modified in a target-language-dependent way as illustrated by the following example:
+
+import C_Count from '../assets/code/c/src/Count.lf';
+import Cpp_Count from '../assets/code/cpp/src/Count.lf';
+import Py_Count from '../assets/code/py/src/Count.lf';
+import Rs_Count from '../assets/code/rs/src/Count.lf';
+import TS_Count from '../assets/code/ts/src/Count.lf';
+
+<NoSelectorTargetCodeBlock c={C_Count} cpp={Cpp_Count} py={Py_Count} rs={Rs_Count} ts={TS_Count} lf />
+
+This reactor has an integer state variable named `count`, and each time its reaction is invoked, it outputs the value of that state variable and increments it. The reaction is triggered by a `timer`, discussed in the next section.
+
+## Reset State Variables
+
+<ShowIfs>
+  <ShowIf cpp ts rs>
+    The `reset` keyword is not supported in $target-language$ because [modal reactors](../writing-reactors/modal-models.mdx) are not supported.
+  </ShowIf>
+
+  <ShowIf c py>
+    A state variable declaration may be qualified with a `reset` keyword as follows:
+    <NoSelectorTargetCodeBlock lf
+      c="reset state <name>:<type> = <value>" 
+      py="reset state <name> = <value>" 
+    />
+    When this is done, if the state variable or the reactor is within a mode of a [modal reactor](../writing-reactors/modal-models.mdx), then when the mode is entered via a reset transition, the state variable will be reset to its initial value. For details, see the [Modal Reactors](../writing-reactors/modal-models.mdx) section.
+
+  </ShowIf>
+</ShowIfs>
