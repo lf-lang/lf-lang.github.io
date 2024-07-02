@@ -145,6 +145,10 @@ const sidebars: SidebarsConfig = {
       "collapsed": true,
       "items": [
         {
+            "type": "doc",
+            "id": "reference/docker-support"
+        },  
+        {
           "type": "doc",
           "id": "reference/expressions"
         },
@@ -159,10 +163,6 @@ const sidebars: SidebarsConfig = {
         {
           "type": "doc",
           "id": "reference/tracing"
-        },
-        {
-          "type": "doc",
-          "id": "reference/containerized-execution"
         },
         {
           "type": "doc",
