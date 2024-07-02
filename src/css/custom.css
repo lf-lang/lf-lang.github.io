@@ -67,7 +67,8 @@
 .lf-navbar-logo {
   margin-left: 20px;
 
-  transition: 300ms;
+  transition: 200ms;
+  transition-timing-function: ease-out;
 }
 
 /* If light theme, re-colour SVG to all dark  */
@@ -80,7 +81,7 @@
 
 [data-theme='dark'] .lf-navbar-logo {
   /* Same filter above, and invert(1) makes it 100% light */
-  filter: contrast(0) brightness(0) invert(1);
+  filter: contrast(0) brightness(1.8);
 }
 
 .lf-navbar-logo:hover {
