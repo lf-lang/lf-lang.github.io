@@ -3,7 +3,7 @@ title: Docker Support
 description: Building and running Lingua Franca programs using Docker
 ---
 
-:::note
+:::tip
 You will need to [install Docker](https://docs.docker.com/get-docker/) in order to use this feature.
 :::
 
@@ -137,10 +137,45 @@ If you only want to generated code and configuration files but do not want to th
 By default, `no-build` is `false` and hence building is enabled.
 
 ### Option `post-build-script`
+If any actions need to be performed at the end of the build stage (such as any cleanups or additional installation steps), you can put these in a shell script and pass it as an option in the `docker` target property. Example:
+
+```
+  docker: {
+    post-build-script: "path/to/post-build.sh"
+  }
+```
+
+:::note
+The given path should either be relative to the package root or relative to the `.lf` file in which the target property is given.
+:::
 
 ### Option `pre-build-script`
+If any actions need to be performed at the beginning of the build stage (such as setting environment variables), you can put these in a shell script and pass it as an option in the `docker` target property. Example:
 
-### Option `post-run-script`
+```
+  docker: {
+    pre-build-script: "path/to/pre-build.sh"
+  }
+```
+
+:::note
+The given path should either be relative to the package root or relative to the `.lf` file in which the target property is given.
+:::
+
+### Option `pre-run-script`
+If any actions need to be performed (such as setting environment variables) at the beginning of the entrypoint in the run stage, you can put these in a shell script and pass it as an option in the `docker` target property. Example:
+
+
+```
+  docker: {
+    pre-run-script: "path/to/pre-run.sh"
+  }
+```
+
+:::note
+The given path should either be relative to the package root or relative to the `.lf` file in which the target property is given.
+:::
+
 
 ### Option `runner-base`
 To pick a base image for the run stage in the generated `Dockerfile`, use the `runner-base` option:
@@ -153,7 +188,11 @@ To pick a base image for the run stage in the generated `Dockerfile`, use the `r
 
 Note that this will _not_ affect the build stage. To change the base image of the build stage, use the [`builder-base` option](#option-builder-base).
 
-By default, `runner-base` is "`alpine:latest`".
+By default, `runner-base` is `"alpine:latest"`. However, if `builder-base` is defined, then `runner-base` defaults to the value that was assigned to `builder-base`.
+
+:::tip
+You can also use the builder stage as the base for the running stage (and inherit all the installed dependencies and created build artifacts). To do this, simply use `runner-base: "builder"`.
+:::
 
 ### Option `rti-image`
 To run a federated program, an RTI process must run to support it. By default, an image for the RTI is pulled from DockerHub. An alternative image can be specified using the `rti-image` entry.
@@ -166,10 +205,7 @@ The value of the `builder-base`, `runner-base`, and `rti-image` entry should fol
 
 ## Manually building and running
 The generated executable simply invokes `docker compose up --abort-on-container-failure`, but this might not be what you want. Here are some guidelines for building and running manually.
-
-:::note
-If you instead want to build manually after code generation has completed, you can instruct to Lingua Franca compiler to skip building using the `no-build` option in the `docker` target property. More information can be found [here](#option-no-build)
-:::
+If you instead want to build manually after code generation has completed, you can instruct to Lingua Franca compiler to skip building using the `no-build` option in the `docker` target property. More information can be found [here](#option-no-build).
 
 ### Using `docker build` and `docker run`
 You can build images and run containers in separate steps. First, change directory to [the location of the `Dockerfile`](#where-to-find-the-docker-configuration-files).
