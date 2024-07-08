@@ -199,7 +199,12 @@ import Py_BankIndex from '../assets/code/py/src/BankIndex.lf';
 
 <NoSelectorTargetCodeBlock c={C_BankIndex}  py={Py_BankIndex} lf />
 
+<ShowOnly py>
 The global `table` defined in the `preamble` is used to initialize the `value` parameter of each bank member. The result of running this is something like:
+</ShowOnly>
+<ShowOnly c>
+The parameter `table` defined in the `main reactor` is used to initialize the `value` parameter of each bank member. The result of running this is something like:
+</ShowOnly>
 
 ```
 bank_index: 0, value: 4
