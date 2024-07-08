@@ -1,6 +1,5 @@
 target C;
 reactor Sparse {
-  @sparse
   input[100] in:int;
   reaction(in) {=
     // Create an iterator over the input channels.
