@@ -1,7 +1,6 @@
 target C;
 reactor Sparse {
-  @sparse
-  input[100] in:int;
+  input[100] in: int
   reaction(in) {=
     // Create an iterator over the input channels.
     struct lf_multiport_iterator_t i = lf_multiport_iterator(in);

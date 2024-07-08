@@ -90,12 +90,7 @@ import C_Sparse from '../assets/code/c/src/Sparse.lf';
 
 <NoSelectorTargetCodeBlock c={C_Sparse} lf />
 
-Notice the `@sparse` annotation on the input declaration.
-This provides a hint to the compiler to optimize for sparse inputs.
-Then, instead of iterating over all input channels, this code uses the built-in function `lf_multiport_iterator()` to construct an iterator. The function `lf_multiport_next()` returns the first (and later, the next) channel index that is present. It returns -1 when no more channels have present inputs.
-
-The multiport iterator can be used for any input multiport, even if it is not marked sparse.
-But if it is not marked sparse, then the `lf_multiport_next()` function will not optimize for sparse inputs and will simply iterate over the channels until it finds one that is present.
+Instead of iterating over all input channels, this code uses the built-in function `lf_multiport_iterator()` to construct an iterator. The function `lf_multiport_next()` returns the first (and later, the next) channel index that is present. It returns -1 when no more channels have present inputs.
 
 </ShowOnly>
 
