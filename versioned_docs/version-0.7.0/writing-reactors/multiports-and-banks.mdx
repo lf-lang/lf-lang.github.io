@@ -65,8 +65,10 @@ In `Destination`, the reaction is triggered by `in`, not by some individual chan
   c="if (in[i]->is_present) ..." 
   cpp="if (in[i]->is_present()) ..."
   py="if port.is_present: ..."
-  rs="if (val) ..."
-  ts="if let Some(v) = ctx.get(&i) ..."
+  ts="if (val) ..."
+  rs="if let Some(v) = ctx.get(&i) ... 
+  // Or using is_present() 
+  if ctx.is_present(&inp[0]) ..."
 />
 :::
 
