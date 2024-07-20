@@ -4,7 +4,7 @@ main reactor SlowingClock(start: time = 100 ms, incr: time = 100 ms) {
   state start = start
   state incr = incr
   state interval: time = start
-  state expected_time: time()
+  state expected_time: time
   logical action a
 
   reaction(startup) -> a {=
