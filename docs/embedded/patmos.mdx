@@ -12,7 +12,7 @@ execution time (WCET) for reactions.
 - DE2-115 Development Kit, which is equipped with Altera Cyclone IV FPGA (optional)
 ### Getting Started
 To know how to install the toolchain for building Patmos, read the Patmos project's readme at https://github.com/t-crest/patmos or study the sixth chapter of its handbook available here: [Patmos Reference Handbook](http://patmos.compute.dtu.dk/patmos_handbook.pdf)
-### Compiling and Running Reactors
+### Compiling and Running Lingua Franca codes
 Patmos can run in an FPGA, but there are also two simulators available:
 
 1. `pasim`: a software ISA simulator that is written in C++.
@@ -41,10 +41,16 @@ SERIAL?=/dev/ttyUSB0
 INCS := -I"$(LF_PROJECT_ROOT)/include" \
 	-I"$(LF_PROJECT_ROOT)/include/api" \
 	-I"$(LF_PROJECT_ROOT)/include/core" \
-	-I"$(LF_PROJECT_ROOT)/include/core/platform" \
-	-I"$(LF_PROJECT_ROOT)/include/core/modal_models" \
-	-I"$(LF_PROJECT_ROOT)/include/core/utils" \
-
+	-I"$(LF_PROJECT_ROOT)/include/$(LF_MAIN_TARGET)" \
+	-I"$(CURDIR)/include/$(LF_MAIN_TARGET)" \
+	-I"$(CURDIR)/include/core/modal_models" \
+	-I"$(CURDIR)/include/core/utils" \
+	-I"$(CURDIR)/tag/api"\
+	-I"$(CURDIR)/low_level_platform/api" \
+	-I"$(CURDIR)/logging/api" \
+	-I"$(CURDIR)/version/api" \
+	-I"$(CURDIR)/platform/api" \
+	
 CC := patmos-clang 
 CFLAGS := -O2 $(INCS) -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10 -DLF_SINGLE_THREADED=0 -DLF_REACTION_GRAPH_BREADTH=1
 SRC_FILES := _$(LF_MAIN_TARGET_LC)_main.c $(LF_MAIN_TARGET).c lib/schedule.c
@@ -52,8 +58,8 @@ SRC_FILES += core/reactor_common.c core/lf_token.c core/reactor.c core/tag.c cor
 SRC_FILES += core/utils/util.c core/utils/vector.c  
 SRC_FILES += core/utils/pqueue.c core/utils/pqueue_tag.c core/utils/pqueue_base.c
 SRC_FILES += core/utils/hashset/hashset_itr.c core/utils/hashset/hashset.c 
-SRC_FILES += core/clock.c core/platform/lf_atomic_patmos.c core/platform/lf_atomic_irq.c 
-SRC_FILES += core/platform/lf_patmos_support.c
+SRC_FILES += core/clock.c low_level_platform/impl/src/lf_atomic_patmos.c 
+SRC_FILES += low_level_platform/impl/src/lf_patmos_support.c
 
 OBJ_FILES := $(patsubst %.c,%.o,$(SRC_FILES)) 
 EXE_NAME := $(LF_MAIN_TARGET).elf
@@ -64,7 +70,7 @@ all: $(EXE_NAME)
 
 # Target for the executable
 $(EXE_NAME): $(OBJ_FILES)
-	$(CC) $(CFLAGS) -o $@ $^
+	$(CC) $(CFLAGS) -o $@ $^ -mserialize=$(PML_FILE_NAME).pml
 # Rule to compile C files into object files
 $(OBJ_FILES): %.o: %.c
 	$(CC) $(CFLAGS) -c -o $@ $<
@@ -72,24 +78,27 @@ $(OBJ_FILES): %.o: %.c
 clean:
 	rm -f $(OBJ_FILES) $(EXE_NAME)
 
+wcet: $(EXE_NAME)
+	platin wcet --disable-ait -i $(PML_FILE_NAME).pml -b $(EXE_NAME) -e _helloworld_mainreaction_function_0 --report report.txt
+	
 ```
 
 Then move this Makefile inside the `src-gen/HelloWorld` folder and run the following make command:
 
     make -C src-gen/HelloWorld
 
-If you are using an older version of LF that doesn't support Patmos, you need to copy `lf_patmos_support` c and h files in the related folders before executing make command whether manually or by executing the following bash file that automates the copying process (considering those files are located in a folder called `files`)
+Since LF still doesn't support Patmos officialy, you need to copy some files inluding `lf_patmos_support` c and h files in the related folders before executing make command whether manually or by executing the following shell file that automates the copying process (considering those files are located in a folder called `files`). If you choose shell file, you can also add Makefile to the list. 
 
-```bash
+```shell
 PROJECT_ROOT="$PWD"
 PROJECT_NAME="HelloWorld"
+PROJECT_DIR="$PROJECT_ROOT/src-gen/$PROJECT_NAME"
 
-cp "$PROJECT_ROOT/files/lf_patmos_support.h"     "$PROJECT_ROOT/src-gen/$PROJECT_NAME/include/core/platform/"
-cp "$PROJECT_ROOT/files/platform.h"              "$PROJECT_ROOT/src-gen/$PROJECT_NAME/include/core/"
-cp "$PROJECT_ROOT/files/lf_patmos_support.c"     "$PROJECT_ROOT/src-gen/$PROJECT_NAME/core/platform/"
-cp "$PROJECT_ROOT/files/lf_atomic_patmos.c"      "$PROJECT_ROOT/src-gen/$PROJECT_NAME/core/platform/"
-cp "$PROJECT_ROOT/files/lf_patmos_support.h"     "$PROJECT_ROOT/include/core/platform/"
-cp "$PROJECT_ROOT/files/platform.h"              "$PROJECT_ROOT/include/core"
+cp "$PROJECT_ROOT/files/lf_patmos_support.h"     "$PROJECT_DIR/low_level_platform/api/platform/" 
+cp "$PROJECT_ROOT/files/lf_patmos_support.c"     "$PROJECT_DIR/low_level_platform/impl/src/"
+cp "$PROJECT_ROOT/files/lf_atomic_patmos.c"      "$PROJECT_DIR/low_level_platform/impl/src/" 
+cp "$PROJECT_ROOT/files/low_level_platform.h"    "$PROJECT_DIR/low_level_platform/api/"
+cp "$PROJECT_ROOT/files/Makefile"                "$PROJECT_DIR"
 ```
 
 If there is no error after making, an HelloWorld.elf file must be generator inside `src-gen\HelloWorld` folder. Then, the reactor can be executed on the SW simulator with the following command:
@@ -115,3 +124,4 @@ Hello World!
 ---- Elapsed logical time (in nsec): 0
 ---- Elapsed physical time (in nsec): 3,459,000
 ```
+For doing WCET analysing, you can execute wcet target by running `make wcet` command.
