@@ -15,7 +15,7 @@ import {
 
 A key property of Lingua Franca is **logical time**. All events occur at an instant in logical time. By default, the runtime system does its best to align logical time with **physical time**, which is some measurement of time on the execution platform. The **lag** is defined to be physical time minus logical time, and the goal of the runtime system is maintain a small non-negative lag.
 
-The **lag** is allowed to go negative only if the [`fast` target property](<../introduction.md#fast>) or the [`--fast`](<../introduction.md#command-line-arguments>) command-line argument is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
+The **lag** is allowed to go negative only if the [`fast`](<../reference/target-declaration#fast>) target property or the [`--fast`](<../reference/target-declaration#command-line-arguments>) command-line argument is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
 
 <ShowOnly c cpp rs>
 
