@@ -8,6 +8,13 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>TECS '24</strong>: Marten Lohstroh, Soroush Bateni, Christian Menard, Alexander Schulz-Rosengarten, Jeronimo Castrillon, and Edward A. Lee. 
+        "<Link href="https://doi.org/10.1145/3615357">Deterministic Coordination across Multiple Timelines</Link>",
+        ACM Trans. Embedd. Comput. Syst. 23, 5, Article 77, August 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>Doctoral Thesis</strong>: Christian Menard, 
 	"<Link href="https://nbn-resolving.org/urn:nbn:de:bsz:14-qucosa2-916872">Deterministic Reactive Programming for Cyber-physical Systems</Link>"
         , TU Dresden, 03 June 2024.

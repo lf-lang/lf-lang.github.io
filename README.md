@@ -36,3 +36,6 @@ git add versioned_docs/*
 git add versioned_sidebars/*
 git commit -a -m 'Docs v<major>.<minor>.<patch>'
 ```
+
+### Adding Publications
+To add a new publication, add a new entry to `src/components/Publications/copypasta.tsx` file and to the `src/components/Publications/citations.bib` file.
