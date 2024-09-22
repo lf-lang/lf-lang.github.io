@@ -12,10 +12,6 @@ export default [
     "from": "/docs/handbook/language-specification"
   },
   {
-    "to": "/docs/tools/epoch-ide",
-    "from": "/docs/handbook/epoch-ide"
-  },
-  {
     "to": "/docs/tools/code-extension",
     "from": "/docs/handbook/code-extension"
   },

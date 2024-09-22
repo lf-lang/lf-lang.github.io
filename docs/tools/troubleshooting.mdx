@@ -20,14 +20,12 @@ $ lfc src/MyFile.lf
 ... successful compile ...
 ```
 
-If you then have trouble compiling the same file using [Epoch](../tools/epoch-ide.mdx) or the [Visual Studio Code extension](../tools/code-extension.mdx), then those tools are executing in a different environment that may not have the same `PATH` variable and may, for example, fail to find some external program or invoke a different version of that program.
+If you then have trouble compiling the same file using the [Visual Studio Code extension](../tools/code-extension.mdx), then it is executing in a different environment that may not have the same `PATH` variable and may, for example, fail to find some external program or invoke a different version of that program.
 
-On many platforms, one way to ensure that [Epoch](../tools/epoch-ide.mdx) and the [Visual Studio Code extension](../tools/code-extension.mdx) use the same environment as the command-line tools is to invoke them on the command line. For example, on a Mac, you can invoke Epoch and Visual Studio Code as follows:
+On many platforms, one way to ensure that the [Visual Studio Code extension](../tools/code-extension.mdx) uses the same environment as the command-line tools, is to invoke them on the command line. For example:
 
 ```
-$ open -a epoch
 $ code .
 ```
 
-This way, the tools inherit the environment from the shell from which you invoke them. Often, that environment is quite different from what you get if, for example, you invoke the tools by double clicking on their icons.
-
+This way, the tool inherits the environment from the shell from which you invoke it. Often, that environment is quite different from what you get if, for example, you launch the shell from the graphical user interface.
