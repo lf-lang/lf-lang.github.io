@@ -122,10 +122,6 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
-          "id": "tools/epoch-ide"
-        },
-        {
-          "type": "doc",
           "id": "tools/command-line-tools"
         },
         {
