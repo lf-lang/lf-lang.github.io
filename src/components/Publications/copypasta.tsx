@@ -8,6 +8,13 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>ESL '24</strong>: Chadlia Jerad and Edward A. Lee. 
+        "<Link href="https://doi.org/10.1109/LES.2024.3465408">Toward Dynamism in Distributed Lingua Franca Programs</Link>",
+        IEEE Embedd. Syst. Letters 18(9), September 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>TECS '24</strong>: Marten Lohstroh, Soroush Bateni, Christian Menard, Alexander Schulz-Rosengarten, Jeronimo Castrillon, and Edward A. Lee. 
         "<Link href="https://doi.org/10.1145/3615357">Deterministic Coordination across Multiple Timelines</Link>",
         ACM Trans. Embedd. Comput. Syst. 23, 5, Article 77, August 2024.
