@@ -8,6 +8,13 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>ESL '24</strong>: Benjamin Asch, Erling Jellum, Marten Lohstroh, and Edward A. Lee. 
+        "<Link href="https://doi.org/10.1109/LES.2024.3467332">Software-Defined Watchdog Timers for Cyber-Physical Systems</Link>",
+        IEEE Embedd. Syst. Letters 18(9), September 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>ESL '24</strong>: Chadlia Jerad and Edward A. Lee. 
         "<Link href="https://doi.org/10.1109/LES.2024.3465408">Toward Dynamism in Distributed Lingua Franca Programs</Link>",
         IEEE Embedd. Syst. Letters 18(9), September 2024.

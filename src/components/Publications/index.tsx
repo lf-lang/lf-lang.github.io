@@ -56,7 +56,7 @@ export default () => {
             as="h2"
             className={clsx("margin-bottom--lg", "text--center")}
           >
-            Featured publications of the Lingua Franca Project
+            Featured Publications
           </Heading>
           {notablePapers.map((value) => (
             <NotablePaper {...value} />
@@ -71,7 +71,7 @@ export default () => {
             as="h2"
             className={clsx("margin-bottom--lg", "text--center")}
           >
-            Other relevant publications
+            All Publications
           </Heading>
           {copypastaPublications}
         </div>
