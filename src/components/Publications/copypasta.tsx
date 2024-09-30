@@ -36,6 +36,13 @@ export const copypastaPublications: ReactNode = (
     </li>
     <li>
       <p>
+        <strong>SPAA '24</strong>: Jacky Kwok, Marten Lohstroh, Edward A. Lee. 
+        "<Link href="https://doi.org/10.1145/3626183.3659967">Efficient Parallel Reinforcement Learning Framework Using the Reactor Model</Link>",
+        Proceedings of the 36th ACM Symposium on Parallelism in Algorithms and Architectures (SPAA), June 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>Doctoral Thesis</strong>: Christian Menard, 
 	"<Link href="https://nbn-resolving.org/urn:nbn:de:bsz:14-qucosa2-916872">Deterministic Reactive Programming for Cyber-physical Systems</Link>"
         , TU Dresden, 03 June 2024.
