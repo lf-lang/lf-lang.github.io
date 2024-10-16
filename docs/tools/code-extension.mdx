@@ -3,7 +3,7 @@ title: VS Code Extension
 description: Visual Studio Code Extension for Lingua Franca.
 ---
 
-The Lingua Franca extension for Visual Studio Code (VS Code) provides syntax-directed editing capability, compilation, diagram synthesis and a project explorer for Lingua Franca programs.
+The Lingua Franca extension for Visual Studio Code (VS Code) provides syntax-directed editing capability, compilation, diagram synthesis and a packages explorer for Lingua Franca programs.
 
 ## Usage
 
@@ -23,9 +23,9 @@ Overall, we encourage you to open your project in VS Code using the following st
 ```shell
 ├── root
 │   ├── bin/
-│   ├── build/   # directory containing lingo packages
+│   ├── build/   # directory containing packages installed by Lingo Package Manager
 │   │  ├── lfc_include/ # Directory for storing reusable reactors
-│   │  │   ├── lingo_library/
+│   │  │   ├── installed_library/
 │   ├── include/
 │   ├── src/
 │   │  ├── lib/ # Directory for storing reusable reactors
@@ -47,41 +47,41 @@ To compile the `.lf` source, open the command palette (<kbd>Ctrl</kbd> + <kbd>Sh
 You can also build and immediately afterwards run your code by opening the command palette (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>) and then entering `Lingua Franca: Build and Run`.
 Running the code can also be done from the VS Code terminal by executing the generated file in `./bin`.
 
-### Project Explorer
+### Packages Explorer
 
-The **Lingua Franca Project Explorer** can be accessed by clicking on the **LF icon** in the activity bar on the left side of the screen. Once opened, the **Project Explorer** displays a **Tree View** with the following structure:
+The **Lingua Franca Packages Explorer** can be accessed by clicking on the **LF icon** in the activity bar on the left side of the screen. Once opened, the **Packages Explorer** displays a **Tree View** with the following structure:
 
 ```shell
 ├── LF Project
-│   ├── Lingo Packages
+│   ├── Installed Packages
 │   ├── Local Libraries
 └── └── Source Files
 ```
 
-- **Lingo Packages**: Lists libraries installed via the Lingo Package Manager, located in the `build/lfc_include` directory (if any).
+- [**Installed Packages**](#installed-packages): Lists libraries installed via the Lingo Package Manager, located in the `build/lfc_include` directory (if any).
   
-- **Local Libraries**: Displays locally defined libraries (e.g., reusable reactors), located in the `src/lib` directory.
+- [**Local Libraries**](#local-libraries): Displays locally defined libraries (e.g., reusable reactors), located in the `src/lib` directory.
   
-- **Source Files**: Contains the LF source files created by the developer, located in the `src` directory.
+- [**Source Files**](#source-files): Contains the LF source files created by the developer, located in the `src` directory.
 
-The **Source Files** section is always present as it reflects the main LF files in the project. However, the **Lingo Packages** and **Local Libraries** sections appear only if the respective directories and files exist in the workspace.
+The **Source Files** section is always present as it reflects the main LF files in the project. However, the **Installed Packages** and **Local Libraries** sections appear only if the respective directories and files exist in the workspace.
 
 Hovering over the **LF Project** item reveals a terminal icon. Clicking this icon opens a terminal window at the project's root directory, allowing you to execute commands directly within that directory.
 
-#### Lingo Packages
+#### Installed Packages
 
-The **Lingo Packages** section lists libraries installed using the [Lingo Package Manager](https://github.com/lf-lang/lingo). Developers can use the Lingo Package Manager to retrieve and install LF programs from repositories such as the [Lingua Franca Community Organization](https://github.com/LF-Community).
+The **Installed Packages** section lists libraries installed using the [Lingo Package Manager](https://github.com/lf-lang/lingo). Developers can use the Lingo Package Manager to retrieve and install LF programs from repositories such as the [Lingua Franca Community Organization](https://github.com/LF-Community).
 
 To install libraries:
 1. Configure the `Lingo.toml` file with the desired libraries.
 2. Run `lingo build` to download the specified dependencies.
 
-Once the libraries are installed, they will appear in the `{project_name}/build/lfc_include/` directory. The **Lingo Packages** section will then be structured as follows:
+Once the libraries are installed, they will appear in the `{project_name}/build/lfc_include/` directory. The **Installed Packages** section will then be structured as follows:
 
 ```shell
 ├── LF Project
-│   ├── Lingo Packages
-│   │  ├── lingo_library/
+│   ├── Installed Packages
+│   │  ├── installed_library/
 │   │  │   ├── File_1.lf
 │   │  │   │   ├── Rusable_Reactor_1.lf
 │   │  │   │   ├── Rusable_Reactor_2.lf
@@ -93,11 +93,11 @@ Once the libraries are installed, they will appear in the `{project_name}/build/
 
 In this structure:
 - **LF Project**: Represents the root folder of the main project.
-- **lingo_library**: Represents each library listed in `Lingo.toml`, which contains one or more LF programs featuring reusable reactors.
+- **installed_library**: Represents each library listed in `Lingo.toml`, which contains one or more LF programs featuring reusable reactors.
 
-The image below shows a visual representation of the **Lingo Packages** section. The **project** icon indicates the LF Project folder (e.g., `AudioClassification`), while the **root-folder** icon represents the downloaded libraries (e.g., the `edgeai` library in the example). The **code file** icon denotes an LF program within a library, and the **bracket** icon represents individual reactors inside the LF program.
+The image below shows a visual representation of the **Installed Packages** section. The **project** icon indicates the LF Project folder (e.g., `AudioClassification`), while the **root-folder** icon represents the downloaded libraries (e.g., the `edgeai` library in the example). The **code file** icon denotes an LF program within a library, and the **bracket** icon represents individual reactors inside the LF program.
 
-![Lingo Packages section](../assets/images/vs_code/lingo_packages.png)
+![Installed Packages section](../assets/images/vs_code/lingo_packages.svg)
 
 The hierarchy categorizes tree items into the following types:
 
@@ -105,7 +105,7 @@ The hierarchy categorizes tree items into the following types:
 2. **`file`**: Represents an LF program within the library.
 3. **`reactor`**: Refers to individual reactors within the LF program.
 
-When focusing on the **Lingo Packages** section, an `edit` command becomes available. Clicking it opens the `Lingo.toml` file in the editor for configuration changes. The following actions are available for items in the **Lingo Packages** section:
+When focusing on the **Installed Packages** section, an `edit` command becomes available. Clicking it opens the `Lingo.toml` file in the editor for configuration changes. The following actions are available for items in the **Installed Packages** section:
 
 - For **file** items (from right to left):
   - **Open in Split View**: Opens the file in a split editor view.
@@ -137,14 +137,14 @@ The **Local Libraries** section lists LF programs created by the developer, loca
 
 The image below illustrates the **Local Libraries** section. In this depiction, the **"project"** icon represents the LF project folder, while the **"code file"** icon represents the LF program, and the **"bracket"** icon denotes individual reactors within the LF program.
 
-![Local Libraries section](../assets/images/vs_code/local_libraries.png)
+![Local Libraries section](../assets/images/vs_code/local_libraries.svg)
 
 The hierarchy categorizes tree items into two types:
 
 1. **`file`**: Represents the LF program.
 2. **`reactor`**: Represents a reactor within the LF program.
 
-Actions for **Local Libraries** are similar to those in the [**Lingo Packages**](#lingo-packages) section:
+Actions for **Local Libraries** are similar to those in the [**Installed Packages**](#installed-packages) section:
 
 - For **file** items (from right to left):
   - **Open in Split View**: Opens the file in a split editor view.
@@ -177,7 +177,7 @@ Clicking on any of the files will open the corresponding LF program in the edito
 
 If the project structure deviates from the expected format, an error message will appear:
 
-![Project structure error](../assets/images/vs_code/error_message.png)
+![Project structure error](../assets/images/vs_code/error_message.svg)
 
 To avoid errors, follow the [project structure guidelines](#creating-a-new-file).
 
