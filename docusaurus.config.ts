@@ -66,8 +66,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    // Replace with your project's social card
-    image: 'img/docusaurus-social-card.jpg',
+    image: 'img/lf-social-card.svg',
     navbar: {
       logo: {
         alt: 'The Lingua Franca Logo',

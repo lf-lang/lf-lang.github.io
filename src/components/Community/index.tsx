@@ -49,7 +49,10 @@ export const SocialMediaCard = ({
 export default function Community(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
-    <Layout>
+    <Layout
+      title="Community"
+      description="Intuitive concurrent programming in any language"
+    >
       {/* Social media */}
       {/* Active contributors */}
       <div className="section">
