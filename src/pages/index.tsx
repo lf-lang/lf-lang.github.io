@@ -147,7 +147,7 @@ export default function Home(): JSX.Element {
   return (
     <Layout
       title="Intuitive concurrent programming in any language"
-      description="Build time-sensitive, concurrent, and distributed systems effortlessly"
+      description="Build time-sensitive, concurrent, and distributed systems — effortlessly"
     >
       <main>
         <HeroBanner />
