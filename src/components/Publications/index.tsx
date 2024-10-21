@@ -49,7 +49,7 @@ const notablePapers = [
 
 export default () => {
   return (
-    <Layout description="Publications of the Lingua Franca">
+    <Layout title="Publications" description="Intuitive concurrent programming in any language">
       <div className="section">
         <div className="container">
           <Heading
