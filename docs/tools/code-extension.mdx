@@ -3,6 +3,11 @@ title: VS Code Extension
 description: Visual Studio Code Extension for Lingua Franca.
 ---
 
+import Image from '@theme/IdealImage';
+import lingo_packages from '../assets/images/vs_code/lingo_packages.png';
+import local_libraries from '../assets/images/vs_code/local_libraries.png';
+import error_message from '../assets/images/vs_code/error_message.png';
+
 The Lingua Franca extension for Visual Studio Code (VS Code) provides syntax-directed editing capability, compilation, diagram synthesis and a package explorer for Lingua Franca programs.
 
 ## Usage
@@ -35,6 +40,9 @@ We recommend selecting the root of your Lingua Franca package as your workspace 
 │   │  │   └── ComputerVision.lf # Ex: reactor performing computer vision tasks (e.g., object detection, face recognition)
 └── └── Lingo.toml # Configuration file for Lingo Package Manager
 ```
+If the project structure deviates from the expected format, an error message will appear:
+
+<Image img={error_message} style={{maxWidth: 400}} />
 
 ### Rendering diagrams
 
@@ -49,7 +57,7 @@ To compile the `.lf` source, open the command palette (<kbd>Ctrl</kbd> + <kbd>Sh
 You can also build and immediately afterwards run your code by opening the command palette (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>) and then entering `Lingua Franca: Build and Run`.
 Running the code can also be done from the VS Code terminal by executing the generated file in `./bin`.
 
-### Packages Explorer
+### Package Explorer
 
 The **Lingua Franca Package Explorer** can be accessed by clicking on the **LF icon** in the activity bar on the left side of the screen. Once opened, the **Package Explorer** displays a **Tree View** with the following structure:
 
@@ -99,7 +107,7 @@ In this structure:
 
 The image below shows a visual representation of the **Installed Packages** section. The **project** icon indicates the LF Project folder (e.g., `AudioClassification`), while the **root-folder** icon represents the downloaded libraries (e.g., the `edgeai` library in the example). The **code file** icon denotes an LF program within a library, and the **bracket** icon represents individual reactors inside the LF program.
 
-![Installed Packages section](../assets/images/vs_code/lingo_packages.svg)
+<Image img={lingo_packages} style={{maxWidth: 400}} />
 
 The hierarchy categorizes tree items into the following types:
 
@@ -141,7 +149,7 @@ The **Local Libraries** section lists LF programs created by the developer, loca
 
 The image below illustrates the **Local Libraries** section. In this depiction, the **"project"** icon represents the LF project folder, while the **"code file"** icon represents the LF program, and the **"bracket"** icon denotes individual reactors within the LF program.
 
-![Local Libraries section](../assets/images/vs_code/local_libraries.svg)
+<Image img={local_libraries} style={{maxWidth: 400}} />
 
 The hierarchy categorizes tree items into two types:
 
@@ -159,7 +167,9 @@ Actions for **Local Libraries** are similar to those in the [**Installed Package
   - **Go To File**: Opens the file where the reactor is defined.
   - **Open in Split View**: Opens the file in a split editor view (accessible by right-clicking the item).
 
-> **Note**: The **Import Selected Reactor** option is available only if an LF program is open in the editor.
+:::note
+The **Import Selected Reactor** option is available only if an LF program is open in the editor.
+:::
 
 #### Source Files
 
@@ -176,14 +186,6 @@ The **Source Files** section lists all LF programs in the `{project_name}/src/` 
 ```
 
 Clicking on any of the files will open the corresponding LF program in the editor, allowing developers to quickly navigate to and edit the source code of their project.
-
-#### Correctness of Project Structure
-
-If the project structure deviates from the expected format, an error message will appear:
-
-![Project structure error](../assets/images/vs_code/error_message.svg)
-
-To avoid errors, follow the [project structure guidelines](#creating-a-new-file).
 
 ## Notes
 
