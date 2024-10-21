@@ -66,7 +66,7 @@ const config: Config = {
   ],
 
   themeConfig: {
-    image: 'img/lf-social-card.svg',
+    image: 'img/lf-social-card.png',
     navbar: {
       logo: {
         alt: 'The Lingua Franca Logo',
