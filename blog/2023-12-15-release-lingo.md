@@ -10,6 +10,8 @@ tags: [lingo, lingua franca, packaging, build tool]
 Programming languages like Python, Rust, or JavaScript are popular not only because of particular language features, but also thanks to the quality of the tools and packages they offer access to.
 A good and mature ecosystem includes features such as developer support, mainly through IDEs or LSPs. Lingua Franca already shines in this area with its VSCode integration that offers functionality like code highlighting, error handling, build support, and diagram synthesis. Another important aspect of a modern language's ecosystem concerns package management. Although it is possible to import reactors from files in the local file system, support for packaging in Lingua Franca is still in its infancy.
 
+{/* truncate */}
+
 The Lingua Franca team is therefore pleased to present **Lingo**, a new package manager and build tool for Lingua Franca. While we still have a long list of features that we want Lingo to have (including the ability to publish packages), you can already do quite a few useful things with it.
 For instance, you can easily set up new Lingua Franca projects with `lingo init --language`, which creates a `Lingo.toml` and a small hello world program under `src/Main.lf`. The `Lingo.toml` specifies a set of apps that are executable LF programs. Apps can be configured with additional build and target properties.
 
