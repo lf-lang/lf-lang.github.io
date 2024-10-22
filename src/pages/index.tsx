@@ -146,8 +146,8 @@ export default function Home(): JSX.Element {
   const { siteConfig } = useDocusaurusContext();
   return (
     <Layout
-      title={`Welcome`}
-      description="Intuitive concurrent programming in any language"
+      title="Intuitive concurrent programming in any language"
+      description="Build time-sensitive, concurrent, and distributed systems — effortlessly"
     >
       <main>
         <HeroBanner />
