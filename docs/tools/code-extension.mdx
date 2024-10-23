@@ -63,7 +63,8 @@ The correct structure of the LF package should look like this:
 │   ├── src/
 │   │  ├── lib/ # Directory for storing reusable reactors
 │   │  │   ├── Input.lf # Ex: reactor capturing external inputs (e.g., Microphone, Camera)
-│   │  └── └── ComputerVision.lf # Ex: reactor performing computer vision tasks (e.g., object detection, face recognition)
+│   │  │   └── ComputerVision.lf # Ex: reactor performing computer vision tasks (e.g., object detection, face recognition)
+│   │  └── Main.lf # Ex: main source file
 └── └── Lingo.toml # Configuration file for Lingo Package Manager
 ```
 
@@ -111,7 +112,7 @@ The **Installed Packages** section lists libraries installed using the [Lingo Pa
 
 To install libraries:
 1. Configure the `Lingo.toml` file with the desired libraries.
-2. Run `lingo build` to download the specified dependencies.
+2. Run <kbd>lingo build</kbd> in the terminal from the current directory to download the specified dependencies.
 
 Once the libraries are installed, they will appear in the `{package_name}/build/lfc_include/` directory. The **Installed Packages** section will then be structured as follows:
 
