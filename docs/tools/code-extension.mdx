@@ -27,7 +27,7 @@ You can create a new LF package either manually by creating an LF file or by usi
 │   ├── src/
 │   │  └── Foo.lf
 │   ├── src-gen/
-│   │   ├── Foo/
+│   │  └── Foo/
 ...
 ```
 
@@ -96,11 +96,11 @@ The **Lingua Franca Package Explorer** can be accessed by clicking on the **LF i
 └── └── Source Files
 ```
 
-- [**Installed Packages**](#installed-packages): Lists libraries installed via the Lingo Package Manager, located in the `build/lfc_include` directory (if any).
+- [**Installed Packages**](#installed-packages): Lists libraries installed via the Lingo Package Manager, located in the `./build/lfc_include` directory (if any).
   
-- [**Local Libraries**](#local-libraries): Displays locally defined libraries (e.g., reusable reactors), located in the `src/lib` directory.
+- [**Local Libraries**](#local-libraries): Displays locally defined libraries (e.g., reusable reactors), located in the `./src/lib` directory.
   
-- [**Source Files**](#source-files): Contains the LF source files created by the developer, located in the `src` directory.
+- [**Source Files**](#source-files): Contains the LF source files created by the developer, located in the `./src/` directory.
 
 The **Source Files** section is always present as it reflects the main LF files in the package. However, the **Installed Packages** and **Local Libraries** sections appear only if the respective directories and files exist in the workspace.
 
@@ -114,7 +114,7 @@ To install libraries:
 1. Configure the `Lingo.toml` file with the desired libraries.
 2. Run <kbd>lingo build</kbd> in the terminal from the current directory to download the specified dependencies.
 
-Once the libraries are installed, they will appear in the `{package_name}/build/lfc_include/` directory. The **Installed Packages** section will then be structured as follows:
+Once the libraries are installed, they will appear in the `./build/lfc_include/` directory. The **Installed Packages** section will then be structured as follows:
 
 ```
 ├── LF Package
@@ -160,7 +160,7 @@ The **Import Selected Reactor** option is available only if an LF program is ope
 
 #### Local Libraries
 
-The **Local Libraries** section lists LF programs created by the developer, located in the `{package_name}/src/lib/` directory. These programs serve as local libraries, containing reusable reactors. The directory structure follows this format:
+The **Local Libraries** section lists LF programs created by the developer, located in the `./src/lib/` directory. These programs serve as local libraries, containing reusable reactors. The directory structure follows this format:
 
 ```
 ├── LF Package
@@ -201,15 +201,15 @@ The **Import Selected Reactor** option is available only if an LF program is ope
 
 #### Source Files
 
-The **Source Files** section lists all LF programs in the `{package_name}/src/` directory. This section provides direct access to the main source files of the package. The hierarchy for this view is straightforward:
+The **Source Files** section lists all LF programs in the `./src/` directory. This section provides direct access to the main source files of the package. The hierarchy for this view is straightforward:
 
 ```
 ├── LF Package
 ...
 │   ├── Local Libraries
 │   │  ├── File_1.lf
-│   │  ├── File_1.lf
-│   │  ├── File_1.lf
+│   │  ├── File_2.lf
+│   │  ├── File_3.lf
 ...
 ```
 
