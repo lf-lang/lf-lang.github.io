@@ -1,0 +1,24 @@
+---
+title: Glossary
+description: Glossary of terms used in the Lingua Franca documentation.
+---
+
+# Glossary
+
+Glossary of terms used in the Lingua Franca (LF) documentation.
+
+### LF File
+A source file with the `.lf` extension, representing a Lingua Franca (LF) program.
+
+### Package
+A collection of LF source files and directories, along with a `Lingo.toml` manifest file that defines the package configuration. Every package must include an `src/` directory containing the LF source files.
+The **package root** is the top-level directory where both the `Lingo.toml` file and the `src/` directory reside, serving as the main directory for the package.
+
+### Project
+Another term for a [package](#package).
+
+### Library File
+An LF file containing one or more reactors intended for reuse, designed to be imported into multiple LF files.
+
+### Package Manager
+A software tool that automates the installation, configuration, and management of packages. In the LF ecosystem, the `lingo` package manager is used to manage LF packages and dependencies.

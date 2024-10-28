@@ -14,9 +14,23 @@ The Lingua Franca extension for Visual Studio Code (VS Code) provides syntax-dir
 
 ### Creating a New Package
 
-You can create a new LF package either manually by creating an LF file or by using the [Lingo Package Manager](https://github.com/lf-lang/lingo).
+You can create a new LF [package](../glossary/glossary.mdx#package) either manually by creating an LF file or by using the [Lingo Package Manager](https://github.com/lf-lang/lingo).
 
-#### Option 1: Manually Create an LF File
+#### Option 1: Create an LF Package Using the Lingo Package Manager
+1. After [installing the Lingo Package Manager](https://www.lf-lang.org/docs/installation#lingo), create an empty directory with the desired name for your LF package.
+2. Open the folder in VS Code.
+3. Open the terminal in this folder and run the <kbd>lingo init</kbd> command. 
+
+This will set up a new LF package with the following structure:
+
+```
+├── .
+│   ├── src/
+│   │  └── Main.lf
+└── └── Lingo.toml # Configuration file for current package
+```
+
+#### Option 2: Manually Create an [LF File](../glossary/glossary.mdx#lf-file)
 1. Go to <kbd>File > New File...</kbd> and select `New Lingua Franca File`.
 2. Save the file in a directory called `src` to ensure that generated code is placed in a parallel `src-gen` directory. For example, if your file is called `Foo.lf`, the directory structure after building will look like this:
 
@@ -33,20 +47,6 @@ You can create a new LF package either manually by creating an LF file or by usi
 
 If you manually create the `Lingo.toml` file, place it adjacent to the `src` folder in the root directory of the package. This file serves as a configuration for the package, allowing you to specify the package name, version, and other metadata, including any dependencies you want to install.
 
-#### Option 2: Create an LF Package Using the Lingo Package Manager
-1. After installing and configuring the Lingo Package Manager, create an empty folder with the desired name for the LF package.
-2. Open the folder in VS Code.
-3. Open the terminal in this folder and run the <kbd>lingo init</kbd> command. 
-
-This will set up a new LF package with the following structure:
-
-```
-├── .
-│   ├── src/
-│   │  └── Main.lf
-└── └── Lingo.toml # Configuration file for current package
-```
-
 ### Opening an Existing LF package
 
 To open an existing LF package in VS Code, select the root directory of your Lingua Franca package as your workspace.
@@ -58,7 +58,7 @@ The correct structure of the LF package should look like this:
 │   ├── bin/
 │   ├── build/   # directory containing packages installed by Lingo Package Manager
 │   │  ├── lfc_include/ # Directory for storing reusable reactors
-│   │  └── └── installed_library/
+│   │  └── └── installed_package/
 │   ├── include/
 │   ├── src/
 │   │  ├── lib/ # Directory for storing reusable reactors
@@ -96,30 +96,30 @@ The **Lingua Franca Package Explorer** can be accessed by clicking on the **LF i
 └── └── Source Files
 ```
 
-- [**Installed Packages**](#installed-packages): Lists libraries installed via the Lingo Package Manager, located in the `./build/lfc_include` directory (if any).
+- [**Installed Packages**](#installed-packages): Lists packages installed via the Lingo Package Manager, located in the `./build/lfc_include` directory (if any).
   
-- [**Local Libraries**](#local-libraries): Displays locally defined libraries (e.g., reusable reactors), located in the `./src/lib` directory.
+- [**Local Libraries**](#local-libraries): Displays locally defined [library files](../glossary/glossary.mdx#library-file) (e.g., reusable reactors), located in the `./src/lib` directory.
   
 - [**Source Files**](#source-files): Contains the LF source files created by the developer, located in the `./src/` directory.
 
 The **Source Files** section is always present as it reflects the main LF files in the package. However, the **Installed Packages** and **Local Libraries** sections appear only if the respective directories and files exist in the workspace.
 
-Hovering over the **LF Package** item reveals a terminal icon. Clicking this icon opens a terminal window at the package's root directory, allowing you to execute commands directly within that directory.
+Hovering over the **\<Package Name\>** item reveals a terminal icon. Clicking this icon opens a terminal window at the package's root directory, allowing you to execute commands directly within that directory.
 
 #### Installed Packages
 
-The **Installed Packages** section lists libraries installed using the [Lingo Package Manager](https://github.com/lf-lang/lingo). Developers can use the Lingo Package Manager to retrieve and install LF programs from repositories such as the [Lingua Franca Community Organization](https://github.com/LF-Community).
+The **Installed Packages** section lists packages installed using the [Lingo Package Manager](https://github.com/lf-lang/lingo). Developers can use the Lingo Package Manager to retrieve and install LF programs from repositories such as the [Lingua Franca Community Organization](https://github.com/LF-Community).
 
-To install libraries:
-1. Configure the `Lingo.toml` file with the desired libraries.
+To install packages:
+1. Configure the `Lingo.toml` file with the desired package.
 2. Run <kbd>lingo build</kbd> in the terminal from the current directory to download the specified dependencies.
 
-Once the libraries are installed, they will appear in the `./build/lfc_include/` directory. The **Installed Packages** section will then be structured as follows:
+Once the packages are installed, they will appear in the `./build/lfc_include/` directory. The **Installed Packages** section will then be structured as follows:
 
 ```
-├── LF Package
+├── <Package Name>
 │   ├── Installed Packages
-│   │  ├── installed_library/
+│   │  ├── installed_package/
 │   │  │   ├── File_1.lf
 │   │  │   │   ├── Rusable_Reactor_1.lf
 │   │  │   │   ├── Rusable_Reactor_2.lf
@@ -130,17 +130,17 @@ Once the libraries are installed, they will appear in the `./build/lfc_include/`
 ```
 
 In this structure:
-- **LF Package**: Represents the root folder of the main package.
-- **installed_library**: Represents each library listed in `Lingo.toml`, which contains one or more LF programs featuring reusable reactors.
+- **\<Package Name\>**: Represents the root folder of the main package.
+- **installed_package**: Represents each package listed in `Lingo.toml`, which contains one or more LF projects featuring reusable reactors.
 
-The image below shows a visual representation of the **Installed Packages** section. The **project** icon indicates the LF Package folder (e.g., `AudioClassification`), while the **root-folder** icon represents the downloaded libraries (e.g., the `edgeai` library in the example). The **code file** icon denotes an LF program within a library, and the **bracket** icon represents individual reactors inside the LF program.
+The image below shows a visual representation of the **Installed Packages** section. The **project** icon indicates the LF Package folder (e.g., `AudioClassification`), while the **root-folder** icon represents the downloaded package (e.g., the `edgeai` package in the example). The **code file** icon denotes an LF program within a package, and the **bracket** icon represents individual reactors inside the LF program.
 
 <Image img={lingo_packages} style={{maxWidth: 400}} />
 
 The hierarchy categorizes tree items into the following types:
 
-1. **`library-root`**: Refers to the root folder of each downloaded library.
-2. **`file`**: Represents an LF program within the library.
+1. **`package-root`**: Refers to the root folder of each downloaded package.
+2. **`file`**: Represents an LF program within the package.
 3. **`reactor`**: Refers to individual reactors within the LF program.
 
 When focusing on the **Installed Packages** section, an `edit` command becomes available. Clicking it opens the `Lingo.toml` file in the editor for configuration changes. The following actions are available for items in the **Installed Packages** section:
@@ -206,7 +206,7 @@ The **Source Files** section lists all LF programs in the `./src/` directory. Th
 ```
 ├── <Package Name>
 ...
-│   ├── Local Libraries
+│   ├── Source Files
 │   │  ├── File_1.lf
 │   │  ├── File_2.lf
 │   │  ├── File_3.lf

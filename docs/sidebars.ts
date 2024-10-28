@@ -237,6 +237,10 @@ const sidebars: SidebarsConfig = {
           "id": "developer/website-development"
         }
       ]
+    },
+    {
+      "type": "doc",
+      "id": "glossary/glossary"
     }
   ]
 };
