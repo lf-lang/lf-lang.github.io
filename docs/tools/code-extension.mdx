@@ -12,12 +12,12 @@ The Lingua Franca extension for Visual Studio Code (VS Code) provides syntax-dir
 
 ## Usage
 
-### Creating a New Package
+### Creating a New Project
 
-You can create a new LF [package](../glossary/glossary.mdx#package) either manually by creating an LF file or by using the [Lingo Package Manager](https://github.com/lf-lang/lingo).
+You can create a new LF [project](../glossary/glossary.mdx#project) either manually by creating an LF file or by using the [Lingo Package Manager](https://github.com/lf-lang/lingo).
 
-#### Option 1: Create an LF Package Using the Lingo Package Manager
-1. After [installing the Lingo Package Manager](https://www.lf-lang.org/docs/installation#lingo), create an empty directory with the desired name for your LF package.
+#### Option 1: Create an Project Using the Lingo Package Manager
+1. After [installing the Lingo Package Manager](https://www.lf-lang.org/docs/installation#lingo), create an empty directory to serve as the root of your new package.
 2. Open the folder in VS Code.
 3. Open the terminal in this folder and run the <kbd>lingo init</kbd> command. 
 
@@ -30,7 +30,7 @@ This will set up a new LF package with the following structure:
 └── └── Lingo.toml # Configuration file for current package
 ```
 
-#### Option 2: Manually Create an [LF File](../glossary/glossary.mdx#lf-file)
+#### Option 2: Create a new [LF File](../glossary/glossary.mdx#lf-file)
 1. Go to <kbd>File > New File...</kbd> and select `New Lingua Franca File`.
 2. Save the file in a directory called `src` to ensure that generated code is placed in a parallel `src-gen` directory. For example, if your file is called `Foo.lf`, the directory structure after building will look like this:
 
@@ -47,9 +47,9 @@ This will set up a new LF package with the following structure:
 
 If you manually create the `Lingo.toml` file, place it adjacent to the `src` folder in the root directory of the package. This file serves as a configuration for the package, allowing you to specify the package name, version, and other metadata, including any dependencies you want to install.
 
-### Opening an Existing LF package
+### Opening an Existing LF project
 
-To open an existing LF package in VS Code, select the root directory of your Lingua Franca package as your workspace.
+To open an existing LF project in VS Code, select the [package root](../glossary/glossary.mdx#package-root) as your workspace.
 
 The correct structure of the LF package should look like this:
 
