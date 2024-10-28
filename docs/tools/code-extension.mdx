@@ -21,7 +21,7 @@ You can create a new LF package either manually by creating an LF file or by usi
 2. Save the file in a directory called `src` to ensure that generated code is placed in a parallel `src-gen` directory. For example, if your file is called `Foo.lf`, the directory structure after building will look like this:
 
 ```
-├── LF Package
+├── .
 │   ├── bin/
 │   │  └── Foo
 │   ├── src/
@@ -31,7 +31,7 @@ You can create a new LF package either manually by creating an LF file or by usi
 ...
 ```
 
-Additionally, it's important to manually create the `Lingo.toml` file adjacent to the `src` folder in the root directory of the package.. This file serves as a configuration for the package, allowing you to specify the package name, version, and other metadata, including any dependencies you want to install.
+If you manually create the `Lingo.toml` file, place it adjacent to the `src` folder in the root directory of the package. This file serves as a configuration for the package, allowing you to specify the package name, version, and other metadata, including any dependencies you want to install.
 
 #### Option 2: Create an LF Package Using the Lingo Package Manager
 1. After installing and configuring the Lingo Package Manager, create an empty folder with the desired name for the LF package.
@@ -41,7 +41,7 @@ Additionally, it's important to manually create the `Lingo.toml` file adjacent t
 This will set up a new LF package with the following structure:
 
 ```
-├── LF Package
+├── .
 │   ├── src/
 │   │  └── Main.lf
 └── └── Lingo.toml # Configuration file for current package
@@ -54,7 +54,7 @@ To open an existing LF package in VS Code, select the root directory of your Lin
 The correct structure of the LF package should look like this:
 
 ```
-├── root
+├── .
 │   ├── bin/
 │   ├── build/   # directory containing packages installed by Lingo Package Manager
 │   │  ├── lfc_include/ # Directory for storing reusable reactors
@@ -68,7 +68,7 @@ The correct structure of the LF package should look like this:
 └── └── Lingo.toml # Configuration file for Lingo Package Manager
 ```
 
-To correctly enable the [Package Explorer](#package-explorer), we recommend opening VS Code with the true root of your Lingua Franca package as your workspace. If the package structure deviates from the expected format, an error message will appear when opening the Package Explorer:
+To enable the [Package Explorer](#package-explorer), the workspace of your VS Code editor must be the root of a Lingua Franca package. If the workspace is not recognized as a valid Lingua Franca package, an error message will appear when opening the Package Explorer:
 
 <Image img={error_message} style={{maxWidth: 400}} />
 
@@ -90,7 +90,7 @@ Running the code can also be done from the VS Code terminal by executing the gen
 The **Lingua Franca Package Explorer** can be accessed by clicking on the **LF icon** in the activity bar on the left side of the screen. Once opened, the **Package Explorer** displays a **Tree View** with the following structure:
 
 ```
-├── LF Package
+├── <Package Name>
 │   ├── Installed Packages
 │   ├── Local Libraries
 └── └── Source Files
@@ -163,7 +163,7 @@ The **Import Selected Reactor** option is available only if an LF program is ope
 The **Local Libraries** section lists LF programs created by the developer, located in the `./src/lib/` directory. These programs serve as local libraries, containing reusable reactors. The directory structure follows this format:
 
 ```
-├── LF Package
+├── <Package Name>
 ...
 │   ├── Local Libraries
 │   │  ├── File_1.lf
@@ -204,7 +204,7 @@ The **Import Selected Reactor** option is available only if an LF program is ope
 The **Source Files** section lists all LF programs in the `./src/` directory. This section provides direct access to the main source files of the package. The hierarchy for this view is straightforward:
 
 ```
-├── LF Package
+├── <Package Name>
 ...
 │   ├── Local Libraries
 │   │  ├── File_1.lf
@@ -213,7 +213,7 @@ The **Source Files** section lists all LF programs in the `./src/` directory. Th
 ...
 ```
 
-Clicking on any of the files will open the corresponding LF program in the editor, allowing developers to quickly navigate to and edit the source code of their package.
+Clicking on any of the files will open the corresponding LF program in the editor, providing a way to quickly navigate and edit the source code of a package.
 
 ## Notes
 
