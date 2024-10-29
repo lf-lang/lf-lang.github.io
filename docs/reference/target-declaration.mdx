@@ -216,10 +216,10 @@ This target does not currently support the `build` target option.
 ## build-type
 
 <ShowIfs>
-<ShowIf ts py>
+<ShowIf ts>
 This target does not currently support the `build-type` target option.
 </ShowIf>
-<ShowIf rs c cpp>
+<ShowIf rs c cpp py>
 This parameter specifies how to compile the code. The following options are supported:
 
 - `Debug`: Optimization is disabled and debug information is included in the executable.
@@ -401,17 +401,21 @@ This target does not support the `files` option.
 <ShowIf c py>
 The `files` target parameter specifies array of files or directories to be copied to the directory that contains the generated sources.
 
+<ShowOnly c>
 ```lf-c
 target C {
     files: ["file1", "file2", ...]
 }
 ```
+</ShowOnly>
 
+<ShowOnly py>
 ```lf-py
 target Python {
     files: ["file1", "file2", ...]
 }
 ```
+</ShowOnly>
 
 The lookup procedure for these files and directories is as follows:
 
