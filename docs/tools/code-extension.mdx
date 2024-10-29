@@ -16,7 +16,7 @@ The Lingua Franca extension for Visual Studio Code (VS Code) provides syntax-dir
 
 You can create a new LF [project](../glossary/glossary.mdx#project) either manually by creating an LF file or by using the [Lingo Package Manager](https://github.com/lf-lang/lingo).
 
-#### Option 1: Create an Project Using the Lingo Package Manager
+#### Option 1: Create a Project Using the Lingo Package Manager
 1. After [installing the Lingo Package Manager](https://www.lf-lang.org/docs/installation#lingo), create an empty directory to serve as the root of your new package.
 2. Open the folder in VS Code.
 3. Open the terminal in this folder and run the <kbd>lingo init</kbd> command. 
@@ -30,7 +30,7 @@ This will set up a new LF package with the following structure:
 └── └── Lingo.toml # Configuration file for current package
 ```
 
-#### Option 2: Create a new [LF File](../glossary/glossary.mdx#lf-file)
+#### Option 2: Create a New [LF File](../glossary/glossary.mdx#lf-file)
 1. Go to <kbd>File > New File...</kbd> and select `New Lingua Franca File`.
 2. Save the file in a directory called `src` to ensure that generated code is placed in a parallel `src-gen` directory. For example, if your file is called `Foo.lf`, the directory structure after building will look like this:
 
@@ -47,28 +47,9 @@ This will set up a new LF package with the following structure:
 
 If you manually create the `Lingo.toml` file, place it adjacent to the `src` folder in the root directory of the package. This file serves as a configuration for the package, allowing you to specify the package name, version, and other metadata, including any dependencies you want to install.
 
-### Opening an Existing LF project
+### Opening an Existing LF Project
 
-To open an existing LF project in VS Code, select the [package root](../glossary/glossary.mdx#package-root) as your workspace.
-
-The correct structure of the LF package should look like this:
-
-```
-├── .
-│   ├── bin/
-│   ├── build/   # directory containing packages installed by Lingo Package Manager
-│   │  ├── lfc_include/ # Directory for storing reusable reactors
-│   │  └── └── installed_package/
-│   ├── include/
-│   ├── src/
-│   │  ├── lib/ # Directory for storing reusable reactors
-│   │  │   ├── Input.lf # Ex: reactor capturing external inputs (e.g., Microphone, Camera)
-│   │  │   └── ComputerVision.lf # Ex: reactor performing computer vision tasks (e.g., object detection, face recognition)
-│   │  └── Main.lf # Ex: main source file
-└── └── Lingo.toml # Configuration file for Lingo Package Manager
-```
-
-To enable the [Package Explorer](#package-explorer), the workspace of your VS Code editor must be the root of a Lingua Franca package. If the workspace is not recognized as a valid Lingua Franca package, an error message will appear when opening the Package Explorer:
+To open an existing LF project in VS Code, select the [package root](../glossary/glossary.mdx#package-root) as your workspace. Ensure that the selected project adheres to the correct [project structure](../glossary/glossary.mdx#project-structure) to enable the [Package Explorer](#package-explorer). If the workspace is not recognized as a valid Lingua Franca package, an error message will appear when you attempt to open the Package Explorer:
 
 <Image img={error_message} style={{maxWidth: 400}} />
 
@@ -119,7 +100,7 @@ Once the packages are installed, they will appear in the `./build/lfc_include/` 
 ```
 ├── <Package Name>
 │   ├── Installed Packages
-│   │  ├── installed_package/
+│   │  ├── <Installed Package>
 │   │  │   ├── File_1.lf
 │   │  │   │   ├── Rusable_Reactor_1.lf
 │   │  │   │   ├── Rusable_Reactor_2.lf
@@ -131,7 +112,7 @@ Once the packages are installed, they will appear in the `./build/lfc_include/` 
 
 In this structure:
 - **\<Package Name\>**: Represents the root folder of the main package.
-- **<Installed Package>**: Represents each package listed in `Lingo.toml`, which contains one or more LF projects featuring reusable reactors.
+- **\<Installed Package\>**: Represents each package listed in `Lingo.toml`, which contains one or more LF projects featuring reusable reactors.
 
 The image below shows a visual representation of the **Installed Packages** section. The **project** icon indicates the LF Package folder (e.g., `AudioClassification`), while the **root-folder** icon represents the downloaded package (e.g., the `edgeai` package in the example). The **code file** icon denotes an LF program within a package, and the **bracket** icon represents individual reactors inside the LF program.
 
@@ -139,9 +120,9 @@ The image below shows a visual representation of the **Installed Packages** sect
 
 The hierarchy categorizes tree items into the following types:
 
-1. **`package-root`**: Refers to the root folder of each downloaded package.
-2. **`file`**: Represents an LF program within the package.
-3. **`reactor`**: Refers to individual reactors within the LF program.
+1. **package-root**: Refers to the root folder of each downloaded package.
+2. **file**: Represents an LF file within the package.
+3. **reactor**: Refers to individual reactors within the LF file.
 
 When focusing on the **Installed Packages** section, an `edit` command becomes available. Clicking it opens the `Lingo.toml` file in the editor for configuration changes. The following actions are available for items in the **Installed Packages** section:
 
@@ -170,8 +151,8 @@ The **Local Libraries** section lists LF programs created by the developer, loca
 │   │  │   ├── Rusable_Reactor_1.lf
 │   │  │   ├── Rusable_Reactor_2.lf
 │   │  ├── File_2.lf
-│   │  │   │   ├── Rusable_Reactor_1.lf
-│   │  │   │   ├── Rusable_Reactor_2.lf
+│   │  │   ├── Rusable_Reactor_1.lf
+│   │  │   ├── Rusable_Reactor_2.lf
 ...
 ```
 
@@ -181,8 +162,8 @@ The image below illustrates the **Local Libraries** section. In this depiction, 
 
 The hierarchy categorizes tree items into two types:
 
-1. **`file`**: Represents the LF program.
-2. **`reactor`**: Represents a reactor within the LF program.
+1. **file**: Represents the LF file.
+2. **reactor**: Represents a reactor within the LF file.
 
 Actions for **Local Libraries** are similar to those in the [**Installed Packages**](#installed-packages) section:
 
