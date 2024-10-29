@@ -40,7 +40,8 @@ The structure of an LF project should follow the directory layout below:
 │   │   │   ├── Input.lf    # Ex: reactor capturing external inputs (e.g., Microphone, Camera)
 │   │   │   └── ComputerVision.lf # Ex: reactor performing computer vision tasks (e.g., object detection, face recognition)
 │   │   └── Main.lf         # Ex: main source file
-│   ├── src-gen/            # Directory for storing generated code (or fed-gen if a federated program)
+│   ├── fed-gen/            # Directory for storing generated code for federated programs
+│   ├── src-gen/            # Directory for storing generated code for single-process programs
 └── └── Lingo.toml          # Configuration file for Lingo Package Manager
 ```
 
