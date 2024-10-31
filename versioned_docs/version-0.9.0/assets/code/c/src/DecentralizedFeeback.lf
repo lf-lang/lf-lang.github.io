@@ -1,0 +1,46 @@
+target C {
+    timeout: 5 sec,
+    coordination: decentralized
+}
+reactor CountPrint {
+    input in:int;
+    output out:int;
+    state c:int(0);
+    timer t(0, 1 sec);
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+    reaction(in) {=
+        lf_print("***** CountPrint Received: %d at tag (%lld, %u)",
+            in->value, lf_time_logical_elapsed(), lf_tag().microstep
+        );
+    =} STP(10 msec) {=
+        lf_print_warning("CountPrint: Safe to process violation!");
+        lf_print("Intended time: %lld", in->intended_tag.time - lf_time_start());
+    =}
+}
+
+reactor PrintCount {
+    input in:int;
+    output out:int;
+    timer t(0, 999 msec);
+    state c:int(0);
+    reaction(in) {=
+        lf_print("***** PrintCount Received: %d at tag (%lld, %u)",
+            in->value, lf_time_logical_elapsed(), lf_tag().microstep
+        );
+    =} STP(10 msec) {=
+        lf_print_warning("PrintCount: Safe to process violation!");
+        lf_print("Intended time: %lld", in->intended_tag.time - lf_time_start());
+    =}
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+}
+
+federated reactor {
+    c = new CountPrint();
+    p = new PrintCount();
+    c.out -> p.in;
+    p.out -> c.in;
+}

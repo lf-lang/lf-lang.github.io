@@ -1,0 +1,216 @@
+---
+title: Actions
+description: Actions in Lingua Franca.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
+
+## Action Declaration
+
+An action declaration has one of the following forms:
+
+```lf
+  logical action <name>(<min_delay>, <min_spacing>, <policy>)
+  physical action <name>(<min_delay>, <min_spacing>, <policy>)
+```
+
+The `min_delay`, `min_spacing`, and `policy` are all optional.
+If only one argument is given in parentheses, then it is interpreted as a `min_delay`,
+if two are given, then they are interpreted as `min_delay` and `min_spacing`.
+The `min_delay` and `min_spacing` are time values.
+The `policy` argument is a string that can be one of the following:
+`"defer"` (the default), `"drop"`, or `"replace"`. Note that the quotation marks are needed.
+
+<ShowOnly c cpp ts rs>
+
+If the action is to carry a payload, then a type must be given as well:
+
+```lf
+  logical action <name>(<min_delay>, <min_spacing>, <policy>):<type>
+  physical action <name>(<min_delay>, <min_spacing>, <policy>):<type>
+```
+
+</ShowOnly>
+
+## Logical Actions
+
+Timers are useful to trigger reactions once or periodically. Actions are used to trigger reactions more irregularly. An action, like an output or input port, can carry data, but unlike a port, an action is visible only within the reactor that defines it.
+
+There are two kinds of actions, **logical** and **physical**. A `logical` `action` is used by a reactor to schedule a trigger at a fixed logical time interval _d_ into the future. The time interval _d_, which is called a **delay**, is relative to the logical time _t_ at which the scheduling occurs. If a reaction executes at logical time _t_ and schedules an action `a` with delay _d_, then any reaction that is triggered by `a` will be invoked at logical time _t_ + _d_. For example, the following reaction schedules something (printing the current elapsed logical time) 200 msec after an input `x` arrives:
+
+import C_Schedule from '../assets/code/c/src/Schedule.lf';
+import Cpp_Schedule from '../assets/code/cpp/src/Schedule.lf';
+import Py_Schedule from '../assets/code/py/src/Schedule.lf';
+import Rs_Schedule from '../assets/code/rs/src/Schedule.lf';
+import TS_Schedule from '../assets/code/ts/src/Schedule.lf';
+
+<NoSelectorTargetCodeBlock c={C_Schedule} cpp={Cpp_Schedule} py={Py_Schedule} rs={Rs_Schedule} ts={TS_Schedule} lf />
+
+![Lingua Franca diagram](./../assets/images/diagrams/Schedule.svg)
+
+Here, the delay is specified in the call to schedule within the target language code. Notice that in the diagram, a logical action is shown as a triangle with an **L**. Logical actions are always scheduled within a reaction of the reactor that declares the action.
+
+The time argument is required to be non-negative. If it is zero, then the action will be scheduled one **microstep** later. See [Superdense Time](../writing-reactors/superdense-time.mdx).
+
+<ShowIfs>
+  <ShowIf c>
+
+    The arguments to the `lf_schedule()` function are the action named `a` and a time. The action `a` has to be declared as an effect of the reaction in order to reference it in the call to `lf_schedule()`. If you fail to declare it as an effect (after the `->` in the reaction signature), then you will get an error message.
+
+    The time argument to the `lf_schedule()` function has data type `interval_t`, which, with the exception of some embedded platforms, is a C `int64_t`. A collection of convenience macros is provided like the `MSEC` macro above to specify time values in a more readable way. The provided macros are `NSEC`, `USEC` (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may also use the plural of any of these, e.g. `WEEKS(2)`.
+
+    An action may have a data type, in which case, a variant of the `lf_schedule()` function can be used to specify a **payload**, a data value that is carried from where the `lf_schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](../reference/target-language-details.mdx).
+
+  </ShowIf>
+  <ShowIf cpp>
+
+    An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](../reference/target-language-details.mdx).
+    
+  </ShowIf>
+  <ShowIf py>
+
+    The arguments to the `a.schedule()` method is a time. The action `a` has to be
+    declared as an effect of the reaction in order to reference it in the body of
+    the reaction. If you fail to declare it as an effect (after the `->` in the
+    reaction signature), then you will get a runtime error message.
+
+    The time argument to the `a.schedule()` method expects an integer. A collection
+    of convenience functions is provided like the `MSEC` function above to specify
+    time values in a more readable way. The provided functions are `NSEC`, `USEC`
+    (for microseconds), `MSEC`, `SEC`, `MINUTE`, `HOUR`, `DAY`, and `WEEK`. You may
+    also use the plural of any of these, e.g. `WEEKS(2)`.
+
+    An action may carry data, in which case, the **payload** data value is just given as a second argument to the `.schedule()` method. See the [Target Language Details](../reference/target-language-details.mdx).
+
+  </ShowIf>
+  <ShowIf ts>
+
+    The `schedule()` method of an action takes two arguments, a `TimeValue` and an (optional) payload. If a payload is given and a type is given for the action, then the type of the payload must match the type of the action. See the [Target Language Details](../reference/target-language-details.mdx) for details.
+
+  </ShowIf>
+
+  <ShowIf rs>
+
+::: warning
+FIXME
+:::
+
+    An action may have a data type, in which case, a variant of the `schedule()` function can be used to specify a **payload**, a data value that is carried from where the `schedule()` function is called to the reaction that is triggered by the action. See the [Target Language Details](../reference/target-language-details.mdx).
+
+  </ShowIf>
+</ShowIfs>
+
+## Physical Actions
+
+A `physical` `action` is used to schedule reactions at logical times determined by the local physical clock. If a physical action with delay _d_ is scheduled at _physical_ time _T_, then the _logical time_ assigned to the event is _T_ + _d_. For example, the following reactor schedules the physical action `p` to trigger at a **logical time** equal to the **physical time** at which the input `x` arrives:
+
+import C_Physical from '../assets/code/c/src/Physical.lf';
+import Cpp_Physical from '../assets/code/cpp/src/Physical.lf';
+import Py_Physical from '../assets/code/py/src/Physical.lf';
+import Rs_Physical from '../assets/code/rs/src/Physical.lf';
+import TS_Physical from '../assets/code/ts/src/Physical.lf';
+
+<NoSelectorTargetCodeBlock c={C_Physical} cpp={Cpp_Physical} py={Py_Physical} rs={Rs_Physical} ts={TS_Physical} lf />
+
+![Lingua Franca diagram](./../assets/images/diagrams/Physical.svg)
+
+If you drive this with a timer, using for example the following structure:
+
+![Lingua Franca diagram](./../assets/images/diagrams/PhysicalTest.svg)
+
+then running the program will yield an output something like this:
+
+```
+Action triggered at logical time 201491000 nsec after start.
+Action triggered at logical time 403685000 nsec after start.
+Action triggered at logical time 603669000 nsec after start.
+...
+```
+
+Here, logical time is lagging physical time by a few milliseconds. Note that, unless the [fast option](<../introduction.md#fast>) is given, logical time _t_ chases physical time _T_, so _t_ < _T_. Hence, the event being scheduled in the reaction to input `x` is assured of being in the future in logical time.
+
+Whereas logical actions are required to be scheduled within a reaction of the reactor that declares the action, physical actions can be scheduled by code that is outside the Lingua Franca system. For example, some other thread or a callback function may call `schedule()`, passing it a physical action. For example:
+
+import C_Asynchronous from '../assets/code/c/src/Asynchronous.lf';
+import Cpp_Asynchronous from '../assets/code/cpp/src/Asynchronous.lf';
+import Py_Asynchronous from '../assets/code/py/src/Asynchronous.lf';
+import Rs_Asynchronous from '../assets/code/rs/src/Asynchronous.lf';
+import TS_Asynchronous from '../assets/code/ts/src/Asynchronous.lf';
+
+<NoSelectorTargetCodeBlock c={C_Asynchronous} cpp={Cpp_Asynchronous} py={Py_Asynchronous} rs={Rs_Asynchronous} ts={TS_Asynchronous} lf />
+
+import AsynchronousSVG from "./../assets/images/diagrams/Asynchronous.svg"
+
+<AsynchronousSVG title="Lingua Franca diagram: Asynchronous" role="img" width="350" />
+
+Physical actions are the mechanism for obtaining input from the outside world. Because they are assigned a logical time derived from the physical clock, their logical time can be interpreted as a measure of the time at which some external event occurred.
+
+<ShowOnly c>
+
+In the above example, at `startup`, the main reactor creates an external thread that schedules a physical action roughly every 200 msec.
+
+First, the [file-level `preamble`](../writing-reactors/preambles.mdx) has `#include "platform.h"`, which includes the declarations for functions it uses, `lf_sleep` and `lf_thread_create` (see [Libraries Available to Programmers](<../reference/target-language-details.mdx#libraries-available-to-programmers>)).
+
+Second, the thread uses a function `lf_sleep()`, which abstracts platform-specific mechanisms for stalling the thread for a specified amount of time, and `lf_thread_create()`, which abstracts platform-specific mechanisms for creating threads.
+
+The `external` function executed by the thread is defined in a reactor-level `preamble` section. See [Preambles](../writing-reactors/preambles.mdx).
+
+</ShowOnly>
+
+## Triggering Time for Actions
+
+An action will trigger at a logical time that depends on the arguments given to the schedule function, the `<min_delay>`, `<min_spacing>`, and `<policy>` arguments in the action declaration, and whether the action is physical or logical.
+
+For a `logical` action `a`, the tag assigned to the event resulting from a call to `schedule()` is computed as follows. First, let _t_ be the _current logical time_. For a logical action, _t_ is just the logical time at which the reaction calling `schedule()` is called. The **preliminary time** of the action is then just _t_ + `<min_delay>` + `<offset>`. This preliminary time may be further modified, as explained below.
+
+For a **physical** action, the preliminary time is similar, except that _t_ is replaced by the current _physical_ time _T_ when `schedule()` is called.
+
+If a `<min_spacing>` has been declared, then it gives a minimum logical time
+interval between the tags of two subsequently scheduled events. If the
+preliminary time is closer than `<min_spacing>` to the time of the previously
+scheduled event (if there is one), then `<policy>` (if supported by the target)
+determines how the minimum spacing constraint is enforced.
+Note that "previously scheduled" here means specifically the tag resulting from
+the most recent call to `lf_schedule` for the same action.
+:::warning
+Since calls to `lf_schedule` can specify arbitrary extra delays,
+`<min_spacing>` does not necessarily result in events with minimum spacing between them.
+If your calls to `lf_schedule` result in monotonically increasing tags, however, you will
+get events with minimum spacing between them.
+:::
+
+<ShowIfs>
+<ShowIf c py>
+
+The `<policy>` is one of the following:
+
+- `"defer"`: (**the default**) The event is added to the event queue with a tag that is equal to earliest time that satisfies the minimal spacing requirement. Assuming the time of the preceding event is _t_prev_, then the tag of the new event simply becomes _t_prev_ + `<min_spacing>`.
+- `"drop"`: The new event is dropped and `schedule()` returns without having modified the event queue.
+- `"replace"`: The payload (if any) of the new event is assigned to the preceding event if it is still pending in the event queue; no new event is added to the event queue in this case. If the preceding event has already been pulled from the event queue, the default `"defer"` policy is applied.
+
+Note that while the `"defer"` policy is conservative in the sense that it does not discard events, it could potentially cause an unbounded growth of the event queue.
+
+</ShowIf>
+
+<ShowIf cpp ts rs>
+
+> The `<policy>` argument is currently not supported.
+
+</ShowIf>
+</ShowIfs>
+
+## Testing an Action for Presence
+
+{/* This looks like crap but what can you do?*/}
+When a reaction is triggered by more than one action or by an action and an input, it may be necessary to test within the reaction whether the action is present.
+Just like for inputs, this can be done in the  <ShowOnly c inline>C target with `a->is_present`</ShowOnly>
+  <ShowOnly cpp inline>C++ target with `a.is_present()`</ShowOnly>
+  <ShowOnly ts inline>TypeScript target with `a != undefined`</ShowOnly>
+  <ShowOnly rs inline>Rust target with `ctx.is_present(a)`</ShowOnly>
+  <ShowOnly py inline>Python target with `a.is_present`</ShowOnly>, where `a` is the name of the action.

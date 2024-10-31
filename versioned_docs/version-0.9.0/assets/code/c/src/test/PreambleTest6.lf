@@ -1,0 +1,25 @@
+/**
+ * This example is included in Preambles.md, but not automatically imported.
+ * Success of the test is compiling and running.
+ */
+target C
+preamble {=
+    extern const char shared_string[];
+=}
+reactor A {
+    reaction(startup) {=
+        printf("Reactor A says %s.\n", shared_string);
+    =}
+}
+reactor B {
+    reaction(startup) {=
+        printf("Reactor B says %s.\n", shared_string);
+    =}
+}
+main reactor {
+    preamble {=
+        const char shared_string[] = "Hello";
+    =}
+    a = new A()
+    b = new B()
+}
