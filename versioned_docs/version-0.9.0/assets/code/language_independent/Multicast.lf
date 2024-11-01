@@ -1,0 +1,14 @@
+target C;
+reactor A {
+    output y:int
+}
+reactor B {
+    input x:int
+}
+main reactor {
+    a = new A()
+    b1 = new B()
+    b2 = new B()
+    a.y -> b1.x
+    a.y -> b2.x
+}

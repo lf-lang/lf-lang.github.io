@@ -1,0 +1,38 @@
+target Python {
+  timeout: 5 sec,
+  coordination: decentralized
+}
+
+import Count from "Federated.lf"
+
+reactor PrintTimer {
+  timer t(0, 1 sec)
+  input inp
+
+  reaction(inp) {=
+    print(
+        f"Received: {inp.value} "
+        f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
+    )
+  =} STP(0) {=
+    print(
+        "****** STP violation handler invoked at "
+        f"({lf.time.logical_elapsed()}, {lf.tag().microstep}). "
+        "Intended tag was "
+        f"({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep})."
+    )
+  =}
+
+  reaction(t) {=
+    print(
+        "Timer ticked at "
+        f"({lf.time.logical_elapsed()}, {lf.tag().microstep})."
+    )
+  =}
+}
+
+federated reactor {
+  c = new Count()
+  p = new PrintTimer()
+  c.out -> p.inp after 10 msec
+}
