@@ -174,16 +174,12 @@ For a **physical** action, the preliminary time is similar, except that _t_ is r
 If a `<min_spacing>` has been declared, then it gives a minimum logical time
 interval between the tags of two subsequently scheduled events. If the
 preliminary time is closer than `<min_spacing>` to the time of the previously
-scheduled event (if there is one), then `<policy>` (if supported by the target)
+scheduled event (if there is one), or if the preliminary time is earlier than
+the previously scheduled event, then the time will be modified to enforce
+the minimum spacing. The `<policy>` argument (if supported by the target)
 determines how the minimum spacing constraint is enforced.
 Note that "previously scheduled" here means specifically the tag resulting from
-the most recent call to `lf_schedule` for the same action.
-:::warning
-Since calls to `lf_schedule` can specify arbitrary extra delays,
-`<min_spacing>` does not necessarily result in events with minimum spacing between them.
-If your calls to `lf_schedule` result in monotonically increasing tags, however, you will
-get events with minimum spacing between them.
-:::
+the most recent call to the schedule function for the same action.
 
 <ShowIfs>
 <ShowIf c py>
@@ -200,10 +196,15 @@ Note that while the `"defer"` policy is conservative in the sense that it does n
 
 <ShowIf cpp ts rs>
 
-> The `<policy>` argument is currently not supported.
+> The `<policy>` argument is currently not supported by cpp, ts, or rs.
 
 </ShowIf>
 </ShowIfs>
+
+For example, suppose the minimum spacing of a logical action is 10 ms and the policy is `"defer"`.
+Suppose that in a reaction to `startup`, the logical action is scheduled with a delay of
+100 ms, then again with a delay of 99 ms, and a third time with a delay of 101 ms.
+The logical action will trigger at elapsed times 100 ms, 110 ms, and 120 ms.
 
 ## Testing an Action for Presence
 
