@@ -8,6 +8,13 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>REC '24</strong>: Erling Rennemo Jellum, Martin Schoeberl, Edward A. Lee, Milica Orlandic. 
+        "<Link href="https://doi.org/10.1145/3672083">Codesign of Reactor-Oriented Hardware and Software for Cyber-Physical Systems</Link>",
+        ACM Transactions on Reconfigurable Technology and Systems (17)4, Nov. 7 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>ESL '24</strong>: Francesco Paladino, Erling Jellum, Efsane Soyer, and Edward A. Lee. 
         "<Link href="https://doi.org/10.1109/LES.2024.3467992">Layered Scheduling: Toward Better Real-Time Lingua Franca</Link>",
         IEEE Embedd. Syst. Letters 18(9), September 2024.
