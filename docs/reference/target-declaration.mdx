@@ -380,10 +380,10 @@ This option takes a path as string argument to a folder containing an alternativ
 <ShowIf c py ts>
 This target does not support the `export-dependency-graph` target option.
 </ShowIf>
-<ShowIf cpp rs>
+<ShowIf cpp>
 This parameter takes arguments `true` or `false` to specify whether the compiled binary will export its internal dependency graph as a dot graph when executed. This is a debugging utility.
 <ShowOnly rs>
-If a [CLI](#command-line-arguments) is generated, the target property is ignored, and the user should instead use the `--export-graph` flag of the generated program.
+This feature works when a [CLI](#command-line-arguments) option is enabled and the user use the `--export-graph` flag of the generated program.
 </ShowOnly>
 </ShowIf>
 </ShowIfs>
@@ -477,10 +477,10 @@ The `logging` option is one of `ERROR`, `WARN`, `INFO`, `LOG` or `DEBUG`. It spe
 ## no-compile
 
 <ShowIfs>
-<ShowIf ts rs >
+<ShowIf ts>
 This target does not support the `no-compile` target option.
 </ShowIf>
-<ShowIf c cpp py>
+<ShowIf c cpp py rs>
 If true, then do not invoke a target language compiler nor cmake. Just generate code.
 </ShowIf>
 </ShowIfs>
@@ -541,11 +541,8 @@ This specifies a set of Rust modules in the generated project. See [Linking supp
 ## scheduler
 
 <ShowIfs>
-<ShowIf c cpp py ts >
+<ShowIf c cpp py rs ts >
 This target does not support the `scheduler` target option.
-</ShowIf>
-<ShowIf rs>
-This specifies the scheduler to use. See[Target Language Details](<../reference/target-language-details.mdx#scheduler-target-property>).
 </ShowIf>
 </ShowIfs>
 
@@ -556,7 +553,7 @@ This specifies the scheduler to use. See[Target Language Details](<../reference/
 This target does not support the `single-file-project` target option.
 </ShowIf>
 <ShowIf rs>
-If true, enables [single-file project layout](#single-file-layout).
+If true, only main.rs is generated instead of multiple rust source files.
 </ShowIf>
 </ShowIfs>
 
@@ -732,7 +729,6 @@ The generated executable may feature a command-line interface (CLI), if it uses 
   - `--timeout <time value>`: override the default timeout mentioned as a target property. The syntax for times is just like the LF one (e.g. `1msec`, `"2 seconds"`).
   - `--workers <number>`: override the default worker count mentioned as a target property. This option is **ignored** unless the runtime crate has been built with the feature `parallel-runtime`.
   - `--export-graph`: export the dependency graph (corresponds to `export-dependency-graph` target property). This is a flag, i.e., absent means false, present means true. This means the value of the target property is ignored and not used as default.
-  - `--log-level`: corresponds to the `logging` target property, but note that the levels have different meanings, and the target property is ignored. See [Logging levels](#logging-levels).
 - parameters of the main reactor are translated to CLI parameters.
   - Each LF parameter named `param` corresponds to a CLI parameter named `--main-param`. Underscores in the LF parameter name are replaced by hyphens.
   - The type of each parameters must implement the trait [`FromStr`](https://doc.rust-lang.org/std/str/trait.FromStr.html).
