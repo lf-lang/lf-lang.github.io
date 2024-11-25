@@ -104,7 +104,6 @@ rs={
     build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
     cargo-features: <array of strings>,
     cargo-dependencies: <list of key-value pairs>,
-    export-dependency-graph: <true or false>,
     rust-include: <array of strings>,
     single-file-project: <true or false>,
     single-threaded: <true or false>,
@@ -534,7 +533,7 @@ This argument takes a string (with quotation marks) containing any tag, branch n
 This target does not support the `rust-include` target option.
 </ShowIf>
 <ShowIf rs>
-This specifies a set of Rust modules in the generated project. See [Linking support files](#linking-support-files).
+This specifies a set of Rust modules in the generated project.
 </ShowIf>
 </ShowIfs>
 
