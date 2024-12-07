@@ -40,6 +40,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**no-compile**](#no-compile): If true, then do not invoke a target language compiler. Just generate code.
 - [**no-runtime-validation**](#no-runtime-validation): If true, disable runtime validation.
 - [**protobufs**](#protobufs): An array of .proto files that are to be compiled and included in the generated code.
+- [**python-version**](#python-version): (Python only) A string (with quotation marks) giving an exact Python version to use.
 - [**runtime-version**](#runtime-version): Specify which version of the runtime system to use.
 - [**rust-include**](#rust-include): (Rust only) A set of Rust modules in the generated project.
 - [**scheduler**](#scheduler): (C only) Specification of the scheduler to use.
@@ -511,6 +512,24 @@ included in the generated code. For an example, see
 <ShowOnly c inline>[PersonProtocolBuffers.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/serialization/PersonProtocolBuffers.lf)</ShowOnly>
 <ShowOnly py inline>[PersonProtocolBuffers.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/serialization/PersonProtocolBuffers.lf)</ShowOnly>
 
+</ShowIf>
+</ShowIfs>
+
+## python-version
+
+<ShowIfs>
+<ShowIf c rs cpp ts >
+This target does not support the `python-version` target option.
+</ShowIf>
+<ShowIf py>
+This argument takes a string (with quotation marks) containing a version number.
+This will specify the _version_ of the Python interpreter that the compiled binary will be linked and run with.
+For example, to get Python version 3.13.0:
+```lf-py
+target Python {
+    python-version: "3.13.0"
+}
+```
 </ShowIf>
 </ShowIfs>
 
