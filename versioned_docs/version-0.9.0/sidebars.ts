@@ -178,6 +178,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "embedded/patmos"
+        },
+        {
+          "type": "doc",
           "id": "embedded/zephyr"
         },
         {
