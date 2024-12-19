@@ -25,4 +25,4 @@ The reactor-oriented programming paradigm is informally described via the follow
 8. _Concurrency_ — Dependencies between reactions are explicitly declared in a Lingua Franca program, and reactions that are not dependent on one another can be executed in parallel on a multi-core machine. If the target provides a support for federated execution, then execution can also be distributed across networks.
 
 ## Getting Started
-To get started with Lingua Franca, [set up a development environment](./installation.md) and learn how to write [a first reactor](./writing-reactors/a-first-reactor.mdx). There are also a number of useful [tutorial videos](./tutorial-videos.mdx) available.
+To get started with Lingua Franca, [set up a development environment](./installation.md) and learn how to write [a first reactor](./writing-reactors/a-first-reactor.mdx). There are also a number of potentially useful [videos](./videos.mdx) available.
