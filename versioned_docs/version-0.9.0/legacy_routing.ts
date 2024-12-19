@@ -4,6 +4,10 @@ export default [
     "from": "/docs/handbook/tutorial-video"
   },
   {
+    "to": "/docs/videos",
+    "from": "/docs/tutorial-video"
+  },
+  {
     "to": "/docs/",
     "from": "/docs/handbook/overview"
   },
