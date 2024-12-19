@@ -5,7 +5,7 @@ export default [
   },
   {
     "to": "/docs/videos",
-    "from": "/docs/tutorial-video"
+    "from": "/docs/tutorial-videos"
   },
   {
     "to": "/docs/",
