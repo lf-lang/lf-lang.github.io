@@ -22,6 +22,15 @@ export const copypastaPublications: ReactNode = (
     </li>
     <li>
       <p>
+        <strong>MEMOCODE '24</strong>: Byeonggil Jun, Edward A. Lee, Marten Lohstroh, and Hokeun Kim.
+        "<Link href="https://doi.org/10.1109/MEMOCODE63347.2024.00019">
+        Efficient Coordination for Distributed Discrete-Event Systems
+        </Link>",
+        in <i>Proceedings of the 22nd ACM-IEEE International Conference on Formal Methods and Models for System Design (MEMOCODE '24)</i>. October 2024, 114–118.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>ESL '24</strong>: Francesco Paladino, Erling Jellum, Efsane Soyer, and Edward A. Lee. 
         "<Link href="https://doi.org/10.1109/LES.2024.3467992">Layered Scheduling: Toward Better Real-Time Lingua Franca</Link>",
         IEEE Embedd. Syst. Letters 18(9), September 2024.
@@ -105,14 +114,14 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
       <p>
         <strong>VSSTE '23</strong>: Marcus Rossel, Shaokai Lin, Marten Lohstroh, Jeronimo Castrillon, Andrés Goens, "
         <Link href="https://cfaed.tu-dresden.de/files/Images/people/chair-cc/publications/2310_Rossel_VSSTE.pdf">
-	  Provable Determinism for Software in Cyber-Physical Systems</Link>," in 
-        <i>Proceedings of the 15th International Conference on Verified Software: Theories, Tools, and Experiments</i>, October 2023.
+	  Provable Determinism for Software in Cyber-Physical Systems</Link>,"
+    in <i>Proceedings of the 15th International Conference on Verified Software: Theories, Tools, and Experiments</i>, October 2023.
       </p>
     </li>
     <li>
       <p>
         <strong>MEMOCODE '23</strong>: Soroush Bateni, Marten Lohstroh, Hou Seng Wong,
-        Hokeun Kim, Shaokai Lin, Christian Menard, Edward A. Lee, "
+        Hokeun Kim, Shaokai Lin, Christian Menard, Edward A. Lee. "
         <Link href="https://doi.org/10.1145/3610579.3613219">
         Risk and Mitigation of Nondeterminism in Distributed Cyber-Physical Systems
         </Link>
