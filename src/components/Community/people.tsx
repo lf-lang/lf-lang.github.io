@@ -27,10 +27,11 @@ export const active = [
   {
     name: "Byeonggil Jun",
     avatar: "https://avatars.githubusercontent.com/u/78055940?s=400&v=4",
-    blurb: <Translate>Undergraduate student at Hanyang University.</Translate>,
+    blurb: <Translate>Ph.D. student at Arizona State University.</Translate>,
   },
   {
     name: "Dongha Kim",
+    personalSiteUrl: "https://jakio815.github.io/",
     avatar: "https://avatars.githubusercontent.com/u/74869052?s=400&v=4",
     blurb: <Translate>Ph.D. student at Arizona State University.</Translate>,
   },
