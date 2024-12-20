@@ -8,6 +8,13 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>arXiv</strong>: Jacky Kwok, Shulu Li, Marten Lohstroh, Edward A. Lee.
+        "<Link href="https://arxiv.org/abs/2412.01799">HPRM: High-Performance Robotic Middleware for Intelligent Autonomous Systems</Link>."
+        arXiv:2412.01799v1 [cs.RO] 2 Dec 2024.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>REC '24</strong>: Erling Rennemo Jellum, Martin Schoeberl, Edward A. Lee, Milica Orlandic. 
         "<Link href="https://doi.org/10.1145/3672083">Codesign of Reactor-Oriented Hardware and Software for Cyber-Physical Systems</Link>",
         ACM Transactions on Reconfigurable Technology and Systems (17)4, Nov. 7 2024.
