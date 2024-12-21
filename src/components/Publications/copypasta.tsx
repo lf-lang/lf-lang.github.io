@@ -112,7 +112,7 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
     </li>
     <li>
       <p>
-        <strong>VSSTE '23</strong>: Marcus Rossel, Shaokai Lin, Marten Lohstroh, Jeronimo Castrillon, Andrés Goens, "
+        <strong>VSSTE '23</strong>: Marcus Rossel, Shaokai Lin, Marten Lohstroh, Jeronimo Castrillon, Andrés Goens."
         <Link href="https://cfaed.tu-dresden.de/files/Images/people/chair-cc/publications/2310_Rossel_VSSTE.pdf">
 	  Provable Determinism for Software in Cyber-Physical Systems</Link>,"
     in <i>Proceedings of the 15th International Conference on Verified Software: Theories, Tools, and Experiments</i>, October 2023.
