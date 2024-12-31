@@ -2854,6 +2854,11 @@ Reactions in C can use a number of pre-defined functions, macros, and constants 
 
   - Schedule future events, such as `lf_schedule` and `lf_schedule_value` ([api.h](https://www.lf-lang.org/reactor-c/dc/d65/api_8h.html))
 
+- **Reactor Names**
+
+  - `lf_reactor_name(self)`: Returns the name of the reactor that contains the current reaction. The name is that assigned upon instantiation. If the reactor is in a bank, then the name has a suffix of the form `[bank_index]`.
+  - `lf_reactor_full_name(self)`: Returns the full name of the reactor that contains the current reaction. This is the name of the reactor and all its parent reactors, separated by periods.
+
 - **File Access**
 
   - LF_SOURCE_DIRECTORY: A C string giving the full path to the directory containing the `.lf` file of the program.
