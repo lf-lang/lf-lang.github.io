@@ -2443,8 +2443,7 @@ is equivalent to
 In the `Delay` reactor, the reaction to the input `_in` declares as its effect
 the action `a`. This declaration makes it possible for the reaction to schedule
 a future triggering of `a` using the
-[`a.schedule()`](<../reference/target-language-details.mdx#schedule-functions>)
-method.
+`a.schedule()` method available on [actions](#actions)
 
 The first reaction declares that it is triggered by `a` and has effect `out`. To
 read the value, it uses the `a.value` syntax. Because this reaction is first,
@@ -2863,6 +2862,7 @@ Reactions in C can use a number of pre-defined functions, macros, and constants 
 
   - LF_SOURCE_DIRECTORY: A C string giving the full path to the directory containing the `.lf` file of the program.
   - LF_PACKAGE_DIRECTORY: A C string giving the full path to the directory that is the root of the project or package (normally, the directory above the `src` directory).
+  - LF_SOURCE_GEN_DIRECTORY: The directory in which generated files and any files in the [files](target-declaration#files) target directive are placed.
   - LF_FILE_SEPARATOR: A C string giving the file separator for the platform containing the `.lf` file ("/" for Unix-like systems, "\\" for Windows).
 
 These are useful when your application needs to open and read additional files. For example, the following C code can be used to open a file in a subdirectory called `dir` of the directory that contains the `.lf` file:

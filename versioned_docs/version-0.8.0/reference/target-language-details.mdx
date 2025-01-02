@@ -2441,8 +2441,7 @@ is equivalent to
 In the `Delay` reactor, the reaction to the input `_in` declares as its effect
 the action `a`. This declaration makes it possible for the reaction to schedule
 a future triggering of `a` using the
-[`a.schedule()`](<../reference/target-language-details.mdx#schedule-functions>)
-method.
+`a.schedule()` method available on [actions](#actions)
 
 The first reaction declares that it is triggered by `a` and has effect `out`. To
 read the value, it uses the `a.value` syntax. Because this reaction is first,
