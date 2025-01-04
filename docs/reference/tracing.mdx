@@ -13,7 +13,7 @@ import {
 
 Tracing is a powerful tool when it comes to analysis and debugging of applications. Unfortunately, most tracing tools that are readily available are designed specifically for analyzing processes, threads and system calls. Specialized tools are required to enable analysis that is tailored to an alternative model of computation such as Reactors. The tools should be capable of understanding the fundamental concepts of the model, such as the distinction between logical and physical time, as well as structural units such as reactors and reactions. This page gives an overview of the currently supported trace mechanism, as well as an outline of alternative tools that could be useful in the future.
 
-Tracing is different from [logging](<../introduction.md#logging>). Logging produces human-readable output in textual form and incurs significant overhead. Tracing produces binary data that must be further processed to be useful and is designed to have minimal impact on the execution time of a program.
+Tracing is different from [logging](target-declaration.mdx#logging). Logging produces human-readable output in textual form and incurs significant overhead. Tracing produces binary data that must be further processed to be useful and is designed to have minimal impact on the execution time of a program.
 
 Tracing is currently supported in the C, Python, and C++ targets. The mechanism used in C and Python is different from that used in C++. Tracing in C++ requires third-party tools that may only be available in Linux. Tracing in C and Python does not require any third-party tools.
 

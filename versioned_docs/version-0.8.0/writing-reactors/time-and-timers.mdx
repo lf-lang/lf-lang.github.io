@@ -15,7 +15,7 @@ import {
 
 A key property of Lingua Franca is **logical time**. All events occur at an instant in logical time. By default, the runtime system does its best to align logical time with **physical time**, which is some measurement of time on the execution platform. The **lag** is defined to be physical time minus logical time, and the goal of the runtime system is maintain a small non-negative lag.
 
-The **lag** is allowed to go negative only if the [`fast`](<../reference/target-declaration#fast>) target property or the [`--fast`](<../reference/target-declaration#command-line-arguments>) command-line argument is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
+The **lag** is allowed to go negative only if the [`fast`](../reference/target-declaration.mdx#fast) target property or the [`--fast`](../reference/target-declaration.mdx#command-line-arguments) command-line argument is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
 
 <ShowOnly c cpp rs>
 
@@ -60,7 +60,7 @@ import TS_SlowingClock from '../assets/code/ts/src/SlowingClock.lf';
 
 <NoSelectorTargetCodeBlock c={C_SlowingClock} cpp={Cpp_SlowingClock} py={Py_SlowingClock} rs={Rs_SlowingClock} ts={TS_SlowingClock} lf />
 
-This has two time parameters, `start` and `incr`, each with default value `100 ms` <ShowOnly c cpp rs inline>and type `time`</ShowOnly>. This parameter is used to initialize the `interval` state variable, which also stores a time. The `logical` `action` `a`, explained in [Actions](<../writing-reactors/actions.mdx#logical-actions>), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
+This has two time parameters, `start` and `incr`, each with default value `100 ms` <ShowOnly c cpp rs inline>and type `time`</ShowOnly>. This parameter is used to initialize the `interval` state variable, which also stores a time. The `logical` `action` `a`, explained in [Actions](../writing-reactors/actions.mdx#logical-actions), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
 
 ```
 Logical time since start: 100000000 nsec.
@@ -80,7 +80,7 @@ The simplest use of logical time in Lingua Franca is to invoke a reaction period
 
 The `<period>`, which is optional, specifies the time interval between timer events. The `<offset>`, which is also optional, specifies the (logical) time interval between when the program starts executing and the first timer event. If no period is given, then the timer event occurs only once. If neither an offset nor a period is specified, then one timer event occurs at program start, simultaneous with the `startup` event.
 
-The period and offset are given by a number and a units, for example, `10 ms`. See the [expressions documentation](<../reference/expressions.mdx#basic-expressions>) for allowable units. Consider the following example:
+The period and offset are given by a number and a units, for example, `10 ms`. See the [expressions documentation](../reference/expressions.mdx#basic-expressions) for allowable units. Consider the following example:
 
 import C_Timer from '../assets/code/c/src/Timer.lf';
 import Cpp_Timer from '../assets/code/cpp/src/Timer.lf';
@@ -165,7 +165,7 @@ A reaction is always invoked at a well-defined logical time, and logical time do
 
 ## Timeout
 
-By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](<../introduction.md#timeout>) or a [`--timeout` command-line option](<../introduction.md#command-line-arguments>). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
+By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](../reference/target-declaration.mdx#timeout) or a [`--timeout` command-line option](../reference/target-declaration.mdx#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
 
 <NoSelectorTargetCodeBlock lf
   c={`target C {
@@ -215,4 +215,4 @@ import TS_TestCount from '../assets/code/ts/src/TestCount.lf';
 
 This reactor tests its inputs against expected values, which are expected to start with the value given by the `start` parameter and increase by `stride` with each successive input. It expects to receive a total of `num_inputs` input events. It checks the total number of inputs received in its `shutdown` reaction.
 
-The **shutdown** trigger typically occurs at [microstep](<../writing-reactors/actions.mdx#superdense-time>) 0, but may occur at a larger microstep. See [Superdense Time](<../writing-reactors/actions.mdx#superdense-time>) and [Termination](../writing-reactors/termination.mdx).
+The **shutdown** trigger typically occurs at [microstep](../writing-reactors/actions.mdx#superdense-time) 0, but may occur at a larger microstep. See [Superdense Time](../writing-reactors/actions.mdx#superdense-time) and [Termination](../writing-reactors/termination.mdx).
