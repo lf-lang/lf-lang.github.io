@@ -215,4 +215,4 @@ import TS_TestCount from '../assets/code/ts/src/TestCount.lf';
 
 This reactor tests its inputs against expected values, which are expected to start with the value given by the `start` parameter and increase by `stride` with each successive input. It expects to receive a total of `num_inputs` input events. It checks the total number of inputs received in its `shutdown` reaction.
 
-The **shutdown** trigger typically occurs at [microstep](../writing-reactors/actions.mdx#superdense-time) 0, but may occur at a larger microstep. See [Superdense Time](../writing-reactors/actions.mdx#superdense-time) and [Termination](../writing-reactors/termination.mdx).
+The **shutdown** trigger typically occurs at [microstep](../writing-reactors/superdense-time.mdx) 0, but may occur at a larger microstep. See [Superdense Time](../writing-reactors/superdense-time.mdx) and [Termination](../writing-reactors/termination.mdx).

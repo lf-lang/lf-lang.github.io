@@ -326,7 +326,7 @@ Your platform is Linux
 
 By putting import in the `preamble`, the module becomes available in all reactions of this reactor using the `self` modifier.
 
-**Note:** Preambles will be put in the generated Python class for the given reactor, and thus is part of the instance of the reactor. This means that anything you put in the preamble will be specific to a particular reactor instance and cannot be used to share information between different instantiations of the reactor (this is a feature, not a bug, because it helps ensure determinacy). For more information about implementation details of the Python target, see [Implementation Details](<../reference/target-language-details.mdx#python-target-implementation-details>).
+**Note:** Preambles will be put in the generated Python class for the given reactor, and thus is part of the instance of the reactor. This means that anything you put in the preamble will be specific to a particular reactor instance and cannot be used to share information between different instantiations of the reactor (this is a feature, not a bug, because it helps ensure determinacy). For more information about implementation details of the Python target, see [Implementation Details](<../reference/target-language-details.mdx>).
 
 Alternatively, you can define a `preamble` outside any reactor definition. Such a `preamble` can be used for functions such as import or to define a global function. The following example shows importing the [hello](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/include/hello.py) module:
 
@@ -432,7 +432,7 @@ Converted string 42 to number 42
 
 ### Using Node Modules
 
-Installing Node.js modules for TypeScript reactors with `npm` is essentially the same as installing modules for an ordinary Node.js program. First, write a Lingua Franca program (`Foo.lf`) and compile it. It may not type check if if you're importing modules in the preamble and you haven't installed the modules yet, but compiling your program will cause the TypeScript code generator to [produce a project](#typescript-target-implementation-details) for your program. There should now be a package.json file in the same directory as your .lf file. Open a terminal and navigate to that directory. You can use the standard [`npm install`](https://docs.npmjs.com/cli/install) command to install modules for your TypeScript reactors.
+Installing Node.js modules for TypeScript reactors with `npm` is essentially the same as installing modules for an ordinary Node.js program. First, write a Lingua Franca program (`Foo.lf`) and compile it. It may not type check if if you're importing modules in the preamble and you haven't installed the modules yet, but compiling your program will cause the TypeScript code generator to [produce a project](../reference/target-language-details.mdx) for your program. There should now be a package.json file in the same directory as your .lf file. Open a terminal and navigate to that directory. You can use the standard [`npm install`](https://docs.npmjs.com/cli/install) command to install modules for your TypeScript reactors.
 
 The important takeaway here is with the package.json file and the compiled JavaScript in the Foo/dist/ directory, you have a standard Node.js program that executes as such. You can modify and debug it just as you would a Node.js program.
 

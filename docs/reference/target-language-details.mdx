@@ -3052,7 +3052,7 @@ Unlike the C target, the Cpp target implements more of the analysis and setup of
 </ShowIf>
 <ShowIf py>
 
-The Python target is built on top of the C runtime to enable maximum efficiency where possible. It uses the single-threaded C runtime by default but will switch to the multi-threaded C runtime if a physical action is detected. The [threading](target-declaration.mdx#threading) target property can be used to override this behavior.
+The Python target is built on top of the C runtime to enable maximum efficiency where possible. It uses the single-threaded C runtime by default but will switch to the multi-threaded C runtime if a physical action is detected. The [single-threaded](target-declaration.mdx#single-threaded) target property can be used to override this behavior.
 
 Running [lfc](../tools/command-line-tools.mdx) on a `XXX.lf` program that uses the Python target specification on a
 Linux machine will create the following files (other operating systems will have
