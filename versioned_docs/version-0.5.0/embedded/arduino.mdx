@@ -3,7 +3,7 @@ title: Arduino
 description: Developing LF Programs on Arduino.
 ---
 
-# Overview
+## Overview
 
 To run Lingua Franca on an Arduino-compatible microcontroller, you can use the
 `C` target with the `platform` target property set to `arduino`. The Lingua
@@ -13,7 +13,7 @@ To flash the compiled sketch onto a board, you need specify a Fully Qualified
 Board Name (FQBN) as well as the port to which your board is connected. On this
 page, we explain exactly how to do this.
 
-## Prerequisites
+### Prerequisites
 
 - You need a development system that runs on macOS or Linux (there is currently no Windows support).
 - [Arduino CLI](https://arduino.github.io/arduino-cli/) must be installed on your development system. Confirm that your installation works by running:
@@ -22,7 +22,7 @@ page, we explain exactly how to do this.
 arduino-cli version
 ```
 
-# Writing a simple Arduino Program
+## Writing a simple Arduino Program
 
 The most basic Arduino program (Blink) can be defined in LF like so:
 
@@ -56,7 +56,7 @@ can invoke Arduino library functions, just like one would do in the definition
 of an Arduino `loop()`. For any setup that might be needed at the beginning of
 execution, a reaction triggered by the built-in `startup` trigger can be used.
 
-## Platform Options
+### Platform Options
 
 The `platform` property can also be used so specify more details. Along with `name: "arduino"`,
 you can specify which `board`, `port`, and `baud-rate` you are using. If you want the program
@@ -77,14 +77,14 @@ target C {
 
 The `board` is necessary for [building](#building) and the `port` is necessary for [flashing](#flashing).
 
-### Baud rate of the serial port
+#### Baud rate of the serial port
 
 All Arduino boards have at least one serial port (also known as a UART or
 USART), and some have several. By default, Lingua Franca will assume a default
 baud rate of 9600. This parameter is tunable by adjusting the `baud-rate`
 parameter in platform options.
 
-# Building
+## Building
 
 In order to have `arduino-cli` compile the generated sketch file, a `board` must
 be specified. If no `board` is set, `lfc` will run in `no-compile` mode, meaning
@@ -112,7 +112,7 @@ If you specify your FQBN under `board` in the `platform` target property, `lfc` 
 - for threaded programs (`arduino:mbed` boards), run:
   `arduino-cli compile -b [FQBN] --build-property compiler.c.extra_flags="-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10" --build-property compiler.cpp.extra_flags="-DLF_THREADED -DPLATFORM_ARDUINO -DINITIAL_EVENT_QUEUE_SIZE=10 -DINITIAL_REACT_QUEUE_SIZE=10"`
 
-# Flashing
+## Flashing
 
 Arduino's can be flashed via USB. To find the port oto which your device is connected, run the following command:
 

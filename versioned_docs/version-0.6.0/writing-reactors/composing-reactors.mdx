@@ -172,7 +172,7 @@ Connections may include a **logical delay** using the `after` keyword, as follow
 
 where `<time_value>` can be any of the forms described in [Expressions](../reference/expressions.mdx).
 
-The `after` keyword specifies that the logical time of the event delivered to the destination port will be larger than the logical time of the reaction that wrote to source port. The time value is required to be non-negative, but it can be zero, in which case the input event at the receiving end will be one [microstep](<../writing-reactors/actions.mdx#superdense-time>) later than the event that triggered it.
+The `after` keyword specifies that the logical time of the event delivered to the destination port will be larger than the logical time of the reaction that wrote to source port. The time value is required to be non-negative, but it can be zero, in which case the input event at the receiving end will be one [microstep](<../writing-reactors/superdense-time.mdx>) later than the event that triggered it.
 
 ## Physical Connections
 

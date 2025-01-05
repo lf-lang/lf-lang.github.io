@@ -29,7 +29,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
 - [**cargo-features**](#cargo-features): (Rust only) List of string names of features to include.
 - [**cmake**](#cmake): Whether to use cmake for building.
-- [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
+- [**cmake-include**](#cmake-include): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
 - [**docker**](#docker): A boolean to generate a Dockerfile.
 - [**external-runtime-path**](#external-runtime-path): Specify a pre-compiled external runtime library located to link to instead of the default.
@@ -45,7 +45,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**rust-include**](#rust-include): (Rust only) A set of Rust modules in the generated project.
 - [**scheduler**](#scheduler): (C only) Specification of the scheduler to use.
 - [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](target-language-details/?target-languages=rs#file-layout).
-- [**threading**](#threading): Whether to use multiple threads.
+- [**single-threaded**](#single-threaded): Whether to use multiple threads.
 - [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](../writing-reactors/termination.mdx).
 - [**workers**](#workers): If using multiple threads, how many worker threads to create.
 
@@ -610,7 +610,7 @@ This argument takes a string (with quotation marks) containing any tag, branch n
 This target does not support the `rust-include` target option.
 </ShowIf>
 <ShowIf rs>
-This specifies a set of Rust modules in the generated project. See [Linking support files](#linking-support-files).
+This specifies a set of Rust modules in the generated project.
 </ShowIf>
 </ShowIfs>
 
@@ -632,18 +632,18 @@ This specifies the scheduler to use. See[Target Language Details](<../reference/
 This target does not support the `single-file-project` target option.
 </ShowIf>
 <ShowIf rs>
-If true, enables [single-file project layout](#single-file-layout).
+If true, enables single-file project layout.
 </ShowIf>
 </ShowIfs>
 
-## threading
+## single-threaded
 
 <ShowIfs>
 <ShowIf cpp ts >
-This target does not support the `threading` target option.
+This target does not support the `single-threaded` target option.
 </ShowIf>
 <ShowIf c>
-If threading is disabled (by setting `threading` to `false`), then no thread library is used, and the `lf_schedule()` function is not thread safe. This setting is incompatible with asynchronously scheduling any physical actions and hence this parameter will be ignored for programs that have physical actions.
+If threading is disabled (by setting `single-threaded` to `true`), then no thread library is used, and the `lf_schedule()` function is not thread safe. This setting is incompatible with asynchronously scheduling any physical actions and hence this parameter will be ignored for programs that have physical actions.
 See [workers](#workers).
 </ShowIf>
 <ShowIf py>
@@ -667,7 +667,7 @@ A time value (with units) specifying the logical stop time of execution. See [Te
 This target does not support the `workers` target option.
 </ShowIf>
 <ShowIf c>
-This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. If threading is turned on (the default, see [threading](#threading)), then the generated code will use a target platform thread library and generate multi-threaded code. This can transparently execute reactions that have no dependence on one another in parallel on multiple cores. By default, threading is turned on, and the `workers` property is set to `0`, which means that the number of workers is determined by the runtime system. Typically, it will be set to the number of cores on the machine running the code. To use a different number of worker threads, give a positive integer for this target parameter.
+This parameter takes a non-negative integer and specifies the number of worker threads to execute the generated program. If threading is turned on (the default, see [single-threaded](#single-threaded)), then the generated code will use a target platform thread library and generate multi-threaded code. This can transparently execute reactions that have no dependence on one another in parallel on multiple cores. By default, threading is turned on, and the `workers` property is set to `0`, which means that the number of workers is determined by the runtime system. Typically, it will be set to the number of cores on the machine running the code. To use a different number of worker threads, give a positive integer for this target parameter.
 
 With value `0`, the runtime engine is free to choose the number of worker threads to use. Typically, this will equal the number of hardware threads on the machine on which the Lingua Franca code generator is run.
 </ShowIf>
@@ -710,7 +710,7 @@ Any errors in command-line arguments result in printing the above information. T
 
 ### Custom Command-Line Arguments
 
-User-defined command-line arguments may be created by giving the main reactor [parameters](#using-parameters). Assigning the main reactor a parameter of type `string`, `number`, `boolean`, or `time` will add an argument with corresponding name and type to the generated program's command-line-interface. Custom arguments will also appear in the generated program's usage guide (from the `--help` option). If the generated program is executed with a value specified for a custom command-line argument, that value will override the default value for the corresponding parameter. Arguments typed `string`, `number`, and `boolean` are parsed in the expected way, but `time` arguments must be specified on the command line like the `--timeout` property as `'<duration> <units>'` (in quotes).
+User-defined command-line arguments may be created by giving the main reactor [parameters](../writing-reactors/parameters-and-state-variables.mdx#parameter-declaration). Assigning the main reactor a parameter of type `string`, `number`, `boolean`, or `time` will add an argument with corresponding name and type to the generated program's command-line-interface. Custom arguments will also appear in the generated program's usage guide (from the `--help` option). If the generated program is executed with a value specified for a custom command-line argument, that value will override the default value for the corresponding parameter. Arguments typed `string`, `number`, and `boolean` are parsed in the expected way, but `time` arguments must be specified on the command line like the `--timeout` property as `'<duration> <units>'` (in quotes).
 
 Note: Custom arguments may not have the same names as standard arguments like `timeout` or `keepalive`.
 
@@ -787,7 +787,7 @@ The generated C program understands the following command-line arguments, each o
 
 - `-f, --fast [true | false]`: Specifies whether to wait for physical time to match logical time. The default is `false`. If this is `true`, then the program will execute as fast as possible, letting logical time advance faster than physical time.
 - `-o, --timeout <duration> <units>`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
-- `-w, --workers <n>`: Executed using \<n\> worker threads if possible. This option is ignored in the single-threaded version. That is, it is ignored if a `threading` option was given in the target properties with value `false`.
+- `-w, --workers <n>`: Executed using \<n\> worker threads if possible. This option is ignored in the single-threaded version. That is, it is ignored if a `single-threaded` option was `true` in the target properties.
 - `-i, --id <n>`: The ID of the federation that this reactor will join.
 
 Any other command-line arguments result in printing the above information.
@@ -800,7 +800,7 @@ The generated C++ program understands the following command-line arguments, each
 - `-w, --workers <n>`: Use n worker threads for executing reactions.
 - `--help`: Print the above information.
 
-If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary (see [Using Parameters](#using-parameters)).
+If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary.
 </ShowIf>
 <ShowIf py>
 The Python target does not currently support any command-line arguments. You must specify properties as target parameters.
@@ -812,7 +812,7 @@ The generated executable may feature a command-line interface (CLI), if it uses 
   - `--timeout <time value>`: override the default timeout mentioned as a target property. The syntax for times is just like the LF one (e.g. `1msec`, `"2 seconds"`).
   - `--workers <number>`: override the default worker count mentioned as a target property. This option is **ignored** unless the runtime crate has been built with the feature `parallel-runtime`.
   - `--export-graph`: export the dependency graph (corresponds to `export-dependency-graph` target property). This is a flag, i.e., absent means false, present means true. This means the value of the target property is ignored and not used as default.
-  - `--log-level`: corresponds to the `logging` target property, but note that the levels have different meanings, and the target property is ignored. See [Logging levels](#logging-levels).
+  - `--log-level`: corresponds to the `logging` target property, but note that the levels have different meanings, and the target property is ignored.
 - parameters of the main reactor are translated to CLI parameters.
   - Each LF parameter named `param` corresponds to a CLI parameter named `--main-param`. Underscores in the LF parameter name are replaced by hyphens.
   - The type of each parameters must implement the trait [`FromStr`](https://doc.rust-lang.org/std/str/trait.FromStr.html).
