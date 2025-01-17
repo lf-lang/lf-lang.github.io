@@ -225,7 +225,7 @@ With centralized coordination, all messages (except those on [physical connectio
 
 ### Optimization of Communication Overhead
 
-To reduce the communication of centralized coordination overhead caused by signals for coordinating federates, a signal named **Downstream Next Event Tag** (**DNET**) is introduced. This signal is beneficial if federates send the actual output (tagged message) sparsely, which is a frequent pattern in Cyber-Physical Systems, e.g., systems sensing the environment frequent but the actual event happens rarely.
+To reduce the communication of centralized coordination overhead caused by signals for coordinating federates, a signal named **Downstream Next Event Tag** (**DNET**) is introduced. This signal is beneficial if federates send the actual output (tagged message) sparsely, which is a frequent pattern in Cyber-Physical Systems, e.g., systems sensing the environment frequent but the actual event happens rarely. For more information, please refer to [this paper](https://ieeexplore.ieee.org/document/10740771).
 
 Although the effectiveness of this signal depends on the characteristic (how sparsely federates produce messages) and the structure (how federates are connected) of the program, the signal **DNET** is enabled by default because the benefit is crucially high in the best case scenarios and the drawback is limited even in the worst case scenarios. Users can simply disable this feature by specifying the target property:
 ```
