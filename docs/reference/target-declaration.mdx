@@ -28,7 +28,8 @@ A target specification may have optional parameters, the names and values of whi
 - [**build-type**](#build-type): One of Debug (the default), Release, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
 - [**cargo-features**](#cargo-features): (Rust only) List of string names of features to include.
-- [**cmake-include**](#cmake-include): List of paths to cmake files to guide compilation.
+- [**cmake-include**](#cmake-include): List of paths to cmake files to be included in the generated CMakeLists.txt.
+- [**cmake-init-include**](#cmake-init-include): List of paths to cmake files to be included at the beginning of the generated CMakeLists.txt.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
 - [**docker**](#docker): A boolean to generate a Dockerfile.
 - [**external-runtime-path**](#external-runtime-path): Specify a pre-compiled external runtime library located to link to instead of the default.
@@ -57,6 +58,7 @@ c={
     build: <string>,
     build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
     cmake-include: <string or list of strings>,
+    cmake-init-include: <string or list of strings>,
     compiler: <string>,
     compiler-flags: <string or list of strings>,
     docker: <true or false>,
@@ -74,6 +76,7 @@ cpp={
 `target Cpp {
     build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
     cmake-include: <string or list of strings>,
+    cmake-init-include: <string or list of strings>,
     compiler: <string>,
     external-runtime-path: <string>,
     export-dependency-graph <true or false>,
@@ -289,7 +292,7 @@ target Cpp {
 };
 ```
 
-This will optionally append additional custom CMake instructions to the generated `CMakeLists.txt`, drawing these instructions from the specified text files (e.g, `foo.txt`). The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](../writing-reactors/distributed-execution.mdx))</span>.
+This will optionally include custom CMake files at the bottom of the generated `CMakeLists.txt`. The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](../writing-reactors/distributed-execution.mdx))</span>.
 
 The cmake-include target property can be used, for example, to add dependencies on various packages (e.g., by using the [`find_package`](https://cmake.org/cmake/help/latest/command/find_package.html) and [`target_link_libraries`](https://cmake.org/cmake/help/latest/command/target_link_libraries.html) commands).
 
@@ -320,6 +323,52 @@ The `cmake-include` parameter works in conjunction with the `import` statement. 
 See [`AsyncCallback.lf`](https://github.com/lf-lang/lingua-franca/blob/master/test/Cpp/src/concurrent/AsyncCallback.lf) for an example.
 
 </ShowOnly>
+
+</ShowOnly>
+
+
+<ShowOnly c cpp>
+## cmake-init-include
+
+```lf-c
+target C {
+    cmake-init-include: ["relative/path/to/foo.txt", "relative/path/to/bar.txt", ...]
+};
+```
+
+```lf-cpp
+target Cpp {
+    cmake-init-include: ["relative/path/to/foo.txt", "relative/path/to/bar.txt", ...]
+};
+```
+
+This will optionally include custom CMake files at the beginning of the generated `CMakeLists.txt`. The specified files are resolved using the same file search algorithm as used for the [files](#files) target parameter. Those files will be copied into the `src-gen` directory that contains the generated sources. This is done to make the generated code more portable<span class="lf-c"> (a feature that is useful in [federated execution](../writing-reactors/distributed-execution.mdx))</span>.
+
+The cmake-init-include target property is needed if you would like to change the toolchain file of CMake to enable cross-compilation. This has to be done before the `project()` statement found at the very beginning of a `CMakeLists.txt`
+
+For example, the following CMake file sets up cross compilation targeting an Arm-based microcontroller.
+```cmake
+set(CMAKE_SYSTEM_NAME Generic)
+set(CMAKE_SYSTEM_PROCESSOR arm)
+set(TOOLCHAIN_PREFIX arm-none-eabi-)
+set(FLAGS
+    "-fdata-sections -ffunction-sections \
+    --specs=nano.specs -Wl,--gc-sections")
+set(CPP_FLAGS
+    "-fno-rtti -fno-exceptions \
+    -fno-threadsafe-statics")
+set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}gcc ${FLAGS})
+set(CMAKE_ASM_COMPILER ${CMAKE_C_COMPILER})
+set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}g++ ${FLAGS} ${CPP_FLAGS})
+set(CMAKE_OBJCOPY ${TOOLCHAIN_PREFIX}objcopy)
+set(CMAKE_SIZE ${TOOLCHAIN_PREFIX}size)
+
+set(CMAKE_EXECUTABLE_SUFFIX_ASM ".elf")
+set(CMAKE_EXECUTABLE_SUFFIX_C ".elf")
+set(CMAKE_EXECUTABLE_SUFFIX_CXX ".elf")
+
+set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
+```
 
 </ShowOnly>
 
