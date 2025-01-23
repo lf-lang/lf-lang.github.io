@@ -370,6 +370,9 @@ set(CMAKE_EXECUTABLE_SUFFIX_CXX ".elf")
 set(CMAKE_TRY_COMPILE_TARGET_TYPE STATIC_LIBRARY)
 ```
 
+To work, this file must be included before the `project()` statement in the generated CMakeLists.txt and, as such, be
+added using the cmake-init-include target property.
+
 </ShowOnly>
 
 ## compiler
