@@ -9,7 +9,7 @@ import Heading from "@theme/Heading";
 import { TeamRow } from "./profiles";
 import { active, past } from "./people";
 
-import { ReactElement, ReactNode } from "react";
+import { JSX, ReactElement, ReactNode } from "react";
 import Link from "@docusaurus/Link";
 
 import ZulipLogo from "@site/static/img/external-logos/zulip-icon-circle.svg";

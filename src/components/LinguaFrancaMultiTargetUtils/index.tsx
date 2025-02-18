@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode, ReactElement } from "react";
+import React, { useState, useEffect, ReactNode, ReactElement, JSX } from "react";
 import { LangSpecific } from "./LangSpecific";
 // This is a rather dirty hack, but it's kinda a necessary evil......
 import { useTabs, type TabsProps } from "@docusaurus/theme-common/internal";
