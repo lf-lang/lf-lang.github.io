@@ -1,7 +1,11 @@
 export default [
   {
-    "to": "/docs/tutorial-videos",
+    "to": "/docs/videos",
     "from": "/docs/handbook/tutorial-video"
+  },
+  {
+    "to": "/docs/videos",
+    "from": "/docs/tutorial-videos"
   },
   {
     "to": "/docs/",

@@ -28,9 +28,8 @@ A target specification may have optional parameters, the names and values of whi
 - [**build-type**](#build-type): One of Debug (the default), Release, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
 - [**cargo-features**](#cargo-features): (Rust only) List of string names of features to include.
-- [**cmake-include**](#cmake): List of paths to cmake files to guide compilation.
+- [**cmake-include**](#cmake-include): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
-- [**compiler-flags**](#compiler-flags): An arrays of strings giving options to be passed to the target compiler.
 - [**docker**](#docker): A boolean to generate a Dockerfile.
 - [**external-runtime-path**](#external-runtime-path): Specify a pre-compiled external runtime library located to link to instead of the default.
 - [**export-dependency-graph**](#export-dependency-graph): To export the reaction dependency graph as a dot graph (for debugging).
@@ -44,7 +43,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**runtime-version**](#runtime-version): Specify which version of the runtime system to use.
 - [**rust-include**](#rust-include): (Rust only) A set of Rust modules in the generated project.
 - [**scheduler**](#scheduler): (C only) Specification of the scheduler to use.
-- [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](#single-file-layout).
+- [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](target-language-details/?target-languages=rs#file-layout).
 - [**single-threaded**](#single-threaded): Specify to not use multithreading.
 - [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](../writing-reactors/termination.mdx).
 - [**workers**](#workers): If using multiple threads, how many worker threads to create.
@@ -161,7 +160,7 @@ A command to execute after code generation instead of the default compile comman
 - `LF_CURRENT_WORKING_DIRECTORY`: The directory in which the command is invoked.
 - `LF_SOURCE_DIRECTORY`: The directory containing the .lf file being compiled.
 - `LF_PACKAGE_DIRECTORY`: The directory for the root of the project or package (normally the directory above the `src` directory).
-- `LF_SOURCE_GEN_DIRECTORY`: The directory in which generated files are placed.
+- `LF_SOURCE_GEN_DIRECTORY`: The directory in which generated files and any files in the [files](#files) target directive are placed.
 - `LF_BIN_DIRECTORY`: The directory into which to put binaries.
 
 The command will be executed in the same directory as the `.lf` file being compiled. For example, if you specify
@@ -400,6 +399,7 @@ This target does not support the `files` option.
 </ShowIf>
 <ShowIf c py>
 The `files` target parameter specifies array of files or directories to be copied to the directory that contains the generated sources.
+The full path to that directory is available in C code via the `LF_SOURCE_GEN_DIRECTORY` macro.
 
 <ShowOnly c>
 ```lf-c
@@ -645,7 +645,7 @@ Any errors in command-line arguments result in printing the above information. T
 
 ### Custom Command-Line Arguments
 
-User-defined command-line arguments may be created by giving the main reactor [parameters](#using-parameters). Assigning the main reactor a parameter of type `string`, `number`, `boolean`, or `time` will add an argument with corresponding name and type to the generated program's command-line-interface. Custom arguments will also appear in the generated program's usage guide (from the `--help` option). If the generated program is executed with a value specified for a custom command-line argument, that value will override the default value for the corresponding parameter. Arguments typed `string`, `number`, and `boolean` are parsed in the expected way, but `time` arguments must be specified on the command line like the `--timeout` property as `'<duration> <units>'` (in quotes).
+User-defined command-line arguments may be created by giving the main reactor [parameters](../writing-reactors/parameters-and-state-variables.mdx#parameter-declaration). Assigning the main reactor a parameter of type `string`, `number`, `boolean`, or `time` will add an argument with corresponding name and type to the generated program's command-line-interface. Custom arguments will also appear in the generated program's usage guide (from the `--help` option). If the generated program is executed with a value specified for a custom command-line argument, that value will override the default value for the corresponding parameter. Arguments typed `string`, `number`, and `boolean` are parsed in the expected way, but `time` arguments must be specified on the command line like the `--timeout` property as `'<duration> <units>'` (in quotes).
 
 Note: Custom arguments may not have the same names as standard arguments like `timeout` or `keepalive`.
 
@@ -735,7 +735,7 @@ The generated C++ program understands the following command-line arguments, each
 - `-w, --workers <n>`: Use n worker threads for executing reactions.
 - `--help`: Print the above information.
 
-If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary (see [Using Parameters](#using-parameters)).
+If the main reactor declares parameters, these parameters will appear as additional CLI options that can be specified when invoking the binary.
 </ShowIf>
 <ShowIf py>
 The Python target does not currently support any command-line arguments. You must specify properties as target parameters.

@@ -720,7 +720,7 @@ A state variable may be a time value, declared as follows:
   state time_value:time = 100 ms
 ```
 
-The `time_value` variable will be of type `TimeValue`, which is an object used to represent a time in the TypeScript Target. Refer to the section on [timed behavior](#timed-behavior) for more information.
+The `time_value` variable will be of type `TimeValue`, which is an object used to represent a time in the TypeScript Target. Refer to the section on [timed behavior](#time) for more information.
 
 A state variable can have an array or object value. For example, the following reactor computes the **moving average** of the last four inputs each time it receives an input (from [MovingAverageImpl](https://github.com/lf-lang/lingua-franca/blob/master/test/TypeScript/src/MovingAverage.lf)):
 
@@ -1454,7 +1454,7 @@ In the TypeScript target, all [TypeScript types](https://www.typescriptlang.org/
 
 - `undefined` is not a valid type for an input, output, or action. This is because `undefined` is used to designate the absence of an input, output, or action during a reaction.
 
-As with parameters and state variables, custom types (and classes) must be defined in the [preamble](#preamble) before they may be used.
+As with parameters and state variables, custom types (and classes) must be defined in the [preamble](../writing-reactors/preambles.mdx) before they may be used.
 
 **To benefit from type checking, you should declare types for your reactor elements.** If a type isn't declared for an input, output, or action, it is assigned the [reactor-ts](https://github.com/lf-lang/reactor-ts) type `Present` which is defined as
 
@@ -2102,11 +2102,11 @@ Second iteration - the microstep part of the tag is:  1.
 ...
 ```
 
-The first reaction prints the "First iteration" part of the output at microstep 0. The second reaction occurs one microstep later (explained in [Scheduling Delayed Reactions](#scheduling-delayed-reactions)) and illustrates how to split a `Tag` into its constituent `TimeValue` and microstep.
+The first reaction prints the "First iteration" part of the output at microstep 0. The second reaction occurs one microstep later (explained in [Actions](../writing-reactors/actions.mdx)) and illustrates how to split a `Tag` into its constituent `TimeValue` and microstep.
 
 ### Summary of Time Functions
 
-See [Time](#timed-behavior). These time functions are defined in the [time.ts](https://github.com/lf-lang/reactor-ts/blob/master/src/core/time.ts) library of [reactor-ts](https://github.com/lf-lang/reactor-ts).
+See [Time](#time). These time functions are defined in the [time.ts](https://github.com/lf-lang/reactor-ts/blob/master/src/core/time.ts) library of [reactor-ts](https://github.com/lf-lang/reactor-ts).
 
 `UnitBasedTimeValue(value: number, unit:TimeUnit)` Constructor for `UnitBasedTimeValue`, a programmer-friendly subclass of TimeValue. Use a number and a `TimeUnit` enum.
 
@@ -2411,8 +2411,7 @@ is equivalent to
 In the `Delay` reactor, the reaction to the input `_in` declares as its effect
 the action `a`. This declaration makes it possible for the reaction to schedule
 a future triggering of `a` using the
-[`a.schedule()`](<../reference/target-language-details.mdx#schedule-functions>)
-method.
+`a.schedule()` method available on [actions](#actions)
 
 The first reaction declares that it is triggered by `a` and has effect `out`. To
 read the value, it uses the `a.value` syntax. Because this reaction is first,
@@ -2578,7 +2577,7 @@ This version carries an `int` value. The data type of the action is required to 
 
 > `lf_schedule_token(<action>, <offset>, <value>);`
 
-This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `lf_schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Structs](#Dynamically-Allocated-Structs) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any data type carried by a token:
+This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `lf_schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Data](#dynamically-allocated-data) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any data type carried by a token:
 
 ```lf-c
 reactor DelayPointer(delay:time(100 ms)) {
@@ -2730,15 +2729,15 @@ FIXME: Details needed here.
 
 A suite of useful functions is provided in [util.h](https://www.lf-lang.org/reactor-c/d8/d3c/util_8h.html) for producing messages to be made visible when the generated program is run. Of course, you can always use `printf`, but this is not a good choice for logging or debug information, and it is not a good choice when output needs to be redirected to a window or some other user interface (see for example the [sensor simulator](https://github.com/lf-lang/reactor-c/blob/main/util/sensor_simulator.h)). Also, in federated execution, these functions identify which federate is producing the message. The functions are listed below. The arguments for all of these are identical to `printf` with the exception that a trailing newline is automatically added and therefore need not be included in the format string.
 
-- `LF_PRINT_DEBUG(format, ...)`: Use this for verbose messages that are only needed during debugging. Nothing is printed unless the [target](<../introduction.md#logging>) parameter `logging` is set to `debug`. THe overhead is minimized when nothing is to be printed.
+- `LF_PRINT_DEBUG(format, ...)`: Use this for verbose messages that are only needed during debugging. Nothing is printed unless the [target](target-declaration.mdx#logging) parameter `logging` is set to `debug`. THe overhead is minimized when nothing is to be printed.
 
-- `LF_PRINT_LOG(format, ...)`: Use this for messages that are useful logs of the execution. Nothing is printed unless the [target parameter `logging`](<../introduction.md#logging>) is set to `log` or `debug`. This is a macro so that overhead is minimized when nothing is to be printed.
+- `LF_PRINT_LOG(format, ...)`: Use this for messages that are useful logs of the execution. Nothing is printed unless the [target parameter `logging`](target-declaration.mdx#logging) is set to `log` or `debug`. This is a macro so that overhead is minimized when nothing is to be printed.
 
-- `lf_print(format, ...)`: Use this for messages that should normally be printed but may need to be redirected to a user interface such as a window or terminal (see `register_print_function` below). These messages can be suppressed by setting the [logging target property](<../introduction.md#logging>) to `warn` or `error`.
+- `lf_print(format, ...)`: Use this for messages that should normally be printed but may need to be redirected to a user interface such as a window or terminal (see `register_print_function` below). These messages can be suppressed by setting the [logging target property](target-declaration.mdx#logging) to `warn` or `error`.
 
-- `lf_print_warning(format, ...)`: Use this for warning messages. These messages can be suppressed by setting the [logging target property](<../introduction.md#logging>) to `error`.
+- `lf_print_warning(format, ...)`: Use this for warning messages. These messages can be suppressed by setting the [logging target property](target-declaration.mdx#logging) to `error`.
 
-- `lf_print_error(format, ...)`: Use this for error messages. These messages are not suppressed by any [logging target property](<../introduction.md#logging>).
+- `lf_print_error(format, ...)`: Use this for error messages. These messages are not suppressed by any [logging target property](target-declaration.mdx#logging).
 
 - `lf_print_error_and_exit(format, ...)`: Use this for catastrophic errors.
 
@@ -2771,7 +2770,7 @@ Which type of messages are actually produced by the compiled program can be cont
 </ShowIf>
 <ShowIf py>
 
-The Python supports the [logging](<../introduction.md#logging>) target specification. This will cause the runtime to produce more or less information about the execution. However, user-facing functions for different logging levels are not yet implemented (see issue [#619](https://github.com/lf-lang/lingua-franca/issues/619)).
+The Python supports the [logging](target-declaration.mdx#logging) target specification. This will cause the runtime to produce more or less information about the execution. However, user-facing functions for different logging levels are not yet implemented (see issue [#619](https://github.com/lf-lang/lingua-franca/issues/619)).
 
 </ShowIf>
 <ShowIf ts>
@@ -2788,7 +2787,7 @@ The executable reacts to the environment variable `RUST_LOG`, which sets the log
 
 Error and warning logs are on by default. Enabling a level enables all greater levels (i.e., `RUST_LOG=info` also enables `warn` and `error`, but not `trace` or `debug`).
 
-Logging can also be turned on with the `--log-level` CLI option, if the application features a [CLI](<../introduction.md#command-line-arguments>).
+Logging can also be turned on with the `--log-level` CLI option, if the application features a [CLI](target-declaration.mdx#command-line-arguments).
 
 Note that the `logging` target property is ignored, as its levels do not match the Rust standard levels we use (those of the [`log` crate](https://docs.rs/log/)).
 
@@ -2962,7 +2961,7 @@ primitives and sleep functions.
 
 ### Multithreaded Implementation
 
-By default, the C runtime system uses multiple worker threads in order to take advantage of multicore execution. The number of worker threads will match the number of cores on the machine unless the `workers` argument is given in the [target](<../introduction.md#threading>) statement or the `--workers` [command-line argument](<../introduction.md#command-line-arguments>) is given.
+By default, the C runtime system uses multiple worker threads in order to take advantage of multicore execution. The number of worker threads will match the number of cores on the machine unless the `workers` argument is given in the [target](target-declaration.mdx#workers) statement or the `--workers` [command-line argument](target-declaration.mdx#command-line-arguments) is given.
 
 Upon initialization, the main thread will create the specified number of worker threads.
 Execution proceeds in a manner similar to the [single threaded implementation](#single-threaded-implementation)
@@ -2971,7 +2970,7 @@ The execution algorithm ensures that no reaction executes until all reactions th
 
 ### Single Threaded Implementation
 
-By giving the `single-threaded` [target option](<../introduction.md#single-threaded>) or the `--single-threaded` [command-line argument](<../introduction.md#command-line-arguments>), the generated program will execute the program using only a single thread. This option is most useful for creating programs to run on bare-metal microprocessors that have no threading support. On such platforms, mutual exclusion is typically realized by disabling interrupts.
+By giving the `single-threaded` [target option](target-declaration.mdx#single-threaded) or the `--single-threaded` [command-line argument](target-declaration.mdx#command-line-arguments), the generated program will execute the program using only a single thread. This option is most useful for creating programs to run on bare-metal microprocessors that have no threading support. On such platforms, mutual exclusion is typically realized by disabling interrupts.
 
 The execution strategy is to have two queues of pending accessor invocations, one that is sorted by
 tag (the **event queue**) and one that is sorted by priority (the **reaction queue**).
@@ -2979,9 +2978,9 @@ Execution proceeds as follows:
 
 1. At initialization, an event for each timer is put on the event queue and logical time is initialized to the current time, represented as the number of nanoseconds elapsed since January 1, 1970.
 
-2. At each logical time, pull all events from event queue that have the same earliest tag, find the reactions that these events trigger, and put them on the reaction queue. If there are no events on the event queue, then exit the program (unless the `--keepalive true` [command-line argument](<../introduction.md#command-line-arguments>) is given).
+2. At each logical time, pull all events from event queue that have the same earliest tag, find the reactions that these events trigger, and put them on the reaction queue. If there are no events on the event queue, then exit the program (unless the `--keepalive true` [command-line argument](target-declaration.mdx#command-line-arguments) is given).
 
-3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` [command-line argument](<../introduction.md#command-line-arguments>) is given). Then advance logical time to match that earliest timestamp.
+3. Wait until physical time matches or exceeds that earliest timestamp (unless the `--fast true` [command-line argument](target-declaration.mdx#command-line-arguments) is given). Then advance logical time to match that earliest timestamp.
 
 4. Execute reactions in order of priority from the reaction queue. These reactions may produce outputs, which results in more events getting put on the reaction queue. Those reactions are assured of having lower priority than the reaction that is executing. If a reaction calls `lf_schedule()`, an event will be put on the event queue, not the reaction queue.
 
@@ -2995,7 +2994,7 @@ Unlike the C target, the Cpp target implements more of the analysis and setup of
 </ShowIf>
 <ShowIf py>
 
-The Python target is built on top of the C runtime to enable maximum efficiency where possible. It uses the single-threaded C runtime by default but will switch to the multi-threaded C runtime if a physical action is detected. The [threading](<../introduction.md#threading>) target property can be used to override this behavior.
+The Python target is built on top of the C runtime to enable maximum efficiency where possible. It uses the single-threaded C runtime by default but will switch to the multi-threaded C runtime if a physical action is detected. The [single-threaded](target-declaration.mdx#single-threaded) target property can be used to override this behavior.
 
 Running [lfc](../tools/command-line-tools.mdx) on a `XXX.lf` program that uses the Python target specification on a
 Linux machine will create the following files (other operating systems will have
@@ -3180,7 +3179,7 @@ The Lingua Franca compiler automatically invokes other programs as it compiles a
 
 ### package.json
 
-Node.js uses a [package.json](https://nodejs.org/en/knowledge/getting-started/npm/what-is-the-file-package-json/) file to describe metadata relevant to a Node project. This includes a list of project dependencies (i.e. modules) used by the project. When the Lingua Franca compiler copies a default package.json file into a Lingua Franca project that doesn't already have a package.json, the compiler runs the command `npm install` to create a node_modules directory. The default package.json only lists dependencies for the [reactor-ts](https://github.com/lf-lang/reactor-ts) submodule. [Follow these instructions](#using-node-modules) to modify package.json if you want to use other Node modules in your reactors.
+Node.js uses a [package.json](https://nodejs.org/en/knowledge/getting-started/npm/what-is-the-file-package-json/) file to describe metadata relevant to a Node project. This includes a list of project dependencies (i.e. modules) used by the project. When the Lingua Franca compiler copies a default package.json file into a Lingua Franca project that doesn't already have a package.json, the compiler runs the command `npm install` to create a node_modules directory. The default package.json only lists dependencies for the [reactor-ts](https://github.com/lf-lang/reactor-ts) submodule. [Follow these instructions](../writing-reactors/preambles.mdx#using-node-modules) to modify package.json if you want to use other Node modules in your reactors.
 
 ### tsconfig.json
 
@@ -3192,7 +3191,7 @@ If the `tsc` type check was successful, the Lingua Franca compiler uses `babel` 
 
 ### Debugging Type Errors
 
-Let's take the [minimal reactor example](#a-minimal-example), and intentionally break it by adding a type error into the reaction.
+Let's take the minimal reactor example, and intentionally break it by adding a type error into the reaction.
 
 ```lf-ts
 target TypeScript;
@@ -3286,13 +3285,13 @@ These utility functions may be called within a TypeScript reaction:
 
 `util.getCurrentTag(): Tag` Gets the current (logical) tag. See [Tags](#tags).
 
-`util.getCurrentLogicalTime(): TimeValue` Gets the current logical TimeValue. See [Time](#timed-behavior).
+`util.getCurrentLogicalTime(): TimeValue` Gets the current logical TimeValue. See [Time](#time).
 
-`util.getCurrentPhysicalTime(): TimeValue` Gets the current physical TimeValue. See [Time](#timed-behavior).
+`util.getCurrentPhysicalTime(): TimeValue` Gets the current physical TimeValue. See [Time](#time).
 
-`util.getElapsedLogicalTime(): TimeValue` Gets the elapsed logical TimeValue from execution start. See [Time](#timed-behavior).
+`util.getElapsedLogicalTime(): TimeValue` Gets the elapsed logical TimeValue from execution start. See [Time](#time).
 
-`util.getElapsedPhysicalTime(): TimeValue` Gets the elapsed physical TimeValue from execution start. See [Time](#timed-behavior).
+`util.getElapsedPhysicalTime(): TimeValue` Gets the elapsed physical TimeValue from execution start. See [Time](#time).
 
 `util.success(): void` Invokes the [reactor-ts](https://github.com/lf-lang/reactor-ts) App's default success callback. FIXME: Currently doesn't do anything in Lingua Franca.
 
@@ -3351,7 +3350,7 @@ See [Target Declaration](../introduction.md) for the full list of supported targ
 
 ### The Executable
 
-The executable name is the name of the main reactor _transformed to snake_case_: `main reactor RustProgram` will generate `rust_program`. See [Command-Line Arguments](<../introduction.md#command-line-arguments>) for details.
+The executable name is the name of the main reactor _transformed to snake_case_: `main reactor RustProgram` will generate `rust_program`. See [Command-Line Arguments](target-declaration.mdx#command-line-arguments) for details.
 
 ### File layout
 
