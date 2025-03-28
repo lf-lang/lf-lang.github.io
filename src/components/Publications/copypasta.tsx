@@ -130,15 +130,6 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
     </li>
     <li>
       <p>
-        <strong>CPS-IoT '23</strong>: Henrik Austad, Geir Mathisen. "
-        <Link href="https://doi.org/10.1145/3576914.3587499">
-        Bounding the End-to-End Execution Time in Distributed Real-Time Systems: Arguing the case for Deterministic Networks in Lingua Franca
-        </Link>
-        ," in <i>Proceedings of Cyber-Physical Systems and Internet of Things Week (CPS-IoT '23)</i>. Association for Computing Machinery, New York, NY, USA, 342-348.
-      </p>
-    </li>
-    <li>
-      <p>
         <strong>TECS '23</strong>: Shaokai Lin, Yatin A. Manerkar, Marten
         Lohstroh, Elizabeth Polgreen, Sheng-Jung Yu, Chadlia Jerad, Edward A.
         Lee, Sanjit A. Seshia, "
