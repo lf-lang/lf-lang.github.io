@@ -1,5 +1,5 @@
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
-import { LanguageRegistration, getHighlighter } from "shiki";
+import { LanguageRegistration, createHighlighter } from "shiki";
 import { targets } from "@site/src/components/LinguaFrancaMultiTargetUtils";
 import LFTextMateLanguageDefinition from "./lflang.tmLanguage.json";
 import { HighlighterGeneric, BuiltinLanguage, BuiltinTheme } from "shiki";
@@ -16,7 +16,7 @@ export const loadShiki = async () => {
   if (window.LFWebsite?.shikijiInstance != null) {
     return window.LFWebsite.shikijiInstance;
   }
-  const shiki = await getHighlighter({
+  const shiki = await createHighlighter({
     themes: ["material-theme-lighter", "material-theme-darker"],
     langs: [
       ...targets,
