@@ -8,6 +8,19 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>arXiv</strong>: Shulu Li and Edward A. Lee.
+        "<Link href="https://arxiv.org/abs/2504.01141">A Preliminary Model of Coordination-free Consistency</Link>."
+        arXiv:2504.01141 [cs.DC] 1 Apr 2025.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>arXiv</strong>: Shaokai Lin and Edward A. Lee.
+        "<Link href="https://doi.org/10.1007/978-3-031-85134-6_9">Verify Engineering Models, not Scientific Models</Link>." In Lee, E.A., Mousavi, M.R., Talcott, C. (eds), Rebeca for Actor Analysis in Action. Lecture Notes in Computer Science, LNCS vol 15560. Springer, Cham, 2025.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>arXiv</strong>: Jacky Kwok, Shulu Li, Marten Lohstroh, Edward A. Lee.
         "<Link href="https://arxiv.org/abs/2412.01799">HPRM: High-Performance Robotic Middleware for Intelligent Autonomous Systems</Link>."
         arXiv:2412.01799v1 [cs.RO] 2 Dec 2024.
