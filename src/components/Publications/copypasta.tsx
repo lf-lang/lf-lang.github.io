@@ -15,7 +15,7 @@ export const copypastaPublications: ReactNode = (
     </li>
     <li>
       <p>
-        <strong>arXiv</strong>: Shaokai Lin and Edward A. Lee.
+        <strong>LNCS '25</strong>: Shaokai Lin and Edward A. Lee.
         "<Link href="https://doi.org/10.1007/978-3-031-85134-6_9">Verify Engineering Models, not Scientific Models</Link>." In Lee, E.A., Mousavi, M.R., Talcott, C. (eds), Rebeca for Actor Analysis in Action. Lecture Notes in Computer Science, LNCS vol 15560. Springer, Cham, 2025.
       </p>
     </li>
