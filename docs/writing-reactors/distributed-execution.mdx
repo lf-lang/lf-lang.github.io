@@ -24,21 +24,6 @@ In addition to the federates, there is a program called the **RTI**, for **runti
 It is possible to encapsulate federates in Docker containers for deployment.
 See [containerized execution](../reference/docker-support.mdx).
 
-## Installation of the RTI
-
-Federated execution requires installation of a separate stand-alone program called the Runtime Infrastructure or **RTI**. At the current time, the only way to install this is from source files:
-
-```shell
-git clone https://github.com/lf-lang/reactor-c.git
-cd reactor-c/core/federated/RTI/
-mkdir build && cd build
-cmake ../
-make
-sudo make install
-```
-
-The above will create a program called `RTI` and install it at `/usr/local/bin/RTI`. Once this program is available in your path, you can compile and execute federated Lingua Franca programs using [VS Code or the command-line tools](/docs/installation). For more details, see the [README file](https://github.com/lf-lang/reactor-c/blob/main/core/federated/RTI/README.md).
-
 ## Minimal Example
 
 A minimal federated execution is specified by using the `federated` keyword instead of `main` for the main federate. An example is given below:
@@ -55,21 +40,13 @@ When you run the code generator on `src/Federated.lf` containing the above code,
 
 
 <ShowIfs>
-  <ShowIf c>
+  <ShowIf c py>
 
   ```
   bin/Federated
-  bin/Federated_s
-  bin/Federated_d
-  ```
-
-  </ShowIf>
-  <ShowIf py>
-
-  ```
-  bin/Federated
-  src-gen/Federated/s/Federated_s.py
-  src-gen/Federated/d/Federated_d.py
+  fed-gen/Federated/bin/federated__s
+  fed-gen/Federated/bin/federated__d
+  fed-gen/Federated/bin/RTI
   ```
 
   </ShowIf>
@@ -86,26 +63,16 @@ When you run the code generator on `src/Federated.lf` containing the above code,
 
 The root name, `Federated`, is the name of the .lf file from which these are generated (and the name of the main reactor, which is required to match if it is specified). The suffixes "\_s" and "\_d" come from the names of the top-level instances. There will always be one federate for each top-level reactor instance.
 
-To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `Federated_s` and `Federated_d`.
+To run the program, you can simply run `bin/Federated`, which is a `bash` script that launches the RTI and two other programs, `federated__s` and `federated__d`.
 Alternatively, you can manually execute the RTI followed by the two federate programs by starting them on the command line. It is best to use three separate terminal windows (so that outputs from the three programs do not get jumbled together) to execute the following commands:
 
 <ShowIfs>
-  <ShowIf c>
+  <ShowIf c py>
 
   ```sh
-  RTI -n 2
-  bin/Federated_s
-  bin/Federated_d
-  ```
-
-  </ShowIf>
-
-  <ShowIf py>
-
-  ```sh
-  RTI -n 2
-  python3 src-gen/Federated/s/Federated_s.py
-  python3 src-gen/Federated/d/Federated_d.py
+  fed-gen/Federated/bin/RTI -n 2
+  fed-gen/Federated/bin/federated__s
+  fed-gen/Federated/bin/federated__d
   ```
 
   </ShowIf>
@@ -149,22 +116,12 @@ Upon running the program, you will see information printed about the starting an
 
 You may have several federations running on the same machine(s) or even several instances of the same federation. In this case, it is necessary to distinguish between the federations. To accomplish this, you can pass a `-i` or `--id` parameter to the RTI and its federates with an identifier that is unique to the particular federation. For example,
 <ShowIfs>
-  <ShowIf c>
+  <ShowIf c py>
 
   ```sh
   RTI -n 2 -i myFederation
-  bin/Federated_s -i myFederation
-  bin/Federated_d -i myFederation
-  ```
-
-  </ShowIf>
-
-  <ShowIf py>
-
-  ```sh
-  RTI -n 2 -i myFederation
-  python3 src-gen/Federated/s/Federated_s.py -i myFederation
-  python3 src-gen/Federated/d/Federated_d.py -i myFederation
+  fed-gen/Federated/bin/federated__s -i myFederation
+  fed-gen/Federated/bin/federated__d -i myFederation
   ```
 
   </ShowIf>
@@ -317,8 +274,6 @@ In order for a federated execution to work, there is some setup required on the 
 Enable means to always start the service at startup, whereas start means to just start it this once. On macOS, open System Preferences from the Apple menu and click on the "Sharing" preference panel. Select the checkbox next to "Remote Login" to enable it.
 
 It will also be much more convenient if the launcher does not have to enter passwords to gain access to the remote machine. This can be accomplished by installing your public key (typically found in `~/.ssh/id_rsa.pub`) in `~/.ssh/authorized_keys` on the remote host.
-
-Second, the RTI must be installed on the remote machine. See [instructions for installation the RTI](#installation-of-the-rti).
 
 ## Specifying RTI Hosts
 
