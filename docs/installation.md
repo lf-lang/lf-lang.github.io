@@ -8,7 +8,7 @@ The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www
 
 You can use Lingua Franca:
 
-- [in Visual Studio Code, using our extension](#visual-studio-code)
+- [in Visual Studio Code and compatible tools, using our extension](#visual-studio-code)
 - [using the command line](#cli-tools)
 
 You can also spin up one of our pre-configured Cloud-based dev environments:
@@ -17,11 +17,11 @@ You can also spin up one of our pre-configured Cloud-based dev environments:
 
 [![GH Codespace](https://github.com/codespaces/badge.svg)](<https://github.com/codespaces/new?hide_repo_select=true&repo=477928779&ref=main&skip_quickstart=true&devcontainer_path=.devcontainer%2Fnightly%2Fdevcontainer.json>)
 
-Have a look at the [Lingua Franca playground](https://github.com/lf-lang/playground-lingua-franca) for more details.
+Have a look at the [Lingua Franca playground](https://github.com/lf-lang/playground-lingua-franca) for example programs and more details on the cloud-based dev environments.
 
 ## Visual Studio Code
 
-Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below. See the [handbook](./tools/code-extension.mdx) for usage instructions.
+Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below. This extension also works with VS Code-compatible tools such as [Cursor](https://cursor.com). See the [handbook](./tools/code-extension.mdx) for usage instructions.
 
 ### Marketplace
 
@@ -36,6 +36,13 @@ Alternatively, you can run the following command in your terminal:
 ```
 code --install-extension lf-lang.vscode-lingua-franca
 ```
+
+or
+
+```
+cursor --install-extension lf-lang.vscode-lingua-franca
+```
+
 
 To use the nightly pre-release of the extension instead of the latest release, find the Lingua Franca extension in the Extensions tab and click on the "Switch to Pre-Release Version" button.
 
@@ -55,6 +62,13 @@ Run the following command in your terminal to install the latest release (on Win
 ```
 curl -Ls https://install.lf-lang.org | bash -s cli
 ```
+
+If you get `permission denied`, your platform may require `sudo`, as follows:
+
+```
+curl -Ls https://install.lf-lang.org | sudo bash -s cli
+```
+
 
 You can also install the nightly pre-release:
 
@@ -80,9 +94,7 @@ yay -S lf-cli-nightly-bin
 
 ### Nix and NixOS
 
-The Lingua Franca compiler is packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/development/compilers/lingua-franca/default.nix#L28) and is available via the binary cache.
-
-Run
+The Lingua Franca compiler is packaged in [nixpkgs](https://github.com/NixOS/nixpkgs/blob/nixos-23.11/pkgs/development/compilers/lingua-franca/default.nix#L28) and is available via the binary cache. Run
 ```
  nix shell nixpkgs#lingua-franca
 ```
