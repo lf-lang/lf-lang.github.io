@@ -20,7 +20,7 @@ const FeatureList: FeatureItem[] = [
     Svg: Determinism,
     description: (
       <Translate>
-        Lingua Franca offers a straightforward way to write multi-threaded applications that ensure determinism by default, eliminating concerns about thread management, synchronization, and race conditions.
+        Lingua Franca offers a straightforward way to write deterministic multi-threaded and distributed applications, eliminating concerns about thread management, synchronization, and race conditions.
       </Translate>
     ),
   },

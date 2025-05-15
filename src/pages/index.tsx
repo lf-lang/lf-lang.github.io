@@ -32,7 +32,7 @@ function HeroBanner() {
               __html: translate({
                 id: "homepage.hero.title",
                 message:
-                  "Build <b>time-sensitive</b>, <b>concurrent</b>, and <b>distributed</b> systems — <b>effortlessly</b>",
+                  "Build predictable <b>concurrent</b>, <b>time-sensitive</b>, and <b>distributed</b> systems.",
                 description:
                   "Home page hero title, can contain simple html tags",
               }),
@@ -44,9 +44,10 @@ function HeroBanner() {
         <div className={styles.subHero}>
             <br/>
             <Translate>
-            Lingua Franca allows you to write blazing-fast, deterministic,
-            multi-threaded and distributed code without any knowledge about threads or synchronization.
-            Focus on your application, not elusive concurrency bugs.
+            Lingua Franca is a coordination language for efficient, deterministic,
+            multi-threaded, time-sensitive, embedded, and distributed programs. The result of decades
+            of research, it offers more repeatable behavior than other concurrent programming
+            frameworks, including threads, pub-sub, actors, and service-oriented architectures.
             </Translate>
         </div>
         <div className={styles.indexCtas}>
@@ -88,7 +89,7 @@ const Intro = (): JSX.Element => (
         <br/><br/>
         <Translate>
           Consider a game of "rock paper scissors" where two players need to reveal their choice simultaneously. In Lingua Franca, "at the same time" has a clear and precise meaning.
-          This makes the implementation simple and intuitive, and guarantees it to be fair. If the Player class were to observe the other's choice before revealing its own, Lingua Franca's causality analysis would find a causality loop and tell you that the program was invalid.
+          This makes the implementation simple and intuitive, and guarantees it to be fair. If the Player class were to observe the other's choice before revealing its own, Lingua Franca's causality analysis would find a causality loop and tell you that the program is invalid.
         </Translate>
         <br/><br/>
         <Heading as="h2">
