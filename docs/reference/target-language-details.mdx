@@ -24,11 +24,23 @@ import {
 <ShowIfs>
 <ShowIf c>
 
-In the C reactor target for Lingua Franca, reactions are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on macOS, Linux, Windows, and at least one bare-iron embedded platform. The single-threaded version (which you get by setting the `threading` target parameter to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the POSIX thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
+The C target for Lingua Franca is used when you specify either `C` or `CCpp` in the `target` declaration in your `.lf` file:
+```lf
+target C
+```
+or
+```lf
+target CCpp
+```
+In the latter case, a C++ compiler will be used,
+and hence your reaction bodies can written in C++ and you can include and link to C++ code.
+Unlike the Cpp target, you will still access the LF API through a C API.
+
+In the C reactor target, reaction bodies are written in C and the code generator generates one or more standalone C programs that can be compiled and run on several platforms. It has been tested on macOS, Linux, Windows, Arduino, Zephyr, and several bare-metal embedded platforms.
+
+The single-threaded version (which you get by setting the `threading` target parameter to `false`) is the most portable, requiring only a handful of common C libraries (see [Included Libraries](#included-libraries) below). The multithreaded version requires a small subset of the POSIX thread library (`pthreads`) and transparently executes in parallel on a multicore machine while preserving the deterministic semantics of Lingua Franca.
 
 Note that C is not a safe language. There are many ways that a programmer can circumvent the semantics of Lingua Franca and introduce nondeterminism and illegal memory accesses. For example, it is easy for a programmer to mistakenly send a message that is a pointer to data on the stack. The destination reactors will very likely read invalid data. It is also easy to create memory leaks, where memory is allocated and never freed. Here, we provide some guidelines for a style for writing reactors that will be safe.
-
-**NOTE:** If you intend to use C++ code or import C++ libraries in the C target, we provide a special CCpp target that automatically uses a C++ compiler by default. Alternatively, you might want to use the Cpp target.
 
 </ShowIf>
 <ShowIf cpp>
@@ -204,9 +216,7 @@ Note that for all LF statements, a final semicolon is optional. If you are writi
 For options to the target specification, see [detailed documentation of the target options](../introduction.md).
 
 The second form, `CCpp`, is used when you wish to use a C++ compiler to compile
-the generated code, thereby allowing your C reactors to call C++ code.
-
-\<!-- The C target uses a C compiler by default, and will fail to compile mixed C/C++ language programs. As a remedy, the `CCpp` target uses the C runtime but employs a C++ compiler to compile your program. To use it, simply replace `target C` with `target CCpp`. -->
+the generated code, thereby allowing your reaction bodies to be written in C++ and to call C++ code.
 
 Here is a minimal example of a program written in the `CCpp` target, taken from [HelloWorldCCPP.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/target/HelloWorldCCPP.lf):
 
@@ -351,7 +361,7 @@ reactor Source(sequence: int[] = {0, 1, 2}, n_sequence: int = 3) {
 }
 ```
 
-This uses a [`logical` `action`](<../writing-reactors/actions.mdx#logical-actions>) to repeat the reaction, sending one element of the array in each invocation.
+This uses a [`logical action`](<../writing-reactors/actions.mdx#logical-actions>) to repeat the reaction, sending one element of the array in each invocation.
 
 In C, arrays do not encode their own length, so a separate parameter `n_sequence` is used for the array length. Obviously, there is potential here for errors, where the array length doesn't match the length parameter.
 
