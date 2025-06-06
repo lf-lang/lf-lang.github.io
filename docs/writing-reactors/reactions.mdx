@@ -28,7 +28,7 @@ Reactions may optionally be named. The name is cosmetic and may serve as additio
 
 The reaction's behavior is defined by its body, which should be given in the target programming language. Note that the reaction body may only read from actions and ports that it has declared as triggers or uses, and it may only write to actions and ports that it has declared as an effect. The target code generators implement a scoping mechanism, such that only variables that are declared in the reaction signature are accessible in the reaction body.
 
-In some targets, the reaction body may be omitted and the body can be defined natively in the target language in an external file. See the section on [Bodyless Reactions](#bodyless-reactions) for details.
+In some targets, the reaction body may be omitted and the body can be defined natively in the target language in an external file. See the section on [Reaction Declarations](./reaction-declarations.mdx) for details.
 
 ## Reaction Order
 
@@ -124,8 +124,3 @@ For details, see the [Modal Reactors](../writing-reactors/modal-models.mdx) sect
 
 </ShowIf>
 </ShowIfs>
-
-
-## Bodyless Reactions
-
-See [Reaction Declarations](./reaction-declarations.mdx).

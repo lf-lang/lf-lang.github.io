@@ -67,9 +67,9 @@ In terms of raw performance on CPU intensive operations, TypeScript reactors are
 
 **Important:** The Rust target is still quite preliminary. This is early WIP documentation to let you try it out if you're curious
 
-In the Rust reactor target for Lingua Franca, reactions are written in Rust and the code generator generates a standalone Rust program that can be compiled and run on platforms supported by rustc. The program depends on a runtime library distributed as the crate [reactor_rt](https://github.com/lf-lang/reactor-rust), and depends on the Rust standard library.
+In the Rust reactor target for Lingua Franca, reactions are written in Rust and the code generator generates a standalone Rust program that can be compiled and run on platforms supported by rustc. The program depends on a runtime library distributed as the crate [reactor_rt](https://github.com/lf-lang/reactor-rs), and depends on the Rust standard library.
 
-Documentation for the runtime API is available here: https://lf-lang.github.io/reactor-rust/
+Documentation for the runtime API is available here: https://lf-lang.github.io/reactor-rs/
 
 LF-Rust generates a Cargo project per compiled main reactor. This specification assumes in some places that the user is somewhat familiar with how Cargo works.
 If you're not, here's a primer:
@@ -199,7 +199,7 @@ To have Lingua Franca generate C code, start your `.lf` file with one of the fol
 
 Note that for all LF statements, a final semicolon is optional. If you are writing your code in C, you may want to include the final semicolon for uniformity.
 
-For options to the target specification, see [detailed documentation of the target options](../introduction.md).
+For options to the target specification, see [detailed documentation of the target options](./target-declaration.mdx).
 
 The second form, `CCpp`, is used when you wish to use a C++ compiler to compile
 the generated code, thereby allowing your C reactors to call C++ code.
@@ -238,7 +238,7 @@ To have Lingua Franca generate C++ code, start your `.lf` file with the followin
 
 Note that for all LF statements, a final semicolon is optional. If you are writing your code in C++, you may want to include the final semicolon for uniformity.
 
-For options to the target specification, see [detailed documentation of the target options](../introduction.md).
+For options to the target specification, see [detailed documentation of the target options](./target-declaration.mdx).
 
 </ShowIf>
 <ShowIf py>
@@ -251,7 +251,7 @@ To have Lingua Franca generate Python code, start your `.lf` file with the follo
 
 Note that for all LF statements, a final semicolon is optional.
 
-For options to the target specification, see [detailed documentation of the target options](../introduction.md).
+For options to the target specification, see [detailed documentation of the target options](./target-declaration.mdx).
 
 </ShowIf>
 <ShowIf ts>
@@ -1061,7 +1061,7 @@ reactor Print {
 
 ### Dynamically Allocated Data
 
-A much more flexible way to communicate complex data types is to set dynamically allocated memory on an output port. This can be done in a way that automatically handles freeing the memory when all users of the data are done with it. The reactor that allocates the memory cannot know when downstream reactors are done with the data, so Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/SetDestructor.lf) example.
+A much more flexible way to communicate complex data types is to set dynamically allocated memory on an output port. This can be done in a way that automatically handles freeing the memory when all users of the data are done with it. The reactor that allocates the memory cannot know when downstream reactors are done with the data, so Lingua Franca provides utilities for managing this using reference counting. You can specify a destructor on a port and pass a pointer to a dynamically allocated object as illustrated in the [SetDestructor](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/token/TokenSetToken.lf) example.
 
 Suppose the data structure of interest, its constructor, destructor, and copy_constructor are defined as follows:
 
@@ -1606,11 +1606,11 @@ Inputs and outputs in the Rust target are accessed using the `set` and `get` met
 
 In the C target, the value of a time instant or interval is an integer specifying a number of nanoseconds. An instant is the number of nanoseconds that have elapsed since January 1, 1970. An interval is the difference between two instants. When an LF program starts executing, logical time is (normally) set to the instant provided by the operating system. (On some embedded platforms without real-time clocks, it will be set instead to zero.)
 
-Time in the C target is a `int64_t`, which is a 64-bit signed number. Since a 64-bit number has a limited range, this measure of time instants will overflow in approximately the year 2262. For better code clarity, two types are defined in [tag.h](https://github.com/lf-lang/reactor-c/blob/main/include/core/tag.h), `instant_t` and `interval_t`, which you can use for time instants and intervals respectively. These are both equivalent to `int64_t`, but using those types will insulate your code against changes and platform-specific customizations.
+Time in the C target is a `int64_t`, which is a 64-bit signed number. Since a 64-bit number has a limited range, this measure of time instants will overflow in approximately the year 2262. For better code clarity, two types are defined in [tag.h](https://www.lf-lang.org/reactor-c/tag_8h.html), `instant_t` and `interval_t`, which you can use for time instants and intervals respectively. These are both equivalent to `int64_t`, but using those types will insulate your code against changes and platform-specific customizations.
 
 Lingua Franca uses a superdense model of time. A reaction is invoked at a logical **tag**, a struct consisting of a `time` value (an `instant_t`, which is a `int64_t`) and a `microstep` value (a `microstep_t`, which is an `uint32_t`). The tag is guaranteed to not increase during the execution of a reaction. Outputs produced by a reaction have the same tag as the inputs, actions, or timers that trigger the reaction, and hence are **logically simultaneous**.
 
-The time structs and functions for working with time are defined in [tag.h](https://github.com/lf-lang/reactor-c/blob/main/include/core/tag.h). The most useful functions are:
+The time structs and functions for working with time are defined in [tag.h](https://www.lf-lang.org/reactor-c/tag_8h.html). The most useful functions are:
 
 - `tag_t lf_tag()`: Get the current tag at which this reaction has been invoked.
 - `int lf_tag_compare(tag_t, tag_t)`: Compare two tags, returning -1, 0, or 1 for less than, equal, and greater than.
@@ -2607,7 +2607,7 @@ This version carries an `int` value. The data type of the action is required to 
 
 > `lf_schedule_token(<action>, <offset>, <value>);`
 
-This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `lf_schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Data](#dynamically-allocated-data) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/DelayPointer.lf) reactor realizes a logical delay for any data type carried by a token:
+This version carries a **token**, which has type `token_t` and points to the value, which can have any type. There is a `create_token()` function that can be used to create a token, but programmers will rarely need to use this. Instead, you can use `lf_schedule_value()` (see below), which will automatically create a token. Alternatively, for inputs with types ending in `*` or `[]`, the value is wrapped in a token, and the token can be obtained using the syntax `inputname->token` in a reaction and then forwarded using `lf_schedule_token()` (see [Dynamically Allocated Data](#dynamically-allocated-data) above). If the input is mutable, the reaction can then even modify the value pointed to by the token and/or use `lf_schedule_token()` to send the token to a future logical time. For example, the [DelayPointer](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/token/DelayPointer.lf) reactor realizes a logical delay for any data type carried by a token:
 
 ```lf-c
 reactor DelayPointer(delay:time(100 ms)) {
@@ -2699,7 +2699,7 @@ FIXME: List them here
 </ShowIf>
 <ShowIf rs>
 
-Within a reaction, actions may be scheduled using the [`schedule`](https://lf-lang.github.io/reactor-rust/reactor_rt/struct.ReactionCtx.html#method.schedule) function:
+Within a reaction, actions may be scheduled using the [`schedule`](https://lf-lang.github.io/reactor-rs/reactor_rt/struct.ReactionCtx.html#method.schedule) function:
 
 ```rust
 // schedule without additional delay
@@ -2757,7 +2757,7 @@ FIXME: Details needed here.
 <ShowIfs>
 <ShowIf c>
 
-A suite of useful functions is provided in [util.h](https://www.lf-lang.org/reactor-c/d8/d3c/util_8h.html) for producing messages to be made visible when the generated program is run. Of course, you can always use `printf`, but this is not a good choice for logging or debug information, and it is not a good choice when output needs to be redirected to a window or some other user interface (see for example the [sensor simulator](https://github.com/lf-lang/reactor-c/blob/main/util/sensor_simulator.h)). Also, in federated execution, these functions identify which federate is producing the message. The functions are listed below. The arguments for all of these are identical to `printf` with the exception that a trailing newline is automatically added and therefore need not be included in the format string.
+A suite of useful functions is provided in [logging.h](https://www.lf-lang.org/reactor-c/logging_8h.html) for producing messages to be made visible when the generated program is run. Of course, you can always use `printf`, but this is not a good choice for logging or debug information, and it is not a good choice when output needs to be redirected to a window or some other user interface (see for example the [sensor simulator](https://github.com/lf-lang/reactor-c/blob/main/util/sensor_simulator.h)). Also, in federated execution, these functions identify which federate is producing the message. The functions are listed below. The arguments for all of these are identical to `printf` with the exception that a trailing newline is automatically added and therefore need not be included in the format string.
 
 - `LF_PRINT_DEBUG(format, ...)`: Use this for verbose messages that are only needed during debugging. Nothing is printed unless the [target](target-declaration.mdx#logging) parameter `logging` is set to `debug`. THe overhead is minimized when nothing is to be printed.
 
@@ -2834,9 +2834,9 @@ Note that when building with a release profile (i.e., target property `build-typ
 
 #### Libraries Available in All Programs
 
-Reactions in C can use a number of pre-defined functions, macros, and constants without having to explicitly include any header files:
+Reactions in C can use a number of [pre-defined functions](https://www.lf-lang.org/reactor-c/group__API.html), macros, and constants without having to explicitly include any header files:
 
-- **Time and tags** ([tag.h](https://www.lf-lang.org/reactor-c/d2/dcd/tag_8h.html)):
+- **Time and tags** ([tag.h](https://www.lf-lang.org/reactor-c/tag_8h.html)):
 
   - Specifying time value, such as `MSEC` and `FOREVER`
   - Time data types, such as `tag_t` and `instant_t`
@@ -2844,12 +2844,12 @@ Reactions in C can use a number of pre-defined functions, macros, and constants 
 
 - **Ports**
 
-  - Writing to output ports, such as `lf_set` and `lf_set_token` ([set.h](https://www.lf-lang.org/reactor-c/d4/d13/set_8h.html))
-  - Iterating over sparse multiports, such as `lf_multiport_iterator` and `lf_multiport_next` ([port.h](https://www.lf-lang.org/reactor-c/da/d00/port_8h.html))
+  - Writing to output ports, such as `lf_set` and `lf_set_token` ([set.h](https://www.lf-lang.org/reactor-c/group__API.html))
+  - Iterating over sparse multiports, such as `lf_multiport_iterator` and `lf_multiport_next` ([port.h](https://www.lf-lang.org/reactor-c/port_8h.html))
 
 - **Scheduling actions**
 
-  - Schedule future events, such as `lf_schedule` and `lf_schedule_value` ([api.h](https://www.lf-lang.org/reactor-c/dc/d65/api_8h.html))
+  - Schedule future events, such as `lf_schedule` and `lf_schedule_value` (See [API for Reactions](https://www.lf-lang.org/reactor-c/group__API.html))
 
 - **File Access**
 
@@ -2866,11 +2866,11 @@ These are useful when your application needs to open and read additional files. 
 
 - **Miscellaneous**
 
-  - Changing modes in modal models, `lf_set_mode` ([set.h](https://www.lf-lang.org/reactor-c/d4/d13/set_8h.html))
-  - Checking deadlines, `lf_check_deadline` ([api.h](https://www.lf-lang.org/reactor-c/dc/d65/api_8h.html))
-  - Defining and recording tracepoints, such as `register_user_trace_event` and `tracepoint` ([trace.h](https://www.lf-lang.org/reactor-c/d1/d1b/trace_8h.html))
-  - Printing utilities, such as `lf_print` and `lf_print_error` ([util.h](https://www.lf-lang.org/reactor-c/d8/d3c/util_8h.html))
-  - Logging utilities, such as `LF_PRINT_LOG` and `LF_PRINT_DEBUG` ([util.h](https://www.lf-lang.org/reactor-c/d8/d3c/util_8h.html))
+  - Changing modes in modal models, `lf_set_mode` ([set.h](https://www.lf-lang.org/reactor-c/group__API.html))
+  - Checking deadlines, `lf_check_deadline` (See [API for Reactions](https://www.lf-lang.org/reactor-c/group__API.html))
+  - Defining and recording tracepoints, such as `register_user_trace_event` and `tracepoint` (See [Tracing API](https://www.lf-lang.org/reactor-c/group__Tracing.html))
+  - Printing utilities, such as `lf_print` and `lf_print_error` ([logging.h](https://www.lf-lang.org/reactor-c/logging_8h.html))
+  - Logging utilities, such as `LF_PRINT_LOG` and `LF_PRINT_DEBUG` ([logging.h](https://www.lf-lang.org/reactor-c/logging_8h.html))
 
 #### Standard C Libraries
 
@@ -2887,7 +2887,7 @@ Hence, programmers are free to use functions from these libraries without explic
 #### Available Libraries Requiring #include
 
 More sophisticated library functions require a `#include` statement in a `preamble`.
-Specifically, [platform.h](https://www.lf-lang.org/reactor-c/de/d03/platform_8h.html) includes the following:
+Specifically, [the platform API](https://www.lf-lang.org/reactor-c/group__Platform.html) includes the following:
 
 - Sleep functions such as `lf_sleep`
 - Mutual exclusion such as `lf_critial_section_enter` and `lf_critical_section_exit`
@@ -2900,9 +2900,9 @@ The threading functions are only available for platforms that support multithrea
 A few utility libraries are provided, but require considerably more setup.
 These also help to illustrate how to incorporate your own libraries.
 
-- Audio functions (for Linux and Mac only): [audio_loop.h](https://www.lf-lang.org/reactor-c/d1/dcb/audio__loop_8h.html)
-- Audio file reader: [wave_file_reader.h](https://www.lf-lang.org/reactor-c/d3/d8a/wave__file__reader_8h.html)
-- A double-ended queue: [deque.h](https://www.lf-lang.org/reactor-c/dc/d44/deque_8h.html)
+- Audio functions (for Linux and Mac only): [audio_loop.h](https://www.lf-lang.org/reactor-c/audio__loop_8h.html)
+- Audio file reader: [wave_file_reader.h](https://www.lf-lang.org/reactor-c/wave__file__reader_8h.html)
+- A double-ended queue: [deque.h](https://www.lf-lang.org/reactor-c/deque_8h.html
 - An ncurses terminal interface for I/O: [sensor_simulator.h](https://www.lf-lang.org/reactor-c/dc/de9/sensor__simulator_8h.html)
 
 </ShowIf>
@@ -3209,7 +3209,7 @@ The Lingua Franca compiler automatically invokes other programs as it compiles a
 
 ### package.json
 
-Node.js uses a [package.json](https://nodejs.org/en/knowledge/getting-started/npm/what-is-the-file-package-json/) file to describe metadata relevant to a Node project. This includes a list of project dependencies (i.e. modules) used by the project. When the Lingua Franca compiler copies a default package.json file into a Lingua Franca project that doesn't already have a package.json, the compiler runs the command `npm install` to create a node_modules directory. The default package.json only lists dependencies for the [reactor-ts](https://github.com/lf-lang/reactor-ts) submodule. [Follow these instructions](../writing-reactors/preambles.mdx#using-node-modules) to modify package.json if you want to use other Node modules in your reactors.
+Node.js uses a [package.json](https://nodesource.com/blog/the-basics-of-package-json) file to describe metadata relevant to a Node project. This includes a list of project dependencies (i.e. modules) used by the project. When the Lingua Franca compiler copies a default package.json file into a Lingua Franca project that doesn't already have a package.json, the compiler runs the command `npm install` to create a node_modules directory. The default package.json only lists dependencies for the [reactor-ts](https://github.com/lf-lang/reactor-ts) submodule. [Follow these instructions](../writing-reactors/preambles.mdx#using-node-modules) to modify package.json if you want to use other Node modules in your reactors.
 
 ### tsconfig.json
 
@@ -3493,7 +3493,7 @@ cargo-dependencies: {
 ```
 
 The dependency is always included, with defaults picked by LFC. The location information (_path_/_git_/_version_ key) is optional.
-See [reactor_rt](https://lf-lang.github.io/reactor-rust/reactor_rt/index.html) for the supported features.
+See [reactor_rt](https://lf-lang.github.io/reactor-rs/reactor_rt/index.html) for the supported features.
 
 #### Linking support files
 
@@ -3551,7 +3551,7 @@ Reactions are each generated in a separate method of the reactor struct. Reactio
 
 Undeclared dependencies, and dependencies on timers and `startup` or `shutdown`, do not generate a parameter.
 
-The [`ReactionCtx`](https://lf-lang.github.io/reactor-rust/reactor_rt/struct.ReactionCtx.html) object is a mediator to manipulate all those dependency objects. It has methods to set ports, schedule actions, retrieve the current logical time, etc.
+The [`ReactionCtx`](https://lf-lang.github.io/reactor-rs/reactor_rt/struct.ReactionCtx.html) object is a mediator to manipulate all those dependency objects. It has methods to set ports, schedule actions, retrieve the current logical time, etc.
 
 For instance:
 

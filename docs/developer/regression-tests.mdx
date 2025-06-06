@@ -5,7 +5,7 @@ description: Regression Tests for Lingua Franca.
 
 Lingua Franca comes with an extensive set of regression tests that are executed on various platforms automatically whenever an update is pushed to the LF repository. There are two categories of tests:
 
-- **Unit tests** are Java or Kotlin methods in our code base that are labeled with the `@Test` directive. These tests check individual functions of the code generation infrastructure. These are located in the `src/test` directory of each subproject within the repository.
+- **Unit tests** are Java methods in our code base that are labeled with the `@Test` directive. These tests check individual functions of the code generation infrastructure. These are located in the `core/src/test` directory.
 - **Integration tests** are complete Lingua Franca programs that are compiled and executed automatically. A test passes if it successfully compiles and runs to completion with normal termination (return code 0). These tests are located in the `test` directory at the root of the LF repo, with one subdirectory per target language.
 Their implementation can be found in the `core/src/integrationTest` directory.
 The integration tests are also executed through JUnit using methods with `@Test` directives, but they are executed separately.
@@ -26,7 +26,7 @@ You can specify any valid target. If you run the task without specifying the tar
 
 The `targetTest` task is essentially a convenient shortcut for the following:
 ```
-./gradew core:integrationTest --test org.lflang.tests.runtime.<target>Test.*
+./gradlew core:integrationTest --tests "org.lflang.tests.runtime.<target>Test.*"
 ```
 If you prefer have more control over which tests are executed, you can also use this more verbose version.
 
