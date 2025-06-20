@@ -14,9 +14,9 @@ reactor PrintTimer {
         f"Received: {inp.value} "
         f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
     )
-  =} STP(0) {=
+  =} STAA(0) {=
     print(
-        "****** STP violation handler invoked at "
+        "****** Violation handler invoked at "
         f"({lf.time.logical_elapsed()}, {lf.tag().microstep}). "
         "Intended tag was "
         f"({inp.intended_tag.time - lf.time.start()}, {inp.intended_tag.microstep})."
