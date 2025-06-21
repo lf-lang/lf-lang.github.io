@@ -1,5 +1,30 @@
 % Cleaned by https://flamingtempura.github.io/bibtex-tidy
 % Run `pandoc citations.bib -t csljson -o citations.json`
+@inproceedings{Lee:25:Time,
+   author = {Lee, Edward A.},
+   title = {Logical Time in Actor Systems},
+   booktitle = {Concurrent Programming, Open Systems and Formal Methods: Essays Dedicated to Prof. Gul Agha to Celebrate his Scientific Career},
+   editor = {Jos\'e Meseguer and Carlos A. Varela and Nalini Venkatasubramanian},
+   publisher = {Springer},
+   volume = {LNCS},
+   abstract = {The nondeterministic ordering of message handling in the original actor model makes it difficult to achieve the consistency across a distributed system that some applications require. This paper explores a number of mitigations, focusing primarily on the use of logical time to define a semantic ordering for messages.Avariety of coordination mechanisms can ensure that messages are handled in logical time order, but they all come with costs. A fundamental tradeoff (the CAL theorem) makes it impossible to achieve consistency without paying a price in availability, where the price depends on the latencies introduced by network communication, computation overhead, and clock synchronization error. This paper shows how to use the Lingua Franca coordination language to navigate this tradeoff, and particularly how to ensure eventual consistency while bounding unavailability with manageable risk.},
+   url = {https://eecs.berkeley.edu/~eal/publications/LeeTimeAghaFestschriftPreprint2025.pdf},
+   year = {2025},
+   type = {Conference Proceedings}
+}
+
+@inproceedings{JunEtAl:25:DE,
+   author = {Jun, Byeonggil and Lee, Edward A. and Lohstroh, Marten and Kim, Hokeun},
+   title = {Improving the Efficiency of Coordinating Timed Events in Distributed Systems},
+   booktitle = {Conference on Principles of Advanced Discrete Simulation (PADS)},
+   publisher = {ACM},
+   pages = {99-109},
+   abstract = {For distributed cyber-physical systems (CPS), accurate and precise timing control among distributed nodes helps ensure safety and correctness. Discrete-event (DE) systems serve as an effective model of computation for distributed CPS requiring precise timing control. The high-level architecture (HLA) has been widely used for the simulation of distributed DE (DDE) systems and can be extended for the implementation of distributed CPS. We find that HLA imposes excessive network communication overhead, specifically, through the run-time infrastructure (RTI), for the coordination of timed events for some applications. This paper identifies inefficiencies and proposes a novel approach that reduces the number of messages without compromising control over timing. We evaluate our approach using example patterns of distributed CPS.},
+   DOI = {10.1145/3726301.3728399},
+   year = {2025},
+   type = {Conference Proceedings}
+}
+
 @article{LohstrohEtAl:24:DeterministicCoordination,
    author = {Lohstroh, Marten and Bateni, Soroush and Menard, Christian and Schulz-Rosengarten, Alexander and Castrillon, Jeronimo},
    title = {Deterministic Coordination across Multiple Timelines},

@@ -8,6 +8,18 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>Agha '25</strong>: Edward A. Lee. 
+        "<Link href="https://eecs.berkeley.edu/~eal/publications/LeeTimeAghaFestschriftPreprint2025.pdf">Logical Time in Actor Systems</Link>", in <i>Concurrent Programming, Open Systems and Formal Methods: Essays Dedicated to Prof. Gul Agha to Celebrate his Scientific Career</i>, Springer, LNCS, 2025.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>PADS '25</strong>: Byeonggil Jun, Edward A. Lee, Marten Lohstroh, and Hokeun Kim. 
+        "<Link href="https://doi.org/10.1145/3726301.3728399">Improving the Efficiency of Coordinating Timed Events in Distributed Systems</Link>", in <i>Proceedings of the Conference on Principles of Advanced Discrete Simulation (PADS)</i>, ACM, June 23-26,2025.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>ESL '25</strong>: Francesco Paladino, Erling Jellum, Efsane Soyer, and Edward A. Lee. 
         "<Link href="https://doi.org/10.1109/LES.2024.3467992">Layered Scheduling: Toward Better Real-Time Lingua Franca</Link>",
         IEEE Embedd. Syst. Letters 17(2), pp. 127-130, April, 2025.
