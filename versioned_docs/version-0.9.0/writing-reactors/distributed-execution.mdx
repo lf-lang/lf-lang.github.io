@@ -223,6 +223,20 @@ If, in addition, the physical clocks on the hosts are allowed to drift with resp
 
 With centralized coordination, all messages (except those on [physical connections](#physical-connections)) go through the RTI. This can create a bottleneck and a single point of failure. To avoid this bottleneck, you can use decentralized coordination.
 
+### Optimization of Communication Overhead
+
+To reduce the communication of centralized coordination overhead caused by signals for coordinating federates, a signal named **Downstream Next Event Tag** (**DNET**) is introduced. This signal is beneficial if federates send the actual output (tagged message) sparsely, which is a frequent pattern in Cyber-Physical Systems, e.g., systems sensing the environment frequent but the actual event happens rarely. For more information, please refer to [this paper](https://ieeexplore.ieee.org/document/10740771).
+
+Although the effectiveness of this signal depends on the characteristic (how sparsely federates produce messages) and the structure (how federates are connected) of the program, the signal **DNET** is enabled by default because the benefit is crucially high in the best case scenarios and the drawback is limited even in the worst case scenarios. Users can simply disable this feature by specifying the target property:
+```
+DNET: false
+```
+Here are some giudelines to help determine whether to use this optimization techinque or not.
+- When federates send tagged messages every time, the **DNET** signal cannot give any benefits.
+- When a federate has a physical action and the federate may receive a tagged message from another federate, the **DNET** signal may increase the response time of the physical action by up to 2 times and uses may consider disabling it.
+
+Ongoing researches will formulate the method to automatically decide the benefit of the **DNET** signal or turn on and off this feature dynamically in the runtime.
+
 ## Decentralized Coordination
 
 The default coordination between mechanisms is **centralized**, equivalent to specifying the target property:
