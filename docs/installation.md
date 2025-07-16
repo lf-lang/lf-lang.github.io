@@ -2,6 +2,10 @@
 title: Installation
 ---
 
+# Releases
+
+For release version descriptions and notes, see [the releases page](https://github.com/lf-lang/lingua-franca/releases).
+
 # Installation
 
 The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](<./reference/target-language-details.mdx#requirements>) page and select your target language).
