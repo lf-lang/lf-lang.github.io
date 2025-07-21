@@ -39,5 +39,12 @@ git commit -a -m 'Docs v<major>.<minor>.<patch>'
 git push --set-upstream origin v<major>.<minor>.<patch>
 ```
 
+You should then merge the versioned docs back into `main`:
+
+```
+git switch main
+git merge v<major>.<minor>.<patch>
+```
+
 ### Adding Publications
 To add a new publication, add a new entry to `src/components/Publications/copypasta.tsx` file and to the `src/components/Publications/citations.bib` file.
