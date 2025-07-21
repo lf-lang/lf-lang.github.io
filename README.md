@@ -27,6 +27,7 @@ This generates static content in the `build` directory, which gets served using 
 
 ### Versioning
 Instructions for "freezing" the current docs and filing them under a version number, can be found [here](https://docusaurus.io/docs/versioning). Normally, the steps are:
+
 ```
 git switch main
 git pull
