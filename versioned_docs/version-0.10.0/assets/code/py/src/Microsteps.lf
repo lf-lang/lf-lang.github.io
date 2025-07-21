@@ -1,0 +1,16 @@
+target Python
+
+main reactor {
+  state count = 1
+  logical action a
+
+  reaction(startup, a) {=
+    print(
+        f"{self.count}. Logical time is {lf.tag().time}. "
+        f"Microstep is {lf.tag().microstep}."
+    )
+    if self.count < 5:
+      a.schedule(0)
+    self.count += 1
+  =}
+}
