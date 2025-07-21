@@ -36,6 +36,7 @@ yarn docusaurus docs:version <major>.<minor>.<patch>
 git add versioned_docs/*
 git add versioned_sidebars/*
 git commit -a -m 'Docs v<major>.<minor>.<patch>'
+git push --set-upstream origin v<major>.<minor>.<patch>
 ```
 
 ### Adding Publications
