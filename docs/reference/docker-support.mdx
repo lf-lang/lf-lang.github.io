@@ -193,9 +193,10 @@ You can also use the builder stage as the base for the running stage (and inheri
 :::
 
 ### Option `rti-image`
-To run a federated program, an RTI process must run to support it. By default, an image for the RTI is pulled from DockerHub. An alternative image can be specified using the `rti-image` entry.
+To run a federated program, an RTI process must run to support it. By default, the RTI is built locally in a Docker image. This is equivalent to specifying `rti-image: "rti:local"`.
 
-The default is `"lflang/rti:latest"`, which is available on DockerHub. To instruct the compiler to _not_ pull an image from DockerHub and build the RTI locally, use `rti-image: "rti:local"`.
+An alternative image to be pulled from DockerHub can be specified using the `rti-image` entry.
+For example, you can specify `"lflang/rti:latest"`, an image that is available on DockerHub.
 
 :::note
 The value of the `builder-base`, `runner-base`, and `rti-image` entry should follow Docker's `<user-name>/<image-name>:<tag-name>` naming convention for image names. Docker will resolve the name and pull the image from your local registry, or, if it cannot be found, from DockerHub.
