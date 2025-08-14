@@ -7,6 +7,7 @@ import Image from '@theme/IdealImage';
 import lingo_packages from '../assets/images/vs_code/lingo_packages.png';
 import local_libraries from '../assets/images/vs_code/local_libraries.png';
 import error_message from '../assets/images/vs_code/error_message.png';
+import diagram_icon from '../assets/images/vs_code/diagram_icon.png';
 
 The Lingua Franca extension for Visual Studio Code (VS Code) provides syntax-directed editing capability, compilation, diagram synthesis and a package explorer for Lingua Franca programs.
 
@@ -56,6 +57,19 @@ To open an existing LF project in VS Code, select the [package root](../glossary
 ### Rendering Diagrams
 
 To show the diagram for the currently active Lingua Franca file, click on the diagrams icon at the upper right:
+
+<Image img={diagram_icon} style={{maxWidth: 400}} />
+
+By default, the diagram is rendered to the right of the editor.
+This is usually inconvenient because the diagrams tend to be wide.
+You can drag the diagram to the bottom, or, more usefully, change the default.
+
+1. Go to Preferences>Settings
+2. Go to workspace, user or folder settings whatever you prefer.
+3. Search for "workbench.editor.openSideBySideDirection".
+4. Change the setting to down.
+
+See also [side-by-side editing](https://code.visualstudio.com/docs/getstarted/userinterface#_side-by-side-editing) and a [video demo](https://github.com/user-attachments/assets/3956358c-d681-4a23-a60a-47f4b123b8eb).
 
 ### Compilation
 
