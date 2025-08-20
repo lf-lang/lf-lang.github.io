@@ -1,0 +1,43 @@
+/**
+ * Use of the decentralized coordinator to implement a watchdog.
+ */
+target C {
+  timeout: 1 s,
+  coordination: decentralized
+}
+import Sensor, Processor, Actuator from "SensorProcessorActuator.lf"
+
+reactor Monitored(exec = 10 ms) {
+  output complete:int
+  s = new Sensor()
+  p = new Processor(exec = exec)
+  a = new Actuator()
+  s.out -> p.inp
+  p.out -> a.inp
+  p.out -> complete
+}
+
+reactor Watchdog(STA: time = 50 ms) {
+  input inp:int
+  timer t(0, 200 ms)
+
+  reaction(t, inp) {=
+    if (!inp->is_present) {
+      lf_print("%s: ******* Failed to receive input on time at logical time " PRINTF_TIME ".",
+          lf_reactor_name(self), lf_time_logical_elapsed());
+    } else {
+      lf_print("%s: Monitor OK at logical time " PRINTF_TIME ".",
+          lf_reactor_name(self), lf_time_logical_elapsed());
+    }
+  =} STAA(0) {=
+    lf_print("%s: ******* Monitor received late input.", lf_reactor_name(self));
+  =}
+}
+
+federated reactor {
+  @label("exec = 60 ms")
+  m = new Monitored(exec = 60 ms)
+  @label("STA = 50 ms")
+  w = new Watchdog()
+  m.complete -> w.inp
+}
