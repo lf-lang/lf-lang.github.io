@@ -1,0 +1,31 @@
+/**
+ * This example uses a second reaction to check the completion time of the first reaction.
+ * LF deadlines are violated when the _start_ of a reaction execution is late.
+ * This simple pattern shows how to check that the _completion_ time of the reaction is on time.
+ */
+target C {
+  timeout: 1 s
+}
+
+import Sensor from "SensorProcessorActuator.lf"
+
+
+reactor Check(exec = 10 ms, limit: time = 50 ms) {
+  input inp:int
+
+  reaction(inp) {=
+    lf_sleep(self->exec);
+    lf_print("%s: Received %d.", lf_reactor_name(self), inp->value);
+  =}
+  reaction(inp) {=
+    lf_print("%s: Met deadline.", lf_reactor_name(self));
+  =} deadline (limit) {=
+    lf_print("%s: ******* Missed deadline!", lf_reactor_name(self));
+  =}
+}
+
+main reactor {
+  s = new Sensor()
+  c = new Check(exec = 60 ms)
+  s.out -> c.inp
+}

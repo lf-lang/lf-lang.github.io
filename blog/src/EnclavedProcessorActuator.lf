@@ -1,0 +1,26 @@
+target C {
+  timeout: 1 s
+}
+
+import Sensor, Processor, Actuator from "SensorProcessorActuator.lf"
+
+reactor ProcessorActuator(exec = 10 ms, limit = 50 ms) {
+  input sensor: int
+  p = new Processor(exec = exec)
+  a = new Actuator(limit = limit)
+  sensor -> p.inp
+  p.out -> a.inp
+}
+main reactor {
+  s = new Sensor()
+  @label("exec = 10 ms")
+  p1 = new Processor()
+  a1 = new Actuator()
+  s.out -> p1.inp
+  p1.out -> a1.inp
+
+  @enclave
+  @label("exec = 60 ms")
+  pa = new ProcessorActuator(exec = 60 ms)
+  s.out -> pa.sensor
+}
