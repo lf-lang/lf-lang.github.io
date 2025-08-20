@@ -1,5 +1,5 @@
 /**
- * Use of the decentralized coordinator to implement a watchdog.
+ * Use of the decentralized coordinator to implement a watchdog-like monitor.
  */
 target C {
   timeout: 1 s,
@@ -17,7 +17,7 @@ reactor Monitored(exec = 10 ms) {
   p.out -> complete
 }
 
-reactor Watchdog(STA: time = 50 ms) {
+reactor Monitor(STA: time = 50 ms) {
   input inp:int
   timer t(0, 200 ms)
 
@@ -38,6 +38,6 @@ federated reactor {
   @label("exec = 60 ms")
   m = new Monitored(exec = 60 ms)
   @label("STA = 50 ms")
-  w = new Watchdog()
+  w = new Monitor()
   m.complete -> w.inp
 }

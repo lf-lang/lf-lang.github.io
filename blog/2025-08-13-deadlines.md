@@ -173,7 +173,7 @@ In this case, the reaction in the `NetworkSender` will have the same level as th
 ## Early Deadline Violation Detection
 
 A deadline violation handler is invoked when a reaction is to be _started_ late.
-Above, we explained how to react to a late _completion time_ of a reaction, but that reaction is not invoked until the reaction actually completes.
+Above, we explained how to react to a late _completion time_ of a reaction, but the handler is not invoked until the reaction actually completes.
 What if you need to react as soon as you know that the completion time will be late?
 Here we describe three complementary mechanisms that can react sooner.
 
@@ -184,22 +184,14 @@ This mechanism works when the reaction is _started_ on time, but when we want it
 A nice example of this is given in the [AnytimePrime.lf](https://github.com/lf-lang/playground-lingua-franca/blob/main/examples/C/src/deadlines/AnytimePrime.lf) example in the [deadline collection](https://github.com/lf-lang/playground-lingua-franca/blob/main/examples/C/src/deadlines/README.md) of the [LF playground repo](https://github.com/lf-lang/playground-lingua-franca/tree/main).
 It computes as many prime numbers as it can before exceeding a time budget and then aborts.
 
-### Watchdogs
+### Federates as Watchdog-Like Monitors
 
-An experimental `watchdog` mechanism is available in LF and is described by
-[Asch, et al., Software-Defined Watchdog Timers for Cyber-Physical Systems](https://ieeexplore.ieee.org/document/10693560).
-A `watchdog` specifies a handler that is invoked if, after the watchdog is started using the [`lf_watchdog_start`](https://www.lf-lang.org/reactor-c/group__API.html#ga82bf2c7bd91fdf03b357914cf875dbb9) function in the [reactor API](https://www.lf-lang.org/reactor-c/group__API.html), the watchdog is not stopped or restarted within the specified amount of physical time.
-
-### Federates as Watchdogs
-
-The [decentralized coordinator](https://www.lf-lang.org/docs/next/writing-reactors/distributed-execution#decentralized-coordination) for federated execution gives a convenient mechanism for creating a form of watchdog that runs in a separate process or even on a separate machine.
-This can give a more robust detection of a failure because the watchdog monitor can be put on a separate machine from the process being monitored.
+The [decentralized coordinator](https://www.lf-lang.org/docs/next/writing-reactors/distributed-execution#decentralized-coordination) for federated execution gives a convenient mechanism for creating a form of watchdog-like monitor that runs in a separate process or even on a separate machine.
+This can give a robust detection of a failure because the monitor can be put on a separate machine from the process being monitored.
 
 Consider the following example:
 
 ![FederatedWatchdog diagram](../static/img/blog/FederatedWatchdog.svg)
-
-The code for this is:
 
 ```lf-c
 target C {
@@ -217,7 +209,7 @@ reactor Monitored(exec = 10 ms) {
   p.out -> complete
 }
 
-reactor Watchdog(STA: time = 50 ms) {
+reactor Monitor(STA: time = 50 ms) {
   input inp:int
   timer t(0, 200 ms)
 
@@ -238,7 +230,7 @@ federated reactor {
   @label("exec = 60 ms")
   m = new Monitored(exec = 60 ms)
   @label("STA = 50 ms")
-  w = new Watchdog()
+  w = new Monitor()
   m.complete -> w.inp
 }
 ```
@@ -246,14 +238,25 @@ federated reactor {
 The `Monitored` reactor is simply a federate containing the sensor-processor-actuator chain.
 It is just like above except that it also copies the output of the processor to its own `complete` output.
 
-The `Watchdog` federate has a timer that exactly the `Sensor` timer in offset and period.
-It expects an input from the `Monitored` at each tick of this timer.
-The [`STA` parameter](https://www.lf-lang.org/docs/next/writing-reactors/distributed-execution#safe-to-advance-sta) (**safe to advance**) specifies that it is safe to advance the federate's logical time to the logical time of the timer tick when physical time exceeds that logical time plus the `STA`.
-The `STA` is set to 50 ms, so, at physical times 50 ms, 250 ms, 450 ms, etc. after the start time, if an input has not arrived, then the input will be assumed to be absent and the `Watchdog`'s reaction will be invoked.
+The `Monitor` federate has a timer that exactly matches the `Sensor` timer in offset and period.
+The `Monitor` expects an input from `Monitored` at each tick of this timer.
+The [`STA` parameter](https://www.lf-lang.org/docs/next/writing-reactors/distributed-execution#safe-to-advance-sta) (**safe to advance**) specifies that it is safe to advance the federate's logical time to the logical time of the timer tick when physical time exceeds that logical time plus the `STA` even if input status is unknown.
+The `STA` is set to 50 ms, so, at physical times 50 ms, 250 ms, 450 ms, etc. after the start time, if an input has not arrived, then the input will be assumed to be absent and the `Monitor`'s reaction will be invoked.
 The reaction, therefore, just has to check whether the input is present.
-If it is, then the `Monitored` federate is alive and well and its processor output was received by the `Watchdog` within 50 ms.
+If it is, then the `Monitored` federate is alive and well and its processor output was received by the `Monitor` within 50 ms.
 Otherwise, something has gone wrong that has led to a delay greater than 50 ms.
 
+### Watchdogs
+
+An experimental `watchdog` mechanism is available in LF and is described by
+[Asch, et al., Software-Defined Watchdog Timers for Cyber-Physical Systems](https://ieeexplore.ieee.org/document/10693560).
+A `watchdog` specifies a handler that is invoked if, after the watchdog is started using the [`lf_watchdog_start`](https://www.lf-lang.org/reactor-c/group__API.html#ga82bf2c7bd91fdf03b357914cf875dbb9) function in the [reactor API](https://www.lf-lang.org/reactor-c/group__API.html), the watchdog is not stopped or restarted within the specified amount of physical time.
+
+A typical usage is to start a watchdog before a potentially problematic reaction is invoked and then stop the watchdog upon completion of the reaction.
+As soon as the reaction takes too long to complete, the watchdog handler will be invoked.
+
+Using watchdogs is tricky because the watchdog handler requires a mutual exclusion lock in order to safely access state variables (see [Asch, et al.](https://ieeexplore.ieee.org/document/10693560).
+For this reason, federates (or, in the future, enclaves) are preferred.
 
 ## Ongoing Research
 
