@@ -1,7 +1,7 @@
 ---
 slug: deadlines
 title: "Working with Deadlines"
-authors: [eal, rcakella, fra-p]
+authors: [eal, rcakella, fra-p, keiichibando]
 tags: [lingua franca, deadlines, real-time, scheduling]
 ---
 
