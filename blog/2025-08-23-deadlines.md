@@ -8,7 +8,7 @@ tags: [lingua franca, deadlines, real-time, scheduling]
 ![SensorProcessorActuator diagram](../static/img/blog/SensorProcessorActuator.svg)
 
 [Deadlines](/docs/writing-reactors/deadlines) in Lingua Franca serve three purposes: they specify real-time requirements, guide scheduling, and provide fault handlers to invoke when real-time requirements are not met.
-But they can be subtle to use, and, do not guide scheduling as much as we would like.
+But they can be subtle to use and do not guide scheduling as much as we would like.
 This blog outlines the current state of affairs and lays out ongoing work to improve the situation.
 
 A deadline specifies that the physical time at which a reaction _starts_ minus the logical time of that reaction (a time difference called the **lag**) should not exceed some threshold. If it does, then the **deadline violation handler** is invoked rather than the regular reaction.
@@ -255,7 +255,7 @@ A `watchdog` specifies a handler that is invoked if, after the watchdog is start
 A typical usage is to start a watchdog before a potentially problematic reaction is invoked and then stop the watchdog upon completion of the reaction.
 As soon as the reaction takes too long to complete, the watchdog handler will be invoked.
 
-Using watchdogs is tricky because the watchdog handler requires a mutual exclusion lock in order to safely access state variables (see [Asch, et al.](https://ieeexplore.ieee.org/document/10693560).
+Using watchdogs is tricky because the watchdog handler requires a mutual exclusion lock in order to safely access state variables (see [Asch, et al.](https://ieeexplore.ieee.org/document/10693560)).
 For this reason, federates (or, in the future, enclaves) are preferred.
 
 ## Ongoing Research
