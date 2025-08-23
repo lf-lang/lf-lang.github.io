@@ -20,3 +20,21 @@ eal:
   title: Professor at UC Berkeley
   url: http://people.eecs.berkeley.edu/~eal/
   image_url: https://avatars.githubusercontent.com/u/8513334?v=4
+
+rcakella:
+  name: Ravi Akella
+  title: Sr. Research Engineer, DENSO International America Inc.
+  url: https://www.linkedin.com/in/ravicakella/
+  image_url: https://avatars.githubusercontent.com/u/913550?v=4
+
+fra-p:
+  name: Francesco Paladino
+  title: Postdoc, UC Berkeley
+  url: https://dblp.org/pid/347/8232.html
+  image_url: https://avatars.githubusercontent.com/u/47446988?v=4
+  
+keiichibando:
+  name: Keiichi Bando
+  title: Chief Engineer, DENSO Create Inc.
+  url: https://github.com/keiichibando
+  image_url: https://avatars.githubusercontent.com/u/149469685?v=4

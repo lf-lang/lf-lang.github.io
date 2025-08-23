@@ -1,0 +1,45 @@
+/**
+ * Pattern for a typical use of deadlines in LF.
+ */
+target C {
+  timeout: 1 s
+}
+
+reactor Sensor {
+  output out:int
+  timer t(0, 200 ms)
+  state count: int = 0
+  reaction(t) -> out {=
+    lf_set(out, self->count);
+    self->count++;
+  =}
+}
+
+reactor Processor(exec = 10 ms) {
+  input inp:int
+  output out:int
+
+  reaction(inp) -> out{=
+    lf_print("%s: Received %d.", lf_reactor_name(self), inp->value);
+    lf_sleep(self->exec);
+    lf_set(out, inp->value * 2);
+  =}
+}
+
+reactor Actuator(limit: time = 50 ms) {
+  input inp:int
+
+  reaction(inp) {=
+    lf_print("%s: Met deadline. Received %d.", lf_reactor_name(self), inp->value);
+  =} deadline (limit) {=
+    lf_print("%s: ******* Missed deadline! Received %d.", lf_reactor_name(self), inp->value);
+  =}
+}
+
+main reactor {
+  s = new Sensor()
+  p = new Processor(exec = 10 ms)
+  a = new Actuator()
+  s.out -> p.inp
+  p.out -> a.inp
+}

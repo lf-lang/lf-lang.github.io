@@ -1,0 +1,21 @@
+target C {
+  timeout: 1 s
+}
+
+import Sensor, Processor, Actuator from "SensorProcessorActuator.lf"
+
+reactor ProcessorActuator(exec = 10 ms, limit = 50 ms) {
+  input sensor: int
+  p = new Processor(exec = exec)
+  a = new Actuator(limit = limit)
+  sensor -> p.inp
+  p.out -> a.inp
+}
+
+federated reactor {
+  s = new Sensor()
+  pa1 = new ProcessorActuator(exec = 60 ms)
+  pa2 = new ProcessorActuator()
+  s.out -> pa1.sensor
+  s.out -> pa2.sensor
+}
