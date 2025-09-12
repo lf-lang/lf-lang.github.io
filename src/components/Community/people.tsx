@@ -125,24 +125,20 @@ export const past = [
     personalSiteUrl: "https://erlingrj.github.io",
     avatar:
       "https://backends.it.ntnu.no/user-profile-service/rest/files/139f11cf-c2bb-365e-bbbb-559165b9cb31",
-    blurb: (
-      <Translate>
-        PhD Candidate at Norwegian University of Science and Technology.
-      </Translate>
-    ),
+    blurb: <Translate>Senior Embedded R&D Engineer, reMarkable.</Translate>,
   },
   {
     name: "Marten Lohstroh",
-    personalSiteUrl: "http://people.eecs.berkeley.edu/~marten/",
+    personalSiteUrl: "https://www.xronos.com/#team",
     avatar: "https://avatars.githubusercontent.com/u/19938940?v=4",
-    blurb: <Translate>Assistant Researcher at UC Berkeley.</Translate>,
+    blurb: <Translate>CEO, Xronos Inc.</Translate>,
   },
   {
     name: "Christian Menard",
     personalSiteUrl:
-      "https://cfaed.tu-dresden.de/investigators-institutions/compiler-construction/ccc-staff/christian-menard",
+      "https://www.xronos.com/#team",
     avatar: "https://avatars.githubusercontent.com/u/6460123?v=4",
-    blurb: <Translate>Graduate Student at TU Dresden.</Translate>,
+    blurb: <Translate>Principal Architect, Xronos Inc.</Translate>,
   },
   {
     name: "Anirudh Rengarajan",
