@@ -72,7 +72,7 @@ export default function Community(): JSX.Element {
               </Translate>
             </p>
           </div>
-          <div className={clsx("row")}>
+          <div className={clsx("row")} style={{ justifyContent: "center" }}>
             <SocialMediaCard
               renderedImage={
                 <ZulipLogo title="Zulip" width="100%" height="100%" />
@@ -110,6 +110,7 @@ export default function Community(): JSX.Element {
               </>
             </SocialMediaCard>
             {/* Tweak X white logo so that its background is always black and it's smaller and centred. */}
+            {/* TODO: Reddit is not active.
             <SocialMediaCard
               renderedImage={
                 // Drafted by...... ChatGPT
@@ -137,7 +138,7 @@ export default function Community(): JSX.Element {
                 </Link>
                 !
               </>
-            </SocialMediaCard>
+            </SocialMediaCard> */}
           </div>
         </div>
       </div>

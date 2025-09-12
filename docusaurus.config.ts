@@ -109,10 +109,10 @@ const config: Config = {
               label: 'Zulip',
               href: 'https://zulip.lf-lang.org',
             },
-            {
-              label: 'Reddit',
-              href: 'https://reddit.com/r/thelflang',
-            },
+            // {
+            //   label: 'Reddit',
+            //   href: 'https://reddit.com/r/thelflang',
+            // },
           ],
         },
         {
