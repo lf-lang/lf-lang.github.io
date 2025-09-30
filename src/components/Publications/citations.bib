@@ -6,11 +6,52 @@
    booktitle = {Concurrent Programming, Open Systems and Formal Methods: Essays Dedicated to Prof. Gul Agha to Celebrate his Scientific Career},
    editor = {Jos\'e Meseguer and Carlos A. Varela and Nalini Venkatasubramanian},
    publisher = {Springer},
-   volume = {LNCS},
-   abstract = {The nondeterministic ordering of message handling in the original actor model makes it difficult to achieve the consistency across a distributed system that some applications require. This paper explores a number of mitigations, focusing primarily on the use of logical time to define a semantic ordering for messages.Avariety of coordination mechanisms can ensure that messages are handled in logical time order, but they all come with costs. A fundamental tradeoff (the CAL theorem) makes it impossible to achieve consistency without paying a price in availability, where the price depends on the latencies introduced by network communication, computation overhead, and clock synchronization error. This paper shows how to use the Lingua Franca coordination language to navigate this tradeoff, and particularly how to ensure eventual consistency while bounding unavailability with manageable risk.},
+   volume = {LNCS 16120},
+   abstract = {The nondeterministic ordering of message handling in the original actor model makes it difficult to achieve the consistency across a distributed system that some applications require. This paper explores a number of mitigations, focusing primarily on the use of logical time to define a semantic ordering for messages. A variety of coordination mechanisms can ensure that messages are handled in logical time order, but they all come with costs. A fundamental tradeoff (the CAL theorem) makes it impossible to achieve consistency without paying a price in availability, where the price depends on the latencies introduced by network communication, computation overhead, and clock synchronization error. This paper shows how to use the Lingua Franca coordination language to navigate this tradeoff, and particularly how to ensure eventual consistency while bounding unavailability with manageable risk.},
    url = {https://eecs.berkeley.edu/~eal/publications/LeeTimeAghaFestschriftPreprint2025.pdf},
    year = {2025},
    type = {Conference Proceedings}
+}
+
+@inproceedings{SirjaniEtAl:25:Redundant,
+   author = {Marjan Sirjani and Edward A. Lee and Zahra Moezkarimi and Bahman Pourvatan and Bjarne Johansson and Stefan Marksteiner1 and Alessandro V. Papadopoulos},
+   title = {Actors for Timing Analysis of Distributed Redundant Controllers},
+   booktitle = {Concurrent Programming, Open Systems and Formal Methods: Essays Dedicated to Prof. Gul Agha to Celebrate his Scientific Career},
+   editor = {Jos\'e Meseguer and Carlos A. Varela and Nalini Venkatasubramanian},
+   publisher = {Springer},
+   volume = {LNCS 16120},
+   abstract = {We use two actor-based languages, Timed Rebeca and Lingua Franca, to show modeling, model checking, implementation, and timing analysis of an industry-suggested algorithm for role selection in distributed control systems with redundancy. The algorithm prioritizes consistency over availability in tradeoff situations. We show scenarios that simulate the environment and possible faults and use the Timed Rebeca model checking tool to investigate whether they may cause a failure. We also show the maximum latency that can be tolerated without causing inconsistency. We then use the coordination language Lingua Franca to implement the model. It can also simulate network switches, allowing you to set up test scenarios that include network degradation, such as switch failures, packet losses, and excessive latency. This can be set up as a hardware-in-the-loop simulation, where the actual node implementations interact with simulated switches and the network.},
+   url = {https://eecs.berkeley.edu/~eal/publications/SirjaniEtal_Gul_Fest_Final.pdf},
+   year = {2025},
+   type = {Conference Proceedings}
+}
+
+@article{DonovanEtAl:25:ZeroDelay,
+   author = {Peter Donovan and Erling Jellum and Byeonggil Jun and Hokeun Kim and Lee Edward and Shaokai Lin and Marten Lohstroh and Anirudh Rengarajan},
+	 title = {Zero-Delay Cycles in Distributed Discrete-Event Systems using Lingua Franca},
+   journal = {ACM Transactions on Modeling and Computer Simulation},
+   volume = {to appear},
+   month = {August},
+   url = {https://doi.org/10.1145/3762653},
+   abstract = {Discrete-event (DE) systems are concurrent programs where components communicate via tagged events, where tags are drawn from a totally ordered set. Distributed DE (DDE) systems are DE systems where the components (reactors) communicate over networks. Most execution platforms require that for DDE systems with cycles, each cycle must contain at least one logical delay, where the tag of events is incremented. Some impose an even stronger constraint, that no component produce outputs with the same timestamp as a triggering input (the “lookahead” for the component must be greater than zero). Such restrictions, however, are not required by the elegant fixed-point semantics of DE. The only fundamental requirement is that the program be constructive, meaning it is free from causality cycles. In this paper, we propose a way to coordinate the execution of DDE systems that can execute any constructive program, even one with zero-delay cycles (ZDC), facilitating the elegant programming of strongly consistent distributed real-time systems. The proposed coordination provides a formal model that exposes exactly the information that must be shared across networks for such execution to be possible. Our solution avoids speculative execution and rollback, making it suitable for situations that do not tolerate rollback, such as deployment (vs. simulation) of cyber-physical systems (CPS’s). We describe an extension to the coordination mechanisms in Lingua Franca, a recent DE-based coordination language, to support ZDC.},
+   doi = {10.1145/3762653},
+   year = {2025},
+   type = {Journal Article}
+}
+
+@article{LinEtAl:25:QuasiStatic,
+   author = {Shaokai Lin and Erling Jellum and Mirco Theile and Tassilo Tanneberger and Binqi Sun and Chadlia Jerad and Yimo Xu and Guangyu Feng and Magnus Mæhlum and Jian-Jia Chen and Martin Schoeberl and Linh Thi Xuan Phan and Jeronimo Castrillon and Sanjit A. Seshia and Edward A. Lee},
+   title = {Quasi-Static Scheduling for Deterministic Timed Concurrent Models on Multi-Core Hardware},
+   journal = {ACM Transactions on Embedded Computing Systems},
+   volume = {24},
+   number = {5s},
+   month = {September},
+   pages = {1-25},
+   url = {https://doi.org/10.1145/3762653},
+   abstract = {To design performant, expressive, and reliable cyber-physical systems (CPSs), researchers extensively perform quasi-static scheduling for concurrent models of computation (MoCs) on multi-core hardware. However, these quasi-static scheduling approaches are developed independently for their corresponding MoCs, despite commonality in the approaches. To help generalize the use of quasi-static scheduling to new and emerging MoCs, this paper proposes a unified approach for a class of deterministic timed concurrent models (DTCMs), including prominent models such as synchronous dataflow (SDF), Boolean-controlled dataflow (BDF), scenario-aware dataflow (SADF), and Logical Execution Time (LET). In contrast to scheduling techniques tailored exclusively to specific MoCs, our unified approach leverages a common intermediate formalism called state space finite automata (SSFA), bridging the gap between high-level MoCs and executable schedules. Once identified as DTCMs, new MoCs can directly adopt SSFA-based scheduling, significantly easing adoption. We show that quasi-static schedules facilitated by SSFA are provably free from timing anomalies and enable straightforward worst-case makespan analysis. We demonstrate the approach using the reactor model—an emerging discrete-event MoC—programmed using the Lingua Franca (LF) language. Experiments show that quasi-statically scheduled LF programs exhibit lower runtime overhead compared to the dynamically scheduled LF programs, and that the analyzable worst-case makespans enable compile-time deadline checking.},
+   doi = {10.1145/3762653},
+   year = {2025},
+   type = {Journal Article}
 }
 
 @inproceedings{JunEtAl:25:DE,
