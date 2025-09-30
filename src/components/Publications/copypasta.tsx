@@ -8,8 +8,26 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
-        <strong>Agha '25</strong>: Edward A. Lee. 
-        "<Link href="https://eecs.berkeley.edu/~eal/publications/LeeTimeAghaFestschriftPreprint2025.pdf">Logical Time in Actor Systems</Link>", in <i>Concurrent Programming, Open Systems and Formal Methods: Essays Dedicated to Prof. Gul Agha to Celebrate his Scientific Career</i>, Springer, LNCS, 2025.
+        <strong>TOMCS '25</strong>: Peter Donovan, Erling Jellum, Byeonggil Jun, Hokeun Kim, Lee Edward, Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan. 
+        "<Link href="https://doi.org/10.1145/3767727">Zero-Delay Cycles in Distributed Discrete-Event Systems using Lingua Franca</Link>", in <i>ACM Transactions on Modeling and Computer Simulation</i>, To Appear, Accepted on 15 August 2025, DOI: 10.1145/3767727.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>CP '25</strong>: Edward A. Lee. 
+        "<Link href="https://eecs.berkeley.edu/~eal/publications/LeeTimeAghaFestschriftPreprint2025.pdf">Logical Time in Actor Systems</Link>", in <i>Concurrent Programming, Open Systems and Formal Methods: Essays Dedicated to Prof. Gul Agha to Celebrate his Scientific Career</i>, <Link href="https://doi.org/10.1007/978-3-032-05291-9_16">DOI: 10.1007/978-3-032-05291-9_16</Link> Springer, LNCS 16120, pp. 371-392 2025.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>CP '25</strong>: Marjan Sirjani, Edward A. Lee, Zahra Moezkarimi, Bahman Pourvatan, Bjarne Johansson, Stefan Marksteiner, and Alessandro V. Papadopoulos. 
+        "<Link href="https://eecs.berkeley.edu/~eal/publications/SirjaniEtal_Gul_Fest_Final.pdf">Actors for Timing Analysis of Distributed Redundant Controllers</Link>", in <i>Concurrent Programming, Open Systems and Formal Methods: Essays Dedicated to Prof. Gul Agha to Celebrate his Scientific Career</i>, <Link href="https://doi.org/10.1007/978-3-032-05291-9_8">DOI: 10.1007/978-3-032-05291-9_8</Link> Springer, LNCS 16120, pp. 189-214, 2025.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>EMSOFT '25</strong>: Shaokai Lin, Erling Jellum, Mirco Theile, Tassilo Tanneberger, Binqi Sun, Chadlia Jerad, Yimo Xu, Guangyu Feng, Magnus Mæhlum, Jian-Jia Chen, Martin Schoeberl, Linh Thi Xuan Phan, Jeronimo Castrillon, Sanjit A. Seshia, Edward A. Lee. 
+        "<Link href="https://doi.org/10.1145/3767727">Quasi-Static Scheduling for Deterministic Timed Concurrent Models on Multi-Core Hardware</Link>", in <i>ACM Transactions on Embedded Computing Systems</i>, Volume 24, Issue 5s, Article No.: 150, Pages 1-25, DOI: 10.1145/3767727, ACM, Presented at EMSOFT 2025, Sep. 29 - Oct. 2, 2025, Taipei, Taiwan.
       </p>
     </li>
     <li>
