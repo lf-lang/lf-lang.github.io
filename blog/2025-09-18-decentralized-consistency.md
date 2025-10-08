@@ -18,27 +18,26 @@ Flight attendants, however, are allowed to disarm the door _only_ when they see 
 Consider the above Lingua Franca program that implements a simplified system to remotely open the aircraft door that is in the _armed_ state.
 The door implements two independent remote services, door _disarming_ and door _opening_, encoded by two different reactions in the `Door` reactor.
 We imagine that the pilot interacting with the cockpit issues the command to open the door that triggers the door opening service.
-We would also like to automate the disarming of the door using a camera. When the camera determines that the ramp is attached to the aircraft, it triggers the disarming service of the door.
+We would also like to automate the disarming of the door using a camera. When the camera determines that the ramp is attached to the aircraft, it triggers the disarming service of the door. The camera detection is triggered by the door open command issued by the cockpit.
+
 There are different ways to design and refactor the above system, for example, by removing the direct connection between the `Cockpit` and `Door` reactors. Our design choice is meant to highlight that door _disarming_ and _opening_ are two different and independent remote services triggered by two different commands issued by two different system actors. Therefore, each actor has an independent connection to the door to request its service.
 
 The purpose of the system is to open the door in reaction to the command from the cockpit only in normal conditions, that is, when the ramp is present and the door is not armed. The door, upon receiving the command from the cockpit, should wait for clearance from the camera before opening.
 
-This is an example of an application that cannot safely proceed its processing without assurance on its inputs. In fact, if the door processes immediately the command from the cockpit, and the door is still _armed_ because the input from the camera has not come yet, the evacuation slide will be deployed as if it was an emergency landing. The door, then, has to wait for both inputs before invoking the _opening_ service.
-
-### In-order message processing
 The order in which messages are processed is crucial in this application. When the _disarm_ and _open_ commands arrive together, the _disarm_ service needs to be invoked before opening the door, otherwise the escape slide will be deployed and that is not the desired behavior.
 Lingua Franca guarantees determinism in the execution order of reactions with simultaneous inputs, and the order is given by the the order of declaration of the reactions inside the reactor. It is then sufficient to declare the `disarm` reaction _before_ the `open` one. The diagram confirms the execution order by labeling the `disarm` reaction with 1 and the `open` reaction with 2.
 
-The more challenging situation is when the inputs do not arrive together, and this is discussed in the following section.
+The more challenging situation is when the inputs do not arrive together. In fact, if the command from the cockpit arrives before the clearance from the camera and the door processes it immediately, the door will be opened while still _armed_, and the evacuation slide will be deployed as if it was an emergency landing. The door, then, has to wait for both inputs before invoking the _opening_ service.
+This is then an example of an application that cannot safely proceed its processing without assurance on its inputs. The following section explains how to obtain the desired behavior in Lingua Franca.
 
 ### Consistency with decentralized coordination
 The application is implemented as a federated program with decentralized coordination, which means that the advancement of logical time in each single federate is not subject to approval from any centralized entities, but it is done locally based on the input it receives from the other federates.
 
-Let us consider the case when the `Door` reactor receives the _open_ command from the `Cockpit` reactor, but not yet the _disarm_ command from the `Camera` reactor. As previously observed, the `Door` cannot proceed to open the door, because it needs to wait for the `Camera` to send the _disarm_ command.
+Let us consider the case when the `Door` reactor receives the _open_ command from the `Cockpit` reactor, but not yet the _disarm_ command from the `Camera` reactor. As previously observed, the `Door` cannot proceed to invoke the _opening_ service, because it needs to wait for the `Camera` to send the _disarm_ command.
 But how long should it wait?
 
-Lingua Franca allows you to customize the waiting time. Each federate has a parameter called [`maxwait`](/docs/writing-reactors/distributed-execution#safe-to-advance-sta) that controls how long the federate should wait for inputs from other federates before processing an input it has just received.
-More precisely, the `maxwait` is how much time a federate waits before advancing its tag to that of the just received event, when it is not known if the other input ports will receive data with the same or an earlier tag. At the expiration of the `maxwait`, the federate assumes that those unresolved ports will not receive any data with earlier tags, and advances its logical time to the tag of the received event.
+Lingua Franca allows you to customize this waiting time. Each federate is associated with a parameter called [`maxwait`](/docs/writing-reactors/distributed-execution#safe-to-advance-sta) that controls how long the federate should wait for inputs from other federates before processing an input it has just received.
+More precisely, `maxwait` is how much time a federate waits before advancing its tag to that of the just received event, when it is not known if the other input ports will receive data with the same or an earlier tag. At the expiration of the `maxwait`, the federate assumes that those unresolved ports will not receive any data with earlier tags, and advances its logical time to the tag of the received event.
 
 In our example, we want the door to _indefinitely wait_ for both _disarm_ and _open_ commands to arrive before processing any of them. In Lingua Franca, this is obtained by setting `maxwait = forever`, and it means that the `Door` reactor cannot safely proceed without assurance about the inputs.
 
