@@ -7,7 +7,7 @@ tags: [lingua franca, federation, decentralized, consistency, STA]
 
 The design of [distributed applications](/docs/writing-reactors/distributed-execution) in Lingua Franca requires care, particularly if the coordination of the federation is [decentralized](/docs/writing-reactors/distributed-execution#decentralized-coordination). The intent of this post is to illustrate and handle the challenges arising from designing distributed applications in Lingua Franca, with the help of two realistic use cases.
 
-## Aircraft door use case
+## Indefinite wait for inputs: the aircraft door use case
 Aircraft doors on passenger flights are currently managed manually by flight attendants.
 Before the take-off, the flight attendants _arm_ the door: if the door is opened in this state, an evacuation slide is automatically inflated and deployed for emergency landing.
 When the aircraft lands in normal and safe conditions, before opening the door, the flight attendants _disarm_ it to avoid the deployment of the evacuation slide.
@@ -88,7 +88,7 @@ The reaction triggered by the `open` command prints on the standard output wheth
 
 The `maxwait` parameter is specified at instantiation time within the main reactor. Right before creating the instance of the `Door` reactor for which we want to set the parameter, we use the `@maxwait` annotation that takes as input the new `maxwait` value. The reactions of the `Door` reactor that are triggered by remote inputs are associated with a [fault handler](/docs/writing-reactors/distributed-execution#safe-to-process-stp-violation-handling) that is invoked in the case of timing inconsistencies during input processing. This event will be thoroughly discussed in another blog post.
 
-## Automatic emergency braking use case
+## Multirate inputs: the automatic emergency braking use case
 ![AutomaticEmergencyBrakingSystem diagram](../static/img/blog/AutomaticEmergencyBrakingSystem.svg)
 
 Consider the above Lingua Franca implementation of an automatic emergency braking system, one of the most critical ADAS systems which modern cars are equipped with.
