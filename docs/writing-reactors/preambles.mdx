@@ -440,6 +440,80 @@ The important takeaway here is with the package.json file and the compiled JavaS
 
 <ShowIf rs>
 
+For example, the follow reactor brings the constant `PI` into scope allowing us to call `f64::const::PI` as `PI`
+
+```lf-c
+target Rust;
+
+main reactor { 
+  preamble {=
+    use std::f64::const::PI;
+  =}
+
+  reaction(startup) {=
+    println!("{}", PI);
+  =}
+}
+```
+
+This will print: 
+
+```
+3.141592653589793
+```
+for this example, we add the crate [hello](https://docs.rs/hello/latest/hello/) through the rust [cargo-dependencies](<../reference/target-declaration#cargo-dependencies>) target option. 
+```lf-C
+target Rust { 
+  cargo-dependencies: { 
+    hello: "1.0.4",
+  },
+};
+
+preamble {= 
+  use hello;
+=}
+
+main reactor { 
+  reaction(startup) {
+    hello::world();
+  }
+}
+
+```
+This will print:
+```
+Hello, world!
+```
+
+In this example we create a function `add_42` and a rust macro `add!`
+```lf-c
+target Rust; 
+
+main reactor { 
+  preamble {=
+    macro_rules! add {
+      ($a:expr, $b:expr) => { 
+        $a+$b
+      }
+    }
+    fn add_42 (a: i32) -> i32 { 
+      return a + 42;
+    }
+  =}
+
+  reaction(startup) { 
+    println!("add macro example: {}", add!(1,1));
+    println!("add 42 example: {}", add_42(10));
+  }
+}
+
+```
+This will print: 
+```
+add macro example: 2
+add 42 example: 52
+```
+
 :::danger
 FIXME: Add `preamble` example.
 :::
