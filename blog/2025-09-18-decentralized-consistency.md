@@ -182,7 +182,7 @@ reactor AutomaticEmergencyBraking {
     }
   =} deadline(100ms) {=
     printf("AEB deadline violated\n");
-  =} islate {=
+  =} iflate {=
     printf("STP violation on AEB\n");
   =}
 
