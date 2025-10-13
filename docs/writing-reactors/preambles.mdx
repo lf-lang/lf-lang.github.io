@@ -440,12 +440,41 @@ The important takeaway here is with the package.json file and the compiled JavaS
 
 <ShowIf rs>
 
-For example, the follow reactor brings the constant `PI` into scope allowing us to call `f64::const::PI` as `PI`
+ You can use the `preamble` to define macros and functions that are shared within the given reactor:
 
 ```lf-c
 target Rust;
 
-main reactor { 
+main reactor {
+  preamble {=
+    macro_rules! add {
+      ($a:expr, $b:expr) => {
+        $a+$b
+      }
+    }
+    fn add_42 (a: i32) -> i32 {
+      return a + 42;
+    }
+  =}
+
+  reaction(startup) {
+    println!("add macro example: {}", add!(1,1));
+    println!("add 42 example: {}", add_42(10));
+  }
+}
+```
+This will print:
+```
+add macro example: 2
+add 42 example: 52
+```
+
+By having the `preamble` inside the reactor, you can define any functions or macros that are shared within the given reactor. This will allow you to reuse code across different reactions easily within the same reactor. This also can extend to `use` to shorten declaration of module items. For example, the follow reactor brings the constant `PI` into scope and print out the first 15 digits of pi:
+
+```lf-c
+target Rust;
+
+main reactor {
   preamble {=
     use std::f64::const::PI;
   =}
@@ -455,63 +484,37 @@ main reactor {
   =}
 }
 ```
-
-This will print: 
-
+This will print:
 ```
 3.141592653589793
 ```
-for this example, we add the crate [hello](https://docs.rs/hello/latest/hello/) through the rust [cargo-dependencies](<../reference/target-declaration#cargo-dependencies>) target option. 
-```lf-C
-target Rust { 
-  cargo-dependencies: { 
-    hello: "1.0.4",
-  },
-};
+By putting `use` in the `preamble`, you can change the scope of `PI` for the for the reactor, in this case the main reactor. Its important to note that besides the crates specified in the target declarations _cargo-dependencies_ and user modules in _rust-include_, all user code is added to a module called `reactors` during compilation time. This means that crate level attributes like `#![no_std]` will not work if added to the preamble.
 
-preamble {= 
-  use hello;
-=}
+This would be an example of accessing a user created module named `foo` that is in the same directory as the lingua france program:
 
-main reactor { 
+File: example.lf
+```lf-c
+target Rust {
+  rust-include: ["foo.rs"]
+}
+main reactor {
+  preamble {=
+    use crate::foo::world;
+  =}
   reaction(startup) {
-    hello::world();
+    world();
   }
 }
-
+```
+File: foo.rs
+```rust
+pub fn world() {
+  println!("Hello, world!");
+}
 ```
 This will print:
 ```
 Hello, world!
-```
-
-In this example we create a function `add_42` and a rust macro `add!`
-```lf-c
-target Rust; 
-
-main reactor { 
-  preamble {=
-    macro_rules! add {
-      ($a:expr, $b:expr) => { 
-        $a+$b
-      }
-    }
-    fn add_42 (a: i32) -> i32 { 
-      return a + 42;
-    }
-  =}
-
-  reaction(startup) { 
-    println!("add macro example: {}", add!(1,1));
-    println!("add 42 example: {}", add_42(10));
-  }
-}
-
-```
-This will print: 
-```
-add macro example: 2
-add 42 example: 52
 ```
 
 :::danger
