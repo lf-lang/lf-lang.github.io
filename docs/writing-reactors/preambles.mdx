@@ -464,12 +464,16 @@ main reactor {
 }
 ```
 This will print:
+
 ```
 add macro example: 2
 add 42 example: 52
 ```
 
-By having the `preamble` inside the reactor, you can define any functions or macros that are shared within the given reactor. This will allow you to reuse code across different reactions easily within the same reactor. This also can extend to `use` to shorten declaration of module items. For example, the follow reactor brings the constant `PI` into scope and print out the first 15 digits of pi:
+By having the `preamble` inside the reactor, you can define any functions or macros to be shared within the given reactor.
+This will allow you to reuse code across different reactions easily within the same reactor.
+This also can allow us to change the scope of items using the 'use' statement.
+For example, the follow reactor brings the constant `PI` into scope and print out the first 15 digits of pi:
 
 ```lf-c
 target Rust;
@@ -484,15 +488,19 @@ main reactor {
   =}
 }
 ```
+
 This will print:
+
 ```
 3.141592653589793
 ```
-By putting `use` in the `preamble`, you can change the scope of `PI` for the for the reactor, in this case the main reactor. Its important to note that besides the crates specified in the target declarations _cargo-dependencies_ and user modules in _rust-include_, all user code is added to a module called `reactors` during compilation time. This means that crate level attributes like `#![no_std]` will not work if added to the preamble.
+By putting `use` in the `preamble`, the scope of `PI` is changed for the entire reactor, in this case the main reactor.
+This works with all items that are brought into scope using the `use` statement and not just constants and functions.
 
-This would be an example of accessing a user created module named `foo` that is in the same directory as the lingua france program:
+This would be an example of accessing a user created module named `foo` that is included using the `rust-include` target parameter:
 
 File: example.lf
+
 ```lf-c
 target Rust {
   rust-include: ["foo.rs"]
@@ -506,16 +514,23 @@ main reactor {
   }
 }
 ```
+
 File: foo.rs
+
 ```rust
 pub fn world() {
   println!("Hello, world!");
 }
 ```
+
 This will print:
+
 ```
 Hello, world!
 ```
+
+Its important to note that besides the crates specified in the target declarations _cargo-dependencies_ and user modules in _rust-include_, all user code is added to a module called `reactors` during compilation time.
+This means that crate level attributes like `#![no_std]` will not work if added to the preamble.
 
 :::danger
 FIXME: Add `preamble` example.
