@@ -440,7 +440,7 @@ The important takeaway here is with the package.json file and the compiled JavaS
 
 <ShowIf rs>
 
- You can use the `preamble` to define macros and functions that are shared within the given reactor:
+For example, you can use the `preamble` to define macros and functions that are shared within the given reactor:
 
 ```lf-c
 target Rust;
@@ -472,7 +472,8 @@ add 42 example: 52
 
 By having the `preamble` inside the reactor, you can define any functions or macros to be shared within the given reactor.
 This will allow you to reuse code across different reactions easily within the same reactor.
-This also can allow us to change the scope of items using the 'use' statement.
+This also can allow us to change the scope of items using the `use` statement.
+
 For example, the follow reactor brings the constant `PI` into scope and print out the first 15 digits of pi:
 
 ```lf-c
@@ -529,7 +530,7 @@ This will print:
 Hello, world!
 ```
 
-Its important to note that besides the crates specified in the target declarations _cargo-dependencies_ and user modules in _rust-include_, all user code is added to a module called `reactors` during compilation time.
+It is important to note that besides Crates specified in the rust target declaration's _cargo-dependencies_ and user modules in _rust-include_, all user code is added to a module called `reactors` during compilation time.
 This means that crate level attributes like `#![no_std]` will not work if added to the preamble.
 
 :::danger
