@@ -63,7 +63,7 @@ reactor Door {
       self->isDisarmed = false;
       printf("Door armed\n");
     }
-  =} iflate {=
+  =} tardy {=
     printf("STP violation\n");
     printf("Intended tag: %lld\n", disarm->intended_tag);
     printf("Current tag: %lld\n", lf_time_logical());
@@ -77,7 +77,7 @@ reactor Door {
       self->open = false;
       printf("Door closed\n");
     }
-  =} iflate {=
+  =} tardy {=
     printf("STP violation\n");
     printf("Intended tag: %lld\n", disarm->intended_tag);
     printf("Current tag: %lld\n", lf_time_logical());
@@ -182,7 +182,7 @@ reactor AutomaticEmergencyBraking {
     }
   =} deadline(100ms) {=
     printf("AEB deadline violated\n");
-  =} iflate {=
+  =} tardy {=
     printf("STP violation on AEB\n");
   =}
 
