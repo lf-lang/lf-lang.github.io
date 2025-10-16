@@ -442,7 +442,7 @@ The important takeaway here is with the package.json file and the compiled JavaS
 
 For example, you can use the `preamble` to define macros and functions that are shared within the given reactor:
 
-```lf-c
+```lf-rs
 target Rust;
 
 main reactor {
@@ -476,7 +476,7 @@ This also can allow us to change the scope of items using the `use` statement.
 
 For example, the follow reactor brings the constant `PI` into scope and print out the first 15 digits of pi:
 
-```lf-c
+```lf-rs
 target Rust;
 
 main reactor {
@@ -502,7 +502,7 @@ This would be an example of accessing a user created module named `foo` that is 
 
 File: example.lf
 
-```lf-c
+```lf-rs
 target Rust {
   rust-include: ["foo.rs"]
 }
@@ -530,12 +530,8 @@ This will print:
 Hello, world!
 ```
 
-It is important to note that besides Crates specified in the rust target declaration's _cargo-dependencies_ and user modules in _rust-include_, all user code is added to a module called `reactors` during compilation time.
+It is important to note that besides [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) specified in the rust target declaration's _cargo-dependencies_ and user modules in _rust-include_, all user code is added to a module called `reactors` during compilation time.
 This means that crate level attributes like `#![no_std]` will not work if added to the preamble.
-
-:::danger
-FIXME: Add `preamble` example.
-:::
 
 </ShowIf>
 </ShowIfs>
