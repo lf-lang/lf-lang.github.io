@@ -2,7 +2,7 @@
 slug: decentralized-consistency
 title: "Decentralized Consistency"
 authors: [fra-p, eal, rcakella]
-tags: [lingua franca, federation, decentralized, consistency, STA]
+tags: [lingua franca, federation, decentralized, consistency, maxwait]
 ---
 
 The design of [distributed applications](/docs/writing-reactors/distributed-execution) in Lingua Franca requires care, particularly if the coordination of the federation is [decentralized](/docs/writing-reactors/distributed-execution#decentralized-coordination). The intent of this post is to illustrate and handle the challenges arising from designing distributed applications in Lingua Franca, with the help of two realistic use cases.
@@ -40,7 +40,7 @@ But how long should it wait?
 The decentralized coordinator in
 Lingua Franca allows you to customize this waiting time. Each federate can be assigned an attribute called [`maxwait`](/docs/writing-reactors/distributed-execution#safe-to-advance-sta) that controls how long the federate should wait for inputs from other federates before processing an event, such as an input it has just received.
 More precisely, `maxwait` is the maximum amount of time a federate waits before advancing its logical time to some value _t_. Specifically, to advance to logical time _t_, the federate waits until either all inputs are known up to an including time _t_ or its local physical clock exceeds _t_ +`maxwait`.
-An input is known up to an including time _t_ if message with timestamp _t_ or greater has been received on that input port.
+An input is known up to an including time _t_ if a message with timestamp _t_ or greater has been received on that input port.
 At the expiration of the `maxwait`, the federate assumes that any unresolved ports will not receive any messages with timestamps _t_ or earlier.
 It can then advance its logical time to _t_.
 
@@ -99,7 +99,7 @@ federated reactor {
 
 The `maxwait` attribute is specified at instantiation time within the main reactor. Right before creating the instance of the `Door` reactor for which we want to set the attribute, we use the `@maxwait` annotation that takes as input the `maxwait` value. 
 
-The reactions of the `Door` reactor provide [fault handlers](/docs/writing-reactors/distributed-execution#safe-to-process-stp-violation-handling) that are invoked in case the the federate assumed inputs were known up to timestamp _t_ and then later received a message with timestamp _t_ or less. When `maxwait` is `forever`, these fault handlers should never be invoked.
+The reactions of the `Door` reactor provide [fault handlers](/docs/writing-reactors/distributed-execution#safe-to-process-stp-violation-handling) that are invoked in case the federate assumed inputs were known up to timestamp _t_ and then later received a message with timestamp _t_ or less. When `maxwait` is `forever`, these fault handlers should never be invoked.
 
 For finite values of `maxwait`, it is always possible for messages to get sufficiently delayed that the fault handlers will be invoked.
 When they are invoked, the current tag will be greater than the intended tag of the message.
