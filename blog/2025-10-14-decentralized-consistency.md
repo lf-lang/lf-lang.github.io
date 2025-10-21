@@ -176,14 +176,14 @@ reactor AutomaticEmergencyBraking {
 
     self->n_invocs++;
     if (self->n_invocs % 2) {
-      lf_set_maxwait(0);
+      lf_set_fed_maxwait(0);
     } else {
-      lf_set_maxwait(FOREVER);
+      lf_set_fed_maxwait(FOREVER);
     }
-  =} deadline(100ms) {=
-    printf("AEB deadline violated\n");
   =} tardy {=
     printf("STP violation on AEB\n");
+  =} deadline(100ms) {=
+    printf("AEB deadline violated\n");
   =}
 
   federated reactor {
