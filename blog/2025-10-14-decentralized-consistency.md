@@ -7,18 +7,18 @@ tags: [lingua franca, federation, decentralized, consistency, maxwait]
 
 The design of [distributed applications](/docs/writing-reactors/distributed-execution) in Lingua Franca requires care, particularly if the coordination of the federation is [decentralized](/docs/writing-reactors/distributed-execution#decentralized-coordination). The intent of this post is to illustrate and handle the challenges arising from designing distributed applications in Lingua Franca, with the help of two realistic use cases.
 
-## Indefinite wait for inputs: the aircraft door use case
+## Indefinite wait for inputs: aircraft door use case
 Aircraft doors on passenger flights are currently managed manually by flight attendants.
-Before the take-off, the flight attendants _arm_ the door: if the door is opened in this state, an evacuation slide is automatically inflated and deployed for emergency landing.
-When the aircraft lands in normal and safe conditions, before opening the door, the flight attendants _disarm_ it to avoid the deployment of the evacuation slide.
-Flight attendants, however, are allowed to disarm the door _only_ when they see from the porthole the ramp that will allow the passengers to disembark the aircraft.
+Before takeoff, the flight attendants _arm_ the door; if the door is opened in this state, an evacuation slide is automatically inflated and deployed for emergency evacuation.
+When the aircraft is at a gate, before opening the door, the flight attendants _disarm_ it to avoid the deployment of the evacuation slide.
+Flight attendants are allowed to disarm the door _only_ when they see through the porthole the ramp that will allow the passengers to disembark the aircraft.
 
 ![AircraftDoor diagram](../static/img/blog/AircraftDoor.svg)
 
-Consider the above Lingua Franca program that implements a simplified system to remotely open the aircraft door that is in the _armed_ state.
+Consider the above Lingua Franca program that implements a simplified system to remotely open an aircraft door that is in the _armed_ state.
 The door implements two independent remote services, door _disarming_ and door _opening_, encoded by two different reactions in the `Door` reactor.
-We imagine that the pilot interacting with the cockpit issues the command to open the door that triggers the door opening service.
-We would also like to automate the disarming of the door using a camera. When the camera determines that the ramp is attached to the aircraft, it triggers the disarming service of the door. The camera detection is triggered by the door open command issued by the cockpit.
+Suppose the pilot in the cockpit issues a command to open the door.
+We would also like to automate the disarming of the door using a camera to verify the presence of a ramp. When the camera determines that the ramp is present, it triggers the disarming service. The camera detection is triggered by the door open command issued from the cockpit.
 
 There are different ways to design and refactor the above system, for example, by removing the direct connection between the `Cockpit` and `Door` reactors. Our design choice is meant to highlight that door _disarming_ and _opening_ are two different and independent remote services triggered by two different commands issued by two different system actors. Therefore, each actor has an independent connection to the door to request its service.
 
@@ -27,9 +27,9 @@ The purpose of the system is to open the door in reaction to the command from th
 The order in which messages are processed is crucial in this application. When the _disarm_ and _open_ commands arrive with the same tag, the _disarm_ service needs to be invoked before opening the door, otherwise the escape slide will be erroneously deployed.
 Lingua Franca guarantees determinism in the execution order of reactions with logically simultaneous inputs, and the order is given by the the order of declaration of the reactions inside the reactor. It is then sufficient to declare the `disarm` reaction _before_ the `open` one. The diagram confirms the execution order by labeling the `disarm` reaction with 1 and the `open` reaction with 2.
 
-The problem is that even though the messages are _logically_ simultaneous, they do not arrive at the same _physical_ time. In fact, the `open` command from the cockpit is likely to arrive before the clearance from the camera because the camera realizes an expensive computer-vision algorithm. The door, consequently, has to wait for both inputs before invoking the _opening_ service.
+The problem is that even though the messages are _logically_ simultaneous, they do not arrive at the same _physical_ time. In fact, the `open` command from the cockpit is likely to arrive before the clearance from the camera because the camera realizes an expensive computer vision algorithm. The door, consequently, has to wait for both inputs before invoking the _opening_ service.
 
-This is then an example of an application that cannot safely proceed without assurance on its inputs. The following section explains how to obtain the desired behavior in Lingua Franca using the decentralized coordinator (the centralized coordinator automatically provides the required assurance).
+This is an example of an application that cannot safely proceed without assurance on its inputs. The following section explains how to obtain the desired behavior in Lingua Franca using the decentralized coordinator (the centralized coordinator automatically provides the required assurance).
 
 ### Consistency with decentralized coordination
 The application is implemented as a federated program with decentralized coordination, which means that the advancement of logical time in each single federate is not subject to approval from any centralized entities, but it is done locally based on the input it receives from the other federates and on its local physical clock.
@@ -106,7 +106,7 @@ When they are invoked, the current tag will be greater than the intended tag of 
 This type of fault is called a **safe-to-process** (**STP**) violation because messages are being handled out of tag order.
 The intended tag of the input can be accessed as shown in the code above.
 
-## Multirate inputs: the automatic emergency braking use case
+## Multirate inputs: automatic emergency braking
 ![AutomaticEmergencyBrakingSystem diagram](../static/img/blog/AutomaticEmergencyBrakingSystem.svg)
 
 Consider the above Lingua Franca implementation of an automatic emergency braking system, one of the most critical ADAS systems that modern cars are equipped with.
@@ -116,15 +116,15 @@ When one of the two sensors signals the presence of an object at a distance shor
 
 The sensors are modeled with their own timer that triggers the generation of data. The clocks of all federates are automatically synchronized by the [clock synchronization algorithm](/docs/writing-reactors/distributed-execution#clock-synchronization) of the Lingua Franca runtime (unless this is disabled).
 Typically, in a real use case of this kind, the clock of sensor devices cannot be controlled by Lingua Franca, but a way to work around this limitation is to resample the data collected by sensors with the timing given by a clock that the runtime can control.
-The sensor reactors of our application are then modeling this resampling of sensor data that fits well with the Lingua Franca semantics for time determinism.
+The sensor reactors of our application are then modeling this resampling of sensor data so that alignment of data from the two sensors is well defined and sensor fusion becomes possible.
 
-The lidar sensor has a sampling frequency that is twice that of the radar, and this is reflected by the timer in the corresponding reactors: the lidar timer has a period of 50ms, while that of the radar 100ms.
+The lidar sensor has a sampling frequency that is twice that of the radar, as indicated by the timers in the corresponding reactors; the lidar timer has a period of 50ms, while that of the radar 100ms.
 Their deadline is equal to their period and is enforced using the dedicated `DeadlineCheck` reactors, following the guidelines of how to [work with deadlines](/blog/deadlines).
 
-The sensor behavior in the application is simulated in a way that each sensor constantly produces distance values above the threshold (i.e., no objects in the way), and then at a random time it sends a distance value below the threshold, indicating the presence of a close object. When the `AutomaticEmergencyBraking` reactor receives that message, it signals the `BrakingSystem` reactor to brake the car, and the whole system shuts down.
+The sensor behavior in the application can be simulated for testing purposes in a way that each sensor constantly produces distance values above the threshold (i.e., no objects in the way), and then at a random time it sends a distance value below the threshold, indicating the presence of a close object. When the `AutomaticEmergencyBraking` reactor receives that message, it signals the `BrakingSystem` reactor to brake the car, and the whole system shuts down.
 
 ### Desired system properties
-Availability is a crucial property of this application, because we want the automatic emergency braking system to brake as fast as possible when a close object is detected. Consistency is also necessary, as sensor fusion happens with sensor data produced at the same logical time. Even if this is not implemented in our simplified example, sensor fusion in a more general scenario helps rule out false positives, i.e., cases in which one of the sensors erroneously detects a close object that would induce an unnecessary and dangerous braking. False positives are caused by the weaknesses of the specific sensor. For example, rainy or foggy weather reduce the accuracy of lidar sensors. The key concept is to gather data produced at the same logical time by all sensors and combine them to have a more accurate estimate of possible collisions. Consistency and in-order data processing are then required.
+Availability is a crucial property of this application, because we want the automatic emergency braking system to brake as fast as possible when a close object is detected. Consistency is also necessary, as sensor fusion happens with sensor data produced at the same logical time. Even if this is not implemented in our simplified example, sensor fusion in a more general scenario helps rule out false positives, i.e., cases in which one of the sensors erroneously detects a close object that would induce an unnecessary and dangerous braking. False positives are caused by the weaknesses of the specific sensor. For example, rainy or foggy weather reduces the accuracy of lidar sensors. The key concept is to gather data produced at the same logical time by all sensors and combine them to have a more accurate estimate of possible collisions. Consistency and in-order data processing are then required.
 
 #### Consistency challenge
 The application is once agin implemented as a federated program with decentralized coordination.
@@ -140,18 +140,18 @@ Fault handling will be addressed in a later blog. Here we assume no such faults.
 Even without faults, however, setting `maxwait` to `forever` creates problems when only the lidar input is expected (50ms, 150ms, 250ms, etc): the controller cannot process that input until an input from the radar comes, because `maxwait` will never expire. For example, if the single lidar input comes at time 50ms, it has to wait until time 100ms before being processed. If that input was signaling the presence of a close object, the detection would be delayed by 50ms, which may potentially mean crashing into the object. The automatic emergency braking system must be available, otherwise it might not brake in time to avoid collisions.
 The ideal `maxwait` value for maximum availability in the time instants with only the lidar input is 0, because if a single input is expected, no wait is necessary.
 
-Summing up, consistency for sensor fusion requires `maxwait = forever` when inputs from both sensors are expected, while availability calls for `maxwait = 0` when only the lidar input is coming. The two values are at odds, and any value in between would mean sacrificing both properties at the same time.
+Summing up, consistency for sensor fusion requires `maxwait = forever` when inputs from both sensors are expected (or some finite value for fault tolerance), while availability calls for `maxwait = 0` when only the lidar input is coming. The two values are at odds, and any value in between would mean sacrificing both properties at the same time.
 
 ### Dynamic adjustment of `maxwait`
 The knowledge of the timing properties of the application under analysis enables the _a priori_ determination of the time instants when both inputs are expected and those when only the lidar has new data available.
 Lingua Franca allows to dynamically change the `maxwait` in the reaction body using the `lf_set_fed_maxwait` API, that takes as input parameter the new `maxwait` value to set.
 This capability of the language permits the automatic emergency braking federate to:
 
-* start with `maxwait` statically set to `forever`, because at time 0 (startup) both sensors produce data;
+* start with `maxwait` statically set to `forever` (or some finite value for fault tolerance), because at time 0 (startup) both sensors produce data;
 * set `maxwait` to 0 after processing both inputs with the same logical time, because the next data will be sent by the lidar only;
 * set `maxwait` back to `forever` after processing the radar input alone, because the next data will be sent by both sensors.
 
-This dynamic solution guarantees both consistency and availability in all input cases.
+This dynamic solution guarantees both consistency and availability as long as lidar data arrives within 50 ms.
 The implementation and the instantiation of the `AutomaticEmergencyBraking` reactor are shown below:
 
 ```lf-c
@@ -204,7 +204,7 @@ reactor AutomaticEmergencyBraking {
 
 The `sensor_fusion()` function combines the data and returns `true` if braking is needed.
 The `lidar_analysis()` function uses only lidar data to make a (presumably more conservative) decision.
-The `n_invocs` integer state variable counts the number of times the reaction of the `AutomaticEmergencyBraking` reactor is invoked. This variable is used to determine how many inputs the reaction will see at the next invocation and set the `maxwait` accordingly. Even invocation numbers mean that the next reaction invocation will happen with both sensor inputs present, so `maxwait` is set to `forever`; with odd invocation numbers, the next reaction invocation will see new data from the lidar only, and `maxwait` is then set to 0.
+The `n_invocs` integer state variable counts the number of times the reaction of the `AutomaticEmergencyBraking` reactor is invoked. This variable is used to determine how many inputs the reaction expects to see at the next invocation and set the `maxwait` accordingly. Even invocation numbers mean that the next reaction invocation will happen with both sensor inputs present, so `maxwait` is set to `forever`; with odd invocation numbers, the next reaction invocation will see new data from the lidar only, and `maxwait` is then set to 0.
 
-Clear, detecting and handling faults would be needed in practical implementation.
+Clearly, detecting and handling faults would be needed in practical implementation.
 This will be the topic of a subsequent blog.
