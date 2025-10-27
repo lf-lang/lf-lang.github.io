@@ -5,7 +5,7 @@ target Python {
 
 import Count, Print from "Federated.lf"
 
-reactor PrintTimer(STA = 10 ms) extends Print {
+reactor PrintTimer extends Print {
   timer t(0, 1 sec)
 
   reaction(t) {=
@@ -18,6 +18,7 @@ reactor PrintTimer(STA = 10 ms) extends Print {
 
 federated reactor {
   c = new Count()
+  @maxwait(10 ms)
   p = new PrintTimer()
   c.out -> p.inp
 }

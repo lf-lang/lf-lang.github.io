@@ -198,11 +198,15 @@ An alternative is **decentralized** coordination, which extends a technique real
 
 With decentralized coordination, the RTI coordinates startup, shutdown, and clock synchronization, but is otherwise not involved in the execution of the distributed program.
 
-### Safe-to-Advance (STA)
+### Maxwait
 
-In decentralized coordination, when one federate communicates with another, it does so directly through a dedicated socket without going through the RTI. Moreover, it does not consult the RTI to advance logical time. Instead, each federate has a **safe-to-advance** (**STA**) offset, and it can advance its logical time to _t_ when its physical clock matches or exceeds _t_ + STA.
+In decentralized coordination, when one federate communicates with another, it does so directly through a dedicated socket without going through the RTI. Moreover, it does not consult the RTI to advance logical time. Instead, each federate has a **maxwait** attribute (formerly called **safe-to-advance**, or **STA**).
+The federate can advance to tag _g_ when either of the following conditions is satisfied:
 
-By default, the STA is zero. An STA of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large `after` clause, or the federate has only one upstream federate sending it messages, and it has no local timers or actions. The value of the `after` delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a `deadline`. For example:
+1. All inputs are known up to and including tag _g_. An input is known up to and including tag _g_ if a message with tag _g_ or greater has been received on that input port.
+2. The federate's physical clock matches or exceeds _t_ + maxwait, where _t_ is the timestamp in _g_ = (_t_, _m_).
+
+By default, the maxwait is zero. A maxwait of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large `after` clause, or the federate has only one upstream federate sending it messages, and it has no local timers or actions. The value of the `after` delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a `deadline`. For example:
 
 import C_DecentralizedTimerAfter from '../assets/code/c/src/DecentralizedTimerAfter.lf';
 import Py_DecentralizedTimerAfter from '../assets/code/py/src/DecentralizedTimerAfter.lf';
@@ -210,80 +214,113 @@ import Py_DecentralizedTimerAfter from '../assets/code/py/src/DecentralizedTimer
 <NoSelectorTargetCodeBlock c={C_DecentralizedTimerAfter} py={Py_DecentralizedTimerAfter} ts={"DecentralizedTimerAfter.lf missing for TypeScript"} lf />
 
 This example inherits from the Federated example above.
-In this example, as long as the messages from federate `c` arrive at federate `p` within 10 ms, all messages will be processed in tag order, as with an unfederated program.
+The messages from federate `c` are sent at logical times 0, 1s, 2s, etc., but arrive with logical times 0.01s, 1.01s, 2.01s, etc.
+The timer in the destination `PrintTimer` reactor has an offset of 10ms, so it will be wanting to advance its logical time to those same values.
+As long as the messages from federate `c` arrive before the destination reactor commits to those values, they will be processed simultaneously with the timer events.
 
-If a message takes longer than 10 ms to arrive, then it is possible for a **safe-to-process (STP) violation** to occur. Specifically, in this case, the receiving federate `p` may advance its logical time to one of the timer tick times and then later receive an input message with a timestamp that is less than this advanced time. With the above program, this will cause a warning to be printed; the message will be processed at the earliest possible logical time, typically one microstep after the latest timer tick.
+Because of the `after` delay, the runtime system has approximately 10 ms in physical time to accomplish the delivery of the message.  If you reduce the `after` delay and the timer offset to, say, 10us, then you will see the warnings.
+If a message takes longer than 10 ms to arrive, then it is possible for a **safe-to-process (STP) violation** to occur. The message is said to be **tardy**. In this case, the receiving federate `p` may advance its logical time to one of the timer tick times and then later receive an input message with a timestamp that is less than or equal to this advanced time. With the above program, this will cause a warning to be printed; the message will be processed at the earliest possible logical time, typically one microstep after the latest timer tick.
 We will show below how to catch this violation and handle it.
 
-An alternative to the `after` delays is to add an **STA offset** to downstream federates, as in the following example:
+An alternative to the `after` delays is to add a **maxwait** to downstream federates, as in the following example:
 
 import C_DecentralizedTimerSTA from '../assets/code/c/src/DecentralizedTimerSTA.lf';
 import Py_DecentralizedTimerSTA from '../assets/code/py/src/DecentralizedTimerSTA.lf';
 
 <NoSelectorTargetCodeBlock c={C_DecentralizedTimerSTA} py={Py_DecentralizedTimerSTA} ts={"DecentralizedTimerSTA.lf missing for TypeScript"} lf />
 
-Here, a parameter named `STA` gives a time value, and the federate waits this specified amount of time (physical time) beyond a logical time _t_ before advancing its logical time to _t_. In the above example, reactions to the timer events will be delayed by the amount specified by the `STA` parameter at most Just as with the use of `after`, if the `STA` exceeds the sum of network latency, clock synchronization error, and execution times, then all events will be processed in tag order, and no STP violation will occur.
+Note that now there is no `after` delay and the timer has offset zero.
+The attribute `@maxwait(10 ms)` gives a time value, and the federate waits up to this specified amount of time (in physical time) beyond a logical time _t_ before advancing its tag to _g_ = (_t_, _m_).
+In the above example, when the destination `PrintTimer` reactor wants to advance its logical time to 0, 1s, 2s, etc., it will wait at most for its physical clock to exceed these values plus the `maxwait` value.
+If the input arrives before the wait expires, then it proceeds to commit to the specified logical time and invoke its two reactions (the one inherited from `Print` first followed by the one defined locally).
+If the wait expires before the input arrives, it will assume the input is absent and invoke only the local reaction.
+When the input later arrives (it is tardy), it will experience an STP violation.
+If you change the `maxwait` value to, say, 1us, you will likely see such violations.
+Just as with the use of `after`, if the `maxwait` exceeds the sum of network latency, clock synchronization error, and execution times, then all events will be processed in tag order, and no messages will be tardy.
 
-### Safe-to-Process (STP) Violation Handling
+Notice that the choice of whether to use an `after` delay or a `maxwait` is important.
+If the alignment of the remote data with whatever the timer reaction does is important, then you should use `maxwait`.
+This choice emphasizes consistency between the sending and the receiving federate.
+If, on the other hand, it is important for the receiving federate to quickly handle the timer events, then you should use the `after` delay.
+This choice emphasizes availability.
+The consistency-availability tradeoff is fundamental to distributed systems, as explained by [Lee, et al.](https://doi.org/10.1145/3609119)
 
-Of course, the assumptions about network latency, etc., can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation by providing a violation handler. The pattern is:
+### Tardy Message Handling
+
+Any assumptions about bounded communication latency can be violated in practice. Analogous to a deadline violation, Lingua Franca provides a mechanism for handling such a violation by providing a violation handler. The pattern is:
 
 ```lf
 reaction(in) {=
     // User code
-=} STAA (0) {=
+=} tardy {=
     // STP violation handling code
 =}
 ```
 
-If the tag at which this reaction is to be invoked (the value returned by `lf_tag()`) exceeds the tag of an incoming message on input `in` (the current tag has already advanced beyond the intended tag of `in`), then the STP violation handler will be invoked instead of the normal reaction. Within the body of the violation handler, the code can access the intended tag of `in` using `in->intended_tag` (or `inp.intended_tag` in Python), which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly. For example:
+If the tag at which this reaction is to be invoked (the value returned by `lf_tag()`) exceeds the tag of an incoming message on input `in` (the current tag has already advanced beyond the intended tag of `in`), then the tardy handler will be invoked instead of the normal reaction. Within the body of the violation handler, the code can access the intended tag of `in` using `in->intended_tag` (or `inp.intended_tag` in Python), which has two fields, a timestamp `in->intended_tag.time` and a microstep `in->intended_tag.microstep`. The code can then ascertain the severity of the error and act accordingly. For example:
 
-import C_DecentralizedTimerAfterHandler from '../assets/code/c/src/DecentralizedTimerAfterHandler.lf';
-import Py_DecentralizedTimerAfterHandler from '../assets/code/py/src/DecentralizedTimerAfterHandler.lf';
+import C_DecentralizedTimerHandler from '../assets/code/c/src/DecentralizedTimerHandler.lf';
+import Py_DecentralizedTimerHandler from '../assets/code/py/src/DecentralizedTimerHandler.lf';
 
-<NoSelectorTargetCodeBlock c={C_DecentralizedTimerAfterHandler} py={Py_DecentralizedTimerAfterHandler} ts={"DecentralizedTimerAfterHandler.lf missing for TypeScript"} lf />
+<NoSelectorTargetCodeBlock c={C_DecentralizedTimerHandler} py={Py_DecentralizedTimerHandler} ts={"DecentralizedTimerHandler.lf missing for TypeScript"} lf />
 
-### Safe-to-Assume-Absent (STAA)
+If you change the `maxwait` to, say, 10 us, you will likely see the handler getting invoked.
 
-Notice that the keyword `STAA` is used to indicate that the violation handler is to be invoked.
-`STAA` stands for **safe-to-assume-absent** and has a more subtle meaning than the `STA`, **safe-to-advance**.
-In the above example, the `STAA` is set to 0, which means that once the federate has advanced its logical time to a tag, it can immediately assume that any inputs to the federate that trigger or are used by the reaction are absent, unless they are already known to be present.
-You can specify an `STAA` larger than 0, in which case the federate will wait until physical time exceeds _t_ + `STA` + `STAA` before assuming that the tiggering inputs are absent.
+### Zero Delay Cycles
 
-In summary, when a federate wishes to advance its logical time to a tag _t_, it can do so if its physical clock matches or exceeds _t_ + `STA` or if all inputs become known for all tags less than _t_.
-It does not need to know the status of the inputs **at* tag _t_, only before.
-Once it commits to tag _t_, then it can assume that an input to the federate is absent when its physical clock matches or exceeds _t_ + `STA` + `STAA` (or the input becomes known at _t_ or greater).  The value of `STAA` used in this calculation is the smallest `STAA` given by reactions that are either triggered by or use the input.
+It is not uncommon in programs to implement a pattern where one federate produces an output to request a service from another federate and expects a response at the same tag.
+This creates a zero-delay loop, as shown in the following diagram:
 
-Consider the following example:
+import DecentralizedZeroDelayLoopSVG from "./../assets/images/diagrams/DecentralizedZeroDelayLoop.svg"
 
-import C_DecentralizedFeedbackSTAA from '../assets/code/c/src/DecentralizedFeedbackSTAA.lf';
-import Py_DecentralizedFeedbackSTAA from '../assets/code/py/src/DecentralizedFeedbackSTAA.lf';
+<DecentralizedZeroDelayLoopSVG title="Lingua Franca diagram: DecentralizedZeroDelayLoop" role="img" width="500" />
 
-<NoSelectorTargetCodeBlock c={C_DecentralizedFeedbackSTAA} py={Py_DecentralizedFeedbackSTAA} ts={"DecentralizedFeedbackSTAA.lf missing for TypeScript"} lf />
+Here, the `CountPrint` reactor, on each timer tick, requests a service from the `Double` reactor.
+It then handles the response from `Double` in its second reaction.
+It would not work here to set a non-zero `maxwait` for `CountPrint` because this would delay reacting the timer tick, which would delay the output.
+But then the `CountPrint` federate would immediately assume its input is absent.
+When the response later arrives from `Double`, it will be tardy.
 
-import DecentralizedFeedbackSTAA from "../assets/images/diagrams/DecentralizedFeedbackSTAA.svg"
+This problem is addressed as shown in the following source code for the diagram above:
 
-<DecentralizedFeedbackSTAA title="Lingua Franca diagram: DecentralizedFeedbackSTAA" role="img" width="500" />
+import C_DecentralizedZeroDelayLoop from '../assets/code/c/src/DecentralizedZeroDelayLoop.lf';
+import Py_DecentralizedZeroDelayLoop from '../assets/code/py/src/DecentralizedZeroDelayLoop.lf';
 
-The `CountPrint` federate uses the default `STA` of 0, meaning that it can advance its logical time to a tag _t_ when its physical clock matches or exceeds _t_. Hence, it will immediately advance to each timer tick at a rate of 10 Hz. Reaction 1 will then execute and produce an output, which will be sent to the `Double` federate. That federate has an `STA` of `forever`, meaning that it will not avance to any logical time _t_ until it has received an input with tag _t_ or greater. In this case, the federate has no local events, so an `STA` of 0 would also work fine. In fact, any `STA` will work.
-When the `Double` reaction executes, it will send a response to `CountPrint` that has the same tag as the output that was just produced by `CountPrint`. Reaction 2 in `CountPrint` has an `STAA` of `forever`, which means that it will never assume that the input is absent. It will block, possibly forever, until an input with tag _t_ or greater arrives. Thus, this program is assured of behaving identically to its execution under centralized coordination, but with lower overhead (messages are sent directly rather than through the RTI).  
+<NoSelectorTargetCodeBlock c={C_DecentralizedZeroDelayLoop} py={Py_DecentralizedZeroDelayLoop} ts={"DecentralizedZeroDelayLoop.lf missing for TypeScript"} lf />
 
-Note that the program will freeze if, for example, the `Double` federate fails. To guard against this, you could specify a smaller `STAA` for reaction 2 in `CountPrint`. This could be used to detect the failure of the `Double` federate, for example by setting a state variable and then checking it in a third reaction triggered by the same timer. That reaction will not execute until either reaction 2 executes (an input has arrived) or the input was assumed to be absent (the `Double` federate likely has failed).
+The `CountPrint` federate uses the default `maxwait` of 0, meaning that it can advance its logical time to a tag _g_ = (_t_, _m_) when its physical clock matches or exceeds _t_. Hence, it will immediately advance to each timer tick at a rate of 10 Hz. Reaction 1 will then execute and produce an output, which will be sent to the `Double` federate. That federate also uses the default `maxwait` of zero, which works because the federate has no local events; it will not attempt to advance its tag until it receives an input.
 
-`STAA` and `STA` are rather sophisticated variables. See [the research papers](https://www.lf-lang.org/research) for guidance.
-For example, the paper [Consistency vs. Availability in Distributed Cyber-Physical Systems](https://dl.acm.org/doi/10.1145/3609119) provides a foundational theory and fundamental tradeoffs that can be tuned using `STA` and `STAA`.
-The paper [Logical Time in Actor Systems](https://eecs.berkeley.edu/~eal/publications/LeeTimeAghaFestschriftPreprint2025.pdf) provides a more detailed explanation of the theory and implementation of `STA` and `STAA`.
+When the `Double` reaction executes, it will send a response to `CountPrint` that has the same tag as the output that was just produced by `CountPrint`.
+The connection from `Double` to `CountPrint` has an attribute **absent_after** with value `forever`, as shown above.
+This means that it will never assume that the input is absent. It will block, possibly forever, until an input with timestamp _t_ or greater arrives. Thus, this program is assured of behaving identically to its execution under centralized coordination, but with lower overhead (messages are sent directly rather than through the RTI).
 
-## Dynamically Adjusting the STA
+Note that the program will freeze if, for example, the `Double` federate fails. To guard against this, you could specify a smaller `absent_after` for reaction 2 in `CountPrint`. This could be used to detect the failure of the `Double` federate, for example by setting a state variable and then checking it in a third reaction triggered by the same timer. That reaction will not execute until either reaction 2 executes (an input has arrived) or the input was assumed to be absent (the `Double` federate likely has failed).
+A realization of this strategy is shown below:
 
-For more advanced users, the LF API provides two functions that can be used to dynamically adjust the STA:
+import DecentralizedZeroDelayLoopWithCheckerSVG from "./../assets/images/diagrams/DecentralizedZeroDelayLoopWithChecker.svg"
+
+<DecentralizedZeroDelayLoopWithCheckerSVG title="Lingua Franca diagram: DecentralizedZeroDelayLoopWithChecker" role="img" width="500" />
+
+import C_DecentralizedZeroDelayLoopWithChecker from '../assets/code/c/src/DecentralizedZeroDelayLoopWithChecker.lf';
+import Py_DecentralizedZeroDelayLoopWithChecker from '../assets/code/py/src/DecentralizedZeroDelayLoopWithChecker.lf';
+
+<NoSelectorTargetCodeBlock c={C_DecentralizedZeroDelayLoopWithChecker} py={Py_DecentralizedZeroDelayLoopWithChecker} ts={"DecentralizedZeroDelayLoopWithChecker.lf missing for TypeScript"} lf />
+
+Decentralized coordination with `maxwait` and `absent_after` is a rather sophisticated tool. See [the research papers](https://www.lf-lang.org/research) for guidance.
+For example, the paper [Consistency vs. Availability in Distributed Cyber-Physical Systems](https://dl.acm.org/doi/10.1145/3609119) provides a foundational theory and fundamental tradeoffs (it uses terminology `STA` for `maxwait` and `STAA` for `absent_after`).
+The paper [Logical Time in Actor Systems](https://eecs.berkeley.edu/~eal/publications/LeeTimeAghaFestschriftPreprint2025.pdf) provides a more detailed explanation of the theory and implementation (again using terminology `STA` and `STAA`).
+
+## Dynamically Adjusting the `maxwait`
+
+For more advanced users, the LF API provides two functions that can be used to dynamically adjust the `maxwait`:
 
 ```c
-interval_t lf_get_sta();
-void lf_set_sta(interval_t offset);
+interval_t lf_get_fed_maxwait();
+void lf_set_fed_maxwait(interval_t offset);
 ```
 
 Using these functions, however, is a pretty advanced operation.
+See the blog post [Decentralized Consistency](/blog/decentralized-consistency) for guidance.
 
 ## Physical Connections
 
@@ -307,7 +344,7 @@ then what does this mean? At the receiving end, the timestamp assigned to the in
 
 In the above example, all of the generated programs expect to run on localhost. This is the default. With these defaults, every federate has to run on the same machine as the RTI because localhost is not a host that is visible from other machines on the network. In order to run federates or the RTI on remote machines, you can specify a domain name or IP address for the RTI and/or federates.
 
-In order for a federated execution to work, there is some setup required on the machines to be used. First, each machine must be running on `ssh` server. On a Linux machine, this is typically done with a command like this:
+In order for a federated execution to work, there is some setup required on the machines to be used. First, each machine must be running an `ssh` server. On a Linux machine, this is typically done with a command like this:
 
 ```sh
   sudo systemctl <start|enable> ssh.service
@@ -352,12 +389,12 @@ Address 0.0.0.0: The default host, `localhost` is used if no address is specifie
 A federate may be mapped to a particular remote machine using a syntax like this:
 
 ```lf
-  count = new Count() at user@host:port/path;
+  count = new Count() at user@host:port;
 ```
 
 The `port` is ignored in **centralized** mode because all communication is routed through the RTI, but in **decentralized** mode it will specify the port on which a socket server listens for incoming connections from other federates.
 
-If any federate has such a remote designator, then a `Federation_distribute.sh` shell script will be generated. This script will distribute the generated code for the RTI to the remote machine at the specified directory.
+If any federate has such a remote designator, then a `Federation_distribute.sh` shell script will be generated. This script will distribute the generated code for the RTI and any federates to the remote machine at the specified directory.
 
 You can also specify a user name on the remote machine for cases where the username will not match whoever launches the federation:
 
