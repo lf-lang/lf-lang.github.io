@@ -440,9 +440,98 @@ The important takeaway here is with the package.json file and the compiled JavaS
 
 <ShowIf rs>
 
-:::danger
-FIXME: Add `preamble` example.
-:::
+For example, you can use the `preamble` to define macros and functions that are shared within the given reactor:
+
+```lf-rs
+target Rust;
+
+main reactor {
+  preamble {=
+    macro_rules! add {
+      ($a:expr, $b:expr) => {
+        $a+$b
+      }
+    }
+    fn add_42 (a: i32) -> i32 {
+      return a + 42;
+    }
+  =}
+
+  reaction(startup) {
+    println!("add macro example: {}", add!(1,1));
+    println!("add 42 example: {}", add_42(10));
+  }
+}
+```
+This will print:
+
+```
+add macro example: 2
+add 42 example: 52
+```
+
+By having the `preamble` inside the reactor, you can define any functions or macros to be shared within the given reactor.
+This will allow you to reuse code across different reactions easily within the same reactor.
+This also can allow us to change the scope of items using the `use` statement.
+
+For example, the follow reactor brings the constant `PI` into scope and prints out the first 15 digits of pi:
+
+```lf-rs
+target Rust;
+
+main reactor {
+  preamble {=
+    use std::f64::const::PI;
+  =}
+
+  reaction(startup) {=
+    println!("{}", PI);
+  =}
+}
+```
+
+This will print:
+
+```
+3.141592653589793
+```
+By putting `use` in the `preamble`, the scope of `PI` is changed for the entire reactor, in this case the main reactor.
+This works with all items that are brought into scope using the `use` statement and not just constants and functions.
+
+This would be an example of accessing a user created module named `foo` that is included using the `rust-include` target parameter:
+
+File: example.lf
+
+```lf-rs
+target Rust {
+  rust-include: ["foo.rs"]
+}
+main reactor {
+  preamble {=
+    use crate::foo::world;
+  =}
+  reaction(startup) {
+    world();
+  }
+}
+```
+
+File: foo.rs
+
+```rust
+pub fn world() {
+  println!("Hello, world!");
+}
+```
+
+This will print:
+
+```
+Hello, world!
+```
+
+It is important to note that besides [crates](https://doc.rust-lang.org/book/ch07-01-packages-and-crates.html) specified in the rust target declaration's _cargo-dependencies_ and user modules in _rust-include_, all user code is added to a module called `reactors` during compilation time.
+This means that crate level attributes like `#![no_std]` will not work if added to the preamble.
 
 </ShowIf>
 </ShowIfs>
