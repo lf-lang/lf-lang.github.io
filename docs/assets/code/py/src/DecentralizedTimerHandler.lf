@@ -14,7 +14,7 @@ reactor PrintTimer {
         f"Received: {inp.value} "
         f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
     )
-  =} STAA(0) {=
+  =} tardy {=
     print(
         "****** Violation handler invoked at "
         f"({lf.time.logical_elapsed()}, {lf.tag().microstep}). "
@@ -33,6 +33,7 @@ reactor PrintTimer {
 
 federated reactor {
   c = new Count()
+  @maxwait(10 ms)
   p = new PrintTimer()
-  c.out -> p.inp after 10 msec
+  c.out -> p.inp
 }

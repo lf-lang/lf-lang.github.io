@@ -13,7 +13,7 @@ reactor PrintTimer {
     lf_print("Received: %d at (%lld, %d)", in->value,
         lf_time_logical_elapsed(), lf_tag().microstep
     );
-  =} STAA(0) {=
+  =} tardy {=
     lf_print("****** Violation handler invoked at (%lld, %d). "
         "Intended tag was (%lld, %d).",
         lf_time_logical_elapsed(), lf_tag().microstep,
@@ -30,6 +30,7 @@ reactor PrintTimer {
 
 federated reactor {
   c = new Count()
+  @maxwait(10 ms)
   p = new PrintTimer()
-  c.out -> p.in after 10 msec
+  c.out -> p.in
 }

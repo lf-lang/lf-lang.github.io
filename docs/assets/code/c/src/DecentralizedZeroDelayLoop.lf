@@ -1,4 +1,5 @@
 target C {
+  timeout: 3 s,
   coordination: decentralized
 }
 
@@ -16,14 +17,14 @@ reactor CountPrint {
     lf_print("***** CountPrint Received: %d at tag (%lld, %u)",
         in->value, lf_time_logical_elapsed(), lf_tag().microstep
     );
-  =} STAA(forever) {=
-    // This should never happen, but it is here to demonstrate the STAA violation handler.
-    lf_print_warning("CountPrint: Safe to process violation!");
+  =} tardy {=
+    // This should never happen, but it is here to demonstrate the tardy violation handler.
+    lf_print_warning("CountPrint: Message is tardy!");
     lf_print("Intended time: %lld", in->intended_tag.time - lf_time_start());
   =}
 }
 
-reactor Double(STA: time = forever) {
+reactor Double {
   input in: int
   output out: int
 
@@ -36,5 +37,6 @@ federated reactor {
   c = new CountPrint()
   p = new Double()
   c.out -> p.in
+  @absent_after(forever)
   p.out -> c.in
 }

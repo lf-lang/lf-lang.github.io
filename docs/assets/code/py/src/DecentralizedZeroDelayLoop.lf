@@ -1,4 +1,5 @@
 target Python {
+  timeout: 3 s,
   coordination: decentralized
 }
 
@@ -15,14 +16,14 @@ reactor CountPrint {
 
   reaction(inp) {=
     print(f"***** CountPrint Received: {inp.value} at tag ({lf.time.logical_elapsed()}, {lf.tag().microstep})")
-  =} STAA(forever) {=
+  =} tardy {=
     # This should never happen, but it is here to demonstrate the STAA violation handler.
     print("CountPrint: Safe to process violation!")
     print(f"Intended time: {inp.intended_tag.time - lf.time.start()}")
   =}
 }
 
-reactor Double(STA = forever) {
+reactor Double {
   input inp
   output out
 
@@ -35,5 +36,6 @@ federated reactor {
   c = new CountPrint()
   p = new Double()
   c.out -> p.inp
+  @absent_after(forever)
   p.out -> c.inp
 } 
