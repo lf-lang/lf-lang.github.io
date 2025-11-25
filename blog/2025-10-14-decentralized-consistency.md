@@ -7,6 +7,8 @@ tags: [lingua franca, federation, decentralized, consistency, maxwait]
 
 The design of [distributed applications](/docs/writing-reactors/distributed-execution) in Lingua Franca requires care, particularly if the coordination of the federation is [decentralized](/docs/writing-reactors/distributed-execution#decentralized-coordination). The intent of this post is to illustrate and handle the challenges arising from designing distributed applications in Lingua Franca, with the help of two realistic use cases.
 
+{/* truncate */}
+
 ## Indefinite wait for inputs: aircraft door use case
 Aircraft doors on passenger flights are currently managed manually by flight attendants.
 Before takeoff, the flight attendants _arm_ the door; if the door is opened in this state, an evacuation slide is automatically inflated and deployed for emergency evacuation.
