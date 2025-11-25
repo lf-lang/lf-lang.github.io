@@ -203,7 +203,7 @@ With decentralized coordination, the RTI coordinates startup, shutdown, and cloc
 In decentralized coordination, when one federate communicates with another, it does so directly through a dedicated socket without going through the RTI. Moreover, it does not consult the RTI to advance logical time. Instead, each federate has a **maxwait** attribute (formerly called **safe-to-advance**, or **STA**).
 The federate can advance to tag _g_ when either of the following conditions is satisfied:
 
-1. All inputs are known up to and including tag _g_. An input is known up to and including tag _g_ if a message with tag _g_ or greater has been received on that input port.
+1. All inputs are known up to and including tag _g_. An input is known up to and including tag _g_ if a message with tag _g_ or greater has been received on that input port or if the input port is not connected.
 2. The federate's physical clock matches or exceeds _t_ + maxwait, where _t_ is the timestamp in _g_ = (_t_, _m_).
 
 By default, the maxwait is zero. A maxwait of zero is OK for any federate where either _every_ logical connection into the federate has a sufficiently large `after` clause, or the federate has only one upstream federate sending it messages, and it has no local timers or actions. The value of the `after` delay on each connection must exceed the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message). The sender's time lag _D_ can be enforced by using a `deadline`. For example:
