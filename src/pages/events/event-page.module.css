@@ -142,6 +142,38 @@
   font-style: italic;
 }
 
+/* Dates list */
+.datesList {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.datesList li {
+  padding: 12px 0;
+  border-bottom: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.datesList li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.datesList li:first-child {
+  padding-top: 0;
+}
+
+/* Organizers list */
+.organizersList {
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+}
+
+.organizersList li {
+  padding: 8px 0;
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .heroTitle {

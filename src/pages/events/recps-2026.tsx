@@ -5,7 +5,7 @@ import Link from "@docusaurus/Link";
 
 import styles from "./event-page.module.css";
 
-export default function ReCPS2026(): JSX.Element {
+export default function ReCPS2026() {
   return (
     <Layout
       title="ReCPS Workshop at DATE 2026"
@@ -78,37 +78,58 @@ export default function ReCPS2026(): JSX.Element {
         </div>
       </div>
 
-      {/* Placeholder Sections */}
+      {/* Call for Papers & Important Dates */}
       <div className="section sectionAlt">
         <div className="container">
           <div className="row">
-            <div className="col col--4">
-              <div className={clsx("card", styles.placeholderCard)}>
+            <div className="col col--8 col--offset-2">
+              <div className={clsx("card", "margin-bottom--lg")}>
                 <div className="card__header">
                   <Heading as="h3">📝 Call for Papers</Heading>
                 </div>
                 <div className="card__body">
-                  <p>Coming soon</p>
+                  <p>
+                    We invite submissions of research papers and demo abstracts
+                    on topics related to reactive cyber-physical systems,
+                    including but not limited to design methodologies,
+                    simulation techniques, and coordination frameworks.
+                  </p>
+                  <p>More details on submission guidelines coming soon.</p>
                 </div>
               </div>
-            </div>
-            <div className="col col--4">
-              <div className={clsx("card", styles.placeholderCard)}>
+
+              <div className={clsx("card", "margin-bottom--lg")}>
                 <div className="card__header">
                   <Heading as="h3">📅 Important Dates</Heading>
                 </div>
                 <div className="card__body">
-                  <p>Coming soon</p>
+                  <ul className={styles.datesList}>
+                    <li>
+                      <strong>February 16, 2026:</strong> Research papers and
+                      demo abstracts submission deadline
+                    </li>
+                    <li>
+                      <strong>March 2, 2026:</strong> Notification of acceptance
+                    </li>
+                  </ul>
                 </div>
               </div>
-            </div>
-            <div className="col col--4">
-              <div className={clsx("card", styles.placeholderCard)}>
+
+              <div className="card">
                 <div className="card__header">
                   <Heading as="h3">👥 Organizers</Heading>
                 </div>
                 <div className="card__body">
-                  <p>Coming soon</p>
+                  <ul className={styles.organizersList}>
+                    <li>
+                      <strong>General Chair:</strong> Hokeun Kim (Arizona State
+                      University, United States)
+                    </li>
+                    <li>
+                      <strong>Program Chair:</strong> Sebastiano Gaiardelli
+                      (University of Verona, Italy)
+                    </li>
+                  </ul>
                 </div>
               </div>
             </div>

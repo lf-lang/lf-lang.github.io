@@ -225,7 +225,7 @@ const VideoCard = ({ section }: { section: VideoSection }) => (
   </div>
 );
 
-export default function ESWEEKTutorial(): JSX.Element {
+export default function ESWEEKTutorial() {
   return (
     <Layout
       title="ESWEEK 2021 Tutorial"
