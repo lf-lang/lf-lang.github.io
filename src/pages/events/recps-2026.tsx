@@ -191,11 +191,19 @@ export default function ReCPS2026() {
                   <Heading as="h4">Research Papers</Heading>
                 </div>
                 <div className="card__body">
-                  <p className="margin-bottom--none">
+                  <p>
                     Original research contributions on topics related to
                     reactive cyber-physical systems design, simulation,
                     verification, and deployment.
                   </p>
+                  <ul className="margin-bottom--none">
+                    <li>
+                      <strong>Page limit:</strong> 4 pages (including references)
+                    </li>
+                    <li>
+                      <strong>Format:</strong> IEEE conference format
+                    </li>
+                  </ul>
                 </div>
               </div>
 
@@ -204,11 +212,19 @@ export default function ReCPS2026() {
                   <Heading as="h4">Demo Abstracts</Heading>
                 </div>
                 <div className="card__body">
-                  <p className="margin-bottom--none">
+                  <p>
                     Short abstracts describing working prototypes, tools, or
                     demonstrations related to reactive CPS and the Lingua Franca
                     ecosystem.
                   </p>
+                  <ul className="margin-bottom--none">
+                    <li>
+                      <strong>Page limit:</strong> 2 pages (including references)
+                    </li>
+                    <li>
+                      <strong>Format:</strong> IEEE conference format
+                    </li>
+                  </ul>
                 </div>
               </div>
 
