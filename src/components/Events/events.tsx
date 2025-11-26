@@ -5,7 +5,7 @@ export interface Event {
   location: string;
   description: string;
   link?: string;
-  type: "conference" | "workshop" | "meetup" | "webinar" | "hackathon";
+  type: "conference" | "workshop" | "meetup" | "webinar" | "hackathon" | "tutorial";
   isUpcoming: boolean;
   isExternal?: boolean; // true if link goes to external site
 }
@@ -66,7 +66,7 @@ export const events: Event[] = [
     description:
       "A comprehensive tutorial introducing Lingua Franca, a polyglot coordination language for concurrent and time-sensitive applications. Part of the Embedded Systems Week (ESWEEK) 2021.",
     link: "/events/esweek-2021-tutorial",
-    type: "workshop",
+    type: "tutorial",
     isUpcoming: false,
   },
 ];

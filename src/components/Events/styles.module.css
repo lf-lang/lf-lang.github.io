@@ -76,6 +76,16 @@
   color: #fce4ec;
 }
 
+.tutorial {
+  background-color: #e0f7fa;
+  color: #00838f;
+}
+
+[data-theme="dark"] .tutorial {
+  background-color: #00838f;
+  color: #e0f7fa;
+}
+
 .eventMeta {
   display: flex;
   flex-wrap: wrap;
