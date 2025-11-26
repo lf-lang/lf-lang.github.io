@@ -173,7 +173,7 @@ export default function Events(): JSX.Element {
           </Heading>
           <p className={styles.heroSubtitle}>
             <Translate>
-              Join us at conferences, workshops, and meetups to learn more about
+              Join us at conferences, workshops, and tutorials to learn more about
               Lingua Franca and connect with the community.
             </Translate>
           </p>
