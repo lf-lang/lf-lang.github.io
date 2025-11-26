@@ -25,8 +25,8 @@ export default function ReCPS2026(): JSX.Element {
             Coordination
           </p>
           <div className={styles.eventMeta}>
-            <span>📅 March 31, 2026</span>
-            <span>📍 Valencia, Spain</span>
+            <span>📅 April 20-22, 2026</span>
+            <span>📍 Verona, Italy</span>
             <span>
               🎯 Co-located with{" "}
               <Link href="https://www.date-conference.com/" className={styles.heroLink}>

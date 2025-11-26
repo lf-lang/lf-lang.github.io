@@ -16,8 +16,9 @@ export const events: Event[] = [
   // Upcoming Events
   {
     title: "ReCPS: Workshop on Reactive Cyber-Physical Systems",
-    date: "2026-03-31",
-    location: "DATE 2026 Conference, Valencia, Spain",
+    date: "2026-04-20",
+    endDate: "2026-04-22",
+    location: "DATE 2026 Conference, Verona, Italy",
     description:
       "Workshop on Reactive Cyber-Physical Systems: Design, Simulation, and Coordination. Co-located with the Design, Automation and Test in Europe (DATE) Conference 2026.",
     link: "/events/recps-2026",
