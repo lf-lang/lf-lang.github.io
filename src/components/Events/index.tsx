@@ -79,8 +79,30 @@ const formatDate = (dateStr: string, endDateStr?: string): string => {
   return startDate;
 };
 
+// External link icon
+const ExternalLinkIcon = () => (
+  <svg
+    width="12"
+    height="12"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    style={{ marginLeft: "4px", verticalAlign: "middle" }}
+  >
+    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+    <polyline points="15 3 21 3 21 9" />
+    <line x1="10" y1="14" x2="21" y2="3" />
+  </svg>
+);
+
 const EventCard = ({ event }: { event: Event }) => {
   const typeClassName = styles[event.type] || "";
+  const linkProps = event.isExternal
+    ? { target: "_blank", rel: "noopener noreferrer" }
+    : {};
 
   return (
     <div className={clsx("card", "margin-bottom--md", styles.eventCard)}>
@@ -92,7 +114,10 @@ const EventCard = ({ event }: { event: Event }) => {
             </span>
             <Heading as="h3" className="margin-top--sm margin-bottom--none">
               {event.link ? (
-                <Link href={event.link}>{event.title}</Link>
+                <Link href={event.link} {...linkProps}>
+                  {event.title}
+                  {event.isExternal && <ExternalLinkIcon />}
+                </Link>
               ) : (
                 event.title
               )}
@@ -113,8 +138,13 @@ const EventCard = ({ event }: { event: Event }) => {
       </div>
       {event.link && (
         <div className="card__footer">
-          <Link className="button button--primary button--sm" href={event.link}>
-            <Translate>Learn More</Translate>
+          <Link
+            className="button button--primary button--sm"
+            href={event.link}
+            {...linkProps}
+          >
+            <Translate>{event.isExternal ? "Visit Website" : "Learn More"}</Translate>
+            {event.isExternal && <ExternalLinkIcon />}
           </Link>
         </div>
       )}

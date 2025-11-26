@@ -1,0 +1,170 @@
+/**
+ * Shared styles for individual event pages
+ */
+
+.heroSection {
+  background: linear-gradient(
+    135deg,
+    var(--ifm-color-primary-darker) 0%,
+    var(--ifm-color-primary) 100%
+  );
+  color: white;
+  padding: 80px 0;
+  text-align: center;
+}
+
+[data-theme="dark"] .heroSection {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.heroTitle {
+  color: white;
+  margin-bottom: 8px;
+  font-size: 3rem;
+}
+
+.heroSubtitle {
+  opacity: 0.95;
+  max-width: 700px;
+  margin: 0 auto 24px;
+  font-size: 1.25rem;
+}
+
+.eventBadge {
+  display: inline-block;
+  padding: 4px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 16px;
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.eventBadge.upcoming {
+  background-color: #4caf50;
+}
+
+.eventMeta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 24px;
+  margin-top: 24px;
+  font-size: 1.1rem;
+}
+
+.eventMeta span {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.heroLink {
+  color: white;
+  text-decoration: underline;
+}
+
+.heroLink:hover {
+  color: rgba(255, 255, 255, 0.85);
+}
+
+/* Video card styles */
+.videoCard {
+  border-left: 4px solid var(--ifm-color-primary);
+}
+
+.topicList {
+  margin-top: 16px;
+}
+
+.topicList ul {
+  margin-top: 8px;
+  margin-bottom: 0;
+}
+
+.topicList li {
+  margin-bottom: 4px;
+}
+
+/* Resource links */
+.resourceLinks {
+  margin-top: 32px;
+  padding: 24px;
+  background-color: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+}
+
+.resourceLinks ul {
+  margin-bottom: 0;
+}
+
+/* CTA buttons */
+.ctaButtons {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+/* Info box for upcoming events */
+.infoBox {
+  margin-top: 32px;
+  padding: 24px;
+  background-color: #e3f2fd;
+  border-left: 4px solid var(--ifm-color-primary);
+  border-radius: 4px;
+}
+
+[data-theme="dark"] .infoBox {
+  background-color: rgba(33, 150, 243, 0.15);
+}
+
+.infoBox h3 {
+  margin-top: 0;
+}
+
+.infoBox p:last-child {
+  margin-bottom: 0;
+}
+
+/* Placeholder cards */
+.placeholderCard {
+  height: 100%;
+  text-align: center;
+}
+
+.placeholderCard .card__body {
+  color: var(--ifm-color-emphasis-600);
+  font-style: italic;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .heroTitle {
+    font-size: 2rem;
+  }
+
+  .heroSubtitle {
+    font-size: 1rem;
+  }
+
+  .eventMeta {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .ctaButtons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .ctaButtons .button {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
