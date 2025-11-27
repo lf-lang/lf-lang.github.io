@@ -87,6 +87,7 @@ const config: Config = {
         {to: '/blog', label: 'Blog', position: 'left'},
         {to: '/research', label: 'Research', position: 'left'},
         {to: '/community', label: 'Community', position: 'left'},
+        {to: '/events', label: 'Events', position: 'left'},
         {
           type: 'docsVersionDropdown',
           position: 'right',
