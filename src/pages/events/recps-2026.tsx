@@ -118,8 +118,8 @@ export default function ReCPS2026() {
                 <div className="card__body">
                   <ul className={styles.datesList}>
                     <li>
-                      <strong>February 16, 2026:</strong> Research papers and
-                      demo abstracts submission deadline
+                      <strong>February 16, 2026 (AoE):</strong> Research papers
+                      and demo abstracts submission deadline
                     </li>
                     <li>
                       <strong>March 2, 2026:</strong> Notification of acceptance
@@ -238,8 +238,10 @@ export default function ReCPS2026() {
                     decisions.
                   </p>
                   <p className="margin-bottom--none">
-                    <strong>Submission system:</strong> EasyChair (link coming
-                    soon)
+                    <strong>Submission system:</strong>{" "}
+                    <Link href="https://easychair.org/conferences?conf=recps2026">
+                      EasyChair
+                    </Link>
                   </p>
                 </div>
               </div>
