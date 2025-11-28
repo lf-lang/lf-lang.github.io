@@ -69,10 +69,18 @@ const formatDate = (dateStr: string, endDateStr?: string): string => {
     month: "long",
     day: "numeric",
   };
-  const startDate = new Date(dateStr).toLocaleDateString("en-US", options);
+
+  // Parse as local date to avoid timezone issues
+  // (new Date("YYYY-MM-DD") parses as UTC, causing off-by-one day errors in some timezones)
+  const parseLocalDate = (str: string): Date => {
+    const [year, month, day] = str.split("-").map(Number);
+    return new Date(year, month - 1, day);
+  };
+
+  const startDate = parseLocalDate(dateStr).toLocaleDateString("en-US", options);
 
   if (endDateStr) {
-    const endDate = new Date(endDateStr).toLocaleDateString("en-US", options);
+    const endDate = parseLocalDate(endDateStr).toLocaleDateString("en-US", options);
     return `${startDate} - ${endDate}`;
   }
 
