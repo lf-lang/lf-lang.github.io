@@ -8,6 +8,12 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>FGCS '25</strong>: Vincenzo Barbuto, Claudio Savaglioa, Edward A. Lee, and Giancarlo Fortino. 
+        "<Link href="https://doi.org/10.1016/j.future.2025.108262">Engineering opportunistic digital twins with Lingua Franca</Link>", in <i>Future Generation Computer Systems</i> 178, 108262, May 2026.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>TOMCS '25</strong>: Peter Donovan, Erling Jellum, Byeonggil Jun, Hokeun Kim, Lee Edward, Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan. 
         "<Link href="https://doi.org/10.1145/3767727">Zero-Delay Cycles in Distributed Discrete-Event Systems using Lingua Franca</Link>", in <i>ACM Transactions on Modeling and Computer Simulation</i>, To Appear, Accepted on 15 August 2025, DOI: 10.1145/3767727.
       </p>
