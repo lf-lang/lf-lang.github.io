@@ -79,8 +79,35 @@ export default function ReCPS2026() {
         </div>
       </div>
 
-      {/* Call for Papers Section */}
+      {/* Organizers Section */}
       <div className="section sectionAlt">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                👥 Organizers
+              </Heading>
+              <div className="card">
+                <div className="card__body">
+                  <ul className={styles.organizersList}>
+                    <li>
+                      <strong>General Chair:</strong> Hokeun Kim (Arizona State
+                      University, United States)
+                    </li>
+                    <li>
+                      <strong>Program Chair:</strong> Sebastiano Gaiardelli
+                      (University of Verona, Italy)
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Call for Papers Section */}
+      <div className="section">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
@@ -121,26 +148,39 @@ export default function ReCPS2026() {
         </div>
       </div>
 
-      {/* Organizers Section */}
+      {/* Topics Section */}
       <div className="section sectionAlt">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
               <Heading as="h2" className="text--center margin-bottom--lg">
-                👥 Organizers
+                📋 Topics of Interest
               </Heading>
+              <p>Scope and topics to be considered include (but are not limited to):</p>
               <div className="card">
                 <div className="card__body">
-                  <ul className={styles.organizersList}>
-                    <li>
-                      <strong>General Chair:</strong> Hokeun Kim (Arizona State
-                      University, United States)
-                    </li>
-                    <li>
-                      <strong>Program Chair:</strong> Sebastiano Gaiardelli
-                      (University of Verona, Italy)
-                    </li>
-                  </ul>
+                  <div className="row">
+                    <div className="col col--6">
+                      <ul>
+                        <li>Cyber-physical production systems (CPPS)</li>
+                        <li>Safety-critical CPS</li>
+                        <li>Distributed CPS</li>
+                        <li>Real-time scheduling and coordination</li>
+                        <li>Simulation of CPS</li>
+                        <li>Digital twins</li>
+                      </ul>
+                    </div>
+                    <div className="col col--6">
+                      <ul>
+                        <li>Verification and testing of CPS</li>
+                        <li>Predictability and determinism of CPS</li>
+                        <li>Integration and deployment of CPS</li>
+                        <li>AI/ML-driven autonomous CPS</li>
+                        <li>Modeling & simulation of human-in-the-loop CPS</li>
+                        <li>CPS-human interaction via LLMs</li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -178,48 +218,8 @@ export default function ReCPS2026() {
         </div>
       </div>
 
-      {/* Topics Section */}
-      <div className="section sectionAlt">
-        <div className="container">
-          <div className="row">
-            <div className="col col--8 col--offset-2">
-              <Heading as="h2" className="text--center margin-bottom--lg">
-                📋 Topics of Interest
-              </Heading>
-              <p>Scope and topics to be considered include:</p>
-              <div className="card">
-                <div className="card__body">
-                  <div className="row">
-                    <div className="col col--6">
-                      <ul>
-                        <li>Cyber-physical production systems (CPPS)</li>
-                        <li>Safety-critical CPS</li>
-                        <li>Distributed CPS</li>
-                        <li>Real-time scheduling and coordination</li>
-                        <li>Simulation of CPS</li>
-                        <li>Digital twins</li>
-                      </ul>
-                    </div>
-                    <div className="col col--6">
-                      <ul>
-                        <li>Verification and testing of CPS</li>
-                        <li>Predictability and determinism of CPS</li>
-                        <li>Integration and deployment of CPS</li>
-                        <li>AI/ML-driven autonomous CPS</li>
-                        <li>Modeling & simulation of human-in-the-loop CPS</li>
-                        <li>CPS-human interaction via LLMs</li>
-                      </ul>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Submission Section */}
-      <div className="section">
+      <div className="section sectionAlt">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
@@ -249,7 +249,7 @@ export default function ReCPS2026() {
                 </div>
               </div>
 
-              <div className={clsx("card", "margin-bottom--md")}>
+              <div className="card">
                 <div className="card__header">
                   <Heading as="h4">Demo Abstracts</Heading>
                 </div>
@@ -270,14 +270,24 @@ export default function ReCPS2026() {
                 </div>
               </div>
 
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Review Process Section */}
+      <div className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                🔍 Review Process
+              </Heading>
               <div className="card">
-                <div className="card__header">
-                  <Heading as="h4">Review Process</Heading>
-                </div>
                 <div className="card__body">
                   <p>
-                    Single blind review (no need to anonymize submissions) by a program committee with acceptance
-                    decisions.
+                    Single blind review (no need to anonymize submissions) by a
+                    program committee with acceptance decisions.
                   </p>
                   <p className="margin-bottom--none">
                     <strong>Submission system:</strong>{" "}
@@ -287,14 +297,35 @@ export default function ReCPS2026() {
                   </p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
+      {/* Publication Section */}
+      <div className="section sectionAlt">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                📄 Publication
+              </Heading>
+              <div className="card">
+                <div className="card__body">
+                  <p className="margin-bottom--none">
+                    Accepted manuscripts will be distributed to the workshop
+                    attendees, but will not be officially published, so that the
+                    authors can use the materials for their publication later.
+                  </p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       {/* Related Links */}
-      <div className="section sectionAlt">
+      <div className="section">
         <div className="container text--center">
           <Heading as="h2">Related Resources</Heading>
           <p>Learn more about reactive programming and Lingua Franca.</p>
