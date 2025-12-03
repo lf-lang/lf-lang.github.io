@@ -249,7 +249,7 @@ export default function ReCPS2026() {
                 </div>
               </div>
 
-              <div className="card">
+              <div className={clsx("card", "margin-bottom--md")}>
                 <div className="card__header">
                   <Heading as="h4">Demo Abstracts</Heading>
                 </div>
@@ -270,20 +270,10 @@ export default function ReCPS2026() {
                 </div>
               </div>
 
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Review Process Section */}
-      <div className="section">
-        <div className="container">
-          <div className="row">
-            <div className="col col--8 col--offset-2">
-              <Heading as="h2" className="text--center margin-bottom--lg">
-                🔍 Review Process
-              </Heading>
               <div className="card">
+                <div className="card__header">
+                  <Heading as="h4">Review Process</Heading>
+                </div>
                 <div className="card__body">
                   <p>
                     Single blind review (no need to anonymize submissions) by a
@@ -297,6 +287,7 @@ export default function ReCPS2026() {
                   </p>
                 </div>
               </div>
+
             </div>
           </div>
         </div>
