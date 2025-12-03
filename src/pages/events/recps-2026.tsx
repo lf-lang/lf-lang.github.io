@@ -79,6 +79,48 @@ export default function ReCPS2026() {
         </div>
       </div>
 
+      {/* Call for Papers Section */}
+      <div className="section sectionAlt">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                📣 Call for Papers
+              </Heading>
+              <p>
+                As we advance towards a hyper-connected future defined by smart
+                sensors and devices operating together as complex
+                systems-of-systems, the massive adoption of Artificial
+                Intelligence combined with the inherent unpredictability of
+                distributed interactions presents a fundamental challenge to
+                system reliability.
+              </p>
+              <p>
+                In such a scenario, Reactive Cyber-Physical Systems (ReCPS) are
+                crucial for next-generation intelligent and autonomous systems,
+                continuously interacting with their environment in real time. By
+                leveraging methodologies and tools such as the reactor model of
+                computation and the Lingua Franca coordination language, these
+                emerging frameworks provide deterministic and composable
+                concurrency for CPS design. This enables the design of more
+                predictable and reliable system behavior than conventional CPS
+                design approaches.
+              </p>
+              <p>
+                This workshop focuses on foundational methods and emerging
+                trends in design, simulation, and coordination of these reactive
+                systems. These approaches promise enhanced predictability and
+                reliability compared to conventional CPS design.
+              </p>
+              <p>
+                We invite original research contributions and demonstrations on
+                topics related to Reactive Cyber-Physical Systems.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Organizers Section */}
       <div className="section sectionAlt">
         <div className="container">
