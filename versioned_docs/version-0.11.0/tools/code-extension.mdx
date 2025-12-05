@@ -1,0 +1,217 @@
+---
+title: VS Code Extension
+description: Visual Studio Code Extension for Lingua Franca.
+---
+
+import Image from '@theme/IdealImage';
+import lingo_packages from '../assets/images/vs_code/lingo_packages.png';
+import local_libraries from '../assets/images/vs_code/local_libraries.png';
+import error_message from '../assets/images/vs_code/error_message.png';
+import diagram_icon from '../assets/images/vs_code/diagram_icon.png';
+
+The Lingua Franca extension for Visual Studio Code (VS Code) provides syntax-directed editing capability, compilation, diagram synthesis and a package explorer for Lingua Franca programs.
+
+## Usage
+
+### Creating a New Project
+
+You can create a new LF [project](../glossary/glossary.mdx#project) either manually by creating an LF file or by using the [Lingo Package Manager](https://github.com/lf-lang/lingo).
+
+#### Option 1: Create a Project Using the Lingo Package Manager
+1. After [installing the Lingo Package Manager](https://www.lf-lang.org/docs/installation#lingo), create an empty directory to serve as the root of your new package.
+2. Open the folder in VS Code.
+3. Open the terminal in this folder and run the <kbd>lingo init</kbd> command. 
+
+This will set up a new LF package with the following structure:
+
+```
+├── .
+│   ├── src/
+│   │  └── Main.lf
+└── └── Lingo.toml # Configuration file for current package
+```
+
+#### Option 2: Create a New [LF File](../glossary/glossary.mdx#lf-file)
+1. Go to <kbd>File > New File...</kbd> and select `New Lingua Franca File`.
+2. Save the file in a directory called `src` to ensure that generated code is placed in a parallel `src-gen` directory. For example, if your file is called `Foo.lf`, the directory structure after building will look like this:
+
+```
+├── .
+│   ├── bin/
+│   │  └── Foo
+│   ├── src/
+│   │  └── Foo.lf
+│   ├── src-gen/
+│   │  └── Foo/
+...
+```
+
+If you manually create the `Lingo.toml` file, place it adjacent to the `src` folder in the root directory of the package. This file serves as a configuration for the package, allowing you to specify the package name, version, and other metadata, including any dependencies you want to install.
+
+### Opening an Existing LF Project
+
+To open an existing LF project in VS Code, select the [package root](../glossary/glossary.mdx#package-root) as your workspace. Ensure that the selected project adheres to the correct [project structure](../glossary/glossary.mdx#project-structure) to enable the [Package Explorer](#package-explorer). If the workspace is not recognized as a valid Lingua Franca package, an error message will appear when you attempt to open the Package Explorer:
+
+<Image img={error_message} style={{maxWidth: 400}} />
+
+### Rendering Diagrams
+
+To show the diagram for the currently active Lingua Franca file, click on the diagrams icon at the upper right:
+
+<Image img={diagram_icon} style={{maxWidth: 40}} />
+
+By default, the diagram is rendered to the right of the editor.
+This is usually inconvenient because the diagrams tend to be wide.
+You can drag the diagram to the bottom, or, more usefully, change the default.
+
+1. Go to Preferences>Settings
+2. Go to workspace, user or folder settings whatever you prefer.
+3. Search for "workbench.editor.openSideBySideDirection".
+4. Change the setting to down.
+
+See also [side-by-side editing](https://code.visualstudio.com/docs/getstarted/userinterface#_side-by-side-editing) and a [video demo](https://github.com/user-attachments/assets/3956358c-d681-4a23-a60a-47f4b123b8eb).
+
+### Compilation
+
+To compile the `.lf` source, open the command palette (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>) and then enter `Lingua Franca: Build`.
+
+### Running
+
+You can also build and immediately afterwards run your code by opening the command palette (<kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>P</kbd>) and then entering `Lingua Franca: Build and Run`.
+Running the code can also be done from the VS Code terminal by executing the generated file in `./bin`.
+
+### Package Explorer
+
+The **Lingua Franca Package Explorer** can be accessed by clicking on the **LF icon** in the activity bar on the left side of the screen. Once opened, the **Package Explorer** displays a **Tree View** with the following structure:
+
+```
+├── <Package Name>
+│   ├── Installed Packages
+│   ├── Local Libraries
+└── └── Source Files
+```
+
+- [**Installed Packages**](#installed-packages): Lists packages installed via the Lingo Package Manager, located in the `./build/lfc_include` directory (if any).
+  
+- [**Local Libraries**](#local-libraries): Displays locally defined [library files](../glossary/glossary.mdx#library-file) (e.g., reusable reactors), located in the `./src/lib` directory.
+  
+- [**Source Files**](#source-files): Contains the LF source files created by the developer, located in the `./src/` directory.
+
+The **Source Files** section is always present as it reflects the main LF files in the package. However, the **Installed Packages** and **Local Libraries** sections appear only if the respective directories and files exist in the workspace.
+
+Hovering over the **\<Package Name\>** item reveals a terminal icon. Clicking this icon opens a terminal window at the package's root directory, allowing you to execute commands directly within that directory.
+
+#### Installed Packages
+
+The **Installed Packages** section lists libraries installed using the [Lingo package manager](https://github.com/lf-lang/lingo). Developers can use the Lingo package manager to retrieve and install LF programs from arbitrary GitHub repositories. A collection of useful packages can be found in the [Lingua Franca Packages](https://github.com/lf-pkgs) GitHub organization.
+
+To install packages:
+1. Configure the `Lingo.toml` file with the desired package.
+2. Run <kbd>lingo build</kbd> in the terminal from the current directory to download the specified dependencies.
+
+Once the packages are installed, they will appear in the `./build/lfc_include/` directory. The **Installed Packages** section will then be structured as follows:
+
+```
+├── <Package Name>
+│   ├── Installed Packages
+│   │  ├── <Installed Package>
+│   │  │   ├── File_1.lf
+│   │  │   │   ├── Rusable_Reactor_1.lf
+│   │  │   │   ├── Rusable_Reactor_2.lf
+│   │  │   ├── File_2.lf
+│   │  │   │   ├── Rusable_Reactor_1.lf
+│   │  │   │   ├── Rusable_Reactor_2.lf
+...
+```
+
+In this structure:
+- **\<Package Name\>**: Represents the root folder of the main package.
+- **\<Installed Package\>**: Represents each package listed in `Lingo.toml`, which contains one or more LF projects featuring reusable reactors.
+
+The image below shows a visual representation of the **Installed Packages** section. The **project** icon indicates the LF Package folder (e.g., `AudioClassification`), while the **root-folder** icon represents the downloaded package (e.g., the `edgeai` package in the example). The **code file** icon denotes an LF program within a package, and the **bracket** icon represents individual reactors inside the LF program.
+
+<Image img={lingo_packages} style={{maxWidth: 400}} />
+
+The hierarchy categorizes tree items into the following types:
+
+1. **package root**: Refers to the root folder of each downloaded package.
+2. **file**: Represents an LF file within the package.
+3. **reactor**: Refers to individual reactors within the LF file.
+
+When focusing on the **Installed Packages** section, an `edit` command becomes available. Clicking it opens the `Lingo.toml` file in the editor for configuration changes. The following actions are available for items in the **Installed Packages** section:
+
+- For **file** items (from right to left):
+  - **Open in Split View**: Opens the file in a split editor view.
+  - **Go To File**: Navigates to the file in the editor.
+  
+- For **reactor** items (from right to left):
+  - **Import Selected Reactor**: Imports the selected reactor into the active LF program.
+  - **Go To File**: Opens the file where the reactor is defined.
+  - **Open in Split View**: Opens the file in a split editor view (accessible by right-clicking the item).
+
+:::note
+The **Import Selected Reactor** option is available only if an LF program is open in the editor.
+:::
+
+#### Local Libraries
+
+The **Local Libraries** section lists LF programs created by the developer, located in the `./src/lib/` directory. These programs serve as local libraries, containing reusable reactors. The directory structure follows this format:
+
+```
+├── <Package Name>
+...
+│   ├── Local Libraries
+│   │  ├── File_1.lf
+│   │  │   ├── Rusable_Reactor_1.lf
+│   │  │   ├── Rusable_Reactor_2.lf
+│   │  ├── File_2.lf
+│   │  │   ├── Rusable_Reactor_1.lf
+│   │  │   ├── Rusable_Reactor_2.lf
+...
+```
+
+The image below illustrates the **Local Libraries** section. In this depiction, the **"project"** icon represents the LF package folder, while the **"code file"** icon represents the LF program, and the **"bracket"** icon denotes individual reactors within the LF program.
+
+<Image img={local_libraries} style={{maxWidth: 400}} />
+
+The hierarchy categorizes tree items into two types:
+
+1. **file**: Represents the LF file.
+2. **reactor**: Represents a reactor within the LF file.
+
+Actions for **Local Libraries** are similar to those in the [**Installed Packages**](#installed-packages) section:
+
+- For **file** items (from right to left):
+  - **Open in Split View**: Opens the file in a split editor view.
+  - **Go To File**: Navigates to the file in the editor.
+  
+- For **reactor** items (from right to left):
+  - **Import Selected Reactor**: Imports the selected reactor into the active LF program.
+  - **Go To File**: Opens the file where the reactor is defined.
+  - **Open in Split View**: Opens the file in a split editor view (accessible by right-clicking the item).
+
+:::note
+The **Import Selected Reactor** option is available only if an LF program is open in the editor.
+:::
+
+#### Source Files
+
+The **Source Files** section lists all LF programs in the `./src/` directory. This section provides direct access to the main source files of the package. The hierarchy for this view is straightforward:
+
+```
+├── <Package Name>
+...
+│   ├── Source Files
+│   │  ├── File_1.lf
+│   │  ├── File_2.lf
+│   │  ├── File_3.lf
+...
+```
+
+Clicking on any of the files will open the corresponding LF program in the editor, providing a way to quickly navigate and edit the source code of a package.
+
+## Notes
+
+### For Python Users
+
+Users who edit LF programs with a Python target will benefit the most from Python linting by installing Pylint 2.12.2 or later.

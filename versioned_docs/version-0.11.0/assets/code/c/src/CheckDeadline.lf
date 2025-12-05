@@ -1,0 +1,21 @@
+target C;
+
+reactor Count {
+  output out:int;
+  reaction(startup) -> out {=
+    int count = 0;
+    while (!lf_check_deadline(self, true)) {
+      count++;
+    }
+    lf_set(out, count);
+  =} deadline (3 msec) {=
+    printf("Stopped counting.\n");
+  =}
+}
+
+main reactor {
+  c = new Count();
+  reaction(c.out) {=
+    printf("Counted to %d\n", c.out->value);
+  =}
+}

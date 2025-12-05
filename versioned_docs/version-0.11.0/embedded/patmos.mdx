@@ -1,0 +1,70 @@
+---
+title: Patmos
+description: Developing LF Programs for Patmos.
+---
+# Overview
+Lingua Franca's C-runtime supports [Patmos](https://github.com/t-crest/patmos),
+a bare-metal execution platform that is optimized for time-predictable execution.
+The time-predictability aspect of Patmos makes it easier to obtain a worst-case
+execution time (WCET) for reactions.
+## Prerequisites
+- Linux or macOS development system. (use WSL on Windows)
+- DE2-115 Development Kit, which is equipped with Altera Cyclone IV FPGA (optional)
+### Getting Started
+To know how to install the toolchain for building Patmos, read the Patmos project's readme at https://github.com/t-crest/patmos or study the sixth chapter of its handbook available here: [Patmos Reference Handbook](http://patmos.compute.dtu.dk/patmos_handbook.pdf)
+### Compiling and Running Lingua Franca codes
+Patmos can run in an FPGA, but there are also two simulators available:
+
+1. `pasim`: a software ISA simulator that is written in C++.
+2. `patemu`: a cycle-accurate hardware emulator generated from the hardware description.
+
+Consider the following simple LF program inside the HelloPatmos.lf file located in `test/C/src/patmos/HelloPatmos.lf`: 
+```lf-c
+target C {
+	platform: "Patmos",
+	single-threaded: true,
+	build-type: Debug, 
+}
+
+main reactor {
+	reaction(startup) {=
+		printf("Hello World!\n");
+	=}
+}
+  
+
+```
+You can generate C code using `lfc HelloPatmos.lf` command in the above folder:
+
+```
+cd test/C/src/patmos/
+lfc HelloPatmos.lf
+```
+
+If there is no error after making, an executable file must be generator inside `src-gen/patmos/HelloPatmos` folder. Then, the reactor can be executed on the SW simulator with the following command:
+
+```
+cd ../../src-gen/patmos/HelloPatmos/build
+pasim HelloPatmos
+```
+After executing the above command, the following lines must be printed.
+```
+Hello World!
+---- Elapsed logical time (in nsec): 0
+---- Elapsed physical time (in nsec): 770,000
+```
+
+The reactor can also be executed on the hardware emulator of Patmos:
+
+```
+patemu HelloPatmos
+```
+
+This execution is considerably slower than the SW simulator, as the concrete hardware
+of Patmos is simulated cycle-accurate. Here is a sample of its output:
+
+```
+Hello World!
+---- Elapsed logical time (in nsec): 0
+---- Elapsed physical time (in nsec): 3,459,000
+```

@@ -1,0 +1,28 @@
+target C {
+  timeout: 3 s,
+  coordination: decentralized
+}
+
+import CountPrint, Double from "DecentralizedZeroDelayLoop.lf"
+reactor CountPrintWithChecker extends CountPrint {
+
+  reaction(t, in) {=
+    if (!in->is_present) {
+      lf_print("***** CountPrint Failed to Receive response at tag (%lld, %u)",
+          lf_time_logical_elapsed(), lf_tag().microstep
+      );
+    }
+  =} tardy {=
+    lf_print("***** CountPrint Received tardy input: %d at tag (%lld, %u)",
+        in->value, lf_time_logical_elapsed(), lf_tag().microstep
+    );
+  =}
+}
+
+federated reactor {
+  c = new CountPrintWithChecker()
+  p = new Double()
+  c.out -> p.in
+  @absent_after(20 ms)
+  p.out -> c.in
+}
