@@ -15,6 +15,17 @@ export interface Event {
 export const events: Event[] = [
   // Upcoming Events
   {
+    title: "Lingua Franca Tutorial at CPS-IoT Week 2026",
+    date: "2026-05-11",
+    endDate: "2026-05-14",
+    location: "Saint Malo, France (CPS-IoT Week 2026)",
+    description:
+      "Half-day hands-on tutorial on Lingua Franca, an open-source coordination language for building deterministic, concurrent, and time-sensitive cyber-physical systems. Includes technical overview, CPS demos, and programming sessions with C and Python.",
+    link: "/events/cpsweek-2026-tutorial",
+    type: "tutorial",
+    isUpcoming: true,
+  },
+  {
     title: "ReCPS: Workshop on Reactive Cyber-Physical Systems",
     date: "2026-04-20",
     endDate: "2026-04-22",
