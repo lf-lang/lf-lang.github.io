@@ -57,6 +57,7 @@ interface Organizer {
   email: string;
   website: string;
   bio: string;
+  image: string;
 }
 
 const organizers: Organizer[] = [
@@ -65,6 +66,7 @@ const organizers: Organizer[] = [
     affiliation: "Arizona State University, USA",
     email: "hokeun@asu.edu",
     website: "https://hokeun.github.io/",
+    image: "/img/events/cpsweek-2026-tutorial/hokeun-kim.jpg",
     bio: "Assistant professor of Computer Science and Engineering in the School of Computing and Augmented Intelligence (SCAI) at Arizona State University. Ph.D. in EECS from UC Berkeley (2017) with a focus on distributed cyber-physical systems and IoT security. Research interests include cyber-physical systems, distributed systems, real-time systems, computer security, and computer architecture. Recipient of ACM/IEEE Best Paper Award at CPSWeek, IEEE Micro Top Picks Honorable Mention, and 1st Place in ESSC at ESWEEK.",
   },
   {
@@ -72,6 +74,7 @@ const organizers: Organizer[] = [
     affiliation: "University of Manouba, Tunisia",
     email: "chadlia.jerad@ensi-uma.tn",
     website: "https://chadliajerad.github.io/",
+    image: "/img/events/cpsweek-2026-tutorial/chadlia-jerad.jpg",
     bio: "Associate professor at the National School of Computer Science (ENSI), University of Manouba, Tunisia. Fulbright Visiting Scholar at EECS, UC Berkeley in 2016-2017 (Accessors project) and 2022-2023 (Lingua Franca project). Recognized by DAAD Tunisia as 'Portrait of the Month' in 2018. Research interests include embedded and cyber-physical systems, distributed and real-time systems, computer architecture, and formal verification.",
   },
   {
@@ -79,6 +82,7 @@ const organizers: Organizer[] = [
     affiliation: "University of California, Berkeley, USA",
     email: "eal@berkeley.edu",
     website: "https://ptolemy.berkeley.edu/~eal/",
+    image: "/img/events/cpsweek-2026-tutorial/edward-lee.jpg",
     bio: "Professor of the Graduate School and Distinguished Professor Emeritus in EECS at UC Berkeley. Author of seven books and hundreds of papers. Director of iCyPhy, the Berkeley Industrial Cyber-Physical Systems Research Center. Fellow of the IEEE, NSF Presidential Young Investigator. Awards include the 2016 IEEE TCRTS Outstanding Technical Achievement and Leadership Award, 2019 IEEE TCCPS Technical Achievement Award, 2022 EDAA Achievement Award, 2022 ACM SIGBED Technical Achievement Award, and Honorary Doctorate from the Technical University of Vienna (2022).",
   },
 ];
@@ -390,26 +394,43 @@ export default function CPSWeek2026Tutorial() {
                 👥 Organizers
               </Heading>
               {organizers.map((organizer, idx) => (
-                <div key={idx} className={clsx("card", "margin-bottom--md")}>
-                  <div className="card__header">
-                    <Heading as="h3" className="margin-bottom--none">
-                      <Link href={organizer.website}>{organizer.name}</Link>
-                    </Heading>
-                    <p
-                      className="margin-bottom--none margin-top--sm"
-                      style={{ opacity: 0.8 }}
-                    >
-                      {organizer.affiliation}
-                    </p>
-                  </div>
+                <div key={idx} className={clsx("card", "margin-bottom--lg")}>
                   <div className="card__body">
-                    <p className="margin-bottom--sm">{organizer.bio}</p>
-                    <p className="margin-bottom--none" style={{ fontSize: "0.9rem" }}>
-                      📧{" "}
-                      <Link href={`mailto:${organizer.email}`}>
-                        {organizer.email}
-                      </Link>
-                    </p>
+                    <div className="row">
+                      <div className="col col--3">
+                        <img
+                          src={organizer.image}
+                          alt={organizer.name}
+                          style={{
+                            width: "100%",
+                            maxWidth: "150px",
+                            borderRadius: "8px",
+                            objectFit: "cover",
+                            aspectRatio: "1",
+                          }}
+                        />
+                      </div>
+                      <div className="col col--9">
+                        <Heading as="h3" className="margin-bottom--none">
+                          <Link href={organizer.website}>{organizer.name}</Link>
+                        </Heading>
+                        <p
+                          className="margin-bottom--sm margin-top--xs"
+                          style={{ opacity: 0.8, fontStyle: "italic" }}
+                        >
+                          {organizer.affiliation}
+                        </p>
+                        <p className="margin-bottom--sm" style={{ fontSize: "0.95rem" }}>
+                          {organizer.bio}
+                        </p>
+                        <p className="margin-bottom--none" style={{ fontSize: "0.9rem" }}>
+                          📧{" "}
+                          <Link href={`mailto:${organizer.email}`}>
+                            {organizer.email}
+                          </Link>
+                        </p>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -453,53 +474,6 @@ export default function CPSWeek2026Tutorial() {
                     community spanning multiple institutions for continued
                     learning and support.
                   </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* References Section */}
-      <div className="section sectionAlt">
-        <div className="container">
-          <div className="row">
-            <div className="col col--8 col--offset-2">
-              <Heading as="h2" className="text--center margin-bottom--lg">
-                📖 References
-              </Heading>
-              <div className="card">
-                <div className="card__body">
-                  <ol className="margin-bottom--none">
-                    <li className="margin-bottom--sm">
-                      Lingua Franca Organization.{" "}
-                      <Link href="https://lf-lang.org">
-                        Lingua Franca: Build predictable concurrent,
-                        time-sensitive, and distributed systems
-                      </Link>
-                      .
-                    </li>
-                    <li className="margin-bottom--sm">
-                      Lingua Franca Organization.{" "}
-                      <Link href="https://github.com/lf-lang/playground-lingua-franca">
-                        Lingua Franca Playground: Try Lingua Franca now
-                      </Link>
-                      .
-                    </li>
-                    <li>
-                      Marten Lohstroh, Christian Menzel, Soroush Bateni, and
-                      Edward A. Lee.{" "}
-                      <em>
-                        Toward a Lingua Franca for Deterministic Concurrent
-                        Systems
-                      </em>
-                      . ACM Transactions on Embedded Computing Systems (TECS)
-                      20, 4 (May 2021), Article 36.{" "}
-                      <Link href="https://doi.org/10.1145/3448128">
-                        doi:10.1145/3448128
-                      </Link>
-                    </li>
-                  </ol>
                 </div>
               </div>
             </div>
