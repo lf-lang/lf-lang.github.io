@@ -445,22 +445,24 @@ export default function CPSWeek2026Tutorial() {
           <div className="row">
             <div className="col col--8 col--offset-2">
               <Heading as="h2" className="text--center margin-bottom--lg">
-                📚 Materials & Follow-Up
+                📚 Materials & Resources
               </Heading>
               <div className="card">
                 <div className="card__body">
                   <p>
-                    A dedicated tutorial webpage will be available at least one
-                    month before CPS-IoT Week with the schedule, setup
-                    instructions, and links to example code and prerequisites.
-                    All slide decks, code, and exercise instructions will be
-                    hosted there.
+                    This webpage serves as the central hub for all tutorial
+                    materials. Participants can expect to find:
                   </p>
+                  <ul>
+                    <li>Setup instructions and prerequisites</li>
+                    <li>Slide decks and presentation materials</li>
+                    <li>Hands-on exercise instructions and starter code</li>
+                    <li>Links to example projects and the LF Playground</li>
+                    <li>Video recordings of presentations and demos (after the event)</li>
+                  </ul>
                   <p>
-                    Subject to conference policy, we plan to record the tutorial
-                    (at minimum the demo and coding walkthroughs) and publish
-                    the recordings together with the slides and code after the
-                    event.
+                    Materials will be updated as we approach the tutorial date.
+                    Check back regularly for the latest resources.
                   </p>
 
                   <Heading as="h4">Community Support</Heading>
