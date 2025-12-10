@@ -8,7 +8,7 @@ import styles from "./event-page.module.css";
 interface ScheduleItem {
   session: string;
   duration: string;
-  description?: string;
+  description?: React.ReactNode;
   leads?: string;
 }
 
@@ -23,8 +23,22 @@ const scheduleItems: ScheduleItem[] = [
   {
     session: "Live Demos",
     duration: "45 minutes",
-    description:
-      "CPS-focused example applications built with LF, including distributed (federated) execution, physics simulation integration, and embodied AI agents using robotic platforms. Autonomous vehicle/platoon coordination simulation using the CARLA simulator integration.",
+    description: (
+      <>
+        CPS-focused example applications built with LF, including distributed
+        (federated) execution, physics simulation integration, and embodied AI
+        agents using robotic platforms. Demos will leverage example programs
+        from the{" "}
+        <Link href="https://github.com/lf-lang/playground-lingua-franca">
+          LF Playground
+        </Link>{" "}
+        and{" "}
+        <Link href="https://github.com/lf-lang/lf-demos">LF Demos</Link>{" "}
+        repositories such as the vehicle simulation integrated with the
+        physics-based simulation engine,{" "}
+        <Link href="https://mujoco.org/">MuJoCo</Link>.
+      </>
+    ),
     leads: "Organizers",
   },
   {
