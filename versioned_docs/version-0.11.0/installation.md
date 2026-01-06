@@ -26,7 +26,7 @@ Have a look at the [Lingua Franca playground](https://github.com/lf-lang/playgro
 
 ## Visual Studio Code
 
-Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below. This extension also works with VS Code-compatible tools such as [Cursor](https://cursor.com). See the [handbook](./tools/code-extension.mdx) for usage instructions. VS Code can be used with the Remote - WSL extension to the launch ubuntu and run VS Code inside WSL to automatically use the correct Linux environment and toolchain (Remote Explorer -> WSL -> open Folder). Alternatively, open a project from a WSL terminal, navigate to the  project directory and starte VS Code. Projects may be stored either inside the Linux file system (/home/...), or on the Windows file system (/mnt/c/...). The first option is recommended for better performance. 
+Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below. This extension also works with VS Code-compatible tools such as [Cursor](https://cursor.com). See the [handbook](./tools/code-extension.mdx) for usage instructions. VS Code can be used with the Remote - WSL extension to launch Ubuntu and run VS Code inside WSL to automatically use the correct Linux environment and toolchain (Remote Explorer -> WSL -> open Folder). Alternatively, open a project from a WSL terminal, navigate to the  project directory and start VS Code. Projects may be stored either inside the Linux file system (/home/...), or on the Windows file system (/mnt/c/...). The first option is recommended for better performance. 
 
 ### Marketplace
 
