@@ -8,7 +8,8 @@ For release version descriptions and notes, see [the releases page](https://gith
 
 # Installation
 
-The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](<./reference/target-language-details.mdx#requirements>) page and select your target language).
+Lingua Franca is developed and tested on Unix-like systems. On Windows, we strongly recommended usin the Windows Subsystem for Linux (WSL) ([follow Microsoft's official instructions](https://learn.microsoft.com/en-us/windows/wsl/install)) with an Ubuntu distribution to run the Lingua Franca toolchain. The Lingua Franca compiler and its dependencies are not supported in MSYS or Git Bash, but WSL allows a smooth integration with Visual Studio Code.
+The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](<./reference/target-language-details.mdx#requirements>) page and select your target language). For Windows users, note that all Lingua Franca tooling (compiler, CMake, target dependencies) must be installed inside WSL, not Windows.
 
 You can use Lingua Franca:
 
@@ -25,7 +26,7 @@ Have a look at the [Lingua Franca playground](https://github.com/lf-lang/playgro
 
 ## Visual Studio Code
 
-Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below. This extension also works with VS Code-compatible tools such as [Cursor](https://cursor.com). See the [handbook](./tools/code-extension.mdx) for usage instructions.
+Our Visual Studio Code extension can be installed via the Marketplace or built from source, as detailed below. This extension also works with VS Code-compatible tools such as [Cursor](https://cursor.com). See the [handbook](./tools/code-extension.mdx) for usage instructions. VS Code can be used with the Remote - WSL extension to the launch ubuntu and run VS Code inside WSL to automatically use the correct Linux environment and toolchain (Remote Explorer -> WSL -> open Folder). Alternatively, open a project from a WSL terminal, navigate to the  project directory and starte VS Code. Projects may be stored either inside the Linux file system (/home/...), or on the Windows file system (/mnt/c/...). The first option is recommended for better performance. 
 
 ### Marketplace
 
