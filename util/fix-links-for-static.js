@@ -11,7 +11,7 @@
 const fs = require('fs');
 const path = require('path');
 
-const buildDir = path.join(__dirname, 'build');
+const buildDir = path.join(__dirname, '..', 'build');
 
 function getRelativePath(fromFile, toPath) {
   // Convert absolute path to relative path
