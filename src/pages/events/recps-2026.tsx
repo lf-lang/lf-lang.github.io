@@ -106,31 +106,43 @@ export default function ReCPS2026() {
         </div>
       </div>
 
-      {/* Important Dates Section */}
+      {/* Call for Papers Section */}
       <div className="section">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
               <Heading as="h2" className="text--center margin-bottom--lg">
-                📅 Important Dates
+                📣 Call for Papers
               </Heading>
-              <div className="card">
-                <div className="card__body">
-                  <ul className={styles.datesList}>
-                    <li>
-                      <strong>February 16, 2026:</strong> Research papers and
-                      demo abstracts submission deadline
-                    </li>
-                    <li>
-                      <strong>March 2, 2026:</strong> Notification of acceptance
-                    </li>
-                    <li>
-                      <strong>April 20-22, 2026:</strong> Workshop at DATE 2026,
-                      Verona, Italy
-                    </li>
-                  </ul>
-                </div>
-              </div>
+              <p>
+                As we advance towards a hyper-connected future defined by smart
+                sensors and devices operating together as complex
+                systems-of-systems, the massive adoption of Artificial
+                Intelligence combined with the inherent unpredictability of
+                distributed interactions presents a fundamental challenge to
+                system reliability.
+              </p>
+              <p>
+                In such a scenario, Reactive Cyber-Physical Systems (ReCPS) are
+                crucial for next-generation intelligent and autonomous systems,
+                continuously interacting with their environment in real time. By
+                leveraging methodologies and tools such as the reactor model of
+                computation and the Lingua Franca coordination language, these
+                emerging frameworks provide deterministic and composable
+                concurrency for CPS design. This enables the design of more
+                predictable and reliable system behavior than conventional CPS
+                design approaches.
+              </p>
+              <p>
+                This workshop focuses on foundational methods and emerging
+                trends in design, simulation, and coordination of these reactive
+                systems. These approaches promise enhanced predictability and
+                reliability compared to conventional CPS design.
+              </p>
+              <p>
+                We invite original research contributions and demonstrations on
+                topics related to Reactive Cyber-Physical Systems.
+              </p>
             </div>
           </div>
         </div>
@@ -144,7 +156,7 @@ export default function ReCPS2026() {
               <Heading as="h2" className="text--center margin-bottom--lg">
                 📋 Topics of Interest
               </Heading>
-              <p>Scope and topics to be considered include:</p>
+              <p>Scope and topics to be considered include (but are not limited to):</p>
               <div className="card">
                 <div className="card__body">
                   <div className="row">
@@ -176,8 +188,38 @@ export default function ReCPS2026() {
         </div>
       </div>
 
-      {/* Submission Section */}
+      {/* Important Dates Section */}
       <div className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                📅 Important Dates
+              </Heading>
+              <div className="card">
+                <div className="card__body">
+                  <ul className={styles.datesList}>
+                    <li>
+                      <strong>February 16, 2026 (AoE):</strong> Research papers
+                      and demo abstracts submission deadline
+                    </li>
+                    <li>
+                      <strong>March 2, 2026:</strong> Notification of acceptance
+                    </li>
+                    <li>
+                      <strong>April 20-22, 2026:</strong> Workshop at DATE 2026,
+                      Verona, Italy
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Submission Section */}
+      <div className="section sectionAlt">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
@@ -234,12 +276,14 @@ export default function ReCPS2026() {
                 </div>
                 <div className="card__body">
                   <p>
-                    Single blind review (no need to anonymize submissions) by a program committee with acceptance
-                    decisions.
+                    Single blind review (no need to anonymize submissions) by a
+                    program committee with acceptance decisions.
                   </p>
                   <p className="margin-bottom--none">
-                    <strong>Submission system:</strong> EasyChair (link coming
-                    soon)
+                    <strong>Submission system:</strong>{" "}
+                    <Link href="https://easychair.org/conferences?conf=recps2026">
+                      EasyChair
+                    </Link>
                   </p>
                 </div>
               </div>
@@ -249,8 +293,30 @@ export default function ReCPS2026() {
         </div>
       </div>
 
-      {/* Related Links */}
+      {/* Publication Section */}
       <div className="section sectionAlt">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                📄 Publication
+              </Heading>
+              <div className="card">
+                <div className="card__body">
+                  <p className="margin-bottom--none">
+                    Accepted manuscripts will be distributed to the workshop
+                    attendees, but will not be officially published, so that the
+                    authors can use the materials for their publication later.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Related Links */}
+      <div className="section">
         <div className="container text--center">
           <Heading as="h2">Related Resources</Heading>
           <p>Learn more about reactive programming and Lingua Franca.</p>

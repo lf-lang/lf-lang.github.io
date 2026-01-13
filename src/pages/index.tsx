@@ -25,6 +25,7 @@ function HeroBanner() {
       {/* <CodeContainer className={styles.heroLogo} /> */}
         <Heading as="h1" className={styles.heroProjectTagline}>
         <Logo className={styles.heroLogo} height="350px" width="350px" role="img" />
+        {/*<img src="/img/XmasLF.png" className={styles.heroLogo} width="600px" alt="Lingua Franca logo" /> */}
           <span
             className={styles.heroTitleTextHtml}
             // eslint-disable-next-line react/no-danger
@@ -32,7 +33,7 @@ function HeroBanner() {
               __html: translate({
                 id: "homepage.hero.title",
                 message:
-                  "Build predictable <b>concurrent</b>, <b>time-sensitive</b>, and <b>distributed</b> systems.",
+                  "Build <b>predictable</b>, <b>concurrent</b>, <b>time-sensitive</b>, and <b>distributed</b> systems.",
                 description:
                   "Home page hero title, can contain simple html tags",
               }),

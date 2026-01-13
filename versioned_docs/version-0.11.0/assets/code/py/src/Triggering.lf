@@ -1,0 +1,13 @@
+target Python
+reactor Inside {
+  input x
+  reaction(x) {=
+    print(f"Received {x.value}")
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    i.x.set(42);
+  =}
+}

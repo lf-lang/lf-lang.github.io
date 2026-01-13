@@ -8,6 +8,24 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>FGCS '25</strong>: Vincenzo Barbuto, Claudio Savaglioa, Edward A. Lee, and Giancarlo Fortino. 
+        "<Link href="https://doi.org/10.1016/j.future.2025.108262">Engineering opportunistic digital twins with Lingua Franca</Link>", in <i>Future Generation Computer Systems</i> 178, 108262, May 2026.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>CACM '25</strong>: Ang Chen, Sylvia Ratnasamy, Mohammad Alizadeh, Mosharaf Chowdhury, Seth Guikema, Ryan Huang, Suresh Jaganathann, Branko Kerkez, Edward Lee, Steven Low. 
+        "<Link href="https://doi.org/10.1145/3736713">Resilient Infrastructures via Digital Unification</Link>", in <i>Communications of the ACM</i> Online First.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>EMSOFT '25</strong>:  Jian-Jia Chen, Mario G&uuml;nzel, Dakshina Dasari, Matthias Becker, Edward A. Lee, Timothy Bourke. 
+        "<Link href="https://doi.org/10.1145/3742874.3757086">Special Sessions - Predictable Timing Behavior in Distributed Cyber-Physical Systems</Link>", in <i>Proceedings of the International Conference on Embedded Software</i> (EMSOFT) pp 23-32, Oct. 2025.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>TOMCS '25</strong>: Peter Donovan, Erling Jellum, Byeonggil Jun, Hokeun Kim, Lee Edward, Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan. 
         "<Link href="https://doi.org/10.1145/3767727">Zero-Delay Cycles in Distributed Discrete-Event Systems using Lingua Franca</Link>", in <i>ACM Transactions on Modeling and Computer Simulation</i>, To Appear, Accepted on 15 August 2025, DOI: 10.1145/3767727.
       </p>
