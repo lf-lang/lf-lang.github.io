@@ -53,8 +53,13 @@ To add a new publication, add a new entry to `src/components/Publications/copypa
 To build pages that are ordinary HTML pages that can be read directly by a browser rather than served by a server, you can use any of the following commands:
 
 ```
+npm install
+```
+(to install dependencies). Then one of:
+
+```
 npm run build:static:c
-npm run build:static:p
+npm run build:static:py
 npm run build:static:rs
 npm run build:static:cpp
 npm run build:static:ts

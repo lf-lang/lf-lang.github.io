@@ -27,6 +27,24 @@ if (!targetLanguage || !validLanguages.includes(targetLanguage)) {
   process.exit(1);
 }
 
+// Mapping from short codes to full names (for header language selector tabs)
+const languageNameMap = {
+  'c': 'C',
+  'cpp': 'C++',
+  'py': 'Python',
+  'rs': 'Rust',
+  'ts': 'TypeScript'
+};
+
+// Mapping from full names to short codes (for reverse lookup)
+const languageCodeMap = {
+  'C': 'c',
+  'C++': 'cpp',
+  'Python': 'py',
+  'Rust': 'rs',
+  'TypeScript': 'ts'
+};
+
 function setDefaultLanguage(filePath) {
   let content = fs.readFileSync(filePath, 'utf8');
   let modified = false;
@@ -38,8 +56,11 @@ function setDefaultLanguage(filePath) {
   const tabListPattern = /(<ul[^>]*role="tablist"[^>]*class="tabs">)([\s\S]*?)(<\/ul>)/g;
   
   content = content.replace(tabListPattern, (match, openTag, tabContent, closeTag) => {
-    // Check if this is a language selector tab list
-    if (!tabContent.match(/>\s*(c|cpp|py|rs|ts)\s*</i)) {
+    // Check if this is a language selector tab list (either short codes or full names)
+    const hasShortCodes = tabContent.match(/>\s*(c|cpp|py|rs|ts)\s*</i);
+    const hasFullNames = tabContent.match(/>\s*(C|C\+\+|Python|Rust|TypeScript)\s*</);
+    
+    if (!hasShortCodes && !hasFullNames) {
       return match; // Not a language tab list
     }
     
@@ -49,9 +70,18 @@ function setDefaultLanguage(filePath) {
     let tabMatch;
     
     while ((tabMatch = tabItemPattern.exec(tabContent)) !== null) {
+      const label = tabMatch[1].trim();
+      // Normalize: convert to lowercase short code
+      let normalizedValue = label.toLowerCase();
+      // If it's a full name, convert to short code
+      if (languageCodeMap[label]) {
+        normalizedValue = languageCodeMap[label];
+      }
+      
       tabs.push({
         full: tabMatch[0],
-        value: tabMatch[1].trim().toLowerCase()
+        value: normalizedValue,
+        originalLabel: label
       });
     }
     
@@ -105,19 +135,59 @@ function setDefaultLanguage(filePath) {
     }
     
     // Extract all tabpanels
-    const tabpanelPattern = /<div([^>]*role="tabpanel"[^>]*)>([\s\S]*?)<\/div>/g;
+    // We need to match the entire tabpanel including nested content
+    // Strategy: find opening tag, then match until we find the matching closing tag
     const panels = [];
-    let panelMatch;
+    let searchStart = 0;
     
-    while ((panelMatch = tabpanelPattern.exec(panelsContent)) !== null) {
-      const attrs = panelMatch[1];
-      const content = panelMatch[2];
+    while (true) {
+      // Find the next tabpanel opening tag
+      const openTagMatch = panelsContent.substring(searchStart).match(/<div([^>]*role="tabpanel"[^>]*)>/i);
+      if (!openTagMatch) break;
+      
+      const openTagStart = searchStart + openTagMatch.index;
+      const openTagEnd = openTagStart + openTagMatch[0].length;
+      const attrs = openTagMatch[1];
+      
+      // Now find the matching closing tag by tracking nested divs
+      let depth = 1;
+      let pos = openTagEnd;
+      let closeTagPos = -1;
+      
+      while (pos < panelsContent.length && depth > 0) {
+        const nextOpen = panelsContent.indexOf('<div', pos);
+        const nextClose = panelsContent.indexOf('</div>', pos);
+        
+        if (nextClose === -1) break; // No more closing tags
+        
+        if (nextOpen !== -1 && nextOpen < nextClose) {
+          // Found an opening tag before the closing tag - increase depth
+          depth++;
+          pos = nextOpen + 4;
+        } else {
+          // Found a closing tag
+          depth--;
+          if (depth === 0) {
+            closeTagPos = nextClose;
+            break;
+          }
+          pos = nextClose + 6;
+        }
+      }
+      
+      if (closeTagPos === -1) break; // Couldn't find matching closing tag
+      
+      const fullMatch = panelsContent.substring(openTagStart, closeTagPos + 6);
+      const content = panelsContent.substring(openTagEnd, closeTagPos);
+      
       panels.push({
-        full: panelMatch[0],
+        full: fullMatch,
         attrs: attrs,
         content: content,
         detectedLang: null
       });
+      
+      searchStart = closeTagPos + 6;
     }
     
     if (panels.length === 0) return match;
@@ -157,15 +227,54 @@ function setDefaultLanguage(filePath) {
       let panelHtml = panel.full;
       
       if (isActive) {
-        // Remove hidden attribute and clean up any malformed attributes
-        panelHtml = panelHtml.replace(/\s*hidden\s*/g, ' ')
-                             .replace(/\s*=\s*""\s*/g, ' ')
-                             .replace(/\s+/g, ' ')
-                             .trim();
+        // Remove hidden attribute and style="display: none" from the opening tag only
+        // Use a more precise approach: find the opening tag position and modify only that part
+        const openTagMatch = panelHtml.match(/<div([^>]*role="tabpanel"[^>]*)>/i);
+        if (openTagMatch) {
+          const openTagStart = openTagMatch.index;
+          const openTagEnd = openTagStart + openTagMatch[0].length;
+          let attrs = openTagMatch[1];
+          
+          // Clean up only the attributes - remove hidden, style="display: none", and malformed attributes
+          attrs = attrs.replace(/\s*hidden\s*/g, ' ')
+                      .replace(/\s*style\s*=\s*["']display\s*:\s*none["']\s*/gi, ' ')
+                      .replace(/\s*=\s*""\s*/g, ' ')
+                      .replace(/[ \t]+/g, ' ')
+                      .trim();
+          
+          // Ensure there's a space before attributes if attrs is not empty
+          const attrsStr = attrs ? ' ' + attrs : '';
+          
+          // Reconstruct: opening tag (modified) + rest of content (unchanged)
+          panelHtml = panelHtml.substring(0, openTagStart) + 
+                     `<div${attrsStr}>` + 
+                     panelHtml.substring(openTagEnd);
+        }
       } else {
-        // Add hidden attribute if not present
-        if (!panelHtml.includes('hidden')) {
-          panelHtml = panelHtml.replace(/<div([^>]*role="tabpanel")/i, '<div$1 hidden');
+        // Add style="display: none" to hide inactive tabpanels (more reliable than hidden attribute)
+        const openTagMatch = panelHtml.match(/<div([^>]*role="tabpanel"[^>]*)>/i);
+        if (openTagMatch) {
+          const openTagStart = openTagMatch.index;
+          const openTagEnd = openTagStart + openTagMatch[0].length;
+          let attrs = openTagMatch[1];
+          
+          // Check if already has display: none
+          if (!attrs.match(/style\s*=\s*["'][^"']*display\s*:\s*none/i)) {
+            // Clean up attributes first
+            attrs = attrs.replace(/\s*hidden\s*/g, ' ')
+                        .replace(/\s*=\s*""\s*/g, ' ')
+                        .replace(/[ \t]+/g, ' ')
+                        .trim();
+            
+            // Add style="display: none" with proper spacing
+            const styleAttr = 'style="display: none"';
+            const attrsStr = attrs ? attrs + ' ' + styleAttr : styleAttr;
+            
+            // Reconstruct with style="display: none"
+            panelHtml = panelHtml.substring(0, openTagStart) + 
+                       `<div ${attrsStr}>` + 
+                       panelHtml.substring(openTagEnd);
+          }
         }
       }
       
@@ -202,13 +311,7 @@ function processDirectory(dir) {
   return fixedCount;
 }
 
-const languageName = {
-  'c': 'C',
-  'cpp': 'C++',
-  'py': 'Python',
-  'rs': 'Rust',
-  'ts': 'TypeScript'
-}[targetLanguage];
+const languageName = languageNameMap[targetLanguage];
 
 console.log(`Setting default language to ${languageName} (${targetLanguage}) in HTML files...`);
 const fixedCount = processDirectory(buildDir);
