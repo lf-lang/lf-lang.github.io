@@ -125,14 +125,61 @@ function setDefaultLanguage(filePath) {
   
   // Step 2: Find and reorder tabpanels to match the new tab order
   // Look for the tabpanel container that follows the tab list
-  const tabpanelContainerPattern = /<div class="margin-top--md">([\s\S]*?)<\/div>\s*<\/div>/g;
+  // We need to match the entire margin-top--md div by tracking nested divs
+  // Use a while loop instead of replace to avoid issues with modifying content during iteration
+  const tabpanelContainerPattern = /<div class="margin-top--md">/g;
+  let lastIndex = 0;
+  const replacements = [];
   
-  content = content.replace(tabpanelContainerPattern, (match, panelsContent) => {
+  while (true) {
+    const match = tabpanelContainerPattern.exec(content);
+    if (!match) break;
+    
+    const offset = match.index;
+    
     // Check if this follows a language tab list (look backwards in content)
-    const beforeMatch = content.substring(0, content.indexOf(match));
-    if (!beforeMatch.match(/tabs__item[^>]*>\s*(c|cpp|py|rs|ts)\s*</i)) {
-      return match; // Not a language tabpanel container
+    const beforeMatch = content.substring(0, offset);
+    if (!beforeMatch.match(/tabs__item[^>]*>\s*(c|cpp|py|rs|ts|C|C\+\+|Python|Rust|TypeScript)\s*</i)) {
+      continue; // Not a language tabpanel container
     }
+    
+    // Find the matching closing tag for this margin-top--md div by tracking depth
+    let depth = 1;
+    let pos = offset + match[0].length;
+    let closeTagPos = -1;
+    
+    while (pos < content.length && depth > 0) {
+      const nextOpen = content.indexOf('<div', pos);
+      const nextClose = content.indexOf('</div>', pos);
+      
+      if (nextClose === -1) break; // No more closing tags
+      
+      if (nextOpen !== -1 && nextOpen < nextClose) {
+        // Found an opening tag before the closing tag - increase depth
+        depth++;
+        pos = nextOpen + 4;
+      } else {
+        // Found a closing tag
+        depth--;
+        if (depth === 0) {
+          closeTagPos = nextClose;
+          break;
+        }
+        pos = nextClose + 6;
+      }
+    }
+    
+    if (closeTagPos === -1) continue; // Couldn't find matching closing tag
+    
+    // Extract the panelsContent (everything between the opening and closing tags)
+    const panelsContent = content.substring(offset + match[0].length, closeTagPos);
+    const fullMatch = content.substring(offset, closeTagPos + 6);
+    
+    replacements.push({ offset, fullMatch, panelsContent, closeTagPos });
+  }
+  
+  // Process replacements in reverse order to maintain correct offsets
+  replacements.reverse().forEach(({ offset, fullMatch, panelsContent, closeTagPos }) => {
     
     // Extract all tabpanels
     // We need to match the entire tabpanel including nested content
@@ -190,7 +237,10 @@ function setDefaultLanguage(filePath) {
       searchStart = closeTagPos + 6;
     }
     
-    if (panels.length === 0) return match;
+    if (panels.length === 0) {
+      // No panels found, don't modify this container
+      return;
+    }
     
     // Language detection patterns
     const languagePatterns = {
@@ -214,7 +264,10 @@ function setDefaultLanguage(filePath) {
     
     // Find target language panel
     const targetPanel = panels.find(p => p.detectedLang === targetLanguage);
-    if (!targetPanel) return match;
+    if (!targetPanel) {
+      // No target panel found, don't modify this container
+      return;
+    }
     
     // Reorder: target language first, then others
     const otherPanels = panels.filter(p => p.detectedLang !== targetLanguage);
@@ -282,7 +335,8 @@ function setDefaultLanguage(filePath) {
     });
     
     modified = true;
-    return `<div class="margin-top--md">${newPanelsContent}</div></div>`;
+    const replacement = `<div class="margin-top--md">${newPanelsContent}</div>`;
+    content = content.substring(0, offset) + replacement + content.substring(closeTagPos + 6);
   });
 
   if (modified) {
