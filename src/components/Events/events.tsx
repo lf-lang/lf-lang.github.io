@@ -17,7 +17,6 @@ export const events: Event[] = [
   {
     title: "Lingua Franca Tutorial at CPS-IoT Week 2026",
     date: "2026-05-11",
-    endDate: "2026-05-14",
     location: "Saint Malo, France (CPS-IoT Week 2026)",
     description:
       "Half-day hands-on tutorial on Lingua Franca, an open-source coordination language for building deterministic, concurrent, and time-sensitive cyber-physical systems. Includes technical overview, CPS demos, and programming sessions with C and Python.",
