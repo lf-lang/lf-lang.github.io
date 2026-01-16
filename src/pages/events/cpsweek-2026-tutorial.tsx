@@ -121,7 +121,7 @@ export default function CPSWeek2026Tutorial() {
             of Cyber-Physical Systems
           </p>
           <div className={styles.eventMeta}>
-            <span>📅 May 11-14, 2026</span>
+            <span>📅 May 11, 2026</span>
             <span>📍 Saint Malo, France</span>
             <span>
               🎯 Co-located with{" "}
