@@ -90,9 +90,9 @@ The Google Trace Viewer is the only viewer currently supported. Since it reads J
 
 <ShowIf c py>
 
-## Tracing in C and Python
+## Default Tracing in C and Python
 
-The C and Python tracing mechanism depends only on the availability of the `pthread` library. Like C++ tracing, tracing is enabled by a target parameter:
+The default C and Python tracing mechanism depends only on the availability of the `pthread` library. Like C++ tracing, tracing is enabled by a target parameter:
 
 ```lf-c
 target C {
@@ -235,6 +235,14 @@ A more interesting part of the trace is shown here:
 ![Feedback trace](./../assets/images/tracing/Messages.png)
 
 This shows `f1` (on the right) advancing time to 10 ms, and sending a message (in red, via the RTI) to `f2`, which then forwards it to `f3` (again, via the RTI).
+
+## Live Tracing in C via the Xronos Dashboard
+
+In addition to the default file-based tracing described above, you can use the [lf-trace-xronos](https://github.com/lf-lang/lf-trace-xronos) plugin to stream live traces to the Xronos Dashboard using OpenTelemetry. This plugin provides real-time visualization of trace data without the need for post-processing.
+
+To use the plugin, you need to build and install it, then configure your LF program to use it via the [`trace-plugin`](../reference/target-declaration.mdx#trace-plugin) target property. Refer to the [lf-trace-xronos repository](https://github.com/lf-lang/lf-trace-xronos) for detailed build instructions and usage examples.
+
+![LF Trace via Xronos Dashboard](./../assets/images/tracing/LFTraceXronos.png)
 
 </ShowIf>
 </ShowIfs>
