@@ -25,7 +25,7 @@ export default function ReCPS2026() {
             Coordination
           </p>
           <div className={styles.eventMeta}>
-            <span>📅 April 20-22, 2026</span>
+            <span>📅 April 20, 2026</span>
             <span>📍 Verona, Italy</span>
             <span>
               🎯 Co-located with{" "}
@@ -207,7 +207,7 @@ export default function ReCPS2026() {
                       <strong>March 2, 2026:</strong> Notification of acceptance
                     </li>
                     <li>
-                      <strong>April 20-22, 2026:</strong> Workshop at DATE 2026,
+                      <strong>[Tentative] Afternoon of April 20, 2026:</strong> Workshop at DATE 2026,
                       Verona, Italy
                     </li>
                   </ul>
