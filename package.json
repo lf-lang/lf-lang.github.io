@@ -6,6 +6,11 @@
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
     "build": "docusaurus build",
+    "build:static:c": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js c",
+    "build:static:cpp": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js cpp",
+    "build:static:py": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js py",
+    "build:static:rs": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js rs",
+    "build:static:ts": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js ts",
     "swizzle": "docusaurus swizzle",
     "deploy": "docusaurus deploy",
     "clear": "docusaurus clear",
@@ -57,6 +62,20 @@
   },
   "engines": {
     "node": ">=18.0"
+  },
+  "resolutions": {
+    "node-forge": "^1.3.2",
+    "on-headers": "^1.1.0",
+    "tar-fs": "^3.1.1",
+    "js-yaml": "^3.14.2",
+    "brace-expansion": "^1.1.12",
+    "cross-spawn": "^7.0.5",
+    "image-size": "^1.2.1",
+    "prismjs": "^1.30.0",
+    "mdast-util-to-hast": "^13.2.1",
+    "@eslint/plugin-kit": "^0.3.4",
+    "estree-util-value-to-estree": "^3.3.3",
+    "qs": "^6.14.1"
   },
   "description": "Docusaurus example project (classic-typescript template)"
 }

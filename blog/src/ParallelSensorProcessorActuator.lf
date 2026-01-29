@@ -1,0 +1,21 @@
+target C {
+  timeout: 1 s,
+  scheduler: GEDF_NP
+}
+
+import Sensor, Processor, Actuator from "SensorProcessorActuator.lf"
+
+main reactor {
+  s = new Sensor()
+  @label("exec = 60 ms")
+  p1 = new Processor(exec = 60 ms)
+  a1 = new Actuator()
+  s.out -> p1.inp
+  p1.out -> a1.inp
+
+  @label("exec = 10 ms")
+  p2 = new Processor(exec = 10 ms)
+  a2 = new Actuator(limit = 50 ms)
+  s.out -> p2.inp
+  p2.out -> a2.inp
+}

@@ -4,25 +4,10 @@ import Translate, { translate } from "@docusaurus/Translate";
 
 export const active = [
   {
-    name: "Peter Donovan",
-    avatar: "https://avatars.githubusercontent.com/u/33707478?v=4",
-    blurb: <Translate>Student Assistant at UC Berkeley.</Translate>,
-  },
-  {
-    name: "Clément Fournier",
-    avatar: "https://avatars.githubusercontent.com/u/24524930?v=4",
-    blurb: <Translate>PhD student at TU Dresden.</Translate>,
-  },
-  {
-    name: "Erling Rennemo Jellum",
-    personalSiteUrl: "https://erlingrj.github.io",
-    avatar:
-      "https://backends.it.ntnu.no/user-profile-service/rest/files/139f11cf-c2bb-365e-bbbb-559165b9cb31",
-    blurb: (
-      <Translate>
-        PhD Candidate at Norwegian University of Science and Technology.
-      </Translate>
-    ),
+    name: "Chadlia Jerad",
+    personalSiteUrl: "https://chadliajerad.github.io",
+    avatar: "https://avatars.githubusercontent.com/u/37504116?v=4",
+    blurb: <Translate>Associate Professor, University of Manouba, Tunisia.</Translate>,
   },
   {
     name: "Byeonggil Jun",
@@ -52,29 +37,34 @@ export const active = [
     ),
   },
   {
+    name: "Shulu Li",
+    personalSiteUrl: "https://openreview.net/profile?id=~Shulu_Li1",
+    avatar: "https://avatars.githubusercontent.com/u/65802727?v=4",
+    blurb: <Translate>Graduate Student at UC Berkeley.</Translate>,
+  },
+  {
     name: "Shaokai Lin",
     personalSiteUrl: "https://shaokai.io",
     avatar: "https://avatars.githubusercontent.com/u/7968955?v=4",
     blurb: <Translate>Graduate Student at UC Berkeley.</Translate>,
   },
   {
-    name: "Marten Lohstroh",
-    personalSiteUrl: "http://people.eecs.berkeley.edu/~marten/",
-    avatar: "https://avatars.githubusercontent.com/u/19938940?v=4",
-    blurb: <Translate>Assistant Researcher at UC Berkeley.</Translate>,
-  },
-
-  {
-    name: "Christian Menard",
-    personalSiteUrl:
-      "https://cfaed.tu-dresden.de/investigators-institutions/compiler-construction/ccc-staff/christian-menard",
-    avatar: "https://avatars.githubusercontent.com/u/6460123?v=4",
-    blurb: <Translate>Graduate Student at TU Dresden.</Translate>,
+    name: "Magnus Maehlum",
+    personalSiteUrl: "https://dl.acm.org/profile/99661682258",
+    avatar: "https://avatars.githubusercontent.com/u/42750865?v=4",
+    blurb: <Translate>Student, Norwegian University of Science and Technology.</Translate>,
   },
   {
-    name: "Alexander Schulz-Rosengarten",
-    avatar: "https://avatars.githubusercontent.com/u/25612037?v=4",
-    blurb: <Translate>Postdoc at Kiel University.</Translate>,
+    name: "Francesco Paladino",
+    personalSiteUrl: "https://dblp.org/pid/347/8232.html",
+    avatar: "https://avatars.githubusercontent.com/u/47446988?v=4",
+    blurb: <Translate>Postdoc at UC Berkeley.</Translate>,
+  },
+  {
+    name: "Lasse Rosenow",
+    personalSiteUrl: "https://inet.haw-hamburg.de/members/lasse-rosenow",
+    avatar: "https://avatars.githubusercontent.com/u/10547444?v=4",
+    blurb: <Translate>Student, HAW Hamburg.</Translate>,
   },
   {
     name: "Tassilo Tanneberger",
@@ -88,6 +78,9 @@ export const active = [
     personalSiteUrl: "https://tanneberger.me",
     githubUrl: "https://github.com/tanneberger",
   },
+];
+
+export const past = [
   {
     name: "axmmisaka",
     avatar:
@@ -101,9 +94,6 @@ export const active = [
     personalSiteUrl: "https://ocf.io/rmxu",
     githubUrl: "https://github.com/axmmisaka",
   },
-];
-
-export const past = [
   {
     name: "Soroush Bateni",
     personalSiteUrl: "https://personal.utdallas.edu/~soroush/",
@@ -116,6 +106,41 @@ export const past = [
     blurb: <Translate>Applied Math and CS student at UC Berkeley.</Translate>,
   },
   {
+    name: "Peter Donovan",
+    avatar: "https://avatars.githubusercontent.com/u/33707478?v=4",
+    blurb: <Translate>Student Assistant at UC Berkeley.</Translate>,
+  },
+  {
+    name: "Clément Fournier",
+    avatar: "https://avatars.githubusercontent.com/u/24524930?v=4",
+    blurb: <Translate>PhD student at TU Dresden.</Translate>,
+  },
+  {
+    name: "Johannes Hayeß",
+    avatar: "https://avatars.githubusercontent.com/u/7195008?v=4",
+    blurb: <Translate>Master's Student at TU Dresden.</Translate>,
+  },
+  {
+    name: "Erling Rennemo Jellum",
+    personalSiteUrl: "https://erlingrj.github.io",
+    avatar:
+      "https://backends.it.ntnu.no/user-profile-service/rest/files/139f11cf-c2bb-365e-bbbb-559165b9cb31",
+    blurb: <Translate>Senior Embedded R&D Engineer, reMarkable.</Translate>,
+  },
+  {
+    name: "Marten Lohstroh",
+    personalSiteUrl: "https://www.xronos.com/#team",
+    avatar: "https://avatars.githubusercontent.com/u/19938940?v=4",
+    blurb: <Translate>CEO, Xronos Inc.</Translate>,
+  },
+  {
+    name: "Christian Menard",
+    personalSiteUrl:
+      "https://www.xronos.com/#team",
+    avatar: "https://avatars.githubusercontent.com/u/6460123?v=4",
+    blurb: <Translate>Principal Architect, Xronos Inc.</Translate>,
+  },
+  {
     name: "Anirudh Rengarajan",
     avatar: "https://avatars.githubusercontent.com/u/44007330?v=4",
     blurb: <Translate>Software Engineer at Bloomberg.</Translate>,
@@ -126,6 +151,11 @@ export const past = [
     blurb: <Translate>Professor at TU Denmark.</Translate>,
   },
   {
+    name: "Alexander Schulz-Rosengarten",
+    avatar: "https://avatars.githubusercontent.com/u/25612037?v=4",
+    blurb: <Translate>Postdoc at Kiel University.</Translate>,
+  },
+  {
     name: "Matt Weber",
     avatar: "https://avatars.githubusercontent.com/u/3513451?v=4",
     blurb: <Translate>Software Engineer at Anyscale.</Translate>,
@@ -134,10 +164,5 @@ export const past = [
     name: "Hou Seng (Steven) Wong",
     avatar: "https://avatars.githubusercontent.com/u/46389172?v=4",
     blurb: <Translate>Software Development Engineer at Amazon AWS.</Translate>,
-  },
-  {
-    name: "Johannes Hayeß",
-    avatar: "https://avatars.githubusercontent.com/u/7195008?v=4",
-    blurb: <Translate>Master's Student at TU Dresden.</Translate>,
   },
 ];

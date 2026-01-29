@@ -48,3 +48,21 @@ git merge v<major>.<minor>.<patch>
 
 ### Adding Publications
 To add a new publication, add a new entry to `src/components/Publications/copypasta.tsx` file and to the `src/components/Publications/citations.bib` file.
+
+## Building Static Pages
+To build pages that are ordinary HTML pages that can be read directly by a browser rather than served by a server, you can use any of the following commands:
+
+```
+npm install
+```
+(to install dependencies). Then one of:
+
+```
+npm run build:static:c
+npm run build:static:py
+npm run build:static:rs
+npm run build:static:cpp
+npm run build:static:ts
+```
+The static pages end up in a `build` directory with subdirectories `docs/next` for the nightly build version and `docs/0.*.*` for archived version docs.
+

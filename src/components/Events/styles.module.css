@@ -1,0 +1,136 @@
+/**
+ * Events page styles
+ */
+
+.eventCard {
+  border-left: 4px solid var(--ifm-color-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.eventCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+[data-theme="dark"] .eventCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.eventType {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.conference {
+  background-color: #e3f2fd;
+  color: #1565c0;
+}
+
+[data-theme="dark"] .conference {
+  background-color: #1565c0;
+  color: #e3f2fd;
+}
+
+.workshop {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+
+[data-theme="dark"] .workshop {
+  background-color: #7b1fa2;
+  color: #f3e5f5;
+}
+
+.meetup {
+  background-color: #e8f5e9;
+  color: #2e7d32;
+}
+
+[data-theme="dark"] .meetup {
+  background-color: #2e7d32;
+  color: #e8f5e9;
+}
+
+.webinar {
+  background-color: #fff3e0;
+  color: #ef6c00;
+}
+
+[data-theme="dark"] .webinar {
+  background-color: #ef6c00;
+  color: #fff3e0;
+}
+
+.hackathon {
+  background-color: #fce4ec;
+  color: #c2185b;
+}
+
+[data-theme="dark"] .hackathon {
+  background-color: #c2185b;
+  color: #fce4ec;
+}
+
+.tutorial {
+  background-color: #e0f7fa;
+  color: #00838f;
+}
+
+[data-theme="dark"] .tutorial {
+  background-color: #00838f;
+  color: #e0f7fa;
+}
+
+.eventMeta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--ifm-color-emphasis-700);
+}
+
+.eventMeta svg {
+  margin-right: 4px;
+  vertical-align: middle;
+}
+
+.emptyState {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--ifm-color-emphasis-600);
+}
+
+.emptyState svg {
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.heroSection {
+  background: linear-gradient(135deg, var(--ifm-color-primary-darker) 0%, var(--ifm-color-primary) 100%);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+}
+
+[data-theme="dark"] .heroSection {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.heroTitle {
+  color: white;
+  margin-bottom: 16px;
+}
+
+.heroSubtitle {
+  opacity: 0.9;
+  max-width: 600px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+}
+

@@ -24,6 +24,9 @@ const config: Config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'throw',
 
+  // Generate URLs with trailing slashes (directories) for better file:// protocol support
+  trailingSlash: true,
+
   // Even if you don't use internationalization, you can use this field to set
   // useful metadata like html lang. For example, if your site is Chinese, you
   // may want to replace "en" with "zh-Hans".
@@ -84,6 +87,7 @@ const config: Config = {
         {to: '/blog', label: 'Blog', position: 'left'},
         {to: '/research', label: 'Research', position: 'left'},
         {to: '/community', label: 'Community', position: 'left'},
+        {to: '/events', label: 'Events', position: 'left'},
         {
           type: 'docsVersionDropdown',
           position: 'right',
@@ -109,10 +113,10 @@ const config: Config = {
               label: 'Zulip',
               href: 'https://zulip.lf-lang.org',
             },
-            {
-              label: 'Reddit',
-              href: 'https://reddit.com/r/thelflang',
-            },
+            // {
+            //   label: 'Reddit',
+            //   href: 'https://reddit.com/r/thelflang',
+            // },
           ],
         },
         {

@@ -30,6 +30,7 @@ A target specification may have optional parameters, the names and values of whi
 - [**build-type**](#build-type): One of Debug (the default), Release, RelWithDebInfo and MinSizeRel.
 - [**cargo-dependencies**](#cargo-dependencies): (Rust only) list of dependencies to include in the generated Cargo.toml file.
 - [**cargo-features**](#cargo-features): (Rust only) List of string names of features to include.
+- [**cmake-args**](#cmake-args): (C only) A dictionary of CMake variable definitions to pass to the build.
 - [**cmake-include**](#cmake-include): List of paths to cmake files to guide compilation.
 - [**compiler**](#compiler): A string giving the name of the target language compiler to use.
 - [**docker**](#docker): A boolean to generate a Dockerfile.
@@ -45,9 +46,10 @@ A target specification may have optional parameters, the names and values of whi
 - [**runtime-version**](#runtime-version): Specify which version of the runtime system to use.
 - [**rust-include**](#rust-include): (Rust only) A set of Rust modules in the generated project.
 - [**scheduler**](#scheduler): (C only) Specification of the scheduler to use.
-- [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](target-language-details/?target-languages=rs#file-layout).
+- [**single-file-project**](#single-file-project): (Rust only) If true, enables [single-file project layout](../target-language-details/?target-languages=rs#file-layout).
 - [**single-threaded**](#single-threaded): Specify to not use multithreading.
 - [**timeout**](#timeout): A time value (with units) specifying the logical stop time of execution. See [Termination](../writing-reactors/termination.mdx).
+- [**trace-plugin**](#trace-plugin): (C only) Specification of an external trace plugin to use with tracing.
 - [**workers**](#workers): If using multiple threads, how many worker threads to create.
 
 Not all targets support all target parameters. The full set of target parameters supported by the target is:
@@ -58,6 +60,7 @@ c={
     auth: <true or false>
     build: <string>,
     build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
+    cmake-args: <object of key-value pairs>,
     cmake-include: <string or list of strings>,
     compiler: <string>,
     compiler-flags: <string or list of strings>,
@@ -69,9 +72,10 @@ c={
     protobufs: <string or list of strings>,
     single-threaded: <true or false>,
     timeout: <time>,
+    trace-plugin: <object with package, library, and optional path>,
     workers: <non-negative integer>,
 };`
-} 
+}
 cpp={
 `target Cpp {
     build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
@@ -274,6 +278,25 @@ This is a list of features of the generated crate. Supported are:
 
 </ShowIf>
 </ShowIfs>
+
+<ShowOnly c>
+
+## cmake-args
+
+The `cmake-args` target property allows you to pass arbitrary CMake variable definitions to the build. This is useful for advanced configuration scenarios, such as specifying custom paths or enabling specific features in external libraries.
+
+```lf-c
+target C {
+    cmake-args: {
+        MY_VARIABLE: "value",
+        ANOTHER_VARIABLE: "/path/to/something",
+    },
+}
+```
+
+Each key-value pair in the `cmake-args` object becomes a `-D<key>=<value>` argument passed to CMake during the build configuration. This is particularly useful when integrating with external trace plugins or other libraries that require custom CMake configuration.
+
+</ShowOnly>
 
 <ShowOnly c cpp>
 
@@ -597,6 +620,56 @@ If the target property `single-threaded` is set to `true`, the project will be c
 ## timeout
 
 A time value (with units) specifying the logical stop time of execution. See [Termination](../writing-reactors/termination.mdx).
+
+## trace-plugin
+
+<ShowIfs>
+<ShowIf cpp py ts rs>
+This target does not support the `trace-plugin` target option.
+</ShowIf>
+<ShowIf c>
+
+The `trace-plugin` target property specifies an external trace plugin to use when [tracing](../reference/tracing.mdx) is enabled. This allows you to use alternative tracing implementations, such as the [lf-trace-xronos](https://github.com/lf-lang/lf-trace-xronos) plugin that streams data to the Xronos Dashboard using OpenTelemetry.
+
+The property accepts an object with the following fields:
+
+- `package`: The CMake package name (required). Used in CMake's `find_package()` call.
+- `library`: The CMake library name to link (required). Used in `target_link_libraries()`.
+- `path`: An optional relative or absolute path to the directory containing the CMake package. If omitted, the system path will be searched.
+
+### Basic Usage (System-installed Plugin)
+
+If the trace plugin is installed to the system prefix:
+
+```lf-c
+target C {
+    tracing: true,
+    trace-plugin: {
+        package: "lf-trace-xronos",
+        library: "lf::trace-impl",
+    },
+}
+```
+
+### Usage with Custom Path
+
+If the trace plugin is installed to a user-chosen prefix:
+
+```lf-c
+target C {
+    tracing: true,
+    trace-plugin: {
+        package: "lf-trace-xronos",
+        library: "lf::trace-impl",
+        path: "../../install/", // Relative to this LF file's location
+    },
+}
+```
+
+See [tracing](../reference/tracing.mdx) for more information on using trace plugins.
+
+</ShowIf>
+</ShowIfs>
 
 ## workers
 

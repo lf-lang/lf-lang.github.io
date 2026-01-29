@@ -44,6 +44,11 @@ export const ShikiLFHighlighter = ({
   if (isBrowser) {
     return <div dangerouslySetInnerHTML={{ __html: code }} />;
   } else {
-    return <div>{children}</div>;
+    // For static builds, render as a proper code block even without syntax highlighting
+    return (
+      <pre className="shiki">
+        <code>{children}</code>
+      </pre>
+    );
   }
 };
