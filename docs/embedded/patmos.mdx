@@ -11,7 +11,7 @@ execution time (WCET) for reactions.
 - Linux or macOS development system. (use WSL on Windows)
 - DE2-115 Development Kit, which is equipped with Altera Cyclone IV FPGA (optional)
 ### Getting Started
-To know how to install the toolchain for building Patmos, read the Patmos project's readme at https://github.com/t-crest/patmos or study the sixth chapter of its handbook available here: [Patmos Reference Handbook](http://patmos.compute.dtu.dk/patmos_handbook.pdf)
+To know how to install the toolchain for building Patmos, read the Patmos project's readme at https://github.com/t-crest/patmos or study the sixth chapter of its handbook available here: [Patmos Reference Handbook](http://patmos.compute.dtu.dk/patmos_handbook.pdf). Remember that due to limitations when compiling LF programs for Patmos, you should pass `toolchain1` as an argument to the build command, as in `./misc/build.sh -q toolchain1`.
 ### Compiling and Running Lingua Franca codes
 Patmos can run in an FPGA, but there are also two simulators available:
 
