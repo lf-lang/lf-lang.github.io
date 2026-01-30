@@ -4,8 +4,7 @@ title: "Maxwait Patterns"
 authors: [fra-p, depetrol, eal]
 tags: [lingua franca, federation, decentralized, maxwait, absent_after, distributed patterns, consistency]
 ---
-
-Distributed time-sensitive systems must balance **consistency** (agreement on shared information) and **availability** (responding within timing bounds). Lingua Franca's [decentralized coordination](/docs/writing-reactors/distributed-execution#decentralized-coordination) exposes this tradeoff through two attributes: **maxwait** and **absent_after**. This post walks through examples from Paladino, Li, and Lee's "Maxwait: A Generalized Mechanism for Distributed Time-Sensitive Systems," showing that many classical distributed coordination strategies and common patterns—Chandy–Misra with or without null messages, ACID/CRDT-style coordination-free execution, optimistic execution with rollback, logical execution time (LET), publish-subscribe, actors, and RPC with futures—amount to choosing appropriate **maxwait** and **absent_after** values. See the related [LF meeting recording](https://drive.google.com/drive/u/0/folders/1puJdbrsgG0WhaGsOEJVUM_8NgBkeSmwH/view?usp=share_link).
+Distributed time-sensitive systems must balance **consistency** (agreement on shared information) and **availability** (responding within timing bounds). Lingua Franca's [decentralized coordination](/docs/writing-reactors/distributed-execution#decentralized-coordination) exposes this tradeoff through two attributes: **maxwait** and **absent_after**. This post walks through examples from Paladino, Li, and Lee's "[Maxwait: A Generalized Mechanism for Distributed Time-Sensitive Systems](https://arxiv.org/pdf/2601.21146)," showing that many classical distributed coordination strategies and common patterns—Chandy–Misra with or without null messages, ACID/CRDT-style coordination-free execution, optimistic execution with rollback, logical execution time (LET), publish-subscribe, actors, and RPC with futures—amount to choosing appropriate **maxwait** and **absent_after** values. See the related [LF meeting recording](https://drive.google.com/drive/u/0/folders/1puJdbrsgG0WhaGsOEJVUM_8NgBkeSmwH/view?usp=share_link).
 
 {/* truncate */}
 
@@ -13,7 +12,7 @@ Distributed time-sensitive systems must balance **consistency** (agreement on sh
 
 With [decentralized coordination](/docs/writing-reactors/distributed-execution#decentralized-coordination), each federate advances its logical time locally. A federate can advance to tag _g_ = (_t_, _m_) when either:
 
-1. **All inputs are known up to and including** _g_—i.e., every input port has received a message with tag ≥ _g_ (or is disconnected), or  
+1. **All inputs are known up to and including** _g_—i.e., every input port has received a message with tag ≥ _g_ (or is disconnected), or
 2. **The federate's physical clock ≥ _t_ + maxwait**—a timeout expires, and the federate assumes any unresolved ports will not receive messages with timestamp ≤ _t_.
 
 The **maxwait** attribute is put just before the LF statement that instantiates a federate:
@@ -24,6 +23,7 @@ federated reactor {
   d = new ReactorClass()
 }
 ```
+
 If no such attribute appears, the maxwait defaults to zero. The time value specifies how long (in physical time) a federate should wait for inputs to become known before advancing to a logical time. Setting maxwait to `forever` means the federate never advances on timeout; it always waits for all inputs to become known. Setting it to a finite value (e.g. `50 ms`) bounds how long the federate waits before assuming unknown inputs are absent. If the timeout expires and an input is assumed absent at some timestamp _t_, the federate may later receive a message with timestamp ≤ _t_; that message is **tardy** and triggers an [STP (safe-to-process) violation](/docs/writing-reactors/distributed-execution#tardy-message-handling). You can handle tardy messages with a `tardy` handler.
 
 The **absent_after** attribute is put just before a connection between federates:
@@ -35,6 +35,7 @@ federated reactor {
   fed1.out -> fed2.in
 }
 ```
+
 It specifies a timeout such that, after the federate has advanced to tag _t_, if an input on that connection is still unknown when the timeout expires, the runtime **assumes that input absent at tag _t_**. Unlike maxwait (which governs when the federate may advance at all), absent_after lets you delay only those reactions that depend on specific inputs, while still allowing the federate to advance and run other reactions. That is what enables request–response patterns like RPC with futures.
 
 With that in place, we can see how different choices realize different distributed patterns.
@@ -199,15 +200,15 @@ Setting **absent_after** to **`forever`** gives a **futures**-like discipline: w
 
 ## Summary
 
-| Pattern | maxwait | absent_after | Notes |
-|--------|---------|--------------|--------|
-| Chandy–Misra (no null msgs) | `forever` | — | Advance only when all inputs known |
-| Conservative + null messages | `forever` | — | Null msgs signal “nothing up to _t_”; period sets effective wait |
-| ACID / CRDT / CALM | `0` | — | Process as messages arrive; tardy handler as needed |
-| Optimistic / rollback | finite (e.g. 30 ms) | — | Bound wait; accept possible inconsistency / recovery |
-| Sensor fusion (multirate) | dynamic (0 / 50 ms) | — | `lf_set_fed_maxwait` to alternate |
-| LET | `forever` (estimator), `0` (loop) | — | LET enforced by `after`; optional fault detection via timer |
-| Pub-sub / actors | `0` | — | Handle when arrives; timestamps + tardy add structure |
-| RPC / futures | `0` | `100 ms` or `forever` | `absent_after` delays only dependent reactions |
+| Pattern                      | maxwait                               | absent_after              | Notes                                                               |
+| ---------------------------- | ------------------------------------- | ------------------------- | ------------------------------------------------------------------- |
+| Chandy–Misra (no null msgs) | `forever`                           | —                        | Advance only when all inputs known                                  |
+| Conservative + null messages | `forever`                           | —                        | Null msgs signal “nothing up to_t_”; period sets effective wait |
+| ACID / CRDT / CALM           | `0`                                 | —                        | Process as messages arrive; tardy handler as needed                 |
+| Optimistic / rollback        | finite (e.g. 30 ms)                   | —                        | Bound wait; accept possible inconsistency / recovery                |
+| Sensor fusion (multirate)    | dynamic (0 / 50 ms)                   | —                        | `lf_set_fed_maxwait` to alternate                                 |
+| LET                          | `forever` (estimator), `0` (loop) | —                        | LET enforced by `after`; optional fault detection via timer       |
+| Pub-sub / actors             | `0`                                 | —                        | Handle when arrives; timestamps + tardy add structure               |
+| RPC / futures                | `0`                                 | `100 ms` or `forever` | `absent_after` delays only dependent reactions                    |
 
 Decentralized coordination in Lingua Franca, with **maxwait** and **absent_after**, is general enough to capture these patterns. The same mechanism lets you choose consistency vs. availability, add time-bounded fault detection, and mix strategies (e.g. conservative door plus optimistic banking) within one framework. For more detail, see the [distributed execution docs](/docs/writing-reactors/distributed-execution) and [research on Lingua Franca](https://www.lf-lang.org/research).
