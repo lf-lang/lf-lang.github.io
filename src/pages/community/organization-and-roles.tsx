@@ -13,7 +13,7 @@ export default function OrganizationAndRoles(): JSX.Element {
   return (
     <Layout
       title="Organization and Roles"
-      description="How the Lingua Franca OSE project is organized and how work gets done"
+      description="How the Lingua Franca community is organized and how work gets done"
     >
       {/* Hero Section */}
       <div className={styles.heroSection}>
@@ -22,12 +22,8 @@ export default function OrganizationAndRoles(): JSX.Element {
             Organization and Roles
           </Heading>
           <p className={styles.heroSubtitle}>
-            How the Lingua Franca Open-Source Ecosystem (OSE) is organized and
+            How the Lingua Franca community and its open-source ecosystem (OSE) are organized and
             how work gets done.
-          </p>
-          <p className={styles.heroTagline}>
-            Clear · Transparent · Lightweight — with high technical standards
-            and long-term sustainability
           </p>
         </div>
       </div>
