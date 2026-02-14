@@ -1,0 +1,94 @@
+/**
+ * Organization and Roles page styles
+ */
+
+.heroSection {
+  background: linear-gradient(135deg, var(--ifm-color-primary-darker) 0%, var(--ifm-color-primary) 100%);
+  color: white;
+  padding: 60px 0;
+  text-align: center;
+}
+
+[data-theme="dark"] .heroSection {
+  background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+}
+
+.heroTitle {
+  color: white;
+  margin-bottom: 16px;
+}
+
+.heroSubtitle {
+  opacity: 0.95;
+  max-width: 680px;
+  margin: 0 auto 8px;
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+.heroTagline {
+  opacity: 0.9;
+  font-size: 1rem;
+}
+
+.teamCard {
+  border-left: 4px solid var(--ifm-color-primary);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 24px;
+}
+
+.teamCard:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .teamCard:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.sectionCard {
+  background: var(--ifm-background-surface-color);
+  border-radius: 8px;
+  padding: 24px;
+  margin-bottom: 24px;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.reviewQuote {
+  border-left: 4px solid var(--ifm-color-primary);
+  background: var(--ifm-color-emphasis-100);
+  padding: 16px 20px;
+  border-radius: 0 8px 8px 0;
+  font-style: italic;
+  margin: 20px 0;
+}
+
+.guidingPrinciples {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.principleItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 16px;
+  background: var(--ifm-color-emphasis-100);
+  border-radius: 8px;
+  border-left: 3px solid var(--ifm-color-primary);
+}
+
+.principleIcon {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  color: var(--ifm-color-primary);
+}
+
+.footerNote {
+  text-align: center;
+  padding: 24px;
+  font-size: 0.95rem;
+  color: var(--ifm-color-emphasis-600);
+}

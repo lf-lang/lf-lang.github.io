@@ -1,0 +1,269 @@
+import Layout from "@theme/Layout";
+import Heading from "@theme/Heading";
+
+import styles from "./organization.module.css";
+
+const CheckIcon = () => (
+  <svg className={styles.principleIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+    <polyline points="20 6 9 17 4 12" />
+  </svg>
+);
+
+export default function OrganizationAndRoles(): JSX.Element {
+  return (
+    <Layout
+      title="Organization and Roles"
+      description="How the Lingua Franca OSE project is organized and how work gets done"
+    >
+      {/* Hero Section */}
+      <div className={styles.heroSection}>
+        <div className="container">
+          <Heading as="h1" className={styles.heroTitle}>
+            Organization and Roles
+          </Heading>
+          <p className={styles.heroSubtitle}>
+            How the Lingua Franca Open-Source Ecosystem (OSE) is organized and
+            how work gets done.
+          </p>
+          <p className={styles.heroTagline}>
+            Clear · Transparent · Lightweight — with high technical standards
+            and long-term sustainability
+          </p>
+        </div>
+      </div>
+
+      <div className="container padding-vert--lg">
+        {/* Project Structure */}
+        <section className="section">
+          <Heading as="h2" id="project-structure" className="margin-bottom--lg text--center">
+            Project Structure
+          </Heading>
+          <p className="text--center margin-bottom--lg" style={{ maxWidth: "640px", marginLeft: "auto", marginRight: "auto" }}>
+            The LF OSE has two core teams that collaborate closely with project
+            leads:
+          </p>
+          <div className="row" style={{ justifyContent: "center", gap: "24px" }}>
+            <div className="col col--5">
+              <div className="card padding--lg" style={{ textAlign: "center", height: "100%" }}>
+                <strong>Infrastructure &amp; Platform Team</strong>
+                <p className="margin-bottom--none margin-top--sm">
+                  Technical foundation, security, and platform expansion
+                </p>
+              </div>
+            </div>
+            <div className="col col--5">
+              <div className="card padding--lg" style={{ textAlign: "center", height: "100%" }}>
+                <strong>Outreach and Onboarding Team</strong>
+                <p className="margin-bottom--none margin-top--sm">
+                  Ecosystem growth, documentation, and community support
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Infrastructure & Platform Team */}
+        <section className="section sectionAlt">
+          <div className="container">
+            <Heading as="h2" id="infrastructure-platform-team" className="margin-bottom--lg">
+              Infrastructure &amp; Platform Team
+            </Heading>
+
+            <div className={`card ${styles.teamCard}`}>
+              <div className="card__body">
+                <Heading as="h3" className="margin-bottom--sm">
+                  What This Team Does
+                </Heading>
+                <p>This team maintains the technical foundation of Lingua Franca:</p>
+                <ul>
+                  <li>CI/CD systems</li>
+                  <li>Compilation and testing infrastructure</li>
+                  <li>Repository security</li>
+                  <li>Code quality standards</li>
+                  <li>Platform support and expansion</li>
+                  <li>Virtual and simulated hardware environments</li>
+                </ul>
+                <p>
+                  In short, this team keeps LF stable, secure, and evolving
+                  responsibly.
+                </p>
+              </div>
+            </div>
+
+            <div className={`card ${styles.teamCard}`}>
+              <div className="card__body">
+                <Heading as="h3" className="margin-bottom--sm">
+                  Code Review Philosophy
+                </Heading>
+                <p>We value thoughtful and careful reviews. Reviews should:</p>
+                <ul>
+                  <li>Check for correctness</li>
+                  <li>Identify potential security issues</li>
+                  <li>Ensure architectural consistency</li>
+                  <li>Protect long-term maintainability</li>
+                  <li>Confirm documentation and testing</li>
+                </ul>
+                <div className={styles.reviewQuote}>
+                  Reviews should be thorough enough that merging a pull request
+                  does not make anyone nervous.
+                </div>
+                <p>
+                  Trusted members have merge access and exercise careful
+                  technical judgment.
+                </p>
+              </div>
+            </div>
+
+            <div className={`card ${styles.teamCard}`}>
+              <div className="card__body">
+                <Heading as="h3" className="margin-bottom--sm">
+                  Platforms and Hardware
+                </Heading>
+                <p>
+                  The team supports and expands LF across heterogeneous
+                  platforms:
+                </p>
+                <ul>
+                  <li>Automotive · Robotics · IoT</li>
+                  <li>Industrial CPS · Power and energy · Social infrastructure</li>
+                </ul>
+                <p>
+                  We balance expansion with maintainability. Virtual hardware
+                  environments support reproducible testing, education, and
+                  research.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Outreach and Onboarding Team */}
+        <section className="section">
+          <div className="container">
+            <Heading as="h2" id="outreach-onboarding-team" className="margin-bottom--lg">
+              Outreach and Onboarding Team
+            </Heading>
+
+            <div className={`card ${styles.teamCard}`}>
+              <div className="card__body">
+                <Heading as="h3" className="margin-bottom--sm">
+                  What This Team Does
+                </Heading>
+                <p>This team helps grow and support the LF ecosystem:</p>
+                <ul>
+                  <li>Onboarding new contributors</li>
+                  <li>Maintaining documentation</li>
+                  <li>Developing tutorials</li>
+                  <li>Supporting educators</li>
+                  <li>Engaging with industry and research users</li>
+                </ul>
+                <p>
+                  They work closely with the Infrastructure &amp; Platform Team
+                  to keep docs and tutorials aligned with the project.
+                </p>
+              </div>
+            </div>
+
+            <div className={`card ${styles.teamCard}`}>
+              <div className="card__body">
+                <Heading as="h3" className="margin-bottom--sm">
+                  Community Support
+                </Heading>
+                <ul>
+                  <li>Organizes tutorials and Q&amp;A sessions</li>
+                  <li>Supports students and first-time contributors</li>
+                  <li>Engages stakeholders across academia, industry, and public sectors</li>
+                  <li>Helps organize bootcamps and educational activities</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Working Together */}
+        <section className="section sectionAlt">
+          <div className="container">
+            <Heading as="h2" id="working-together" className="margin-bottom--md">
+              Working Together
+            </Heading>
+            <div className={styles.sectionCard}>
+              <ul>
+                <li>Technical decisions are discussed openly.</li>
+                <li>Significant changes are reviewed carefully.</li>
+                <li>Teams coordinate when changes affect both infrastructure and users.</li>
+                <li>Project leads help resolve disagreements when needed.</li>
+              </ul>
+              <p className="margin-bottom--none">
+                We aim for consensus and transparency rather than formal process.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        {/* Code of Conduct & Licensing - Two columns */}
+        <section className="section">
+          <div className="container">
+            <div className="row">
+              <div className="col col--6">
+                <Heading as="h2" id="code-of-conduct" className="margin-bottom--md">
+                  Code of Conduct
+                </Heading>
+                <div className={styles.sectionCard}>
+                  <p>We maintain a respectful and inclusive community.</p>
+                  <p className="margin-bottom--none">
+                    Guidelines apply to contributors, forums, Zulip, workshops,
+                    and events — following best practices from established
+                    open-source communities.
+                  </p>
+                </div>
+              </div>
+              <div className="col col--6">
+                <Heading as="h2" id="licensing" className="margin-bottom--md">
+                  Licensing
+                </Heading>
+                <div className={styles.sectionCard}>
+                  <p>BSD, MIT, GPL, ISC. Core components use BSD for broad adoption, including commercial use. Contributions follow each repository&apos;s license.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Guiding Principles */}
+        <section className="section sectionAlt">
+          <div className="container">
+            <Heading as="h2" id="guiding-principles" className="margin-bottom--md text--center">
+              Guiding Principles
+            </Heading>
+            <div className={styles.guidingPrinciples}>
+              <div className={styles.principleItem}>
+                <CheckIcon />
+                <span>Keep the bar high for technical quality.</span>
+              </div>
+              <div className={styles.principleItem}>
+                <CheckIcon />
+                <span>Keep the process lightweight.</span>
+              </div>
+              <div className={styles.principleItem}>
+                <CheckIcon />
+                <span>Favor transparency over formality.</span>
+              </div>
+              <div className={styles.principleItem}>
+                <CheckIcon />
+                <span>Support research-to-production translation.</span>
+              </div>
+              <div className={styles.principleItem}>
+                <CheckIcon />
+                <span>Build a sustainable, welcoming ecosystem.</span>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <p className={styles.footerNote}>
+          This document will evolve as the project grows.
+        </p>
+      </div>
+    </Layout>
+  );
+}
