@@ -92,3 +92,74 @@
   font-size: 0.95rem;
   color: var(--ifm-color-emphasis-600);
 }
+
+/* Project Structure section - bigger fonts and highlights */
+.projectStructureTitle {
+  font-size: 2rem;
+}
+
+@media (min-width: 768px) {
+  .projectStructureTitle {
+    font-size: 2.25rem;
+  }
+}
+
+.projectStructureIntro {
+  font-size: 1.15rem;
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .projectStructureIntro {
+    font-size: 1.25rem;
+  }
+}
+
+.teamHighlightCard {
+  border: 2px solid var(--ifm-color-primary);
+  background: linear-gradient(135deg, var(--ifm-color-emphasis-100) 0%, var(--ifm-background-surface-color) 100%);
+  text-align: center;
+  height: 100%;
+  padding: 28px 24px;
+  border-radius: 12px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.teamHighlightCard:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+[data-theme="dark"] .teamHighlightCard {
+  background: linear-gradient(135deg, var(--ifm-color-emphasis-200) 0%, var(--ifm-background-surface-color) 100%);
+}
+
+[data-theme="dark"] .teamHighlightCard:hover {
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.teamHighlightName {
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: var(--ifm-color-primary);
+  margin-bottom: 12px;
+  line-height: 1.3;
+}
+
+@media (min-width: 768px) {
+  .teamHighlightName {
+    font-size: 1.5rem;
+  }
+}
+
+.teamHighlightDesc {
+  font-size: 1.05rem;
+  line-height: 1.5;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+  .teamHighlightDesc {
+    font-size: 1.1rem;
+  }
+}

@@ -1,3 +1,5 @@
+import clsx from "clsx";
+
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 
@@ -31,26 +33,34 @@ export default function OrganizationAndRoles(): JSX.Element {
       <div className="container padding-vert--lg">
         {/* Project Structure */}
         <section className="section">
-          <Heading as="h2" id="project-structure" className="margin-bottom--lg text--center">
+          <Heading
+            as="h2"
+            id="project-structure"
+            className={clsx("margin-bottom--lg", "text--center", styles.projectStructureTitle)}
+          >
             Project Structure
           </Heading>
-          <p className="text--center margin-bottom--lg" style={{ maxWidth: "640px", marginLeft: "auto", marginRight: "auto" }}>
+          <p className={clsx("text--center", "margin-bottom--lg", styles.projectStructureIntro)} style={{ maxWidth: "680px", marginLeft: "auto", marginRight: "auto" }}>
             The LF OSE has two core teams that collaborate closely with project
             leads:
           </p>
-          <div className="row" style={{ justifyContent: "center", gap: "24px" }}>
+          <div className="row" style={{ justifyContent: "center", gap: "28px" }}>
             <div className="col col--5">
-              <div className="card padding--lg" style={{ textAlign: "center", height: "100%" }}>
-                <strong>Infrastructure &amp; Platform Team</strong>
-                <p className="margin-bottom--none margin-top--sm">
+              <div className={styles.teamHighlightCard}>
+                <div className={styles.teamHighlightName}>
+                  Infrastructure &amp; Platform Team
+                </div>
+                <p className={styles.teamHighlightDesc}>
                   Technical foundation, security, and platform expansion
                 </p>
               </div>
             </div>
             <div className="col col--5">
-              <div className="card padding--lg" style={{ textAlign: "center", height: "100%" }}>
-                <strong>Outreach and Onboarding Team</strong>
-                <p className="margin-bottom--none margin-top--sm">
+              <div className={styles.teamHighlightCard}>
+                <div className={styles.teamHighlightName}>
+                  Outreach and Onboarding Team
+                </div>
+                <p className={styles.teamHighlightDesc}>
                   Ecosystem growth, documentation, and community support
                 </p>
               </div>
