@@ -11,6 +11,30 @@ const CheckIcon = () => (
   </svg>
 );
 
+const InfrastructureIcon = () => (
+  <svg className={styles.teamIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="8" rx="2" ry="2" />
+    <rect x="2" y="14" width="20" height="8" rx="2" ry="2" />
+    <circle cx="6" cy="6" r="1" fill="currentColor" />
+    <circle cx="10" cy="6" r="1" fill="currentColor" />
+    <circle cx="14" cy="6" r="1" fill="currentColor" />
+    <circle cx="18" cy="6" r="1" fill="currentColor" />
+    <circle cx="6" cy="18" r="1" fill="currentColor" />
+    <circle cx="10" cy="18" r="1" fill="currentColor" />
+    <circle cx="14" cy="18" r="1" fill="currentColor" />
+    <circle cx="18" cy="18" r="1" fill="currentColor" />
+  </svg>
+);
+
+const OutreachIcon = () => (
+  <svg className={styles.teamIcon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+    <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+    <circle cx="9" cy="7" r="4" />
+    <path d="M23 21v-2a4 4 0 0 0-3-3.87" />
+    <path d="M16 3.13a4 4 0 0 1 0 7.75" />
+  </svg>
+);
+
 export default function OrganizationAndRoles(): JSX.Element {
   return (
     <Layout
@@ -47,6 +71,7 @@ export default function OrganizationAndRoles(): JSX.Element {
           <div className="row" style={{ justifyContent: "center", gap: "28px" }}>
             <div className="col col--5">
               <div className={styles.teamHighlightCard}>
+                <InfrastructureIcon />
                 <div className={styles.teamHighlightName}>
                   Infrastructure &amp; Platform Team
                 </div>
@@ -57,6 +82,7 @@ export default function OrganizationAndRoles(): JSX.Element {
             </div>
             <div className="col col--5">
               <div className={styles.teamHighlightCard}>
+                <OutreachIcon />
                 <div className={styles.teamHighlightName}>
                   Outreach and Onboarding Team
                 </div>

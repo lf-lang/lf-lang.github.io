@@ -138,6 +138,16 @@
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
 }
 
+.teamIcon {
+  width: 48px;
+  height: 48px;
+  color: var(--ifm-color-primary);
+  margin-bottom: 16px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .teamHighlightName {
   font-size: 1.35rem;
   font-weight: 700;
