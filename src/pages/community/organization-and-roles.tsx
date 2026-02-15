@@ -254,7 +254,9 @@ export default function OrganizationAndRoles(): JSX.Element {
                   Licensing
                 </Heading>
                 <div className={styles.sectionCard}>
-                  <p>BSD, MIT, GPL, ISC. Core components use BSD for broad adoption, including commercial use. Contributions follow each repository&apos;s license.</p>
+                  <p>BSD-2, BSD-3, MIT, GPL, ISC.
+                    Most core components use BSD for broad adoption, including commercial use.
+                    Contributions follow each repository&apos;s license.</p>
                 </div>
               </div>
             </div>
