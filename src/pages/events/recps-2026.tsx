@@ -107,7 +107,7 @@ export default function ReCPS2026() {
       </div>
 
       {/* Program Committee Section */}
-      <div className="section">
+      <div className="section sectionAlt">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
