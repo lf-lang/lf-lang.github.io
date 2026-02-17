@@ -106,6 +106,41 @@ export default function ReCPS2026() {
         </div>
       </div>
 
+      {/* Program Committee Section */}
+      <div className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                📋 Program Committee
+              </Heading>
+              <div className="card">
+                <div className="card__body">
+                  <ul>
+                    <li>David Broman, KTH Royal Institute of Technology, Sweden</li>
+                    <li>Samarjit Chakraborty, University of North Carolina at Chapel Hill, USA</li>
+                    <li>Enrico Fraccaroli, University of Verona, Italy</li>
+                    <li>Franco Fummi, University of Verona, Italy</li>
+                    <li>Sebastiano Gaiardelli, University of Verona, Italy</li>
+                    <li>Alain Girault, INRIA – Grenoble, France</li>
+                    <li>Christoph Grimm, TU Kaiserslautern, Germany</li>
+                    <li>Chadlia Jerad, University of Tunis El Manar, Tunisia</li>
+                    <li>Hokeun Kim, Arizona State University, USA</li>
+                    <li>Edward A. Lee, UC Berkeley, USA</li>
+                    <li>Shaokai Lin, UC Berkeley, USA</li>
+                    <li>Frank Oppenheimer, OFFIS, Germany</li>
+                    <li>Francesco Paladino, UC Berkeley, USA</li>
+                    <li>Graziano Pravadelli, University of Verona, Italy</li>
+                    <li>Martin Schoeberl, Technical University of Denmark, Denmark</li>
+                    <li>Sara Vinco, Politecnico di Torino, Italy</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Call for Papers Section */}
       <div className="section">
         <div className="container">
