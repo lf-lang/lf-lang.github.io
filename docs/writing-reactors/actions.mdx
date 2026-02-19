@@ -25,7 +25,7 @@ If only one argument is given in parentheses, then it is interpreted as a `min_d
 if two are given, then they are interpreted as `min_delay` and `min_spacing`.
 The `min_delay` and `min_spacing` are time values.
 The `policy` argument is a string that can be one of the following:
-`"defer"` (the default), `"drop"`, or `"replace"`. Note that the quotation marks are needed.
+`"defer"` (the default), `"drop"`, `"replace"`, or `"update"`. Note that the quotation marks are needed.
 
 <ShowOnly c cpp ts rs>
 
@@ -202,8 +202,34 @@ The `<policy>` is one of the following:
 - `"defer"`: (**the default**) The event is added to the event queue with a tag that is equal to earliest time that satisfies the minimal spacing requirement. Assuming the time of the preceding event is _t_prev_, then the tag of the new event simply becomes _t_prev_ + `<min_spacing>`.
 - `"drop"`: The new event is dropped and `schedule()` returns without having modified the event queue.
 - `"replace"`: The payload (if any) of the new event is assigned to the preceding event if it is still pending in the event queue; no new event is added to the event queue in this case. If the preceding event has already been pulled from the event queue, the default `"defer"` policy is applied.
+- `"update"`: When a new event _e'_ is scheduled at time _t'_, the scheduler checks two conditions: (1) whether the event queue contains an earlier pending event _e_ at time _t_ for the same action, and (2) whether _t'_ >= _t_ + `<min_spacing>`. If **both** conditions are true, the earlier event _e_ at _t_ is dropped and the new event _e'_ at _t'_ is kept. If **either** condition is false, the new event _e'_ at _t'_ is scheduled normally.
+
+**Semantic distinction between policies.** The four policies fall into two categories:
+
+- **"defer" and "drop"** govern how a _new_ event is handled relative to _all_ previously scheduled events for the same action, including events that have already been committed (i.e., already popped from the event queue and assigned to a tag). These policies decide whether the new event should be added to the queue or not.
+- **"replace" and "update"** govern how a new event interacts with an _existing pending_ event still on the event queue. They modify or remove a pending event rather than simply accepting or rejecting the new one.
+
+**"replace" vs. "update".** The key difference is which event's time is kept:
+- `"replace"` keeps the _earlier_ event's time and updates its payload with the new event's payload.
+- `"update"` keeps the _newer_ event's time and drops the earlier pending event.
+
+:::caution
+The `"replace"` and `"update"` policies do **not** guarantee that `<min_spacing>` is always respected. If the earlier event has already been popped from the event queue (i.e., the runtime has already committed to executing at that tag), then the policy cannot find it to replace or update. In that case, the new event is scheduled normally, which may result in two events closer together than `<min_spacing>`.
+:::
 
 Note that while the `"defer"` policy is conservative in the sense that it does not discard events, it could potentially cause an unbounded growth of the event queue.
+
+### Watchdog Timer Pattern Using "update"
+
+The `"update"` policy is useful for implementing a logical-time-aware watchdog timer. For example, in a Raft consensus protocol, an election timeout can be modeled as follows:
+
+```lf
+logical action election_timeout_reached(0 sec, forever, "update")
+```
+
+Here, the `forever` min_spacing ensures that at most one event for this action is on the event queue at any time (since no two events can ever satisfy a spacing of `forever`). Each time a heartbeat is received, the reactor schedules a new `election_timeout_reached` event in the future. Because the policy is `"update"`, the new event replaces the old pending timeout event, effectively resetting the watchdog. If no heartbeat arrives before the timeout, the pending event fires and triggers an election.
+
+This pattern works correctly for both centralized and decentralized coordination because it operates in logical time.
 
 </ShowIf>
 
