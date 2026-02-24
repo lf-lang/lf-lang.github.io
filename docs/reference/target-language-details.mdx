@@ -334,6 +334,55 @@ reactor FlawedCount {
 
 This will produce a sequence of integers, but if there is more than one instance of the reactor, those instances will share the same variable count. Hence, **don't do this**! Sharing variables across instances of reactors violates a basic principle, which is that reactors communicate only by sending messages to one another. Sharing variables will make your program nondeterministic. If you have multiple instances of the above FlawedCount reactor, the outputs produced by each instance will not be predictable, and in a multithreaded implementation, will also not be repeatable.
 
+### Top-Level Parameters and Command-Line Overrides
+
+For parameters of the `main` or `federated` reactor (the top-level reactor), with some limitations described below, the value of the parameter can be overridden on the command line when the program is executed. Consider the following program:
+
+```lf
+target C
+main reactor Hello(param: int = 42) {
+  reaction(startup) {=
+    printf("Hello World %d\n", self->param);
+  =}
+}
+```
+After compiling this with `lfc`, the resulting executable will accept a command-line argument `--param <value>`, where `param` is the name of the parameter and `<value>` is an integer. For example, running `bin/Hello --param 43` will result in "Hello World 43" being printed instead of the default value of 42.
+
+Calling the executable with `bin/Hello --help` will display what command-line arguments are available.
+
+The limitations are:
+- The parameter must have type `int`, `time`, `float`, `double`, `bool`, or `string`. Array types are not supported.
+- The parameter must be a top-level parameter, not a parameter of a nested reactor.
+- The parameter must not be used, directly or indirectly, to specify the width of a multiport or a bank.  An attempt to do so will result in a program that errors out when you attempt to override the parameter on the command line.
+
+A `time`-typed top-level parameter can be overridden on the command line by specifying a time value and units, as in the following examples:
+
+```
+bin/Hello --param 100 ms
+bin/Hello --param 100 us
+bin/Hello --param 100 s
+```
+
+Parameters with time types may be used to specify, for example, the `offset` or `period` for a timer, the `delay` for deadline, or the `min_delay` and `min_spacing` arguments for an action.
+
+All such overrides work also for parameters of contained reactors that directly or indirectly refer to the top-level parameter, as in the following example:
+
+```lf
+target C
+reactor Contained(param: int = 0) {
+  reaction(startup) {=
+    printf("Hello World %d\n", self->param);
+  =}
+}
+main reactor Hello(param: int = 42) {
+  c = new Contained(param = param)
+}
+```
+
+In this case, the parameter `param` of the `Contained` reactor is overridden on the command line to 43, and the output will be "Hello World 43".
+
+This mechanism also works for federated programs. Each federate executable may only support overriding the subset of top-level parameters that it uses, but the generated launch script will support all.
+
 ### Array Values for Parameters
 
 Parameters and state variables can have array values, though some care is needed. The [ArrayAsParameter](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/ArrayAsParameter.lf) example outputs the elements of an array as a sequence of individual messages:
