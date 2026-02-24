@@ -2,11 +2,19 @@
 title: Installation
 ---
 
-# Releases
+# Installation
+
+## For the Impatient
+
+Do one or more of the following:
+
+* In VS Code: <kbd>Ctrl</kbd> + <kbd>P</kbd>: `ext install lf-lang.vscode-lingua-franca`.
+* Install CLI (may need sudo on the bash call): `curl -Ls https://install.lf-lang.org | bash -s cli`.
+* Clone the [Lingua Franca repository](https://github.com/lf-lang/lingua-franca).
+
+## Detailed Instructions
 
 For release version descriptions and notes, see [the releases page](https://github.com/lf-lang/lingua-franca/releases).
-
-# Installation
 
 The Lingua Franca toolchain requires Java 17 ([download from Oracle](https://www.oracle.com/java/technologies/downloads/)). Each target language may have additional requirements (see the [Target Language Details](<./reference/target-language-details.mdx#requirements>) page and select your target language).
 
