@@ -1,5 +1,17 @@
 % Cleaned by https://flamingtempura.github.io/bibtex-tidy
 % Run `pandoc citations.bib -t csljson -o citations.json`
+@misc{PaladinoEtAl:26:Maxwait,
+   author = {Francesco Paladino and Shulu Li and Edward A. Lee},
+   title = {Maxwait: A Generalized Mechanism for Distributed Time-Sensitive Systems},
+   year = {2026},
+   eprint = {2601.21146},
+   archiveprefix = {arXiv},
+   primaryclass = {cs.DC},
+   url = {https://arxiv.org/abs/2601.21146},
+	 doi = {10.48550/arXiv.2601.21146},
+   abstract = {Distributed time-sensitive systems must balance timing requirements (availability) and consistency in the presence of communication delays and synchronization uncertainty. This paper presents maxwait, a simple coordination mechanism with surprising generality that makes these tradeoffs explicit and configurable. We demonstrate that this mechanism subsumes classical distributed system methods such as PTIDES, Chandy-and-Misra with or without null messages, Jefferson's Time-Warp, and Lamport's time-based fault detection, while enabling real-time behavior in distributed cyber-physical applications. The mechanism can also realize many commonly used distributed system patterns, including logical execution time (LET), publish and subscribe, actors, conflict-free replicated data types (CRDTs), and remote procedure calls with futures. More importantly, it adds to these mechanisms better control over timing, bounded time fault detection, and the option of making them more deterministic, all within a single semantic framework. Implemented as an extension of the Lingua Franca coordination language, maxwait enforces logical-time consistency when communication latencies are bounded and provides structured fault handling when bounds are violated.}
+}
+
 @article{BarbutoEtAl:25:DigitalTwins,
    author = {Vincenzo Barbuto and Claudio Savaglioa and Edward A. Lee and Giancarlo Fortino},
    title = {Engineering opportunistic digital twins with Lingua Franca},
