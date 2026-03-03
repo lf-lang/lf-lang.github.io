@@ -12,6 +12,8 @@ Do one or more of the following:
 * Install CLI (may need sudo on the bash call): `curl -Ls https://install.lf-lang.org | bash -s cli`.
 * Clone the [Lingua Franca repository](https://github.com/lf-lang/lingua-franca).
 
+For better experience with the diagrams, see [Rendering Diagrams](./tools/code-extension.mdx#rendering-diagrams).
+
 ## Detailed Instructions
 
 For release version descriptions and notes, see [the releases page](https://github.com/lf-lang/lingua-franca/releases).
@@ -57,6 +59,11 @@ cursor --install-extension lf-lang.vscode-lingua-franca
 
 
 To use the nightly pre-release of the extension instead of the latest release, find the Lingua Franca extension in the Extensions tab and click on the "Switch to Pre-Release Version" button.
+
+### For Better Experience with Diagrams
+
+The LF diagrams normally open to the right of the source code but it is far more convenient if they open below the source code.
+See [Rendering Diagrams](./tools/code-extension.mdx#rendering-diagrams) for changing the default.
 
 ### From Source
 
