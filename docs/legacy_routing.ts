@@ -1,5 +1,13 @@
 export default [
   {
+    "to": "https://reactor-model.org/events/recps-2026/",
+    "from": "/events/recps-2026"
+  },
+  {
+    "to": "https://reactor-model.org/events/recps-2026/",
+    "from": "/events/recps-2026/"
+  },
+  {
     "to": "/docs/videos",
     "from": "/docs/handbook/tutorial-video"
   },
