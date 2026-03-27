@@ -8,6 +8,13 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>arXiv '26</strong>: Francesco Paladino, Shulu Li, Edward A. Lee.
+        "<Link href="https://arxiv.org/abs/2601.21146">Maxwait: A Generalized Mechanism for Distributed Time-Sensitive Systems</Link>."
+        arXiv:2601.21146 [cs.DC] 29 Jan 2026.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>FGCS '25</strong>: Vincenzo Barbuto, Claudio Savaglioa, Edward A. Lee, and Giancarlo Fortino. 
         "<Link href="https://doi.org/10.1016/j.future.2025.108262">Engineering opportunistic digital twins with Lingua Franca</Link>", in <i>Future Generation Computer Systems</i> 178, 108262, May 2026.
       </p>
@@ -70,7 +77,7 @@ export const copypastaPublications: ReactNode = (
     </li>
     <li>
       <p>
-        <strong>arXiv</strong>: Shulu Li and Edward A. Lee.
+        <strong>arXiv '25</strong>: Shulu Li and Edward A. Lee.
         "<Link href="https://arxiv.org/abs/2504.01141">A Preliminary Model of Coordination-free Consistency</Link>."
         arXiv:2504.01141 [cs.DC] 1 Apr 2025.
       </p>
@@ -83,7 +90,7 @@ export const copypastaPublications: ReactNode = (
     </li>
     <li>
       <p>
-        <strong>arXiv</strong>: Jacky Kwok, Shulu Li, Marten Lohstroh, Edward A. Lee.
+        <strong>arXiv '24</strong>: Jacky Kwok, Shulu Li, Marten Lohstroh, Edward A. Lee.
         "<Link href="https://arxiv.org/abs/2412.01799">HPRM: High-Performance Robotic Middleware for Intelligent Autonomous Systems</Link>."
         arXiv:2412.01799v1 [cs.RO] 2 Dec 2024.
       </p>
