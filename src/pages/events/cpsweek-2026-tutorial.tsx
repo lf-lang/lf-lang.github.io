@@ -101,6 +101,34 @@ const organizers: Organizer[] = [
   },
 ];
 
+interface TeachingAssistant {
+  name: string;
+  role: string;
+  affiliation: string;
+  email: string;
+  linkedIn: string;
+  image: string;
+}
+
+const teachingAssistants: TeachingAssistant[] = [
+  {
+    name: "Deeksha Prahlad",
+    role: "Ph.D. Student",
+    affiliation: "Arizona State University, USA",
+    email: "dprahlad@asu.edu",
+    linkedIn: "https://www.linkedin.com/in/deekshaprahlad/",
+    image: "/img/events/cpsweek-2026-tutorial/deeksha-prahlad.jpg",
+  },
+  {
+    name: "Daniel Fan",
+    role: "Undergraduate Student",
+    affiliation: "Arizona State University, USA",
+    email: "danielfa@asu.edu",
+    linkedIn: "https://www.linkedin.com/in/daniel-fan-801b8235b/",
+    image: "/img/events/cpsweek-2026-tutorial/daniel-fan.jpg",
+  },
+];
+
 export default function CPSWeek2026Tutorial() {
   return (
     <Layout
@@ -453,8 +481,63 @@ export default function CPSWeek2026Tutorial() {
         </div>
       </div>
 
-      {/* Materials Section */}
+      {/* Teaching Assistants Section */}
       <div className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                🧑‍🏫 Teaching Assistants
+              </Heading>
+              {teachingAssistants.map((ta, idx) => (
+                <div key={idx} className={clsx("card", "margin-bottom--lg")}>
+                  <div className="card__body">
+                    <div className="row">
+                      <div className="col col--3">
+                        <img
+                          src={ta.image}
+                          alt={ta.name}
+                          style={{
+                            width: "100%",
+                            maxWidth: "150px",
+                            borderRadius: "8px",
+                            objectFit: "cover",
+                            aspectRatio: "1",
+                          }}
+                        />
+                      </div>
+                      <div className="col col--9">
+                        <Heading as="h3" className="margin-bottom--none">
+                          <Link href={ta.linkedIn}>{ta.name}</Link>
+                        </Heading>
+                        <p
+                          className="margin-bottom--xs margin-top--xs"
+                          style={{ fontWeight: 600 }}
+                        >
+                          {ta.role}
+                        </p>
+                        <p
+                          className="margin-bottom--sm margin-top--xs"
+                          style={{ opacity: 0.8, fontStyle: "italic" }}
+                        >
+                          {ta.affiliation}
+                        </p>
+                        <p className="margin-bottom--none" style={{ fontSize: "0.9rem" }}>
+                          📧{" "}
+                          <Link href={`mailto:${ta.email}`}>{ta.email}</Link>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Materials Section */}
+      <div className="section sectionAlt">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
