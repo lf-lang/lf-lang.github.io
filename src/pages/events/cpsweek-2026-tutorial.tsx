@@ -8,6 +8,7 @@ import styles from "./event-page.module.css";
 interface ScheduleItem {
   session: string;
   duration: string;
+  time: string;
   description?: React.ReactNode;
   leads?: string;
 }
@@ -16,6 +17,7 @@ const scheduleItems: ScheduleItem[] = [
   {
     session: "Introductory Presentations",
     duration: "45 minutes",
+    time: "2:00 PM – 2:45 PM",
     description:
       "Introduction to CPS concurrency challenges and motivation for Lingua Franca. Explanation of the reactor-oriented programming model and key language concepts (reactors, ports, timers, logical time). Real-world scenarios in automotive and avionic systems where deterministic coordination is vital.",
     leads: "Organizers",
@@ -23,6 +25,7 @@ const scheduleItems: ScheduleItem[] = [
   {
     session: "Live Demos",
     duration: "45 minutes",
+    time: "2:45 PM – 3:30 PM",
     description: (
       <>
         CPS-focused example applications built with LF, including distributed
@@ -42,23 +45,30 @@ const scheduleItems: ScheduleItem[] = [
     leads: "Organizers",
   },
   {
+    session: "Installation and Hello World of Lingua Franca",
+    duration: "30 minutes",
+    time: "3:30 PM – 4:00 PM",
+    description:
+      "Set up your Lingua Franca toolchain and walk through a minimal “hello world” style program to verify your environment.",
+    leads: "Organizers & Teaching Assistants",
+  },
+  {
     session: "Break",
-    duration: "10 minutes",
+    duration: "30 minutes",
+    time: "4:00 PM – 4:30 PM",
   },
   {
     session: "Hands-on Programming Sessions",
-    duration: "100 minutes",
+    duration: "80 minutes",
+    time: "4:30 PM – 5:50 PM",
     description:
       "Interactive coding sessions with progressively challenging exercises using CPS-themed examples. Build a smart traffic light controller, implement distributed sensing applications, and explore the LF Playground. Choose between C or Python for reactor logic implementation.",
     leads: "Organizers & Teaching Assistants",
   },
   {
-    session: "Break",
-    duration: "10 minutes",
-  },
-  {
     session: "Wrap-Up and Q&A",
-    duration: "30 minutes",
+    duration: "10 minutes",
+    time: "5:50 PM – 6:00 PM",
     description:
       "Summary of key takeaways, discussion of advanced LF capabilities (federated distributed execution, modal models), project roadmap, and community involvement opportunities.",
     leads: "Organizers",
@@ -275,7 +285,7 @@ export default function CPSWeek2026Tutorial() {
                 📋 Tutorial Schedule
               </Heading>
               <p className="text--center margin-bottom--lg">
-                Total duration: ~4 hours (half-day tutorial including breaks)
+                Schedule: 2:00 PM – 6:00 PM (4 hours including a break)
               </p>
 
               {scheduleItems.map((item, idx) => (
@@ -292,13 +302,20 @@ export default function CPSWeek2026Tutorial() {
                     <div
                       style={{
                         display: "flex",
+                        flexWrap: "wrap",
                         justifyContent: "space-between",
                         alignItems: "center",
+                        gap: "8px",
                       }}
                     >
-                      <Heading as="h4" className="margin-bottom--none">
-                        {item.session}
-                      </Heading>
+                      <div>
+                        <Heading as="h4" className="margin-bottom--xs">
+                          {item.session}
+                        </Heading>
+                        <span style={{ fontSize: "0.95rem", opacity: 0.85 }}>
+                          {item.time}
+                        </span>
+                      </div>
                       <span
                         className="badge badge--secondary"
                         style={{ fontSize: "0.9rem" }}
@@ -307,12 +324,16 @@ export default function CPSWeek2026Tutorial() {
                       </span>
                     </div>
                   </div>
-                  {item.description && (
+                  {(item.description || item.leads) && (
                     <div className="card__body">
-                      <p className="margin-bottom--none">{item.description}</p>
+                      {item.description && (
+                        <p className={item.leads ? "margin-bottom--sm" : "margin-bottom--none"}>
+                          {item.description}
+                        </p>
+                      )}
                       {item.leads && (
                         <p
-                          className="margin-top--sm margin-bottom--none"
+                          className="margin-bottom--none"
                           style={{ fontSize: "0.9rem", opacity: 0.8 }}
                         >
                           <em>Led by: {item.leads}</em>
