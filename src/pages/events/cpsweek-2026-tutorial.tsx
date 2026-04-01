@@ -4,6 +4,7 @@ import Heading from "@theme/Heading";
 import Link from "@docusaurus/Link";
 
 import styles from "./event-page.module.css";
+import bannerStyles from "./cpsweek-2026-tutorial.module.css";
 
 interface ScheduleItem {
   session: string;
@@ -146,19 +147,19 @@ export default function CPSWeek2026Tutorial() {
       description="Tutorial on Lingua Franca: An Open-Source Coordination Language for Deterministic Integration of Cyber-Physical Systems at CPS-IoT Week 2026"
     >
       {/* Hero Section */}
-      <div className={styles.heroSection}>
+      <div className={bannerStyles.heroWithBanner}>
         <div className="container">
-          <div className={clsx(styles.eventBadge, styles.upcoming)}>
+          <div className={clsx(styles.eventBadge, styles.upcoming, bannerStyles.heroBadge)}>
             Upcoming Tutorial
           </div>
-          <Heading as="h1" className={styles.heroTitle}>
+          <Heading as="h1" className={clsx(styles.heroTitle, bannerStyles.heroHeading)}>
             Lingua Franca:
           </Heading>
-          <p className={styles.heroSubtitle}>
+          <p className={clsx(styles.heroSubtitle, bannerStyles.heroTagline)}>
             An Open-Source Coordination Language for Deterministic Integration
             of Cyber-Physical Systems
           </p>
-          <div className={styles.eventMeta}>
+          <div className={clsx(styles.eventMeta, bannerStyles.heroDetails)}>
             <span>📅 May 11, 2026</span>
             <span>📍 Saint Malo, France</span>
             <span>
@@ -171,8 +172,8 @@ export default function CPSWeek2026Tutorial() {
               </Link>
             </span>
           </div>
-          <p style={{ marginTop: "16px", opacity: 0.9, fontSize: "1rem" }}>
-            Half-day hands-on tutorial (4 hours)
+          <p className={bannerStyles.heroFootnote}>
+            Half-day hands-on tutorial (2:00 - 6:00 PM CET, 4 hours)
           </p>
         </div>
       </div>
