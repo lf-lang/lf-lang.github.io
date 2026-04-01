@@ -62,7 +62,7 @@ const scheduleItems: ScheduleItem[] = [
     duration: "80 minutes",
     time: "4:30 PM – 5:50 PM",
     description:
-      "Interactive coding sessions with progressively challenging exercises using CPS-themed examples. Build a smart traffic light controller, implement distributed sensing applications, and explore the LF Playground. Choose between C or Python for reactor logic implementation.",
+      "Interactive coding sessions with progressively challenging exercises using CPS-themed examples. Hands-on work uses the C target in Lingua Franca, starting from template code provided for the tutorial; participants implement distributed cyber-physical system examples that build on these templates.",
     leads: "Organizers & Teaching Assistants",
   },
   {
