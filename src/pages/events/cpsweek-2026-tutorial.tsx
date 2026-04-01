@@ -172,7 +172,7 @@ export default function CPSWeek2026Tutorial() {
             </span>
           </div>
           <p style={{ marginTop: "16px", opacity: 0.9, fontSize: "1rem" }}>
-            Half-day hands-on tutorial (~4 hours)
+            Half-day hands-on tutorial (4 hours)
           </p>
         </div>
       </div>
@@ -285,7 +285,7 @@ export default function CPSWeek2026Tutorial() {
                 📋 Tutorial Schedule
               </Heading>
               <p className="text--center margin-bottom--lg">
-                Schedule: 2:00 PM – 6:00 PM (4 hours including a break)
+                Schedule: May 11, 2026, 2:00 PM – 6:00 PM (4 hours including a break)
               </p>
 
               {scheduleItems.map((item, idx) => (
