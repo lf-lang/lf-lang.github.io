@@ -192,7 +192,16 @@ export default function CPSWeek2026Tutorial() {
                 Participants will explore LF's core concepts through a technical
                 overview, CPS-focused demonstrations, and hands-on programming
                 sessions using C and Python as well as the LF coordination
-                language.
+                language. It is held during{" "}
+                <Link
+                  href="https://cps-iot-week2026.inria.fr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  CPS-IoT Week 2026
+                </Link>
+                , the premier CPS and IoT research week (May 11–14, 2026, Saint
+                Malo, France).
               </p>
               <p>
                 This tutorial emphasizes how LF enables deterministic

@@ -239,7 +239,15 @@ export default function ESWEEKTutorial() {
             Lingua Franca Tutorial
           </Heading>
           <p className={styles.heroSubtitle}>
-            EMSOFT Conference at Embedded Systems Week (ESWEEK) 2021
+            EMSOFT Conference at{" "}
+            <Link
+              href="https://esweek.org/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Embedded Systems Week (ESWEEK)
+            </Link>{" "}
+            2021
           </p>
           <div className={styles.eventMeta}>
             <span>📅 October 8, 2021</span>
@@ -259,7 +267,15 @@ export default function ESWEEKTutorial() {
                 concurrent and possibly time-sensitive applications ranging from
                 low-level embedded code to distributed cloud and edge
                 applications. This tutorial was offered on October 8, 2021, as
-                part of the EMSOFT conference at ESWEEK (Embedded Systems Week).
+                part of the EMSOFT conference at{" "}
+                <Link
+                  href="https://esweek.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  ESWEEK (Embedded Systems Week)
+                </Link>
+                .
               </p>
               <p>
                 The complete tutorial is available as a{" "}

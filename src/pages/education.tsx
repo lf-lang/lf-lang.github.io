@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import type { ReactNode } from "react";
 import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import Link from "@docusaurus/Link";
@@ -7,7 +8,7 @@ interface EducationItem {
   title: string;
   href: string;
   external?: boolean;
-  description: string;
+  description: ReactNode;
 }
 
 const labMaterials: EducationItem[] = [
@@ -15,8 +16,31 @@ const labMaterials: EducationItem[] = [
     title: "Embedded Systems Labs",
     href: "https://www.lf-lang.org/embedded-lab/index.html",
     external: true,
-    description:
-      "A full sequence of hands-on labs for introductory embedded systems and cyber-physical systems. Exercises use Lingua Franca for timing, concurrency, and modal models, with reactor logic in C on the Raspberry Pi RP2040 (Pololu 3pi+ 2040 robot). Designed as companion material for Lee and Seshia, Introduction to Embedded Systems: A Cyber-Physical Systems Approach.",
+    description: (
+      <>
+        <p>
+          A full sequence of hands-on labs for introductory embedded systems
+          and cyber-physical systems. Exercises use Lingua Franca for timing,
+          concurrency, and modal models, with reactor logic in C on the
+          Raspberry Pi RP2040 (Pololu 3pi+ 2040 robot).
+        </p>
+        <p className="margin-bottom--none">
+          Accompanied by the textbook{" "}
+          <Link
+            href="https://ptolemy.berkeley.edu/books/leeseshia/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <em>
+              Introduction to Embedded Systems: A Cyber-Physical Systems
+              Approach
+            </em>
+          </Link>{" "}
+          by Edward A. Lee and Sanjit A. Seshia (2nd ed., MIT Press, 2017)—the
+          standard CPS/embedded text these labs are designed to accompany.
+        </p>
+      </>
+    ),
   },
 ];
 
@@ -24,8 +48,21 @@ const upcomingTutorials: EducationItem[] = [
   {
     title: "Lingua Franca Tutorial at CPS-IoT Week 2026",
     href: "/events/cpsweek-2026-tutorial/",
-    description:
-      "Half-day, in-person tutorial on Lingua Franca for deterministic integration of cyber-physical systems: overview, CPS-focused demos, and hands-on programming in C and Python (May 2026, Saint Malo, France).",
+    description: (
+      <p className="margin-bottom--none">
+        Half-day, in-person tutorial on Lingua Franca for deterministic
+        integration of cyber-physical systems: overview, CPS-focused demos, and
+        hands-on programming in C and Python. Offered during{" "}
+        <Link
+          href="https://cps-iot-week2026.inria.fr/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          CPS-IoT Week 2026
+        </Link>{" "}
+        (May 11–14, 2026, Saint Malo, France).
+      </p>
+    ),
   },
 ];
 
@@ -33,14 +70,38 @@ const pastTutorials: EducationItem[] = [
   {
     title: "Lingua Franca Tutorial at ESWEEK 2021",
     href: "/events/esweek-2021-tutorial/",
-    description:
-      "Recorded tutorial from EMSOFT / Embedded Systems Week 2021 (online), covering motivation, language basics, and hands-on use of Lingua Franca with supporting videos and materials on the event page.",
+    description: (
+      <p className="margin-bottom--none">
+        Recorded tutorial from EMSOFT as part of{" "}
+        <Link
+          href="https://esweek.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Embedded Systems Week (ESWEEK)
+        </Link>{" "}
+        2021 (online), covering motivation, language basics, and hands-on use
+        of Lingua Franca with supporting videos and materials on the event page.
+      </p>
+    ),
   },
   {
     title: "Tutorial videos (playlist)",
     href: "/docs/videos/",
-    description:
-      "Curated video walkthroughs from past tutorials, including the 2021 ESWEEK sessions, for self-paced learning alongside the handbook.",
+    description: (
+      <p className="margin-bottom--none">
+        Curated video walkthroughs from past tutorials, including sessions from
+        the 2021{" "}
+        <Link
+          href="https://esweek.org/"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          ESWeek
+        </Link>{" "}
+        tutorial, for self-paced learning alongside the handbook.
+      </p>
+    ),
   },
 ];
 
@@ -58,9 +119,7 @@ function EducationCard({ item }: { item: EducationItem }) {
           )}
         </Heading>
       </div>
-      <div className="card__body">
-        <p className="margin-bottom--none">{item.description}</p>
-      </div>
+      <div className="card__body">{item.description}</div>
     </div>
   );
 }
