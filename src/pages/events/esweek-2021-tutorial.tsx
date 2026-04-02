@@ -259,7 +259,15 @@ export default function ESWEEKTutorial() {
                 concurrent and possibly time-sensitive applications ranging from
                 low-level embedded code to distributed cloud and edge
                 applications. This tutorial was offered on October 8, 2021, as
-                part of the EMSOFT conference at ESWEEK (Embedded Systems Week).
+                part of the EMSOFT conference at{" "}
+                <Link
+                  href="https://esweek.org/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  ESWEEK (Embedded Systems Week)
+                </Link>
+                .
               </p>
               <p>
                 The complete tutorial is available as a{" "}
