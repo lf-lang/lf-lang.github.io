@@ -8,21 +8,26 @@ interface EducationItem {
   title: string;
   href: string;
   external?: boolean;
+  /** Decorative emoji shown before the card title */
+  icon: string;
   description: ReactNode;
 }
 
 const labMaterials: EducationItem[] = [
   {
+    icon: "🔬",
     title: "Embedded Systems Labs",
     href: "https://www.lf-lang.org/embedded-lab/index.html",
     external: true,
     description: (
       <>
         <p>
-          A full sequence of hands-on labs for introductory embedded systems
-          and cyber-physical systems. Exercises use Lingua Franca for timing,
-          concurrency, and modal models, with reactor logic in C on the
-          Raspberry Pi RP2040 (Pololu 3pi+ 2040 robot).
+          A full sequence of <strong>hands-on labs</strong> for introductory{" "}
+          <strong>embedded systems</strong> and{" "}
+          <strong>cyber-physical systems</strong>. Exercises use{" "}
+          <strong>Lingua Franca</strong> for timing, concurrency, and modal
+          models, with reactor logic in <strong>C</strong> on the{" "}
+          <strong>Raspberry Pi RP2040</strong> (Pololu 3pi+ 2040 robot).
         </p>
         <p className="margin-bottom--none">
           Accompanied by the textbook{" "}
@@ -32,12 +37,14 @@ const labMaterials: EducationItem[] = [
             rel="noopener noreferrer"
           >
             <em>
-              Introduction to Embedded Systems: A Cyber-Physical Systems
-              Approach
+              <strong>
+                Introduction to Embedded Systems: A Cyber-Physical Systems
+                Approach
+              </strong>
             </em>
           </Link>{" "}
-          by Edward A. Lee and Sanjit A. Seshia (2nd ed., MIT Press, 2017)—the
-          standard CPS/embedded text these labs are designed to accompany.
+          by <strong>Edward A. Lee</strong> and <strong>Sanjit A. Seshia</strong>{" "}
+          (2nd ed., MIT Press, 2017)—the standard CPS/embedded systems textbook.
         </p>
       </>
     ),
@@ -46,21 +53,24 @@ const labMaterials: EducationItem[] = [
 
 const upcomingTutorials: EducationItem[] = [
   {
+    icon: "📅",
     title: "Lingua Franca Tutorial at CPS-IoT Week 2026",
     href: "/events/cpsweek-2026-tutorial/",
     description: (
       <p className="margin-bottom--none">
-        Half-day, in-person tutorial on Lingua Franca for deterministic
-        integration of cyber-physical systems: overview, CPS-focused demos, and
-        hands-on programming in C and Python. Offered during{" "}
+        <strong>Half-day, in-person</strong> tutorial on{" "}
+        <strong>Lingua Franca</strong> for deterministic integration of
+        cyber-physical systems: <strong>technical overview</strong>,{" "}
+        <strong>CPS-focused demos</strong>, and hands-on programming in{" "}
+        <strong>C</strong> and <strong>Python</strong>. Offered during{" "}
         <Link
           href="https://cps-iot-week2026.inria.fr/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          CPS-IoT Week 2026
+          <strong>CPS-IoT Week 2026</strong>
         </Link>{" "}
-        (May 11–14, 2026, Saint Malo, France).
+        (<strong>May 11, 2026</strong>, Saint Malo, France).
       </p>
     ),
   },
@@ -68,38 +78,43 @@ const upcomingTutorials: EducationItem[] = [
 
 const pastTutorials: EducationItem[] = [
   {
+    icon: "🎬",
     title: "Lingua Franca Tutorial at ESWEEK 2021",
     href: "/events/esweek-2021-tutorial/",
     description: (
       <p className="margin-bottom--none">
-        Recorded tutorial from EMSOFT as part of{" "}
+        <strong>Recorded tutorial</strong> from <strong>EMSOFT</strong> as part
+        of{" "}
         <Link
           href="https://esweek.org/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Embedded Systems Week (ESWEEK)
+          <strong>Embedded Systems Week (ESWEEK)</strong>
         </Link>{" "}
-        2021 (online), covering motivation, language basics, and hands-on use
-        of Lingua Franca with supporting videos and materials on the event page.
+        <strong>2021</strong> (online), covering motivation, language basics,
+        and hands-on use of <strong>Lingua Franca</strong> with supporting videos
+        and materials on the event page.
       </p>
     ),
   },
   {
+    icon: "▶️",
     title: "Tutorial videos (playlist)",
     href: "/docs/videos/",
     description: (
       <p className="margin-bottom--none">
-        Curated video walkthroughs from past tutorials, including sessions from
-        the 2021{" "}
+        <strong>Curated video walkthroughs</strong> from past tutorials,
+        including sessions from the <strong>2021</strong>{" "}
         <Link
           href="https://esweek.org/"
           target="_blank"
           rel="noopener noreferrer"
         >
-          ESWeek
+          <strong>ESWeek</strong>
         </Link>{" "}
-        tutorial, for self-paced learning alongside the handbook.
+        tutorial, for <strong>self-paced</strong> learning alongside the{" "}
+        <strong>handbook</strong>.
       </p>
     ),
   },
@@ -109,7 +124,19 @@ function EducationCard({ item }: { item: EducationItem }) {
   return (
     <div className={clsx("card", "margin-bottom--md")}>
       <div className="card__header">
-        <Heading as="h3" className="margin-bottom--none">
+        <Heading
+          as="h3"
+          className="margin-bottom--none"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "0.5rem",
+            flexWrap: "wrap",
+          }}
+        >
+          <span aria-hidden="true" style={{ fontSize: "1.35rem", lineHeight: 1 }}>
+            {item.icon}
+          </span>
           {item.external ? (
             <Link href={item.href} target="_blank" rel="noopener noreferrer">
               {item.title}
@@ -135,24 +162,32 @@ export default function Education(): JSX.Element {
           <div className="row">
             <div className="col col--8 col--offset-2">
               <Heading as="h1" className="text--center margin-bottom--md">
+                <span aria-hidden="true">🎓 </span>
                 Education
               </Heading>
               <p className="text--center margin-bottom--lg">
-                Courseware, lab sequences, and tutorials for teaching and
-                learning Lingua Franca, deterministic concurrency, and
-                cyber-physical systems. For conference workshops and meetups, see
-                also the{" "}
-                <Link to="/events/">Events</Link> page.
+                <strong>Courseware</strong>, <strong>lab sequences</strong>, and{" "}
+                <strong>tutorials</strong> for teaching and learning{" "}
+                <strong>Lingua Franca</strong>,{" "}
+                <strong>deterministic concurrency</strong>, and{" "}
+                <strong>cyber-physical systems</strong>. For conference
+                workshops and meetups, see also the{" "}
+                <Link to="/events/">
+                  <strong>Events</strong>
+                </Link>{" "}
+                page.
               </p>
 
               <Heading as="h2" className="margin-bottom--md">
-                Labs & courseware
+                <span aria-hidden="true">📚 </span>
+                Labs &amp; courseware
               </Heading>
               {labMaterials.map((item) => (
                 <EducationCard key={item.title} item={item} />
               ))}
 
               <Heading as="h2" className="margin-top--lg margin-bottom--md">
+                <span aria-hidden="true">✨ </span>
                 Upcoming tutorials
               </Heading>
               {upcomingTutorials.map((item) => (
@@ -160,6 +195,7 @@ export default function Education(): JSX.Element {
               ))}
 
               <Heading as="h2" className="margin-top--lg margin-bottom--md">
+                <span aria-hidden="true">📼 </span>
                 Past tutorials
               </Heading>
               {pastTutorials.map((item) => (
