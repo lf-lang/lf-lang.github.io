@@ -34,6 +34,18 @@ export const events: Event[] = [
     type: "workshop",
     isUpcoming: true,
   },
+  {
+    title: "TCRS '26: Time-Centric Reactive Software",
+    date: "2026-10-08",
+    endDate: "2026-10-09",
+    location: "Barcelona, Spain (ESWEEK 2026)",
+    description:
+      "Fourth edition of the workshop on Time-Centric Reactive Software, co-located with Embedded Systems Week (ESWEEK) 2026 in Barcelona, Spain.",
+    link: "https://www.tcrs.io/",
+    type: "workshop",
+    isUpcoming: true,
+    isExternal: true,
+  },
   // Past Events
   {
     title: "TCRS '25: Time-Centric Reactive Software",
@@ -41,7 +53,7 @@ export const events: Event[] = [
     location: "Taipei, Taiwan (ESWEEK 2025)",
     description:
       "Third edition of the workshop on Time-Centric Reactive Software, co-located with Embedded Systems Week (ESWEEK) 2025 at the Taipei International Convention Center.",
-    link: "https://www.tcrs.io/",
+    link: "https://www.tcrs.io/2025/",
     type: "workshop",
     isUpcoming: false,
     isExternal: true,
