@@ -51,6 +51,11 @@ cursor --install-extension lf-lang.vscode-lingua-franca
 
 To use the nightly pre-release of the extension instead of the latest release, find the Lingua Franca extension in the Extensions tab and click on the "Switch to Pre-Release Version" button.
 
+### For Better Experience with Diagrams
+
+The LF diagrams normally open to the right of the source code but it is far more convenient if they open below the source code.
+See [Rendering Diagrams](./tools/code-extension.mdx#rendering-diagrams) for changing the default.
+
 ### From Source
 
 Please refer to the [Lingua Franca VS Code GitHub repository](https://github.com/lf-lang/vscode-lingua-franca) for build instructions.

@@ -2,9 +2,6 @@ import Layout from "@theme/Layout";
 import Heading from "@theme/Heading";
 import clsx from "clsx";
 import { NotablePaper } from "./notable";
-import perf23image from "@site/static/img/publications/perf23.png";
-import emsoft23image from "@site/static/img/publications/emsoft23.png";
-import tecs21image from "@site/static/img/publications/tecs21.png";
 import {
   copypastaPublications,
   copypastaTalks,
@@ -13,7 +10,6 @@ import {
 
 const notablePapers = [
   {
-    pdfFirstPage: perf23image,
     conference: "TACO 2023",
     title: "High-performance Deterministic Concurrency Using Lingua Franca",
     authors:
@@ -24,7 +20,6 @@ const notablePapers = [
     pdflink: "https://dl.acm.org/doi/pdf/10.1145/3617687",
   },
   {
-    pdfFirstPage: emsoft23image,
     conference: "EMSOFT 23",
     title: "Consistency vs. Availability in Distributed Cyber-Physical Systems",
     authors:
@@ -35,7 +30,6 @@ const notablePapers = [
     pdflink: "https://dl.acm.org/doi/pdf/10.1145/3609119",
   },
   {
-    pdfFirstPage: tecs21image,
     conference: "TECS 21",
     title: "Toward a Lingua Franca for Deterministic Concurrent Systems",
     authors:
