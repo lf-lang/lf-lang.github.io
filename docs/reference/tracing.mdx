@@ -113,7 +113,7 @@ This will result in the trace file being named `Bar.lft`, regardless of the name
 The trace file is a binary file. It is not human readable. There are  utilities for reading it:
 
 - `trace_to_csv`: This program creates a text file with one line per traced event in comma-separated list format.
-- `trace_to_chrome`: This program creates a text file in JSON format that is suitable for reading into the same Google Trace Viewer, which runs in Chrome, as used above in C++ tracing.
+- `trace_to_chrome`: This program creates a text file in JSON format that is suitable for reading into the same Google Trace Viewer, which runs in Google Chrome, as used above in C++ tracing.
 - `trace_to_influxdb` : This program will send the traced event to a running InfluxDB database server. 
 - `fedsd`: This program creates a timed sequence diagram showing the interactions between components of a federated program (see [Tracing Federated Programs](#tracing-federated-programs) below).
 
@@ -166,6 +166,8 @@ The JSON trace format can be found [here](https://docs.google.com/document/d/1Cv
 
 Users can add their own tracepoints in order to provide low-overhead recording of events and events with values that occur during the execution of reactions. To do this, the first step is to register the trace event in a **startup** reaction as follows:
 
+<ShowIfs>
+  <ShowIf c>
 ```lf-c
     reaction(startup) {=
         if (!register_user_trace_event("Description of event")) {
@@ -174,9 +176,34 @@ Users can add their own tracepoints in order to provide low-overhead recording o
         }
     =}
 ```
+  </ShowIf>
+  <ShowIf py>
+```lf-py
+target Python {
+  timeout: 2 sec,
+  tracing: true
+}
+reactor Foo {
+  # Handle for registered user trace event.
+  state handle = 0
+
+  reaction(startup) {=
+    self.handle = self.register_user_trace_event("Description of event")
+    if self.handle == 0:
+      print("ERROR: Failed to register trace event.")
+      exit(1)
+  =}
+}
+```
+
+The reaction to `startup` is designed to fail (`exit(1)`) if the `tracing` target parameter is not set to to `true`. If you wish to just ignore tracepoints if the target parameter is not set, then omit the `exit(1)` statement.
+  </ShowIf>
+</ShowIfs>
 
 The description of the event is an arbitrary string, but the string must be unique. All events with the same description will be collected together in any display of events.
 
+<ShowIfs>
+  <ShowIf c>
 To then actually record an event, in a reaction, call `tracepoint_user_event`, passing it the same string. E.g.,
 
 ```lf-c
@@ -186,9 +213,24 @@ To then actually record an event, in a reaction, call `tracepoint_user_event`, p
 	    ...
 	=}
 ```
+  </ShowIf>
+  <ShowIf py>
+To then actually record an event, in a reaction, call `tracepoint_user_event`, passing it the same handle returned by `register_user_trace_event`. E.g.,
+
+```lf-py
+	reaction(in) -> out {=
+	    ...
+	    self.tracepoint_user_event(self.handle);
+	    ...
+	=}
+```
+  </ShowIf>
+</ShowIfs>
 
 You can also pass a value to the trace. The type of the value is `long long`, so it can be a time value or an int. For example,
 
+<ShowIfs>
+  <ShowIf c>
 ```lf-c
 	reaction(in) -> out {=
 	    ...
@@ -196,6 +238,16 @@ You can also pass a value to the trace. The type of the value is `long long`, so
 	    ...
 	=}
 ```
+  </ShowIf>
+  <ShowIf py>
+```lf-py
+	reaction(in) -> out {=
+	    ...
+	    self.tracepoint_user_value(self.handle, 42);
+	=}
+```
+  </ShowIf>
+</ShowIfs>
 
 An example of a Chrome display of a run of the [Tracing regression test](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/concurrent/Tracing.lf) is here:
 
@@ -207,6 +259,39 @@ shown first. The other four rows are just pure events (with no value). They are
 shown by (extremely) thin lines positioned at the physical time of the
 occurrence of the event. Dragging the mouse over those thin lines shows further
 details about the event in the window below.
+
+<ShowIfs>
+  <ShowIf py>
+### Global User-Defined Tracepoints
+
+Sometimes it is useful to define tracepoints that are global to the program, rather than local to a reactor. This can be done by defining the tracepoint in a **startup** reaction of the main reactor as follows:
+```lf-py
+main reactor {
+  ...
+  reaction(startup) {=
+    global user_trace_event_id
+    user_trace_event_id = self.register_user_trace_event("Global user trace event")
+    if user_trace_event_id == 0:
+      print("Failed to register user trace event.")
+      exit(1)
+  =}
+  ...
+}
+```
+
+Then, in any reaction, you can record the event by calling `tracepoint_user_event` or `tracepoint_user_value`, passing it the global tracepoint ID. E.g.,
+
+```lf-py
+  reaction(in) -> out {=
+    ...
+    global user_trace_event_id
+    self.tracepoint_user_event(user_trace_event_id);
+    self.tracepoint_user_value(user_trace_event_id, 42);
+    ...
+  =}
+```
+  </ShowIf>
+</ShowIfs>
 
 ### Tracing Federated Programs
 

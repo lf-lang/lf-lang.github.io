@@ -27,14 +27,34 @@ export const copypastaPublications: ReactNode = (
     </li>
     <li>
       <p>
+        <strong>TOMACS '25</strong>: Peter Donovan, Erling Jellum, Byeonggil Jun,
+        Hokeun Kim, Edward A. Lee, Shaokai Lin, Marten Lohstroh, and Anirudh
+        Rengarajan. 
+        "<Link href="https://doi.org/10.1145/3767727">Zero-Delay Cycles in Distributed Discrete-Event Systems using Lingua Franca</Link>,"
+        in <i>ACM Transactions on Modeling and Computer Simulation</i>, Volume 36,
+        Issue 1, pp. 1-26, 2025. ACM. Published online November 19, 2025. DOI:{" "}
+        <Link href="https://doi.org/10.1145/3767727">10.1145/3767727</Link>.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>EMSOFT '25</strong>:  Jian-Jia Chen, Mario G&uuml;nzel, Dakshina Dasari, Matthias Becker, Edward A. Lee, Timothy Bourke. 
         "<Link href="https://doi.org/10.1145/3742874.3757086">Special Sessions - Predictable Timing Behavior in Distributed Cyber-Physical Systems</Link>", in <i>Proceedings of the International Conference on Embedded Software</i> (EMSOFT) pp 23-32, Oct. 2025.
       </p>
     </li>
     <li>
       <p>
-        <strong>TOMCS '25</strong>: Peter Donovan, Erling Jellum, Byeonggil Jun, Hokeun Kim, Lee Edward, Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan. 
-        "<Link href="https://doi.org/10.1145/3767727">Zero-Delay Cycles in Distributed Discrete-Event Systems using Lingua Franca</Link>", in <i>ACM Transactions on Modeling and Computer Simulation</i>, To Appear, Accepted on 15 August 2025, DOI: 10.1145/3767727.
+        <strong>ESL '25</strong>: Dongha Kim and Hokeun Kim. 
+        "<Link href="https://doi.org/10.1109/LES.2025.3595517">Deterministic Modeling and Simulation of Fault-Tolerant Real-Time Software</Link>,"
+        <i>IEEE Embedded Systems Letters</i>, Presented at Time-Centric Reactive Software (TCRS) Workshop at ESWEEK 2025, Oct. 2025.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>ESL '25</strong>: Wenhung Kevin Huang, Yoshinori Terazawa,
+        Yutaka Matsubara, and Akihito Iwai. 
+        "<Link href="https://doi.org/10.1109/LES.2025.3596675">Software-Defined Vehicles: Challenges and Orchestrating Mixed-Criticality Services Using Lingua Franca</Link>,"
+        <i>IEEE Embedded Systems Letters</i>, Presented at Time-Centric Reactive Software (TCRS) Workshop at ESWEEK 2025, Oct. 2025.
       </p>
     </li>
     <li>

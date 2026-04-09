@@ -15,6 +15,7 @@ import Link from "@docusaurus/Link";
 import ZulipLogo from "@site/static/img/external-logos/zulip-icon-circle.svg";
 import GithubLogo from "@site/static/img/external-logos/github-mark.svg";
 import RedditLogo from "@site/static/img/external-logos/reddit-logo.svg";
+import ReactorModelLogo from "@site/static/img/external-logos/reactor-model.svg";
 
 export const SocialMediaCard = ({
   renderedImage,
@@ -107,6 +108,25 @@ export default function Community(): JSX.Element {
                   Tell us on GitHub.
                 </Link>
                 
+              </>
+            </SocialMediaCard>
+            <SocialMediaCard
+              renderedImage={
+                <ReactorModelLogo
+                  title="Reactor Model of Computation"
+                  width="100%"
+                  height="100%"
+                  style={{ padding: "4px" }}
+                />
+              }
+              name="Reactor Model"
+            >
+              <>
+                Discover the reactor model of computation, related projects, and
+                events.{" "}
+                <Link href="https://reactor-model.org/">
+                  Visit reactor-model.org.
+                </Link>
               </>
             </SocialMediaCard>
             <SocialMediaCard

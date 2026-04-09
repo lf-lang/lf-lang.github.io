@@ -4,10 +4,12 @@ import Heading from "@theme/Heading";
 import Link from "@docusaurus/Link";
 
 import styles from "./event-page.module.css";
+import bannerStyles from "./cpsweek-2026-tutorial.module.css";
 
 interface ScheduleItem {
   session: string;
   duration: string;
+  time: string;
   description?: React.ReactNode;
   leads?: string;
 }
@@ -16,6 +18,7 @@ const scheduleItems: ScheduleItem[] = [
   {
     session: "Introductory Presentations",
     duration: "45 minutes",
+    time: "2:00 PM – 2:45 PM",
     description:
       "Introduction to CPS concurrency challenges and motivation for Lingua Franca. Explanation of the reactor-oriented programming model and key language concepts (reactors, ports, timers, logical time). Real-world scenarios in automotive and avionic systems where deterministic coordination is vital.",
     leads: "Organizers",
@@ -23,6 +26,7 @@ const scheduleItems: ScheduleItem[] = [
   {
     session: "Live Demos",
     duration: "45 minutes",
+    time: "2:45 PM – 3:30 PM",
     description: (
       <>
         CPS-focused example applications built with LF, including distributed
@@ -42,23 +46,30 @@ const scheduleItems: ScheduleItem[] = [
     leads: "Organizers",
   },
   {
-    session: "Break",
-    duration: "10 minutes",
-  },
-  {
-    session: "Hands-on Programming Sessions",
-    duration: "100 minutes",
+    session: "Installation and Hello World of Lingua Franca",
+    duration: "30 minutes",
+    time: "3:30 PM – 4:00 PM",
     description:
-      "Interactive coding sessions with progressively challenging exercises using CPS-themed examples. Build a smart traffic light controller, implement distributed sensing applications, and explore the LF Playground. Choose between C or Python for reactor logic implementation.",
+      "Set up your Lingua Franca toolchain and walk through a minimal “hello world” style program to verify your environment.",
     leads: "Organizers & Teaching Assistants",
   },
   {
     session: "Break",
-    duration: "10 minutes",
+    duration: "30 minutes",
+    time: "4:00 PM – 4:30 PM",
+  },
+  {
+    session: "Hands-on Programming Sessions",
+    duration: "80 minutes",
+    time: "4:30 PM – 5:50 PM",
+    description:
+      "Interactive coding sessions with progressively challenging exercises using CPS-themed examples. Hands-on work uses the C target in Lingua Franca, starting from template code provided for the tutorial; participants implement distributed cyber-physical system examples that build on these templates.",
+    leads: "Organizers & Teaching Assistants",
   },
   {
     session: "Wrap-Up and Q&A",
-    duration: "30 minutes",
+    duration: "10 minutes",
+    time: "5:50 PM – 6:00 PM",
     description:
       "Summary of key takeaways, discussion of advanced LF capabilities (federated distributed execution, modal models), project roadmap, and community involvement opportunities.",
     leads: "Organizers",
@@ -101,6 +112,34 @@ const organizers: Organizer[] = [
   },
 ];
 
+interface TeachingAssistant {
+  name: string;
+  role: string;
+  affiliation: string;
+  email: string;
+  linkedIn: string;
+  image: string;
+}
+
+const teachingAssistants: TeachingAssistant[] = [
+  {
+    name: "Deeksha Prahlad",
+    role: "Ph.D. Student",
+    affiliation: "Arizona State University, USA",
+    email: "dprahlad@asu.edu",
+    linkedIn: "https://www.linkedin.com/in/deekshaprahlad/",
+    image: "/img/events/cpsweek-2026-tutorial/deeksha-prahlad.jpg",
+  },
+  {
+    name: "Daniel Fan",
+    role: "Undergraduate Student",
+    affiliation: "Arizona State University, USA",
+    email: "danielfa@asu.edu",
+    linkedIn: "https://www.linkedin.com/in/daniel-fan-801b8235b/",
+    image: "/img/events/cpsweek-2026-tutorial/daniel-fan.jpg",
+  },
+];
+
 export default function CPSWeek2026Tutorial() {
   return (
     <Layout
@@ -108,19 +147,19 @@ export default function CPSWeek2026Tutorial() {
       description="Tutorial on Lingua Franca: An Open-Source Coordination Language for Deterministic Integration of Cyber-Physical Systems at CPS-IoT Week 2026"
     >
       {/* Hero Section */}
-      <div className={styles.heroSection}>
+      <div className={bannerStyles.heroWithBanner}>
         <div className="container">
-          <div className={clsx(styles.eventBadge, styles.upcoming)}>
+          <div className={clsx(styles.eventBadge, styles.upcoming, bannerStyles.heroBadge)}>
             Upcoming Tutorial
           </div>
-          <Heading as="h1" className={styles.heroTitle}>
+          <Heading as="h1" className={clsx(styles.heroTitle, bannerStyles.heroHeading)}>
             Lingua Franca:
           </Heading>
-          <p className={styles.heroSubtitle}>
+          <p className={clsx(styles.heroSubtitle, bannerStyles.heroTagline)}>
             An Open-Source Coordination Language for Deterministic Integration
             of Cyber-Physical Systems
           </p>
-          <div className={styles.eventMeta}>
+          <div className={clsx(styles.eventMeta, bannerStyles.heroDetails)}>
             <span>📅 May 11, 2026</span>
             <span>📍 Saint Malo, France</span>
             <span>
@@ -133,8 +172,8 @@ export default function CPSWeek2026Tutorial() {
               </Link>
             </span>
           </div>
-          <p style={{ marginTop: "16px", opacity: 0.9, fontSize: "1rem" }}>
-            Half-day hands-on tutorial (~4 hours)
+          <p className={bannerStyles.heroFootnote}>
+            Half-day hands-on tutorial (2:00 - 6:00 PM CET, 4 hours)
           </p>
         </div>
       </div>
@@ -153,7 +192,16 @@ export default function CPSWeek2026Tutorial() {
                 Participants will explore LF's core concepts through a technical
                 overview, CPS-focused demonstrations, and hands-on programming
                 sessions using C and Python as well as the LF coordination
-                language.
+                language. It is held during{" "}
+                <Link
+                  href="https://cps-iot-week2026.inria.fr/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  CPS-IoT Week 2026
+                </Link>
+                , the premier CPS and IoT research week (May 11–14, 2026, Saint
+                Malo, France).
               </p>
               <p>
                 This tutorial emphasizes how LF enables deterministic
@@ -247,7 +295,7 @@ export default function CPSWeek2026Tutorial() {
                 📋 Tutorial Schedule
               </Heading>
               <p className="text--center margin-bottom--lg">
-                Total duration: ~4 hours (half-day tutorial including breaks)
+                Schedule: May 11, 2026, 2:00 PM – 6:00 PM (4 hours including a break)
               </p>
 
               {scheduleItems.map((item, idx) => (
@@ -264,13 +312,20 @@ export default function CPSWeek2026Tutorial() {
                     <div
                       style={{
                         display: "flex",
+                        flexWrap: "wrap",
                         justifyContent: "space-between",
                         alignItems: "center",
+                        gap: "8px",
                       }}
                     >
-                      <Heading as="h4" className="margin-bottom--none">
-                        {item.session}
-                      </Heading>
+                      <div>
+                        <Heading as="h4" className="margin-bottom--xs">
+                          {item.session}
+                        </Heading>
+                        <span style={{ fontSize: "0.95rem", opacity: 0.85 }}>
+                          {item.time}
+                        </span>
+                      </div>
                       <span
                         className="badge badge--secondary"
                         style={{ fontSize: "0.9rem" }}
@@ -279,12 +334,16 @@ export default function CPSWeek2026Tutorial() {
                       </span>
                     </div>
                   </div>
-                  {item.description && (
+                  {(item.description || item.leads) && (
                     <div className="card__body">
-                      <p className="margin-bottom--none">{item.description}</p>
+                      {item.description && (
+                        <p className={item.leads ? "margin-bottom--sm" : "margin-bottom--none"}>
+                          {item.description}
+                        </p>
+                      )}
                       {item.leads && (
                         <p
-                          className="margin-top--sm margin-bottom--none"
+                          className="margin-bottom--none"
                           style={{ fontSize: "0.9rem", opacity: 0.8 }}
                         >
                           <em>Led by: {item.leads}</em>
@@ -453,8 +512,63 @@ export default function CPSWeek2026Tutorial() {
         </div>
       </div>
 
-      {/* Materials Section */}
+      {/* Teaching Assistants Section */}
       <div className="section">
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                🧑‍🏫 Teaching Assistants
+              </Heading>
+              {teachingAssistants.map((ta, idx) => (
+                <div key={idx} className={clsx("card", "margin-bottom--lg")}>
+                  <div className="card__body">
+                    <div className="row">
+                      <div className="col col--3">
+                        <img
+                          src={ta.image}
+                          alt={ta.name}
+                          style={{
+                            width: "100%",
+                            maxWidth: "150px",
+                            borderRadius: "8px",
+                            objectFit: "cover",
+                            aspectRatio: "1",
+                          }}
+                        />
+                      </div>
+                      <div className="col col--9">
+                        <Heading as="h3" className="margin-bottom--none">
+                          <Link href={ta.linkedIn}>{ta.name}</Link>
+                        </Heading>
+                        <p
+                          className="margin-bottom--xs margin-top--xs"
+                          style={{ fontWeight: 600 }}
+                        >
+                          {ta.role}
+                        </p>
+                        <p
+                          className="margin-bottom--sm margin-top--xs"
+                          style={{ opacity: 0.8, fontStyle: "italic" }}
+                        >
+                          {ta.affiliation}
+                        </p>
+                        <p className="margin-bottom--none" style={{ fontSize: "0.9rem" }}>
+                          📧{" "}
+                          <Link href={`mailto:${ta.email}`}>{ta.email}</Link>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Materials Section */}
+      <div className="section sectionAlt">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
