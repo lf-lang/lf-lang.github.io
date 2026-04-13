@@ -76,6 +76,25 @@
   border-left: 4px solid var(--ifm-color-primary);
 }
 
+.videoEmbed {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-radius: 8px;
+  background: var(--ifm-color-emphasis-100);
+}
+
+.videoEmbedContainer {
+  margin-top: 16px;
+}
+
+.videoEmbedActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 16px;
+}
+
 .topicList {
   margin-top: 16px;
 }

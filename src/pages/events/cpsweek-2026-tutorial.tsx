@@ -14,6 +14,12 @@ interface ScheduleItem {
   leads?: string;
 }
 
+const teaserVideo = {
+  youtubeId: "wuoBdE2PZrs",
+  shortUrl: "https://youtu.be/wuoBdE2PZrs",
+  title: "Lingua Franca tutorial teaser",
+};
+
 const scheduleItems: ScheduleItem[] = [
   {
     session: "Introductory Presentations",
@@ -210,6 +216,33 @@ export default function CPSWeek2026Tutorial() {
                 researchers, engineers, and graduate students with programming
                 experience interested in robust CPS design.
               </p>
+
+              <div className={clsx("card", "margin-top--lg", styles.videoCard)}>
+                <div className="card__header">
+                  <Heading as="h3">🎬 Demo videos</Heading>
+                </div>
+                <div className="card__body">
+                  <p className="margin-bottom--sm">
+                  Using Lingua Franca for building agentic-AI powered human-in-the-loop CPS: Agentic Driving Coach.
+                  </p>
+                  <div className={styles.videoEmbedContainer}>
+                    <iframe
+                      className={styles.videoEmbed}
+                      src={`https://www.youtube-nocookie.com/embed/${teaserVideo.youtubeId}?rel=0`}
+                      title={teaserVideo.title}
+                      loading="lazy"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                      referrerPolicy="strict-origin-when-cross-origin"
+                      allowFullScreen
+                    />
+                  </div>
+                  <div className={styles.videoEmbedActions}>
+                    <Link className="button button--primary button--sm" href={teaserVideo.shortUrl}>
+                      Watch on YouTube
+                    </Link>
+                  </div>
+                </div>
+              </div>
 
               <div className={styles.infoBox}>
                 <Heading as="h3">🎯 Target Audience</Heading>
