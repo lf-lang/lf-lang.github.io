@@ -799,8 +799,22 @@ The generated C program understands the following command-line arguments, each o
 - `-o, --timeout <duration> <units>`: Stop execution when logical time has advanced by the specified _duration_. The units can be any of nsec, usec, msec, sec, minute, hour, day, week, or the plurals of those.
 - `-w, --workers <n>`: Executed using \<n\> worker threads if possible. This option is ignored in the single-threaded version. That is, it is ignored if a `threading` option was given in the target properties with value `false`.
 - `-i, --id <n>`: The ID of the federation that this reactor will join.
+- `-x, --tmux`: Run the program in a tmux session, which splits the terminal into multiple panes, one for each federate and one for the RTI.
+- `-h, --help`: Print a description of the command-line arguments.
 
-Any other command-line arguments result in printing the above information.
+In addition, if the main or federated reactor declares parameters with the primitive types `int`, `time`, `float`, `double`, `bool`, or `string`, these parameters can be overridden when invoking the binary.
+Each LF parameter named `param` corresponds to a CLI parameter named `--param`.
+For example, for a main reactor declared as follows:
+
+```lf-c
+target C;
+main reactor Hello(param: int = 42) {
+  reaction(startup) {=
+    printf("Hello World %d\n", self->param);
+  =}
+}
+```
+Running `bin/Hello --param 43` will result in "Hello World 43" being printed.
 </ShowIf>
 <ShowIf cpp>
 The generated C++ program understands the following command-line arguments, each of which has a short form (one character) and a long form:
