@@ -1,0 +1,15 @@
+target C
+
+import Delay from "GenericDelay.lf"
+
+main reactor {
+  d = new Delay<string>(delay = 100 ms)
+
+  reaction(startup) -> d.in {=
+    lf_set(d.in, "foo");
+  =}
+
+  reaction(d.out) {=
+    printf("Received %s at time %lld.\n", d.out->value, lf_time_logical_elapsed());
+  =}
+}

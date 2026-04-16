@@ -1,0 +1,23 @@
+target Python {
+  timeout: 3 s,
+  coordination: decentralized
+}
+
+import CountPrint, Double from "DecentralizedZeroDelayLoop.lf"
+reactor CountPrintWithChecker extends CountPrint {
+
+  reaction(t, inp) {=
+    if (not inp.is_present) :
+      print(f"***** CountPrint Failed to Receive response at tag ({lf.time.logical_elapsed()}, {lf.tag().microstep})")
+  =} tardy {=
+    print(f"***** CountPrint Received tardy input: {inp.value} at tag ({lf.time.logical_elapsed()}, {lf.tag().microstep})")
+  =}
+}
+
+federated reactor {
+  c = new CountPrintWithChecker()
+  p = new Double()
+  c.out -> p.inp
+  @absent_after(20 ms)
+  p.out -> c.inp
+}

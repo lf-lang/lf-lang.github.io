@@ -1,0 +1,21 @@
+---
+title: RP2040
+description: Developing LF Programs for RP2040.
+---
+# Overview
+Lingua Franca's C-runtime supports the [Raspberry Pi RP2040](https://en.wikipedia.org/wiki/RP2040), an inexpensive microcontroller that is typically used without an operating system ("bare metal"). A [series of lab exercises](https://lf-lang.org/embedded-lab/) have been developed around the [Pololu 3pi+ 2040 robot](https://www.pololu.com/docs/0J86), which is based on the RP2040. The lab serves mainly for instructional use, but is also recommended as the best documentation and guide for getting started developing for the RP2040, and may be adapted to other robots and RP2040 platforms, including the Raspberry Pi Pico boards.
+
+# Templates
+Templates have been developed to lower the barrier to getting started with Lingua Franca on RP2040-based platforms:
+* [Template for the Lingua Franca RP2040 target platform](https://github.com/lf-lang/lf-pico-template)
+* [reactor-uc Raspberry Pi Pico template](https://github.com/lf-lang/lf-pico-uc-template/)
+
+We find that these templates are applicable to the first-generation Pico boards based on the RP2040, as well as the second-generation Pico 2 based on the software-compatible [RP2350](https://en.wikipedia.org/wiki/RP2350). Some customization is required, but in many cases, it is sufficient to set the board configuration (`PICO_BOARD`) and then let the build system automatically set the platform (`PICO_PLATFORM`). For example, suppose we want to build for the Pico 2 W. We find that `pico2_w.h` is one of the over 120 board header files under `pico-sdk/src/boards/include/boards/`. At the shell prompt, we can `export PICO_BOARD=pico2_w`, which will then be cached/latched by CMake during the first build.
+
+Other ways to get `PICO_BOARD` so it is seen by CMake include:
+* if the template uses `nix develop`, set environment variables `shell.nix`
+* if the template has integrated the Lingua Franca compiler into CMake:
+  * pass `PICO_BOARD` directly to `cmake`: `cmake -Bbuild -DPICO_BOARD=pico2_w`, or
+  * insert a line into `CMakeLists.txt`: `set(PICO_BOARD pico2_w CACHE STRING "Board type")`
+
+For full details, see the individual templates, and the "Platform and Board Configuration" chapter of the [Raspberry Pi Pico-series C/C++ SDK](https://rptl.io/pico-c-sdk) book.

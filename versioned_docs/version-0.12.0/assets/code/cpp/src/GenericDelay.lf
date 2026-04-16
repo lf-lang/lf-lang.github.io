@@ -1,0 +1,28 @@
+target Cpp
+
+reactor Delay<T>(delay: time = 0) {
+  input in: T
+  output out: T
+  logical action a(delay): T
+
+  reaction(a) -> out {=
+    out.set(a.get());
+  =}
+
+  reaction(in) -> a {=
+    a.schedule(in.get(), delay);
+  =}
+}
+
+main reactor {
+  d = new Delay<int>(delay = 100 ms)
+
+  reaction(startup) -> d.in {=
+    d.in.set(42);
+  =}
+
+  reaction(d.out) {=
+    std::cout << "received " << *d.out.get() << " at time "
+        << get_elapsed_logical_time() << std::endl;
+  =}
+}

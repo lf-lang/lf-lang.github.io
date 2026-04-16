@@ -1,0 +1,9 @@
+target C
+
+main reactor Timer {
+  timer t(0, 1 sec)
+
+  reaction(t) {=
+    printf("Logical time is %lld.\n", lf_time_logical());
+  =}
+}

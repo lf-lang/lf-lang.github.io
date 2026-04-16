@@ -1,0 +1,171 @@
+---
+title: FlexPRET
+description: Developing LF Programs for FlexPRET.
+---
+# Overview
+
+FlexPRET is a precision-timed (PRET) machine designed for mixed-criticality systems. As of 2024, PRET machines are an open field of research. Refer to its [github page](https://github.com/pretis/flexpret) for more in-depth information. FlexPRET either needs to be emulated or run on a Field-Programmable Gate Array  (FPGA). In this guide we will show you how to pair FlexPRET with Lingua Franca, leaving you with precise software execution.
+
+As a developer, you should be aware of a significant difference between FlexPRET's notion of threads versus other platforms. FlexPRET uses fined-grained *hardware* threads, as opposed to the usual (software) threads. This means that if multiple threads are running, they can swap every clock cycle. In addition, hardware threads are designed to be isolated, meaning the execution time of one thread will not affect the execution time of another, as opposed to concurrent software threads. Since the threads are implemented in hardware, FlexPRET can only have a maximum of eight.
+
+# Getting started
+
+## Development environment setup
+
+1. We start out by setting up a development environment. Clone the 
+`lf-flexpret-template` from Github:
+```
+git clone --recurse-submodules https://github.com/lf-lang/lf-flexpret-template lf-flexpret-workspace && cd lf-flexpret-workspace
+```
+2. Source the `env.bash` to set up necessary environment variables. You will need to do this every time, so it could be a good idea to add this to your `~/.bashrc`.
+
+## FlexPRET build
+
+3. Now we will build the FlexPRET emulator. Step into the FlexPRET directory and build the default configuration with `cmake`.
+```
+cd $FP_PATH
+cmake -B build && cd build && make
+```
+
+4. You should now install FlexPRET's hardware configuration to the software development kit (SDK). This provides the SDK with necessary information such as the amount of data memory available.
+```
+make install
+```
+
+5. Next, step into the SDK and compile it. This step is strictly speaking not necessary, but it is good to know the system works as expected.
+```
+cd $FP_SDK_PATH
+cmake -B build && cd build && make && ctest
+```
+
+## Lingua Franca on FlexPRET
+
+6. Step back to the top-level directory and compile a sample LF application.
+```
+lfc src/HelloWorld.lf
+```
+
+7. Run the compiled program on the FlexPRET emulator.
+```
+./bin/HelloWorld
+```
+
+(This is just a `bash` script that runs the emulator and passes the correct program binary file to it underneath the hood.)
+
+8. Verify that you see the expected output
+```
+[0]: ---- Start execution ----
+[0]: Environment 0: ---- Intializing start tag
+[0]: Environment 0: ---- Spawning 1 workers.
+[1]: Hello world from FlexPRET
+[1]: Goodbye
+```
+
+(The `[<n>]` means hardware thread `n` is printing.)
+
+# FlexPRET specific features
+
+Some of FlexPRET's specific features are highlighted in the sample programs. These include `interrupt on expire`, which triggers an interrupt at some scheduled point in time and temporal isolation of hardware threads (i.e., isolated in timing). 
+
+## Interrupt on expire
+
+The sample code is available in `src/InterruptExpire.lf`. 
+
+Run the application like so:
+
+```
+lfc src/InterruptExpire.lf && ./bin/InterruptExpire
+```
+
+## Temporal isolation
+
+See `src/multi-threaded/Isolation.lf` for the sample application. The application runs a hardware thread in the background of an LF reactor that triggers every 50 milliseconds. The interrupt handler runs a long `for` loop. On other platforms, the interrupt handler would distrup the timing of the LF reaction. But due to temporal isolation, the LF reaction's timing is unaffected by the interrupts.
+
+Run the application like so:
+
+```
+lfc src/multi-threaded/Isolation.lf && ./bin/Isolation
+```
+
+## Building FlexPRET with another configuration
+
+Refer to the [FlexPRET docs](https://github.com/pretis/flexpret?tab=readme-ov-file#configuration) for more information on how to run a non-default and custom FlexPRET configuration.
+
+# FlexPRET on FPGA
+
+It is possible to realize FlexPRET on a Field-Programmable Gate Array (FPGA). Refer to [the docs](https://github.com/pretis/flexpret?tab=readme-ov-file#running-on-fpga).
+
+Please note that for FPGA, only hardware thread 0 is connected to a UART peripheral, meaning only hardware thread 0 can print using that.
+
+# Troubleshooting
+
+## Environment not set up
+
+```
+lfc: warning: No FP_PATH environment variable found
+lfc: warning: No FP_SDK_PATH environment variable found
+```
+
+You probably forgot to `source env.bash` or `source env.fish`.
+
+## FlexPRET not installed to SDK
+
+This message means that the SDK did not find a FlexPRET installation.
+
+```
+Could not find
+  <path to workspace>/lf-flexpret-workspace/flexpret/sdk/flexpret/fp-emu.
+  Please build FlexPRET and install it here with `cmake --install` to
+  continue.
+```
+
+In this case, you need to step into the FlexPRET directory, build FlexPRET (if
+not built already) and install it to the SDK.
+
+```
+cd $FP_PATH
+cmake -B build && cd build && make all install
+```
+
+## Instruction memory full
+
+An error that looks like this means your program (i.e., your instructions) are 
+too large to fit inside the instruction memory.
+
+```
+/opt/riscv/lib/gcc/riscv32-unknown-elf/11.1.0/../../../../riscv32-unknown-elf/bin/ld: HelloWorld section `.text' will not fit in region `ROM'
+/opt/riscv/lib/gcc/riscv32-unknown-elf/11.1.0/../../../../riscv32-unknown-elf/bin/ld: region `ROM' overflowed by 70664 bytes
+```
+
+There are two possible solutions to this issue:
+1. Reduce the size of your program. `printf` is notorious for taking up a lot of
+space, so consider replacing it with a lower footprint version (or nothing at all). Tip: To inspect
+what takes up space in your final executible, use `nm`, like so:
+`nm HelloWorld --size-sort`.
+1. Increase the size of the instruction memory. This is done in FlexPRET's
+configs (see [FlexPRET's README](https://github.com/pretis/flexpret?tab=readme-ov-file#configuration)). This is easily
+done when emulating FlexPRET, but might not be so simple when realizing the design on an FPGA.
+
+## Bootloader not found
+
+This error should only occur if you have specified `fpga` in the board target property. It means that you do not have not built the bootloader in the FlexPRET SDK.
+```
+/opt/riscv/lib/gcc/riscv32-unknown-elf/11.1.0/../../../../riscv32-unknown-elf/bin/ld: cannot open linker script file bootloader.ld: No such file or directory
+```
+
+The solution is to build the SDK; it will build the bootloder and generate a `bootloader.ld`. 
+
+```
+cd $FP_SDK_PATH
+cmake -B build && cd build && make
+```
+
+## Hardware vs. software configuration mismatch
+
+This error occurs if the configuration used to build FlexPRET does not match the hardware configuration installed to FlexPRET's SDK.
+
+```
+Reset_Handler: 165: Abort:[0]: Hardware and software configuration mismatch (0xef49961d vs. 0x79d84635)
+```
+
+The solution is to rebuild FlexPRET and install its hardware configuration to the SDK with `make install`. 

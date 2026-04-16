@@ -1,0 +1,73 @@
+---
+title: Superdense Time
+description: Superdense time in Lingua Franca.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c cpp py rs ts />
+
+## Tag vs. Time
+
+The model of time in Lingua Franca is a bit more sophisticated than we have hinted at. Specifically, a **superdense** model of time is used. In particular, instead of a **timestamp**, LF uses a **tag**, which consists of a **logical time** _t_ and a **microstep** _m_.
+
+A [`logical` `action`](<../writing-reactors/actions.mdx#logical-actions>) may have a `<min_delay>` of zero, and the `<offset>` argument to the `schedule()` function may be zero. In this case, the call to `schedule(>)` appears to be requesting that the action trigger at the _current logical time_. Here is where superdense time comes in. The action will indeed trigger at the current logical time, but one microstep later. Consider the following example:
+
+import C_Microsteps from '../assets/code/c/src/Microsteps.lf';
+import Cpp_Microsteps from '../assets/code/cpp/src/Microsteps.lf';
+import Py_Microsteps from '../assets/code/py/src/Microsteps.lf';
+import Rs_Microsteps from '../assets/code/rs/src/Microsteps.lf';
+import TS_Microsteps from '../assets/code/ts/src/Microsteps.lf';
+
+<NoSelectorTargetCodeBlock c={C_Microsteps} cpp={Cpp_Microsteps} py={Py_Microsteps} rs={Rs_Microsteps} ts={TS_Microsteps} lf />
+
+import MicrostepsSVG from "./../assets/images/diagrams/Microsteps.svg"
+
+<MicrostepsSVG title="Lingua Franca diagram: Microsteps" role="img" width="150" />
+
+Executing this program will yield something like this:
+
+```
+1. Logical time is 1649607749415269000. Microstep is 0.
+2. Logical time is 1649607749415269000. Microstep is 1.
+3. Logical time is 1649607749415269000. Microstep is 2.
+4. Logical time is 1649607749415269000. Microstep is 3.
+5. Logical time is 1649607749415269000. Microstep is 4.
+```
+
+Notice that the logical time is not advancing, but the microstep is (the logical time, in this case, gives the number of nanoseconds that have elapsed since January 1, 1970). The general rule is that **every** call to `schedule()` advances the tag by at least one microstep.
+
+## Logical Simultaneity
+
+Two events are **logically simultaneous** only if _both_ the logical time and the microstep are equal. The following example illustrates this:
+
+import C_Simultaneous from '../assets/code/c/src/Simultaneous.lf';
+import Cpp_Simultaneous from '../assets/code/cpp/src/Simultaneous.lf';
+import Py_Simultaneous from '../assets/code/py/src/Simultaneous.lf';
+import Rs_Simultaneous from '../assets/code/rs/src/Simultaneous.lf';
+import TS_Simultaneous from '../assets/code/ts/src/Simultaneous.lf';
+
+<NoSelectorTargetCodeBlock c={C_Simultaneous} cpp={Cpp_Simultaneous} py={Py_Simultaneous} rs={Rs_Simultaneous} ts={TS_Simultaneous} lf />
+
+import SimultaneousSVG from "./../assets/images/diagrams/Simultaneous.svg"
+
+<SimultaneousSVG title="Lingua Franca diagram: Simultaneous" role="img" width="400" />
+
+The `Destination` reactor has two inputs, `x` and `y`, and it reports in a reaction to either input what is the logical time, the microstep, and which input is present. The main reactor reacts to `startup` by sending data to the `x` input of `Destination`. It then schedules a `repeat` action with an `<offset>` of zero. The `repeat` reaction is invoked **strictly later**, one **microstep** later. The output printed, therefore, will look like this:
+
+```
+Time since start: 0, microstep: 0
+  x is present.
+Time since start: 0, microstep: 1
+  y is present.
+```
+
+The reported elapsed logical time has not advanced in the second reaction, but the fact that `x` is not present in the second reaction proves that the first reaction and the second are not logically simultaneous. The second occurs one microstep later.
+
+## Alignment of Logical and Physical Times
+
+Recall that in Lingua Franca, logical time "chases" physical time, invoking reactions at a physical time close to their logical time. For that purpose, the microstep is ignored.

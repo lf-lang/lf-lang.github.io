@@ -1,0 +1,34 @@
+target C
+reactor ReactorA {
+  output output_port: int
+  @label("timer (offset, period)")
+  timer t(0, 100 ms)
+  @label("reaction A1")
+  reaction(t) -> output_port {=
+  =}
+}
+reactor ReactorB {
+  input input_port: int
+  output output_port: int
+  @label("reaction B1")
+  reaction(input_port) -> output_port {=
+  =}
+}
+reactor ReactorC {
+  input input_port1: int
+  input input_port2: int
+  @label("reaction C1")
+  reaction(input_port1) {=
+  =}
+  @label("reaction C2")
+  reaction(input_port2) {=
+  =}
+}
+main reactor {
+  a = new ReactorA()
+  b = new ReactorB()
+  c = new ReactorC()
+  a.output_port -> c.input_port2 after 200 ms
+  a.output_port -> b.input_port after 100 ms
+  b.output_port -> c.input_port1 after 100 ms
+}

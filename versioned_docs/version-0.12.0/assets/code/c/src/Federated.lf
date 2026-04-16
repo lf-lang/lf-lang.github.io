@@ -1,0 +1,27 @@
+target C
+
+reactor Count {
+  output out: int
+  state c: int = 0
+  timer t(0, 1 sec)
+
+  reaction(t) -> out {=
+    lf_set(out, self->c++);
+  =}
+}
+
+reactor Print {
+  input in: int
+
+  reaction(in) {=
+    lf_print("Received: %d at (%lld, %d)", in->value,
+        lf_time_logical_elapsed(), lf_tag().microstep
+    );
+  =}
+}
+
+federated reactor {
+  c = new Count()
+  p = new Print()
+  c.out -> p.in
+}

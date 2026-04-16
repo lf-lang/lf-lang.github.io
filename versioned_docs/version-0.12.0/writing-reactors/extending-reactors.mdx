@@ -1,0 +1,34 @@
+---
+title: Extending Reactors
+description: Extending reactors in Lingua Franca.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c py ts rs />
+
+## Extending a Base Reactor
+
+Lingua Franca supports defining a reactor class as an extension (or subclass), as in the following example:
+
+import C_Extends from '../assets/code/c/src/Extends.lf';
+import Py_Extends from '../assets/code/py/src/Extends.lf';
+import Rs_Extends from '../assets/code/rs/src/Extends.lf';
+import TS_Extends from '../assets/code/ts/src/Extends.lf';
+
+<NoSelectorTargetCodeBlock c={C_Extends} py={Py_Extends} rs={Rs_Extends} ts={TS_Extends} lf />
+
+import ExtendsSVG from "./../assets/images/diagrams/Extends.svg"
+
+<ExtendsSVG title="Lingua Franca diagram: Extends" role="img" width="350" />
+
+Here, the base class `A` has a single output that it writes to in reaction to an input. The subclass inherits the input, the output, and the reaction of `A`, and adds its own input `b` and reaction. When an input event `a` arrives, both reactions will be invoked, but, once again, in a well-defined order. The reactions of the base class are invoked before those of the derived class. So in this case, `B` will overwrite the output produced by `A`.
+
+One limitation is that a subclass cannot have ports, actions, or state variables with the same names as those in the base class. The names must be unique.
+
+A subclass can extend more than one base class by just providing a comma-separated list of base classes. If reactions in multiple base classes are triggered at the same tag, they will be invoked in the same order that they appear in the comma-separated list.
+

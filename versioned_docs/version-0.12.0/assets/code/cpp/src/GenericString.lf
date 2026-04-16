@@ -1,0 +1,16 @@
+target Cpp
+
+import Delay from "GenericDelay.lf"
+
+main reactor {
+  d = new Delay<{= std::string =}>(delay = 100 ms)
+
+  reaction(startup) -> d.in {=
+    d.in.set("foo");
+  =}
+
+  reaction(d.out) {=
+    std::cout << "received " << *d.out.get() << " at time "
+        << get_elapsed_logical_time() << std::endl;
+  =}
+}

@@ -1,0 +1,31 @@
+ // Check bank of reactors sending to bank of reactors.
+target Python {
+    timeout: 2 sec,
+    fast: true,
+};
+import MultiportSource from "../MultiportSource.lf";
+reactor Destination(
+    bank_index(0)
+) {
+    state s(0);
+    input inp;
+    reaction(inp) {=
+        print(f"Destination {self.bank_index} received: {inp.value}.")
+        if inp.value != self.s:
+            sys.stderr.write(f"ERROR: Expected {self.s}.")
+            exit(1)
+        self.s += self.bank_index
+    =}
+    reaction(shutdown) {=
+        if self.s == 0 and self.bank_index != 0:
+            sys.stderr.write(f"ERROR: Destination {self.bank_index} received no input!")
+            exit(1)
+        print("Success.")
+    =}
+}
+
+main reactor(width(4)) { 
+    a = new[width] MultiportSource();
+    b = new[width] Destination();
+    a.out -> b.inp;
+}

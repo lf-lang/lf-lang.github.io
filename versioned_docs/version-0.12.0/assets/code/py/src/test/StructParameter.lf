@@ -1,0 +1,15 @@
+target Python;
+preamble {=
+    class hello:
+        def __init__(self, name, value):
+            self.name = name
+            self.value = value    
+=}
+main reactor(p({=hello("Earth", 42)=})) {
+    reaction(startup) {=
+        print(f"Parameter p.name=\"{self.p.name}\", value={self.p.value}.")
+        if self.p.value != 42:
+            sys.stderr.write(stderr, "FAILED: Expected 42.")
+            exit(1)
+    =}
+}
