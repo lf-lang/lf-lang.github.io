@@ -25,16 +25,6 @@ export const events: Event[] = [
     isUpcoming: true,
   },
   {
-    title: "ReCPS: Workshop on Reactive Cyber-Physical Systems",
-    date: "2026-04-20",
-    location: "Verona, Italy (DATE 2026 Conference)",
-    description:
-      "Workshop on Reactive Cyber-Physical Systems: Design, Simulation, and Coordination, co-located with the Design, Automation and Test in Europe (DATE) Conference 2026.",
-    link: "/events/recps-2026",
-    type: "workshop",
-    isUpcoming: true,
-  },
-  {
     title: "TCRS '26: Time-Centric Reactive Software",
     date: "2026-10-08",
     endDate: "2026-10-09",
@@ -47,6 +37,16 @@ export const events: Event[] = [
     isExternal: true,
   },
   // Past Events
+  {
+    title: "ReCPS: Workshop on Reactive Cyber-Physical Systems",
+    date: "2026-04-20",
+    location: "Verona, Italy (DATE 2026 Conference)",
+    description:
+      "Workshop on Reactive Cyber-Physical Systems: Design, Simulation, and Coordination, co-located with the Design, Automation and Test in Europe (DATE) Conference 2026.",
+    link: "/events/recps-2026",
+    type: "workshop",
+    isUpcoming: false,
+  },
   {
     title: "TCRS '25: Time-Centric Reactive Software",
     date: "2025-10-02",
