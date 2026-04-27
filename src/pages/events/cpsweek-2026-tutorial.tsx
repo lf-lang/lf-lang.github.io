@@ -15,8 +15,8 @@ interface ScheduleItem {
 }
 
 const teaserVideo = {
-  youtubeId: "wuoBdE2PZrs",
-  shortUrl: "https://youtu.be/wuoBdE2PZrs",
+  youtubeId: "C_g9nNrR2GY",
+  shortUrl: "https://youtu.be/C_g9nNrR2GY",
   title: "Lingua Franca tutorial teaser",
 };
 
