@@ -14,11 +14,29 @@ interface ScheduleItem {
   leads?: string;
 }
 
-const teaserVideo = {
-  youtubeId: "C_g9nNrR2GY",
-  shortUrl: "https://youtu.be/C_g9nNrR2GY",
-  title: "Lingua Franca tutorial teaser",
-};
+interface TeaserVideo {
+  youtubeId: string;
+  shortUrl: string;
+  title: string;
+  description: React.ReactNode;
+}
+
+const teaserVideos: TeaserVideo[] = [
+  {
+    youtubeId: "C_g9nNrR2GY",
+    shortUrl: "https://youtu.be/C_g9nNrR2GY",
+    title: "Lingua Franca tutorial teaser",
+    description:
+      "Using Lingua Franca for building agentic-AI powered human-in-the-loop CPS: Agentic Driving Coach.",
+  },
+  {
+    youtubeId: "ucXgmFU9k_4",
+    shortUrl: "https://youtu.be/ucXgmFU9k_4",
+    title: "Lingua Franca tutorial teaser — additional preview",
+    description:
+      "Another preview of the CPS-IoT Week hands-on Lingua Franca tutorial.",
+  },
+];
 
 const scheduleItems: ScheduleItem[] = [
   {
@@ -222,25 +240,33 @@ export default function CPSWeek2026Tutorial() {
                   <Heading as="h3">🎬 Demo videos</Heading>
                 </div>
                 <div className="card__body">
-                  <p className="margin-bottom--sm">
-                  Using Lingua Franca for building agentic-AI powered human-in-the-loop CPS: Agentic Driving Coach.
-                  </p>
-                  <div className={styles.videoEmbedContainer}>
-                    <iframe
-                      className={styles.videoEmbed}
-                      src={`https://www.youtube-nocookie.com/embed/${teaserVideo.youtubeId}?rel=0`}
-                      title={teaserVideo.title}
-                      loading="lazy"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      referrerPolicy="strict-origin-when-cross-origin"
-                      allowFullScreen
-                    />
-                  </div>
-                  <div className={styles.videoEmbedActions}>
-                    <Link className="button button--primary button--sm" href={teaserVideo.shortUrl}>
-                      Watch on YouTube
-                    </Link>
-                  </div>
+                  {teaserVideos.map((video, idx) => (
+                    <div
+                      key={video.youtubeId}
+                      className={idx > 0 ? "margin-top--lg" : undefined}
+                    >
+                      <p className="margin-bottom--sm">{video.description}</p>
+                      <div className={styles.videoEmbedContainer}>
+                        <iframe
+                          className={styles.videoEmbed}
+                          src={`https://www.youtube-nocookie.com/embed/${video.youtubeId}?rel=0`}
+                          title={video.title}
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      </div>
+                      <div className={styles.videoEmbedActions}>
+                        <Link
+                          className="button button--primary button--sm"
+                          href={video.shortUrl}
+                        >
+                          Watch on YouTube
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
 
