@@ -481,6 +481,51 @@ export default function CPSWeek2026Tutorial() {
                     <strong>Windows</strong> (via WSL).
                   </p>
 
+                  <div className={clsx(styles.infoBox, "margin-bottom--md")}>
+                    <Heading as="h3">Installation guide</Heading>
+                    <p className="margin-bottom--sm">
+                      Step-by-step setup for the toolchain, VS Code extension, and
+                      CLI is in the{" "}
+                      <Link
+                        href="https://www.lf-lang.org/docs/installation/"
+                      >
+                        Lingua Franca installation documentation
+                      </Link>
+                      .
+                    </p>
+                    <p className="margin-bottom--xs">
+                      <strong>Highlights:</strong>
+                    </p>
+                    <ul className="margin-bottom--none">
+                      <li>
+                        <strong>Java 17 or higher</strong> is required for the compiler and
+                        tooling.
+                      </li>
+                      <li>
+                        <strong>Windows:</strong> use{" "}
+                        <strong>WSL</strong> with Ubuntu and install all LF
+                        components inside Linux (not MSYS/Git Bash).
+                      </li>
+                      <li>
+                        <strong>VS Code / Cursor:</strong> install the Lingua
+                        Franca extension from the Marketplace (
+                        <code>lf-lang.vscode-lingua-franca</code>
+                        ).
+                      </li>
+                      <li>
+                        <strong>CLI:</strong> one-line install with{" "}
+                        <code>
+                          curl -Ls https://install.lf-lang.org | bash -s cli
+                        </code>
+                        .
+                      </li>
+                      <li>
+                        Optional <strong>cloud dev environments</strong>{" "}
+                        (Gitpod, GitHub Codespaces) are covered in the same guide.
+                      </li>
+                    </ul>
+                  </div>
+
                   <Heading as="h4">Setup Options</Heading>
                   <ul>
                     <li>
@@ -517,8 +562,47 @@ export default function CPSWeek2026Tutorial() {
         </div>
       </div>
 
+      {/* Hands-on Programming Materials */}
+      <div
+        id="hands-on-programming-materials"
+        className="section sectionAlt"
+      >
+        <div className="container">
+          <div className="row">
+            <div className="col col--8 col--offset-2">
+              <Heading as="h2" className="text--center margin-bottom--lg">
+                Hands-on Programming Materials
+              </Heading>
+              <div className="card">
+                <div className="card__body">
+                  <p>
+                    The hands-on session follows the CPS-IoT Week 2026 exercises
+                    in Lingua Franca: distributed power-grid control, logical
+                    time, consistency tradeoffs, and the CAL theorem. Instructions
+                    and starter code live in the{" "}
+                    <Link href="https://github.com/lf-lang/lf-tutorial-handson-2026">
+                      lf-tutorial-handson-2026
+                    </Link>{" "}
+                    repository on GitHub (also available as a template repo for
+                    your own copy).
+                  </p>
+                  <div className={styles.videoEmbedActions}>
+                    <Link
+                      className="button button--primary button--lg"
+                      href="https://github.com/lf-lang/lf-tutorial-handson-2026"
+                    >
+                      View on GitHub
+                    </Link>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Organizers Section */}
-      <div className="section sectionAlt">
+      <div className="section">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
@@ -572,7 +656,7 @@ export default function CPSWeek2026Tutorial() {
       </div>
 
       {/* Teaching Assistants Section */}
-      <div className="section">
+      <div className="section sectionAlt">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
@@ -627,7 +711,7 @@ export default function CPSWeek2026Tutorial() {
       </div>
 
       {/* Materials Section */}
-      <div className="section sectionAlt">
+      <div className="section">
         <div className="container">
           <div className="row">
             <div className="col col--8 col--offset-2">
@@ -643,7 +727,11 @@ export default function CPSWeek2026Tutorial() {
                   <ul>
                     <li>Setup instructions and prerequisites</li>
                     <li>Slide decks and presentation materials</li>
-                    <li>Hands-on exercise instructions and starter code</li>
+                    <li>
+                      <Link href="#hands-on-programming-materials">
+                        Hands-on exercise instructions and starter code
+                      </Link>
+                    </li>
                     <li>Links to example projects and the LF Playground</li>
                     <li>Video recordings of presentations and demos (after the event)</li>
                   </ul>
@@ -671,7 +759,7 @@ export default function CPSWeek2026Tutorial() {
       </div>
 
       {/* CTA Section */}
-      <div className="section">
+      <div className="section sectionAlt">
         <div className="container text--center">
           <Heading as="h2">Related Resources</Heading>
           <p>
