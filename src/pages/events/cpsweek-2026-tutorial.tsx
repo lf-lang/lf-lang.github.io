@@ -235,7 +235,8 @@ export default function CPSWeek2026Tutorial() {
                 experience interested in robust CPS design.
               </p>
 
-              <div className={clsx("card", "margin-top--lg", styles.videoCard)}>
+              {/* TODO(hokeun) Disabling demo video secttion temporarily.  */}
+              {/* <div className={clsx("card", "margin-top--lg", styles.videoCard)}>
                 <div className="card__header">
                   <Heading as="h3">🎬 Demo videos</Heading>
                 </div>
@@ -268,7 +269,7 @@ export default function CPSWeek2026Tutorial() {
                     </div>
                   ))}
                 </div>
-              </div>
+              </div> */}
 
               <div className={styles.infoBox}>
                 <Heading as="h3">🎯 Target Audience</Heading>
