@@ -21,6 +21,11 @@ interface TeaserVideo {
   description: React.ReactNode;
 }
 
+interface DemoTeaser {
+  title: string;
+  image: string;
+}
+
 const teaserVideos: TeaserVideo[] = [
   {
     youtubeId: "C_g9nNrR2GY",
@@ -35,6 +40,25 @@ const teaserVideos: TeaserVideo[] = [
     title: "Lingua Franca tutorial teaser — additional preview",
     description:
       "Another preview of the CPS-IoT Week hands-on Lingua Franca tutorial.",
+  },
+];
+
+const demoTeasers: DemoTeaser[] = [
+  {
+    title: "Inverted pendulum",
+    image: "/img/events/cpsweek-2026-tutorial/inverted-pendulum-demo.gif",
+  },
+  {
+    title: "LED matrix",
+    image: "/img/events/cpsweek-2026-tutorial/led-matrix-demo.gif",
+  },
+  {
+    title: "Car line following",
+    image: "/img/events/cpsweek-2026-tutorial/car-line-follow-demo.gif",
+  },
+  {
+    title: "Car platoon",
+    image: "/img/events/cpsweek-2026-tutorial/car-platoon-demo.gif",
   },
 ];
 
@@ -234,6 +258,27 @@ export default function CPSWeek2026Tutorial() {
                 researchers, engineers, and graduate students with programming
                 experience interested in robust CPS design.
               </p>
+
+              <div className={clsx("card", "margin-top--lg", styles.demoTeaserCard)}>
+                <div className="card__header">
+                  <Heading as="h3">🎬 Demo teasers</Heading>
+                </div>
+                <div className="card__body">
+                  <div className={styles.demoTeaserGrid}>
+                    {demoTeasers.map((teaser) => (
+                      <figure key={teaser.title} className={styles.demoTeaser}>
+                        <img
+                          src={teaser.image}
+                          alt={`${teaser.title} demo teaser`}
+                          className={styles.demoTeaserImage}
+                          loading="lazy"
+                        />
+                        <figcaption>{teaser.title}</figcaption>
+                      </figure>
+                    ))}
+                  </div>
+                </div>
+              </div>
 
               {/* TODO(hokeun) Disabling demo video secttion temporarily.  */}
               {/* <div className={clsx("card", "margin-top--lg", styles.videoCard)}>

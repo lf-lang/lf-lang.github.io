@@ -95,6 +95,37 @@
   margin-top: 16px;
 }
 
+/* Demo teaser image grid */
+.demoTeaserCard {
+  border-left: 4px solid var(--ifm-color-primary);
+}
+
+.demoTeaserGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.demoTeaser {
+  margin: 0;
+}
+
+.demoTeaserImage {
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: contain;
+  border-radius: 8px;
+  background: #000;
+  border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.demoTeaser figcaption {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-align: center;
+}
+
 .topicList {
   margin-top: 16px;
 }
@@ -216,6 +247,12 @@
   .ctaButtons .button {
     width: 100%;
     max-width: 280px;
+  }
+}
+
+@media (max-width: 480px) {
+  .demoTeaserGrid {
+    grid-template-columns: 1fr;
   }
 }
 
