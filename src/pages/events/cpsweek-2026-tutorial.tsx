@@ -24,6 +24,7 @@ interface TeaserVideo {
 interface DemoTeaser {
   title: string;
   image: string;
+  zoom?: "medium" | "large";
 }
 
 const teaserVideos: TeaserVideo[] = [
@@ -47,6 +48,7 @@ const demoTeasers: DemoTeaser[] = [
   {
     title: "Inverted pendulum",
     image: "/img/events/cpsweek-2026-tutorial/inverted-pendulum-demo.gif",
+    zoom: "medium",
   },
   {
     title: "LED matrix",
@@ -55,10 +57,12 @@ const demoTeasers: DemoTeaser[] = [
   {
     title: "Car line following",
     image: "/img/events/cpsweek-2026-tutorial/car-line-follow-demo.gif",
+    zoom: "large",
   },
   {
     title: "Car platoon",
     image: "/img/events/cpsweek-2026-tutorial/car-platoon-demo.gif",
+    zoom: "large",
   },
 ];
 
@@ -267,12 +271,18 @@ export default function CPSWeek2026Tutorial() {
                   <div className={styles.demoTeaserGrid}>
                     {demoTeasers.map((teaser) => (
                       <figure key={teaser.title} className={styles.demoTeaser}>
-                        <img
-                          src={teaser.image}
-                          alt={`${teaser.title} demo teaser`}
-                          className={styles.demoTeaserImage}
-                          loading="lazy"
-                        />
+                        <div className={styles.demoTeaserImageFrame}>
+                          <img
+                            src={teaser.image}
+                            alt={`${teaser.title} demo teaser`}
+                            className={clsx(
+                              styles.demoTeaserImage,
+                              teaser.zoom === "medium" && styles.demoTeaserImageZoomedMedium,
+                              teaser.zoom === "large" && styles.demoTeaserImageZoomedLarge,
+                            )}
+                            loading="lazy"
+                          />
+                        </div>
                         <figcaption>{teaser.title}</figcaption>
                       </figure>
                     ))}

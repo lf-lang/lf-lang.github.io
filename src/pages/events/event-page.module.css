@@ -110,13 +110,29 @@
   margin: 0;
 }
 
-.demoTeaserImage {
+.demoTeaserImageFrame {
   width: 100%;
   aspect-ratio: 16 / 10;
-  object-fit: contain;
+  overflow: hidden;
   border-radius: 8px;
   background: #000;
   border: 1px solid var(--ifm-color-emphasis-200);
+}
+
+.demoTeaserImage {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.demoTeaserImageZoomedMedium {
+  transform: scale(1.25);
+  transform-origin: center;
+}
+
+.demoTeaserImageZoomedLarge {
+  transform: scale(1.8);
+  transform-origin: center;
 }
 
 .demoTeaser figcaption {
