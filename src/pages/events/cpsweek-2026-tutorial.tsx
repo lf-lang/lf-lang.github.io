@@ -29,19 +29,12 @@ interface DemoTeaser {
 
 const teaserVideos: TeaserVideo[] = [
   {
-    youtubeId: "C_g9nNrR2GY",
-    shortUrl: "https://youtu.be/C_g9nNrR2GY",
-    title: "Lingua Franca tutorial teaser",
+    youtubeId: "1UV_WrzztZ4",
+    shortUrl: "https://youtu.be/1UV_WrzztZ4",
+    title:
+      "Frost: A Prototyping Platform for Early Validation and Testing of Manufacturing Software",
     description:
-      "Using Lingua Franca for building agentic-AI powered human-in-the-loop CPS: Agentic Driving Coach.",
-  },
-  {
-    youtubeId: "ucXgmFU9k_4",
-    shortUrl: "https://youtu.be/ucXgmFU9k_4",
-    title: "Lingua Franca tutorial teaser — additional preview",
-    description:
-      "Another preview of the CPS-IoT Week hands-on Lingua Franca tutorial.",
-  },
+      "A real-world demo of Frost, a prototype platform for early validation and testing of smart manufacturing and cyber-physical production systems software using Lingua Franca. The demo shows two LEGO pieces being manipulated, placed together, and returned to their start positions while the system is monitored. Video credit: (Video Credit: Sebastiano Gaiardelli and ICE Lab at the University of Verona.)"},
 ];
 
 const demoTeasers: DemoTeaser[] = [
@@ -290,10 +283,9 @@ export default function CPSWeek2026Tutorial() {
                 </div>
               </div>
 
-              {/* TODO(hokeun) Disabling demo video secttion temporarily.  */}
-              {/* <div className={clsx("card", "margin-top--lg", styles.videoCard)}>
+              <div className={clsx("card", "margin-top--lg", styles.videoCard)}>
                 <div className="card__header">
-                  <Heading as="h3">🎬 Demo videos</Heading>
+                  <Heading as="h3">🎬 Demo video</Heading>
                 </div>
                 <div className="card__body">
                   {teaserVideos.map((video, idx) => (
@@ -324,7 +316,7 @@ export default function CPSWeek2026Tutorial() {
                     </div>
                   ))}
                 </div>
-              </div> */}
+              </div>
 
               <div className={styles.infoBox}>
                 <Heading as="h3">🎯 Target Audience</Heading>
@@ -849,4 +841,3 @@ export default function CPSWeek2026Tutorial() {
     </Layout>
   );
 }
-
