@@ -577,22 +577,18 @@ export default function CPSWeek2026Tutorial() {
                   <Heading as="h4">Setup Options</Heading>
                   <ul>
                     <li>
-                      <strong>Pre-configured VM:</strong> We will provide an
-                      Ubuntu virtual machine image with all required tools
-                      installed (LF compiler, VS Code with LF extension, Java,
-                      C compiler, etc.)
+                      <strong>Native Installation (recommended):</strong> One-line install
+                      script or VS Code extension installation, following the installation guide above.
                     </li>
                     <li>
-                      <strong>Native Installation:</strong> One-line install
-                      script or VS Code extension installation
-                    </li>
-                    <li>
-                      <strong>Cloud-based:</strong> GitHub Codespaces or Gitpod
-                      for the{" "}
-                      <Link href="https://github.com/lf-lang/playground-lingua-franca">
-                        LF Playground
+                      <strong>Pre-configured VMs:</strong>{" "}
+                      <Link href="https://drive.google.com/drive/folders/14Qfywqq8xSTUQFRDE0yKCZQH_-MEAPYa">
+                        Download the tutorial virtual machines
                       </Link>{" "}
-                      as a browser-based backup environment
+                      with all required tools installed (LF compiler, VS Code
+                      with LF extension, Java, C compiler, etc.). We provide one
+                      VirtualBox VM for Windows users on Intel/AMD platforms and
+                      one UTM VM for macOS users on ARM architecture.
                     </li>
                   </ul>
 
