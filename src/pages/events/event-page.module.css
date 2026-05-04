@@ -95,6 +95,28 @@
   margin-top: 16px;
 }
 
+/* Top-of-page tutorial resource cards */
+.quickLinksGrid {
+  row-gap: 16px;
+}
+
+.quickLinkCard {
+  height: 100%;
+  border-top: 4px solid var(--ifm-color-primary);
+  text-align: center;
+}
+
+.quickLinkIcon {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 2.25rem;
+  line-height: 1;
+}
+
+.quickLinkCard p {
+  color: var(--ifm-color-emphasis-700);
+}
+
 /* Demo teaser image grid */
 .demoTeaserCard {
   border-left: 4px solid var(--ifm-color-primary);

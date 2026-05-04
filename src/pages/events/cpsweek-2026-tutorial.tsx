@@ -223,6 +223,79 @@ export default function CPSWeek2026Tutorial() {
         </div>
       </div>
 
+      {/* Quick Links Section */}
+      <div className="section sectionAlt">
+        <div className="container">
+          <div className="row">
+            <div className="col col--10 col--offset-1">
+              <Heading as="h2" className="text--center margin-bottom--md">
+                🚀 Tutorial Quick Links
+              </Heading>
+              <p className="text--center margin-bottom--lg">
+                Start here to set up your environment, get the hands-on
+                exercises, or use a ready-to-run virtual machine.
+              </p>
+              <div className={clsx("row", styles.quickLinksGrid)}>
+                <div className="col col--4">
+                  <div className={clsx("card", styles.quickLinkCard)}>
+                    <div className="card__body">
+                      <span className={styles.quickLinkIcon}>⚙️</span>
+                      <Heading as="h3">Install LF</Heading>
+                      <p>
+                        Set up the Lingua Franca toolchain, VS Code/Cursor
+                        extension, and CLI.
+                      </p>
+                      <Link
+                        className="button button--primary button--sm"
+                        href="https://www.lf-lang.org/docs/installation/"
+                      >
+                        Installation Instructions
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="col col--4">
+                  <div className={clsx("card", styles.quickLinkCard)}>
+                    <div className="card__body">
+                      <span className={styles.quickLinkIcon}>💻</span>
+                      <Heading as="h3">Hands-on Exercises</Heading>
+                      <p>
+                        Follow the CPS-IoT Week programming exercises and
+                        starter code on GitHub.
+                      </p>
+                      <Link
+                        className="button button--primary button--sm"
+                        href="https://github.com/lf-lang/lf-tutorial-handson-2026"
+                      >
+                        Open GitHub Exercises
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="col col--4">
+                  <div className={clsx("card", styles.quickLinkCard)}>
+                    <div className="card__body">
+                      <span className={styles.quickLinkIcon}>📦</span>
+                      <Heading as="h3">Ready-to-run VMs</Heading>
+                      <p>
+                        Download preconfigured VirtualBox and UTM images for
+                        Windows and Mac users.
+                      </p>
+                      <Link
+                        className="button button--primary button--sm"
+                        href="https://drive.google.com/drive/folders/14Qfywqq8xSTUQFRDE0yKCZQH_-MEAPYa"
+                      >
+                        Download Virtual Machines
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Abstract Section */}
       <div className="section">
         <div className="container">
