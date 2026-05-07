@@ -29,8 +29,8 @@ interface DemoTeaser {
 
 const teaserVideos: TeaserVideo[] = [
   {
-    youtubeId: "1UV_WrzztZ4",
-    shortUrl: "https://youtu.be/1UV_WrzztZ4",
+    youtubeId: "LFZ8JJIuv84",
+    shortUrl: "https://youtu.be/LFZ8JJIuv84",
     title:
       "Frost: A Prototyping Platform for Early Validation and Testing of Manufacturing Software",
     description:
