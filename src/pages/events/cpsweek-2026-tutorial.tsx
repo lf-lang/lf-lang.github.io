@@ -318,7 +318,7 @@ export default function CPSWeek2026Tutorial() {
               {/* Tutorial Recordings Preview */}
               <div className={clsx("card", "margin-top--lg", styles.videoCard)}>
                 <div className="card__header">
-                  <Heading as="h3">🎬 Tutorial Recordings Preview</Heading>
+                  <Heading as="h3">🎬 Tutorial Recordings</Heading>
                 </div>
                 <div className="card__body">
                   <p className="margin-bottom--md">
