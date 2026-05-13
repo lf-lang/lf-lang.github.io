@@ -12,6 +12,7 @@ interface ScheduleItem {
   time: string;
   description?: React.ReactNode;
   leads?: string;
+  videoUrl?: string;
 }
 
 interface TeaserVideo {
@@ -67,6 +68,7 @@ const scheduleItems: ScheduleItem[] = [
     description:
       "Introduction to CPS concurrency challenges and motivation for Lingua Franca. Explanation of the reactor-oriented programming model and key language concepts (reactors, ports, timers, logical time). Real-world scenarios in automotive and avionic systems where deterministic coordination is vital.",
     leads: "Organizers",
+    videoUrl: "https://www.youtube.com/watch?v=WvBkGGoFJ14",
   },
   {
     session: "Live Demos",
@@ -89,6 +91,7 @@ const scheduleItems: ScheduleItem[] = [
       </>
     ),
     leads: "Organizers",
+    videoUrl: "https://www.youtube.com/watch?v=lp4w3sL77-Y",
   },
   {
     session: "Installation and Hello World of Lingua Franca",
@@ -97,6 +100,7 @@ const scheduleItems: ScheduleItem[] = [
     description:
       "Set up your Lingua Franca toolchain and walk through a minimal “hello world” style program to verify your environment.",
     leads: "Organizers & Teaching Assistants",
+    videoUrl: "https://www.youtube.com/watch?v=_DVXODzAQFo",
   },
   {
     session: "Break",
@@ -110,6 +114,7 @@ const scheduleItems: ScheduleItem[] = [
     description:
       "Interactive coding sessions with progressively challenging exercises using CPS-themed examples. Hands-on work uses the C target in Lingua Franca, starting from template code provided for the tutorial; participants implement distributed cyber-physical system examples that build on these templates.",
     leads: "Organizers & Teaching Assistants",
+    videoUrl: "https://www.youtube.com/watch?v=raulYqpX6oU",
   },
   {
     session: "Wrap-Up and Q&A",
@@ -236,7 +241,7 @@ export default function CPSWeek2026Tutorial() {
                 exercises, or use a ready-to-run virtual machine.
               </p>
               <div className={clsx("row", styles.quickLinksGrid)}>
-                <div className="col col--4">
+                <div className="col col--6 margin-bottom--md">
                   <div className={clsx("card", styles.quickLinkCard)}>
                     <div className="card__body">
                       <span className={styles.quickLinkIcon}>⚙️</span>
@@ -254,7 +259,7 @@ export default function CPSWeek2026Tutorial() {
                     </div>
                   </div>
                 </div>
-                <div className="col col--4">
+                <div className="col col--6 margin-bottom--md">
                   <div className={clsx("card", styles.quickLinkCard)}>
                     <div className="card__body">
                       <span className={styles.quickLinkIcon}>💻</span>
@@ -272,7 +277,7 @@ export default function CPSWeek2026Tutorial() {
                     </div>
                   </div>
                 </div>
-                <div className="col col--4">
+                <div className="col col--6">
                   <div className={clsx("card", styles.quickLinkCard)}>
                     <div className="card__body">
                       <span className={styles.quickLinkIcon}>📦</span>
@@ -286,6 +291,24 @@ export default function CPSWeek2026Tutorial() {
                         href="https://drive.google.com/drive/folders/14Qfywqq8xSTUQFRDE0yKCZQH_-MEAPYa"
                       >
                         Download Virtual Machines
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+                <div className="col col--6">
+                  <div className={clsx("card", styles.quickLinkCard)}>
+                    <div className="card__body">
+                      <span className={styles.quickLinkIcon}>🎬</span>
+                      <Heading as="h3">Tutorial Recordings</Heading>
+                      <p>
+                        Watch the full tutorial recordings on YouTube,
+                        including presentations and demos.
+                      </p>
+                      <Link
+                        className="button button--primary button--sm"
+                        href="https://youtube.com/playlist?list=PLjKT6j1T2HKXT03OdyCmPG0P4AyKIVc3v"
+                      >
+                        Watch on YouTube
                       </Link>
                     </div>
                   </div>
@@ -514,20 +537,28 @@ export default function CPSWeek2026Tutorial() {
                       </span>
                     </div>
                   </div>
-                  {(item.description || item.leads) && (
+                  {(item.description || item.leads || item.videoUrl) && (
                     <div className="card__body">
                       {item.description && (
-                        <p className={item.leads ? "margin-bottom--sm" : "margin-bottom--none"}>
+                        <p className={item.leads || item.videoUrl ? "margin-bottom--sm" : "margin-bottom--none"}>
                           {item.description}
                         </p>
                       )}
                       {item.leads && (
                         <p
-                          className="margin-bottom--none"
+                          className={item.videoUrl ? "margin-bottom--sm" : "margin-bottom--none"}
                           style={{ fontSize: "0.9rem", opacity: 0.8 }}
                         >
                           <em>Led by: {item.leads}</em>
                         </p>
+                      )}
+                      {item.videoUrl && (
+                        <Link
+                          className="button button--primary button--sm"
+                          href={item.videoUrl}
+                        >
+                          🎬 Watch Recording
+                        </Link>
                       )}
                     </div>
                   )}
