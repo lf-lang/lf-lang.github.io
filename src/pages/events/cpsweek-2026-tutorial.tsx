@@ -314,6 +314,98 @@ export default function CPSWeek2026Tutorial() {
                   </div>
                 </div>
               </div>
+
+              {/* Tutorial Recordings Preview */}
+              <div className={clsx("card", "margin-top--lg", styles.videoCard)}>
+                <div className="card__header">
+                  <Heading as="h3">🎬 Tutorial Recordings Preview</Heading>
+                </div>
+                <div className="card__body">
+                  <p className="margin-bottom--md">
+                    Watch the full tutorial recordings from CPS-IoT Week 2026.
+                  </p>
+                  <div
+                    style={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(2, 1fr)",
+                      gap: "12px",
+                    }}
+                  >
+                    <div>
+                      <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                        <iframe
+                          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+                          src="https://www.youtube-nocookie.com/embed/WvBkGGoFJ14?rel=0"
+                          title="Introductory Presentations"
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      </div>
+                      <p style={{ fontSize: "0.85rem", marginTop: "6px", marginBottom: 0, textAlign: "center" }}>
+                        Introductory Presentations
+                      </p>
+                    </div>
+                    <div>
+                      <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                        <iframe
+                          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+                          src="https://www.youtube-nocookie.com/embed/lp4w3sL77-Y?rel=0"
+                          title="Live Demos"
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      </div>
+                      <p style={{ fontSize: "0.85rem", marginTop: "6px", marginBottom: 0, textAlign: "center" }}>
+                        Live Demos
+                      </p>
+                    </div>
+                    <div>
+                      <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                        <iframe
+                          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+                          src="https://www.youtube-nocookie.com/embed/_DVXODzAQFo?rel=0"
+                          title="Installation and Hello World"
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      </div>
+                      <p style={{ fontSize: "0.85rem", marginTop: "6px", marginBottom: 0, textAlign: "center" }}>
+                        Installation and Hello World
+                      </p>
+                    </div>
+                    <div>
+                      <div style={{ position: "relative", paddingBottom: "56.25%", height: 0 }}>
+                        <iframe
+                          style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", border: 0 }}
+                          src="https://www.youtube-nocookie.com/embed/raulYqpX6oU?rel=0"
+                          title="Hands-on Programming Sessions"
+                          loading="lazy"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                          referrerPolicy="strict-origin-when-cross-origin"
+                          allowFullScreen
+                        />
+                      </div>
+                      <p style={{ fontSize: "0.85rem", marginTop: "6px", marginBottom: 0, textAlign: "center" }}>
+                        Hands-on Programming Sessions
+                      </p>
+                    </div>
+                  </div>
+                  <div className={styles.videoEmbedActions}>
+                    <Link
+                      className="button button--primary button--sm"
+                      href="https://youtube.com/playlist?list=PLjKT6j1T2HKXT03OdyCmPG0P4AyKIVc3v"
+                    >
+                      Watch Full Playlist on YouTube
+                    </Link>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
