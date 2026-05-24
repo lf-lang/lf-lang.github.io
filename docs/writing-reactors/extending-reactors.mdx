@@ -9,18 +9,19 @@ import {
   ShowIf, ShowIfs, ShowOnly
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c py ts rs />
+<LanguageSelector c uc py ts rs />
 
 ## Extending a Base Reactor
 
 Lingua Franca supports defining a reactor class as an extension (or subclass), as in the following example:
 
 import C_Extends from '../assets/code/c/src/Extends.lf';
+import UC_Extends from '../assets/code/uc/src/Extends.lf';
 import Py_Extends from '../assets/code/py/src/Extends.lf';
 import Rs_Extends from '../assets/code/rs/src/Extends.lf';
 import TS_Extends from '../assets/code/ts/src/Extends.lf';
 
-<NoSelectorTargetCodeBlock c={C_Extends} py={Py_Extends} rs={Rs_Extends} ts={TS_Extends} lf />
+<NoSelectorTargetCodeBlock c={C_Extends} uc={UC_Extends} py={Py_Extends} rs={Rs_Extends} ts={TS_Extends} lf />
 
 import ExtendsSVG from "./../assets/images/diagrams/Extends.svg"
 

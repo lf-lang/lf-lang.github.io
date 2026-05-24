@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 ## Tag vs. Time
 
@@ -18,12 +18,13 @@ The model of time in Lingua Franca is a bit more sophisticated than we have hint
 A [`logical` `action`](<../writing-reactors/actions.mdx#logical-actions>) may have a `<min_delay>` of zero, and the `<offset>` argument to the `schedule()` function may be zero. In this case, the call to `schedule(>)` appears to be requesting that the action trigger at the _current logical time_. Here is where superdense time comes in. The action will indeed trigger at the current logical time, but one microstep later. Consider the following example:
 
 import C_Microsteps from '../assets/code/c/src/Microsteps.lf';
+import UC_Microsteps from '../assets/code/uc/src/Microsteps.lf';
 import Cpp_Microsteps from '../assets/code/cpp/src/Microsteps.lf';
 import Py_Microsteps from '../assets/code/py/src/Microsteps.lf';
 import Rs_Microsteps from '../assets/code/rs/src/Microsteps.lf';
 import TS_Microsteps from '../assets/code/ts/src/Microsteps.lf';
 
-<NoSelectorTargetCodeBlock c={C_Microsteps} cpp={Cpp_Microsteps} py={Py_Microsteps} rs={Rs_Microsteps} ts={TS_Microsteps} lf />
+<NoSelectorTargetCodeBlock c={C_Microsteps} uc={UC_Microsteps} cpp={Cpp_Microsteps} py={Py_Microsteps} rs={Rs_Microsteps} ts={TS_Microsteps} lf />
 
 import MicrostepsSVG from "./../assets/images/diagrams/Microsteps.svg"
 
@@ -46,12 +47,13 @@ Notice that the logical time is not advancing, but the microstep is (the logical
 Two events are **logically simultaneous** only if _both_ the logical time and the microstep are equal. The following example illustrates this:
 
 import C_Simultaneous from '../assets/code/c/src/Simultaneous.lf';
+import UC_Simultaneous from '../assets/code/uc/src/Simultaneous.lf';
 import Cpp_Simultaneous from '../assets/code/cpp/src/Simultaneous.lf';
 import Py_Simultaneous from '../assets/code/py/src/Simultaneous.lf';
 import Rs_Simultaneous from '../assets/code/rs/src/Simultaneous.lf';
 import TS_Simultaneous from '../assets/code/ts/src/Simultaneous.lf';
 
-<NoSelectorTargetCodeBlock c={C_Simultaneous} cpp={Cpp_Simultaneous} py={Py_Simultaneous} rs={Rs_Simultaneous} ts={TS_Simultaneous} lf />
+<NoSelectorTargetCodeBlock c={C_Simultaneous} uc={UC_Simultaneous} cpp={Cpp_Simultaneous} py={Py_Simultaneous} rs={Rs_Simultaneous} ts={TS_Simultaneous} lf />
 
 import SimultaneousSVG from "./../assets/images/diagrams/Simultaneous.svg"
 

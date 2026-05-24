@@ -1,4 +1,4 @@
-import { TargetsType, TargetToNameMap } from ".";
+import { TargetsType, TargetToNameMap, compareTargets } from ".";
 import Tabs from "@theme/Tabs";
 import TabItem from "@theme/TabItem";
 import styles from "./styles.module.css";
@@ -15,10 +15,9 @@ export const LangSpecific = (
   props: Record<TargetsType, ReactNode>,
   // Make ESLint happy
 ): JSX.Element | false => {
-  const propArr: [TargetsType, string?][] = Object.entries(props) as [
-    TargetsType,
-    string?,
-  ][];
+  const propArr: [TargetsType, string?][] = (
+    Object.entries(props) as [TargetsType, string?][]
+  ).sort(([a], [b]) => compareTargets(a, b));
   return (
     propArr.length !== 0 && (
       <Tabs groupId="target-languages" queryString>
@@ -26,9 +25,7 @@ export const LangSpecific = (
           <TabItem
             key={target}
             value={target}
-            // Idk what happened here
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            label={TargetToNameMap.get[target]}
+            label={TargetToNameMap.get(target)}
             attributes={{ className: styles.hidden }}
           >
             {content ?? ""}

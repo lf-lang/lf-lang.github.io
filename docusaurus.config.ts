@@ -46,6 +46,10 @@ const config: Config = {
             },
           },
           sidebarPath: './docs/sidebars.ts',
+          exclude: [
+            '**/assets/code/**/src-gen/**',
+            '**/assets/code/**/bin/**',
+          ],
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:

@@ -52,7 +52,7 @@ export const ShowIfsInline = ({
         throw Error(`Target language ${target} included more than once`);
       // Modify propArr
       const languageProp = { [target]: true } as Record<
-        "c" | "cpp" | "py" | "rs" | "ts",
+        "c" | "uc" | "cpp" | "py" | "rs" | "ts",
         boolean
       >;
       <ShowOnly {...languageProp} inline>

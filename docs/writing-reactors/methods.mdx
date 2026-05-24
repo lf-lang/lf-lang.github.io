@@ -12,7 +12,7 @@ import {
 
 ## Method Declaration
 
-<LanguageSelector c cpp py />
+<LanguageSelector c uc cpp py />
 
 
 <ShowIfs>
@@ -44,10 +44,11 @@ The `method` keyword can optionally be prefixed with the `const` qualifier, whic
 Methods are particularly useful in reactors that need to perform certain operations on state variables and/or parameters that are shared between reactions or that are too complex to be implemented in a single reaction. Analogous to class methods, methods in LF can access all state variables and parameters, and can be invoked from all reaction bodies or from other methods. Methods may also recursively invoke themselves. Consider the following example:
 
 import C_Methods from '../assets/code/c/src/Methods.lf';
+import UC_Methods from '../assets/code/uc/src/Methods.lf';
 import Cpp_Methods from '../assets/code/cpp/src/Methods.lf';
 import Py_Methods from '../assets/code/py/src/Methods.lf';
 
-<NoSelectorTargetCodeBlock c={C_Methods} cpp={Cpp_Methods} py={Py_Methods} lf />
+<NoSelectorTargetCodeBlock c={C_Methods} uc={UC_Methods} cpp={Cpp_Methods} py={Py_Methods} lf />
 
 This reactor defines two methods `getFoo` and `add`.
 

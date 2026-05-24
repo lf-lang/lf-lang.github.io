@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 ## Contained Reactors
 
@@ -17,12 +17,13 @@ Reactors can contain instances of other reactors defined in the same file or in 
 and that the `TestCount` reactor from [Time and Timers](../writing-reactors/time-and-timers.mdx) is stored in `TestCount.lf`. Then the following program composes one instance of each of the three:
 
 import C_RegressionTest from '../assets/code/c/src/RegressionTest.lf';
+import UC_RegressionTest from '../assets/code/uc/src/RegressionTest.lf';
 import Cpp_RegressionTest from '../assets/code/cpp/src/RegressionTest.lf';
 import Py_RegressionTest from '../assets/code/py/src/RegressionTest.lf';
 import Rs_RegressionTest from '../assets/code/rs/src/RegressionTest.lf';
 import TS_RegressionTest from '../assets/code/ts/src/RegressionTest.lf';
 
-<NoSelectorTargetCodeBlock c={C_RegressionTest} cpp={Cpp_RegressionTest} py={Py_RegressionTest} rs={Rs_RegressionTest} ts={TS_RegressionTest} lf />
+<NoSelectorTargetCodeBlock c={C_RegressionTest} uc={UC_RegressionTest} cpp={Cpp_RegressionTest} py={Py_RegressionTest} rs={Rs_RegressionTest} ts={TS_RegressionTest} lf />
 
 ## Diagrams
 
@@ -139,12 +140,13 @@ where `<classname>` and `<alias>` can be a comma-separated list to import multip
 Reactors can be composed in arbitrarily deep hierarchies. For example, the following program combines the `Count` and `Scale` reactors within on `Container`:
 
 import C_Hierarchy from '../assets/code/c/src/Hierarchy.lf';
+import UC_Hierarchy from '../assets/code/uc/src/Hierarchy.lf';
 import Cpp_Hierarchy from '../assets/code/cpp/src/Hierarchy.lf';
 import Py_Hierarchy from '../assets/code/py/src/Hierarchy.lf';
 import Rs_Hierarchy from '../assets/code/rs/src/Hierarchy.lf';
 import TS_Hierarchy from '../assets/code/ts/src/Hierarchy.lf';
 
-<NoSelectorTargetCodeBlock c={C_Hierarchy} cpp={Cpp_Hierarchy} py={Py_Hierarchy} rs={Rs_Hierarchy} ts={TS_Hierarchy} lf />
+<NoSelectorTargetCodeBlock c={C_Hierarchy} uc={UC_Hierarchy} cpp={Cpp_Hierarchy} py={Py_Hierarchy} rs={Rs_Hierarchy} ts={TS_Hierarchy} lf />
 
 import HierarchySVG from "./../assets/images/diagrams/Hierarchy.svg"
 

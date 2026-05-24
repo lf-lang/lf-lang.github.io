@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 ## Logical Time
 
@@ -53,12 +53,13 @@ The allowable units are:
 The following example illustrates using time values for parameters and state variables:
 
 import C_SlowingClock from '../assets/code/c/src/SlowingClock.lf';
+import UC_SlowingClock from '../assets/code/uc/src/SlowingClock.lf';
 import Cpp_SlowingClock from '../assets/code/cpp/src/SlowingClock.lf';
 import Py_SlowingClock from '../assets/code/py/src/SlowingClock.lf';
 import Rs_SlowingClock from '../assets/code/rs/src/SlowingClock.lf';
 import TS_SlowingClock from '../assets/code/ts/src/SlowingClock.lf';
 
-<NoSelectorTargetCodeBlock c={C_SlowingClock} cpp={Cpp_SlowingClock} py={Py_SlowingClock} rs={Rs_SlowingClock} ts={TS_SlowingClock} lf />
+<NoSelectorTargetCodeBlock c={C_SlowingClock} uc={UC_SlowingClock} cpp={Cpp_SlowingClock} py={Py_SlowingClock} rs={Rs_SlowingClock} ts={TS_SlowingClock} lf />
 
 This has two time parameters, `start` and `incr`, each with default value `100 ms` <ShowOnly c cpp rs inline>and type `time`</ShowOnly>. This parameter is used to initialize the `interval` state variable, which also stores a time. The `logical` `action` `a`, explained in [Actions](../writing-reactors/actions.mdx#logical-actions), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
 
@@ -83,12 +84,13 @@ The `<period>`, which is optional, specifies the time interval between timer eve
 The period and offset are given by a number and a units, for example, `10 ms`. See the [expressions documentation](../reference/expressions.mdx#basic-expressions) for allowable units. Consider the following example:
 
 import C_Timer from '../assets/code/c/src/Timer.lf';
+import UC_Timer from '../assets/code/uc/src/Timer.lf';
 import Cpp_Timer from '../assets/code/cpp/src/Timer.lf';
 import Py_Timer from '../assets/code/py/src/Timer.lf';
 import Rs_Timer from '../assets/code/rs/src/Timer.lf';
 import TS_Timer from '../assets/code/ts/src/Timer.lf';
 
-<NoSelectorTargetCodeBlock c={C_Timer} cpp={Cpp_Timer} py={Py_Timer} rs={Rs_Timer} ts={TS_Timer} lf />
+<NoSelectorTargetCodeBlock c={C_Timer} uc={UC_Timer} cpp={Cpp_Timer} py={Py_Timer} rs={Rs_Timer} ts={TS_Timer} lf />
 
 This specifies a timer named `t` that will first trigger at the start of execution and then repeatedly trigger at intervals of one second. Notice that the time units can be left off if the value is zero.
 
@@ -115,12 +117,13 @@ The output lines appear at one second intervals unless the `fast` option has bee
 The times above are a bit hard to read, so, for convenience, each target provides a built-in function to retrieve the _elapsed_ time. For example:
 
 import C_TimeElapsed from '../assets/code/c/src/TimeElapsed.lf';
+import UC_TimeElapsed from '../assets/code/uc/src/TimeElapsed.lf';
 import Cpp_TimeElapsed from '../assets/code/cpp/src/TimeElapsed.lf';
 import Py_TimeElapsed from '../assets/code/py/src/TimeElapsed.lf';
 import Rs_TimeElapsed from '../assets/code/rs/src/TimeElapsed.lf';
 import TS_TimeElapsed from '../assets/code/ts/src/TimeElapsed.lf';
 
-<NoSelectorTargetCodeBlock c={C_TimeElapsed} cpp={Cpp_TimeElapsed} py={Py_TimeElapsed} rs={Rs_TimeElapsed} ts={TS_TimeElapsed} lf />
+<NoSelectorTargetCodeBlock c={C_TimeElapsed} uc={UC_TimeElapsed} cpp={Cpp_TimeElapsed} py={Py_TimeElapsed} rs={Rs_TimeElapsed} ts={TS_TimeElapsed} lf />
 
 See the [Target Language Details](../reference/target-language-details.mdx) for the full set of functions provided for accessing time values.
 
@@ -138,12 +141,13 @@ Elapsed logical time is 2000000000.
 The following program compares logical and physical times:
 
 import C_TimeLag from '../assets/code/c/src/TimeLag.lf';
+import UC_TimeLag from '../assets/code/uc/src/TimeLag.lf';
 import Cpp_TimeLag from '../assets/code/cpp/src/TimeLag.lf';
 import Py_TimeLag from '../assets/code/py/src/TimeLag.lf';
 import Rs_TimeLag from '../assets/code/rs/src/TimeLag.lf';
 import TS_TimeLag from '../assets/code/ts/src/TimeLag.lf';
 
-<NoSelectorTargetCodeBlock c={C_TimeLag} cpp={Cpp_TimeLag} py={Py_TimeLag} rs={Rs_TimeLag} ts={TS_TimeLag} lf />
+<NoSelectorTargetCodeBlock c={C_TimeLag} uc={UC_TimeLag} cpp={Cpp_TimeLag} py={Py_TimeLag} rs={Rs_TimeLag} ts={TS_TimeLag} lf />
 
 Execution will show something like this:
 
@@ -206,12 +210,13 @@ The **startup** trigger is equivalent to a timer with no _offset_ or _period_.
 To cause a reaction to be invoked at the end of execution, a special **shutdown** trigger is provided. Consider the following reactor, commonly used to build regression tests:
 
 import C_TestCount from '../assets/code/c/src/TestCount.lf';
+import UC_TestCount from '../assets/code/uc/src/TestCount.lf';
 import Cpp_TestCount from '../assets/code/cpp/src/TestCount.lf';
 import Py_TestCount from '../assets/code/py/src/TestCount.lf';
 import Rs_TestCount from '../assets/code/rs/src/TestCount.lf';
 import TS_TestCount from '../assets/code/ts/src/TestCount.lf';
 
-<NoSelectorTargetCodeBlock c={C_TestCount} cpp={Cpp_TestCount} py={Py_TestCount} rs={Rs_TestCount} ts={TS_TestCount} lf />
+<NoSelectorTargetCodeBlock c={C_TestCount} uc={UC_TestCount} cpp={Cpp_TestCount} py={Py_TestCount} rs={Rs_TestCount} ts={TS_TestCount} lf />
 
 This reactor tests its inputs against expected values, which are expected to start with the value given by the `start` parameter and increase by `stride` with each successive input. It expects to receive a total of `num_inputs` input events. It checks the total number of inputs received in its `shutdown` reaction.
 

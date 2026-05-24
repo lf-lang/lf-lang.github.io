@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 Lingua Franca provides a compact syntax for ports that can send or receive over multiple channels and another syntax for multiple instances of a reactor class. These are respectively called **multiports** and **banks of reactors**.
 
@@ -37,12 +37,13 @@ To declare an input or output port to be a **multiport**, use the following synt
 where `<width>` is a positive integer. This can be given either as an integer literal or a parameter name. <ShowOnly cpp inline> The width can also be given by target code enclosed in `{=...=}`.</ShowOnly> Consider the following example:
 
 import C_Multiport from '../assets/code/c/src/Multiport.lf';
+import UC_Multiport from '../assets/code/uc/src/Multiport.lf';
 import Cpp_Multiport from '../assets/code/cpp/src/Multiport.lf';
 import Py_Multiport from '../assets/code/py/src/Multiport.lf';
 import Rs_Multiport from '../assets/code/rs/src/Multiport.lf';
 import TS_Multiport from '../assets/code/ts/src/Multiport.lf';
 
-<NoSelectorTargetCodeBlock c={C_Multiport} cpp={Cpp_Multiport} py={Py_Multiport} rs={Rs_Multiport} ts={TS_Multiport} lf />
+<NoSelectorTargetCodeBlock c={C_Multiport} uc={UC_Multiport} cpp={Cpp_Multiport} py={Py_Multiport} rs={Rs_Multiport} ts={TS_Multiport} lf />
 
 import MultiportSVG from "./../assets/images/diagrams/Multiport.svg"
 
@@ -89,8 +90,9 @@ In this case, it can be inefficient to iterate over all the channels to determin
 If you know that a multiport input will be **sparse** in this way, then you can use a more efficient iterator to access the port. For example:
 
 import C_Sparse from '../assets/code/c/src/Sparse.lf';
+import UC_Sparse from '../assets/code/uc/src/Sparse.lf';
 
-<NoSelectorTargetCodeBlock c={C_Sparse} lf />
+<NoSelectorTargetCodeBlock c={C_Sparse} uc={UC_Sparse} lf />
 
 Instead of iterating over all input channels, this code uses the built-in function `lf_multiport_iterator()` to construct an iterator. The function `lf_multiport_next()` returns the first (and later, the next) channel index that is present. It returns -1 when no more channels have present inputs.
 
@@ -169,12 +171,13 @@ There will be three instances of `Source`, each with an output of width four, an
 To distinguish the instances in a bank of reactors, the reactor can define a parameter called **bank_index**<span class="lf-c lf-cpp lf-rs"> with any type that can be assigned a non-negative integer value (for example, `int`, `size_t`, or `uint32_t`)</span>. If such a parameter is defined for the reactor, then when the reactor is instantiated in a bank, each instance will be assigned a number between 0 and _n_-1, where _n_ is the number of reactor instances in the bank. For example, the following source reactor increments the output it produces by the value of `bank_index` on each reaction to the timer:
 
 import C_MultiportSource from '../assets/code/c/src/MultiportSource.lf';
+import UC_MultiportSource from '../assets/code/uc/src/MultiportSource.lf';
 import Cpp_MultiportSource from '../assets/code/cpp/src/MultiportSource.lf';
 import Py_MultiportSource from '../assets/code/py/src/MultiportSource.lf';
 import Rs_MultiportSource from '../assets/code/rs/src/MultiportSource.lf';
 import TS_MultiportSource from '../assets/code/ts/src/MultiportSource.lf';
 
-<NoSelectorTargetCodeBlock c={C_MultiportSource} cpp={Cpp_MultiportSource} py={Py_MultiportSource} rs={Rs_MultiportSource} ts={TS_MultiportSource} lf />
+<NoSelectorTargetCodeBlock c={C_MultiportSource} uc={UC_MultiportSource} cpp={Cpp_MultiportSource} py={Py_MultiportSource} rs={Rs_MultiportSource} ts={TS_MultiportSource} lf />
 
 The width of a bank may also be given by a parameter, as in
 
@@ -197,9 +200,10 @@ It is often convenient to initialize parameters of bank members from a table.
 Here is an example:
 
 import C_BankIndex from '../assets/code/c/src/BankIndex.lf';
+import UC_BankIndex from '../assets/code/uc/src/BankIndex.lf';
 import Py_BankIndex from '../assets/code/py/src/BankIndex.lf';
 
-<NoSelectorTargetCodeBlock c={C_BankIndex}  py={Py_BankIndex} lf />
+<NoSelectorTargetCodeBlock c={C_BankIndex} uc={UC_BankIndex}  py={Py_BankIndex} lf />
 
 The parameter `table` defined in the `main reactor` is used to initialize the `value` parameter of each bank member. The result of running this is something like:
 
@@ -217,12 +221,13 @@ bank_index: 3, value: 1
 Banks of reactors can be nested. For example, note the following program:
 
 import C_ChildBank from '../assets/code/c/src/ChildBank.lf';
+import UC_ChildBank from '../assets/code/uc/src/ChildBank.lf';
 import Cpp_ChildBank from '../assets/code/cpp/src/ChildBank.lf';
 import Py_ChildBank from '../assets/code/py/src/ChildBank.lf';
 import Rs_ChildBank from '../assets/code/rs/src/ChildBank.lf';
 import TS_ChildBank from '../assets/code/ts/src/ChildBank.lf';
 
-<NoSelectorTargetCodeBlock c={C_ChildBank} cpp={Cpp_ChildBank} py={Py_ChildBank} rs={Rs_ChildBank} ts={TS_ChildBank} lf />
+<NoSelectorTargetCodeBlock c={C_ChildBank} uc={UC_ChildBank} cpp={Cpp_ChildBank} py={Py_ChildBank} rs={Rs_ChildBank} ts={TS_ChildBank} lf />
 
 import ChildBankSVG from "./../assets/images/diagrams/ChildBank.svg"
 
@@ -246,12 +251,13 @@ The bank index of a container (parent) reactor can be passed down to
 contained (child) reactors. For example, note the following program:
 
 import C_ChildParentBank from '../assets/code/c/src/ChildParentBank.lf';
+import UC_ChildParentBank from '../assets/code/uc/src/ChildParentBank.lf';
 import Cpp_ChildParentBank from '../assets/code/cpp/src/ChildParentBank.lf';
 import Py_ChildParentBank from '../assets/code/py/src/ChildParentBank.lf';
 import Rs_ChildParentBank from '../assets/code/rs/src/ChildParentBank.lf';
 import TS_ChildParentBank from '../assets/code/ts/src/ChildParentBank.lf';
 
-<NoSelectorTargetCodeBlock c={C_ChildParentBank} cpp={Cpp_ChildParentBank} py={Py_ChildParentBank} rs={Rs_ChildParentBank} ts={TS_ChildParentBank} lf />
+<NoSelectorTargetCodeBlock c={C_ChildParentBank} uc={UC_ChildParentBank} cpp={Cpp_ChildParentBank} py={Py_ChildParentBank} rs={Rs_ChildParentBank} ts={TS_ChildParentBank} lf />
 
 In this example, the bank index of the `Parent` reactor is passed to the
 `parent_bank_index` parameter of the `Child` reactor instances.
@@ -271,11 +277,12 @@ the body of reactions of the parent reactor if their input/output port appears
 in the reaction signature. For example, note the following program:
 
 import C_ChildParentBank2 from '../assets/code/c/src/ChildParentBank2.lf';
+import UC_ChildParentBank2 from '../assets/code/uc/src/ChildParentBank2.lf';
 import Cpp_ChildParentBank2 from '../assets/code/cpp/src/ChildParentBank2.lf';
 import Py_ChildParentBank2 from '../assets/code/py/src/ChildParentBank2.lf';
 import TS_ChildParentBank2 from '../assets/code/ts/src/ChildParentBank2.lf';
 
-<NoSelectorTargetCodeBlock c={C_ChildParentBank2} cpp={Cpp_ChildParentBank2} py={Py_ChildParentBank2} rs={"ChildParentBank2.lf missing for Rust"} ts={TS_ChildParentBank2} lf />
+<NoSelectorTargetCodeBlock c={C_ChildParentBank2} uc={UC_ChildParentBank2} cpp={Cpp_ChildParentBank2} py={Py_ChildParentBank2} rs={"ChildParentBank2.lf missing for Rust"} ts={TS_ChildParentBank2} lf />
 
 import ChildParentBank2SVG from "./../assets/images/diagrams/ChildParentBank2.svg"
 
@@ -320,12 +327,13 @@ Received 3 from child 1.
 Banks of reactors may be combined with multiports, as in the following example:
 
 import C_MultiportToBank from '../assets/code/c/src/MultiportToBank.lf';
+import UC_MultiportToBank from '../assets/code/uc/src/MultiportToBank.lf';
 import Cpp_MultiportToBank from '../assets/code/cpp/src/MultiportToBank.lf';
 import Py_MultiportToBank from '../assets/code/py/src/MultiportToBank.lf';
 import Rs_MultiportToBank from '../assets/code/rs/src/MultiportToBank.lf';
 import TS_MultiportToBank from '../assets/code/ts/src/MultiportToBank.lf';
 
-<NoSelectorTargetCodeBlock c={C_MultiportToBank} cpp={Cpp_MultiportToBank} py={Py_MultiportToBank} rs={Rs_MultiportToBank} ts={TS_MultiportToBank} lf />
+<NoSelectorTargetCodeBlock c={C_MultiportToBank} uc={UC_MultiportToBank} cpp={Cpp_MultiportToBank} py={Py_MultiportToBank} rs={Rs_MultiportToBank} ts={TS_MultiportToBank} lf />
 
 import MultiportToBankSVG from "./../assets/images/diagrams/MultiportToBank.svg"
 
@@ -377,10 +385,11 @@ The syntax `(a.out)+` means "repeat the output port `a.out` one or more times as
 Sometimes, we don't want to broadcast messages to all reactors, but need more fine-grained control as to which reactor within a bank receives a message. If we have separate source and destination reactors, this can be done by combining multiports and banks as was shown in [Combining Banks and Multiports](#combining-banks-and-multiports). Setting a value on the index _n_ of the output multiport, will result in a message to the _n_-th reactor instance within the destination bank. However, this pattern gets slightly more complicated, if we want to exchange addressable messages between instances of the same bank. This pattern is shown in the following example:
 
 import C_Interleaved from '../assets/code/c/src/Interleaved.lf';
+import UC_Interleaved from '../assets/code/uc/src/Interleaved.lf';
 import Cpp_Interleaved from '../assets/code/cpp/src/Interleaved.lf';
 import Py_Interleaved from '../assets/code/py/src/Interleaved.lf';
 
-<NoSelectorTargetCodeBlock c={C_Interleaved} cpp={Cpp_Interleaved} py={Py_Interleaved} lf />
+<NoSelectorTargetCodeBlock c={C_Interleaved} uc={UC_Interleaved} cpp={Cpp_Interleaved} py={Py_Interleaved} lf />
 
 import InterleavedSVG from "./../assets/images/diagrams/Interleaved.svg"
 

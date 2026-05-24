@@ -15,7 +15,7 @@ import {
 
 [comment]: <> (axmmisaka: I am lazy, and this is SO huge, so everything is converted by regex...... )
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 [comment]: <> (================= NEW SECTION =====================)
 
@@ -84,6 +84,11 @@ If you're not, here's a primer:
 - Rust has extensive support for conditional compilation. Cargo _features_ are commonly used to enable or disable the compilation of parts of a crate. A feature may also pull in additional dependencies. Cargo features only influence the compilation process; if you don't mention the correct feature flags at compilation time, those features cannot be made available at runtime. The Rust reactor runtime crate uses Cargo features to conditionally enable some features, e.g., command-line argument parsing.
 
 </ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
+
+</ShowIf>
 </ShowIfs>
 [comment]: <> (================= NEW SECTION =====================)
 
@@ -147,6 +152,11 @@ In order to compile the generated Rust source code, you need a recent version of
 You can use a development version of the runtime library by setting the LFC option `--external-runtime-path` to the root directory of the runtime library crate sources. If this variable is mentioned, LFC will ask Cargo to fetch the runtime library from there.
 
 </ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
+
+</ShowIf>
 </ShowIfs>
 [comment]: <> (================= NEW SECTION =====================)
 
@@ -187,6 +197,11 @@ The Rust target does not yet implement:
 
 - `federated`
 - [Modal reactors](../writing-reactors/modal-models.mdx)
+
+</ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
 
 </ShowIf>
 </ShowIfs>
@@ -281,6 +296,11 @@ To have Lingua Franca generate Rust code, start your `.lf` file with the followi
 ```
 
 Note that for all LF statements, a final semicolon is optional. If you are writing your code in Rust, you may want to include the final semicolon for uniformity.
+
+</ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
 
 </ShowIf>
 </ShowIfs>
@@ -923,6 +943,11 @@ s = new Source(sequence = {= new Array<number() =});
 <ShowIf rs>
 
 Parameters and state variables in Rust are accessed on the `self` structure, as shown in [Parameter Declaration](<../writing-reactors/parameters-and-state-variables.mdx#parameter-declaration>).
+
+</ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
 
 </ShowIf>
 </ShowIfs>
@@ -1650,6 +1675,11 @@ The `preamble` code defines a custom union type of `string` and `null`.
 Inputs and outputs in the Rust target are accessed using the `set` and `get` methods of the `ctx` objects, as shown in [Inputs and Outputs](../writing-reactors/inputs-and-outputs.mdx).
 
 </ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
+
+</ShowIf>
 </ShowIfs>
 [comment]: <> (================= NEW SECTION =====================)
 
@@ -2242,6 +2272,11 @@ FIXME: details needed here on time in Rust.
 :::
 
 </ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
+
+</ShowIf>
 </ShowIfs>
 [comment]: <> (================= NEW SECTION =====================)
 
@@ -2641,6 +2676,11 @@ if let Some(value) = ctx.get_action(act) {
 If an action does not mention a data type, the type defaults to `()`.
 
 </ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
+
+</ShowIf>
 </ShowIfs>
 [comment]: <> (================= NEW SECTION =====================)
 
@@ -2765,6 +2805,11 @@ ctx.schedule(act, After(Duration.of_millis(20)));
 ```
 
 </ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
+
+</ShowIf>
 </ShowIfs>
 [comment]: <> (================= NEW SECTION =====================)
 
@@ -2801,6 +2846,11 @@ A reaction may request that the execution stop by calling the function `util.req
 :::warning
 FIXME: Details needed here.
 :::
+
+</ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
 
 </ShowIf>
 </ShowIfs>
@@ -2876,6 +2926,11 @@ Logging can also be turned on with the `--log-level` CLI option, if the applicat
 Note that the `logging` target property is ignored, as its levels do not match the Rust standard levels we use (those of the [`log` crate](https://docs.rs/log/)).
 
 Note that when building with a release profile (i.e., target property `build-type` is not `Debug`), all log statements with level `debug` and `trace` are removed from the executable, and cannot be turned on at runtime. A warning is produced by the executable if you try to use these levels explicitly.
+
+</ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
 
 </ShowIf>
 </ShowIfs>
@@ -3017,6 +3072,11 @@ FIXME: Details needed here.
 :::
 
 </ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
+
+</ShowIf>
 </ShowIfs>
 [comment]: <> (================= NEW SECTION =====================)
 
@@ -3041,6 +3101,11 @@ The following schedulers are available:
 </ShowIf>
 <ShowIf cpp rs ts>
 Scheduler Target Property is not available in this target language.
+</ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
+
 </ShowIf>
 </ShowIfs>
 
@@ -3650,6 +3715,11 @@ reactor Source {
 In this example, the context object `ctx` is used to set a port to a value. The port is in scope as `out`.
 
 > :warning: TODO when the runtime crate is public link to the docs, they should be the most exhaustive documentation.
+
+</ShowIf>
+<ShowIf uc>
+
+For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
 
 </ShowIf>
 </ShowIfs>

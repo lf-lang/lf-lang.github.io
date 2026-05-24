@@ -1,6 +1,5 @@
 import ExecutionEnvironment from "@docusaurus/ExecutionEnvironment";
 import { LanguageRegistration, getHighlighter } from "shiki";
-import { targets } from "@site/src/components/LinguaFrancaMultiTargetUtils";
 import LFTextMateLanguageDefinition from "./lflang.tmLanguage.json";
 import { HighlighterGeneric, BuiltinLanguage, BuiltinTheme } from "shiki";
 
@@ -19,8 +18,6 @@ export const loadShiki = async () => {
   const shiki = await getHighlighter({
     themes: ["material-theme-lighter", "material-theme-darker"],
     langs: [
-      ...targets,
-      // I can't get TS not complain, but trust me bro! It will work......
       LFTextMateLanguageDefinition as unknown as LanguageRegistration,
     ],
   });

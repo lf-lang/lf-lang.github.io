@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py ts rs />
+<LanguageSelector c uc cpp py ts rs />
 
 In this section, we will endow reactors with inputs and outputs.
 
@@ -39,12 +39,13 @@ Input and output declarations have the form:
 For example, the following reactor doubles its input and sends the result to the output:
 
 import C_Double from '../assets/code/c/src/Double.lf';
+import UC_Double from '../assets/code/uc/src/Double.lf';
 import Cpp_Double from '../assets/code/cpp/src/Double.lf';
 import Py_Double from '../assets/code/py/src/Double.lf';
 import Rs_Double from '../assets/code/rs/src/Double.lf';
 import TS_Double from '../assets/code/ts/src/Double.lf';
 
-<NoSelectorTargetCodeBlock c={C_Double} cpp={Cpp_Double} py={Py_Double} rs={Rs_Double} ts={TS_Double} lf />
+<NoSelectorTargetCodeBlock c={C_Double} uc={UC_Double} cpp={Cpp_Double} py={Py_Double} rs={Rs_Double} ts={TS_Double} lf />
 
 Notice how the input value is accessed and how the output value is set. This is done differently for each target language. See the [Target Language Details](../reference/target-language-details.mdx) for detailed documentation of these mechanisms.
 Setting an output within a reaction will trigger downstream reactions at the same [Logical Time](<../writing-reactors/time-and-timers.mdx#logical-time>) that the reaction is invoked (or, more precisely, at the same [tag](<../writing-reactors/superdense-time.mdx#tag-vs-time>)). If a particular output port is set more than once at any tag, the last set value will be the one that downstream reactions see. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
@@ -58,12 +59,13 @@ The **type** of a port is a type in the target language plus the special type `t
 The `reaction` declaration above indicates that an input event on port `x` is a **trigger** and that an output event on port `y` is a (potential) **effect**. A reaction can declare more than one trigger or effect by just listing them separated by commas (See [Reactions](../writing-reactors/reactions.mdx) for details). For example, the following reactor has two triggers and tests each input for presence before using it:
 
 import C_Destination from '../assets/code/c/src/Destination.lf';
+import UC_Destination from '../assets/code/uc/src/Destination.lf';
 import Cpp_Destination from '../assets/code/cpp/src/Destination.lf';
 import Py_Destination from '../assets/code/py/src/Destination.lf';
 import Rs_Destination from '../assets/code/rs/src/Destination.lf';
 import TS_Destination from '../assets/code/ts/src/Destination.lf';
 
-<NoSelectorTargetCodeBlock c={C_Destination} cpp={Cpp_Destination} py={Py_Destination} rs={Rs_Destination} ts={TS_Destination} lf />
+<NoSelectorTargetCodeBlock c={C_Destination} uc={UC_Destination} cpp={Cpp_Destination} py={Py_Destination} rs={Rs_Destination} ts={TS_Destination} lf />
 
 :::note
 

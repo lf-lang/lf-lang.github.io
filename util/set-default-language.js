@@ -7,7 +7,7 @@
  * Usage: node set-default-language.js <language>
  * Example: node set-default-language.js py
  * 
- * Valid languages: c, cpp, py, rs, ts
+ * Valid languages: c, uc, cpp, py, rs, ts
  */
 
 const fs = require('fs');
@@ -19,7 +19,7 @@ const buildDir = path.join(__dirname, '..', 'build');
 const targetLanguage = process.argv[2]?.toLowerCase();
 
 // Validate language
-const validLanguages = ['c', 'cpp', 'py', 'rs', 'ts'];
+const validLanguages = ['c', 'uc', 'cpp', 'py', 'rs', 'ts'];
 if (!targetLanguage || !validLanguages.includes(targetLanguage)) {
   console.error('Error: Please specify a valid target language.');
   console.error('Usage: node set-default-language.js <language>');
@@ -30,6 +30,7 @@ if (!targetLanguage || !validLanguages.includes(targetLanguage)) {
 // Mapping from short codes to full names (for header language selector tabs)
 const languageNameMap = {
   'c': 'C',
+  'uc': 'micro-LF',
   'cpp': 'C++',
   'py': 'Python',
   'rs': 'Rust',
@@ -39,6 +40,7 @@ const languageNameMap = {
 // Mapping from full names to short codes (for reverse lookup)
 const languageCodeMap = {
   'C': 'c',
+  'micro-LF': 'uc',
   'C++': 'cpp',
   'Python': 'py',
   'Rust': 'rs',
@@ -57,8 +59,8 @@ function setDefaultLanguage(filePath) {
   
   content = content.replace(tabListPattern, (match, openTag, tabContent, closeTag) => {
     // Check if this is a language selector tab list (either short codes or full names)
-    const hasShortCodes = tabContent.match(/>\s*(c|cpp|py|rs|ts)\s*</i);
-    const hasFullNames = tabContent.match(/>\s*(C|C\+\+|Python|Rust|TypeScript)\s*</);
+    const hasShortCodes = tabContent.match(/>\s*(c|uc|cpp|py|rs|ts)\s*</i);
+    const hasFullNames = tabContent.match(/>\s*(C|micro-LF|C\+\+|Python|Rust|TypeScript)\s*</);
     
     if (!hasShortCodes && !hasFullNames) {
       return match; // Not a language tab list

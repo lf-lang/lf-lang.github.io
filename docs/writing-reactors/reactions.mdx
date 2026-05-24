@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 ## Reaction Declaration
 
@@ -35,12 +35,13 @@ In some targets, the reaction body may be omitted and the body can be defined na
 A reactor may have multiple reactions, and more than one reaction may be enabled at any given tag. In Lingua Franca semantics, if two or more reactions of the same reactor are **simultaneously enabled**, then they will be invoked sequentially in the order in which they are declared. More strongly, the reactions of a reactor are **mutually exclusive** and are invoked in tag order primarily and declaration order secondarily. Consider the following example:
 
 import C_Alignment from '../assets/code/c/src/Alignment.lf';
+import UC_Alignment from '../assets/code/uc/src/Alignment.lf';
 import Cpp_Alignment from '../assets/code/cpp/src/Alignment.lf';
 import Py_Alignment from '../assets/code/py/src/Alignment.lf';
 import Rs_Alignment from '../assets/code/rs/src/Alignment.lf';
 import TS_Alignment from '../assets/code/ts/src/Alignment.lf';
 
-<NoSelectorTargetCodeBlock c={C_Alignment} cpp={Cpp_Alignment} py={Py_Alignment} rs={Rs_Alignment} ts={TS_Alignment} lf />
+<NoSelectorTargetCodeBlock c={C_Alignment} uc={UC_Alignment} cpp={Cpp_Alignment} py={Py_Alignment} rs={Rs_Alignment} ts={TS_Alignment} lf />
 
 Every 100 ms, this increments the state variable `s` by 1, every 200 ms, it decrements `s` by 2, and every 400 ms, it prints the value of `s`. When these reactions align, they are invoked in declaration order, and, as a result, the printed value of `s` is always 0.
 
@@ -49,12 +50,13 @@ Every 100 ms, this increments the state variable `s` by 1, every 200 ms, it decr
 Just as the reactions of the `Alignment` reactor overwrite the state variable `s`, logically simultaneous reactions can overwrite outputs. Consider the following example:
 
 import C_Overwriting from '../assets/code/c/src/Overwriting.lf';
+import UC_Overwriting from '../assets/code/uc/src/Overwriting.lf';
 import Cpp_Overwriting from '../assets/code/cpp/src/Overwriting.lf';
 import Py_Overwriting from '../assets/code/py/src/Overwriting.lf';
 import Rs_Overwriting from '../assets/code/rs/src/Overwriting.lf';
 import TS_Overwriting from '../assets/code/ts/src/Overwriting.lf';
 
-<NoSelectorTargetCodeBlock c={C_Overwriting} cpp={Cpp_Overwriting} py={Py_Overwriting} rs={Rs_Overwriting} ts={TS_Overwriting} lf />
+<NoSelectorTargetCodeBlock c={C_Overwriting} uc={UC_Overwriting} cpp={Cpp_Overwriting} py={Py_Overwriting} rs={Rs_Overwriting} ts={TS_Overwriting} lf />
 
 Here, the reaction to `t1` will set the output to 1 or 2, but every time it sets it to 2, the second reaction (to `t2`) will overwrite the output with the value 0. As a consequence, the outputs will be 1, 0, 1, 0, ... deterministically.
 
@@ -63,12 +65,13 @@ Here, the reaction to `t1` will set the output to 1 or 2, but every time it sets
 A reaction may be triggered by the an input to the reactor, but also by an output of a contained reactor, as illustrated in the following example:
 
 import C_Contained from '../assets/code/c/src/Contained.lf';
+import UC_Contained from '../assets/code/uc/src/Contained.lf';
 import Cpp_Contained from '../assets/code/cpp/src/Contained.lf';
 import Py_Contained from '../assets/code/py/src/Contained.lf';
 import Rs_Contained from '../assets/code/rs/src/Contained.lf';
 import TS_Contained from '../assets/code/ts/src/Contained.lf';
 
-<NoSelectorTargetCodeBlock c={C_Contained} cpp={Cpp_Contained} py={Py_Contained} rs={Rs_Contained} ts={TS_Contained} lf />
+<NoSelectorTargetCodeBlock c={C_Contained} uc={UC_Contained} cpp={Cpp_Contained} py={Py_Contained} rs={Rs_Contained} ts={TS_Contained} lf />
 
 import ContainedSVG from "./../assets/images/diagrams/Contained.svg"
 
@@ -81,12 +84,13 @@ This instantiates the above `Overwriting` reactor and monitors its outputs.
 A reaction can set the input of a contained reactor, thereby triggering its reactions, as illustrated in the following example:
 
 import C_Triggering from '../assets/code/c/src/Triggering.lf';
+import UC_Triggering from '../assets/code/uc/src/Triggering.lf';
 import Cpp_Triggering from '../assets/code/cpp/src/Triggering.lf';
 import Py_Triggering from '../assets/code/py/src/Triggering.lf';
 import Rs_Triggering from '../assets/code/rs/src/Triggering.lf';
 import TS_Triggering from '../assets/code/ts/src/Triggering.lf';
 
-<NoSelectorTargetCodeBlock c={C_Triggering} cpp={Cpp_Triggering} py={Py_Triggering} rs={Rs_Triggering} ts={TS_Triggering} lf />
+<NoSelectorTargetCodeBlock c={C_Triggering} uc={UC_Triggering} cpp={Cpp_Triggering} py={Py_Triggering} rs={Rs_Triggering} ts={TS_Triggering} lf />
 
 The reaction to `startup` declares the input port of the inside reactor as an effect and then sets it with value 42.
 This will cause the inside reactor's reaction to execute and print `Received 42`.
