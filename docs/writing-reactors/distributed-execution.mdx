@@ -455,3 +455,9 @@ The supported options are:
 - `attenuation`: A positive integer specifying a divisor applied to the estimated clock error during runtime clock synchronization when adjusting the clock offset. The default is `10`. Making this number bigger reduces each adjustment to the clock. Making the number equal to `1` means that each round of clock synchronization fully applies its estimated clock synchronization error.
 
 - `trials`: The number of rounds of message exchange with the RTI in each clock synchronization round. This defaults to `10`.
+
+## Security
+
+By default, there is no secure authentication when a federate joins a federation, and data exchanged by federates is not encrypted. For the C target, Lingua Franca provides end-to-end communication security that encrypts all message exchanges and ensures only authorized federates can participate using pluggable secure communication backends like TLS or SST.
+
+For more details on how to configure and use secure federations, see the [Security Page](../reference/security.mdx).
