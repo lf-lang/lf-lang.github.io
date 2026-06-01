@@ -25,6 +25,14 @@ Two secure communication backends are supported for the **C and Python Targets**
 1. **TLS (Transport Layer Security)**: PKI-based transport security.
 2. **SST (Secure Swarm Toolkit)**: A decentralized authorization and communication security framework using the [iotauth](https://github.com/iotauth/iotauth) platform.
 
+:::warning[Key Protection & Directory Permissions]
+For proper security, you **must restrict read permissions** for the directories containing the generated private keys. Ensure that read access is restricted to authorized users only for:
+1. The local `fed-gen` directory where the compiler generates the private keys.
+2. The `LinguaFrancaRemote` folder on remote target machines where deployment or remote launch scripts copy and execute the federated binaries.
+
+Because private keys (`.key` or SST credentials) are stored within these directories, leaving them readable by others on the host system compromises the entire federation's security.
+:::
+
 ---
 
 ## TLS (Transport Layer Security)
