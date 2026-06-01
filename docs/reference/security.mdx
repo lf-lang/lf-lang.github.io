@@ -9,26 +9,249 @@ import {
   ShowIf, ShowIfs, ShowOnly
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c />
+<LanguageSelector c cpp py ts rs />
 
-:::warning
-The experimental security features described on this page are under development and not production ready. Users should not expect their federations will be secure if the `auth` target property is enabled.
+By default, there is no secure authentication when a federate joins a federation, and data exchanged between federates is not encrypted. For targets that support it, Lingua Franca provides robust, end-to-end communication security that encrypts all message exchanges and ensures only authorized federates can participate.
+
+<ShowOnly c py>
+
+# Pluggable Communication Security
+
+LF supports pluggable, end-to-end communication security for federated execution. By configuring a single target property, `comm-type`, the compiler (`lfc`) automatically handles credential generation, network setup, and secure communication.
+
+This prevents unauthorized federates from joining a federation and ensures that all messages exchanged between the RTI and federates, as well as between individual federates, are fully authenticated and encrypted.
+
+Two secure communication backends are supported for the **C and Python Targets**:
+1. **TLS (Transport Layer Security)**: PKI-based transport security.
+2. **SST (Secure Swarm Toolkit)**: A decentralized authorization and communication security framework using the [iotauth](https://github.com/iotauth/iotauth) platform.
+
+:::warning[Key Protection & Directory Permissions]
+For proper security, you **must restrict read permissions** for the directories containing the generated private keys. Ensure that read access is restricted to authorized users only for:
+1. The local `fed-gen` directory where the compiler generates the private keys.
+2. The `LinguaFrancaRemote` folder on remote target machines where deployment or remote launch scripts copy and execute the federated binaries.
+
+Because private keys (`.key` or SST credentials) are stored within these directories, leaving them readable by others on the host system compromises the entire federation's security.
 :::
 
-By default, there is no secure authentication happening when a federate joins a federation, and data exchanged by federates is not encrypted. For targets that support it, the `auth` target property can be used to enable authentication between federates. Messages exchanged between federates after authentication are **not encrypted**, but this capability is planned for the future.
+---
 
-<ShowOnly c>
+## TLS (Transport Layer Security)
 
-## Authentication
+TLS provides standard, robust, PKI-based transport security. Setting the communication type to TLS secures the entire federation, covering:
+* Federated authentication and connection setup.
+* Subsequent runtime federated data communication.
 
-For the `C` target, federated execution is able to apply security with authentication by using HMAC authentication between RTI and federates. To enable this, include the `auth` property in your target specification, as follows:
+### Enabling TLS
 
-```lf-c
+To secure your federation using TLS, set the `comm-type` target property to `TLS`:
+
+<ShowIfs>
+<ShowIf c>
+
+```lf
+target C {
+    comm-type: TLS
+};
+```
+
+</ShowIf>
+
+<ShowIf py>
+
+```lf
+target Python {
+    comm-type: TLS
+}
+```
+
+</ShowIf>
+</ShowIfs>
+
+### Automatic Certificate & Key Generation
+
+When you compile an LF program with `comm-type: TLS`, the compiler (`lfc`) automatically generates the required PKI credentials for all participating entities (the RTI and every federate) using OpenSSL.
+
+These credentials are saved under:
+```filepath
+fed-gen/<program>/src-gen/rti/credentials/
+```
+
+For example, for a program named `DistributedCount`:
+* **RTI Credentials**: `rti.crt`, `rti.key`
+* **Federate Credentials**: `federate__fed1.crt`, `federate__fed1.key` (generated uniquely for each federate)
+
+Because these credentials are generated inside `src-gen`, standard deployment mechanisms (such as bundling in a tarball or using `scp` in remote launch scripts) will automatically package the certificates and keys alongside the binaries and runtime files.
+
+### Execution
+
+#### Automated Execution
+The generated launch scripts include the required TLS arguments for the RTI and federates automatically. When you run the generated launch script, the entire secure federation starts seamlessly without any manual configuration.
+
+#### Manual Execution
+If you wish to run the entities manually on their respective hosts, you must specify the paths to their certificate and private key using the `-tls` flag:
+
+```sh
+./RTI -tls <certificate_path> <private_key_path>
+./federate -tls <certificate_path> <private_key_path>
+```
+
+### Prerequisites
+* **OpenSSL** must be installed on your system to generate and use the TLS certificates.
+
+---
+
+## SST (Secure Swarm Toolkit)
+
+SST is a decentralized security framework built on top of [iotauth](https://github.com/iotauth/iotauth). It supports secure communication using symmetric session keys distributed by a central Auth service.
+
+With `comm-type: SST`, both the initial connection setup and subsequent federated communication use SST.
+
+### Enabling SST
+
+To use SST, set the `comm-type` to `SST` and provide the path to your `iotauth` installation:
+
+<ShowIfs>
+<ShowIf c>
+
+```lf
+target C {
+    comm-type: SST,
+    sst: {
+        sst-root-path: "/Path/To/iotauth"
+    }
+};
+```
+
+</ShowIf>
+
+<ShowIf py>
+
+```lf
+target Python {
+    comm-type: SST,
+    sst: {
+        sst-root-path: "/Path/To/iotauth"
+    }
+}
+```
+
+</ShowIf>
+</ShowIfs>
+
+:::tip
+If you prefer not to hardcode paths in your `.lf` file, you can omit `sst-root-path` and set the `SST_ROOT` environment variable instead. The compiler will automatically use this environment variable:
+```sh
+export SST_ROOT="/Path/To/iotauth"
+```
+:::
+
+### How SST Works
+
+1. **Auth Entity**: SST relies on a running **Auth service** which manages authentication and authorization, distributing session keys to the entities.
+2. **Orchestration**: The generated launch scripts automatically start the Auth process in the background (or in a separate pane if using `tmux` or remote deployments) before starting the RTI.
+3. **Session Keys**: The RTI and federates authenticate with the Auth service to obtain symmetric keys, which are then used to encrypt all communications between the RTI and federates, as well as federate-to-federate paths.
+
+### Permanent Distribution Key Mode
+
+SST also supports a mode that bypasses Public Key Infrastructure (PKI) by using a symmetric permanent distribution key:
+
+<ShowIfs>
+<ShowIf c>
+
+```lf
+target C {
+    comm-type: SST,
+    sst: {
+        use-permanent-distribution-key: true
+    }
+};
+```
+
+</ShowIf>
+
+<ShowIf py>
+
+```lf
+target Python {
+    comm-type: SST,
+    sst: {
+        use-permanent-distribution-key: true
+    }
+}
+```
+
+</ShowIf>
+</ShowIfs>
+
+In this mode, only the permanent distribution key is copied and used, and Auth's certificate is not required.
+
+### SST Artifacts
+
+All configuration files, public keys, and private keys required by SST are generated under:
+```filepath
+fed-gen/<program>/src-gen/rti/sst/
+```
+
+This includes:
+* The generated SST configuration files required by the binaries.
+* Auth's public key.
+* Each entity's private key (where each entity is either the RTI or a federate).
+
+### Prerequisites
+* **iotauth**: The core Auth service code is cloned from [iotauth GitHub repository](https://github.com/iotauth/iotauth).
+* **sst-c-api**: This requires the [sst-c-api](https://github.com/iotauth/sst-c-api) library. The Lingua Franca CMake build system automatically downloads, caches, and links it via `FetchContent` by default. Alternatively, it can be built and installed system-wide.
+
+---
+
+## Remote Launch Support
+
+Both TLS and SST security configurations are fully compatible with Lingua Franca's remote launch scripts. When launching a federation remotely:
+1. The compiler generates all the required credentials and configurations.
+2. The remote launch script automatically uses `scp` to copy the credentials, public/private keys, and configurations to each remote host.
+3. The entities are securely launched remotely with their respective configuration parameters.
+
+---
+
+## HMAC Authentication (Legacy / Authentication Only)
+
+Before pluggable communication security was introduced, federated execution supported simple authentication using HMAC.
+
+:::warning
+HMAC authentication only verifies the identity of a federate when it connects to the RTI. Unlike TLS and SST, messages exchanged **after** authentication are **not encrypted**.
+:::
+
+To enable HMAC authentication, include the `auth` property in your target specification:
+
+<ShowIfs>
+<ShowIf c>
+
+```lf
 target C {
     auth: true
 };
 ```
 
+</ShowIf>
+
+<ShowIf py>
+
+```lf
+target Python {
+    auth: true
+}
+```
+
+</ShowIf>
+</ShowIfs>
+
 If you would like to go back to non-AUTH mode, you would have to remove all contents of the `build` folder.
+
+</ShowOnly>
+
+<ShowOnly cpp ts rs>
+
+:::note
+Pluggable communication security (TLS and SST) is currently only supported for the **C** and **Python** targets. Support for other target languages is planned for the future.
+:::
 
 </ShowOnly>
