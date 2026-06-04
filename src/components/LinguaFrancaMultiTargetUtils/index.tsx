@@ -8,6 +8,7 @@ export { LanguageSelector } from "./LanguageSelector";
 export { DynamicMultiTargetCodeblock } from "./DynamicMultiTargetCodeblock";
 export { LangSpecific, NoSelectorTargetCodeBlock } from "./LangSpecific";
 export { ShowIf, ShowIfs, ShowIfsInline } from "./ShowIf";
+export { TargetLanguage } from "./TargetLanguage";
 
 // See https://danielbarta.com/literal-iteration-typescript/
 export const targets = ["c", "uc", "cpp", "py", "rs", "ts"] as const;
