@@ -16,7 +16,7 @@ import {
 A reactor class definition can parameterized as follows:
 
 <ShowIfs>
-<ShowIf c cpp ts rs>
+<ShowIf c uc cpp ts rs>
 
 ```lf
 reactor <class-name>(<param-name>:<type> = <expr>, ...) {
@@ -29,9 +29,9 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 - An identifier, such as `int`<span class="lf-cpp">, possibly followed by a type argument, e.g. `vector<int>`</span>.
 - An array type `type[]`<span class="lf-c lf-cpp lf-rs"> and `type[integer]`</span>.
 - The keyword `time`, which designates a time value.
-- A code block delimited by `{= ... =}`, where the contents is any valid type in the target language.
+- A code block delimited by `{= ... =}`, where the content is any valid type in the target language.
 
-<ShowOnly c cpp>
+<ShowOnly c uc cpp>
 
 - A pointer type, such as `int*`.
 
@@ -42,6 +42,12 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 Types ending with a `*` are treated specially by the C target. See the [Target Language Details](../reference/target-language-details.mdx).
 
 To use strings conveniently in the C target, the "type" `string` is an alias for `{=const char*=}`.
+
+</ShowOnly>
+
+<ShowOnly uc>
+
+- A pointer type, such as `int*`.
 
 </ShowOnly>
 
@@ -123,7 +129,7 @@ This reactor has an integer state variable named `count`, and each time its reac
 ## Reset State Variables
 
 <ShowIfs>
-  <ShowIf cpp ts rs>
+  <ShowIf uc cpp ts rs>
     The `reset` keyword is not supported in $target-language$ because [modal reactors](../writing-reactors/modal-models.mdx) are not supported.
   </ShowIf>
 

@@ -75,7 +75,7 @@ In addition, some targets require the types of all the ports to be the same.
 A destination port (on the right) can only be connected to a single source port (on the left). However, a source port may be connected to multiple destinations, as in the following example:
 
 <ShowIfs>
-  <ShowIf c cpp ts rs>
+  <ShowIf c uc cpp ts rs>
 
     ```lf
     reactor A {
@@ -192,6 +192,6 @@ This is rendered in by the diagram synthesizer as follows:
 
 import PhysicalConnectionSVG from "./../assets/images/diagrams/PhysicalConnection.svg"
 
-<PhysicalConnectionSVG title="Lingua Franca diagram: PhysicalConnection" role="img" width="200" />
+<PhysicalConnectionSVG title="Lingua Franca diagram: PhysicalConnection" role="img" width="300" />
 
-In such a connection, the logical time at the recipient is derived from the local physical clock rather than being equal to the logical time at the sender. The physical time will always exceed the logical time of the sender (unless fast is set to `true`), so this type of connection incurs a nondeterministic positive logical time delay. Physical connections are useful sometimes in [Distributed-Execution](../writing-reactors/distributed-execution.mdx) in situations where the nondeterministic logical delay is tolerable. Such connections are more efficient because timestamps need not be transmitted and messages do not need to flow through through a centralized coordinator (if a centralized coordinator is being used).
+In such a connection, the logical time at the recipient is derived from the local physical clock rather than being equal to the logical time at the sender. The physical time will always exceed the logical time of the sender (unless fast is set to `true`), so this type of connection incurs a nondeterministic positive logical time delay. Physical connections are useful sometimes in [Distributed-Execution](../writing-reactors/distributed-execution.mdx) in situations where the nondeterministic logical delay is tolerable. Such connections are more efficient because timestamps need not be transmitted and messages do not need to flow through a centralized coordinator (if a centralized coordinator is being used).

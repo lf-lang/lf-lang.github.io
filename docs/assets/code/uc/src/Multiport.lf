@@ -12,11 +12,12 @@ reactor Destination {
   reaction(in) {=
     int sum = 0;
     for (int i = 0; i < in_width; i++) {
-      if (in[i]->is_present) sum += in[i]->value;
+      if (lf_is_present(in[i])) sum += in[i]->value;
     }
     printf("Sum of received: %d.\n", sum);
   =}
 }
+@platform("Native")
 main reactor {
   a = new Source();
   b = new Destination();

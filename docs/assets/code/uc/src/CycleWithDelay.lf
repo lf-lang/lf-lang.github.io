@@ -16,6 +16,7 @@ reactor B {
     // ... something here ...
   =}
 }
+@platform("Native")
 main reactor {
   a = new A();
   b = new B();

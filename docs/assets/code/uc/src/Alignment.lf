@@ -1,7 +1,7 @@
-target uC {
-  timeout: 3 secs
-}
+target uC
 
+@platform("Native")
+@timeout(3 sec)
 main reactor Alignment {
   state s: int = 0
   timer t1(100 msec, 100 msec)

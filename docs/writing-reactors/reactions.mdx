@@ -62,7 +62,7 @@ Here, the reaction to `t1` will set the output to 1 or 2, but every time it sets
 
 ## Reacting to Outputs of Contained Reactors
 
-A reaction may be triggered by the an input to the reactor, but also by an output of a contained reactor, as illustrated in the following example:
+A reaction may be triggered by an input to the reactor, but also by an output of a contained reactor, as illustrated in the following example:
 
 import C_Contained from '../assets/code/c/src/Contained.lf';
 import UC_Contained from '../assets/code/uc/src/Contained.lf';
@@ -97,7 +97,7 @@ This will cause the inside reactor's reaction to execute and print `Received 42`
 
 ## Startup, Shutdown, and Reset Reactions
 
-Reactions may be triggered by the special events `startup`, `shutdown`, or `reset`.
+Reactions may be triggered by the special events `startup`, `shutdown`, or `reset` (if modal reactors are supported).
 For example,
 
 ```lf
@@ -115,7 +115,7 @@ See the [Termination](../writing-reactors/termination.mdx) section for details.
 
 <ShowIfs>
 
-<ShowIf cpp ts rs>
+<ShowIf uc cpp ts rs>
 
 Reactions to the `reset` event are not supported in $target-language$ because [modal reactors](../writing-reactors/modal-models.mdx) are not supported.
 

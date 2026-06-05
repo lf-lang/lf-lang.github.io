@@ -1,9 +1,10 @@
 target uC
 
+@platform("Native")
 main reactor Timer {
   timer t(0, 1 sec)
 
   reaction(t) {=
-    printf("Logical time is %lld.\n", lf_time_logical());
+    printf("Logical time is %lld.\n", env->get_logical_time(env));
   =}
 }

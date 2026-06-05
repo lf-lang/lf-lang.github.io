@@ -15,9 +15,9 @@ import {
 
 A key property of Lingua Franca is **logical time**. All events occur at an instant in logical time. By default, the runtime system does its best to align logical time with **physical time**, which is some measurement of time on the execution platform. The **lag** is defined to be physical time minus logical time, and the goal of the runtime system is maintain a small non-negative lag.
 
-The **lag** is allowed to go negative only if the [`fast`](../reference/target-declaration.mdx#fast) target property or the [`--fast`](../reference/target-declaration.mdx#command-line-arguments) command-line argument is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
+The **lag** is allowed to go negative only if the [`fast`](../reference/target-declaration.mdx#fast) target property, the [`--fast`](../reference/target-declaration.mdx#command-line-arguments) command-line argument, or the `@fast(true)` attribute is set to `true` on the main reactor. In that case, the program will execute as fast as possible with no regard to physical time.
 
-<ShowOnly c cpp rs>
+<ShowOnly c uc cpp rs>
 
   In Lingua Franca, `time` is a data type.
   A parameter, state variable, port, or action may have type `time`.
@@ -96,6 +96,7 @@ This specifies a timer named `t` that will first trigger at the start of executi
 
 This target provides a built-in function for retrieving the logical time at which the reaction is invoked, 
 <ShowOnly c inline>`lf_time_logical()`</ShowOnly>
+<ShowOnly uc inline>`env->get_logical_time(env)`</ShowOnly>
 <ShowOnly cpp inline>`get_logical_time()`</ShowOnly>
 <ShowOnly py inline>`lf.time.logical()`</ShowOnly>
 <ShowOnly ts inline>`util.getCurrentLogicalTime()`</ShowOnly>
@@ -165,11 +166,11 @@ In this case, the lag varies from a few hundred microseconds to a small number o
 
 If two timers have the same _offset_ and _period_, then their events are logically simultaneous. No observer will be able to see that one timer has triggered and the other has not.
 
-A reaction is always invoked at a well-defined logical time, and logical time does not advance during its execution. Any output produced by the reaction will be **logically simultaneous** with the input. In other words, reactions are **logically instantaneous** (for an exception, see Logical Execution Time (FIXME: the original link is a FIXME)). Physical time, however, does elapse during execution of a reaction.
+A reaction is always invoked at a well-defined logical time, and logical time does not advance during its execution. Any output produced by the reaction will be **logically simultaneous** with the input. In other words, reactions are **logically instantaneous** (for an exception, see [Generalizing Logical Execution Time](https://doi.org/10.1007/978-3-031-22337-2_8)). Physical time, however, does elapse during execution of a reaction.
 
 ## Timeout
 
-By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](../reference/target-declaration.mdx#timeout) or a [`--timeout` command-line option](../reference/target-declaration.mdx#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
+By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](../reference/target-declaration.mdx#timeout), a [`--timeout` command-line option](../reference/target-declaration.mdx#command-line-arguments), or (for the uC target) the `@timeout(N)` attribute on the main reactor. For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
 
 <NoSelectorTargetCodeBlock lf
   c={`target C {
@@ -191,6 +192,11 @@ By default, a Lingua Franca program will terminate when there are no more events
   rs={`target Rust {
   timeout: 10 s
 }`}
+
+  uc={`target uC
+  @timeout(10 s)
+  main reactor { ... }
+`}
 />
 
 ## Startup and Shutdown

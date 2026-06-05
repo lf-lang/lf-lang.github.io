@@ -101,6 +101,9 @@ If a reaction wishes to test whether an output has been previously set at the cu
 
 ## Mutable Inputs
 
+<ShowIfs>
+  <ShowIf c py cpp ts rs>
+
 Normally, a reaction does not modify the value of an input. An input is said to be **immutable**. The degree to which this is enforced varies by target language. Most of the target languages make it rather difficult to enforce, so the programmer needs to avoid modifying the input. Modifying an input value may lead to nondeterministic results.
 
 Occasionally, it is useful to modify an input. For example, the input may be a large data structure, and a reaction may wish to make a small modification and forward the result to an output. To accomplish this, the programmer should declare the input `mutable` as follows:
@@ -123,3 +126,11 @@ Occasionally, it is useful to modify an input. For example, the input may be a l
 </ShowIfs>
 
 This is a directive to the code generator indicating that reactions that read this input may also modify the value of the input. The code generator will attempt to optimize the scheduling to avoid copying the input value, but this may not be possible, in which case it will automatically insert a copy operation, making it safe to modify the input. The target-specific reference documentation has more details about how this works.
+
+</ShowIf>
+<ShowIf uc>
+:::note
+Mutable inputs are not supported in the uC target.
+:::
+</ShowIf>
+</ShowIfs>

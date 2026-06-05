@@ -1,11 +1,12 @@
-target uC {
-    fast: true,
-    timeout: 1 secs
-};
+target uC
+
 import Count from "../Count.lf";
 import Scale from "../Scale.lf";
 import TestCount from "../TestCount.lf";
 
+@platform("Native")
+@timeout(1 sec)
+@fast(true)
 main reactor {
     c = new Count();
     d = new Scale();

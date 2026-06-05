@@ -6,10 +6,10 @@ reactor Destination {
 
   reaction(x, y) {=
     int sum = 0;
-    if (x->is_present) {
+    if (lf_is_present(x)) {
       sum += x->value;
     }
-    if (y->is_present) {
+    if (lf_is_present(y)) {
       sum += y->value;
     }
     printf("Received %d.\n", sum);

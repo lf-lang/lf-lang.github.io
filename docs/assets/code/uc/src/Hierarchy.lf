@@ -12,6 +12,7 @@ reactor Container(stride: int = 2) {
   s.y -> y
 }
 
+@platform("Native")
 main reactor Hierarchy {
   c = new Container(stride=4)
   t = new TestCount(stride=4, num_inputs=11)

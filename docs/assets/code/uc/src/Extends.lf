@@ -1,4 +1,4 @@
-target uC;
+target uC
 reactor A {
   input a:int;
   output out:int;

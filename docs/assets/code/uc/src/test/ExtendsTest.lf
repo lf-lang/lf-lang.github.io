@@ -1,7 +1,5 @@
-target uC {
-    timeout: 1 sec,
-    fast: true
-}
+target uC
+
 import Count from "../Count.lf";
 import TestCount from "../TestCount.lf";
 
@@ -19,6 +17,9 @@ reactor B extends A {
     =}
 }
 
+@platform("Native")
+@timeout(1 sec)
+@fast(true)
 main reactor {
     c = new Count();
     b = new B();

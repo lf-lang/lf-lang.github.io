@@ -5,6 +5,7 @@ reactor Inside {
     printf("Received %d\n", x->value);
   =}
 }
+@platform("Native")
 main reactor {
   i = new Inside()
   reaction(startup) -> i.x {=
