@@ -1,11 +1,11 @@
-target uC {
-  keepalive: true  // Do not exit when event queue is empty.
-}
+target uC
 
 preamble {=
   #include "platform.h" // Defines lf_sleep() and thread functions.
 =}
 
+@platform("Native")
+@keepalive(true)
 main reactor {
   preamble {=
     // Schedule an event roughly every 200 msec.
@@ -25,7 +25,7 @@ main reactor {
   =}
 
   reaction(a) {=
-    interval_t elapsed_time = lf_time_logical_elapsed();
+    interval_t elapsed_time = env->get_elapsed_logical_time(env);
     printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
   =}
 }

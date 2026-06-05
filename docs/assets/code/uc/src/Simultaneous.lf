@@ -6,17 +6,18 @@ reactor Destination {
 
   reaction(x, y) {=
     printf("Time since start: %lld, microstep: %d\n",
-        lf_time_logical_elapsed(), lf_tag().microstep
+        env->get_elapsed_logical_time(env), env->get_tag(env).microstep
     );
-    if (x->is_present) {
+    if (lf_is_present(x)) {
       printf("  x is present.\n");
     }
-    if (y->is_present) {
+    if (lf_is_present(y)) {
       printf("  y is present.\n");
     }
   =}
 }
 
+@platform("Native")
 main reactor {
   logical action repeat
   d = new Destination()

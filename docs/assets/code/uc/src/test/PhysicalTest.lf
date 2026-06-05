@@ -1,5 +1,6 @@
 target uC;
 import Physical from "../Physical.lf";
+@platform("Native")
 main reactor {
     timer t(200 msec, 200 msec);
     p = new Physical();
