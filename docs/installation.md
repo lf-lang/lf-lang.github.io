@@ -4,6 +4,13 @@ title: Installation
 
 # Installation
 
+:::note
+For Micro-LF (the `uC` target), see [https://micro-lf.org/getting-started/](https://micro-lf.org/getting-started/) for
+instructions on installing the code generator `ulfg` and the compiler `ulfc`.
+The instructions below for the Visual Studio Code plugin are still useful because the plugin also supports the `uC` target.
+For all other targets, continue here.
+:::
+
 ## For the Impatient
 
 Do one or more of the following:
