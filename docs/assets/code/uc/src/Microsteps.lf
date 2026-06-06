@@ -6,7 +6,7 @@ main reactor {
   logical action a
 
   reaction(startup, a) -> a {=
-    tag_t tag = env->get_tag(env);
+    tag_t tag = env->scheduler->current_tag(env->scheduler);
     printf("%d. Logical time is %lld. Microstep is %d.\n",
         self->count, tag.time, tag.microstep
     );

@@ -16,6 +16,7 @@ reactor B {
         printf("Reactor B says %s.\n", shared_string);
     =}
 }
+@platform("Native")
 main reactor {
     preamble {=
         const char shared_string[] = "Hello";

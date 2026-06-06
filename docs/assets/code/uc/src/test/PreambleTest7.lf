@@ -6,9 +6,10 @@ target uC
 preamble {=
     typedef int foo;
 =}
+@platform("Native")
 main reactor {
     state x:foo = 0
     reaction(startup) {=
-        lf_print("State is %d", self->x);
+        printf("State is %d\n", self->x);
     =}
 }

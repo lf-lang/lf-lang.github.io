@@ -129,8 +129,7 @@ This is a directive to the code generator indicating that reactions that read th
 
 </ShowIf>
 <ShowIf uc>
-:::note
-Mutable inputs are not supported in the uC target.
-:::
+Unless you pass pointer types from one reactor to another, an `input->value` may be freely modified by a destination reactor.
+Micro-LF copies values when there are multiple destinations, so this will not lead to nondeterministic behavior.
 </ShowIf>
 </ShowIfs>

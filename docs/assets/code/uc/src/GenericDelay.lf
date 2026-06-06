@@ -14,6 +14,7 @@ reactor Delay<T>(delay: time = 0) {
   =}
 }
 
+@platform("Native")
 main reactor {
   d = new Delay<int>(delay = 100 ms)
 
@@ -22,6 +23,6 @@ main reactor {
   =}
 
   reaction(d.out) {=
-    printf("Received %d at time %lld.\n", d.out->value, lf_time_logical_elapsed());
+    printf("Received %d at time %lld.\n", d.out->value, env->get_elapsed_logical_time(env));
   =}
 }

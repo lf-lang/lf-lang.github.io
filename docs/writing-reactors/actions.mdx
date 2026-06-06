@@ -36,10 +36,20 @@ scheduled events. This is done as follows:
   logical action <name>(<min_delay>, <min_spacing>, <policy>)
 ```
 
+or
+
+```lf
+  @max_pending_events(<number>)
+  physical action <name>(<min_delay>, <min_spacing>, <policy>)
+```
+
 The `<number>` is an integer literal that specifies the maximum number of unprocessed
 events that can be on the event queue for the action.
 
 If no `@max_pending_events` attribute is given, then the default is 1.
+If and when the maximum number of pending events is reached, new events will be handled
+according to the `<policy>` argument, as described in the next section, except that
+the "defer" policy will be handled by dropping the event.
 
 </ShowOnly>
 
@@ -217,7 +227,7 @@ determines how the minimum spacing constraint is enforced.
  but the difference between the times of two successive tags can be 0.
 
 <ShowIfs>
-<ShowIf c py>
+<ShowIf c uc py>
 
 The `<policy>` is one of the following:
 
@@ -243,7 +253,6 @@ The logical action will trigger at elapsed times 100 ms, 110 ms, and 120 ms.
 
 ## Testing an Action for Presence
 
-{/* This looks like crap but what can you do?*/}
 When a reaction is triggered by more than one action or by an action and an input, it may be necessary to test within the reaction whether the action is present.
 Just like for inputs, this can be done in the  <ShowOnly c inline>C target with `a->is_present`</ShowOnly>
   <ShowOnly uc inline>uC target with `lf_is_present(a)`</ShowOnly>

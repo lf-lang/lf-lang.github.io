@@ -42,6 +42,11 @@ Executing this program will yield something like this:
 
 Notice that the logical time is not advancing, but the microstep is (the logical time, in this case, gives the number of nanoseconds that have elapsed since January 1, 1970). The general rule is that **every** call to `schedule()` advances the tag by at least one microstep.
 
+<ShowOnly uc>
+Notice the call to `env->scheduler->current_tag(env->scheduler)`.
+This is a function that returns the current tag, which is a struct that contains the logical time and the microstep.
+</ShowOnly>
+
 ## Logical Simultaneity
 
 Two events are **logically simultaneous** only if _both_ the logical time and the microstep are equal. The following example illustrates this:

@@ -69,12 +69,22 @@ But this is exactly what we are trying to accomplish here in order to force a de
 
 </ShowOnly>
 
+<ShowOnly uc>
+
+Notice that the deadline violation here is caused by an invocation of `lf_sleep`, a function
+defined in the C target that can be used through the C-target-compatibility library defined in `"reactor-uc/reactor-c.h"`.
+It is not generally advisable for a reaction to sleep because this can block other reactions from executing.
+But this is exactly what we are trying to accomplish here in order to force a deadline to be violated.
+
+</ShowOnly>
+
+
 ## Deadline Violations During Execution
 
 Whether a deadline violation occurs is checked only _before_ invoking the reaction with a deadline. What if the reaction itself runs for long enough that the deadline gets violated _during_ the reaction execution? For this purpose, a target-language function is provided to check whether a deadline is violated during execution of a reaction with a deadline.
 
 <ShowIfs>
-  <ShowIf cpp py ts rs>
+  <ShowIf uc cpp py ts rs>
 
 :::info
 
@@ -88,9 +98,8 @@ As of this writing, this function is only implemented in the C target.
     Consider this example:
 
 import C_CheckDeadline from '../assets/code/c/src/CheckDeadline.lf';
-import UC_CheckDeadline from '../assets/code/uc/src/CheckDeadline.lf';
 
-    <NoSelectorTargetCodeBlock c={C_CheckDeadline} uc={UC_CheckDeadline} lf />
+    <NoSelectorTargetCodeBlock c={C_CheckDeadline} lf />
 
     The `Count` reactor has a single reaction with a deadline of `3 msec`.
     If the deadline is not already violated when this reaction becomes enabled (at startup), then the reaction begins executing a loop. In each iteration of the loop, it calls `lf_check_deadline(self, true)`, which returns `true` if the deadline has been violated and `false` otherwise. Hence, this reaction will increment the `count` variable as many times as possible before the deadline is violated and, at

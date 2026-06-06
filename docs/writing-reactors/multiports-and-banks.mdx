@@ -64,6 +64,7 @@ In `Destination`, the reaction is triggered by `in`, not by some individual chan
 
 <NoSelectorTargetCodeBlock
   c="if (in[i]->is_present) ..." 
+  uc="if (lf_is_present(in[i])) ..."
   cpp="if (in[i]->is_present()) ..."
   py="if port.is_present: ..."
   ts="if (val) ..."
@@ -245,7 +246,9 @@ My bank index: 0.
 My bank index: 1.
 ```
 
+<ShowOnly c py ts rs cpp>
 The order of these outputs will be nondeterministic if the execution is multithreaded (which it will be by default) because there is no dependence between the reactions, and, hence, they can execute in parallel.
+</ShowOnly>
 
 The bank index of a container (parent) reactor can be passed down to
 contained (child) reactors. For example, note the following program:
@@ -264,13 +267,15 @@ In this example, the bank index of the `Parent` reactor is passed to the
 The output from this program will be:
 
 ```
-My bank index: 1. My parent's bank index: 1.
 My bank index: 0. My parent's bank index: 0.
-My bank index: 0. My parent's bank index: 1.
 My bank index: 1. My parent's bank index: 0.
+My bank index: 0. My parent's bank index: 1.
+My bank index: 1. My parent's bank index: 1.
 ```
 
+<ShowOnly c py ts rs cpp>
 Again, note that the order of these outputs is nondeterministic.
+</ShowOnly>
 
 Finally, members of contained banks of reactors can be individually addressed in
 the body of reactions of the parent reactor if their input/output port appears
@@ -297,7 +302,7 @@ Received 2 from child 0.
 Received 3 from child 1.
 ```
 <ShowIfs>
-  <ShowIf c>
+  <ShowIf c uc>
     Note the usage of `c_width`, which holds the width of the `c` bank of reactors.
   </ShowIf>
 
@@ -347,7 +352,9 @@ Destination 1 received 1.
 Destination 2 received 2.
 ```
 
+<ShowOnly c py ts rs cpp>
 Again, the order is nondeterministic in a multithreaded context.
+</ShowOnly>
 
 The reactors in a bank may themselves have multiports. In all cases, the number of ports on the left of a connection must match the number on the right, unless the ones on the left are iterated, as explained next.
 
@@ -368,7 +375,7 @@ reactor Destination {
     ... read from in ...
   =}
 }
-main reactor ThreadedThreaded(width:int(4)) {
+main reactor ThreadedThreaded(width:int = 4) {
   a = new Source();
   d = new[width] Destination();
   (a.out)+ -> d.in;
@@ -380,7 +387,7 @@ The syntax `(a.out)+` means "repeat the output port `a.out` one or more times as
 ## Interleaved Connections
 
 <ShowIfs>
-<ShowIf c cpp py>
+<ShowIf c uc cpp py>
 
 Sometimes, we don't want to broadcast messages to all reactors, but need more fine-grained control as to which reactor within a bank receives a message. If we have separate source and destination reactors, this can be done by combining multiports and banks as was shown in [Combining Banks and Multiports](#combining-banks-and-multiports). Setting a value on the index _n_ of the output multiport, will result in a message to the _n_-th reactor instance within the destination bank. However, this pattern gets slightly more complicated, if we want to exchange addressable messages between instances of the same bank. This pattern is shown in the following example:
 
@@ -410,7 +417,7 @@ Bank index 1 received 42 on channel 3.
 
 In bank index 1, the 0-th channel receives from `bank_index` 0, the 1-th channel from `bank_index` 1, etc. In effect, the choice of output channel specifies the destination reactor in the bank, and the input channel specifies the source reactor from which the input comes.
 
-This style of connection is accomplished using the new keyword `interleaved` in the connection. Normally, a port reference such as `nodes.out` where `nodes` is a bank and `out` is a multiport, would list all the individual ports by first iterating over the banks and then, for each bank index, iterating over the ports. If we consider the tuple (b,p) to denote the index b within the bank and the index p within the multiport, then the following list is created: (0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (2,3), (3,0), (3,1), (3,2), (3,3). However, if we use `interleaved``(nodes.out)` instead, the connection logic will iterate over the ports first and then the banks, creating the following list: (0,0), (1,0), (2,0), (3,0), (0,1), (1,1), (2,1), (3,1), (0,2), (1,2), (2,2), (3,2), (0,3), (1,3), (2,3), (3,3). By combining a normal port reference with a interleaved reference, we can construct a fully connected network. The figure below visualizes this how this pattern would look without banks or multiports:
+This style of connection is accomplished using the new keyword `interleaved` in the connection. Normally, a port reference such as `nodes.out` where `nodes` is a bank and `out` is a multiport, would list all the individual ports by first iterating over the banks and then, for each bank index, iterating over the ports. If we consider the tuple (b,p) to denote the index b within the bank and the index p within the multiport, then the following list is created: (0,0), (0,1), (0,2), (0,3), (1,0), (1,1), (1,2), (1,3), (2,0), (2,1), (2,2), (2,3), (3,0), (3,1), (3,2), (3,3). However, if we use `interleaved(nodes.out)` instead, the connection logic will iterate over the ports first and then the banks, creating the following list: (0,0), (1,0), (2,0), (3,0), (0,1), (1,1), (2,1), (3,1), (0,2), (1,2), (2,2), (3,2), (0,3), (1,3), (2,3), (3,3). By combining a normal port reference with a interleaved reference, we can construct a fully connected network. The figure below visualizes this how this pattern would look without banks or multiports:
 
 ![Lingua Franca diagram: AddressableDesugared](../assets/images/diagrams/AddressableDesugared.png)
 

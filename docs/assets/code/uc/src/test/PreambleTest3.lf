@@ -12,6 +12,7 @@ reactor Sin {
         printf("The sine of 1 is %f.\n", sin(1));
     =}
 }
+@platform("Native")
 main reactor {
     c = new Cos()
     s = new Sin()

@@ -13,6 +13,7 @@ reactor Count {
   =}
 }
 
+@platform("Native")
 main reactor {
   c = new Count();
   reaction(c.out) {=

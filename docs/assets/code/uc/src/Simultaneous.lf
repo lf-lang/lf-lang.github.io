@@ -5,8 +5,9 @@ reactor Destination {
   input y: int
 
   reaction(x, y) {=
+    tag_t tag = env->scheduler->current_tag(env->scheduler);
     printf("Time since start: %lld, microstep: %d\n",
-        env->get_elapsed_logical_time(env), env->get_tag(env).microstep
+        env->get_elapsed_logical_time(env), tag.microstep
     );
     if (lf_is_present(x)) {
       printf("  x is present.\n");

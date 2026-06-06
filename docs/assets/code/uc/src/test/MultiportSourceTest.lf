@@ -1,13 +1,11 @@
  // Check bank of reactors sending to bank of reactors.
-target uC {
-    timeout: 2 sec,
-    fast: true,
-};
+target uC
+
 import MultiportSource from "../MultiportSource.lf";
 reactor Destination(
-    bank_index:int(0)
+    bank_index:int = 0
 ) {
-    state s:int(0);
+    state s:int = 0;
     input in:int;
     reaction(in) {=
         printf("Destination %d received: %d.\n", self->bank_index, in->value);
@@ -26,7 +24,10 @@ reactor Destination(
     =}
 }
 
-main reactor(width:int(4)) { 
+@platform("Native")
+@timeout(2 sec)
+@fast(true)
+main reactor(width:int = 4) { 
     a = new[width] MultiportSource();
     b = new[width] Destination();
     a.out -> b.in;

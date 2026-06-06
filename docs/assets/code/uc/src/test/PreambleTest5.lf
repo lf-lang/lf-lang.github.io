@@ -16,6 +16,7 @@ reactor Add_1 {
         printf("42 plus 1 is %d.\n", add_42(1));
     =}
 }
+@platform("Native")
 main reactor {
     preamble {=
         int add_42(int i) {

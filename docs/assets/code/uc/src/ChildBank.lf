@@ -11,6 +11,7 @@ reactor Parent (
 ) {
   c = new[2] Child();
 }
+@platform("Native")
 main reactor {
   p = new[2] Parent();
 }

@@ -3,9 +3,11 @@ target uC
 import Deadline from "Deadline.lf"
 
 preamble {=
-  #include "platform.h"
+  // For lf_sleep(), a reactor-c function.
+  #include "reactor-uc/reactor-c.h"
 =}
 
+@platform("Native")
 main reactor {
   logical action a
   d = new Deadline()
