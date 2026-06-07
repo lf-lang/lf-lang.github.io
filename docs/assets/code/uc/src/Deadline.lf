@@ -1,4 +1,6 @@
 target uC;
+
+@platform("Native")
 reactor Deadline {
   input x:int;
   output d:int; // Produced if the deadline is violated.

@@ -1,23 +1,21 @@
-target uC {
-  timeout: 5 sec,
-  coordination: decentralized
-}
+target uC
 
 import Count, Print from "Federated.lf"
 
 reactor PrintTimer extends Print {
-  timer t(0, 1 sec)
+    timer t(0, 1 sec)
 
-  reaction(t) {=
-    lf_print("Timer ticked at (%lld, %d).",
-        lf_time_logical_elapsed(), lf_tag().microstep
-    );
-  =}
+    reaction(t) {=
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("Timer ticked at %lld\n", elapsed);
+    =}
 }
 
+@platform("native")
+@timeout(5sec)
 federated reactor {
-  c = new Count()
-  @maxwait(10 ms)
-  p = new PrintTimer()
-  c.out -> p.in
+    c = new Count()
+    @maxwait(10 ms)
+    p = new PrintTimer()
+    c.out -> p.in
 }

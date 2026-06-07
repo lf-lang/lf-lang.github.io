@@ -1,27 +1,26 @@
 target uC
 
-preamble {=
-  #include "platform.h" // Defines lf_sleep() and thread functions.
-=}
-
 @platform("Native")
 @keepalive(true)
 main reactor {
   preamble {=
+    #include <unistd.h>
     // Schedule an event roughly every 200 msec.
-    void* external(void* a) {
+
+    void* external(void* ptr) {
+      Action* physical_action = (Action*)ptr;
       while (true) {
-        lf_sleep(MSEC(200));
-        lf_schedule(a, 0);
+        usleep(200000);
+        lf_schedule(physical_action, SEC(0), 0);
       }
     }
   =}
-  state thread_id: lf_thread_t = 0
+  
+  state thread: pthread_t
   physical action a(100 msec): int
 
   reaction(startup) -> a {=
-    // Start a thread to schedule physical actions.
-    lf_thread_create(&self->thread_id, &external, a);
+    pthread_create(&self->thread, NULL, &external, a);
   =}
 
   reaction(a) {=

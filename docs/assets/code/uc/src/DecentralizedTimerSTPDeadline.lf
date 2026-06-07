@@ -1,22 +1,24 @@
-target uC {
-    timeout: 5 sec,
-    coordination: decentralized
-}
+target uC
+
 import Count, Print from "Federated.lf"
-reactor PrintTimer(STP_offset:time(10 msec)) extends Print {
-    timer t(0, 1 sec);
+
+reactor PrintTimer extends Print {
+    timer t(0, 1 sec)
+
     reaction(t) {=
-        lf_print("Timer ticked at (%lld, %d).", 
-            lf_time_logical_elapsed(), lf_tag().microstep
-        );
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("Timer ticked at %lld\n", elapsed);
     =} deadline(10 msec) {=
-        lf_print("**** Deadline violation at (%lld, %d).", 
-            lf_time_logical_elapsed(), lf_tag().microstep
-        );
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("Deadline violation at %lld\n", elapsed);
     =}
 }
+
+@platform("native")
+@timeout(5sec)
 federated reactor {
-    c = new Count();
-    p = new PrintTimer();
-    c.out -> p.in;
+    c = new Count()
+    @maxwait(10 ms)
+    p = new PrintTimer()
+    c.out -> p.in
 }

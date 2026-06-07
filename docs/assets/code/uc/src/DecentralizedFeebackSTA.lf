@@ -1,39 +1,43 @@
-target uC {
-    timeout: 5 sec,
-    coordination: decentralized
-}
-reactor CountPrint(STA:time = 10 ms) {
-    input in:int;
-    output out:int;
-    state c:int = 0;
+target uC
+
+reactor CountPrint {
+    input in: int;
+    output out: int;
+    state c: int = 0;
     timer t(0, 1 sec);
+
     reaction(t) -> out {=
         lf_set(out, self->c++);
     =}
+
     reaction(in) {=
-        lf_print("***** CountPrint Received: %d at tag (%lld, %u)",
-            in->value, lf_time_logical_elapsed(), lf_tag().microstep
-        );
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("CountPrint Received: %d at time %lld\n", in->value, elapsed);
     =}
 }
 
-reactor PrintCount(STA:time = 10 ms) {
-    input in:int;
-    output out:int;
+reactor PrintCount {
+    input in: int;
+    output out: int;
     timer t(0, 1 sec);
-    state c:int = 0;
+    state c: int = 0;
+
     reaction(in) {=
-        lf_print("***** PrintCount Received: %d at tag (%lld, %u)",
-            in->value, lf_time_logical_elapsed(), lf_tag().microstep
-        );
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("PrintCount Received: %d at time %lld\n", in->value, elapsed);
     =}
+
     reaction(t) -> out {=
         lf_set(out, self->c++);
     =}
 }
 
+@platform("native")
+@timeout(5sec)
 federated reactor {
+    @maxwait(10 ms)
     c = new CountPrint();
+    @maxwait(10 ms)
     p = new PrintCount();
     c.out -> p.in;
     p.out -> c.in;

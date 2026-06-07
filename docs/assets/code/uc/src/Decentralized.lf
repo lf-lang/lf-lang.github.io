@@ -1,10 +1,12 @@
-target uC {
-    timeout: 5 sec,
-    coordination: decentralized
-}
+target uC
+
 import Count, Print from "Federated.lf"
+
+@timeout(5sec)
+@platform("native")
 federated reactor {
     c = new Count();
+    @maxwait(10 ms)
     p = new Print();
     c.out -> p.in;
 }

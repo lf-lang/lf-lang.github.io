@@ -14,12 +14,13 @@ reactor Print {
   input in: int
 
   reaction(in) {=
-    lf_print("Received: %d at (%lld, %d)", in->value,
-        lf_time_logical_elapsed(), lf_tag().microstep
-    );
+    instant_t current_tag = env->get_logical_time(env);
+    printf("Received: %d at %lld\n", in->value, current_tag);
   =}
 }
 
+@platform("native")
+@timeout(5sec)
 federated reactor {
   c = new Count()
   p = new Print()
