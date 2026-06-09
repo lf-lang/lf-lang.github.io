@@ -29,7 +29,10 @@ export const SocialMediaCard = ({
       <div className="card card--full-height">
         <div className="card__header">
           <div className="avatar avatar--vertical">
-            <div className="avatar__photo avatar__photo--xl">
+            <div
+              className="avatar__photo avatar__photo--xl"
+              style={{ marginBottom: "0.75rem" }}
+            >
               {renderedImage}
             </div>
             <div className="avatar__intro">
