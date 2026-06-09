@@ -13,7 +13,6 @@ import { ReactElement, ReactNode } from "react";
 import Link from "@docusaurus/Link";
 
 import ZulipLogo from "@site/static/img/external-logos/zulip-icon-circle.svg";
-import GithubLogo from "@site/static/img/external-logos/github-mark.svg";
 import RedditLogo from "@site/static/img/external-logos/reddit-logo.svg";
 
 export const SocialMediaCard = ({
@@ -89,15 +88,29 @@ export default function Community(): JSX.Element {
             {/* Tweak github black logo so that its background is always white. */}
             <SocialMediaCard
               renderedImage={
-                <GithubLogo
-                  title="GitHub"
-                  width="100%"
-                  height="100%"
+                <div
                   style={{
+                    width: "100%",
+                    height: "100%",
                     backgroundColor: "#ffffff",
-                    transform: "scale(1.02)",
+                    borderRadius: "50%",
+                    display: "block",
+                    overflow: "hidden",
                   }}
-                />
+                >
+                  <img
+                    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                    alt="GitHub"
+                    loading="lazy"
+                    style={{
+                      width: "90%",
+                      height: "90%",
+                      display: "block",
+                      margin: "5%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
               }
               name="GitHub"
             >
