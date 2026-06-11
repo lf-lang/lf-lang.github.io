@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 ## Shutdown Reactions
 
@@ -29,7 +29,13 @@ We address each of these in turn.
 
 ## Timeout
 
+<ShowOnly c cpp py ts rs>
 The [target property `timeout`](../reference/target-declaration.mdx#timeout) specifies the last logical time at which reactions should be triggered. The last invocation of reactions will be at tag (`timeout`, 0).
+</ShowOnly>
+
+<ShowOnly uc>
+The [attribute `@timeout`](https://micro-lf.org/documentation/annotations/) specifies the last logical time at which reactions should be triggered. The last invocation of reactions will be at tag (`timeout`, 0).
+</ShowOnly>
 
 There is a significant subtlety when using [physical connections](<../writing-reactors/composing-reactors.mdx#physical-connections>), which are connections using the syntax `~>`. Such connections specify that the tag at the receiving end will be based on the physical time at which the message is received. If the tag assigned at the receiving end is greater than the final tag, then the message is lost. Hence, **messages sent near the `timeout` time are likely to be lost!**
 
@@ -37,9 +43,7 @@ There is a significant subtlety when using [physical connections](<../writing-re
 
 If a Lingua Franca program has no [physical actions](<../writing-reactors/actions.mdx#physical-actions>), and if at any time during execution there are no future events waiting to be processed, then there is no possibility for any more reactions to occur and the program will exit. This situation is called **starvation**. If there is a **timer** anywhere in the program with a period, then this condition never occurs.
 
-One subtlety is that reactions triggered by `shutdown` will be invoked one microstep later than the last tag at which there was an event. They cannot be invoked at the same tag because it is only after that last tag has completed that the runtime system can be sure that there are no future events. It would not be correct to trigger the `shutdown` reactions at that point because it would be impossible to respect the required reaction ordering.
-
-<ShowOnly c py ts>
+<ShowOnly c uc py ts>
 
 Starvation termination is not currently implemented for federated execution. You will need to use one of the other mechanisms to terminate a federated program.
 
@@ -47,7 +51,7 @@ Starvation termination is not currently implemented for federated execution. You
 
 ## Stop Request
 
-If a reaction calls the built-in `request_stop()` function, then it is requesting that the program cease execution as soon as possible. This cessation will normally occur in the next microstep. The current tag will be completed as normal. Then the tag will be advanced by one microstep, and reactions triggered by `shutdown` will be executed, along with any other reactions with triggers at that tag, with all reactions executed in precedence order.
+If a reaction calls the built-in `lf_request_stop()` function, then it is requesting that the program cease execution as soon as possible. This cessation will normally occur in the next microstep. The current tag will be completed as normal. Then the tag will be advanced by one microstep, and reactions triggered by `shutdown` will be executed, along with any other reactions with triggers at that tag, with all reactions executed in precedence order.
 
 <ShowOnly c py ts>
 

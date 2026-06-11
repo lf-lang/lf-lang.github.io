@@ -20,6 +20,7 @@ reactor CountPrintWithChecker extends CountPrint {
 }
 
 federated reactor {
+  @maxwait(0)
   c = new CountPrintWithChecker()
   p = new Double()
   c.out -> p.in

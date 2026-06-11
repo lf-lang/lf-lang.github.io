@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py ts rs />
+<LanguageSelector c py />
 
 By default, there is no secure authentication when a federate joins a federation, and data exchanged between federates is not encrypted. For targets that support it, Lingua Franca provides robust, end-to-end communication security that encrypts all message exchanges and ensures only authorized federates can participate.
 
@@ -248,7 +248,7 @@ If you would like to go back to non-AUTH mode, you would have to remove all cont
 
 </ShowOnly>
 
-<ShowOnly cpp ts rs>
+<ShowOnly uc cpp ts rs>
 
 :::note
 Pluggable communication security (TLS and SST) is currently only supported for the **C** and **Python** targets. Support for other target languages is planned for the future.

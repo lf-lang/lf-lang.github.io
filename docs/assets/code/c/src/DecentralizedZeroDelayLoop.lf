@@ -34,6 +34,7 @@ reactor Double {
 }
 
 federated reactor {
+  @maxwait(0)
   c = new CountPrint()
   p = new Double()
   c.out -> p.in

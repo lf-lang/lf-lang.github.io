@@ -9,14 +9,14 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 ## Parameter Declaration
 
 A reactor class definition can parameterized as follows:
 
 <ShowIfs>
-<ShowIf c cpp ts rs>
+<ShowIf c uc cpp ts rs>
 
 ```lf
 reactor <class-name>(<param-name>:<type> = <expr>, ...) {
@@ -29,9 +29,9 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 - An identifier, such as `int`<span class="lf-cpp">, possibly followed by a type argument, e.g. `vector<int>`</span>.
 - An array type `type[]`<span class="lf-c lf-cpp lf-rs"> and `type[integer]`</span>.
 - The keyword `time`, which designates a time value.
-- A code block delimited by `{= ... =}`, where the contents is any valid type in the target language.
+- A code block delimited by `{= ... =}`, where the content is any valid type in the target language.
 
-<ShowOnly c cpp>
+<ShowOnly c uc cpp>
 
 - A pointer type, such as `int*`.
 
@@ -42,6 +42,12 @@ Each parameter has a _type annotation_, written `:<type>`, where `<type>` has on
 Types ending with a `*` are treated specially by the C target. See the [Target Language Details](../reference/target-language-details.mdx).
 
 To use strings conveniently in the C target, the "type" `string` is an alias for `{=const char*=}`.
+
+</ShowOnly>
+
+<ShowOnly uc>
+
+- A pointer type, such as `int*`.
 
 </ShowOnly>
 
@@ -72,12 +78,13 @@ Each parameter must have a _default value_, written `<param-name> = <expr>`. An 
 For example, the `Double` reactor on the [previous page](../writing-reactors/inputs-and-outputs.mdx) can be replaced with a more general parameterized reactor `Scale` as follows:
 
 import C_Scale from '../assets/code/c/src/Scale.lf';
+import UC_Scale from '../assets/code/uc/src/Scale.lf';
 import Cpp_Scale from '../assets/code/cpp/src/Scale.lf';
 import Py_Scale from '../assets/code/py/src/Scale.lf';
 import Rs_Scale from '../assets/code/rs/src/Scale.lf';
 import TS_Scale from '../assets/code/ts/src/Scale.lf';
 
-<NoSelectorTargetCodeBlock c={C_Scale} cpp={Cpp_Scale} py={Py_Scale} rs={Rs_Scale} ts={TS_Scale} lf />
+<NoSelectorTargetCodeBlock c={C_Scale} uc={UC_Scale} cpp={Cpp_Scale} py={Py_Scale} rs={Rs_Scale} ts={TS_Scale} lf />
 
 This reactor, given any input event `x` will produce an output `y` with value equal to the input scaled by the `factor` parameter. The default value of the `factor` parameter is 2, but this can be changed when the `Scale` reactor is instantiated.
 
@@ -109,19 +116,20 @@ The type can be any of the same forms as for a parameter.
 The `<value>` is an initial value and, like parameter values, can be given as an [expression](../reference/expressions.mdx) or target language code with delimiters `{= ... =}`. The initial value can also be given as a parameter name. The value can be accessed and modified in a target-language-dependent way as illustrated by the following example:
 
 import C_Count from '../assets/code/c/src/Count.lf';
+import UC_Count from '../assets/code/uc/src/Count.lf';
 import Cpp_Count from '../assets/code/cpp/src/Count.lf';
 import Py_Count from '../assets/code/py/src/Count.lf';
 import Rs_Count from '../assets/code/rs/src/Count.lf';
 import TS_Count from '../assets/code/ts/src/Count.lf';
 
-<NoSelectorTargetCodeBlock c={C_Count} cpp={Cpp_Count} py={Py_Count} rs={Rs_Count} ts={TS_Count} lf />
+<NoSelectorTargetCodeBlock c={C_Count} uc={UC_Count} cpp={Cpp_Count} py={Py_Count} rs={Rs_Count} ts={TS_Count} lf />
 
 This reactor has an integer state variable named `count`, and each time its reaction is invoked, it outputs the value of that state variable and increments it. The reaction is triggered by a `timer`, discussed in the next section.
 
 ## Reset State Variables
 
 <ShowIfs>
-  <ShowIf cpp ts rs>
+  <ShowIf uc cpp ts rs>
     The `reset` keyword is not supported in $target-language$ because [modal reactors](../writing-reactors/modal-models.mdx) are not supported.
   </ShowIf>
 

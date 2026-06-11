@@ -78,20 +78,20 @@ In general, different targets are just a bunch of `Tab` components with `groupId
 The target selector, which appears on the top, is a `Tab` component with no content. It is defined in `src/components/LinguaFrancaMultiTargetUtils/LanguageSelector.tsx`.
 
 ##### Usage
-`<LanguageSelector c cpp py rs ts />` where the target languages could be a subset of all targets which we support. The ordering is guaranteed to be `C C++ Python Rust TypeScript`, regardless of the ordering supplied as argument.
+`<LanguageSelector c uc cpp py rs ts />` where the target languages could be a subset of all targets which we support. The ordering is guaranteed to be `C micro-LF C++ Python Rust TypeScript`, regardless of the ordering supplied as argument.
 
 ##### Examples
-`<LanguageSelector rs c ts />`
+`<LanguageSelector rs c uc ts />`
 :::note[Rendered as]
 
-<LanguageSelector rs c ts />
+<LanguageSelector rs c uc ts />
 
 :::
 
-`<LanguageSelector rs c ts cpp py />`
+`<LanguageSelector rs c uc ts cpp py />`
 :::note[Rendered as]
 
-<LanguageSelector rs c ts cpp py  />
+<LanguageSelector rs c uc ts cpp py  />
 
 :::
 
@@ -268,23 +268,25 @@ Remember to use relative import! If you don't, you will mess up the versioning.
 
 ```tsx
 import C_HelloWorld from '../assets/code/c/src/HelloWorld.lf';
+import UC_HelloWorld from '../assets/code/uc/src/HelloWorld.lf';
 import Cpp_HelloWorld from '../assets/code/cpp/src/HelloWorld.lf';
 import Py_HelloWorld from '../assets/code/py/src/HelloWorld.lf';
 import Rs_HelloWorld from '../assets/code/rs/src/HelloWorld.lf';
 import TS_HelloWorld from '../assets/code/ts/src/HelloWorld.lf';
 
-<NoSelectorTargetCodeBlock c={C_HelloWorld} cpp={Cpp_HelloWorld} py={Py_HelloWorld} rs={Rs_HelloWorld} ts={TS_HelloWorld} lf />
+<NoSelectorTargetCodeBlock c={C_HelloWorld} uc={UC_HelloWorld} cpp={Cpp_HelloWorld} py={Py_HelloWorld} rs={Rs_HelloWorld} ts={TS_HelloWorld} lf />
 ```
 
 :::note[Rendered as]
 
 import C_HelloWorld from '../assets/code/c/src/HelloWorld.lf';
+import UC_HelloWorld from '../assets/code/uc/src/HelloWorld.lf';
 import Cpp_HelloWorld from '../assets/code/cpp/src/HelloWorld.lf';
 import Py_HelloWorld from '../assets/code/py/src/HelloWorld.lf';
 import Rs_HelloWorld from '../assets/code/rs/src/HelloWorld.lf';
 import TS_HelloWorld from '../assets/code/ts/src/HelloWorld.lf';
 
-<NoSelectorTargetCodeBlock c={C_HelloWorld} cpp={Cpp_HelloWorld} py={Py_HelloWorld} rs={Rs_HelloWorld} ts={TS_HelloWorld} lf />
+<NoSelectorTargetCodeBlock c={C_HelloWorld} uc={UC_HelloWorld} cpp={Cpp_HelloWorld} py={Py_HelloWorld} rs={Rs_HelloWorld} ts={TS_HelloWorld} lf />
 
 :::
 

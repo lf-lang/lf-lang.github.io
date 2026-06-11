@@ -1,0 +1,13 @@
+target uC
+
+import Destination from "../Destination.lf";
+
+@platform("Native")
+main reactor {
+    d = new Destination()
+    reaction(startup) -> d.x, d.y {=
+        lf_set(d.x, 1);
+        lf_set(d.y, 2);
+    =}
+}
+

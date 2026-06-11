@@ -3,6 +3,7 @@ import type {Config} from '@docusaurus/types';
 import type * as Preset from '@docusaurus/preset-classic';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TransformDynamicLFFileImportToStatic } from './src/remark/TransformDynamicLFFileImportToStatic';
+import { replaceTargetLanguagePlaceholder } from './src/remark/ReplaceTargetLanguagePlaceholder';
 import redirects from "./docs/legacy_routing";
 
 const config: Config = {
@@ -46,11 +47,16 @@ const config: Config = {
             },
           },
           sidebarPath: './docs/sidebars.ts',
+          exclude: [
+            '**/assets/code/**/src-gen/**',
+            '**/assets/code/**/bin/**',
+          ],
           // Please change this to your repo.
           // Remove this to remove the "edit this page" links.
           editUrl:
             'https://github.com/lf-lang/lf-lang.github.io/tree/master/',
           beforeDefaultRemarkPlugins: [
+            replaceTargetLanguagePlaceholder,
             // Honestly, I recommend not using this because I am not confident with my coding skill......
             // TransformDynamicLFFileImportToStatic
           ],

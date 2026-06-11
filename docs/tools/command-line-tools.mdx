@@ -2,10 +2,16 @@
 title: Command Line Tools
 description: Command-line tools for Lingua Franca.
 ---
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c uc cpp py rs ts />
 
 
-## Usage
-
+<ShowOnly c cpp py rs ts>
 Set up a Lingua Franca project by putting your program in a file with the `.lf` extension,
 such as `Example.lf` and putting that file with a directory called `src`.
 Then compile the program:
@@ -25,3 +31,16 @@ To see the options that can be given to `lfc`, get help:
 ```sh
 $ lfc --help
 ```
+
+</ShowOnly>
+<ShowOnly uc>
+For the `uC` target, use the `ulfg` code generator to generate code, or the `ulfc` compiler for the Native platform (Linux or macOS) to generate and compile code (see [https://micro-lf.org](https://micro-lf.org)).
+
+```sh
+$ ulfg src/Example.lf
+```
+
+```sh
+$ ulfc src/Example.lf
+```
+</ShowOnly>

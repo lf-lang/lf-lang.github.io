@@ -1,0 +1,17 @@
+target uC
+
+@platform("Native")
+main reactor {
+  state count: int = 1
+  logical action a
+
+  reaction(startup, a) -> a {=
+    tag_t tag = env->scheduler->current_tag(env->scheduler);
+    printf("%d. Logical time is %lld. Microstep is %d.\n",
+        self->count, tag.time, tag.microstep
+    );
+    if (self->count++ < 5) {
+      lf_schedule(a, 0);
+    }
+  =}
+}

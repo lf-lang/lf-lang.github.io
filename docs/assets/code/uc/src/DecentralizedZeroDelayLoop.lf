@@ -1,0 +1,38 @@
+target uC
+
+reactor CountPrint {
+    input in: int
+    output out: int
+    state c: int = 0
+    timer t(0, 100 ms)
+
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+
+    reaction(in) {=
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("CountPrint Received: %d at time %lld\n", in->value, elapsed);
+    =} tardy {=
+        printf("Warning: CountPrint message is tardy!\n");
+    =}
+}
+
+reactor Double {
+    input in: int
+    output out: int
+
+    reaction(in) -> out {=
+        lf_set(out, in->value * 2);
+    =}
+}
+
+@platform("native")
+@timeout(3sec)
+federated reactor {
+    @maxwait(forever)
+    c = new CountPrint()
+    p = new Double()
+    c.out -> p.in
+    p.out -> c.in
+}

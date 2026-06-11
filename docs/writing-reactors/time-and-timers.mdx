@@ -9,15 +9,15 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 ## Logical Time
 
 A key property of Lingua Franca is **logical time**. All events occur at an instant in logical time. By default, the runtime system does its best to align logical time with **physical time**, which is some measurement of time on the execution platform. The **lag** is defined to be physical time minus logical time, and the goal of the runtime system is maintain a small non-negative lag.
 
-The **lag** is allowed to go negative only if the [`fast`](../reference/target-declaration.mdx#fast) target property or the [`--fast`](../reference/target-declaration.mdx#command-line-arguments) command-line argument is set to `true`. In that case, the program will execute as fast as possible with no regard to physical time.
+The **lag** is allowed to go negative only if the [`fast`](../reference/target-declaration.mdx#fast) target property, the [`--fast`](../reference/target-declaration.mdx#command-line-arguments) command-line argument, or the `@fast(true)` attribute is set to `true` on the main reactor. In that case, the program will execute as fast as possible with no regard to physical time.
 
-<ShowOnly c cpp rs>
+<ShowOnly c uc cpp rs>
 
   In Lingua Franca, `time` is a data type.
   A parameter, state variable, port, or action may have type `time`.
@@ -53,12 +53,13 @@ The allowable units are:
 The following example illustrates using time values for parameters and state variables:
 
 import C_SlowingClock from '../assets/code/c/src/SlowingClock.lf';
+import UC_SlowingClock from '../assets/code/uc/src/SlowingClock.lf';
 import Cpp_SlowingClock from '../assets/code/cpp/src/SlowingClock.lf';
 import Py_SlowingClock from '../assets/code/py/src/SlowingClock.lf';
 import Rs_SlowingClock from '../assets/code/rs/src/SlowingClock.lf';
 import TS_SlowingClock from '../assets/code/ts/src/SlowingClock.lf';
 
-<NoSelectorTargetCodeBlock c={C_SlowingClock} cpp={Cpp_SlowingClock} py={Py_SlowingClock} rs={Rs_SlowingClock} ts={TS_SlowingClock} lf />
+<NoSelectorTargetCodeBlock c={C_SlowingClock} uc={UC_SlowingClock} cpp={Cpp_SlowingClock} py={Py_SlowingClock} rs={Rs_SlowingClock} ts={TS_SlowingClock} lf />
 
 This has two time parameters, `start` and `incr`, each with default value `100 ms` <ShowOnly c cpp rs inline>and type `time`</ShowOnly>. This parameter is used to initialize the `interval` state variable, which also stores a time. The `logical` `action` `a`, explained in [Actions](../writing-reactors/actions.mdx#logical-actions), is used to schedule events to occur at time `start` after program startup and then at intervals that are increased each time by `incr`. The result of executing this program will look like this:
 
@@ -83,17 +84,19 @@ The `<period>`, which is optional, specifies the time interval between timer eve
 The period and offset are given by a number and a units, for example, `10 ms`. See the [expressions documentation](../reference/expressions.mdx#basic-expressions) for allowable units. Consider the following example:
 
 import C_Timer from '../assets/code/c/src/Timer.lf';
+import UC_Timer from '../assets/code/uc/src/Timer.lf';
 import Cpp_Timer from '../assets/code/cpp/src/Timer.lf';
 import Py_Timer from '../assets/code/py/src/Timer.lf';
 import Rs_Timer from '../assets/code/rs/src/Timer.lf';
 import TS_Timer from '../assets/code/ts/src/Timer.lf';
 
-<NoSelectorTargetCodeBlock c={C_Timer} cpp={Cpp_Timer} py={Py_Timer} rs={Rs_Timer} ts={TS_Timer} lf />
+<NoSelectorTargetCodeBlock c={C_Timer} uc={UC_Timer} cpp={Cpp_Timer} py={Py_Timer} rs={Rs_Timer} ts={TS_Timer} lf />
 
 This specifies a timer named `t` that will first trigger at the start of execution and then repeatedly trigger at intervals of one second. Notice that the time units can be left off if the value is zero.
 
 This target provides a built-in function for retrieving the logical time at which the reaction is invoked, 
 <ShowOnly c inline>`lf_time_logical()`</ShowOnly>
+<ShowOnly uc inline>`env->get_logical_time(env)`</ShowOnly>
 <ShowOnly cpp inline>`get_logical_time()`</ShowOnly>
 <ShowOnly py inline>`lf.time.logical()`</ShowOnly>
 <ShowOnly ts inline>`util.getCurrentLogicalTime()`</ShowOnly>
@@ -115,12 +118,13 @@ The output lines appear at one second intervals unless the `fast` option has bee
 The times above are a bit hard to read, so, for convenience, each target provides a built-in function to retrieve the _elapsed_ time. For example:
 
 import C_TimeElapsed from '../assets/code/c/src/TimeElapsed.lf';
+import UC_TimeElapsed from '../assets/code/uc/src/TimeElapsed.lf';
 import Cpp_TimeElapsed from '../assets/code/cpp/src/TimeElapsed.lf';
 import Py_TimeElapsed from '../assets/code/py/src/TimeElapsed.lf';
 import Rs_TimeElapsed from '../assets/code/rs/src/TimeElapsed.lf';
 import TS_TimeElapsed from '../assets/code/ts/src/TimeElapsed.lf';
 
-<NoSelectorTargetCodeBlock c={C_TimeElapsed} cpp={Cpp_TimeElapsed} py={Py_TimeElapsed} rs={Rs_TimeElapsed} ts={TS_TimeElapsed} lf />
+<NoSelectorTargetCodeBlock c={C_TimeElapsed} uc={UC_TimeElapsed} cpp={Cpp_TimeElapsed} py={Py_TimeElapsed} rs={Rs_TimeElapsed} ts={TS_TimeElapsed} lf />
 
 See the [Target Language Details](../reference/target-language-details.mdx) for the full set of functions provided for accessing time values.
 
@@ -133,17 +137,59 @@ Elapsed logical time is 2000000000.
 ...
 ```
 
+## Start Time
+
+The starting logical time is obtained from local physical clock on the execution platform.
+For many platforms, this will be an epoch time, which gives the number of elapsed
+nanoseconds since midnight on January 1, 1970.
+<ShowOnly c inline>This starting time can be obtained by calling `lf_time_start()`.</ShowOnly>
+<ShowOnly py inline>This starting time can be obtained by calling `lf.time.start()`.</ShowOnly>
+<ShowOnly uc inline>This starting time is available in reactions as `env->scheduler->start_time`.</ShowOnly>
+
+<ShowOnly c>
+In the `C` target,
+the start time can be postponed to be a multiple of a specified time by giving a command-line
+argument:
+
+```
+bin/MyProgram --start-time-multiple <num> <units>
+```
+
+or
+
+```
+bin/MyProgram -m <num> <units>
+```
+
+where `<num>` is a positive
+integer and `<units>` is one of the above units.
+This can make logical times more readable.
+For example, with the above Timer example, we get:
+
+```
+% bin/Timer -m 1 s
+---- Start execution on Wed Jun 10 10:19:16 2026 ---- plus 0 nanoseconds
+Logical time is 1781111956000000000.
+Logical time is 1781111957000000000.
+Logical time is 1781111958000000000.
+...
+```
+
+The start time is a multiple of one second.
+</ShowOnly>
+
 ## Comparing Logical and Physical Times
 
 The following program compares logical and physical times:
 
 import C_TimeLag from '../assets/code/c/src/TimeLag.lf';
+import UC_TimeLag from '../assets/code/uc/src/TimeLag.lf';
 import Cpp_TimeLag from '../assets/code/cpp/src/TimeLag.lf';
 import Py_TimeLag from '../assets/code/py/src/TimeLag.lf';
 import Rs_TimeLag from '../assets/code/rs/src/TimeLag.lf';
 import TS_TimeLag from '../assets/code/ts/src/TimeLag.lf';
 
-<NoSelectorTargetCodeBlock c={C_TimeLag} cpp={Cpp_TimeLag} py={Py_TimeLag} rs={Rs_TimeLag} ts={TS_TimeLag} lf />
+<NoSelectorTargetCodeBlock c={C_TimeLag} uc={UC_TimeLag} cpp={Cpp_TimeLag} py={Py_TimeLag} rs={Rs_TimeLag} ts={TS_TimeLag} lf />
 
 Execution will show something like this:
 
@@ -161,11 +207,11 @@ In this case, the lag varies from a few hundred microseconds to a small number o
 
 If two timers have the same _offset_ and _period_, then their events are logically simultaneous. No observer will be able to see that one timer has triggered and the other has not.
 
-A reaction is always invoked at a well-defined logical time, and logical time does not advance during its execution. Any output produced by the reaction will be **logically simultaneous** with the input. In other words, reactions are **logically instantaneous** (for an exception, see Logical Execution Time (FIXME: the original link is a FIXME)). Physical time, however, does elapse during execution of a reaction.
+A reaction is always invoked at a well-defined logical time, and logical time does not advance during its execution. Any output produced by the reaction will be **logically simultaneous** with the input. In other words, reactions are **logically instantaneous** (for an exception, see [Generalizing Logical Execution Time](https://doi.org/10.1007/978-3-031-22337-2_8)). Physical time, however, does elapse during execution of a reaction.
 
 ## Timeout
 
-By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](../reference/target-declaration.mdx#timeout) or a [`--timeout` command-line option](../reference/target-declaration.mdx#command-line-arguments). For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
+By default, a Lingua Franca program will terminate when there are no more events to process. If there is a timer with a non-zero period, then there will always be more events to process, so the default execution will be unbounded. To specify a finite execution horizon, you can either specify a [`timeout` target property](../reference/target-declaration.mdx#timeout), a [`--timeout` command-line option](../reference/target-declaration.mdx#command-line-arguments), or (for the uC target) the `@timeout(N)` attribute on the main reactor. For example, the following `timeout` property will cause the above timer with a period of one second to terminate after 11 events:
 
 <NoSelectorTargetCodeBlock lf
   c={`target C {
@@ -187,6 +233,11 @@ By default, a Lingua Franca program will terminate when there are no more events
   rs={`target Rust {
   timeout: 10 s
 }`}
+
+  uc={`target uC
+  @timeout(10 s)
+  main reactor { ... }
+`}
 />
 
 ## Startup and Shutdown
@@ -206,12 +257,13 @@ The **startup** trigger is equivalent to a timer with no _offset_ or _period_.
 To cause a reaction to be invoked at the end of execution, a special **shutdown** trigger is provided. Consider the following reactor, commonly used to build regression tests:
 
 import C_TestCount from '../assets/code/c/src/TestCount.lf';
+import UC_TestCount from '../assets/code/uc/src/TestCount.lf';
 import Cpp_TestCount from '../assets/code/cpp/src/TestCount.lf';
 import Py_TestCount from '../assets/code/py/src/TestCount.lf';
 import Rs_TestCount from '../assets/code/rs/src/TestCount.lf';
 import TS_TestCount from '../assets/code/ts/src/TestCount.lf';
 
-<NoSelectorTargetCodeBlock c={C_TestCount} cpp={Cpp_TestCount} py={Py_TestCount} rs={Rs_TestCount} ts={TS_TestCount} lf />
+<NoSelectorTargetCodeBlock c={C_TestCount} uc={UC_TestCount} cpp={Cpp_TestCount} py={Py_TestCount} rs={Rs_TestCount} ts={TS_TestCount} lf />
 
 This reactor tests its inputs against expected values, which are expected to start with the value given by the `start` parameter and increase by `stride` with each successive input. It expects to receive a total of `num_inputs` input events. It checks the total number of inputs received in its `shutdown` reaction.
 

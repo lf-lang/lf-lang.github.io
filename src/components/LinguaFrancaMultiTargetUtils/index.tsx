@@ -8,13 +8,15 @@ export { LanguageSelector } from "./LanguageSelector";
 export { DynamicMultiTargetCodeblock } from "./DynamicMultiTargetCodeblock";
 export { LangSpecific, NoSelectorTargetCodeBlock } from "./LangSpecific";
 export { ShowIf, ShowIfs, ShowIfsInline } from "./ShowIf";
+export { TargetLanguage } from "./TargetLanguage";
 
 // See https://danielbarta.com/literal-iteration-typescript/
-export const targets = ["c", "cpp", "py", "rs", "ts"] as const;
+export const targets = ["c", "uc", "cpp", "py", "rs", "ts"] as const;
 export type TargetsType = (typeof targets)[number];
 
 export const TargetToNameMap: Map<TargetsType, string> = new Map([
   ["c", "C"],
+  ["uc", "micro-LF"],
   ["cpp", "C++"],
   ["py", "Python"],
   ["rs", "Rust"],
@@ -22,11 +24,15 @@ export const TargetToNameMap: Map<TargetsType, string> = new Map([
 ]);
 export const TargetToOrderingMap: Map<TargetsType, number> = new Map([
   ["c", 0],
+  ["uc", 50],
   ["cpp", 100],
   ["py", 200],
   ["rs", 300],
   ["ts", 400],
 ]);
+
+export const compareTargets = (a: TargetsType, b: TargetsType): number =>
+  (TargetToOrderingMap.get(a) ?? 0) - (TargetToOrderingMap.get(b) ?? 0);
 
 export const ShowOnly = ({
   children,

@@ -9,14 +9,14 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 ## Preamble
 
 Reactions may contain arbitrary target-language code, but often it is convenient for that code to invoke external libraries or to share procedure definitions. For either purpose, a reactor may include a `preamble` section.
 
 <ShowIfs>
-<ShowIf c>
+<ShowIf c uc>
 
 For example, the following reactor uses the `math` C library for its trigonometric functions:
 
@@ -186,7 +186,7 @@ main reactor {
   =}
   state x:foo = 0
   reaction(startup) {=
-    lf_print("State is %d", self->x);
+    printf("State is %d\n", self->x);
   =}
 }
 ```

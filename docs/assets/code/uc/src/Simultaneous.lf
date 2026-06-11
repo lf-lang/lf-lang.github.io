@@ -1,0 +1,32 @@
+target uC
+
+reactor Destination {
+  input x: int
+  input y: int
+
+  reaction(x, y) {=
+    tag_t tag = env->scheduler->current_tag(env->scheduler);
+    printf("Time since start: %lld, microstep: %d\n",
+        env->get_elapsed_logical_time(env), tag.microstep
+    );
+    if (lf_is_present(x)) {
+      printf("  x is present.\n");
+    }
+    if (lf_is_present(y)) {
+      printf("  y is present.\n");
+    }
+  =}
+}
+
+@platform("Native")
+main reactor {
+  logical action repeat
+  d = new Destination()
+
+  reaction(startup) -> d.x, repeat {=
+    lf_set(d.x, 1);
+    lf_schedule(repeat, 0);
+  =}
+
+  reaction(repeat) -> d.y {= lf_set(d.y, 1); =}
+}

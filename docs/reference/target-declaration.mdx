@@ -13,6 +13,19 @@ import {
 
 # Target Declaration
 
+<ShowOnly uc>
+Every Lingua Franca program begins with a statement of this form:
+
+```lf
+    target uC
+```
+
+Unlike the other targets, the `uC` target does not use target parameters.
+Instead, it uses annotations, as described in [https://micro-lf.org/documentation/annotations/](https://micro-lf.org/documentation/annotations/).
+
+</ShowOnly>
+
+<ShowOnly c cpp py rs ts>
 Every Lingua Franca program begins with a statement of this form:
 
 ```lf
@@ -57,6 +70,27 @@ Not all targets support all target parameters. The full set of target parameters
 <NoSelectorTargetCodeBlock lf 
 c={
 `target C {
+    auth: <true or false>
+    build: <string>,
+    build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
+    cmake-args: <object of key-value pairs>,
+    cmake-include: <string or list of strings>,
+    compiler: <string>,
+    compiler-flags: <string or list of strings>,
+    docker: <true or false>,
+    fast: <true or false>,
+    files: <string or list of strings>,
+    logging: <error, warning, info, log, debug>,
+    no-compile: <true or false>,
+    protobufs: <string or list of strings>,
+    single-threaded: <true or false>,
+    timeout: <time>,
+    trace-plugin: <object with package, library, and optional path>,
+    workers: <non-negative integer>,
+};`
+}
+uc={
+`target uC {
     auth: <true or false>
     build: <string>,
     build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
@@ -843,4 +877,4 @@ The generated executable may feature a command-line interface (CLI), if it uses 
 When the `cli` feature is disabled, the parameters of the main reactor will each assume their default value.
 </ShowIf>
 </ShowIfs>
-
+</ShowOnly>

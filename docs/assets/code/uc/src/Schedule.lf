@@ -1,0 +1,13 @@
+target uC;
+reactor Schedule {
+  input x:int;
+  @max_pending_events(3)
+  logical action a;
+  reaction(x) -> a {=
+    lf_schedule(a, MSEC(200));
+  =}
+  reaction(a) {=
+    interval_t elapsed_time = env->get_elapsed_logical_time(env);
+    printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
+  =}
+}

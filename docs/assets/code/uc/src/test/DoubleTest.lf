@@ -1,0 +1,15 @@
+target uC
+
+import Double from "../Double.lf";
+
+@platform("Native")
+main reactor {
+    d = new Double()
+    reaction(startup) -> d.x {=
+        lf_set(d.x, 1);
+    =}
+    reaction(d.y) {=
+        printf("Double: %d\n", d.y->value);
+    =}
+}
+

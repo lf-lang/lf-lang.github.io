@@ -1,0 +1,15 @@
+target uC
+
+import Overwriting from "Overwriting.lf"
+
+@platform("Native")
+main reactor {
+  s = new Overwriting()
+
+  reaction(s.y) {=
+    if (s.y->value != 0 && s.y->value != 1) {
+      printf("ERROR: Outputs should only be 0 or 1!\n");
+      exit(1);
+    }
+  =}
+}

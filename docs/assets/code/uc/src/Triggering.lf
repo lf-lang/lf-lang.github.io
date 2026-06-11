@@ -1,0 +1,14 @@
+target uC
+reactor Inside {
+  input x: int
+  reaction(x) {=
+    printf("Received %d\n", x->value);
+  =}
+}
+@platform("Native")
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    lf_set(i.x, 42);
+  =}
+}

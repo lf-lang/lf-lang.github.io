@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py ts rs />
+<LanguageSelector c uc cpp py ts rs />
 
 In this section, we will endow reactors with inputs and outputs.
 
@@ -39,12 +39,13 @@ Input and output declarations have the form:
 For example, the following reactor doubles its input and sends the result to the output:
 
 import C_Double from '../assets/code/c/src/Double.lf';
+import UC_Double from '../assets/code/uc/src/Double.lf';
 import Cpp_Double from '../assets/code/cpp/src/Double.lf';
 import Py_Double from '../assets/code/py/src/Double.lf';
 import Rs_Double from '../assets/code/rs/src/Double.lf';
 import TS_Double from '../assets/code/ts/src/Double.lf';
 
-<NoSelectorTargetCodeBlock c={C_Double} cpp={Cpp_Double} py={Py_Double} rs={Rs_Double} ts={TS_Double} lf />
+<NoSelectorTargetCodeBlock c={C_Double} uc={UC_Double} cpp={Cpp_Double} py={Py_Double} rs={Rs_Double} ts={TS_Double} lf />
 
 Notice how the input value is accessed and how the output value is set. This is done differently for each target language. See the [Target Language Details](../reference/target-language-details.mdx) for detailed documentation of these mechanisms.
 Setting an output within a reaction will trigger downstream reactions at the same [Logical Time](<../writing-reactors/time-and-timers.mdx#logical-time>) that the reaction is invoked (or, more precisely, at the same [tag](<../writing-reactors/superdense-time.mdx#tag-vs-time>)). If a particular output port is set more than once at any tag, the last set value will be the one that downstream reactions see. Since the order in which reactions of a reactor are invoked at a logical time is deterministic, and whether inputs are present depends only on their timestamps, the final value set for an output will also be deterministic.
@@ -58,12 +59,13 @@ The **type** of a port is a type in the target language plus the special type `t
 The `reaction` declaration above indicates that an input event on port `x` is a **trigger** and that an output event on port `y` is a (potential) **effect**. A reaction can declare more than one trigger or effect by just listing them separated by commas (See [Reactions](../writing-reactors/reactions.mdx) for details). For example, the following reactor has two triggers and tests each input for presence before using it:
 
 import C_Destination from '../assets/code/c/src/Destination.lf';
+import UC_Destination from '../assets/code/uc/src/Destination.lf';
 import Cpp_Destination from '../assets/code/cpp/src/Destination.lf';
 import Py_Destination from '../assets/code/py/src/Destination.lf';
 import Rs_Destination from '../assets/code/rs/src/Destination.lf';
 import TS_Destination from '../assets/code/ts/src/Destination.lf';
 
-<NoSelectorTargetCodeBlock c={C_Destination} cpp={Cpp_Destination} py={Py_Destination} rs={Rs_Destination} ts={TS_Destination} lf />
+<NoSelectorTargetCodeBlock c={C_Destination} uc={UC_Destination} cpp={Cpp_Destination} py={Py_Destination} rs={Rs_Destination} ts={TS_Destination} lf />
 
 :::note
 
@@ -99,6 +101,9 @@ If a reaction wishes to test whether an output has been previously set at the cu
 
 ## Mutable Inputs
 
+<ShowIfs>
+  <ShowIf c py cpp ts rs>
+
 Normally, a reaction does not modify the value of an input. An input is said to be **immutable**. The degree to which this is enforced varies by target language. Most of the target languages make it rather difficult to enforce, so the programmer needs to avoid modifying the input. Modifying an input value may lead to nondeterministic results.
 
 Occasionally, it is useful to modify an input. For example, the input may be a large data structure, and a reaction may wish to make a small modification and forward the result to an output. To accomplish this, the programmer should declare the input `mutable` as follows:
@@ -121,3 +126,10 @@ Occasionally, it is useful to modify an input. For example, the input may be a l
 </ShowIfs>
 
 This is a directive to the code generator indicating that reactions that read this input may also modify the value of the input. The code generator will attempt to optimize the scheduling to avoid copying the input value, but this may not be possible, in which case it will automatically insert a copy operation, making it safe to modify the input. The target-specific reference documentation has more details about how this works.
+
+</ShowIf>
+<ShowIf uc>
+Unless you pass pointer types from one reactor to another, an `input->value` may be freely modified by a destination reactor.
+Micro-LF copies values when there are multiple destinations, so this will not lead to nondeterministic behavior.
+</ShowIf>
+</ShowIfs>

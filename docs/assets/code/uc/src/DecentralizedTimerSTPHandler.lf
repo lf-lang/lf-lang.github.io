@@ -1,0 +1,30 @@
+target uC
+
+import Count from "Federated.lf"
+
+reactor PrintTimer {
+    timer t(0, 1 sec)
+    input in: int
+
+    reaction(in) {=
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("Received: %d at %lld\n", in->value, elapsed);
+    =} tardy {=
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("Warning: STP violation handler invoked at %lld\n", elapsed);
+    =}
+
+    reaction(t) {=
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("Timer ticked at %lld\n", elapsed);
+    =}
+}
+
+@platform("native")
+@timeout(5sec)
+federated reactor {
+    c = new Count()
+    @maxwait(10 ms)
+    p = new PrintTimer()
+    c.out -> p.in
+}

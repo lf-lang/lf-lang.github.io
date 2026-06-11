@@ -1,5 +1,5 @@
 import Tabs from "@theme/Tabs";
-import { type TargetsType, TargetToNameMap } from "./index";
+import { type TargetsType, TargetToNameMap, compareTargets } from "./index";
 import Translate from "@docusaurus/Translate";
 
 // String-like keys will preserve insertion ordering. This is hacky but it looks nicer.
@@ -15,14 +15,9 @@ export const LanguageSelector = (
     })();
   }
 
-  // Reorder languages in the c, cpp, py, rs, ts order.
-  // https://stackoverflow.com/a/31102605
-  const ordered = Object.keys(props)
-    .sort()
-    .reduce((obj, key) => {
-      obj[key] = props[key];
-      return obj;
-    }, {});
+  const tabValues = Object.entries(props)
+    .filter(([_, exist]: [string, boolean | null]) => exist === true)
+    .sort(([a], [b]) => compareTargets(a as TargetsType, b as TargetsType));
 
   return (
     <>
@@ -34,12 +29,10 @@ export const LanguageSelector = (
       <Tabs
         groupId="target-languages"
         queryString
-        values={Object.entries(ordered)
-          .filter(([lang, exist]: [TargetsType, boolean]) => exist)
-          .map(([lang, exist]: [TargetsType, boolean]) => ({
-            value: lang,
-            label: TargetToNameMap.get(lang),
-          }))}
+        values={tabValues.map(([lang]: [TargetsType, boolean | null]) => ({
+          value: lang,
+          label: TargetToNameMap.get(lang),
+        }))}
         children={[]}
       />
     </>

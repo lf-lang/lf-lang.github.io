@@ -7,6 +7,7 @@
     "start": "docusaurus start",
     "build": "docusaurus build",
     "build:static:c": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js c",
+    "build:static:uc": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js uc",
     "build:static:cpp": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js cpp",
     "build:static:py": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js py",
     "build:static:rs": "docusaurus build && node util/fix-links-for-static.js && node util/set-default-language.js rs",

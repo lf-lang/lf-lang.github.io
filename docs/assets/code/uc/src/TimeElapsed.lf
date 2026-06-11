@@ -1,0 +1,13 @@
+target uC
+
+@platform("Native")
+main reactor TimeElapsed {
+  timer t(0, 1 s)
+
+  reaction(t) {=
+    printf(
+        "Elapsed logical time is %lld.\n",
+        env->get_elapsed_logical_time(env)
+    );
+  =}
+}
