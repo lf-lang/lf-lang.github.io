@@ -30,9 +30,9 @@ reactor Double {
 @platform("native")
 @timeout(3sec)
 federated reactor {
+    @maxwait(forever)
     c = new CountPrint()
     p = new Double()
     c.out -> p.in
-    @absent_after(forever)
     p.out -> c.in
 }

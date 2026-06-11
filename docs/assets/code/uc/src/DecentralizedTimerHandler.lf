@@ -24,7 +24,7 @@ reactor PrintTimer {
 @timeout(5sec)
 federated reactor {
     c = new Count()
-    @maxwait(10 ms)
+    @maxwait(10 s)
     p = new PrintTimer()
     c.out -> p.in
 }

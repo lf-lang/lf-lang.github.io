@@ -446,10 +446,21 @@ import Py_DecentralizedTimerHandler from '../assets/code/py/src/DecentralizedTim
 
 If you change the `maxwait` to, say, 10 us, you will likely see the handler getting invoked.
 
+If no `tardy` handler is provided, the message will be processed at the earliest possible logical time, typically one microstep after the latest tag processed, and an error message will be issued.
+To suppress the error message and process the message as if it were on time, you can provide a blank `tardy` handler, like this:
+
+```lf
+reaction(in) {=
+    // User code
+=} tardy
+```
+
 ### Zero-Delay Cycles
 
 <ShowOnly uc>
 Zero-delay cycles are not supported by micro-LF.
+With the default `maxwait` of `forever`, the federate will not advance its tag until it receives an input,
+and hence, a zero-delay cycle will deadlock.
 </ShowOnly>
 
 <ShowOnly c py>
@@ -521,10 +532,6 @@ See the blog post [Decentralized Consistency](/blog/decentralized-consistency) f
 </ShowOnly>
 </ShowOnly>
 
-:::warn
-FIXME: Got to here
-:::
-
 ## Physical Connections
 
 Coordinating the execution of the federates so that timestamps are preserved is tricky. If your application does not require the deterministic execution that results from preserving the timestamps, then you can alternatively specify a **physical connection** as follows:
@@ -543,9 +550,15 @@ count.out ~> print.in after 10 ms;
 
 then what does this mean? At the receiving end, the timestamp assigned to the incoming event will be the current physical time plus 10 ms.
 
-## Prerequisites for Distributed Execution
+## Distributed Execution
 
-In the above example, all of the generated programs expect to run on localhost. This is the default. With these defaults, every federate has to run on the same machine as the RTI because localhost is not a host that is visible from other machines on the network. In order to run federates or the RTI on remote machines, you can specify a domain name or IP address for the RTI and/or federates.
+<ShowOnly uc>
+In micro-LF, a design principle is that the code generator and compiler provide minimal build-system and deployment support, delegating these tasks to platform-specific build and deployment systems.
+This is consistent with its focus on embedded platforms.
+Hence, there is no specific support for deploying on multiple machines.
+</ShowOnly>
+<ShowOnly c py>
+In the above examples, all of the generated programs expect to run on localhost. This is the default. With these defaults, every federate has to run on the same machine as the RTI because localhost is not a host that is visible from other machines on the network. In order to run federates or the RTI on remote machines, you can specify a domain name or IP address for the RTI and/or federates.
 
 In order for a federated execution to work, there is some setup required on the machines to be used. First, each machine must be running an `ssh` server. On a Linux machine, this is typically done with a command like this:
 
@@ -557,7 +570,7 @@ Enable means to always start the service at startup, whereas start means to just
 
 It will also be much more convenient if the launcher does not have to enter passwords to gain access to the remote machine. This can be accomplished by installing your public key (typically found in `~/.ssh/id_rsa.pub`) in `~/.ssh/authorized_keys` on the remote host.
 
-## Specifying RTI Hosts
+### Specifying RTI Hosts
 
 You can specify a domain name on which the RTI should run as follows:
 
@@ -587,7 +600,7 @@ Note that if the machine uses DHCP to obtain its address, then the generated cod
 
 Address 0.0.0.0: The default host, `localhost` is used if no address is specified. Using `localhost` requires that the generated federates run on the local machine. This is ideal for testing. If you use `0.0.0.0`, then you are also specifying that the local machine (the one performing the code generation) will be the host, but now the process(es) running on this local machine can establish connections with processes on remote machines. The code generator will determine the IP address of the local machine, and any other hosts that need to communicate with reactors on the local host will use the current IP address of that local host at the time of code generation.
 
-## Specifying Federate Hosts
+### Specifying Federate Hosts
 
 A federate may be mapped to a particular remote machine using a syntax like this:
 
@@ -615,8 +628,18 @@ where `user@`, `:port`, and `/path` are all optional. The `path` specifies the d
 
 If `user@` is not given, then it is assumed that the username on the remote host is the same as on the machine that launches the programs. If `:port` is not given, then it defaults to port 15045. If `/path` is not given, then `~user/LinguaFrancaRemote` will be the root directory on the remote machine.
 
+</ShowOnly>
+
 ## Clock Synchronization
 
+<ShowOnly uc>
+Micro-LF relies on clock synchronization. The `maxwait` mechanism only really works if there is bounded offset
+between the clocks of neighboring federates.
+The clock synchronization protocol is a peer-to-peer mechanism, where each federate synchronizes to
+the clock of a neighbor.
+</ShowOnly>
+
+<ShowOnly c py>
 Both centralized and decentralized coordination have some reliance on clock synchronization. First, the RTI determines the start time of all federates, and the actually physical start time will differ by the extent that their physical clocks differ. This is particularly problematic if clocks differ by hours or more, which is certainly possible. If the hosts on which you are running run a clock synchronization algorithm, such as [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) or [PTP](https://en.wikipedia.org/wiki/Precision_Time_Protocol), then you may not need to be concerned about this at all. Windows, Mac, and most versions of Linux, by default, run NTP, which synchronizes their clocks to some remote host. NTP is not particularly precise, however, so clock synchronization error can be hundreds of milliseconds or larger. PTP protocols are much more precise, so if your hosts derive their physical clocks from a PTP implementation, then you probably don't need to do anything further. Unfortunately, as of this writing, even though almost all networking hardware provides support for PTP, few operating systems utilize it. We expect this to change when people have finally understood the value of precise clock synchronization.
 
 If your host is not running any clock synchronization, or if it is running only NTP and your application needs tighter latencies, then Lingua Franca's own built-in clock synchronization may provide better precision, depending on your network conditions. Like NTP, it realizes a software-only protocol, which are much less precise than hardware-supported protocols such as PTP, but if your hosts are on the same local area network, then network conditions may be such that the performance of LF clock synchronization will be much better than NTP. If your network is equipped with PTP, you will want to disable the clock synchronization in Lingua Franca by specifying in your target properties the following:
@@ -659,8 +682,10 @@ The supported options are:
 
 - `trials`: The number of rounds of message exchange with the RTI in each clock synchronization round. This defaults to `10`.
 
+</ShowOnly>
+
 ## Security
 
-By default, there is no secure authentication when a federate joins a federation, and data exchanged by federates is not encrypted. For the C target, Lingua Franca provides end-to-end communication security that encrypts all message exchanges and ensures only authorized federates can participate using pluggable secure communication backends like TLS or SST.
-
-For more details on how to configure and use secure federations, see the [Security Page](../reference/security.mdx).
+By default, there is no secure authentication when a federate joins a federation, and data exchanged by federates is not encrypted.
+<ShowOnly c py inline>For the C and Python targets, Lingua Franca provides end-to-end communication security that encrypts all message exchanges and ensures only authorized federates can participate using pluggable secure communication backends like TLS or SST.
+For more details on how to configure and use secure federations, see the [Security Page](../reference/security.mdx).</ShowOnly>
