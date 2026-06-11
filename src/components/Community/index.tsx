@@ -13,9 +13,7 @@ import { ReactElement, ReactNode } from "react";
 import Link from "@docusaurus/Link";
 
 import ZulipLogo from "@site/static/img/external-logos/zulip-icon-circle.svg";
-import GithubLogo from "@site/static/img/external-logos/github-mark.svg";
 import RedditLogo from "@site/static/img/external-logos/reddit-logo.svg";
-import ReactorModelLogo from "@site/static/img/external-logos/reactor-model.svg";
 
 export const SocialMediaCard = ({
   renderedImage,
@@ -31,7 +29,10 @@ export const SocialMediaCard = ({
       <div className="card card--full-height">
         <div className="card__header">
           <div className="avatar avatar--vertical">
-            <div className="avatar__photo avatar__photo--xl">
+            <div
+              className="avatar__photo avatar__photo--xl"
+              style={{ marginBottom: "0.75rem" }}
+            >
               {renderedImage}
             </div>
             <div className="avatar__intro">
@@ -90,15 +91,29 @@ export default function Community(): JSX.Element {
             {/* Tweak github black logo so that its background is always white. */}
             <SocialMediaCard
               renderedImage={
-                <GithubLogo
-                  title="GitHub"
-                  width="100%"
-                  height="100%"
+                <div
                   style={{
+                    width: "100%",
+                    height: "100%",
                     backgroundColor: "#ffffff",
-                    transform: "scale(1.02)",
+                    borderRadius: "50%",
+                    display: "block",
+                    overflow: "hidden",
                   }}
-                />
+                >
+                  <img
+                    src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+                    alt="GitHub"
+                    loading="lazy"
+                    style={{
+                      width: "90%",
+                      height: "90%",
+                      display: "block",
+                      margin: "5%",
+                      objectFit: "contain",
+                    }}
+                  />
+                </div>
               }
               name="GitHub"
             >
@@ -112,11 +127,13 @@ export default function Community(): JSX.Element {
             </SocialMediaCard>
             <SocialMediaCard
               renderedImage={
-                <ReactorModelLogo
-                  title="Reactor Model of Computation"
-                  width="100%"
-                  height="100%"
-                  style={{ padding: "4px" }}
+                <img
+                  src="https://reactor-model.org/reactor-logo.svg"
+                  alt="Reactor Model of Computation"
+                  width="90%"
+                  height="90%"
+                  loading="lazy"
+                  style={{ padding: "4px", display: "block", margin: "0 auto" }}
                 />
               }
               name="Reactor Model"
