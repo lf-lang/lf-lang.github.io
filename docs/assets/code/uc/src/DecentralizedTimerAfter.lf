@@ -15,7 +15,7 @@ reactor PrintTimer extends Print {
 @timeout(5sec)
 federated reactor {
     c = new Count()
-    @maxwait(10 ms)
+    @maxwait(0)
     p = new PrintTimer()
     c.out -> p.in after 10 ms
 }

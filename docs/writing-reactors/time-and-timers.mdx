@@ -137,6 +137,47 @@ Elapsed logical time is 2000000000.
 ...
 ```
 
+## Start Time
+
+The starting logical time is obtained from local physical clock on the execution platform.
+For many platforms, this will be an epoch time, which gives the number of elapsed
+nanoseconds since midnight on January 1, 1970.
+<ShowOnly c inline>This starting time can be obtained by calling `lf_time_start()`.</ShowOnly>
+<ShowOnly py inline>This starting time can be obtained by calling `lf.time.start()`.</ShowOnly>
+<ShowOnly uc inline>This starting time is available in reactions as `env->scheduler->start_time`.</ShowOnly>
+
+<ShowOnly c>
+In the `C` target,
+the start time can be postponed to be a multiple of a specified time by giving a command-line
+argument:
+
+```
+bin/MyProgram --start-time-multiple <num> <units>
+```
+
+or
+
+```
+bin/MyProgram -m <num> <units>
+```
+
+where `<num>` is a positive
+integer and `<units>` is one of the above units.
+This can make logical times more readable.
+For example, with the above Timer example, we get:
+
+```
+% bin/Timer -m 1 s
+---- Start execution on Wed Jun 10 10:19:16 2026 ---- plus 0 nanoseconds
+Logical time is 1781111956000000000.
+Logical time is 1781111957000000000.
+Logical time is 1781111958000000000.
+...
+```
+
+The start time is a multiple of one second.
+</ShowOnly>
+
 ## Comparing Logical and Physical Times
 
 The following program compares logical and physical times:
