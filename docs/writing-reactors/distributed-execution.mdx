@@ -13,7 +13,7 @@ import {
 
 :::note
 
-Distributed execution of Lingua Franca programs has been tested on macOS, Linux, and a number of embedded platforms; there are no plans currently to support Windows systems. Distributed execution is supported for targets `C`, `uC`,`CCpp`, and `Python`. Basic capabilities exist for the `TypeScript` target as well, but they are less well tested.
+Distributed execution of Lingua Franca programs has been tested on macOS, Linux, and a number of embedded platforms; there are no plans currently to support Windows systems. Distributed execution is supported for targets `C`, `uC`, `CCpp`, and `Python`. Basic capabilities exist for the `TypeScript` target as well, but only **centralized** coordination is currently supported; decentralized coordination is not yet implemented for TypeScript.
 
 :::
 
@@ -248,7 +248,7 @@ When one federate sends data to another, by default, the timestamp at the receiv
 
 then the timestamp at the receiving end will be incremented by 200 ms compared to the timestamp at the sender.
 
-The preservation of timestamps across federates implies some constraints (unless you use [physical connections](#physical-connections)). <ShowOnly c py ts inline>How these constraints are managed depends on whether you choose **centralized** or **decentralized** coordination.</ShowOnly>
+The preservation of timestamps across federates implies some constraints (unless you use [physical connections](#physical-connections)). <ShowOnly c py inline>How these constraints are managed depends on whether you choose **centralized** or **decentralized** coordination.</ShowOnly><ShowOnly ts inline>For the TypeScript target, only **centralized** coordination is currently supported.</ShowOnly>
 
 ## Centralized Coordination
 
@@ -265,7 +265,7 @@ If _a_ > _E_ + _L_, then the existence of this communication does not cause `p`'
 
 If, in addition, the physical clocks on the hosts are allowed to drift with respect to one another, then _E_ can grow without bound, and hence the lag between logical time and physical time in processing events can grow without bound. This is mitigated either by hosts that themselves realize some clock synchronization algorithm, such as [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) or [PTP](https://en.wikipedia.org/wiki/Precision_Time_Protocol), or by utilizing Lingua Franca's own built in [clock synchronization](#clock-synchronization). If the federates lack deadlines, however, then unsynchronized clocks present no semantic problem if you are using centralized coordination. However, because of logical time chases physical time, federates will slow to match the slowest clock of federates upstream of them.
 
-With centralized coordination, all messages (except those on [physical connections](#physical-connections)) go through the RTI. This can create a bottleneck and a single point of failure. To avoid this bottleneck, you can use decentralized coordination.
+With centralized coordination, all messages (except those on [physical connections](#physical-connections)) go through the RTI. This can create a bottleneck and a single point of failure.<ShowOnly c py inline> To avoid this bottleneck, you can use decentralized coordination.</ShowOnly>
 </ShowOnly>
 
 <ShowOnly uc>
@@ -275,7 +275,7 @@ In Micro-LF, there is no RTI and no centralized coordination.
 ## Decentralized Coordination
 
 <ShowOnly ts>
-The TypeScript target does not support decentralized coordination.
+The TypeScript target does not currently support decentralized coordination. Only centralized coordination is available.
 </ShowOnly>
 
 <ShowOnly c py>
