@@ -321,22 +321,33 @@ The `maxwait` is specified as an attribute of the instantiation of a reactor, as
 ```
 </ShowOnly>
 <ShowOnly uc>
-2. The federate's physical clock matches or exceeds _t_ + _m_, where _m_ is the maximum over the `maxwait` of the federate and the `maxwait` of each input port that is unknown at _g_.
+2. The federate's physical clock matches or exceeds _t_ + _M_*(_m_+1), where _M_ is the maximum of the `maxwait` value of each input port that is unknown at _g_, and _m_ is the microstep of the tag _g_.
 
-The `maxwait` is specified as an attribute of the instantiation of a reactor or of a connection, as in the following example:
+The `maxwait` is specified as an attribute of the connection to the input port, as in the following example:
 
 ```lf
-  @maxwait(0)
   my_instance = new MyReactor()
   @maxwait(10 ms)
+  upstream1.out -> my_instance.in1
+  upstream2.out -> my_instance.in2
+```
+
+The default `maxwait` is `forever`.
+To override the default, you can specify a `maxwait` value on the instantiation of the reactor.
+Hence, the following specification gives the same result as the specification above:
+
+```lf
+  @maxwait(10 ms)
+  my_instance = new MyReactor()
   upstream1.out -> my_instance.in1
   @maxwait(forever)
   upstream2.out -> my_instance.in2
 ```
-In the above example, the instance will not advance to tag _g_=(_t_,_m_) until `in2` is known at _g_ because of the `@maxwait(forever)`.
-Once `in2` is known at _g_, it will wait at most 10 ms beyond the logical time _t_ for input `in1` to become
+
+In the both cases, the `my_instance` federate will not advance to tag _g_=(_t_,_m_) until `in2` is known at _g_.
+Assuming the microstep _m_ is 0, once `in2` is known at _g_,
+the federate will wait at most 10 ms beyond the logical time _t_ for input `in1` to become
 known, after which, if `in1` is still unknown, the federate will assume it is absent at _g_.
-The `@maxwait(0)` on the federate instance overrides the default maxwait of `forever`.
 </ShowOnly>
 
 By default, the maxwait is `forever`. A maxwait of `forever` is OK for any federate where either:
@@ -349,7 +360,7 @@ At the other extreme, a maxwait of zero is OK for any federate where:
 
 1. The federate has no inputs.
 2. Every logical connection into the federate has a sufficiently large `after` clause.
-3. The federate has only one upstream federate sending it messages, and it has no local timers or actions.
+3. The federate has only one input port, and it has no local timers or actions.
 
 The use of `after` provides a design style similar to **logical execution time** (**LET**).
 If the value of the `after` delay on each connection exceeds the sum of the [clock synchronization](#clock-synchronization) error _E_, a bound _L_ on the network latency, and the time lag on the sender _D_ (the physical time at which it sends the message minus the timestamp of the message),
