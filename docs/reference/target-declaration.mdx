@@ -9,7 +9,7 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c cpp py rs ts />
+<LanguageSelector c uc cpp py rs ts />
 
 # Target Declaration
 
@@ -70,27 +70,6 @@ Not all targets support all target parameters. The full set of target parameters
 <NoSelectorTargetCodeBlock lf 
 c={
 `target C {
-    auth: <true or false>
-    build: <string>,
-    build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
-    cmake-args: <object of key-value pairs>,
-    cmake-include: <string or list of strings>,
-    compiler: <string>,
-    compiler-flags: <string or list of strings>,
-    docker: <true or false>,
-    fast: <true or false>,
-    files: <string or list of strings>,
-    logging: <error, warning, info, log, debug>,
-    no-compile: <true or false>,
-    protobufs: <string or list of strings>,
-    single-threaded: <true or false>,
-    timeout: <time>,
-    trace-plugin: <object with package, library, and optional path>,
-    workers: <non-negative integer>,
-};`
-}
-uc={
-`target uC {
     auth: <true or false>
     build: <string>,
     build-type: <Debug, Release, RelWithDebInfo, or MinSizeRel>,
