@@ -17,11 +17,11 @@ main reactor(start:time(100 msec), incr:time(100 msec)) {
     =}
     reaction(a) -> a {=
         instant_t elapsed_logical_time = lf_time_logical_elapsed();
-        printf("Logical time since start: \%lld nsec.\n",
+        printf("Logical time since start: %lld nsec.\n",
             elapsed_logical_time
         );
         if (elapsed_logical_time != self->expected_time) {
-            printf("ERROR: Expected time to be: \%lld nsec.\n",
+            printf("ERROR: Expected time to be: %lld nsec.\n",
                 self->expected_time
             );
             exit(1);
@@ -33,7 +33,7 @@ main reactor(start:time(100 msec), incr:time(100 msec)) {
     reaction(shutdown) {=
         if (self->expected_time != MSEC(1500)) {
             printf("ERROR: Expected the next expected time to be: 1500000000 nsec.\n");
-            printf("It was: \%lld nsec.\n", self->expected_time);
+            printf("It was: %lld nsec.\n", self->expected_time);
             exit(2);            
         } else {
             printf("Test passes.\n");
