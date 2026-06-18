@@ -304,7 +304,7 @@ Each federate communicates only with its neighboring federates, those to which i
 
 In decentralized coordination, when one federate communicates with another, it does so directly through a dedicated communication channel without going through any centralized server. Moreover, it does not consult any other entity to advance logical time. Instead, each federate uses its local physical clock and a record of the most recently tags on each input port to decide when to advance its logical time and process events.
 
-Specifically, an input is **known** up to and including tag _g_ if a message with tag _g_ or greater has been received on that input port, or if the input port is not connected (in which case, it is known to be absent).
+Specifically, an input is **known** up to and including logical time _g_ if a message with tag _g_ or greater has been received on that input port, or if the input port is not connected (in which case, it is known to be absent).
 With decentralized coordination, you can bound the amount of time that a federate will wait for
 an input to become known using the **maxwait** attribute<ShowOnly c py ts inline> (formerly called **safe-to-advance**, or **STA**)</ShowOnly>.
 The federate can advance to tag _g_=(_t_,_m_) when either of the following conditions is satisfied:
@@ -321,7 +321,7 @@ The `maxwait` is specified as an attribute of the instantiation of a reactor, as
 ```
 </ShowOnly>
 <ShowOnly uc>
-2. The federate's physical clock matches or exceeds _t_ + _M_*(_m_+1), where _M_ is the maximum of the `maxwait` value of each input port that is unknown at _g_, and _m_ is the microstep of the tag _g_.
+2. The federate's physical clock matches or exceeds _t_ + _M_, where _M_ is the maximum of the `maxwait` values of each input port that is unknown at _t_.
 
 The `maxwait` is specified as an attribute of the connection to the input port, as in the following example:
 
@@ -345,10 +345,14 @@ Hence, the following specification gives the same result as the specification ab
 ```
 
 In the both cases, the `my_instance` federate will not advance to tag _g_=(_t_,_m_) until `in2` is known at _g_.
-Assuming the microstep _m_ is 0, once `in2` is known at _g_,
+Once `in2` is known at _g_,
 the federate will wait at most 10 ms beyond the logical time _t_ for input `in1` to become
 known, after which, if `in1` is still unknown, the federate will assume it is absent at _g_.
 </ShowOnly>
+
+Note that the microstep _m_ is not used to determine at which physical time to assume an input is absent at tag _g_=(_t_,_m_).
+Hence, microsteps should be used with caution (or avoided altogether) on federate-to-federate connections.
+If you must use microsteps, the `maxwait` should be set to the time you wish to wait for the largest microstep of the inputs you are expecting.
 
 By default, the maxwait is `forever`. A maxwait of `forever` is OK for any federate where either:
 
@@ -395,6 +399,13 @@ When the message finally arrives, it will be **tardy**, resulting in a **safe-to
 With the above program, this will cause a warning to be printed; the message will be processed at the earliest possible logical time, typically one microstep after the latest timer tick.
 We will show below how to catch this violation and handle it.
 
+The timer in `PrintTimer` enables the reactor to detect the missing message before it has arrived.
+The tardy handler will be invoked only after the message arrives, if it ever arrives, but the reaction to the timer
+will be invoked on time because of the `maxwait` of zero.
+If the reaction is modified to observe the input defined in the `Print` base class,
+it can check whether the message arrived on time, and if not, handle the fault immediately, rather than
+waiting for the tardy message to arrive.
+
 An alternative to the `after` delays is to add a bounded **maxwait** to downstream federates, as in the following example:
 
 import C_DecentralizedTimerSTA from '../assets/code/c/src/DecentralizedTimerSTA.lf';
@@ -404,7 +415,7 @@ import Py_DecentralizedTimerSTA from '../assets/code/py/src/DecentralizedTimerST
 <NoSelectorTargetCodeBlock c={C_DecentralizedTimerSTA} uc={UC_DecentralizedTimerSTA} py={Py_DecentralizedTimerSTA} ts={"DecentralizedTimerSTA.lf missing for TypeScript"} lf />
 
 Note that now there is no `after` delay and the timer has offset zero.
-The attribute `@maxwait(10 ms)` gives a time value, and the federate waits up to this specified amount of time (in physical time) beyond a logical time _t_ before advancing its tag to _g_ = (_t_, _m_).
+The attribute `@maxwait(10 ms)` gives a time value, and the federate waits at most up to this specified amount of time (in physical time) beyond a logical time _t_ before advancing its tag to _g_ = (_t_, _m_).
 In the above example, when the destination `PrintTimer` reactor wants to advance its logical time to 0, 1s, 2s, etc., it will wait at most for its physical clock to exceed these values plus the `maxwait` value.
 If the input arrives before the wait expires, then it proceeds to commit to the specified logical time and invoke its two reactions (the one inherited from `Print` first followed by the one defined locally).
 If the wait expires before the input arrives, it will assume the input is absent and invoke only the local reaction.
@@ -412,7 +423,7 @@ When the input later arrives (it is tardy), it will experience an STP violation.
 If you change the `maxwait` value to, say, 1us, you will likely see such violations.
 Just as with the use of `after`, if the `maxwait` exceeds the sum of network latency, clock synchronization error, and execution times, then all events will be processed in tag order, and no messages will be tardy.
 
-The default maxwait is `forever` (or it can be explicitly specifies with the attribute `@maxwait(forever)`).
+The default maxwait is `forever` (or it can be explicitly specified with the attribute `@maxwait(forever)`).
 If we use this default for the PrintTimer above, there will never be STP violations.
 The PrintTimer will not advance to tag _g_ until it has received an input with tag _g_ or greater.
 
@@ -421,7 +432,7 @@ If the alignment of the remote data with whatever the timer reaction does is imp
 This choice emphasizes consistency between the sending and the receiving federate and makes the program deterministic.
 
 Using a bounded `maxwait` instead, such as 10 ms, ensures that the timer reaction will be invoked in bounded time even if inputs get delayed or lost.
-This choice ensures bounded unavailability at the risk of inconsistency.
+This choice bounds unavailability at the risk of inconsistency.
 
 Using a `maxwait` of zero ensures that timer-triggered reactions will execute immediately.
 This choice emphasizes availability.
