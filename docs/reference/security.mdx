@@ -108,7 +108,15 @@ With `comm-type: SST`, both the initial connection setup and subsequent federate
 
 ### Enabling SST
 
-To use SST, set the `comm-type` to `SST` and provide the path to your `iotauth` installation:
+To use SST, first clone the iotauth repository and initialize its submodules:
+
+```bash
+git clone https://github.com/iotauth/iotauth.git
+cd iotauth
+git submodule update --init
+```
+
+Then set the `comm-type` to `SST` and provide the path to your `iotauth` installation:
 
 <ShowIfs>
 <ShowIf c>
