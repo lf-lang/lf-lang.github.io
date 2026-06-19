@@ -11,7 +11,7 @@ export { ShowIf, ShowIfs, ShowIfsInline } from "./ShowIf";
 export { TargetLanguage } from "./TargetLanguage";
 
 // See https://danielbarta.com/literal-iteration-typescript/
-export const targets = ["c", "uc", "cpp", "py", "rs", "ts", "polyglot"] as const;
+export const targets = ["c", "uc", "cpp", "py", "rs", "ts"] as const;
 export type TargetsType = (typeof targets)[number];
 
 export const TargetToNameMap: Map<TargetsType, string> = new Map([
@@ -21,7 +21,6 @@ export const TargetToNameMap: Map<TargetsType, string> = new Map([
   ["py", "Python"],
   ["rs", "Rust"],
   ["ts", "TypeScript"],
-  ["polyglot", "Polyglot"],
 ]);
 export const TargetToOrderingMap: Map<TargetsType, number> = new Map([
   ["c", 0],
@@ -30,7 +29,6 @@ export const TargetToOrderingMap: Map<TargetsType, number> = new Map([
   ["py", 200],
   ["rs", 300],
   ["ts", 400],
-  ["polyglot", 500],
 ]);
 
 export const compareTargets = (a: TargetsType, b: TargetsType): number =>

@@ -106,6 +106,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "writing-reactors/polyglot"
+        },
+        {
+          "type": "doc",
           "id": "writing-reactors/termination"
         },
       ]
