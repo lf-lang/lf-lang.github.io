@@ -9,17 +9,17 @@ import {
   ShowIf, ShowIfs, ShowOnly,
 } from '@site/src/components/LinguaFrancaMultiTargetUtils';
 
-<LanguageSelector c uc py ts />
+<LanguageSelector c uc py ts polyglot />
 
 :::note
 
-Distributed execution of Lingua Franca programs has been tested on macOS, Linux, and a number of embedded platforms; there are no plans currently to support Windows systems. Distributed execution is supported for targets `C`, `uC`, `CCpp`, and `Python`. Basic capabilities exist for the `TypeScript` target as well, but only **centralized** coordination is currently supported; decentralized coordination is not yet implemented for TypeScript.
+Distributed execution of Lingua Franca programs has been tested on macOS, Linux, and a number of embedded platforms; there are no plans currently to support Windows systems. Distributed execution is supported for targets `C`, `uC`, `CCpp`, and `Python`. Basic capabilities exist for the `TypeScript` target as well, but only **centralized** coordination is currently supported; decentralized coordination is not yet implemented for TypeScript. A federation may also mix target languages within a single program using the [`Polyglot`](#polyglot-federations-multiple-target-languages) target, which currently supports combining `C` and `Python` federates.
 
 :::
 
 A distributed Lingua Franca program is called a **federation**. Each reactor within the main reactor is called a **federate**. The LF compiler generates a separate program for each federate and synthesizes the code for the federates to communicate. The federates can be distributed across networks and can even be written in different target languages.
 
-<ShowOnly c py ts>
+<ShowOnly c py ts polyglot>
 In addition to the federates, there is a program called the **RTI**, for **runtime infrastructure**, that coordinates startup and shutdown and may, if the coordination is centralized, mediate communication. The RTI is automatically compiled and installed together with the generated federates.
 
 It is possible to encapsulate federates in Docker containers for deployment.
@@ -49,14 +49,61 @@ A minimal federated execution is specified by using the `federated` keyword inst
 
 import FederatedSVG from "./../assets/images/diagrams/Federated.svg"
 
-<FederatedSVG title="Federated example" width="300" role="img" />
-
 import C_Federated from '../assets/code/c/src/Federated.lf';
 import UC_Federated from '../assets/code/uc/src/Federated.lf';
 import Py_Federated from '../assets/code/py/src/Federated.lf';
 import TS_Federated from '../assets/code/ts/src/Federated.lf';
 
+<ShowOnly c uc py ts>
+<FederatedSVG title="Federated example" width="300" role="img" />
+
 <NoSelectorTargetCodeBlock c={C_Federated} uc={UC_Federated} py={Py_Federated} ts={TS_Federated} lf />
+</ShowOnly>
+
+<ShowOnly polyglot>
+In a **Polyglot** federation, the top-level reactors (the federates) can be written in different target languages. The target is declared as `Polyglot`, and each federate's language is given by a `@language(C)` or `@language(Python)` annotation on its reactor definition. Because data sent over a connection may cross a language boundary, the connection uses a **serializer** (here, Protocol Buffers) so that both sides agree on the wire format:
+
+```lf
+target Polyglot {
+  protobufs: [ProtoHelloWorld.proto],
+  timeout: 2 sec
+}
+
+@language(C)
+reactor Sender {
+  output out: ProtoHelloWorld*
+  state count: int = 0
+  timer t(0, 1 sec)
+
+  reaction(t) -> out {=
+    self->count++;
+    ProtoHelloWorld* msg = (ProtoHelloWorld*)malloc(sizeof(ProtoHelloWorld));
+    proto_hello_world__init(msg);
+    msg->name = "Hello World";
+    msg->number = self->count;
+    lf_set(out, msg);
+  =}
+}
+
+@language(Python)
+reactor Receiver {
+  input inp
+
+  reaction(inp) {=
+    print(f"Received: name=\"{inp.value.name}\", number={inp.value.number}.")
+  =}
+}
+
+federated reactor {
+  sender = new Sender()
+  receiver = new Receiver()
+
+  sender.out -> receiver.inp after 100 msec serializer "proto"
+}
+```
+
+See [Polyglot Federations](#polyglot-federations-multiple-target-languages) below for the full details of declaring federates, specifying their languages, and communicating across languages.
+</ShowOnly>
 
 The `federated` keyword tells the code generator that the program is to be split into several distinct programs, one for each top-level reactor.
 
@@ -181,10 +228,10 @@ Received: 2 at 1780871180802461000
 
 ## Federation ID
 
-<ShowOnly c py ts>
+<ShowOnly c py ts polyglot>
 You may have several federations running on the same machine(s) or even several instances of the same federation. In this case, it is necessary to distinguish between the federations. To accomplish this, you can pass a `-i` or `--id` parameter to the RTI and its federates with an identifier that is unique to the particular federation. For example,
 <ShowIfs>
-  <ShowIf c py>
+  <ShowIf c py polyglot>
 
   ```sh
   fed-gen/Federated/bin/RTI -n 2 -i myFederation
@@ -215,12 +262,12 @@ Micro-LF does not (yet) support federation IDs.
 
 ## Coordinated Start
 
-<ShowOnly c py ts>
+<ShowOnly c py ts polyglot>
 When the above programs execute, each federate registers with the RTI. When all expected federates have registered, the RTI broadcasts to the federates the logical time at which they should start execution. Hence, all federates start at the same logical time.
 
 The starting logical time is determined as follows. When each federate starts executing, it sends its current physical time (drawn from its real-time clock) to the RTI. When the RTI has heard from all the federates, it chooses the largest of these physical times, adds a fixed offset (currently one second), and broadcasts the resulting time to each federate.
 
-<ShowOnly c py>
+<ShowOnly c py polyglot>
 If the command-line argument, `--start-time-multiple <num> <units>` or `-m <num> <units>`, is given to the RTI (or to the launch script, which forwards the argument to the RTI), then the start time is further postponed to a multiple of the specified time value.
 The time value is specified by a positive integer followed by units, one of `ns`, `us`, `ms`, `s`, `min`, `hour`, `day`, or `week`.
 </ShowOnly>
@@ -248,11 +295,11 @@ When one federate sends data to another, by default, the timestamp at the receiv
 
 then the timestamp at the receiving end will be incremented by 200 ms compared to the timestamp at the sender.
 
-The preservation of timestamps across federates implies some constraints (unless you use [physical connections](#physical-connections)). <ShowOnly c py inline>How these constraints are managed depends on whether you choose **centralized** or **decentralized** coordination.</ShowOnly>
+The preservation of timestamps across federates implies some constraints (unless you use [physical connections](#physical-connections)). <ShowOnly c py polyglot inline>How these constraints are managed depends on whether you choose **centralized** or **decentralized** coordination.</ShowOnly>
 
 ## Centralized Coordination
 
-<ShowOnly c py ts>
+<ShowOnly c py ts polyglot>
 In the **centralized** mode of coordination (the default), the RTI regulates the advancement of time in each of the federates in order to ensure that the logical time semantics of Lingua Franca is respected. If the `p` federate above has an event with timestamp _t_ that it wants to react to (it is the earliest event in its event queue), then it needs to get the OK from the RTI to advance its logical time to _t_. The RTI grants this time advance only when it can assure that `p` has received all messages that it will ever receive with timestamps less than _t_.
 
 First, note that, by default, logical time on each federate never advances ahead of physical time, as reported by its local physical clock. Consider the consequences for the above connection. Suppose the timestamp of the message sent by `s` is _t_. This message cannot be sent before the local clock at `s` reaches _t_ and also cannot be sent before the RTI grants to `s` a time advance to _t_. In the special case above, `s` has no federates upstream of it, the RTI will always grant it such a time advance. Consequently, the federate does not even wait for a response from the RTI.
@@ -265,7 +312,7 @@ If _a_ > _E_ + _L_, then the existence of this communication does not cause `p`'
 
 If, in addition, the physical clocks on the hosts are allowed to drift with respect to one another, then _E_ can grow without bound, and hence the lag between logical time and physical time in processing events can grow without bound. This is mitigated either by hosts that themselves realize some clock synchronization algorithm, such as [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) or [PTP](https://en.wikipedia.org/wiki/Precision_Time_Protocol), or by utilizing Lingua Franca's own built in [clock synchronization](#clock-synchronization). If the federates lack deadlines, however, then unsynchronized clocks present no semantic problem if you are using centralized coordination. However, because of logical time chases physical time, federates will slow to match the slowest clock of federates upstream of them.
 
-With centralized coordination, all messages (except those on [physical connections](#physical-connections)) go through the RTI. This can create a bottleneck and a single point of failure.<ShowOnly c py inline> To avoid this bottleneck, you can use decentralized coordination.</ShowOnly>
+With centralized coordination, all messages (except those on [physical connections](#physical-connections)) go through the RTI. This can create a bottleneck and a single point of failure.<ShowOnly c py polyglot inline> To avoid this bottleneck, you can use decentralized coordination.</ShowOnly>
 </ShowOnly>
 
 <ShowOnly uc>
@@ -278,7 +325,7 @@ In Micro-LF, there is no RTI and no centralized coordination.
 The TypeScript target does not currently support decentralized coordination. Only centralized coordination is available.
 </ShowOnly>
 
-<ShowOnly c py>
+<ShowOnly c py polyglot>
 The default coordination between mechanisms is **centralized**, equivalent to specifying the target property:
 
 ```
@@ -292,6 +339,10 @@ An alternative is **decentralized** coordination, which extends a technique real
 ```
 
 With decentralized coordination, the RTI coordinates startup, shutdown, and clock synchronization, but is otherwise not involved in the execution of the distributed program.
+</ShowOnly>
+
+<ShowOnly polyglot>
+Polyglot federations support both centralized and decentralized coordination, exactly as C and Python federations do. The `maxwait` and `absent_after` mechanisms, tardy-message handling, and zero-delay-cycle patterns all work the same way regardless of the mix of federate languages. For detailed explanations and examples of these mechanisms, select the **C** or **Python** target above.
 </ShowOnly>
 
 <ShowOnly uc>
@@ -557,7 +608,7 @@ In micro-LF, a design principle is that the code generator and compiler provide 
 This is consistent with its focus on embedded platforms.
 Hence, there is no specific support for deploying on multiple machines.
 </ShowOnly>
-<ShowOnly c py>
+<ShowOnly c py polyglot>
 In the above examples, all of the generated programs expect to run on localhost. This is the default. With these defaults, every federate has to run on the same machine as the RTI because localhost is not a host that is visible from other machines on the network. In order to run federates or the RTI on remote machines, you can specify a domain name or IP address for the RTI and/or federates.
 
 In order for a federated execution to work, there is some setup required on the machines to be used. First, each machine must be running an `ssh` server. On a Linux machine, this is typically done with a command like this:
@@ -639,7 +690,7 @@ The clock synchronization protocol is a peer-to-peer mechanism, where each feder
 the clock of a neighbor.
 </ShowOnly>
 
-<ShowOnly c py>
+<ShowOnly c py polyglot>
 Both centralized and decentralized coordination have some reliance on clock synchronization. First, the RTI determines the start time of all federates, and the actually physical start time will differ by the extent that their physical clocks differ. This is particularly problematic if clocks differ by hours or more, which is certainly possible. If the hosts on which you are running run a clock synchronization algorithm, such as [NTP](https://en.wikipedia.org/wiki/Network_Time_Protocol) or [PTP](https://en.wikipedia.org/wiki/Precision_Time_Protocol), then you may not need to be concerned about this at all. Windows, Mac, and most versions of Linux, by default, run NTP, which synchronizes their clocks to some remote host. NTP is not particularly precise, however, so clock synchronization error can be hundreds of milliseconds or larger. PTP protocols are much more precise, so if your hosts derive their physical clocks from a PTP implementation, then you probably don't need to do anything further. Unfortunately, as of this writing, even though almost all networking hardware provides support for PTP, few operating systems utilize it. We expect this to change when people have finally understood the value of precise clock synchronization.
 
 If your host is not running any clock synchronization, or if it is running only NTP and your application needs tighter latencies, then Lingua Franca's own built-in clock synchronization may provide better precision, depending on your network conditions. Like NTP, it realizes a software-only protocol, which are much less precise than hardware-supported protocols such as PTP, but if your hosts are on the same local area network, then network conditions may be such that the performance of LF clock synchronization will be much better than NTP. If your network is equipped with PTP, you will want to disable the clock synchronization in Lingua Franca by specifying in your target properties the following:
@@ -684,8 +735,185 @@ The supported options are:
 
 </ShowOnly>
 
+## Polyglot Federations (Multiple Target Languages)
+
+<ShowOnly c uc py ts>
+Lingua Franca supports federations whose federates are written in different target languages via the **Polyglot** target (currently a mix of **C** and **Python** federates). Select the **Polyglot** target at the top of this page to read this section.
+</ShowOnly>
+
+<ShowOnly polyglot>
+The federates in a federation can be written in different target languages. The **Polyglot** target makes this explicit: it is a *meta-target* for federations whose federates are implemented in more than one language. Currently, the Polyglot target supports federations that mix **C** and **Python** federates.
+
+:::note
+
+The Polyglot target is preliminary. It currently supports only `C` and `Python` federates (a `CCpp` federate is treated as `C`). The main reactor must be a `federated reactor`, and the federation is coordinated by the same RTI used by single-language federations.
+
+:::
+
+### Declaring a Polyglot Federation
+
+A Polyglot program declares `Polyglot` as its target and uses a `federated reactor` as the main reactor:
+
+```lf
+target Polyglot {
+  protobufs: [ProtoHelloWorld.proto],
+  timeout: 2 sec
+}
+
+@language(C)
+reactor Sender {
+  output out: ProtoHelloWorld*
+  // ... C reaction code ...
+}
+
+@language(Python)
+reactor Receiver {
+  input inp
+  // ... Python reaction code ...
+}
+
+federated reactor {
+  sender = new Sender()
+  receiver = new Receiver()
+
+  sender.out -> receiver.inp after 100 msec serializer "proto"
+}
+```
+
+The target block holds the properties that are shared by the whole federation. The Polyglot target accepts the federation-level subset of properties common to the C and Python targets, including `auth`, `clock-sync`, `clock-sync-options`, `coordination`, `coordination-options`, `docker`, `files`, `keepalive`, `protobufs`, and `single-threaded`.
+
+When you run `lfc` on a Polyglot program, the compiler resolves each federate's actual target language (C or Python), generates an independent program for each federate using that language's code generator, and synthesizes the communication and RTI just as it does for a single-language federation.
+
+### Specifying the Language of Each Federate
+
+Every top-level reactor instantiated in the `federated reactor` must have a determinable target language. There are two ways to specify it.
+
+#### Using the `@language` annotation
+
+Place an `@language(C)` or `@language(Python)` annotation on the reactor *definition* (not on the instantiation, and not on the `federated reactor` itself):
+
+```lf
+@language(C)
+reactor Sender {
+  output out: ProtoHelloWorld*
+
+  state count: int = 0
+
+  timer t(0, 1 sec)
+
+  reaction(t) -> out {=
+    self->count++;
+    ProtoHelloWorld* msg = (ProtoHelloWorld*)malloc(sizeof(ProtoHelloWorld));
+    proto_hello_world__init(msg);
+    msg->name = "Hello World";
+    msg->number = self->count;
+    lf_set(out, msg);
+  =}
+}
+
+@language(Python)
+reactor Receiver {
+  input inp
+
+  state count = 0
+
+  reaction(inp) {=
+    print(f"Received: name=\"{inp.value.name}\", number={inp.value.number}.")
+    self.count += 1
+  =}
+}
+```
+
+The body of each reactor (port types, state variables, and reaction code) is written in that reactor's target language. In the example above, the `Sender` reaction is C code and the `Receiver` reaction is Python code.
+
+The only supported values are `C` and `Python`. The `@language` annotation is only meaningful in a Polyglot program; using it with any other target is an error.
+
+#### Inferring the language from an imported file
+
+Alternatively, a federate's language can be inferred from the target declared in the file it is imported from. If a reactor has no `@language` annotation but is imported from a file that declares `target C` (or `target CCpp`) or `target Python`, the compiler uses that file's target as the federate's language.
+
+This lets you keep reusable, single-language reactor libraries and combine them in a Polyglot federation. For example, a C library file:
+
+```lf
+// CProtoSenderReceiver.lf
+target C
+
+reactor CSender {
+  output out: ProtoHelloWorld*
+  // ... C reaction code ...
+}
+
+reactor CReceiver {
+  input in: ProtoHelloWorld*
+  // ... C reaction code ...
+}
+```
+
+and a Python library file:
+
+```lf
+// PythonProtoSenderReceiver.lf
+target Python
+
+reactor PythonSender {
+  output out
+  // ... Python reaction code ...
+}
+
+reactor PythonReceiver {
+  input inp
+  // ... Python reaction code ...
+}
+```
+
+can be combined in a Polyglot federation by importing them; no `@language` annotations are needed because the language is inferred from each imported file's target:
+
+```lf
+target Polyglot {
+  protobufs: [ProtoHelloWorld.proto],
+  timeout: 2 sec
+}
+
+import CSender from "../lib/CProtoSenderReceiver.lf"
+import PythonReceiver from "../lib/PythonProtoSenderReceiver.lf"
+
+federated reactor {
+  sender = new CSender()
+  receiver = new PythonReceiver()
+
+  sender.out -> receiver.inp after 100 msec serializer "proto"
+}
+```
+
+### Language Rules
+
+The compiler enforces the following rules for Polyglot programs:
+
+- The main reactor must be a `federated reactor`.
+- Every top-level federate must have a determinable language, either from an `@language(C)`/`@language(Python)` annotation on its reactor definition or by being imported from a file with target C or Python. Otherwise, the compiler reports an error.
+- The `@language` annotation may not be placed on the `federated reactor` itself.
+- A federate is compiled entirely in a single language. If a reactor instantiates other (nested) reactors, the nested reactors must use the same language as the enclosing reactor; mixing languages within a single federate is not allowed.
+- File-level type checking is skipped for the Polyglot file itself. Each federate is type-checked during its per-language compilation, so port types and reaction code are validated against the federate's actual target (C or Python).
+
+### Communicating Across Languages
+
+Because a connection in a Polyglot federation can cross a language boundary (for example, from a C federate to a Python federate), the data sent over that connection must be encoded in a form both languages understand. This is done with a **serializer** on the connection. The examples above use Protocol Buffers:
+
+```lf
+  sender.out -> receiver.inp after 100 msec serializer "proto"
+```
+
+With the `"proto"` serializer, the message type is defined in a `.proto` file listed in the `protobufs` target property. The sending federate serializes the message to bytes and the receiving federate deserializes it back into a native object of its own language. The serialization and deserialization are inserted by the generated infrastructure, so your reaction code works with native objects: a C `struct` (e.g. `in->value->name`) on the C side and a Python object (e.g. `inp.value.name`) on the Python side.
+
+:::note[Prerequisites for the protobuf examples]
+
+To build and run the protobuf-based Polyglot examples, install `protoc`, `protoc-c`, `libprotobuf-c`, and the Python `protobuf` package (`pip install protobuf`).
+
+:::
+</ShowOnly>
+
 ## Security
 
 By default, there is no secure authentication when a federate joins a federation, and data exchanged by federates is not encrypted.
-<ShowOnly c py inline>For the C and Python targets, Lingua Franca provides end-to-end communication security that encrypts all message exchanges and ensures only authorized federates can participate using pluggable secure communication backends like TLS or SST.
+<ShowOnly c py polyglot inline>For the C and Python targets, Lingua Franca provides end-to-end communication security that encrypts all message exchanges and ensures only authorized federates can participate using pluggable secure communication backends like TLS or SST.
 For more details on how to configure and use secure federations, see the [Security Page](../reference/security.mdx).</ShowOnly>
