@@ -52,6 +52,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "writing-reactors/importing-packages"
+        },
+        {
+          "type": "doc",
           "id": "writing-reactors/reactions"
         },
         {
