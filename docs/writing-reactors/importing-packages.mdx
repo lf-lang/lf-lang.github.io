@@ -16,15 +16,27 @@ Packages are installed in of three ways:
 To import reactors from a package that has been installed in one of the ways described above, use angle brackets to specify the package and library file:
 
 ```lf
-import ReactorName from <package/file>
+import ReactorName from <package>
 ```
-
-Here, `package` is the name of the installed package, and `file` is the name of a [library file](../glossary/glossary.mdx#library-file) within that package. The compiler resolves this to the file at `package/src/lib/file`. As with ordinary imports, you may import multiple reactors from the same file, use aliases, or omit the `as` clause:
+or
 
 ```lf
-import Count from <lf-stdlib/Count.lf>
+import ReactorName from <package/file.lf>
+```
+
+Here, `package` is the name of the installed package, and `file.lf` is the name of a [library file](../glossary/glossary.mdx#library-file) within that package.
+The compiler resolves this to the file at `package/src/lib/file.lf`
+(or `package/src/lib/file.ulf` for micro-LF).
+As with ordinary imports, you may import multiple reactors from the same file, use aliases, or omit the `as` clause:
+
+```lf
+import Count as Counter from <lf-stdlib>
 import ReactorA, ReactorB as B from <my-package/Utilities.lf>
 ```
+
+If the `file.lf` is omitted, the compiler resolves this to the file at `package/src/lib/ReactorName.lf` (or `package/src/lib/ReactorName.ulf` for micro-LF).
+
+In all cases, the `package` may be subpackage, `package/subpackage`, in which case the compiler resolves this to the file at `package/src/lib/subpackage/file.lf` (or `package/src/lib/subpackage/file.ulf` for micro-LF).
 
 This contrasts with importing reactors from another file in the same project, which has the form:
 
