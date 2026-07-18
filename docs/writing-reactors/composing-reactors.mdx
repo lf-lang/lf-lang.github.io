@@ -127,13 +127,23 @@ The enclosing `( ... )+` means to repeat the enclosed comma-separated list of so
 
 ## Import Statement
 
-An import statement has the form:
+An import statement has one of the following forms:
 
 ```lf
-  import <classname> as <alias> from "<path>"
+  import classname as alias from "path"
+  import classname as alias from <package/file>
 ```
 
-where `<classname>` and `<alias>` can be a comma-separated list to import multiple reactors from the same file. The `<path>` specifies another `.lf` file relative to the location of the current file. The `as <alias>` portion is optional and specifies alternative class names to use in the `new` statements.
+where `classname as alias` can be a comma-separated list to import multiple reactors from the same file.
+The `as alias` portion is optional and specifies alternative class names to use in the `new` statements.
+In the first form, the `path` specifies another `.lf` file relative to the location of the current file.
+For example:
+
+```lf
+import ReactorA, ReactorB as B from "path/to/Reactor.lf"
+```
+
+In the second form, the `<package/file>` specifies a [library file](../glossary/glossary.mdx#library-file) within an installed [package](../glossary/glossary.mdx#package), as described in [Importing Packages](importing-packages.mdx).
 
 ## Hierarchy
 

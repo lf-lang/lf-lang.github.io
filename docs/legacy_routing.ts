@@ -36,7 +36,7 @@ export default [
     "from": "/docs/handbook/reactors-on-patmos"
   },
   {
-    "to": "/deprecated",
+    "to": "/docs/next/writing-reactors/importing-packages",
     "from": "/docs/handbook/import-system"
   },
   {
