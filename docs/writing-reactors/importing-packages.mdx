@@ -46,6 +46,20 @@ import classname as alias from "path"
 
 where `path` points to the another `.lf` file relative to the location of the file containing the `import` statement.
 
+## Standard Packages
+
+Many of the [LF standard packages](https://github.com/lf-lang/pkgs) are installed as submodules in the
+[playground-lingua-franca}()](https://github.com/lf-lang/playground-lingua-franca), so if you deeply clone that
+repository, you can import the standard packages from there.
+For example, to make the standard packages for the C target available globally, you can do the following:
+
+```sh
+git clone https://github.com/lf-lang/playground-lingua-franca.git
+cd playground-lingua-franca
+git submodule update --init --recursive
+export LF_PACKAGES=$PWD/examples/C/lf-packages
+```
+
 ## How the Compiler Finds Packages
 
 When resolving `<package/file>`, the compiler searches for a directory named `package` in the following locations, in order:
@@ -87,20 +101,6 @@ To make a package available globally, clone packages into a shared directory and
 ```bash
 export LF_PACKAGES=$HOME/lf-modules
 git clone https://github.com/example/some-package.git $LF_PACKAGES/some-package
-```
-
-## Standard Packages
-
-Many of the [LF standard packages](https://github.com/lf-lang/pkgs) are installed as submodules in the
-[playground-lingua-franca}()](https://github.com/lf-lang/playground-lingua-franca), so if you deeply clone that
-repository, you can import the standard packages from there.
-For example, to make the standard packages for the C target available globally, you can do the following:
-
-```sh
-git clone https://github.com/lf-lang/playground-lingua-franca.git
-cd playground-lingua-franca
-git submodule update --init --recursive
-export LF_PACKAGES=$PWD/examples/C/lf-packages
 ```
 
 ## VS Code Extension Support for Installed Packages
