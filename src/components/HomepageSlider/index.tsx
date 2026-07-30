@@ -68,7 +68,12 @@ export const CodeContainer = ({
               key={page}
               nodeRef={refs[page]}
               addEndListener={(done) => {
-                refs[page].current?.addEventListener("transitionend", done, false);
+                const node = refs[page].current;
+                if (node == null) {
+                  done();
+                  return;
+                }
+                node.addEventListener("transitionend", done, { once: true });
               }}
               classNames={{
                 enter: styles.fadeEnter,
