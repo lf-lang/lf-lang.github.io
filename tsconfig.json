@@ -7,4 +7,5 @@
     "module": "ESNext",
     "strictNullChecks": true,
   },
+  "exclude": ["**/src-gen/**"],
 }

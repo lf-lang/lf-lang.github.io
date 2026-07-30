@@ -50,7 +50,11 @@ export const CodeContainer = ({
   className?: string;
 }): JSX.Element => {
   const [page, setPage] = useState(0);
-  const refs = [useRef(null), useRef(null), useRef(null)] as (React.LegacyRef<HTMLDivElement> | undefined)[];
+  const refs = [
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+    useRef<HTMLDivElement>(null),
+  ];
 
   return (
     <div className={clsx(className, styles.codeContainer)}>
@@ -64,7 +68,12 @@ export const CodeContainer = ({
               key={page}
               nodeRef={refs[page]}
               addEndListener={(done) => {
-                refs[page]!.current.addEventListener("transitionend", done, false);
+                const node = refs[page].current;
+                if (node == null) {
+                  done();
+                  return;
+                }
+                node.addEventListener("transitionend", done, { once: true });
               }}
               classNames={{
                 enter: styles.fadeEnter,

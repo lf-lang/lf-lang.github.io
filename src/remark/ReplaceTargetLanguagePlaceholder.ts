@@ -1,6 +1,7 @@
 import type { Plugin } from "unified";
 import { visit } from "unist-util-visit";
 import type { Parent } from "unist";
+import type { Root, Text } from "mdast";
 
 const PLACEHOLDER = "$target-language$";
 
@@ -16,7 +17,7 @@ const targetLanguageJsx = {
  * Replaces legacy `$target-language$` placeholders (from the old handbook
  * preprocessor) with an inline <TargetLanguage /> MDX element.
  */
-export const replaceTargetLanguagePlaceholder: Plugin = () => {
+export const replaceTargetLanguagePlaceholder: Plugin<[], Root> = () => {
   return (tree) => {
     visit(tree, "text", (node, index, parent) => {
       if (
@@ -33,7 +34,8 @@ export const replaceTargetLanguagePlaceholder: Plugin = () => {
       const newChildren: Parent["children"] = [];
       parts.forEach((part, i) => {
         if (part.length > 0) {
-          newChildren.push({ type: "text", value: part });
+          const text: Text = { type: "text", value: part };
+          newChildren.push(text);
         }
         if (i < parts.length - 1) {
           newChildren.push({ ...targetLanguageJsx });
