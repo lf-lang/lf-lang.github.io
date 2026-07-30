@@ -62,10 +62,11 @@
     ]
   },
   "engines": {
-    "node": ">=20.0"
+    "node": ">=20.9.0"
   },
   "overrides": {
     "svgo": "3.3.3",
+    "sharp": "0.35.3",
     "minimatch": "^10.2.1",
     "picomatch": "^2.3.2",
     "node-forge": "^1.4.0",
@@ -83,6 +84,7 @@
   },
   "resolutions": {
     "svgo": "3.3.3",
+    "sharp": "0.35.3",
     "minimatch": "^10.2.1",
     "picomatch": "^2.3.2",
     "node-forge": "^1.4.0",
