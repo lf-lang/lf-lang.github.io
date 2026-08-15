@@ -5,6 +5,7 @@ target Python {
 preamble {=
   import os
   import subprocess
+  import sys
 =}
 
 # Persistent upstream federate. Sends 0, 1, 2, ... every 500 ms.
