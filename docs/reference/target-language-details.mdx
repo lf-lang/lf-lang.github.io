@@ -1706,8 +1706,9 @@ There are also some useful functions for accessing physical time:
 - `instant_t lf_time_physical()`: Get the current physical time.
 - `instant_t lf_time_physical_elapsed()`: Get the physical time elapsed since program start.
 - `instant_t lf_time_start()`: Get the starting physical and logical time.
+- `tag_t lf_tag_start_effective()`: Get the tag at which this federate effectively started. For a [transient federate](../writing-reactors/transient-federates.mdx) that joins a running federation, this may be later than the federation start tag.
 
-The last of these is both a physical and logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
+The last two of these relate to start time. `lf_time_start()` is both a physical and logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
 
 A reaction can examine the current logical time (which is constant during the execution of the reaction). For example, consider the [GetTime](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/GetTime.lf) example:
 
@@ -1951,8 +1952,9 @@ There are also some useful functions for accessing physical time:
 - `lf.time.physical() -> int`: Get the current physical time.
 - `lf.time.physical_elapsed() -> int`: Get the physical time elapsed since program start.
 - `lf.time.start() -> int`: Get the starting physical and logical time.
+- `lf.tag_start_effective() -> Tag`: Get the tag at which this federate effectively started. For a [transient federate](../writing-reactors/transient-federates.mdx) that joins a running federation, this may be later than the federation start tag.
 
-The last of these is both a physical and a logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
+The start time from `lf.time.start()` is both a physical and a logical time because, at the start of execution, the starting logical time is set equal to the current physical time as measured by a local clock.
 
 A reaction can examine the current logical time (which is constant during the execution of the reaction). For example, consider the [GetTime.lf](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/GetTime.lf) example:
 
@@ -2820,12 +2822,16 @@ For micro-LF documentation, see [micro-lf.org](https://micro-lf.org).
 
 A reaction may request that the execution stop after all events with the current timestamp have been processed by calling the built-in method `request_stop()`, which takes no arguments. In a non-federated execution, the actual last tag of the program will be one microstep later than the tag at which `request_stop()` was called. For example, if the current tag is `(2 seconds, 0)`, the last (stop) tag will be `(2 seconds, 1)`. In a federated execution, however, the stop time will likely be larger than the current logical time. All federates are assured of stopping at the same logical time.
 
+To stop only the calling federate, without requesting that the rest of the federation stop, call `lf_stop()`. That is used by [transient federates](../writing-reactors/transient-federates.mdx) to leave a running federation.
+
 > The [timeout](<../writing-reactors/termination.mdx#timeout>) target property will take precedence over this function. For example, if a program has a timeout of `2 seconds` and `request_stop()` is called at the `(2 seconds, 0)` tag, the last tag will still be `(2 seconds, 0>)`.
 
 </ShowIf>
 <ShowIf py>
 
 A reaction may request that the execution stop after all events with the current timestamp have been processed by calling the built-in method `lf.request_stop()`, which takes no arguments. In a non-federated execution, the actual last tag of the program will be one microstep later than the tag at which `lf.request_stop()` was called. For example, if the current tag is `(2 seconds, 0)`, the last (stop) tag will be `(2 seconds, 1)`. In a federated execution, however, the stop time will likely be larger than the current logical time. All federates are assured of stopping at the same logical time.
+
+To stop only the calling federate, without requesting that the rest of the federation stop, call `lf.stop()`. That is used by [transient federates](../writing-reactors/transient-federates.mdx) to leave a running federation.
 
 > The [timeout](<../writing-reactors/termination.mdx#timeout>) target property will take precedence over this function. For example, if a program has a timeout of `2 seconds` and `request_stop()` is called at the `(2 seconds, 0)` tag, the last tag will still be `(2 seconds, 0>)`.
 

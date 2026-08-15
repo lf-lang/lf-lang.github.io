@@ -1,0 +1,102 @@
+target Python {
+  timeout: 3 s
+}
+
+preamble {=
+  import os
+  import subprocess
+=}
+
+# Persistent upstream federate. Sends 0, 1, 2, ... every 500 ms.
+reactor Up(period=500 ms) {
+  output out
+  timer t(0, period)
+  state count = 0
+
+  reaction(t) -> out {=
+    out.set(self.count)
+    print("Up sending {}".format(self.count))
+    self.count += 1
+  =}
+}
+
+# Launches a federate executable after `launch_time`.
+# The executable name is `federate__` followed by `fed_instance_name`.
+# `federation_name` must match the .lf file name (without the extension).
+reactor TransientExec(
+    launch_time=0,
+    federation_name="TransientFederates",
+    fed_instance_name="instance") {
+  timer t(launch_time)
+
+  reaction(t) {=
+    exe = os.path.join(
+        lf.package_directory(), "fed-gen", self.federation_name, "bin",
+        "federate__" + self.fed_instance_name)
+    cmd = [exe, "-i", lf.get_federation_id()]
+    print("Launching:", cmd)
+    result = subprocess.run(cmd)
+    if result.returncode != 0:
+      sys.exit("Failed to launch " + self.fed_instance_name)
+  =}
+}
+
+# Transient federate that forwards inputs from `Up` to `Down`.
+# After two inputs it leaves the federation by calling `lf.stop()`.
+reactor Middle {
+  input inp
+  output out
+  output join
+  state count = 0
+
+  reaction(startup) -> join {=
+    t = lf.tag_start_effective()
+    print("Middle joined at effective start tag ({}, {})".format(
+        t.time - lf.time.start(), t.microstep))
+    join.set(0)
+  =}
+
+  reaction(inp) -> out {=
+    self.count += 1
+    print("Middle forwarding {} (count {})".format(inp.value, self.count))
+    out.set(inp.value)
+    if self.count == 2:
+      lf.stop()
+  =}
+}
+
+# Persistent downstream federate. Continues even while Middle is absent.
+reactor Down(period=500 ms) {
+  timer t(0, period)
+  input inp
+  input join
+
+  reaction(t) {=
+    print("Down timer at ({}, {})".format(
+        lf.time.logical_elapsed(), lf.tag().microstep))
+  =}
+
+  reaction(join) {=
+    print("Down observed Middle join")
+  =}
+
+  reaction(inp) {=
+    print("Down received {} from Middle".format(inp.value))
+  =}
+}
+
+federated reactor {
+  midExec = new TransientExec(
+      launch_time = 1 s,
+      federation_name = "TransientFederates",
+      fed_instance_name = "mid")
+  up = new Up()
+  down = new Down()
+
+  @transient
+  mid = new Middle()
+
+  up.out -> mid.inp
+  mid.join -> down.join
+  mid.out -> down.inp
+}

@@ -1,0 +1,192 @@
+---
+title: Transient Federates
+description: Federates that can join and leave a running federation.
+---
+
+import {
+  LanguageSelector,
+  NoSelectorTargetCodeBlock,
+  ShowIf, ShowIfs, ShowOnly,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c py />
+
+:::note
+
+Transient federates are supported for the `C` and `Python` targets only.
+They work with both [centralized and decentralized coordination](./distributed-execution.mdx#centralized-coordination), and with both logical and [physical connections](./composing-reactors.mdx#physical-connections).
+
+:::
+
+By default, a [federation](./distributed-execution.mdx) waits until every federate has registered with the RTI before it starts, and if a federate leaves, the federation is expected to shut down. That model fits programs that run as a single, fixed ensemble. Many distributed applications need more flexibility: a federate may not be available at startup, may fail and recover, or may be replaced while the rest of the system keeps running.
+
+A **transient federate** is a federate that is not required to be present when the federation starts and that may join and leave during execution. Federates that are not marked transient are **persistent**: they must join at startup and they remain until the federation ends. At least one federate in a federation must be persistent.
+
+Typical uses include:
+
+- Participants that come and go, such as devices that connect to a service only while they are in range.
+- Fault recovery, where a federate process is restarted and rejoins without stopping the rest of the federation.
+- **Hot swap**, where a new instance of a federate replaces a running one so that software can be upgraded or a failed replica can take over.
+
+The Lingua Franca IDEs draw a transient federate with a dark green border so that it is easy to distinguish from persistent federates.
+
+## Marking a Federate Transient
+
+Apply the `@transient` attribute to a top-level instantiation inside a `federated reactor`:
+
+```lf
+federated reactor {
+  persistent = new Persistent()
+
+  @transient
+  arriving = new Arriving()
+
+  persistent.out -> arriving.in
+}
+```
+
+The attribute is allowed only on a federate instantiation (a reactor created directly in the federated main reactor). It is an error to put `@transient` on a nested reactor, on a reactor class, or in a non-federated program.
+
+## Example: Leaving and Rejoining
+
+The following program, adapted from the Lingua Franca regression tests, has three application federates and a helper that relaunches the transient one. `Up` sends integers every 500 ms. `Middle` is transient: it forwards those integers to `Down` and, after two inputs, leaves the federation. `Down` has its own timer, so it keeps executing whether or not `Middle` is present. One second after the federation starts, `TransientExec` launches a new instance of `Middle`, which joins again.
+
+import C_TransientFederates from '../assets/code/c/src/TransientFederates.lf';
+import Py_TransientFederates from '../assets/code/py/src/TransientFederates.lf';
+
+<NoSelectorTargetCodeBlock c={C_TransientFederates} py={Py_TransientFederates} lf />
+
+Compile and run this as any other federated program:
+
+```sh
+lfc src/TransientFederates.lf
+bin/TransientFederates
+```
+
+The generated launch script starts the RTI and every federate, including `mid`. You should see `Middle` join at the federation start tag, forward two values, leave, then join again around logical time 1 s and forward two more values. Throughout, `Down`'s timer keeps ticking.
+
+<ShowOnly py>
+The `federation_name` parameter of `TransientExec` must match the `.lf` file name (here, `TransientFederates`). That name is the directory under `fed-gen` where the generated federate binaries are placed.
+</ShowOnly>
+
+## Starting a Federation with Transient Federates
+
+The RTI is told both how many federates exist in total and how many of them are transient. The generated launch script passes these as `-n` (or `--number_of_federates`) and `-nt` (or `--number_of_transient_federates`). For the example above there are four federates, one of which is transient, so the RTI is invoked with `-n 4 -nt 1`.
+
+The federation starts as soon as every **persistent** federate has registered. Transient federates may register before that, in which case they share the federation start tag, or they may register later.
+
+The generated `bin/` script launches transient federates along with the persistent ones, which is convenient for testing. You can instead start only the RTI and the persistent federates, and launch each transient later. When you do that, give the transient the same federation ID as the RTI (`-i` / `--id`; see [Federation ID](./distributed-execution.mdx#federation-id)):
+
+```sh
+fed-gen/TransientFederates/bin/federate__mid -i myFederation
+```
+
+The `TransientExec` reactor in the example does the same thing from inside the federation, using <ShowOnly c inline>`lf_get_federation_id()`</ShowOnly><ShowOnly py inline>`lf.get_federation_id()`</ShowOnly> so that the new process joins the running federation rather than starting a new one.
+
+## Leaving a Federation
+
+<ShowIfs>
+<ShowIf c>
+
+A transient federate leaves in an orderly way by calling `lf_stop()` from a reaction. That stops **only this federate**, at one microstep after the current tag. Unlike [`lf_request_stop()`](./termination.mdx#stop-request), it does not ask the RTI to stop the federation and does not require consensus among federates. Shutdown reactions in the leaving federate still run at that final tag.
+
+</ShowIf>
+<ShowIf py>
+
+A transient federate leaves in an orderly way by calling `lf.stop()` from a reaction. That stops **only this federate**, at one microstep after the current tag. Unlike [`lf.request_stop()`](./termination.mdx#stop-request), it does not ask the RTI to stop the federation and does not require consensus among federates. Shutdown reactions in the leaving federate still run at that final tag.
+
+</ShowIf>
+</ShowIfs>
+
+After the federate exits, the RTI treats it as absent. Persistent federates continue. The same federate ID may join again later, either because you relaunch the same binary (as `TransientExec` does) or because you start a replacement binary with the same connections (see [Hot Swap](#hot-swap)).
+
+A disorderly departure — a crash, a killed process, or a dropped network connection — also leaves the federate absent. Centralized coordination can still agree on the tag of the last tagged message the RTI forwarded from that federate. There is no way in general to agree on the tag of the last message on a [physical connection](./composing-reactors.mdx#physical-connections).
+
+## Joining or Rejoining
+
+When a transient federate (re)joins a federation that is already running, the RTI computes an **effective start tag** for it. Persistent federates always start at the federation start tag. A transient that joins later starts at a tag that is at least the federation start tag and is late enough that it does not contradict tag-advance grants or messages that the RTI has already issued.
+
+<ShowIfs>
+<ShowIf c>
+
+The joining federate can read that tag with `lf_tag_start_effective()`. Compare `lf_time_start()`, which is the federation start time and does not change when a transient joins late. In the example, `Middle` prints the effective start tag in its `startup` reaction.
+
+</ShowIf>
+<ShowIf py>
+
+The joining federate can read that tag with `lf.tag_start_effective()`. Compare `lf.time.start()`, which is the federation start time and does not change when a transient joins late. In the example, `Middle` prints the effective start tag in its `startup` reaction.
+
+</ShowIf>
+</ShowIfs>
+
+Under **centralized** coordination, the effective start tag is the maximum of:
+
+1. The physical time at which the federate requested to join (as a tag with microstep 0).
+2. The federation start tag.
+3. One microstep after the last tag this federate completed, if it is rejoining.
+4. One microstep after the latest tag-advance grant (TAG or PTAG) already given to any downstream federate.
+5. One microstep after the latest message the RTI has seen that was addressed to this federate (including messages dropped while it was absent).
+
+Pending tag-advance grants to downstream federates at or after that tag are canceled so that the newcomer can participate from its effective start tag onward.
+
+Under **decentralized** coordination, if the transient has no upstream federates, its effective start tag is the tag it proposes. Otherwise the RTI adds the same startup delay used for the federation start time (currently one second) so that in-flight messages from upstream federates can arrive before the newcomer advances. If network latency, clock error, and execution lag together exceed that delay, a [tardy](./distributed-execution.mdx#maxwait) (safe-to-process) violation is possible; see [Decentralized Coordination](#decentralized-coordination).
+
+## Timers
+
+A timer in a transient federate is **not** aligned to the federation start tag. It behaves like a timer in a [modal model](./modal-models.mdx) that has just become active: the first firing is at the federate's effective start tag plus the timer's offset, and later firings follow the period from there.
+
+If you need alignment with the federation timeline, schedule a logical action from the `startup` reaction using the difference between the current tag and the next aligned time.
+
+## Absent Federates
+
+While a transient federate is absent:
+
+- Messages sent **to** it are dropped. To the sender, it is as if the receiver ignored the message.
+- It sends nothing to its downstream federates. Those downstream federates still advance time; they simply see no events on the connections from the absent federate.
+
+The intervals of absence are well defined: from the federation start tag until the first effective start tag, and then from the tag at which the federate left until the next effective start tag.
+
+With centralized coordination, the RTI delays tag-advance grants to downstream federates of an absent transient just enough that a joining transient is not forced to wait for a grant that was issued far into the future. If every upstream of a federate is an absent transient, the federate may advance to its next local event.
+
+## Hot Swap
+
+If a new process connects to the RTI with the same federate ID as a transient that is still running, the RTI performs a **hot swap** instead of rejecting the connection:
+
+1. The RTI sends a stop request to the old instance.
+2. The old instance stops at one microstep after its current tag and sends a RESIGN message.
+3. The RTI then accepts the new instance and computes its effective start tag as for any other join.
+
+Hot swap is allowed only for transient federates, only during the execution phase (not while the federation is still starting), and only one swap at a time. The replacement must present the same neighbor structure (the same connections to other federates) as the original; the RTI rejects a join whose connectivity differs from the first accepted instance of that federate ID.
+
+To try this with the example, remove the `lf_stop()` / `lf.stop()` call from `Middle` so that the first instance is still running when `TransientExec` launches a second copy at 1 s. The second copy replaces the first. The C [TransientHotSwap](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/TransientHotSwap.lf) and Python [TransientHotSwap](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/federated/TransientHotSwap.lf) regression tests are this variant.
+
+Hot swap does not by itself copy state from the old instance to the new one. If the replacement needs the previous state, the application must save and restore it, as in the next section.
+
+## Preserving State Across Joins
+
+State variables of a transient federate are those of the process. When the process exits, that state is gone. A standard pattern is to send state to a persistent federate whenever it changes, and to restore it in the `startup` reaction of a later instance.
+
+The C [TransientStatePersistence](https://github.com/lf-lang/lingua-franca/blob/master/test/C/src/federated/TransientStatePersistence.lf) and Python [TransientStatePersistence](https://github.com/lf-lang/lingua-franca/blob/master/test/Python/src/federated/TransientStatePersistence.lf) tests do this with a persistent `Persistence` federate. `Middle` notifies `Persistence` when it joins. If this is not the first join, `Persistence` replies with the last saved state. Whenever `Middle` updates its state, it sends the new value to `Persistence`. Reaction order matters: the restore reaction must be able to run before the reactions that depend on the restored state.
+
+## Decentralized Coordination
+
+With `coordination: decentralized`, federates exchange tagged messages peer-to-peer and the RTI is not on the data path. Transient federates still register with the RTI so that it can compute effective start tags and notify peers when a transient connects or disconnects.
+
+Because a downstream federate cannot wait forever for an absent upstream, give federates that have transient upstreams a finite [`@maxwait`](./distributed-execution.mdx#maxwait). The decentralized transient tests typically use a few hundred milliseconds. If `maxwait` is too small relative to join latency, you will see tardy (STP) warnings; if it is `forever`, a federate that is waiting for an absent transient may stall until shutdown.
+
+Physical connections (`~>`) to or from a transient federate are always peer-to-peer, even under centralized coordination. An absent destination drops the message; a present destination assigns a tag from the physical receive time as usual.
+
+## Security
+
+Transient joins use the same authentication and federation-ID checks as startup. If you enable [`auth`](../reference/security.mdx) or a secure `comm-type`, a transient cannot join without the same credentials as any other federate. The RTI also checks that a rejoining or hot-swapped federate advertises the same connectivity as the original instance.
+
+A hot-swapped binary is still arbitrary code that the RTI will run as that federate. Treat the ability to launch a replacement the same way you treat the ability to start the federation: restrict who can obtain the federation ID, credentials, and host access.
+
+## Limitations
+
+- Supported only in the `C` and `Python` targets.
+- `@transient` applies only to top-level instantiations in a `federated reactor`.
+- At least one federate must be persistent. The RTI will not start a federation in which every federate is transient.
+- Banks of transient federates are not given special treatment; each instance is a separate federate ID.
+- Multi-level chains of transients that participate in a cycle are not covered by the current tests; prefer a single transient on a cycle, or keep cyclic peers persistent.
+- Independent compilation of a replacement federate is not yet a separate workflow: you generate the replacement from the same (or a compatible) federated program so that IDs, ports, and connections match.

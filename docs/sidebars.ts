@@ -110,6 +110,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "writing-reactors/transient-federates"
+        },
+        {
+          "type": "doc",
           "id": "writing-reactors/polyglot"
         },
         {
