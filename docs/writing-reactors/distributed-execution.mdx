@@ -226,6 +226,10 @@ The time value is specified by a positive integer followed by units, one of `ns`
 </ShowOnly>
 
 When a federate receives the starting time from the RTI, then it will wait until its local physical clock matches or exceeds that starting time. Thus, to the extent that the machines have [synchronized clocks](#clock-synchronization), the federates will all start executing at roughly the same physical time, a physical time close to the starting logical time.
+
+<ShowOnly c py>
+By default, the RTI waits for **every** federate to register before choosing that start time. You can instead mark some federates `@transient` so that they need not be present at startup and can join and leave during execution. See [Transient Federates](./transient-federates.mdx).
+</ShowOnly>
 </ShowOnly>
 
 <ShowOnly uc>

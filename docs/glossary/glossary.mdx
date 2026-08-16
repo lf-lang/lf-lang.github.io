@@ -7,6 +7,18 @@ description: Glossary of terms used in the Lingua Franca documentation.
 
 Glossary of terms used in the Lingua Franca (LF) documentation.
 
+### Federate
+A top-level reactor instance in a [federation](#federation). The compiler generates a separate program for each federate.
+
+### Federation
+A distributed Lingua Franca program, specified with a `federated reactor`. The compiler generates a separate program for each top-level reactor instance (each **federate**) plus, for most targets, an RTI that coordinates startup and shutdown. See [Distributed Execution](../writing-reactors/distributed-execution.mdx).
+
+### Persistent Federate
+A federate that must be present when a federation starts and that remains until the federation ends. Federates are persistent unless they are marked `@transient`. See [Transient Federates](../writing-reactors/transient-federates.mdx).
+
+### Transient Federate
+A federate marked `@transient`. It need not be present when the federation starts, and it may join and leave during execution. Supported for the C and Python targets. See [Transient Federates](../writing-reactors/transient-federates.mdx).
+
 ### LF File
 A source file with the `.lf` or `.ulf` extension, representing a Lingua Franca (LF) program. The `.ulf` extension is used for [micro-LF](https://micro-lf.org) programs, and the `.lf` extension is used for all other LF programs.
 

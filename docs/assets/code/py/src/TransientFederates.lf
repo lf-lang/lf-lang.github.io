@@ -1,0 +1,76 @@
+target Python
+
+preamble {=
+  import os
+  import subprocess
+  import sys
+=}
+
+# Persistent upstream federate. Sends 0, 1, 2, ... every 2 seconds.
+reactor Up(period=2 s) {
+  output out
+  timer t(0, period)
+  state count = 0
+
+  reaction(t) -> out {=
+    out.set(self.count)
+    print("Up sending {}".format(self.count))
+    self.count += 1
+  =}
+}
+
+# Transient federate that forwards inputs from `Up` to `Down`.
+# After four inputs it leaves the federation by calling `lf.stop()`.
+reactor Middle {
+  input inp
+  output out
+  output join
+  state count = 0
+
+  reaction(startup) -> join {=
+    t = lf.tag_start_effective()
+    print("Middle joined at effective start tag ({}, {})".format(
+        t.time - lf.time.start(), t.microstep))
+    join.set(0)
+  =}
+
+  reaction(inp) -> out {=
+    self.count += 1
+    print("Middle forwarding {} (count {})".format(inp.value, self.count))
+    out.set(inp.value)
+    if self.count == 4:
+      lf.stop()
+  =}
+}
+
+# Persistent downstream federate. Continues even while Middle is absent.
+reactor Down(period=2 s) {
+  timer t(0, period)
+  input inp
+  input join
+
+  reaction(t) {=
+    print("Down timer at ({}, {})".format(
+        lf.time.logical_elapsed(), lf.tag().microstep))
+  =}
+
+  reaction(join) {=
+    print("Down observed Middle join")
+  =}
+
+  reaction(inp) {=
+    print("Down received {} from Middle".format(inp.value))
+  =}
+}
+
+federated reactor {
+  up = new Up()
+  down = new Down()
+
+  @transient
+  mid = new Middle()
+
+  up.out -> mid.inp
+  mid.join -> down.join
+  mid.out -> down.inp
+}

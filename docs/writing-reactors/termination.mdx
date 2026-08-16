@@ -63,6 +63,10 @@ When the RTI receives a **STOP_REQUEST** message from a federate, it forwards it
 
 When a federate receives a **STOP_REQUEST** message, it replies with its current logical time _t_, completes its current tag (if one is progress), and blocks, waiting for a **STOP_GRANTED** message from the RTI. When it gets the reply with payload _s_, if _s_ > _t_, then it sets `timeout` = _s_ and continues executing, using the timeout mechanism (see above) to stop. If _s_ = _t_, then it schedules the shutdown phase to occur one microstep later, as in the unfederated case.
 
+<ShowOnly c py>
+To stop **only the calling federate** without stopping the federation, call <ShowOnly c inline>`lf_stop()`</ShowOnly><ShowOnly py inline>`lf.stop()`</ShowOnly>. That is the mechanism [transient federates](./transient-federates.mdx) use to leave while the rest of the federation continues.
+</ShowOnly>
+
 </ShowOnly>
 
 ## External Signal
