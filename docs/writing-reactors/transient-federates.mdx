@@ -189,6 +189,7 @@ A hot-swapped binary is still arbitrary code that the RTI will run as that feder
 - Supported only in the `C` and `Python` targets.
 - `@transient` applies only to top-level instantiations in a `federated reactor`.
 - At least one federate must be persistent. The RTI will not start a federation in which every federate is transient.
-- Banks of transient federates are not given special treatment; each instance is a separate federate ID.
 - Multi-level chains of transients that participate in a cycle are not covered by the current tests; prefer a single transient on a cycle, or keep cyclic peers persistent.
 - Independent compilation of a replacement federate is not yet a separate workflow: you generate the replacement from the same (or a compatible) federated program so that IDs, ports, and connections match.
+
+Note that banks of transient federates are not given special treatment; each instance is a separate federate.
