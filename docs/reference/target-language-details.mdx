@@ -2973,10 +2973,11 @@ Reactions in C can use a number of [pre-defined functions](https://www.lf-lang.o
 
 - **File Access**
 
-  - LF_SOURCE_DIRECTORY: A C string giving the full path to the directory containing the `.lf` file of the program.
-  - LF_PACKAGE_DIRECTORY: A C string giving the full path to the directory that is the root of the project or package (normally, the directory above the `src` directory).
+  - LF_SOURCE_DIRECTORY: A string giving the full path to the directory containing the `.lf` file of the program.
+  - LF_PACKAGE_DIRECTORY: A string giving the full path to the directory that is the root of the project or package (normally, the directory above the `src` directory).
   - LF_SOURCE_GEN_DIRECTORY: The directory in which generated files and any files in the [files](<target-declaration.mdx#files>) target directive are placed.
-  - LF_FILE_SEPARATOR: A C string giving the file separator for the platform containing the `.lf` file ("/" for Unix-like systems, "\\" for Windows).
+  - LF_FED_PACKAGE_DIRECTORY: A string giving the full path to the directory that is the root of the federate package (normally, the directory above the `src` directory appended with `fed-gen/name`, where `name` is the name of the federation).
+  - LF_FILE_SEPARATOR: A string giving the file separator for the platform containing the `.lf` file ("/" for Unix-like systems, "\\" for Windows).
 
 These are useful when your application needs to open and read additional files. For example, the following C code can be used to open a file in a subdirectory called `dir` of the directory that contains the `.lf` file:
 

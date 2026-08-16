@@ -1,14 +1,12 @@
-target C {
-  timeout: 3 s
-}
+target C
 
 preamble {=
   #include <stdlib.h>
   #include <stdio.h>
 =}
 
-/** Persistent upstream federate. Sends 0, 1, 2, ... every 500 ms. */
-reactor Up(period: time = 500 ms) {
+/** Persistent upstream federate. Sends 0, 1, 2, ... every 2 seconds. */
+reactor Up(period: time = 2 s) {
   output out: int
   timer t(0, period)
   state count: int = 0
@@ -21,28 +19,8 @@ reactor Up(period: time = 500 ms) {
 }
 
 /**
- * Launches a federate executable after `launch_time`.
- * The executable name is `federate__` followed by `fed_instance_name`.
- */
-reactor TransientExec(launch_time: time = 0, fed_instance_name: char* = "instance") {
-  timer t(launch_time)
-
-  reaction(t) {=
-    char cmd[576];
-    snprintf(cmd, sizeof(cmd), "%s/bin/federate__%s -i %s",
-        LF_FED_PACKAGE_DIRECTORY,
-        self->fed_instance_name,
-        lf_get_federation_id());
-    lf_print("Launching: %s", cmd);
-    if (system(cmd) != 0) {
-      lf_print_error_and_exit("Failed to launch federate__%s", self->fed_instance_name);
-    }
-  =}
-}
-
-/**
  * Transient federate that forwards inputs from `Up` to `Down`.
- * After two inputs it leaves the federation by calling `lf_stop()`.
+ * After four inputs it leaves the federation by calling `lf_stop()`.
  */
 reactor Middle {
   input in: int
@@ -61,14 +39,14 @@ reactor Middle {
     self->count++;
     lf_print("Middle forwarding %d (count %d)", in->value, self->count);
     lf_set(out, in->value);
-    if (self->count == 2) {
+    if (self->count == 4) {
       lf_stop();
     }
   =}
 }
 
 /** Persistent downstream federate. Continues even while Middle is absent. */
-reactor Down(period: time = 500 ms) {
+reactor Down(period: time = 2 s) {
   timer t(0, period)
   input in: int
   input join: int
@@ -88,7 +66,6 @@ reactor Down(period: time = 500 ms) {
 }
 
 federated reactor {
-  midExec = new TransientExec(launch_time = 1 s, fed_instance_name = "mid")
   up = new Up()
   down = new Down()
 
