@@ -1,0 +1,10 @@
+target C
+
+reactor Double {
+  input x: int
+  output y: int
+
+  reaction(x) -> y {=
+    lf_set(y, x->value * 2);
+  =}
+}

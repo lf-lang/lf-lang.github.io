@@ -1,0 +1,30 @@
+target uC
+
+@platform("Native")
+@keepalive(true)
+main reactor {
+  preamble {=
+    #include <unistd.h>
+    // Schedule an event roughly every 200 msec.
+
+    void* external(void* ptr) {
+      Action* physical_action = (Action*)ptr;
+      while (true) {
+        usleep(200000);
+        lf_schedule(physical_action, SEC(0), 0);
+      }
+    }
+  =}
+  
+  state thread: pthread_t
+  physical action a(100 msec): int
+
+  reaction(startup) -> a {=
+    pthread_create(&self->thread, NULL, &external, a);
+  =}
+
+  reaction(a) {=
+    interval_t elapsed_time = env->get_elapsed_logical_time(env);
+    printf("Action triggered at logical time %lld nsec after start.\n", elapsed_time);
+  =}
+}

@@ -1,0 +1,8 @@
+target uC
+
+@platform("Native")
+main reactor {
+  reaction(startup) {=
+    printf("Hello World.\n");
+  =}
+}

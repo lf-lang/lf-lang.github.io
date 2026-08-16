@@ -1,0 +1,15 @@
+target uC
+
+@platform("Native")
+main reactor TimeLag {
+  timer t(0, 1 s)
+
+  reaction(t) {=
+    interval_t tt = env->get_elapsed_logical_time(env);
+    interval_t T = env->get_elapsed_physical_time(env);
+    printf(
+        "Elapsed logical time: %lld, physical time: %lld, lag: %lld\n",
+        tt, T, T-tt
+    );
+  =}
+}

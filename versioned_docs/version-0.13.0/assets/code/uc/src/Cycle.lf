@@ -1,0 +1,25 @@
+target uC;
+reactor A {
+  input x:int;
+  output y:int;
+  reaction(x) -> y {=
+    // ... something here ...
+  =}
+}
+reactor B {
+  input x:int;
+  output y:int;
+  reaction(x) {=
+    // ... something here ...
+  =}
+  reaction(startup) -> y {=
+    // ... something here ...
+  =}
+}
+@platform("Native")
+main reactor {
+  a = new A();
+  b = new B();
+  a.y -> b.x;
+  b.y -> a.x;
+}

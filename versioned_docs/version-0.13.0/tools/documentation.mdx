@@ -1,0 +1,44 @@
+---
+title: Documentation Tools
+description: Tools supporting the documentation of Lingua Franca code.
+---
+
+## Code Highlighting with Pygments
+
+[Pygments](https://pygments.org/) is a Python library for highlight code snippets in various languages. There is a [plugin](https://github.com/lf-lang/lf-pygments-lexer) for LF code highlighting available. This provides a tool for automatically generating beutiful LF code listings in a range of [styles](https://pygments.org/styles/) and in various output formats such as PNG, SVG, and HTML. It also integrates with LaTeX.
+
+### Installation
+
+We recommend to use a virtual environment to install the plugin and all its dependencies.
+There are several tool for managing virtual environments available. For instance:
+```
+virtualenv ~/virtualenvs/lf-lexer -p python3
+source ~/virtualenvs/lf-lexer/bin/activate
+```
+You can also skip this step if you prefer installing the package in your user environment.
+
+To install the plugin, the following commands:
+```
+git clone https://github.com/lf-lang/lf-pygments-lexer.git
+cd lf-pygments-lexer
+pip install.
+```
+
+### Usage
+
+#### Command Line
+
+Pygements provides a CLI tool called `pygmentize`. For example, you can use it to produce an image containing highlighted LF code like so:
+```
+pygmentize path/to/Example.lf -o out.png
+```
+Note that pygments automatically selects the right language. For this it processes both the file extension and the target declaration in it.
+Therefore, auto detection works as long as your file uses the `.lf` suffix and contains a valid target declaration. If auto detection does not work as expected, you can to specify the language using the `-l` flag. For instance to use the Python target of LF, use `-l lf-py`.
+
+See the [pygments documentation](https://pygments.org/docs/cmdline/) for more detailed usage instructions.
+
+#### LaTeX
+
+Most prominently, pygments is used by the [minted](https://ctan.org/pkg/minted?lang=en) LaTeX package to create beautiful code listings with proper code highlighting.
+Using this is as simple as adding `\usepackage{minted}` and then adding `minted` blocks containing the code to be highlighted.
+There is an example document available [here](https://github.com/lf-lang/lf-pygments-lexer/blob/main/example/example.tex).

@@ -1,0 +1,17 @@
+target uC
+
+reactor Destination {
+  input x: int
+  input y: int
+
+  reaction(x, y) {=
+    int sum = 0;
+    if (lf_is_present(x)) {
+      sum += x->value;
+    }
+    if (lf_is_present(y)) {
+      sum += y->value;
+    }
+    printf("Received %d.\n", sum);
+  =}
+}

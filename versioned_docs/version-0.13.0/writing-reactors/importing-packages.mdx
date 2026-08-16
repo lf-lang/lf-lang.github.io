@@ -1,0 +1,128 @@
+---
+title: Importing Packages
+description: Importing reusable reactors from LF packages.
+---
+
+A [package](../glossary/glossary.mdx#package) is a collection of reusable reactor class definitions together with some documentation and/or example programs.
+LF programs can import and instantiate such reactor classes.
+Packages are installed in of three ways:
+
+1. Manually locally by cloning or copying the package into an `lf-packages` directory at the root of your LF project.
+2. Manually globally by cloning the package into a shared directory and pointing the `LF_PACKAGES` environment variable to that directory.
+3. By the [Lingo package manager](https://github.com/lf-lang/lingo) (via `lingo build`), which installs packages into a directory under your project's build directory.
+
+## Package Import Syntax
+
+To import reactors from a package that has been installed in one of the ways described above, use angle brackets to specify the package and library file:
+
+```lf
+import ReactorName from <package>
+```
+or
+
+```lf
+import ReactorName from <package/file.lf>
+```
+
+Here, `package` is the name of the installed package, and `file.lf` is the name of a [library file](../glossary/glossary.mdx#library-file) within that package.
+The compiler resolves this to the file at `package/src/lib/file.lf`
+(or `package/src/lib/file.ulf` for micro-LF).
+As with ordinary imports, you may import multiple reactors from the same file, use aliases, or omit the `as` clause:
+
+```lf
+import Count as Counter from <lf-stdlib>
+import ReactorA, ReactorB as B from <my-package/Utilities.lf>
+```
+
+If the `file.lf` is omitted, the compiler resolves this to the file at `package/src/lib/ReactorName.lf` (or `package/src/lib/ReactorName.ulf` for micro-LF).
+
+In all cases, the `package` may be subpackage, `package/subpackage`, in which case the compiler resolves this to the file at `package/src/lib/subpackage/file.lf` (or `package/src/lib/subpackage/file.ulf` for micro-LF).
+
+This contrasts with importing reactors from another file in the same project, which has the form:
+
+```lf
+import classname as alias from "path"
+```
+
+where `path` points to the another `.lf` file relative to the location of the file containing the `import` statement.
+
+## Standard Packages
+
+Many of the [LF standard packages](https://github.com/lf-lang/pkgs) are installed as submodules in the
+[playground-lingua-franca}()](https://github.com/lf-lang/playground-lingua-franca), so if you deeply clone that
+repository, you can import the standard packages from there.
+For example, to make the standard packages for the C target available globally, you can do the following:
+
+```sh
+git clone https://github.com/lf-lang/playground-lingua-franca.git
+cd playground-lingua-franca
+git submodule update --init --recursive
+export LF_PACKAGES=$PWD/examples/C/lf-packages
+```
+
+## How the Compiler Finds Packages
+
+When resolving `<package/file>`, the compiler searches for a directory named `package` in the following locations, in order:
+
+1. **Lingo build directory:** `root/build/lfc_include/package`.
+   Packages installed by the [Lingo package manager](https://github.com/lf-lang/lingo) (via `lingo build`) are placed here. 
+
+2. **Project-local packages:** `root/lf-packages/package`.
+   You can install a package manually by placing it in an `lf-packages` directory at the root of your LF project.
+
+3. **Global packages directory:** `$LF_PACKAGES/package`.
+   If the `LF_PACKAGES` environment variable is set, the compiler also searches for packages in that directory. This is useful for sharing packages across multiple projects on the same machine.
+
+In each case, `root` is the parent directory of the nearest parent `src` directory that contains the file with the `import` statement. For example, if your program is in `.../my-project/src/Main.lf`, then `root` is `.../my-project`.
+Also in each case, `package` is the name of the package, and `file` is the name of the library file, a `.lf` file.
+
+If the package cannot be found in any of these locations, the compiler reports an error.
+
+## Obtaining Packages
+
+A package can be a git clone of one of the [LF standard packages](https://github.com/lf-lang/pkgs) or any other source, as long as it follows the standard package layout described below. The [Lingo package manager](https://github.com/lf-lang/lingo) can also fetch packages from git repositories and install them into `build/lfc_include` via the `lingo build` command.
+
+To install a package locally without Lingo, clone or copy it into `lf-packages` under your project root:
+
+```bash
+cd my-project
+mkdir -p lf-packages
+git clone https://github.com/example/some-package.git lf-packages/some-package
+```
+
+If your project is a git repository, you can instead add the package as a submodule:
+
+```bash
+git submodule add https://github.com/example/some-package.git lf-packages/some-package
+```
+
+To make a package available globally, clone packages into a shared directory and point `LF_PACKAGES` at it. For example:
+
+```bash
+export LF_PACKAGES=$HOME/lf-modules
+git clone https://github.com/example/some-package.git $LF_PACKAGES/some-package
+```
+
+## VS Code Extension Support for Installed Packages
+
+The [VS Code Extension](../tools/code-extension.mdx#installed-packages) includes a Lingua Franca Package Explorer
+that allows you to browse and search installed packages.
+
+## Package Layout
+
+An LF package is structured as follows:
+
+```
+<packageName>/
+├── README.md           # Package documentation
+└── src/
+    ├── Demo.lf         # Example programs (optional)
+    └── lib/
+        └── Reactors.lf # Library files containing importable reactors
+```
+
+- **`README.md`** — Documents what the package provides and how to use it, and what prerequisites are needed to use it.
+- **`src/lib/`** — Contains [library files](../glossary/glossary.mdx#library-file) with reactors that other programs import. These are the files referenced by `<package/file>` in an import statement.
+- **`src/`** — May contain demo LF programs that illustrate how to use the package. These are ordinary source files, not library files.
+
+A package managed by Lingo may also include a `Lingo.toml` manifest at the package root. See the [glossary entry on project structure](../glossary/glossary.mdx#project-structure) for the full layout of an LF project that uses packages.

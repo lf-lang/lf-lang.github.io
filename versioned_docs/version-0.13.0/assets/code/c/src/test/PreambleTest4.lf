@@ -1,0 +1,18 @@
+/**
+ * This example is included in Preambles.md, but not automatically imported.
+ * Success of the test is compiling and running.
+ */
+target C
+main reactor {
+    preamble {=
+        int add_42(int i) {
+            return i + 42;
+        }
+    =}
+    reaction(startup) {=
+        printf("42 plus 42 is %d.\n", add_42(42));
+    =}
+    reaction(startup) {=
+        printf("42 plus 1 is %d.\n", add_42(1));
+    =}
+}

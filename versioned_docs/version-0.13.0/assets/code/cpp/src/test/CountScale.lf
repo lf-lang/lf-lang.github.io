@@ -1,0 +1,15 @@
+target Cpp {
+    fast: true,
+    timeout: 1s
+};
+import Count from "../Count.lf";
+import Scale from "../Scale.lf";
+import TestCount from "../TestCount.lf";
+
+main reactor {
+    c = new Count();
+    d = new Scale();
+    t = new TestCount(start = 0, stride = 2, num_inputs = 11);
+    c.y -> d.x;
+    d.y -> t.x;
+}

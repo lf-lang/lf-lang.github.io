@@ -1,0 +1,9 @@
+target Python;
+import Physical from "../Physical.lf";
+main reactor {
+    timer t(200 msec, 200 msec);
+    p = new Physical();
+    reaction(t) -> p.x {=
+        p.x.set(0)
+    =}
+}

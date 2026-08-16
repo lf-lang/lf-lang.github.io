@@ -1,0 +1,12 @@
+target Cpp
+
+reactor Double {
+  input x: int
+  output y: int
+
+  reaction(x) -> y {=
+    if (x.is_present()){
+        y.set(*x.get() * 2);
+    }
+  =}
+}

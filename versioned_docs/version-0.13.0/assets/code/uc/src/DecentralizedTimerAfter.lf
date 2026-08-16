@@ -1,0 +1,21 @@
+target uC
+
+import Count, Print from "Federated.lf"
+
+reactor PrintTimer extends Print {
+    timer t(10 ms, 1 sec)
+
+    reaction(t) {=
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("Timer ticked at %lld\n", elapsed);
+    =}
+}
+
+@platform("native")
+@timeout(5sec)
+federated reactor {
+    c = new Count()
+    @maxwait(0)
+    p = new PrintTimer()
+    c.out -> p.in after 10 ms
+}

@@ -1,0 +1,38 @@
+target C {
+    timeout: 5 sec,
+}
+reactor CountPrint(stp_offset:time(5 msec)) {
+    input in:int;
+    output out:int;
+    state c:int(0);
+    timer t(0, 500 msec);
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+    reaction(in) {=
+        lf_print("***** CountPrint Received: %d at time %lld",
+            in->value, lf_time_logical_elapsed()
+        );
+    =}
+}
+reactor PrintCount {
+    input in:int;
+    output out:int;
+    timer t(0, 1 sec);
+    state c:int(0);
+    reaction(in) {=
+        lf_print("***** PrintCount Received: %d at time %lld",
+            in->value, lf_time_logical_elapsed()
+        );
+    =}
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+}
+
+federated reactor {
+    c = new CountPrint();
+    p = new PrintCount();
+    c.out -> p.in;
+    p.out -> c.in;
+}

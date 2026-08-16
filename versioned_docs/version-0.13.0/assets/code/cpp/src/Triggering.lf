@@ -1,0 +1,13 @@
+target Cpp
+reactor Inside {
+  input x: int
+  reaction(x) {=
+    std::cout << "Received " << std::to_string(*x.get()) << std::endl;
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    i.x.set(42);
+  =}
+}

@@ -1,0 +1,13 @@
+target TypeScript
+reactor Inside {
+  input x: number
+  reaction(x) {=
+    console.log("Received ${x}");
+  =}
+}
+main reactor {
+  i = new Inside()
+  reaction(startup) -> i.x {=
+    i.x = 42
+  =}
+}

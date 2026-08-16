@@ -1,0 +1,28 @@
+target uC
+
+import Deadline from "Deadline.lf"
+
+preamble {=
+  // For lf_sleep(), a reactor-c function.
+  #include "reactor-uc/reactor-c.h"
+=}
+
+@platform("Native")
+main reactor {
+  logical action a
+  d = new Deadline()
+
+  reaction(startup) -> d.x, a {=
+    lf_set(d.x, 0);
+    lf_schedule(a, 0);
+  =}
+
+  reaction(a) -> d.x {=
+    lf_set(d.x, 0);
+    lf_sleep(MSEC(20));
+  =}
+
+  reaction(d.d) {=
+    printf("Deadline reactor produced an output.\n");
+  =}
+}

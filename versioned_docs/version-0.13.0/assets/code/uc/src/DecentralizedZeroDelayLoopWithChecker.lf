@@ -1,0 +1,25 @@
+target uC
+
+import CountPrint, Double from "DecentralizedZeroDelayLoop.lf"
+
+reactor CountPrintWithChecker extends CountPrint {
+
+    reaction(t, in) {=
+        if (!lf_is_present(in)) {
+            instant_t elapsed = env->get_elapsed_logical_time(env);
+            printf("CountPrint Failed to Receive response at time %lld\n", elapsed);
+        }
+    =} tardy {=
+        printf("CountPrint Received tardy input: %d\n", in->value);
+    =}
+}
+
+@platform("native")
+@timeout(3sec)
+federated reactor {
+    c = new CountPrintWithChecker()
+    p = new Double()
+    c.out -> p.in
+    @absent_after(20 ms)
+    p.out -> c.in
+}

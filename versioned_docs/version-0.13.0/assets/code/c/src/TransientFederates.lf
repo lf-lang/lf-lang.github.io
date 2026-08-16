@@ -1,0 +1,78 @@
+target C
+
+preamble {=
+  #include <stdlib.h>
+  #include <stdio.h>
+=}
+
+/** Persistent upstream federate. Sends 0, 1, 2, ... every 2 seconds. */
+reactor Up(period: time = 2 s) {
+  output out: int
+  timer t(0, period)
+  state count: int = 0
+
+  reaction(t) -> out {=
+    lf_set(out, self->count);
+    lf_print("Up sending %d", self->count);
+    self->count++;
+  =}
+}
+
+/**
+ * Transient federate that forwards inputs from `Up` to `Down`.
+ * After four inputs it leaves the federation by calling `lf_stop()`.
+ */
+reactor Middle {
+  input in: int
+  output out: int
+  output join: int
+  state count: int = 0
+
+  reaction(startup) -> join {=
+    tag_t t = lf_tag_start_effective();
+    lf_print("Middle joined at effective start tag (" PRINTF_TIME ", %u)",
+        t.time - lf_time_start(), t.microstep);
+    lf_set(join, 0);
+  =}
+
+  reaction(in) -> out {=
+    self->count++;
+    lf_print("Middle forwarding %d (count %d)", in->value, self->count);
+    lf_set(out, in->value);
+    if (self->count == 4) {
+      lf_stop();
+    }
+  =}
+}
+
+/** Persistent downstream federate. Continues even while Middle is absent. */
+reactor Down(period: time = 2 s) {
+  timer t(0, period)
+  input in: int
+  input join: int
+
+  reaction(t) {=
+    lf_print("Down timer at (" PRINTF_TIME ", %u)",
+        lf_time_logical_elapsed(), lf_tag().microstep);
+  =}
+
+  reaction(join) {=
+    lf_print("Down observed Middle join");
+  =}
+
+  reaction(in) {=
+    lf_print("Down received %d from Middle", in->value);
+  =}
+}
+
+federated reactor {
+  up = new Up()
+  down = new Down()
+
+  @transient
+  mid = new Middle()
+
+  up.out -> mid.in
+  mid.join -> down.join
+  mid.out -> down.in
+}

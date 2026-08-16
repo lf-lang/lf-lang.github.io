@@ -1,0 +1,12 @@
+target uC
+import Schedule from "../Schedule.lf"
+import Count from "../Count.lf"
+
+@platform("Native")
+@timeout(1 sec)
+@fast(true)
+main reactor {
+    c = new Count()
+    d = new Schedule()
+    c.y -> d.x;
+}

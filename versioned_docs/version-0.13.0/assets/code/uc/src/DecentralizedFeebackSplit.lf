@@ -1,0 +1,51 @@
+target uC
+
+reactor Count {
+    output out: int;
+    state c: int = 0;
+    timer t(0, 500 msec);
+
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+}
+
+reactor Print {
+    input in: int;
+
+    reaction(in) {=
+        instant_t elapsed = env->get_elapsed_logical_time(env);
+        printf("Print Received: %d at time %lld\n", in->value, elapsed);
+    =} tardy {=
+        printf("Warning: Late message received!\n");
+    =}
+}
+
+reactor PrintCount {
+    input in: int;
+    output out: int;
+    timer t(0, 999 msec);
+    state c: int = 0;
+
+    reaction(in) {=
+        printf("PrintCount Received: %d\n", in->value);
+    =} tardy {=
+        printf("Warning: Late message received!\n");
+    =}
+
+    reaction(t) -> out {=
+        lf_set(out, self->c++);
+    =}
+}
+
+@platform("native")
+@timeout(5sec)
+federated reactor {
+    c = new Count();
+    @maxwait(10 ms)
+    pr = new Print();
+    @maxwait(10 ms)
+    p = new PrintCount();
+    c.out -> p.in;
+    p.out -> pr.in;
+}

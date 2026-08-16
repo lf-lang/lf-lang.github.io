@@ -1,0 +1,38 @@
+ // Check bank of reactors sending to bank of reactors.
+target Cpp {
+    timeout: 2s,
+    fast: true,
+};
+
+import MultiportSource from "../MultiportSource.lf";
+
+reactor Destination(
+    bank_index:int(0)
+) {
+    state s:int(0);
+    input in:int;
+
+    reaction(in) {=
+        auto value = *in.get();
+        std::cout << "Destination " << bank_index << " received: " << value << std::endl;
+        if (value != s) {
+            std::cerr << "ERROR: Expected " << s << std::endl;
+            std::exit(1);
+        }
+        s += bank_index;
+    =}
+
+    reaction(shutdown) {=
+        if (s == 0 && bank_index != 0) {
+            std::cerr << "ERROR: Destination " << bank_index << " received no input!" << std::endl;
+            exit(1);
+        }
+        std::cout << "Success" << std::endl;
+    =}
+}
+
+main reactor(width:int(4)) { 
+    a = new[width] MultiportSource();
+    b = new[width] Destination();
+    a.out -> b.in;
+}

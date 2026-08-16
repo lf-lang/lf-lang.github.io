@@ -1,0 +1,29 @@
+target Python
+
+reactor Count {
+  output out
+  state c = 0
+  timer t(0, 1 sec)
+
+  reaction(t) -> out {=
+    out.set(self.c)
+    self.c += 1
+  =}
+}
+
+reactor Print {
+  input inp
+
+  reaction(inp) {=
+    print(
+        f"Received: {inp.value} "
+        f"at ({lf.time.logical_elapsed()}, {lf.tag().microstep})"
+    )
+  =}
+}
+
+federated reactor {
+  c = new Count()
+  p = new Print()
+  c.out -> p.inp
+}

@@ -1,0 +1,290 @@
+---
+title: Polyglot Federations
+description: Federated execution with federates written in different target languages.
+---
+
+import {
+  LanguageSelector,
+  ShowOnly,
+} from '@site/src/components/LinguaFrancaMultiTargetUtils';
+
+<LanguageSelector c py />
+
+A [federated](./distributed-execution.mdx) Lingua Franca program normally has all of its federates written in the same target language. The **Polyglot** target relaxes this restriction: it is a *meta-target* for federations whose federates are implemented in more than one language. Currently, the Polyglot target supports federations that mix **C** and **Python** federates.
+
+:::note
+
+The Polyglot target is preliminary. It currently supports only `C` and `Python` federates (a `CCpp` federate is treated as `C`). The main reactor must be a `federated reactor`, and the federation is coordinated by the same RTI used by single-language federations. All of the concepts described in [Distributed Execution](./distributed-execution.mdx) — the RTI, coordinated start and shutdown, centralized and decentralized coordination, clock synchronization, and security — apply to Polyglot federations as well.
+
+:::
+
+The selector above chooses which language the examples on this page use for the *sending* federate; the other federate uses the complementary language.
+
+## Declaring a Polyglot Federation
+
+A Polyglot program declares `Polyglot` as its target and uses a `federated reactor` as the main reactor. Each top-level reactor (each federate) declares its implementation language with a `@language(C)` or `@language(Python)` annotation:
+
+```lf
+target Polyglot {
+  protobufs: [ProtoHelloWorld.proto],
+  timeout: 2 sec
+}
+
+@language(C)
+reactor Sender {
+  output out: ProtoHelloWorld*
+  // ... C reaction code ...
+}
+
+@language(Python)
+reactor Receiver {
+  input inp
+  // ... Python reaction code ...
+}
+
+federated reactor {
+  sender = new Sender()
+  receiver = new Receiver()
+
+  sender.out -> receiver.inp after 100 msec serializer "proto"
+}
+```
+
+The target block holds the properties that are shared by the whole federation. The Polyglot target accepts the federation-level subset of properties common to the C and Python targets, including `auth`, `clock-sync`, `clock-sync-options`, `coordination`, `coordination-options`, `docker`, `files`, `keepalive`, `protobufs`, and `single-threaded`.
+
+When you run `lfc` on a Polyglot program, the compiler resolves each federate's actual target language (C or Python), generates an independent program for each federate using that language's code generator, and synthesizes the communication and RTI just as it does for a single-language federation. The generated programs and launch script (`bin/<Name>`) are produced exactly as described in [Distributed Execution](./distributed-execution.mdx#minimal-example).
+
+## Specifying the Language of Each Federate
+
+Every top-level reactor instantiated in the `federated reactor` must have a determinable target language. There are two ways to specify it.
+
+### Using the `@language` annotation
+
+Place an `@language(C)` or `@language(Python)` annotation on the reactor *definition* (not on the instantiation, and not on the `federated reactor` itself). The body of each reactor — its port types, state variables, and reaction code — is then written in that reactor's target language:
+
+```lf
+@language(C)
+reactor Sender {
+  output out: ProtoHelloWorld*
+
+  state count: int = 0
+
+  timer t(0, 1 sec)
+
+  reaction(t) -> out {=
+    self->count++;
+    ProtoHelloWorld* msg = (ProtoHelloWorld*)malloc(sizeof(ProtoHelloWorld));
+    proto_hello_world__init(msg);
+    msg->name = "Hello World";
+    msg->number = self->count;
+    lf_set(out, msg);
+  =}
+}
+
+@language(Python)
+reactor Receiver {
+  input inp
+
+  state count = 0
+
+  reaction(inp) {=
+    print(f"Received: name=\"{inp.value.name}\", number={inp.value.number}.")
+    self.count += 1
+  =}
+}
+```
+
+The only supported values are `C` and `Python`. The `@language` annotation is only meaningful in a Polyglot program; using it with any other target is an error.
+
+### Inferring the language from an imported file
+
+Alternatively, a federate's language can be inferred from the target declared in the file it is imported from. If a reactor has no `@language` annotation but is imported from a file that declares `target C` (or `target CCpp`) or `target Python`, the compiler uses that file's target as the federate's language.
+
+This lets you keep reusable, single-language reactor libraries and combine them in a Polyglot federation. For example, a C library file:
+
+```lf
+// CProtoSenderReceiver.lf
+target C
+
+reactor CSender {
+  output out: ProtoHelloWorld*
+  // ... C reaction code ...
+}
+
+reactor CReceiver {
+  input in: ProtoHelloWorld*
+  // ... C reaction code ...
+}
+```
+
+and a Python library file:
+
+```lf
+// PythonProtoSenderReceiver.lf
+target Python
+
+reactor PythonSender {
+  output out
+  // ... Python reaction code ...
+}
+
+reactor PythonReceiver {
+  input inp
+  // ... Python reaction code ...
+}
+```
+
+can be combined in a Polyglot federation by importing them; no `@language` annotations are needed because the language is inferred from each imported file's target:
+
+```lf
+target Polyglot {
+  protobufs: [ProtoHelloWorld.proto],
+  timeout: 2 sec
+}
+
+import CSender from "../lib/CProtoSenderReceiver.lf"
+import PythonReceiver from "../lib/PythonProtoSenderReceiver.lf"
+
+federated reactor {
+  sender = new CSender()
+  receiver = new PythonReceiver()
+
+  sender.out -> receiver.inp after 100 msec serializer "proto"
+}
+```
+
+## Language Rules
+
+The compiler enforces the following rules for Polyglot programs:
+
+- The main reactor must be a `federated reactor`.
+- Every top-level federate must have a determinable language, either from an `@language(C)`/`@language(Python)` annotation on its reactor definition or by being imported from a file with target C or Python. Otherwise, the compiler reports an error.
+- The `@language` annotation may not be placed on the `federated reactor` itself.
+- A federate is compiled entirely in a single language. If a reactor instantiates other (nested) reactors, the nested reactors must use the same language as the enclosing reactor; mixing languages within a single federate is not allowed.
+- File-level type checking is skipped for the Polyglot file itself. Each federate is type-checked during its per-language compilation, so port types and reaction code are validated against the federate's actual target (C or Python).
+
+## Communicating Across Languages
+
+Because a connection in a Polyglot federation can cross a language boundary (for example, from a C federate to a Python federate), the data sent over that connection must be encoded in a form both languages understand. This is done with a **serializer** on the connection. The examples on this page use Protocol Buffers:
+
+```lf
+  sender.out -> receiver.inp after 100 msec serializer "proto"
+```
+
+With the `"proto"` serializer, the message type is defined in a `.proto` file listed in the `protobufs` target property. The sending federate serializes the message to bytes and the receiving federate deserializes it back into a native object of its own language. The serialization and deserialization are inserted by the generated infrastructure, so your reaction code works with native objects: a C `struct` (e.g. `in->value->name`) on the C side and a Python object (e.g. `inp.value.name`) on the Python side.
+
+:::note[Prerequisites for the protobuf examples]
+
+To build and run the protobuf-based Polyglot examples, install `protoc`, `protoc-c`, `libprotobuf-c`, and the Python `protobuf` package (`pip install protobuf`).
+
+:::
+
+## A Complete Example
+
+The following complete program sends a `ProtoHelloWorld` message between two federates written in different languages. Use the selector at the top of the page to switch which language sends.
+
+<ShowOnly c>
+Here the **C** federate is the sender and the **Python** federate is the receiver. The C reaction allocates and initializes a `ProtoHelloWorld` message and sets it on the output port; the generated infrastructure serializes it and the Python receiver deserializes it into a native Python object.
+
+```lf
+target Polyglot {
+  protobufs: [ProtoHelloWorld.proto],
+  timeout: 2 sec
+}
+
+@language(C)
+reactor Sender {
+  output out: ProtoHelloWorld*
+
+  state count: int = 0
+
+  timer t(0, 1 sec)
+
+  reaction(t) -> out {=
+    self->count++;
+    ProtoHelloWorld* msg = (ProtoHelloWorld*)malloc(sizeof(ProtoHelloWorld));
+    proto_hello_world__init(msg);
+    msg->name = "Hello World";
+    msg->number = self->count;
+    lf_set(out, msg);
+  =}
+}
+
+@language(Python)
+reactor Receiver {
+  input inp
+
+  state count = 0
+
+  reaction(inp) {=
+    print(f"Received: name=\"{inp.value.name}\", number={inp.value.number}.")
+    if inp.value.number != self.count + 1:
+      sys.stderr.write("Expected number " + str(self.count + 1) + ".\n")
+    self.count += 1
+  =}
+}
+
+federated reactor {
+  sender = new Sender()
+  receiver = new Receiver()
+
+  sender.out -> receiver.inp after 100 msec serializer "proto"
+}
+```
+</ShowOnly>
+
+<ShowOnly py>
+Here the **Python** federate is the sender and the **C** federate is the receiver. The Python reaction constructs a `ProtoHelloWorld` object and sets it on the output port; the generated infrastructure serializes it and the C receiver deserializes it into a native C struct.
+
+```lf
+target Polyglot {
+  protobufs: [ProtoHelloWorld.proto],
+  timeout: 2 sec
+}
+
+@language(Python)
+reactor Sender {
+  output out
+
+  state count = 0
+
+  timer t(0, 1 sec)
+
+  reaction(t) -> out {=
+    self.count += 1
+    protoHelloWorld = ProtoHelloWorld.ProtoHelloWorld()
+    protoHelloWorld.name = "Hello World"
+    protoHelloWorld.number = self.count
+    out.set(protoHelloWorld)
+  =}
+}
+
+@language(C)
+reactor Receiver {
+  input in: ProtoHelloWorld*
+
+  state count: int = 0
+
+  reaction(in) {=
+    lf_print(
+      "Received: name=\"%s\", number=%d.",
+      in->value->name,
+      in->value->number
+    );
+    if (in->value->number != self->count + 1) {
+      lf_print_error_and_exit("Expected number %d.", self->count + 1);
+    }
+    self->count++;
+  =}
+}
+
+federated reactor {
+  sender = new Sender()
+  receiver = new Receiver()
+
+  sender.out -> receiver.in after 100 msec serializer "proto"
+}
+```
+</ShowOnly>
+
+Building and running a Polyglot federation works the same way as any other federation: run `lfc` on the `.lf` file and then execute the generated launch script. See [Distributed Execution](./distributed-execution.mdx) for details on running federations, federation IDs, coordination modes, clock synchronization, and security.

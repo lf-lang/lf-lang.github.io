@@ -1,0 +1,18 @@
+/**
+ * This example is included in Preambles.md, but not automatically imported.
+ * Success of the test is compiling and running.
+ */
+target C
+import Cos from "../lib/Cos.lf"
+preamble {=
+    #include <math.h>
+=}
+reactor Sin {
+    reaction(startup) {=
+        printf("The sine of 1 is %f.\n", sin(1));
+    =}
+}
+main reactor {
+    c = new Cos()
+    s = new Sin()
+}

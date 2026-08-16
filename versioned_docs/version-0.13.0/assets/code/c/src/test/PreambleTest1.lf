@@ -1,0 +1,13 @@
+/**
+ * This example is included in Preambles.md, but not automatically imported.
+ * Success of the test is compiling and running.
+ */
+target C
+main reactor {
+    preamble {=
+        #include <math.h>
+    =}
+    reaction(startup) {=
+        printf("The cosine of 1 is %f.\n", cos(1));
+    =}
+}
