@@ -222,7 +222,7 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
-          "id": "developer/developer-eclipse-setup-with-oomph"
+          "id": "developer/documentation"
         },
         {
           "type": "doc",
