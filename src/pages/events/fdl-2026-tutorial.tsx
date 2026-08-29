@@ -16,24 +16,24 @@ interface ScheduleItem {
 const scheduleItems: ScheduleItem[] = [
   {
     session: "Introduction to Lingua Franca",
-    duration: "20 minutes",
-    time: "2:00 PM – 2:20 PM",
+    duration: "15 minutes",
+    time: "2:00 PM – 2:15 PM",
     description:
       "Introduction to the challenges of building time-sensitive systems and motivation for Lingua Franca. Overview of the reactor-oriented programming model and key language concepts (reactors, ports, timers, logical time, deterministic concurrency).",
     leads: "Instructor",
   },
   {
     session: "Setup and Hello World",
-    duration: "15 minutes",
-    time: "2:20 PM – 2:35 PM",
+    duration: "10 minutes",
+    time: "2:15 PM – 2:25 PM",
     description:
       "Verify your Lingua Franca toolchain with the readiness checklist, choose your language path (C or Python), and compile and run your first reactor program.",
     leads: "Instructor & Teaching Assistant",
   },
   {
     session: "Hands-on Labs",
-    duration: "75 minutes",
-    time: "2:35 PM – 3:50 PM",
+    duration: "90 minutes",
+    time: "2:25 PM – 3:55 PM",
     description: (
       <>
         Work through the eight short labs of the{" "}
@@ -50,8 +50,8 @@ const scheduleItems: ScheduleItem[] = [
   },
   {
     session: "Wrap-Up and Q&A",
-    duration: "10 minutes",
-    time: "3:50 PM – 4:00 PM",
+    duration: "5 minutes",
+    time: "3:55 PM – 4:00 PM",
     description:
       "Summary of key takeaways, pointers to advanced LF capabilities, project roadmap, and community involvement opportunities.",
     leads: "Instructor",
@@ -61,7 +61,6 @@ const scheduleItems: ScheduleItem[] = [
 interface Lab {
   number: number;
   theme: string;
-  time: string;
   concepts: string;
 }
 
@@ -69,49 +68,41 @@ const labs: Lab[] = [
   {
     number: 1,
     theme: "Ready, set, react",
-    time: "10 min",
     concepts: "Toolchain, reactors, timers, reactions, diagrams",
   },
   {
     number: 2,
     theme: "Building a reactor pipeline",
-    time: "12 min",
     concepts: "Ports, connections, parameters, state",
   },
   {
     number: 3,
     theme: "Tags, delays, and lag",
-    time: "12 min",
     concepts: "Logical vs. physical time, microsteps, actions",
   },
   {
     number: 4,
     theme: "Predictable ordering",
-    time: "12 min",
     concepts: "Determinism, reaction order, causality loops",
   },
   {
     number: 5,
     theme: "Reacting to the outside world",
-    time: "12 min",
     concepts: "Physical actions, threads, preambles",
   },
   {
     number: 6,
     theme: "Changing behavior with modes",
-    time: "14 min",
     concepts: "Modal reactors, reset and history transitions",
   },
   {
     number: 7,
     theme: "Useful work under a time budget",
-    time: "16 min",
     concepts: "Deadlines, handlers, anytime computation",
   },
   {
     number: 8,
     theme: "One model, multiple processes",
-    time: "17 min",
     concepts: "Federated execution, the RTI",
   },
 ];
@@ -438,16 +429,15 @@ export default function FDL2026Tutorial() {
                   tutorial repository
                 </Link>{" "}
                 point at both the C and Python versions of every lab. Total
-                guided time is about 105 minutes, leaving room in a two-hour
+                guided time is about 80-100 minutes, leaving room in a two-hour
                 session for setup and questions.
               </p>
-              <div style={{ overflowX: "auto" }}>
+              <div style={{ overflowX: "auto", display: "flex", justifyContent: "center" }}>
                 <table>
                   <thead>
                     <tr>
                       <th>Lab</th>
                       <th>Theme</th>
-                      <th>Time</th>
                       <th>Main concepts</th>
                     </tr>
                   </thead>
@@ -456,7 +446,6 @@ export default function FDL2026Tutorial() {
                       <tr key={lab.number}>
                         <td>{lab.number}</td>
                         <td>{lab.theme}</td>
-                        <td>{lab.time}</td>
                         <td>{lab.concepts}</td>
                       </tr>
                     ))}
