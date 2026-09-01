@@ -234,6 +234,24 @@ export default function FDL2026Tutorial() {
                     </div>
                   </div>
                 </div>
+                <div className="col col--6">
+                  <div className={clsx("card", styles.quickLinkCard)}>
+                    <div className="card__body">
+                      <span className={styles.quickLinkIcon}>📦</span>
+                      <Heading as="h3">Ready-to-run VMs</Heading>
+                      <p>
+                        Download preconfigured VirtualBox and UTM images for
+                        Windows and Mac users.
+                      </p>
+                      <Link
+                        className="button button--primary button--sm"
+                        href="https://drive.google.com/drive/folders/14Qfywqq8xSTUQFRDE0yKCZQH_-MEAPYa?usp=sharing"
+                      >
+                        Download Virtual Machines
+                      </Link>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -572,11 +590,14 @@ export default function FDL2026Tutorial() {
                       following the installation guide above.
                     </li>
                     <li>
-                      <strong>Instructor-provided VM:</strong> An Ubuntu VM
-                      image with LF v0.13.0, VS Code, the LF extension, and both
-                      target toolchains preinstalled (ask the instructor for the
-                      download link). Open it with UTM on macOS or VirtualBox on
-                      Windows.
+                      <strong>Pre-configured VMs:</strong>{" "}
+                      <Link href="https://drive.google.com/drive/folders/14Qfywqq8xSTUQFRDE0yKCZQH_-MEAPYa?usp=sharing">
+                        Download the tutorial virtual machines
+                      </Link>{" "}
+                      with LF v0.13.0, VS Code, the LF extension, and both
+                      target toolchains preinstalled. We provide one VirtualBox
+                      VM for Windows users on Intel/AMD platforms and one UTM VM
+                      for macOS users on ARM architecture.
                     </li>
                   </ul>
 
