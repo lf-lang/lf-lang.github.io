@@ -11,13 +11,13 @@ import {
 
 <LanguageSelector c uc cpp py rs ts />
 
-Lingua Franca includes a notion of a **deadline**, which is a constraint on the relation between logical time and physical time. Specifically, a program may specify that the invocation of a reaction must occur within some _physical_ time interval of the _logical_ time of the message. If a reaction is invoked at logical time 12 noon, for example, and the reaction has a deadline of one hour, then the reaction is required to be invoked before the physical-time clock of the execution platform reaches 1 PM. If the deadline is violated, then the specified deadline handler is invoked instead of the reaction.
+Lingua Franca includes a notion of a **deadline**, which is a constraint on the relation between logical time and physical time. Specifically, a program may specify that the invocation of a reaction must occur within some _physical_ time interval of the _logical_ time of the message. If a reaction is invoked at logical time 12 noon, for example, and the reaction has a deadline of one hour, then the reaction is required to be invoked before the physical-time clock of the execution platform reaches 1 PM. If the deadline is violated and a deadline handler is provided, then that handler is invoked instead of the reaction. If no handler body is provided, the regular reaction body is still executed; the deadline continues to guide scheduling priority.
 
 ## Purposes for Deadlines
 
 A deadline in an LF program serves two purposes. First, it can guide scheduling in that a scheduler may prioritize reactions with deadlines over those without or those with longer deadlines. For this purpose, if a reaction has a deadline, then all upstream reactions on which it depends (without logical delay) inherit its deadline. Hence, those upstream reactions will also be given higher priority.
 
-Second, the deadline mechanism provides a **fault handler**, a section of code to invoke when the deadline requirement is violated. Because invocation of the fault handler depends on factors beyond the control of the LF program, an LF program with deadlines becomes **nondeterministic**. The behavior of the program depends on the exact timing of the execution.
+Second, the deadline mechanism can provide a **fault handler**, a section of code to invoke when the deadline requirement is violated. Because invocation of the fault handler depends on factors beyond the control of the LF program, an LF program with deadlines becomes **nondeterministic**. The behavior of the program depends on the exact timing of the execution.
 
 There remains the question of when the fault handler should be invoked. By default, deadlines in LF are **lazy**, meaning that the fault handler is invoked at the logical time of the event triggering the reaction whose deadline is missed. Specifically, the possible violation of a deadline is not checked until the reaction with the deadline is ready to execute. Only then is the determination made whether to invoke the regular reaction or the fault handler.
 
@@ -78,6 +78,17 @@ But this is exactly what we are trying to accomplish here in order to force a de
 
 </ShowOnly>
 
+## Deadline Without a Handler Body
+
+Sometimes you want a deadline only for its effect on scheduling priority, without providing a separate fault handler. In that case, you can omit the handler body, analogous to a [blank `tardy` handler](./distributed-execution.mdx#tardy-message-handling):
+
+```lf
+reaction(x) {=
+    // User code
+=} deadline(10 msec)
+```
+
+If the deadline is violated, the regular reaction body is executed anyway. This is different from providing an empty handler body such as `deadline(10 msec) {= =}`, which still replaces the regular reaction with an empty handler when the deadline is missed.
 
 ## Deadline Violations During Execution
 
