@@ -8,6 +8,24 @@ export const copypastaPublications: ReactNode = (
   <ul>
     <li>
       <p>
+        <strong>TCRS '26</strong>: Sebastiano Gaiardelli, Philipp H. Kindt, Samarjit Chakraborty.
+        "<Link href="https://doi.org/10.1109/LES.2026.3728232.3729918">Budget-Conditioned BLE Communication for Federated Reactors</Link>." To appear, IEEE Embedd. Syst. Letters, 2026.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>TCRS '26</strong>: Chadlia Jerad, Edward A. Lee.
+        "<Link href="https://doi.org/10.1109/LES.2026.3729918">Decentralized Coordination in LF: Timing Correctness and Transient Federate Support</Link>." To appear, IEEE Embedd. Syst. Letters, 2026.
+      </p>
+    </li>
+    <li>
+      <p>
+        <strong>TCRS '26</strong>: Edward A. Lee, Shulu Li.
+        "<Link href="https://doi.org/10.1109/LES.2026.3726683">Replacing Quorums with Time for Fault-Tolerant Distributed Systems</Link>." To appear, IEEE Embedd. Syst. Letters, 2026.
+      </p>
+    </li>
+    <li>
+      <p>
         <strong>arXiv '26</strong>: Francesco Paladino, Shulu Li, Edward A. Lee.
         "<Link href="https://arxiv.org/abs/2601.21146">Maxwait: A Generalized Mechanism for Distributed Time-Sensitive Systems</Link>."
         arXiv:2601.21146 [cs.DC] 29 Jan 2026.
