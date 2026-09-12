@@ -391,7 +391,7 @@ Shaokai Lin, Marten Lohstroh, Anirudh Rengarajan.
       <p>
         <strong>FDL '20:</strong> Marten Lohstroh, Christian Menard, Alexander
         Schulz-Rosengarten, Matthew Weber, Jeronimo Castrillon, Edward A. Lee, "
-        <Link href="https://people.eecs.berkeley.edu/~marten/pdf/Lohstroh_etAl_FDL20.pdf">
+        <Link href="https://ieeexplore.ieee.org/abstract/document/9232939">
           A Language for Deterministic Coordination Across Multiple Timelines
         </Link>," in Forum on Design Languages (FDL), Kiel, Germany, September, 2020.
       </p>
