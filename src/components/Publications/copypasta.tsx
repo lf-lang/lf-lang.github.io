@@ -9,7 +9,9 @@ export const copypastaPublications: ReactNode = (
     <li>
       <p>
         <strong>TCRS '26</strong>: Ehsan Khodadad, Luca Pezzarossa, and Martin Schoeberl.
-        "<Link href="https://doi.org/10.1109/LES.2026.3731924>Lingua Franca on the Patmos Processor</Link>." To appear, IEEE Embedd. Syst. Letters, 2026.
+        "<Link href="https://doi.org/10.1109/LES.2026.3731924">
+          Lingua Franca on the Patmos Processor
+        </Link>." To appear, IEEE Embedd. Syst. Letters, 2026.
       </p>
     </li>
     <li>
