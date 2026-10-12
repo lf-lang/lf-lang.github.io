@@ -131,6 +131,8 @@ Worker threads added this way persist until the program terminates, and the numb
 
 ## Caveats
 
+**Reaction order.** When a reaction resumes at a new tag, it will be mutually exclusive with other reactions of the same reactor executing at the same tag, but the order in which they execute is not guaranteed. The resuming reaction will be assured of executing after the reaction that awakened it with `lf_async_resume` or `lf_await_resume`, but not necessarily before or after other reactions executing at the same tag. It is recommended, therefore, that a reaction using `lf_async` or `lf_await` be the last reaction in its reactor, in which case, normal reaction order is ensured. If more than one reaction uses `lf_async` or `lf_await`, the order in which they resume is nondeterministic, so care is needed when updating state variables or overwriting outputs.
+
 **State variables.** Other reactions of the same reactor may execute while a reaction is suspended, and they may modify state variables. Do not assume that a state variable has the same value after `lf_async` or `lf_await` returns that it had before. Local variables, on the other hand, are preserved.
 
 **Re-triggering.** A suspended reaction still counts as executing. If one of its triggers fires at an intervening tag, that triggering is dropped. In `AwaitLET`, the timer period of 200 ms is longer than the 100 ms round trip, so no timer events are lost. Had the period been shorter than the round trip, the intervening timer events would have been ignored.
