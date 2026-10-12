@@ -1,0 +1,64 @@
+target C {
+  keepalive: true
+}
+
+reactor UserInput {
+  preamble {=
+    #include <stdio.h>
+    #include <stdlib.h>
+
+    // Read a line from stdin into dynamically allocated memory, dropping the
+    // trailing newline. The caller must free the result. Returns 0 on EOF or error.
+    size_t read_string(char** result) {
+      char* buffer = NULL;
+      size_t capacity = 0;
+      ssize_t nread = getline(&buffer, &capacity, stdin);
+      if (nread < 0) {
+        free(buffer);
+        return 0;
+      }
+      if (nread > 0 && buffer[nread - 1] == '\n') {
+        buffer[nread - 1] = '\0';
+      }
+      *result = buffer;
+      return nread;
+    }
+  =}
+  timer t(0, 5 s)
+  output out: char*
+  state count: int
+  physical action awake
+
+  // This reaction must precede the reaction that calls lf_async on the physical action.
+  // It causes that reaction to resume at the logical time of the physical action.
+  reaction(awake) {=
+    lf_async_resume(awake);
+  =}
+
+  reaction(startup) -> out, awake {=
+    while (true) {
+      char* line = NULL;
+      int nread = lf_async(awake, read_string, &line);
+      if (nread == 0) {
+        lf_request_stop();
+        break;
+      }
+      // The logical time is now the physical time at which the line was read.
+      lf_set(out, line);
+    }
+  =}
+
+  reaction(t) -> out {=
+    char* prompt = NULL;
+    asprintf(&prompt, "%d: Waiting for input...", self->count++);
+    lf_set(out, prompt);
+  =}
+}
+
+main reactor {
+  user_input = new UserInput()
+
+  reaction(user_input.out) {=
+    lf_print("At logical time " PRINTF_TIME ", Line: %s", lf_time_logical_elapsed(), user_input.out->value);
+  =}
+}
