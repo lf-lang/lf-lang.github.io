@@ -1,0 +1,40 @@
+target C {
+  timeout: 1 s
+}
+
+reactor RequestWork {
+  input result: int
+  output request: int
+  timer t(0, 200 ms)
+  state count: int = 1
+
+  // This reaction must precede the reaction that awaits the result.
+  // It causes that reaction to resume at the logical time of the result.
+  reaction(result) {=
+    lf_await_resume(result);
+  =}
+
+  reaction(t) result -> request {=
+    lf_print("Request work at logical time " PRINTF_TIME, lf_time_logical_elapsed());
+    lf_set(request, self->count++);
+    lf_await(result);
+    lf_print("Result %d received at logical time " PRINTF_TIME, result->value, lf_time_logical_elapsed());
+  =}
+}
+
+reactor DoWork {
+  input request: int
+  output result: int
+
+  reaction(request) -> result {=
+    lf_print("Do work starting at logical time " PRINTF_TIME, lf_time_logical_elapsed());
+    lf_set(result, request->value * 2);
+  =}
+}
+
+main reactor {
+  request_work = new RequestWork()
+  process_work = new DoWork()
+  request_work.request -> process_work.request
+  process_work.result -> request_work.result after 100 ms
+}
