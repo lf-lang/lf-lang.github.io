@@ -180,7 +180,7 @@ In the Python target, the binding releases the interpreter lock around the parts
 
 ## Caveats
 
-**Reaction order.** When a reaction resumes at a new tag, it will be mutually exclusive with other reactions of the same reactor executing at the same tag, but the order in which they execute is not guaranteed. The resuming reaction will be assured of executing after the reaction that awakened it with `lf_async_resume` or `lf_await_resume`, but not necessarily before or after other reactions executing at the same tag. It is recommended, therefore, that a reaction using `lf_async` or `lf_await` be the last reaction in its reactor, in which case, normal reaction order is ensured. If more than one reaction uses `lf_async` or `lf_await`, the order in which they resume is nondeterministic, so care is needed when updating state variables or overwriting outputs.
+**Reaction order.** If the reaction with `lf_async_resume` or `lf_await_resume` is put _after_ rather than before the reaction that calls `lf_async` or `lf_await`, then the normal reaction order of LF will not be preserved at the tag where the suspended reaction resumes. This may not create a problem, but best practice is to ensure that the reactions are defined in the correct order.  The reaction with `lf_async_resume` or `lf_await_resume` should always be before the corresponding reaction that calls `lf_async` or `lf_await`.
 
 **State variables.** Other reactions of the same reactor may execute while a reaction is suspended, and they may modify state variables. Do not assume that a state variable has the same value after `lf_async` or `lf_await` returns that it had before. Local variables, on the other hand, are preserved.
 

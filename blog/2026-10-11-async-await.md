@@ -1,7 +1,7 @@
 ---
 slug: async-await
 title: "Async and Await in Lingua Franca"
-authors: [eal]
+authors: [eal, depetrol]
 tags: [lingua franca, async, await, blocking, logical execution time, C target, Python target]
 ---
 A reaction in Lingua Franca runs to completion at a single tag; it is "logically instantaneous," meaning that logical time does not elapse during the execution of the reaction. This helps make LF programs deterministic, but it also means that a reaction body cannot *wait* for anything. If it blocks on a socket, a keyboard, or a slow library call, the whole program stalls. And if it needs a result that some other reactor will produce at a later tag, the reaction has to end and a second reaction has to pick up where it left off. Two new functions, `lf_async` and `lf_await`, remove this restriction in the C and Python targets. A reaction can now suspend in the middle of its body, let logical time advance and other reactions run, and continue later at a well-defined tag, with its local variables intact.
@@ -279,7 +279,7 @@ When the resuming reaction calls `lf_async_resume` or `lf_await_resume`, the sus
 
 A consequence of this design is that it works with any C function, unmodified, and with any Python function. There is no need for a special asynchronous API, no coloring of functions into "async" and "sync" variants, and no requirement that the blocking call cooperate.
 
-The Python methods call that same C runtime. Around the parts of the call that can block inside the runtime, the binding releases Python's global interpreter lock, so the worker that runs the resuming reaction can execute Python code. The function passed to `self.lf_async` runs with the lock held. Blocking calls in the Python standard library, such as `input()` and `time.sleep`, release the lock themselves. A long stretch of pure Python does not, and other Python reactions wait until it returns.
+The Python methods call that same C runtime. Around the parts of the call that can block inside the runtime, the binding releases Python's global interpreter lock, so the worker that runs the resuming reaction can execute Python code. The function passed to `self.lf_async` runs with the lock held. Blocking calls in the Python standard library, such as `input()` and `time.sleep`, release the lock themselves. A long stretch of pure Python does not, so other Python reactions will not run simultaneously those stretches but rather will be interleaved with them using the usual Python multithreading mechanisms.
 
 ## Determinism
 
