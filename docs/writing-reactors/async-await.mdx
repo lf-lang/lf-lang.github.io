@@ -209,6 +209,7 @@ In the Python target, the binding releases the interpreter lock around the parts
 
 **Termination.** If the program stops before a suspended reaction is resumed, `lf_async` or `lf_await` returns at the stop tag, after the shutdown reactions have executed, so that the reaction can complete. If a reaction calls `lf_async` or `lf_await` while the program is already stopping, the call does not suspend: `lf_async` invokes the function and returns, and `lf_await` returns immediately.
 
+**Modal models.** Using `lf_async` or `lf_await` in a modal model can lead to peculiar behavior, particularly if the resume occurs after that mode that issued the call has become inactive. As a consequence, it is not recommended to use `lf_async` or `lf_await` in a modal model.
 <ShowOnly py>
 
 **The interpreter lock.** The callable passed to `self.lf_async` holds Python's global interpreter lock while it runs. Other Python reactions make progress during that call only when the callable releases the lock. `input()` and `time.sleep`, for example, do release the lock. A stretch of pure Python does not, so other Python reactions wait until it returns.
