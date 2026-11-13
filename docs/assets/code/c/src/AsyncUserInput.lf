@@ -29,13 +29,7 @@ reactor UserInput {
   state count: int
   physical action awake
 
-  // This reaction must precede the reaction that calls lf_async on the physical action.
-  // It causes that reaction to resume at the logical time of the physical action.
-  reaction(awake) {=
-    lf_async_resume(awake);
-  =}
-
-  reaction(startup) -> out, awake {=
+  reaction(startup, awake) -> out, awake {=
     while (true) {
       char* line = NULL;
       int nread = lf_async(awake, read_string, &line);

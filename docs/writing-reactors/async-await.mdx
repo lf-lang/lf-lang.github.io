@@ -17,16 +17,14 @@ import {
 
 :::
 
-A reaction normally runs to completion at a single tag. Its body cannot wait for anything: if it makes a blocking call, such as reading from a socket or waiting for keyboard input, the whole program stalls, because logical time cannot advance while a reaction is executing. And if a reaction needs a result that another reactor will produce at a later tag, it has to end, and a *second* reaction has to pick up the result when it arrives. Anything the first reaction wants to use later must be copied into state variables, a pattern sometimes called **stack ripping**.
+A reaction normally runs to completion at a single tag. Its body cannot wait for anything: if it makes a blocking call, such as reading from a socket or waiting for keyboard input, the whole program stalls, because logical time cannot advance while a reaction is executing. And if a reaction needs a result that another reactor will produce, the reaction has to end, and a *second* reaction has to pick up the result when it arrives. Anything the first reaction wants to use later must be copied into state variables, a pattern sometimes called **stack ripping**.
 
 Two mechanisms let a reaction suspend in the middle of its body and continue later, at a later tag, while logical time advances and other reactions execute:
 
 - **`lf_async`** invokes a function that may block or run for a long time and suspends the reaction until the function returns. While the function is running, logical time advances and other reactions execute. The reaction continues at a tag determined by an action that you choose.
-- **`lf_await`** suspends the reaction until another reaction of the same reactor calls `lf_await_resume`, typically because an input has arrived. The reaction continues at the tag of that input.
+- **`lf_await`** suspends the reaction until the specified input arrives. The reaction continues at the tag of that input.
 
-In both cases, local variables that were on the stack before the call are still there afterwards, so nothing needs to be copied into state variables.
-
-In C, these are functions, and macros fill in the reactor where the runtime needs it. In Python, they are methods of the reactor: `self.lf_async`, `self.lf_async_resume`, `self.lf_await`, and `self.lf_await_resume`. The Python methods do not use Python's `async` and `await` syntax. A reaction remains an ordinary function, and the call blocks the worker thread that is running it.
+In both cases, local variables that were on the stack before the call are still there afterward, so nothing needs to be copied into state variables.
 
 ## Waiting for an Input with `lf_await`
 
@@ -41,7 +39,7 @@ import AwaitLETSVG from "./../assets/images/diagrams/AwaitLET.svg"
 
 <AwaitLETSVG title="Lingua Franca diagram: AwaitLET" role="img" width="450" />
 
-`RequestWork` has two reactions. The second, triggered by the timer, sets the `request` output, calls `lf_await` on `result`, and then prints the result. The first, triggered by `result`, does nothing except call `lf_await_resume` on `result`. Because the feedback connection has an `after` delay of 100 ms, the result arrives exactly 100 ms after the request, so the output looks like this:
+`RequestWork` has one reaction that, when triggered by the timer, sets the `request` output, calls `lf_await` on `result`, blocks until an event arrives on `result`, and then prints the result. Because the feedback connection has an `after` delay of 100 ms, the result arrives exactly 100 ms after the request in logical time, so the output looks like this:
 
 ```
 Request work at logical time 0
@@ -57,15 +55,31 @@ Each request takes 100 ms of logical time to be answered. In effect, the `DoWork
 
 Notice three things about how `lf_await` is used:
 
-1. The input port is passed to both `lf_await` and `lf_await_resume`. The reaction that calls `lf_await` on `result` lists `result` as a *source* (the `result` between the triggers and the `->`) so that the port is in scope in its body, without being triggered by it.
-2. The reaction that calls `lf_await_resume` on `result` is declared *before* the reaction that calls `lf_await`. Reactions of a reactor are ordered by declaration, so this ensures that, at the tag at which the result arrives, the resuming reaction runs first, and the suspended reaction continues after it completes.
-3. When `lf_await` returns, the tag is the tag at which `lf_await_resume` was called, and the value of the input is the value that arrived at that tag <ShowOnly c inline>(`result->value`)</ShowOnly><ShowOnly py inline>(`result.value`)</ShowOnly>. Any outputs set after `lf_await` returns are produced at that new tag.
+1. The input port passed to `lf_await` is listed as a trigger for the reaction. It could alternatively be listed as a *source* (put `result` between the triggers and the `->`), in which case, arrivals on the port will not trigger the reaction if it is not already suspended.
+2. Reaction order is preserved. If other reactions are enabled at the same tag at which the suspended reaction resumes, they will execute in the lexical order of the reactions, including the resumed one.
+3. When `lf_await` returns, the current tag becomes the tag of the input.  The value of the input, <ShowOnly c inline>(`result->value`)</ShowOnly><ShowOnly py inline>(`result.value`)</ShowOnly>, will be the newly arrived value. Any outputs set after `lf_await` returns are produced at that new tag.
 
 Outputs set *before* `lf_await` are produced at the tag at which they were set. In the example, `request` is produced at the tag of the timer, before logical time advances, which is what allows `DoWork` to respond at that tag.
 
-If several reactions of a reactor are suspended on the same input port, a single call to `lf_await_resume` on that port resumes all of them. If nothing is waiting on the port, `lf_await_resume` does nothing.
+If several reactions of a reactor are suspended on the same input port, a single event on that port resumes all of them.
+
+<ShowIfs>
+<ShowIf c>
+In C, `lf_await` is a macro that must be used within a reaction body. The macros fill in the reactor pointer where the runtime needs it. To use this mechanism in a [reaction body defined in a separate file](../writing-reactors/reaction-declarations.mdx), you must name the self pointer variable `self` in your reaction definitions and include the macro definition as follows:
+```c
+#include "../include/api/reaction_macros.h"
+```
+</ShowIf>
+<ShowIf py>
+In Python, `self.lf_await` is a method of the reactor class. The Python method does not use Python's `await` syntax. A reaction remains an ordinary function, and the call blocks the worker thread that is running it.
+</ShowIf>
+</ShowIfs>
 
 ## Making a Blocking Call with `lf_async`
+
+:::warning
+`lf_async` requires compiler features provided by GCC and Clang, but not by MSVC, so Windows is not supported.
+:::
 
 `lf_async` is for calling a function that may block or execute for an unpredictable time. <ShowOnly c inline>In C, that function is an ordinary C function.</ShowOnly><ShowOnly py inline>In Python, that function is an ordinary Python callable, not a coroutine.</ShowOnly> The following program reads lines from the keyboard, which blocks until the user presses return, and yet a timer-driven reaction continues to run every five seconds while the program waits:
 
@@ -101,9 +115,10 @@ invokes `read_string()` and returns whatever `read_string` returns. Further argu
 </ShowIf>
 </ShowIfs>
 
-The first argument, `awake`, is an action of the reactor that determines the tag at which the reaction continues. The calling reaction lists `awake` as an *effect* so that it is in scope, and, as with `lf_await`, a reaction triggered by `awake` is declared before it and calls `lf_async_resume` on `awake`.
+The first argument, `awake`, is an action of the reactor that determines the tag at which the reaction continues. The calling reaction lists `awake` as a *trigger* and an *effect* so that it is in scope.
+Strictly speaking, it is not necessary to list `awake` as both a trigger and an effect, but doing so makes it clearer that the reaction both schedules the action and resumes when the action is triggered.
 
-Here `awake` is a **physical action**. When `read_string` returns, `lf_async` schedules `awake` at the current physical time, and the reaction continues at that tag. The logical time after the call is therefore the physical time at which the user typed the line, which is exactly what a program reading real-world input wants. Running the program and typing a few lines produces output like this:
+Here `awake` is a **physical action**. When `read_string` returns, `lf_async` schedules `awake` at the current physical time, and the reaction resumes at that tag. The logical time after the call is therefore the physical time at which the user typed the line, which is exactly what a program reading real-world input wants. Running the program and typing a few lines produces output like this:
 
 ```
 At logical time 0, Line: 0: Waiting for input...
@@ -113,6 +128,18 @@ At logical time 5000000000, Line: 1: Waiting for input...
 world
 At logical time 7102351000, Line: world
 ```
+
+<ShowIfs>
+<ShowIf c>
+In C, `lf_async` is a macro that must be used within a reaction body. The macro fills in the reactor pointer where the runtime needs it. To use this mechanism in a [reaction body defined in a separate file](../writing-reactors/reaction-declarations.mdx), you must name the self pointer variable `self` in your reaction definitions and include the macro definition as follows:
+```c
+#include "../include/api/reaction_macros.h"
+```
+</ShowIf>
+<ShowIf py>
+In Python, `lf_async` is a method of the reactor, invoked using `self.lf_async`. The Python methods do not use Python's `async` syntax. A reaction remains an ordinary function, and the call blocks the worker thread that is running it.
+</ShowIf>
+</ShowIfs>
 
 ### Logical Actions
 
@@ -125,11 +152,7 @@ The action passed to `lf_async` may instead be a **logical action**. A logical a
 reactor Blocker {
   logical action done(200 ms)
 
-  reaction(done) {=
-    lf_async_resume(done);
-  =}
-
-  reaction(startup) -> done {=
+  reaction(startup, done) -> done {=
     int result = lf_async(done, slow, 50);
     // Logical time is now exactly 200 ms, regardless of how long slow() took.
   =}
@@ -143,11 +166,7 @@ reactor Blocker {
 reactor Blocker {
   logical action done(200 ms)
 
-  reaction(done) {=
-    self.lf_async_resume(done)
-  =}
-
-  reaction(startup) -> done {=
+  reaction(startup, done) -> done {=
     result = self.lf_async(done, slow, 50)
     # Logical time is now exactly 200 ms, regardless of how long slow() took.
   =}
@@ -157,9 +176,9 @@ reactor Blocker {
 </ShowIf>
 </ShowIfs>
 
-If the function returns before the 200 ms have elapsed, the reaction continues at 200 ms. If the function is still running when logical time reaches 200 ms, the reaction triggered by `done` blocks in `lf_async_resume` until the function returns, holding logical time at 200 ms. Either way, the reaction continues at exactly 200 ms. This is useful when the rest of the program must not see results earlier than some fixed delay, or when the timing of the program should not depend on how long the call takes.
+If the function returns before the 200 ms have elapsed, the reaction continues at 200 ms. If the function is still running when logical time reaches 200 ms, the reaction calling `lf_async` resumes at logical time 200 ms and then blocks until the function returns, holding logical time at 200 ms. Either way, the reaction continues at exactly 200 ms. This is useful when the rest of the program must not see results earlier than some fixed delay, or when the timing of the program should not depend on how long the call takes.
 
-A physical action, by contrast, must be dedicated to one reaction. The same reaction may call `lf_async` on it repeatedly, as `UserInput` does in its loop, but a second reaction using the same physical action is a runtime error. Give each such reaction its own physical action.
+A physical action must be dedicated to no more than one reaction calling `lf_async`. The same reaction may call `lf_async` on it repeatedly, as `UserInput` does in its loop, but a second reaction using the same physical action is a runtime error. Give each such reaction its own physical action.
 
 ## How It Works
 
@@ -167,20 +186,20 @@ When a reaction calls `lf_async` or `lf_await`, the following happens:
 
 1. Any outputs set so far are propagated at the current tag, so downstream reactions see them at the tag at which they were set.
 2. The worker thread executing the reaction leaves the pool of worker threads. If no previously added thread is free, a new worker thread is added to the pool to replace it. The remaining workers can therefore advance logical time and execute other reactions as if the calling reaction had completed.
-3. For `lf_async`, the function is invoked. For `lf_await`, nothing is invoked.
-4. When the resuming reaction calls `lf_async_resume` or `lf_await_resume`, the suspended thread rejoins the pool and continues the reaction at the current tag, after the resuming reaction has completed.
+3. For `lf_async`, the specified function is invoked. For `lf_await`, nothing is invoked.
+4. When the reaction calling `lf_async` or `lf_await` resumes, the suspended thread rejoins the pool and continues executing the reaction at the new current tag.
 
-Worker threads added this way persist until the program terminates, and the number of them is the maximum number of calls that were suspended at the same time. Repeated calls from one reaction, like the loop in `UserInput`, reuse a single added thread. <ShowOnly c inline>The function `lf_added_worker_thread_count()` returns the number of threads that have been added.</ShowOnly><ShowOnly py inline>The method `self.lf_added_worker_thread_count()` returns the number of threads that have been added.</ShowOnly>
+Worker threads added this way persist until the program terminates, so the number of them is the maximum number of calls that were suspended at the same time. Repeated calls from one reaction, like the loop in `UserInput`, reuse a single added thread. <ShowOnly c inline>The function `lf_added_worker_thread_count()` returns the number of threads that have been added.</ShowOnly><ShowOnly py inline>The method `self.lf_added_worker_thread_count()` returns the number of threads that have been added.</ShowOnly>
 
 <ShowOnly py>
 
-In the Python target, the binding releases the interpreter lock around the parts of the call that can block inside the runtime. The reaction that resumes the call can therefore run on another worker. The callable passed to `self.lf_async` itself runs with the lock held.
+In the Python target, the binding releases the interpreter lock around the parts of the call that can block inside the runtime. The callable passed to `self.lf_async` itself runs with the lock held.
 
 </ShowOnly>
 
 ## Caveats
 
-**Reaction order.** If the reaction with `lf_async_resume` or `lf_await_resume` is put _after_ rather than before the reaction that calls `lf_async` or `lf_await`, then the normal reaction order of LF will not be preserved at the tag where the suspended reaction resumes. This may not create a problem, but best practice is to ensure that the reactions are defined in the correct order.  The reaction with `lf_async_resume` or `lf_await_resume` should always be before the corresponding reaction that calls `lf_async` or `lf_await`.
+**Reaction order.** If more than one reaction is enabled at the tag at which a suspended reaction resumes, the order in which they execute is the lexical order of the reactions. That is, the resumption will occur in the expected order relative to other reactions belonging to the same reactor.
 
 **State variables.** Other reactions of the same reactor may execute while a reaction is suspended, and they may modify state variables. Do not assume that a state variable has the same value after `lf_async` or `lf_await` returns that it had before. Local variables, on the other hand, are preserved.
 
@@ -192,7 +211,7 @@ In the Python target, the binding releases the interpreter lock around the parts
 
 <ShowOnly py>
 
-**The interpreter lock.** The callable passed to `self.lf_async` holds Python's global interpreter lock while it runs. Other Python reactions make progress during that call only when the callable releases the lock. `input()` and `time.sleep` do. A stretch of pure Python does not, so other Python reactions wait until it returns.
+**The interpreter lock.** The callable passed to `self.lf_async` holds Python's global interpreter lock while it runs. Other Python reactions make progress during that call only when the callable releases the lock. `input()` and `time.sleep`, for example, do release the lock. A stretch of pure Python does not, so other Python reactions wait until it returns.
 
 </ShowOnly>
 
