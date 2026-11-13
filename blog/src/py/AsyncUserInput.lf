@@ -1,0 +1,48 @@
+target Python {
+  keepalive: true
+}
+
+preamble {=
+    # Read a line from the keyboard. Return None on EOF.
+    def read_string():
+        try:
+            return input()
+        except EOFError:
+            return None
+=}
+
+reactor UserInput {
+  timer t(0, 5 s)
+  output out
+  state count = 0
+  physical action awake
+
+  # This reaction must precede the reaction that calls lf_async on the physical action.
+  # It causes that reaction to resume at the logical time of the physical action.
+  reaction(awake) {=
+    self.lf_async_resume(awake)
+  =}
+
+  reaction(startup) -> out, awake {=
+    while True:
+        line = self.lf_async(awake, read_string)
+        if line is None:
+            request_stop()
+            break
+        # The logical time is now the physical time at which the line was read.
+        out.set(line)
+  =}
+
+  reaction(t) -> out {=
+    out.set(f"{self.count}: Waiting for input...")
+    self.count += 1
+  =}
+}
+
+main reactor {
+  user_input = new UserInput()
+
+  reaction(user_input.out) {=
+    print(f"At logical time {lf.time.logical_elapsed()}, Line: {user_input.out.value}")
+  =}
+}

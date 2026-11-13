@@ -106,6 +106,10 @@ const sidebars: SidebarsConfig = {
         },
         {
           "type": "doc",
+          "id": "writing-reactors/async-await"
+        },
+        {
+          "type": "doc",
           "id": "writing-reactors/distributed-execution"
         },
         {
