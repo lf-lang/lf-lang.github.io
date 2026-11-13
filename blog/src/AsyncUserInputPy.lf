@@ -1,0 +1,35 @@
+target Python {
+  keepalive: true
+}
+
+reactor UserInput {
+  timer t(0, 5 s)
+  output out
+  state count = 0
+  physical action awake
+
+  reaction(startup, awake) -> out, awake {=
+    print("Control-D to exit.")
+    while True:
+      try:
+        line = self.lf_async(awake, input)
+        # The logical time is now the physical time at which the line was read.
+        out.set(line)
+      except EOFError:
+        request_stop()
+        break
+  =}
+
+  reaction(t) -> out {=
+    out.set(f"{self.count}: Waiting for input...")
+    self.count += 1
+  =}
+}
+
+main reactor {
+  user_input = new UserInput()
+
+  reaction(user_input.out) {=
+    print(f"At logical time {lf.time.logical_elapsed()}, Line: {user_input.out.value}")
+  =}
+}
